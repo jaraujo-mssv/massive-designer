@@ -1,0 +1,29 @@
+/* Market Map Generator — contenteditable rich text rules */
+.tool-market-map [contenteditable] {
+  font-weight: 300;
+  font-style: normal;
+}
+
+.tool-market-map [contenteditable] b,
+.tool-market-map [contenteditable] strong {
+  font-weight: 900;
+  font-style: normal;
+}
+
+.tool-market-map [contenteditable] i,
+.tool-market-map [contenteditable] em {
+  font-weight: 300;
+  font-style: italic;
+}
+
+.tool-market-map [contenteditable] b i,
+.tool-market-map [contenteditable] b em,
+.tool-market-map [contenteditable] strong i,
+.tool-market-map [contenteditable] strong em,
+.tool-market-map [contenteditable] i b,
+.tool-market-map [contenteditable] i strong,
+.tool-market-map [contenteditable] em b,
+.tool-market-map [contenteditable] em strong {
+  font-weight: 900;
+  font-style: italic;
+}

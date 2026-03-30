@@ -1,0 +1,189 @@
+@custom-variant dark (&:is(.dark *));
+
+/* ============================================================
+   Primitive + Semantic Design Tokens
+   ============================================================ */
+:root {
+  /* --- Semantic tokens (use these in custom components) --- */
+  --bg: #0a0a0f;
+  --surface: #121117;
+  --surface-2: #1a1920;
+
+  --red: #d74939;
+  --red-light: #ff8163;
+  --red-glow: rgba(215, 73, 57, 0.15);
+
+  --text: #faf4ec;
+  --text-mid: rgba(250, 244, 236, 0.75);
+  --text-dim: rgba(250, 244, 236, 0.55);
+
+  --border-subtle: rgba(250, 244, 236, 0.08);
+  --border-hover-color: rgba(250, 244, 236, 0.15);
+
+  /* --- shadcn/ui variable mapping --- */
+  --font-size: 16px;
+  --background: #0a0a0f;
+  --foreground: #faf4ec;
+  --card: #121117;
+  --card-foreground: #faf4ec;
+  --popover: #121117;
+  --popover-foreground: #faf4ec;
+  --primary: #d74939;
+  --primary-foreground: #faf4ec;
+  --secondary: #1a1920;
+  --secondary-foreground: #faf4ec;
+  --muted: #1a1920;
+  --muted-foreground: rgba(250, 244, 236, 0.55);
+  --accent: #1a1920;
+  --accent-foreground: #faf4ec;
+  --destructive: #d74939;
+  --destructive-foreground: #faf4ec;
+  --border: rgba(250, 244, 236, 0.08);
+  --input: rgba(250, 244, 236, 0.08);
+  --input-background: #121117;
+  --switch-background: rgba(250, 244, 236, 0.15);
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
+  --ring: #d74939;
+  --chart-1: #ff8163;
+  --chart-2: #3b82f6;
+  --chart-3: #8b5cf6;
+  --chart-4: #10b981;
+  --chart-5: #ef4444;
+  --radius: 0.625rem;
+  --sidebar: #121117;
+  --sidebar-foreground: #faf4ec;
+  --sidebar-primary: #d74939;
+  --sidebar-primary-foreground: #faf4ec;
+  --sidebar-accent: #1a1920;
+  --sidebar-accent-foreground: #faf4ec;
+  --sidebar-border: rgba(250, 244, 236, 0.08);
+  --sidebar-ring: #d74939;
+}
+
+/* ============================================================
+   Tailwind theme mappings
+   ============================================================ */
+@theme inline {
+  /* shadcn token pass-throughs */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-input-background: var(--input-background);
+  --color-switch-background: var(--switch-background);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Semantic token utilities — use as bg-bg, bg-surface, text-brand, etc. */
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-brand: var(--red);
+  --color-brand-light: var(--red-light);
+  --color-text-primary: var(--text);
+  --color-text-mid: var(--text-mid);
+  --color-text-dim: var(--text-dim);
+  --color-border-subtle: var(--border-subtle);
+  --color-border-hov: var(--border-hover-color);
+}
+
+@theme {
+  --font-display: 'Outfit', sans-serif;
+  --font-body: 'Outfit', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+/* ============================================================
+   Base layer
+   ============================================================ */
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    font-family: 'Outfit', sans-serif;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  html {
+    font-size: var(--font-size);
+  }
+
+  h1 {
+    font-size: var(--text-2xl);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+  }
+
+  h2 {
+    font-size: var(--text-xl);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+  }
+
+  h3 {
+    font-size: var(--text-lg);
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+  }
+
+  h4 {
+    font-size: var(--text-base);
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+  }
+
+  label {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  button {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  input {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-normal);
+    line-height: 1.5;
+  }
+}

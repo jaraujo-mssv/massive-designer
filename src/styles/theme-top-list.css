@@ -1,0 +1,29 @@
+/* Top List Generator — contenteditable rich text rules */
+.tool-top-list [contenteditable] {
+  font-weight: 300;
+  font-style: normal;
+}
+
+.tool-top-list [contenteditable] b,
+.tool-top-list [contenteditable] strong {
+  font-weight: 900;
+  font-style: normal;
+}
+
+.tool-top-list [contenteditable] i,
+.tool-top-list [contenteditable] em {
+  font-weight: 300;
+  font-style: italic;
+}
+
+.tool-top-list [contenteditable] b i,
+.tool-top-list [contenteditable] b em,
+.tool-top-list [contenteditable] strong i,
+.tool-top-list [contenteditable] strong em,
+.tool-top-list [contenteditable] i b,
+.tool-top-list [contenteditable] i strong,
+.tool-top-list [contenteditable] em b,
+.tool-top-list [contenteditable] em strong {
+  font-weight: 900;
+  font-style: italic;
+}

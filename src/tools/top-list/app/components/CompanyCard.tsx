@@ -140,15 +140,17 @@ export function CompanyCard({
     <>
       <div
         ref={combineRefs}
-        className={`relative w-full flex items-center ${isDragging ? "opacity-50" : ""} ${
+        className={`relative w-full ${isDragging ? "opacity-50" : ""} ${
           isOver && mode === "edit" ? "ring-2 ring-orange-400" : ""
         }`}
         style={{
           backgroundColor: '#1a1920',
           border: `${settings.cardStrokeSize}px solid #2C2A30`,
           borderRadius: '8px',
-          padding: '16px',
-          minHeight: `${settings.cardMinHeight}px`
+          paddingTop: `${Math.max(16, Math.floor((settings.cardMinHeight - settings.logoSize) / 2))}px`,
+          paddingBottom: `${Math.max(16, Math.floor((settings.cardMinHeight - settings.logoSize) / 2))}px`,
+          paddingLeft: '16px',
+          paddingRight: '16px',
         }}
       >
         {/* Delete Button (Edit Mode) */}
@@ -162,17 +164,18 @@ export function CompanyCard({
         )}
 
         {/* Horizontal Layout: Position - Logo - Company Name */}
-        <div className="flex items-center gap-4 w-full">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', width: '100%' }}>
           {/* Position Number (Left) */}
           <div
-            className="flex-shrink-0 flex items-center justify-center"
             style={{
               fontFamily: 'Outfit, sans-serif',
               fontWeight: 700,
               fontSize: `${settings.positionFontSize}px`,
               color: '#FAF4EC',
               width: `${settings.positionWidth}px`,
-              textAlign: 'center'
+              textAlign: 'center',
+              flexShrink: 0,
+              lineHeight: 1,
             }}
           >
             {mode === "edit" ? (
@@ -237,7 +240,7 @@ export function CompanyCard({
           </div>
 
           {/* Company Name (Right) */}
-          <div className="flex-1 text-left">
+          <div style={{ flex: 1, textAlign: 'left' }}>
             {mode === "edit" ? (
               <textarea
                 value={company.name}
@@ -258,17 +261,22 @@ export function CompanyCard({
                 }}
               />
             ) : (
-              <p
-                className="px-1 whitespace-pre-wrap break-words"
+              <div
                 style={{
                   fontSize: `${settings.companyFontSize}px`,
                   fontFamily: 'Outfit, sans-serif',
                   fontWeight: 400,
-                  color: '#FAF4EC'
+                  color: '#FAF4EC',
+                  paddingLeft: '4px',
+                  paddingRight: '4px',
+                  whiteSpace: 'pre-wrap',
+                  wordBreak: 'break-word',
+                  lineHeight: 1.2,
+                  margin: 0,
                 }}
               >
                 {company.name}
-              </p>
+              </div>
             )}
           </div>
         </div>

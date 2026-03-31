@@ -10,12 +10,12 @@ const TopListApp = lazy(() => import('@/tools/top-list/app/App'))
 
 function ToolLayout({ children, themeClass }: { children: React.ReactNode; themeClass: string }) {
   return (
-    <>
+    <div className="flex flex-col h-screen overflow-hidden">
       <Header />
-      <div className={themeClass}>
+      <div className={`${themeClass} flex-1 min-h-0`}>
         <Suspense
           fallback={
-            <div className="flex items-center justify-center h-screen bg-white text-slate-500 text-sm">
+            <div className="flex items-center justify-center h-full bg-white text-slate-500 text-sm">
               Loading...
             </div>
           }
@@ -23,7 +23,7 @@ function ToolLayout({ children, themeClass }: { children: React.ReactNode; theme
           {children}
         </Suspense>
       </div>
-    </>
+    </div>
   )
 }
 

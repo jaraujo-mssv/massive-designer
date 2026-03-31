@@ -140,12 +140,12 @@ export function CompanyCard({
     <>
       <div
         ref={combineRefs}
-        className={`relative shadow-sm w-full flex items-center ${isDragging ? "opacity-50" : ""} ${
+        className={`relative w-full flex items-center ${isDragging ? "opacity-50" : ""} ${
           isOver && mode === "edit" ? "ring-2 ring-orange-400" : ""
         }`}
         style={{
-          backgroundColor: '#FFFFFF',
-          border: `${settings.cardStrokeSize}px solid #FCD9AE`,
+          backgroundColor: '#1a1920',
+          border: `${settings.cardStrokeSize}px solid #2C2A30`,
           borderRadius: '8px',
           padding: '16px',
           minHeight: `${settings.cardMinHeight}px`
@@ -164,13 +164,13 @@ export function CompanyCard({
         {/* Horizontal Layout: Position - Logo - Company Name */}
         <div className="flex items-center gap-4 w-full">
           {/* Position Number (Left) */}
-          <div 
+          <div
             className="flex-shrink-0 flex items-center justify-center"
             style={{
-              fontFamily: 'Inter, sans-serif',
+              fontFamily: 'Outfit, sans-serif',
               fontWeight: 700,
               fontSize: `${settings.positionFontSize}px`,
-              color: '#283A4C',
+              color: '#FAF4EC',
               width: `${settings.positionWidth}px`,
               textAlign: 'center'
             }}
@@ -181,11 +181,11 @@ export function CompanyCard({
                 value={company.position}
                 onChange={(e) => onUpdateCompany({ position: parseInt(e.target.value, 10) || 1 })}
                 className="w-full text-center bg-transparent border-none outline-none focus:ring-1 focus:ring-orange-500 rounded px-1"
-                style={{ 
+                style={{
                   fontSize: `${settings.positionFontSize}px`,
-                  fontFamily: 'Inter, sans-serif',
+                  fontFamily: 'Outfit, sans-serif',
                   fontWeight: 700,
-                  color: '#283A4C'
+                  color: '#FAF4EC'
                 }}
               />
             ) : (
@@ -227,7 +227,7 @@ export function CompanyCard({
                 if (parent) {
                   const fallback = document.createElement("div");
                   fallback.className =
-                    "w-full h-full flex items-center justify-center text-xl font-bold text-gray-400 bg-gray-100 logo-fallback";
+                    "w-full h-full flex items-center justify-center text-xl font-bold logo-fallback";
                   fallback.style.borderRadius = "6px";
                   fallback.textContent = company.name.charAt(0).toUpperCase();
                   parent.appendChild(fallback);
@@ -243,16 +243,15 @@ export function CompanyCard({
                 value={company.name}
                 onChange={(e) => onUpdateCompany({ name: e.target.value })}
                 className="w-full bg-transparent border-none outline-none focus:ring-1 focus:ring-orange-500 rounded px-1 resize-none overflow-hidden"
-                style={{ 
+                style={{
                   fontSize: `${settings.companyFontSize}px`,
-                  fontFamily: 'Inter, sans-serif',
+                  fontFamily: 'Outfit, sans-serif',
                   fontWeight: 400,
-                  color: '#40434B',
+                  color: '#FAF4EC',
                   minHeight: `${settings.companyFontSize * 1.5}px`
                 }}
                 rows={1}
                 onInput={(e) => {
-                  // Auto-resize textarea based on content
                   const target = e.target as HTMLTextAreaElement;
                   target.style.height = 'auto';
                   target.style.height = target.scrollHeight + 'px';
@@ -260,12 +259,12 @@ export function CompanyCard({
               />
             ) : (
               <p
-                className={`px-1 whitespace-pre-wrap break-words`}
-                style={{ 
+                className="px-1 whitespace-pre-wrap break-words"
+                style={{
                   fontSize: `${settings.companyFontSize}px`,
-                  fontFamily: 'Inter, sans-serif',
+                  fontFamily: 'Outfit, sans-serif',
                   fontWeight: 400,
-                  color: '#40434B'
+                  color: '#FAF4EC'
                 }}
               >
                 {company.name}
@@ -278,8 +277,9 @@ export function CompanyCard({
       {/* Floating Modal for Logo URL Editing */}
       {isEditingLogo && (
         <div
-          className="fixed z-50 bg-white rounded-lg shadow-xl border-2 border-orange-500 p-4"
+          className="fixed z-50 rounded-lg shadow-xl border border-border-subtle p-4"
           style={{
+            backgroundColor: '#1a1920',
             top: `${modalPosition.top}px`,
             left: `${modalPosition.left}px`,
             minWidth: '300px'
@@ -288,7 +288,7 @@ export function CompanyCard({
           <div className="flex flex-col gap-3">
             {/* URL Input Section */}
             <div className="flex flex-col gap-2">
-              <label className="text-xs font-semibold text-gray-700">Logo URL or Base64</label>
+              <label className="text-xs font-semibold text-text-dim">Logo URL or Base64</label>
               <textarea
                 value={editedLogoUrl}
                 onChange={(e) => setEditedLogoUrl(e.target.value)}
@@ -304,7 +304,7 @@ export function CompanyCard({
                   }
                 }}
                 placeholder="https://example.com/logo.png&#10;or&#10;data:image/jpeg;base64,/9j/4AAQSkZJRg..."
-                className="border border-gray-300 rounded px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent resize-none"
+                className="border border-border-subtle rounded px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent resize-none bg-surface text-text-primary"
                 rows={3}
                 autoFocus
               />
@@ -313,16 +313,16 @@ export function CompanyCard({
             {/* Divider */}
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-300"></div>
+                <div className="w-full border-t border-border-subtle"></div>
               </div>
               <div className="relative flex justify-center text-xs">
-                <span className="bg-white px-2 text-gray-500">OR</span>
+                <span className="px-2 text-text-dim" style={{ backgroundColor: '#1a1920' }}>OR</span>
               </div>
             </div>
 
             {/* File Upload Section */}
             <div className="flex flex-col gap-2">
-              <label className="text-xs font-semibold text-gray-700">Upload Image</label>
+              <label className="text-xs font-semibold text-text-dim">Upload Image</label>
               <input
                 type="file"
                 accept="image/*"
@@ -333,14 +333,14 @@ export function CompanyCard({
               <button
                 onClick={() => fileInputRef.current?.click()}
                 onMouseDown={(e) => e.preventDefault()}
-                className="flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded text-sm font-medium transition-colors"
+                className="flex items-center justify-center gap-2 bg-brand hover:opacity-90 text-white px-4 py-2 rounded text-sm font-medium transition-opacity"
               >
                 <Edit2 className="w-4 h-4" />
                 Choose File
               </button>
             </div>
 
-            <div className="text-xs text-gray-500 text-center">Press Enter to save, Esc to cancel</div>
+            <div className="text-xs text-text-dim text-center">Press Enter to save, Esc to cancel</div>
           </div>
         </div>
       )}

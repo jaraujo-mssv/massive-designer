@@ -279,6 +279,11 @@ export default function App() {
   const handleExportJpg = async () => {
     const element = canvasRef.current;
     if (!element) return;
+    const wasEdit = mode === "edit";
+    if (wasEdit) {
+      setMode("preview");
+      await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    }
     setIsExportingJpg(true);
     try {
       // Pre-fetch all images (including data: URLs, which pass through unchanged)
@@ -314,6 +319,7 @@ export default function App() {
       toast.error('Failed to export JPG');
     } finally {
       setIsExportingJpg(false);
+      if (wasEdit) setMode("edit");
     }
   };
 
@@ -352,7 +358,7 @@ export default function App() {
     <DndProvider backend={HTML5Backend}>
       <Toaster position="top-center" richColors />
       <LoadingModal isOpen={isLoadingUrl} />
-      <div className="flex h-screen overflow-hidden bg-bg">
+      <div className="flex h-full overflow-hidden bg-bg">
 
         {/* Sidebar */}
         {!isLocked && (

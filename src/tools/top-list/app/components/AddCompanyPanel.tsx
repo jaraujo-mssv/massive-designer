@@ -33,58 +33,60 @@ export function AddCompanyPanel({ onAddCompany, settings }: AddCompanyPanelProps
     setIsOpen(false);
   };
 
+  const inputClass = "w-full px-2 py-1.5 text-xs border border-border-subtle rounded bg-surface text-text-primary placeholder:text-text-dim focus:outline-none focus:border-brand";
+
   if (!isOpen) {
     return (
       <button
         onClick={() => setIsOpen(true)}
-        className="flex items-center justify-center bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg hover:bg-gray-100 hover:border-gray-400 transition-colors w-full py-2"
+        className="flex items-center justify-center bg-surface-2 border-2 border-dashed border-border-subtle rounded-lg hover:border-brand transition-colors w-full py-2"
       >
-        <Plus className="w-6 h-6 text-gray-400" />
+        <Plus className="w-6 h-6 text-text-dim" />
       </button>
     );
   }
 
   return (
-    <div className="col-span-full bg-gray-50 p-3 rounded-lg border border-gray-200">
+    <div className="col-span-full bg-surface-2 p-3 rounded-lg border border-border-subtle">
       <div className="space-y-2">
         <input
           type="number"
           placeholder="Position (1, 2, 3...)"
           value={position}
           onChange={(e) => setPosition(parseInt(e.target.value, 10) || 1)}
-          className="w-full px-2 py-1.5 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-orange-500 outline-none"
+          className={inputClass}
         />
         <input
           type="text"
           placeholder="Company name"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="w-full px-2 py-1.5 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-orange-500 outline-none"
+          className={inputClass}
         />
         <input
           type="text"
           placeholder="Logo URL"
           value={logoUrl}
           onChange={(e) => setLogoUrl(e.target.value)}
-          className="w-full px-2 py-1.5 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-orange-500 outline-none"
+          className={inputClass}
         />
         <input
           type="text"
           placeholder="Company URL (optional)"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
-          className="w-full px-2 py-1.5 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-orange-500 outline-none"
+          className={inputClass}
         />
         <div className="flex gap-2">
           <button
             onClick={handleSubmit}
-            className="flex-1 px-3 py-1.5 text-xs bg-orange-500 text-white rounded hover:bg-orange-600 transition-colors"
+            className="flex-1 px-3 py-1.5 text-xs bg-brand text-white rounded hover:opacity-90 transition-opacity"
           >
             Add
           </button>
           <button
             onClick={() => setIsOpen(false)}
-            className="flex-1 px-3 py-1.5 text-xs bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition-colors"
+            className="flex-1 px-3 py-1.5 text-xs bg-surface border border-border-subtle text-text-dim rounded hover:text-text-primary transition-colors"
           >
             Cancel
           </button>

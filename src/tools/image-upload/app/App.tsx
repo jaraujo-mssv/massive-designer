@@ -307,8 +307,8 @@ export default function App() {
   }, []);
 
   return (
-    <div 
-      className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-50 p-4 md:p-8"
+    <div
+      className="min-h-full bg-bg p-4 md:p-8"
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
@@ -317,20 +317,20 @@ export default function App() {
       
       {/* Full-screen drag overlay */}
       {isDragging && (
-        <div className="fixed inset-0 z-50 bg-orange-500/20 backdrop-blur-sm flex items-center justify-center">
-          <div className="bg-white rounded-lg shadow-2xl p-12 border-4 border-dashed border-orange-500">
-            <Upload className="w-24 h-24 mx-auto mb-4 text-orange-500" />
-            <p className="text-2xl font-semibold text-slate-700">Drop image here</p>
+        <div className="fixed inset-0 z-50 bg-brand/10 backdrop-blur-sm flex items-center justify-center">
+          <div className="bg-surface rounded-lg shadow-2xl p-12 border-4 border-dashed border-brand">
+            <Upload className="w-24 h-24 mx-auto mb-4 text-brand" />
+            <p className="text-2xl font-semibold text-text-primary">Drop image here</p>
           </div>
         </div>
       )}
 
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-4xl mb-2">Image to Base64 Converter</h1>
-          <p className="text-slate-600">Upload, crop, resize, and convert images to base64 format</p>
-          <p className="text-sm text-slate-500 mt-2">
-            Drag and drop anywhere • Press <kbd className="px-2 py-1 bg-slate-200 rounded text-xs font-mono">Ctrl+V</kbd> to paste
+          <h1 className="text-4xl mb-2 text-text-primary">Image Converter</h1>
+          <p className="text-text-dim">Upload, crop, resize, and convert images to base64 format</p>
+          <p className="text-sm text-text-dim mt-2">
+            Drag and drop anywhere • Press <kbd className="px-2 py-1 bg-surface-2 border border-border-subtle rounded text-xs font-mono text-text-primary">Ctrl+V</kbd> to paste
           </p>
         </div>
 
@@ -344,14 +344,14 @@ export default function App() {
               <CardContent>
                 <div className="space-y-4">
                   <div
-                    className="border-2 border-dashed border-slate-300 rounded-lg p-8 text-center hover:border-slate-400 transition-colors cursor-pointer"
+                    className="border-2 border-dashed border-border-subtle rounded-lg p-8 text-center hover:border-brand transition-colors cursor-pointer"
                     onClick={() => fileInputRef.current?.click()}
                   >
-                    <Upload className="w-12 h-12 mx-auto mb-4 text-slate-400" />
-                    <p className="text-sm text-slate-600 mb-2">
+                    <Upload className="w-12 h-12 mx-auto mb-4 text-text-dim" />
+                    <p className="text-sm text-text-dim mb-2">
                       Click to upload or drag and drop anywhere
                     </p>
-                    <p className="text-xs text-slate-400">
+                    <p className="text-xs text-text-dim">
                       PNG, JPG, GIF, WebP supported
                     </p>
                   </div>
@@ -484,11 +484,11 @@ export default function App() {
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-4">
-                        <div className="border rounded-lg p-4 bg-slate-50">
+                        <div className="border border-border-subtle rounded-lg p-4 bg-surface-2">
                           <img
                             src={outputBase64}
                             alt="Converted preview"
-                            className="max-w-full h-auto mx-auto border-2 border-slate-200 rounded"
+                            className="max-w-full h-auto mx-auto border-2 border-border-subtle rounded"
                             style={{
                               imageRendering: 'pixelated',
                               maxHeight: '300px'
@@ -502,7 +502,7 @@ export default function App() {
                             readOnly
                             className="font-mono text-xs h-32 resize-none"
                           />
-                          <div className="text-xs text-slate-500">
+                          <div className="text-xs text-text-dim">
                             Length: {outputBase64.length} characters
                           </div>
                         </div>
@@ -543,7 +543,7 @@ export default function App() {
             {!imgSrc && (
               <Card className="border-dashed">
                 <CardContent className="pt-6">
-                  <div className="text-center text-slate-400 py-12">
+                  <div className="text-center text-text-dim py-12">
                     <Upload className="w-16 h-16 mx-auto mb-4 opacity-50" />
                     <p>Drag and drop anywhere or click upload</p>
                   </div>

@@ -1,4 +1,4 @@
-import { Upload, Type, AlignVerticalSpaceAround, LayoutGrid, List, Layers, Heading, LayoutDashboard, Link, Code, Settings as SettingsIcon } from "lucide-react";
+import { Upload, Type, List, Layers, Heading, LayoutDashboard, Link, Code, Settings as SettingsIcon } from "lucide-react";
 import Papa from "papaparse";
 import { Column, Category, Company, Settings } from "../App";
 import { Slider } from "@/shared/components/ui/slider";
@@ -48,7 +48,7 @@ function SliderWithInput({ label, value, onChange, min, max, step = 1 }: SliderW
           min={min}
           max={max}
           step={step}
-          className="w-16 px-2 py-1 text-sm text-right border border-border-subtle rounded-md bg-surface text-text-primary focus:outline-none focus:border-brand"
+          className="w-16 px-2 py-1 text-sm text-left border border-border-subtle rounded-md bg-surface text-text-primary focus:outline-none focus:border-brand"
         />
       </div>
       <Slider

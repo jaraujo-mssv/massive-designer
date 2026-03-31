@@ -160,13 +160,13 @@ export function ColumnComponent({
       >
         {/* Column Header (Edit mode only) */}
         {mode === "edit" && (
-          <div className="flex items-center justify-between px-2 py-1 bg-gray-100 rounded-lg border border-gray-200">
-            <span className="text-xs font-medium text-gray-500">
+          <div className="flex items-center justify-between px-2 py-1 bg-surface-2 rounded-lg border border-border-subtle">
+            <span className="text-xs font-medium text-text-dim">
               Column {columnIndex + 1}
             </span>
             <button
               onClick={() => onDeleteColumn(column.id)}
-              className="p-1 text-red-500 hover:bg-red-50 rounded transition-colors"
+              className="p-1 text-red-400 hover:bg-surface rounded transition-colors"
               title="Delete column"
             >
               <Trash2 className="w-3 h-3" />
@@ -196,7 +196,7 @@ export function ColumnComponent({
 
         {/* Empty state for drop target */}
         {mode === "edit" && column.companies.length === 0 && (
-          <div className="flex-1 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-8 text-gray-400 text-sm">
+          <div className="flex-1 flex items-center justify-center border-2 border-dashed border-border-subtle rounded-lg p-8 text-text-dim text-sm">
             Drag cards here
           </div>
         )}

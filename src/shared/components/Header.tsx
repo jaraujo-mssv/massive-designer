@@ -4,7 +4,7 @@ const tools = [
   { label: 'Market Map', route: '/market-map' },
   { label: 'Social Media', route: '/social-media' },
   { label: 'Top List', route: '/top-list' },
-  { label: 'Image Upload', route: '/image-upload' },
+  { label: 'Image Converter', route: '/image-upload' },
 ]
 
 function NavLink({ to, label }: { to: string; label: string }) {

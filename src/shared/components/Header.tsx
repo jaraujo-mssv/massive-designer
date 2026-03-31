@@ -66,42 +66,11 @@ export function Header() {
         style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '0.6rem',
           textDecoration: 'none',
           flexShrink: 0,
         }}
       >
-        {/* Logo mark */}
-        <div
-          style={{
-            width: '26px',
-            height: '26px',
-            borderRadius: '6px',
-            background: 'linear-gradient(135deg, #d74939, #ff8163)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexShrink: 0,
-          }}
-        >
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-            <rect x="1" y="1" width="4" height="4" rx="1" fill="white" fillOpacity="0.9" />
-            <rect x="7" y="1" width="4" height="4" rx="1" fill="white" fillOpacity="0.6" />
-            <rect x="1" y="7" width="4" height="4" rx="1" fill="white" fillOpacity="0.6" />
-            <rect x="7" y="7" width="4" height="4" rx="1" fill="white" fillOpacity="0.9" />
-          </svg>
-        </div>
-        <span
-          style={{
-            fontFamily: "'JetBrains Mono', monospace",
-            fontSize: '0.85rem',
-            fontWeight: 600,
-            letterSpacing: '-0.02em',
-            color: 'var(--text)',
-          }}
-        >
-          designer
-        </span>
+        <img src="/logo.svg" alt="Massive" style={{ height: '20px', width: 'auto' }} />
       </Link>
 
       {/* Divider */}

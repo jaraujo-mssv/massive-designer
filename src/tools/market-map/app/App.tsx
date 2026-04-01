@@ -334,15 +334,18 @@ export default function App() {
     Object.entries(settings).forEach(([key, value]) => metadataRows.push(`__SETTING__${key}\t${value}`));
     const headers = ['category', 'company', 'logo', 'url', 'stroke', 'subcompanies', 'columnGap'];
     const dataRows = [headers.join('\t')];
-    columns.forEach(col => {
-      col.categories.forEach(cat => {
+    const maxRows = Math.max(0, ...columns.map(col => col.categories.length));
+    for (let row = 0; row < maxRows; row++) {
+      columns.forEach(col => {
+        const cat = col.categories[row];
+        if (!cat) return;
         dataRows.push([cat.name, '', cat.logoUrl || '', cat.customCompanyGap !== undefined ? String(cat.customCompanyGap) : '', cat.stroke !== undefined ? String(cat.stroke) : '', '', cat.customCategoryGap !== undefined ? String(cat.customCategoryGap) : ''].join('\t'));
         cat.companies.forEach(co => {
           const subStr = co.subcompanies?.length ? co.subcompanies.map(s => `${s.name}|${s.logoUrl}`).join(';') : '';
           dataRows.push([cat.name, co.name, co.logoUrl, co.url || '', cat.stroke !== undefined ? String(cat.stroke) : '', subStr, cat.customCategoryGap !== undefined ? String(cat.customCategoryGap) : ''].join('\t'));
         });
       });
-    });
+    }
     const tsvContent = [...metadataRows, '', ...dataRows].join('\n');
     const blob = new Blob([tsvContent], { type: 'text/tab-separated-values' });
     const url = URL.createObjectURL(blob);

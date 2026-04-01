@@ -31,28 +31,26 @@ export function PreviewControls({ settings, columns, title, date }: PreviewContr
       const headers = ['category', 'company', 'logo', 'url', 'stroke', 'subcompanies', 'columnGap'];
       const dataRows = [headers.join('\t')];
 
-      // Collect all categories from all columns
-      columns.forEach((column) => {
-        column.categories.forEach((category) => {
-          // ALWAYS create an empty category row first (with stroke)
-          const categoryRow = [
-            category.name, // category
-            '', // company (empty)
-            category.logoUrl || '', // logo (if exists)
-            category.customCompanyGap !== undefined ? String(category.customCompanyGap) : '', // url = Co Gap (if exists)
-            category.stroke !== undefined ? String(category.stroke) : '', // stroke (if exists)
-            '', // subcompanies (empty)
-            category.customCategoryGap !== undefined ? String(category.customCategoryGap) : '', // columnGap (if exists)
-          ];
-          dataRows.push(categoryRow.join('\t'));
-
-          // Then add all companies
+      // Collect all categories row-by-row (interleaved) so round-robin re-import restores the same layout
+      const maxRows = Math.max(0, ...columns.map(col => col.categories.length));
+      for (let row = 0; row < maxRows; row++) {
+        columns.forEach((column) => {
+          const category = column.categories[row];
+          if (!category) return;
+          dataRows.push([
+            category.name,
+            '',
+            category.logoUrl || '',
+            category.customCompanyGap !== undefined ? String(category.customCompanyGap) : '',
+            category.stroke !== undefined ? String(category.stroke) : '',
+            '',
+            category.customCategoryGap !== undefined ? String(category.customCategoryGap) : '',
+          ].join('\t'));
           category.companies.forEach((company) => {
             const subcompaniesStr = company.subcompanies && company.subcompanies.length > 0
               ? company.subcompanies.map(sub => `${sub.name}|${sub.logoUrl}`).join(';')
               : '';
-
-            const row = [
+            dataRows.push([
               category.name,
               company.name,
               company.logoUrl,
@@ -60,11 +58,10 @@ export function PreviewControls({ settings, columns, title, date }: PreviewContr
               category.stroke !== undefined ? String(category.stroke) : '',
               subcompaniesStr,
               category.customCategoryGap !== undefined ? String(category.customCategoryGap) : '',
-            ];
-            dataRows.push(row.join('\t'));
+            ].join('\t'));
           });
         });
-      });
+      }
 
       // Combine metadata and data
       const tsvContent = [...metadataRows, '', ...dataRows].join('\n');

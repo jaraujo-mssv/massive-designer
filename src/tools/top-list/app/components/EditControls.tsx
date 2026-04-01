@@ -21,6 +21,7 @@ interface EditControlsProps {
   setActiveTab: React.Dispatch<React.SetStateAction<"cards" | "title" | "layout" | "thumbnail" | "settings" | null>>;
   layout: "list" | "thumbnail";
   setLayout: (layout: "list" | "thumbnail") => void;
+  setMode?: (mode: "edit" | "preview") => void;
 }
 
 export function EditControls({
@@ -36,6 +37,7 @@ export function EditControls({
   setActiveTab,
   layout,
   setLayout,
+  setMode,
 }: EditControlsProps) {
   const [showUrlDialog, setShowUrlDialog] = useState(false);
   const [urlInput, setUrlInput] = useState("");
@@ -140,6 +142,7 @@ export function EditControls({
           newColumns[index % numColumns].companies.push(company);
         });
         setColumns(newColumns);
+        setMode?.("preview");
 
         const settingsImported = Object.keys(parsedSettings).length > 0;
         toast.success(

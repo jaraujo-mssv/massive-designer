@@ -74,6 +74,7 @@ interface EditControlsProps {
   date: string;
   activeTab: "cards" | "items" | "category" | "title" | "layout" | "settings" | null;
   setActiveTab: React.Dispatch<React.SetStateAction<"cards" | "items" | "category" | "title" | "layout" | "settings" | null>>;
+  setMode?: (mode: "edit" | "preview") => void;
 }
 
 export function EditControls({
@@ -87,6 +88,7 @@ export function EditControls({
   date,
   activeTab,
   setActiveTab,
+  setMode,
 }: EditControlsProps) {
   const [showUrlDialog, setShowUrlDialog] = useState(false);
   const [urlInput, setUrlInput] = useState("");
@@ -557,6 +559,7 @@ export function EditControls({
 
         console.log("Setting columns:", newColumns);
         setColumns(newColumns);
+        setMode?.("preview");
         toast.success(`Loaded ${categories.length} categories with ${results.data.length} companies`);
       },
       error: (error) => {
@@ -627,6 +630,7 @@ export function EditControls({
             <>
               <SliderWithInput label="Title Gap" value={settings.titleGap} onChange={(v) => setSettings({ ...settings, titleGap: v })} min={0} max={40} />
               <SliderWithInput label="Title Font" value={settings.titleFontSize} onChange={(v) => setSettings({ ...settings, titleFontSize: v })} min={20} max={72} />
+              <SliderWithInput label="Subtitle Font" value={settings.dateFontSize} onChange={(v) => setSettings({ ...settings, dateFontSize: v })} min={20} max={72} />
             </>
           )}
           {activeTab === "layout" && (

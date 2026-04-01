@@ -233,6 +233,7 @@ export default function App() {
           newColumns[index % numColumns].companies.push(company);
         });
         setColumns(newColumns);
+        setMode("preview");
         toast.success(`Loaded ${companies.length} companies from ${sourceName}`);
       },
       error: (error: Error) => toast.error(`Failed to parse data: ${error.message}`),
@@ -350,6 +351,7 @@ export default function App() {
               setActiveTab={setActiveTab}
               layout={layout}
               setLayout={setLayout}
+              setMode={setMode}
             />
           </div>
 

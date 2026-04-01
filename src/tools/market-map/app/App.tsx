@@ -49,6 +49,7 @@ export interface Settings {
   companyFontSize: number;
   titleGap: number;
   titleFontSize: number;
+  dateFontSize: number;
   titleBold: boolean;
   titleItalic: boolean;
   dateBold: boolean;
@@ -93,6 +94,7 @@ export default function App() {
     companyFontSize: 16,
     titleGap: 0,
     titleFontSize: 44,
+    dateFontSize: 44,
     titleBold: true,
     titleItalic: true,
     dateBold: true,
@@ -150,7 +152,7 @@ export default function App() {
       loadDataFromUrl(convertToGoogleSheetsTsvUrl(fileUrl));
     } else if (editUrl) {
       setIsLocked(false);
-      setMode("edit");
+      setMode("preview");
       loadDataFromUrl(convertToGoogleSheetsTsvUrl(editUrl));
     }
   }, []);
@@ -382,6 +384,7 @@ export default function App() {
                 date={date}
                 activeTab={activeTab}
                 setActiveTab={setActiveTab}
+                setMode={setMode}
               />
             </div>
 
@@ -468,7 +471,7 @@ export default function App() {
                     style={{
                       fontFamily: 'Outfit, sans-serif',
                       color: '#E05642',
-                      fontSize: `${settings.titleFontSize}px`,
+                      fontSize: `${settings.dateFontSize}px`,
                       padding: '2px 8px',
                       lineHeight: '100%',
                       fontWeight: settings.dateBold ? 900 : 'normal',

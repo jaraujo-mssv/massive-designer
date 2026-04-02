@@ -39,43 +39,34 @@ export function ColumnComponent({
     [columnIndex, mode]
   );
 
-  const [{ isOver: isOverColumn }, dropColumn] = useDrop(
+  // Single drop handler that accepts both COLUMN and CATEGORY types
+  const [{ isOver }, drop] = useDrop(
     () => ({
-      accept: "COLUMN",
-      drop: (item: { columnIndex: number }) => {
-        if (item.columnIndex !== columnIndex) {
-          onMoveColumn(item.columnIndex, columnIndex);
-        }
-      },
-      collect: (monitor) => ({
-        isOver: monitor.isOver({ shallow: true }),
-      }),
-    }),
-    [columnIndex, onMoveColumn]
-  );
+      accept: ["COLUMN", "CATEGORY"],
+      drop: (item: { type?: string; columnIndex: number; categoryIndex?: number }, monitor) => {
+        // Only handle if not already handled by a nested target (e.g. CategoryCard)
+        if (monitor.didDrop()) return;
 
-  // Make the column accept category drops (for empty columns)
-  const [{ isOver: isOverCategory }, dropCategory] = useDrop(
-    () => ({
-      accept: "CATEGORY",
-      drop: (item: { columnIndex: number; categoryIndex: number }, monitor) => {
-        // Only handle if not dropped on a nested target
-        if (monitor.didDrop()) {
-          return;
+        const itemType = monitor.getItemType();
+
+        if (itemType === "COLUMN") {
+          if (item.columnIndex !== columnIndex) {
+            onMoveColumn(item.columnIndex, columnIndex);
+          }
+        } else if (itemType === "CATEGORY" && item.categoryIndex !== undefined) {
+          handleMoveCategory(
+            item.columnIndex,
+            item.categoryIndex,
+            columnIndex,
+            column.categories.length
+          );
         }
-        // Move category to the end of this column
-        handleMoveCategory(
-          item.columnIndex,
-          item.categoryIndex,
-          columnIndex,
-          column.categories.length
-        );
       },
       collect: (monitor) => ({
         isOver: monitor.isOver({ shallow: true }),
       }),
     }),
-    [columnIndex, column.categories.length]
+    [columnIndex, column.categories.length, onMoveColumn]
   );
 
   const handleMoveCategory = (
@@ -123,9 +114,7 @@ export function ColumnComponent({
 
   const combineRefs = (node: HTMLDivElement | null) => {
     if (mode === "edit") {
-      drag(node);
-      dropColumn(node);
-      dropCategory(node);
+      drag(drop(node));
     }
   };
 
@@ -133,19 +122,19 @@ export function ColumnComponent({
     <div
       ref={combineRefs}
       className={`flex-shrink-0 ${isDragging ? "opacity-50" : ""} ${
-        isOverColumn && mode === "edit" ? "ring-2 ring-orange-400" : ""
-      } ${
-        isOverCategory && mode === "edit" ? "ring-2 ring-orange-400" : ""
+        isOver && mode === "edit" ? "ring-2 ring-orange-400" : ""
       }`}
       style={{
         width: columnWidth,
         minHeight: "200px",
+        alignSelf: 'stretch',
       }}
     >
       <div
-        className="flex flex-col h-full"
-        style={{ 
+        className="flex flex-col"
+        style={{
           gap: `${settings.categoryGap}px`,
+          minHeight: '100%',
         }}
       >
         {/* Column Header (Edit mode only) */}

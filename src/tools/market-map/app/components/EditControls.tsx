@@ -1,4 +1,4 @@
-import { Upload, Type, List, Layers, Heading, LayoutDashboard, Link, Code, Settings as SettingsIcon } from "lucide-react";
+import { Upload, Type, List, Layers, Heading, LayoutDashboard, Link, Code, Settings as SettingsIcon, Wand2 } from "lucide-react";
 import Papa from "papaparse";
 import { Column, Category, Company, Settings } from "../App";
 import { Slider } from "@/shared/components/ui/slider";
@@ -75,6 +75,7 @@ interface EditControlsProps {
   activeTab: "cards" | "items" | "category" | "title" | "layout" | "settings" | null;
   setActiveTab: React.Dispatch<React.SetStateAction<"cards" | "items" | "category" | "title" | "layout" | "settings" | null>>;
   setMode?: (mode: "edit" | "preview") => void;
+  onAutoAdjust?: () => void;
 }
 
 export function EditControls({
@@ -89,6 +90,7 @@ export function EditControls({
   activeTab,
   setActiveTab,
   setMode,
+  onAutoAdjust,
 }: EditControlsProps) {
   const [showUrlDialog, setShowUrlDialog] = useState(false);
   const [urlInput, setUrlInput] = useState("");
@@ -97,9 +99,9 @@ export function EditControls({
   const [embedCode, setEmbedCode] = useState("");
 
   const handleAddColumn = () => {
-    // Limit to max 8 columns
-    if (columns.length >= 8) {
-      toast.error("Maximum of 8 columns allowed");
+    // Limit to max 5 columns
+    if (columns.length >= 5) {
+      toast.error("Maximum of 5 columns allowed");
       return;
     }
     
@@ -632,10 +634,19 @@ export function EditControls({
           )}
           {activeTab === "layout" && (
             <>
-              <SliderWithInput label="Columns" value={columns.length} onChange={handleColumnCountChange} min={1} max={8} />
+              <SliderWithInput label="Columns" value={columns.length} onChange={handleColumnCountChange} min={1} max={5} />
               <SliderWithInput label="Column Gap" value={settings.columnGap} onChange={(v) => setSettings({ ...settings, columnGap: v, categoryGap: v })} min={8} max={48} />
               <SliderWithInput label="Site Padding" value={settings.sitePadding} onChange={(v) => setSettings({ ...settings, sitePadding: v })} min={0} max={80} />
               <SliderWithInput label="Header Gap" value={settings.topSectionBottomPadding} onChange={(v) => setSettings({ ...settings, topSectionBottomPadding: v })} min={0} max={80} />
+              {onAutoAdjust && (
+                <button
+                  onClick={onAutoAdjust}
+                  className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-brand text-white rounded-lg hover:opacity-90 font-medium text-sm transition-opacity"
+                >
+                  <Wand2 className="w-4 h-4" />
+                  Auto-Adjust Columns
+                </button>
+              )}
             </>
           )}
           {activeTab === "settings" && (

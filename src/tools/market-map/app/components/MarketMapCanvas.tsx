@@ -105,7 +105,7 @@ export function MarketMapCanvas({
     <div
       id="market-map-canvas"
       ref={canvasRef}
-      className={mode === "edit" ? "h-full w-full overflow-auto" : "w-full"}
+      className="h-full w-full overflow-auto"
       style={{
         paddingLeft: `${settings.sitePadding}px`,
         paddingRight: `${settings.sitePadding}px`,
@@ -113,7 +113,7 @@ export function MarketMapCanvas({
       }}
     >
       <div
-        className="flex items-start min-h-full"
+        className="flex items-stretch min-h-full"
         style={{
           gap: `${settings.columnGap}px`,
         }}

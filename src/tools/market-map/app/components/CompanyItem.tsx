@@ -119,8 +119,7 @@ export function CompanyItem({
 
   const combineRefs = (node: HTMLDivElement | null) => {
     if (mode === "edit") {
-      drag(node);
-      drop(node);
+      drag(drop(node));
     }
   };
 

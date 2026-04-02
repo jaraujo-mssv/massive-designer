@@ -7,7 +7,7 @@ import { RichTextEditor } from "./components/RichTextEditor";
 import { MarketMapCanvas } from "./components/MarketMapCanvas";
 import { ModeToggle } from "./components/ModeToggle";
 import { LoadingModal } from "./components/LoadingModal";
-import { Download, Loader2, FileSpreadsheet } from "lucide-react";
+import { Download, Loader2, FileSpreadsheet, Wand2 } from "lucide-react";
 import { domToJpeg } from "modern-screenshot";
 import { preloadImagesToDataUrls } from "./hooks/useImageToDataUrl";
 import Papa from "papaparse";
@@ -69,6 +69,174 @@ export interface Settings {
   showPresentedBy: boolean;
   width: number;
   height: number;
+}
+
+/** Estimate the visual height of a category card in pixels */
+function estimateCategoryHeight(category: Category, settings: Settings): number {
+  const headerHeight = settings.categoryFontSize * 1.2 + settings.categoryCardGap;
+  const companyCount = category.companies.length;
+
+  let itemHeight: number;
+  if (settings.viewMode === "grid") {
+    const rows = Math.ceil(companyCount / settings.companiesPerRow);
+    const gap = category.customCompanyGap ?? settings.companyGap;
+    itemHeight = rows * (settings.logoSize + settings.companyFontSize + 8) + Math.max(0, rows - 1) * gap;
+  } else {
+    const gap = category.customCompanyGap ?? settings.companyGap;
+    const rowHeight = Math.max(settings.logoSize, settings.companyFontSize + 4) + settings.listItemPadding * 2;
+    itemHeight = companyCount * rowHeight + Math.max(0, companyCount - 1) * gap;
+  }
+
+  const bottomPadding = settings.categoryCardGap;
+  return headerHeight + itemHeight + bottomPadding + settings.cardStrokeSize * 2;
+}
+
+/** Calculate total height of a column given its categories */
+function columnTotalHeight(categories: Category[], settings: Settings): number {
+  if (categories.length === 0) return 0;
+  return categories.reduce((sum, cat) => sum + estimateCategoryHeight(cat, settings), 0)
+    + (categories.length - 1) * settings.categoryGap;
+}
+
+/**
+ * Auto-adjust: find optimal column count (max 6) and distribute categories
+ * using greedy shortest-column-first bin packing (insertion order preserved).
+ */
+export function autoAdjustColumns(
+  allCategories: Category[],
+  availableHeight: number,
+  settings: Settings,
+): Column[] {
+  const MAX_COLS = 5;
+
+  // Try column counts from 1 to 6, pick the smallest that fits
+  for (let n = 1; n <= MAX_COLS; n++) {
+    const columns = binPack(allCategories, n, settings);
+    const heights = columns.map(cats => columnTotalHeight(cats, settings));
+    const tallest = Math.max(...heights);
+
+    if (tallest <= availableHeight || n === MAX_COLS) {
+      return columns.map((cats, i) => ({
+        id: `col-${i + 1}`,
+        categories: cats,
+      }));
+    }
+  }
+
+  // Fallback: 6 columns
+  const result = binPack(allCategories, MAX_COLS, settings);
+  return result.map((cats, i) => ({ id: `col-${i + 1}`, categories: cats }));
+}
+
+/**
+ * LPT (Longest Processing Time) bin packing with iterative rebalancing.
+ * Assigns largest categories first to shortest columns for best balance,
+ * then restores original display order within each column.
+ */
+function binPack(categories: Category[], n: number, settings: Settings): Category[][] {
+  const heights = categories.map(cat => estimateCategoryHeight(cat, settings));
+
+  // Step 1: LPT — sort indices by height descending, assign largest first
+  const indices = categories.map((_, i) => i);
+  indices.sort((a, b) => heights[b] - heights[a]);
+
+  const columnHeights = new Array(n).fill(0);
+  const columnIndices: number[][] = Array.from({ length: n }, () => []);
+
+  for (const idx of indices) {
+    // Find shortest column
+    let shortestCol = 0;
+    for (let c = 1; c < n; c++) {
+      if (columnHeights[c] < columnHeights[shortestCol]) shortestCol = c;
+    }
+    columnIndices[shortestCol].push(idx);
+    columnHeights[shortestCol] += heights[idx] + settings.categoryGap;
+  }
+
+  // Step 2: Iterative rebalancing — move smallest category from tallest to shortest
+  for (let iter = 0; iter < 20; iter++) {
+    let tallestCol = 0, shortestCol = 0;
+    for (let c = 1; c < n; c++) {
+      if (columnHeights[c] > columnHeights[tallestCol]) tallestCol = c;
+      if (columnHeights[c] < columnHeights[shortestCol]) shortestCol = c;
+    }
+
+    if (tallestCol === shortestCol) break;
+    if (columnHeights[shortestCol] >= columnHeights[tallestCol] * 0.8) break;
+    if (columnIndices[tallestCol].length <= 1) break;
+
+    // Find the smallest category in the tallest column
+    let smallestInTallest = 0;
+    let smallestH = Infinity;
+    for (let i = 0; i < columnIndices[tallestCol].length; i++) {
+      const h = heights[columnIndices[tallestCol][i]];
+      if (h < smallestH) { smallestH = h; smallestInTallest = i; }
+    }
+
+    // Simulate the move
+    const newTallest = columnHeights[tallestCol] - smallestH - settings.categoryGap;
+    const newShortest = columnHeights[shortestCol] + smallestH + settings.categoryGap;
+
+    // Only move if it improves overall max height
+    const currentMax = columnHeights[tallestCol];
+    const newMax = Math.max(newTallest, newShortest);
+    if (newMax >= currentMax) break;
+
+    // Execute the move
+    const [movedIdx] = columnIndices[tallestCol].splice(smallestInTallest, 1);
+    columnIndices[shortestCol].push(movedIdx);
+    columnHeights[tallestCol] = newTallest;
+    columnHeights[shortestCol] = newShortest;
+  }
+
+  // Step 3: Restore original order within each column
+  const columnCats: Category[][] = columnIndices.map(idxs => {
+    idxs.sort((a, b) => a - b); // sort by original index
+    return idxs.map(i => categories[i]);
+  });
+
+  return columnCats;
+}
+
+/**
+ * Equalize column heights by adding a uniform extra company gap per column.
+ * Caps the extra gap so no column's gap exceeds 3x the base gap — keeps spacing pleasant.
+ */
+export function equalizeColumnHeights(columns: Column[], settings: Settings): Column[] {
+  if (columns.length <= 1) return columns;
+
+  const columnHeights = columns.map(col => columnTotalHeight(col.categories, settings));
+  const tallest = Math.max(...columnHeights);
+  if (tallest === 0) return columns;
+
+  const baseGap = settings.companyGap;
+  const maxGap = baseGap * 3; // Never make gaps more than 3x the default
+
+  return columns.map((col, colIdx) => {
+    const deficit = tallest - columnHeights[colIdx];
+    if (deficit <= 2 || col.categories.length === 0) return col;
+
+    // Count total company gaps in this column
+    const totalGaps = col.categories.reduce(
+      (sum, cat) => sum + Math.max(0, cat.companies.length - 1), 0
+    );
+    if (totalGaps === 0) return col;
+
+    // Calculate extra per gap, but cap it
+    const rawExtra = Math.round(deficit / totalGaps);
+    const cappedExtra = Math.min(rawExtra, maxGap - baseGap);
+    if (cappedExtra <= 0) return col;
+
+    const newCategories = col.categories.map(cat => {
+      if (cat.companies.length <= 1) return cat;
+      return {
+        ...cat,
+        customCompanyGap: baseGap + cappedExtra,
+      };
+    });
+
+    return { ...col, categories: newCategories };
+  });
 }
 
 export default function App() {
@@ -133,6 +301,184 @@ export default function App() {
 
   const canvasW = settings.width || 1920;
   const canvasH = settings.height || 1080;
+
+  // Estimate available height for columns (canvas height minus header area)
+  const headerEstimate = settings.sitePadding + settings.titleFontSize + settings.titleGap + settings.dateFontSize + settings.topSectionBottomPadding + settings.sitePadding;
+  const availableColumnHeight = canvasH - headerEstimate;
+
+  const handleAutoAdjust = () => {
+    const allCategories: Category[] = [];
+    columns.forEach(col => allCategories.push(...col.categories));
+    if (allCategories.length === 0) {
+      toast.error("No categories to auto-adjust");
+      return;
+    }
+
+    const resetCategories = allCategories.map(cat => ({
+      ...cat,
+      customCompanyGap: undefined,
+      customCategoryGap: undefined,
+    }));
+
+    const newColumns = autoAdjustColumns(resetCategories, availableColumnHeight, settings);
+    setColumns(newColumns);
+    toast.success(`Auto-adjusted to ${newColumns.length} columns`);
+  };
+
+  // Auto-adjust company gaps based on real rendered heights (call in preview mode)
+  // Caps at available canvas height so it never pushes content beyond 1080px
+  const handleAutoGaps = () => {
+    const columnEls = document.querySelectorAll<HTMLElement>('div[style*="align-self: stretch"]');
+    if (columnEls.length === 0) { toast.error("No columns found"); return; }
+
+    // Measure available height: canvas height minus header area
+    const headerArea = document.querySelector<HTMLElement>('#market-map-export-area > div:first-child');
+    const headerH = headerArea ? headerArea.offsetHeight : 0;
+    const availableH = canvasH - headerH - settings.sitePadding; // space for columns content
+
+    // Measure real category card heights using offsetHeight (CSS pixels, unaffected by transform)
+    const columnCardHeights: number[][] = [];
+    columnEls.forEach(col => {
+      const cards = col.querySelectorAll<HTMLElement>('.shadow-sm.overflow-hidden');
+      const cardHeights: number[] = [];
+      cards.forEach(card => cardHeights.push(card.offsetHeight));
+      columnCardHeights.push(cardHeights);
+    });
+
+    const gap = settings.categoryGap;
+    const realHeights = columnCardHeights.map(cardH =>
+      cardH.reduce((sum, h) => sum + h, 0) + Math.max(0, cardH.length - 1) * gap
+    );
+
+    const tallest = Math.max(...realHeights);
+    if (tallest === 0) return;
+
+    // Target: fill available canvas space but never exceed it
+    const targetHeight = Math.min(availableH, availableH);
+
+    const needsEqualize = realHeights.some(h => targetHeight - h > 3);
+    if (!needsEqualize) { toast.success("Columns already balanced"); return; }
+
+    setColumns(prev => {
+      const baseGap = settings.companyGap;
+      return prev.map((col, colIdx) => {
+        const deficit = targetHeight - realHeights[colIdx];
+        if (deficit <= 3) return col;
+
+        const totalGaps = col.categories.reduce(
+          (sum, cat) => sum + Math.max(0, cat.companies.length - 1), 0
+        );
+        if (totalGaps === 0) return col;
+
+        const extraPerGap = Math.floor(deficit / totalGaps);
+        if (extraPerGap <= 0) return col;
+
+        const newCategories = col.categories.map(cat => {
+          if (cat.companies.length <= 1) return cat;
+          const currentGap = cat.customCompanyGap ?? baseGap;
+          return { ...cat, customCompanyGap: currentGap + extraPerGap };
+        });
+        return { ...col, categories: newCategories };
+      });
+    });
+    toast.success("Gaps adjusted within canvas bounds");
+  };
+
+  // Auto Fit: iteratively shrink settings until content fits in canvas height
+  const handleAutoFit = async () => {
+    // Define settings range: [settingKey, min value]
+    const settingsRange: [keyof Settings, number][] = [
+      ['companyGap', 0],
+      ['listItemPadding', 0],
+      ['categoryCardGap', 4],
+      ['columnGap', 6],
+      ['categoryGap', 6],
+      ['sitePadding', 16],
+      ['topSectionBottomPadding', 4],
+      ['logoGap', 4],
+      ['cardStrokeSize', 1],
+      ['logoSize', 14],
+      ['companyFontSize', 10],
+      ['categoryFontSize', 10],
+      ['categoryLogoSize', 16],
+      ['titleFontSize', 24],
+      ['dateFontSize', 24],
+    ];
+
+    // Save original settings
+    const origSettings = { ...settings };
+
+    // Reset custom company gaps so we start clean
+    setColumns(prev => prev.map(col => ({
+      ...col,
+      categories: col.categories.map(cat => ({
+        ...cat,
+        customCompanyGap: undefined,
+        customCategoryGap: undefined,
+      })),
+    })));
+
+    // Helper: apply a scale factor (1.0 = original settings, 0.0 = min settings)
+    const applyScale = (scale: number): Partial<Settings> => {
+      const newSettings: Partial<Settings> = {};
+      for (const [key, minVal] of settingsRange) {
+        const origVal = origSettings[key] as number;
+        newSettings[key] = Math.round(minVal + (origVal - minVal) * scale) as any;
+      }
+      return newSettings;
+    };
+
+    // Helper: measure content height after rendering with given settings
+    const measureHeight = (): Promise<number> => {
+      return new Promise(resolve => {
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            const scrollContainer = document.querySelector<HTMLElement>('#market-map-canvas');
+            const headerArea = document.querySelector<HTMLElement>('#market-map-export-area > div:first-child');
+            const headerH = headerArea ? headerArea.offsetHeight : 0;
+            const contentH = scrollContainer ? scrollContainer.scrollHeight : 0;
+            resolve(headerH + contentH);
+          });
+        });
+      });
+    };
+
+    // Check if content already fits
+    let currentHeight = await measureHeight();
+    if (currentHeight <= canvasH) {
+      toast.success("Content already fits — no changes needed");
+      return;
+    }
+
+    // Binary search for the largest scale where content fits
+    let lo = 0, hi = 1.0;
+    let bestScale = 0;
+
+    for (let i = 0; i < 12; i++) {
+      const mid = (lo + hi) / 2;
+      const scaledSettings = applyScale(mid);
+      setSettings(prev => ({ ...prev, ...scaledSettings }));
+
+      // Wait for render
+      await new Promise<void>(resolve => setTimeout(resolve, 100));
+      currentHeight = await measureHeight();
+
+      if (currentHeight <= canvasH) {
+        bestScale = mid;
+        lo = mid;
+      } else {
+        hi = mid;
+      }
+    }
+
+    // Apply the best scale
+    const finalSettings = applyScale(bestScale);
+    setSettings(prev => ({ ...prev, ...finalSettings }));
+    await new Promise<void>(resolve => setTimeout(resolve, 100));
+
+    toast.success("Auto Fit complete — content fits in canvas");
+  };
+
   const canvasScale = containerDims.w > 0
     ? Math.min(containerDims.w / canvasW, containerDims.h / canvasH) * 0.95
     : 0.5;
@@ -294,15 +640,50 @@ export default function App() {
       const allSrcs = [...new Set(imgElements.map(img => img.src).filter(Boolean))];
       const dataUrlMap = await preloadImagesToDataUrls(allSrcs);
 
+      // Measure true content height from the scrollable MarketMapCanvas container
+      // scrollHeight is in the element's own coordinate space (unscaled)
+      const scrollContainer = element.querySelector<HTMLElement>('#market-map-canvas');
+      const contentHeight = scrollContainer ? scrollContainer.scrollHeight : 0;
+      // Header height: use offsetHeight (unscaled CSS pixels, not affected by transform)
+      const headerArea = element.querySelector<HTMLElement>(':scope > div:first-child');
+      const headerHeight = headerArea ? headerArea.offsetHeight : 0;
+      const exportHeight = Math.max(canvasH, contentHeight + headerHeight + settings.sitePadding);
+
       const dataUrl = await domToJpeg(element, {
         quality: 0.95,
         scale: 2,
-        // Explicit dimensions fix cropping: getBoundingClientRect() returns the
-        // visually-scaled size, not the CSS width×height we actually want to capture
         width: canvasW,
-        height: canvasH,
-        // Remove the CSS scale on the clone so content renders at its full 1920×1080
-        style: { transform: 'none' },
+        height: exportHeight,
+        style: { transform: 'none', overflow: 'visible', height: `${exportHeight}px` },
+        onCloneNode: (cloned: Node) => {
+          if (cloned instanceof HTMLElement) {
+            // Root: set full height, remove overflow
+            cloned.style.overflow = 'visible';
+            cloned.style.height = `${exportHeight}px`;
+
+            // Remove all overflow clipping and height constraints from children
+            cloned.querySelectorAll('*').forEach(el => {
+              if (el instanceof HTMLElement) {
+                const ov = getComputedStyle(el).overflow;
+                if (ov === 'hidden' || ov === 'auto' || ov === 'scroll') {
+                  el.style.overflow = 'visible';
+                }
+                // Remove h-full constraints so content can expand
+                if (el.classList.contains('h-full')) {
+                  el.style.height = 'auto';
+                }
+              }
+            });
+
+            // Make the content wrapper expand to fill
+            const contentWrapper = cloned.querySelector(':scope > div:last-child');
+            if (contentWrapper instanceof HTMLElement) {
+              contentWrapper.style.overflow = 'visible';
+              contentWrapper.style.height = 'auto';
+              contentWrapper.style.flex = '1';
+            }
+          }
+        },
         // Intercept every resource fetch and return our pre-converted data URLs
         fetchFn: async (url: string) => {
           const cached = dataUrlMap.get(url);
@@ -388,8 +769,30 @@ export default function App() {
                 activeTab={activeTab}
                 setActiveTab={setActiveTab}
                 setMode={setMode}
+                onAutoAdjust={handleAutoAdjust}
               />
             </div>
+
+            {/* Auto-Adjust Gaps + Auto Fit (preview mode) */}
+            {mode === "preview" && (
+              <div className="border-t border-border-subtle p-4 shrink-0 space-y-2">
+                <button
+                  onClick={handleAutoGaps}
+                  className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-orange-600 text-white rounded-lg hover:opacity-90 font-medium text-sm transition-opacity"
+                >
+                  <Wand2 size={16} />
+                  Auto-Adjust Gaps
+                </button>
+                <button
+                  onClick={handleAutoFit}
+                  className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-purple-600 text-white rounded-lg hover:opacity-90 font-medium text-sm transition-opacity"
+                >
+                  <Wand2 size={16} />
+                  Auto Fit
+                </button>
+                <p className="text-xs text-text-dim mt-2 text-center">Auto Fit shrinks fonts, logos & spacing to fit canvas</p>
+              </div>
+            )}
 
             {/* Export Footer */}
             <div className="border-t border-border-subtle p-4 shrink-0 space-y-2">

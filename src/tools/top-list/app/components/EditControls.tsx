@@ -240,10 +240,10 @@ export function EditControls({
   };
 
   const tabs = [
-    { id: "cards" as const, label: "Cards", Icon: Layers },
-    { id: "title" as const, label: "Title", Icon: Heading },
     { id: "layout" as const, label: "Layout", Icon: LayoutDashboard },
-    { id: "thumbnail" as const, label: "Thumbnail", Icon: Image },
+    { id: "cards" as const, label: "Rows", Icon: Layers },
+    { id: "title" as const, label: "Title", Icon: Heading },
+    ...(layout === "thumbnail" ? [{ id: "thumbnail" as const, label: "Thumbnail", Icon: Image }] : []),
     { id: "settings" as const, label: "Settings", Icon: SettingsIcon },
   ];
 
@@ -274,13 +274,15 @@ export function EditControls({
         <div className="p-4 space-y-4 border-b border-border-subtle">
           {activeTab === "cards" && (
             <>
-              <SliderWithInput label="Company Gap" value={settings.companyGap} onChange={(v) => setSettings({ ...settings, companyGap: v })} min={0} max={48} />
-              <SliderWithInput label="Company Font" value={settings.companyFontSize} onChange={(v) => setSettings({ ...settings, companyFontSize: v })} min={8} max={24} />
+              <SliderWithInput label="Font Size" value={settings.companyFontSize} onChange={(v) => setSettings({ ...settings, companyFontSize: v })} min={8} max={24} />
+              <SliderWithInput label="Item Gap" value={settings.companyGap} onChange={(v) => setSettings({ ...settings, companyGap: v })} min={0} max={48} />
               <SliderWithInput label="Logo Size" value={settings.logoSize} onChange={(v) => setSettings({ ...settings, logoSize: v })} min={24} max={120} />
-              <SliderWithInput label="Card Stroke" value={settings.cardStrokeSize} onChange={(v) => setSettings({ ...settings, cardStrokeSize: v })} min={0} max={8} />
-              <SliderWithInput label="Position Font" value={settings.positionFontSize} onChange={(v) => setSettings({ ...settings, positionFontSize: v })} min={12} max={48} />
-              <SliderWithInput label="Position Width" value={settings.positionWidth} onChange={(v) => setSettings({ ...settings, positionWidth: v })} min={24} max={120} />
-              <SliderWithInput label="Card Min Height" value={settings.cardMinHeight} onChange={(v) => setSettings({ ...settings, cardMinHeight: v })} min={0} max={200} />
+              <SliderWithInput label="Border Width" value={settings.cardStrokeSize} onChange={(v) => setSettings({ ...settings, cardStrokeSize: v })} min={0} max={8} />
+              <SliderWithInput label="Rank Font Size" value={settings.positionFontSize} onChange={(v) => setSettings({ ...settings, positionFontSize: v })} min={12} max={48} />
+              <SliderWithInput label="Rank Width" value={settings.positionWidth} onChange={(v) => setSettings({ ...settings, positionWidth: v })} min={24} max={120} />
+              <SliderWithInput label="Row Height" value={settings.cardMinHeight} onChange={(v) => setSettings({ ...settings, cardMinHeight: v })} min={0} max={200} />
+              <SliderWithInput label="Vertical Padding" value={settings.cardPaddingY} onChange={(v) => setSettings({ ...settings, cardPaddingY: v })} min={4} max={60} />
+              <SliderWithInput label="Valuation Font Size" value={settings.valuationFontSize} onChange={(v) => setSettings({ ...settings, valuationFontSize: v })} min={8} max={32} />
             </>
           )}
           {activeTab === "title" && (
@@ -312,8 +314,15 @@ export function EditControls({
               </div>
               <SliderWithInput label="Columns" value={columns.length} onChange={handleColumnCountChange} min={1} max={6} />
               <SliderWithInput label="Column Gap" value={settings.columnGap} onChange={(v) => setSettings({ ...settings, columnGap: v, categoryGap: v })} min={8} max={48} />
-              <SliderWithInput label="Site Padding" value={settings.sitePadding} onChange={(v) => setSettings({ ...settings, sitePadding: v })} min={0} max={80} />
-              <SliderWithInput label="Header Gap" value={settings.topSectionBottomPadding} onChange={(v) => setSettings({ ...settings, topSectionBottomPadding: v })} min={0} max={80} />
+              <SliderWithInput label="Outer Padding" value={settings.sitePadding} onChange={(v) => setSettings({ ...settings, sitePadding: v })} min={0} max={80} />
+              <SliderWithInput label="Content Gap" value={settings.topSectionBottomPadding} onChange={(v) => setSettings({ ...settings, topSectionBottomPadding: v })} min={0} max={80} />
+              <div className="flex items-center justify-between p-3 bg-surface-2 rounded-lg border border-border-subtle">
+                <Label className="text-sm text-text-primary">Fill Column Height</Label>
+                <Switch
+                  checked={settings.autoCardHeight}
+                  onCheckedChange={(checked) => setSettings({ ...settings, autoCardHeight: checked })}
+                />
+              </div>
             </>
           )}
           {activeTab === "thumbnail" && (
@@ -330,9 +339,9 @@ export function EditControls({
               <SliderWithInput label="Logo Size" value={settings.thumbnailLogoSize} onChange={(v) => setSettings({ ...settings, thumbnailLogoSize: v })} min={20} max={200} />
               <SliderWithInput label="Logo Padding" value={settings.thumbnailLogoPadding} onChange={(v) => setSettings({ ...settings, thumbnailLogoPadding: v })} min={0} max={100} />
               <SliderWithInput label="Row Padding" value={settings.thumbnailRowPadding} onChange={(v) => setSettings({ ...settings, thumbnailRowPadding: v })} min={0} max={150} />
-              <SliderWithInput label="Row Offset" value={settings.thumbnailRowOffset} onChange={(v) => setSettings({ ...settings, thumbnailRowOffset: v })} min={-200} max={200} />
-              <SliderWithInput label="X Offset" value={settings.thumbnailOffsetX} onChange={(v) => setSettings({ ...settings, thumbnailOffsetX: v })} min={-600} max={600} />
-              <SliderWithInput label="Y Offset" value={settings.thumbnailOffsetY} onChange={(v) => setSettings({ ...settings, thumbnailOffsetY: v })} min={-400} max={400} />
+              <SliderWithInput label="List Offset" value={settings.thumbnailRowOffset} onChange={(v) => setSettings({ ...settings, thumbnailRowOffset: v })} min={-200} max={200} />
+              <SliderWithInput label="Horizontal Offset" value={settings.thumbnailOffsetX} onChange={(v) => setSettings({ ...settings, thumbnailOffsetX: v })} min={-600} max={600} />
+              <SliderWithInput label="Vertical Offset" value={settings.thumbnailOffsetY} onChange={(v) => setSettings({ ...settings, thumbnailOffsetY: v })} min={-400} max={400} />
               <SliderWithInput label="Rotation" value={settings.thumbnailRotation} onChange={(v) => setSettings({ ...settings, thumbnailRotation: v })} min={-90} max={90} unit="°" />
               <SliderWithInput label="Opacity" value={settings.thumbnailOpacity} onChange={(v) => setSettings({ ...settings, thumbnailOpacity: v })} min={0} max={100} step={1} unit="%" />
             </>

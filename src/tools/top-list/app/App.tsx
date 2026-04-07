@@ -19,6 +19,7 @@ export interface Company {
   name: string;
   url?: string;
   logoUrl: string;
+  valuation?: string;
 }
 
 export interface Column {
@@ -45,6 +46,9 @@ export interface Settings {
   positionFontSize: number;
   positionWidth: number;
   cardMinHeight: number;
+  cardPaddingY: number;
+  valuationFontSize: number;
+  autoCardHeight: boolean;
   showPresentedBy: boolean;
   width: number;
   height: number;
@@ -93,6 +97,9 @@ export default function App() {
     positionFontSize: 24,
     positionWidth: 35,
     cardMinHeight: 94,
+    cardPaddingY: 16,
+    valuationFontSize: 13,
+    autoCardHeight: false,
     showPresentedBy: true,
     width: 850,
     height: 1100,
@@ -195,7 +202,7 @@ export default function App() {
     }
 
     const contentToProcess = lines.slice(dataStartIndex).join('\n');
-    Papa.parse<{ position: string; company: string; logo: string; url?: string }>(contentToProcess, {
+    Papa.parse<{ position: string; company: string; logo: string; url?: string; valuation?: string }>(contentToProcess, {
       header: true,
       skipEmptyLines: true,
       delimiter: '\t',
@@ -215,6 +222,7 @@ export default function App() {
             name: row.company,
             logoUrl: row.logo,
             url: row.url,
+            valuation: row.valuation || undefined,
           });
         });
 
@@ -229,8 +237,10 @@ export default function App() {
         for (let i = 0; i < numColumns; i++) {
           newColumns.push({ id: `col-${Date.now()}-${i}`, companies: [] });
         }
+        const itemsPerCol = Math.ceil(companies.length / numColumns);
         companies.forEach((company, index) => {
-          newColumns[index % numColumns].companies.push(company);
+          const colIndex = Math.min(Math.floor(index / itemsPerCol), numColumns - 1);
+          newColumns[colIndex].companies.push(company);
         });
         setColumns(newColumns);
         setMode("preview");
@@ -305,9 +315,9 @@ export default function App() {
     columns.forEach(col => allCompanies.push(...col.companies));
     allCompanies.sort((a, b) => a.position - b.position);
 
-    const dataRows = ['position\tcompany\tlogo\turl'];
+    const dataRows = ['position\tcompany\tlogo\turl\tvaluation'];
     allCompanies.forEach(company => {
-      dataRows.push(`${company.position}\t${company.name}\t${company.logoUrl}\t${company.url || ''}`);
+      dataRows.push(`${company.position}\t${company.name}\t${company.logoUrl}\t${company.url || ''}\t${company.valuation || ''}`);
     });
 
     const tsvContent = [...metadataRows, '', ...dataRows].join('\n');

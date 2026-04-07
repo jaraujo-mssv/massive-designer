@@ -144,7 +144,8 @@ export function ColumnComponent({
         minHeight: "200px",
         ...(autoCardHeight && {
           display: 'flex',
-          flexDirection: 'column'
+          flexDirection: 'column',
+          height: '100%',
         })
       }}
     >
@@ -188,6 +189,7 @@ export function ColumnComponent({
               handleUpdateCompany(companyIndex, updates)
             }
             onDeleteCompany={() => handleDeleteCompany(companyIndex)}
+            fillHeight={!!autoCardHeight}
           />
         ))}
 

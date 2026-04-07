@@ -12,6 +12,7 @@ export function AddCompanyPanel({ onAddCompany, settings }: AddCompanyPanelProps
   const [name, setName] = useState("");
   const [logoUrl, setLogoUrl] = useState("");
   const [url, setUrl] = useState("");
+  const [valuation, setValuation] = useState("");
   const [position, setPosition] = useState(1);
 
   const handleSubmit = () => {
@@ -23,12 +24,14 @@ export function AddCompanyPanel({ onAddCompany, settings }: AddCompanyPanelProps
       name,
       logoUrl,
       url: url || undefined,
+      valuation: valuation || undefined,
     };
 
     onAddCompany(newCompany);
     setName("");
     setLogoUrl("");
     setUrl("");
+    setValuation("");
     setPosition(1);
     setIsOpen(false);
   };
@@ -75,6 +78,13 @@ export function AddCompanyPanel({ onAddCompany, settings }: AddCompanyPanelProps
           placeholder="Company URL (optional)"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
+          className={inputClass}
+        />
+        <input
+          type="text"
+          placeholder="Valuation (optional, e.g. $1.2B)"
+          value={valuation}
+          onChange={(e) => setValuation(e.target.value)}
           className={inputClass}
         />
         <div className="flex gap-2">

@@ -75,7 +75,7 @@ export function MarketMapCanvas({
       }}
     >
       <div
-        className="flex items-start w-full"
+        className={`flex w-full ${settings.autoCardHeight ? 'items-stretch' : 'items-start'}`}
         style={{
           gap: `${settings.columnGap}px`,
         }}

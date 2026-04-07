@@ -569,11 +569,11 @@ export function EditControls({
   };
 
   const tabs = [
-    { id: "cards" as const, label: "Cards", Icon: Layers },
-    { id: "items" as const, label: "Items", Icon: List },
-    { id: "category" as const, label: "Category", Icon: Type },
-    { id: "title" as const, label: "Title", Icon: Heading },
     { id: "layout" as const, label: "Layout", Icon: LayoutDashboard },
+    { id: "cards" as const, label: "Sections", Icon: Layers },
+    { id: "category" as const, label: "Section Header", Icon: Type },
+    { id: "items" as const, label: "Companies", Icon: List },
+    { id: "title" as const, label: "Title", Icon: Heading },
     { id: "settings" as const, label: "Settings", Icon: SettingsIcon },
   ];
 
@@ -604,25 +604,25 @@ export function EditControls({
         <div className="p-4 space-y-4 border-b border-border-subtle">
           {activeTab === "cards" && (
             <>
-              <SliderWithInput label="Card Gap" value={settings.categoryCardGap} onChange={(v) => setSettings({ ...settings, categoryCardGap: v })} min={0} max={48} />
-              <SliderWithInput label="List Padding" value={settings.listItemPadding} onChange={(v) => setSettings({ ...settings, listItemPadding: v })} min={0} max={24} />
+              <SliderWithInput label="Section Gap" value={settings.categoryCardGap} onChange={(v) => setSettings({ ...settings, categoryCardGap: v })} min={0} max={48} />
+              <SliderWithInput label="Card Padding" value={settings.listItemPadding} onChange={(v) => setSettings({ ...settings, listItemPadding: v })} min={0} max={24} />
               <SliderWithInput label="Per Row" value={settings.companiesPerRow} onChange={(v) => setSettings({ ...settings, companiesPerRow: v })} min={2} max={6} />
-              <SliderWithInput label="Card Stroke" value={settings.cardStrokeSize} onChange={(v) => setSettings({ ...settings, cardStrokeSize: v })} min={0} max={8} />
+              <SliderWithInput label="Border Width" value={settings.cardStrokeSize} onChange={(v) => setSettings({ ...settings, cardStrokeSize: v })} min={0} max={8} />
             </>
           )}
           {activeTab === "items" && (
             <>
-              <SliderWithInput label="Company Font" value={settings.companyFontSize} onChange={(v) => setSettings({ ...settings, companyFontSize: v })} min={8} max={24} />
-              <SliderWithInput label="Company Gap" value={settings.companyGap} onChange={(v) => setSettings({ ...settings, companyGap: v })} min={0} max={48} />
+              <SliderWithInput label="Font Size" value={settings.companyFontSize} onChange={(v) => setSettings({ ...settings, companyFontSize: v })} min={8} max={24} />
+              <SliderWithInput label="Item Gap" value={settings.companyGap} onChange={(v) => setSettings({ ...settings, companyGap: v })} min={0} max={48} />
               <SliderWithInput label="Logo Size" value={settings.logoSize} onChange={(v) => setSettings({ ...settings, logoSize: v })} min={8} max={120} />
               <SliderWithInput label="Logo Gap" value={settings.logoGap} onChange={(v) => setSettings({ ...settings, logoGap: v })} min={0} max={24} />
             </>
           )}
           {activeTab === "category" && (
             <>
-              <SliderWithInput label="Category Font" value={settings.categoryFontSize} onChange={(v) => setSettings({ ...settings, categoryFontSize: v })} min={8} max={24} />
-              <SliderWithInput label="Category Logo Size" value={settings.categoryLogoSize} onChange={(v) => setSettings({ ...settings, categoryLogoSize: v })} min={8} max={64} />
-              <SliderWithInput label="Category Logo Gap" value={settings.categoryLogoGap} onChange={(v) => setSettings({ ...settings, categoryLogoGap: v })} min={0} max={48} />
+              <SliderWithInput label="Font Size" value={settings.categoryFontSize} onChange={(v) => setSettings({ ...settings, categoryFontSize: v })} min={8} max={24} />
+              <SliderWithInput label="Logo Size" value={settings.categoryLogoSize} onChange={(v) => setSettings({ ...settings, categoryLogoSize: v })} min={8} max={64} />
+              <SliderWithInput label="Logo Gap" value={settings.categoryLogoGap} onChange={(v) => setSettings({ ...settings, categoryLogoGap: v })} min={0} max={48} />
             </>
           )}
           {activeTab === "title" && (
@@ -636,8 +636,8 @@ export function EditControls({
             <>
               <SliderWithInput label="Columns" value={columns.length} onChange={handleColumnCountChange} min={1} max={5} />
               <SliderWithInput label="Column Gap" value={settings.columnGap} onChange={(v) => setSettings({ ...settings, columnGap: v, categoryGap: v })} min={8} max={48} />
-              <SliderWithInput label="Site Padding" value={settings.sitePadding} onChange={(v) => setSettings({ ...settings, sitePadding: v })} min={0} max={80} />
-              <SliderWithInput label="Header Gap" value={settings.topSectionBottomPadding} onChange={(v) => setSettings({ ...settings, topSectionBottomPadding: v })} min={0} max={80} />
+              <SliderWithInput label="Outer Padding" value={settings.sitePadding} onChange={(v) => setSettings({ ...settings, sitePadding: v })} min={0} max={80} />
+              <SliderWithInput label="Content Gap" value={settings.topSectionBottomPadding} onChange={(v) => setSettings({ ...settings, topSectionBottomPadding: v })} min={0} max={80} />
               {onAutoAdjust && (
                 <button
                   onClick={onAutoAdjust}

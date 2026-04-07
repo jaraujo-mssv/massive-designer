@@ -17,6 +17,7 @@ interface CompanyCardProps {
   ) => void;
   onUpdateCompany: (updates: Partial<Company>) => void;
   onDeleteCompany: () => void;
+  fillHeight?: boolean;
 }
 
 export function CompanyCard({
@@ -28,6 +29,7 @@ export function CompanyCard({
   onMoveCompany,
   onUpdateCompany,
   onDeleteCompany,
+  fillHeight,
 }: CompanyCardProps) {
   const [isEditingLogo, setIsEditingLogo] = useState(false);
   const [editedLogoUrl, setEditedLogoUrl] = useState(company.logoUrl);
@@ -147,10 +149,12 @@ export function CompanyCard({
           backgroundColor: '#1a1920',
           border: `${settings.cardStrokeSize}px solid #2C2A30`,
           borderRadius: '8px',
-          paddingTop: `${Math.max(16, Math.floor((settings.cardMinHeight - settings.logoSize) / 2))}px`,
-          paddingBottom: `${Math.max(16, Math.floor((settings.cardMinHeight - settings.logoSize) / 2))}px`,
+          paddingTop: `${settings.cardPaddingY}px`,
+          paddingBottom: `${settings.cardPaddingY}px`,
           paddingLeft: '16px',
           paddingRight: '16px',
+          minHeight: `${settings.cardMinHeight}px`,
+          ...(fillHeight && { flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }),
         }}
       >
         {/* Delete Button (Edit Mode) */}
@@ -239,8 +243,8 @@ export function CompanyCard({
             />
           </div>
 
-          {/* Company Name (Right) */}
-          <div style={{ flex: 1, textAlign: 'left' }}>
+          {/* Company Name */}
+          <div style={{ flex: 1, textAlign: 'left', minWidth: 0 }}>
             {mode === "edit" ? (
               <textarea
                 value={company.name}
@@ -279,6 +283,44 @@ export function CompanyCard({
               </div>
             )}
           </div>
+
+          {/* Valuation Pill */}
+          {(company.valuation || mode === "edit") && (
+            <div style={{ flexShrink: 0 }}>
+              {mode === "edit" ? (
+                <input
+                  type="text"
+                  value={company.valuation || ''}
+                  onChange={(e) => onUpdateCompany({ valuation: e.target.value || undefined })}
+                  placeholder="e.g. $1.2B"
+                  className="bg-transparent border border-border-subtle rounded-full outline-none focus:ring-1 focus:ring-orange-500 text-center"
+                  style={{
+                    fontSize: `${settings.valuationFontSize}px`,
+                    fontFamily: 'Outfit, sans-serif',
+                    color: '#FAF4EC',
+                    padding: '3px 10px',
+                    width: '90px',
+                  }}
+                />
+              ) : (
+                <span
+                  style={{
+                    fontSize: `${settings.valuationFontSize}px`,
+                    fontFamily: 'Outfit, sans-serif',
+                    fontWeight: 500,
+                    color: '#FAF4EC',
+                    backgroundColor: '#2C2A30',
+                    border: '1px solid #3D3A45',
+                    borderRadius: '999px',
+                    padding: '3px 10px',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {company.valuation}
+                </span>
+              )}
+            </div>
+          )}
         </div>
       </div>
 

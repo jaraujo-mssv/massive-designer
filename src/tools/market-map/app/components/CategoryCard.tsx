@@ -256,13 +256,13 @@ export function CategoryCard({
         {/* Company Gap Control - Edit Mode Only */}
         {mode === "edit" && (
           <div className="px-4 pb-3 pt-0 flex items-center gap-2 border-t border-white/10">
-            <Label className="text-xs whitespace-nowrap" style={{ color: 'rgba(250,244,236,0.5)' }}>Co Gap</Label>
+            <Label className="text-xs whitespace-nowrap" style={{ color: 'rgba(250,244,236,0.5)' }}>Item Gap</Label>
             <Slider
               value={[currentCompanyGap]}
               onValueChange={([value]) => onUpdateCategory({ customCompanyGap: value })}
               min={0}
               max={48}
-              step={2}
+              step={1}
               className="flex-1"
             />
             <span className="text-xs w-6" style={{ color: 'rgba(250,244,236,0.5)' }}>{currentCompanyGap}</span>

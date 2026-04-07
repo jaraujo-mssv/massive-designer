@@ -35,6 +35,7 @@ export default function App() {
   const [customWidth, setCustomWidth] = useState<string>('300');
   const [customHeight, setCustomHeight] = useState<string>('300');
   const [maintainAspect, setMaintainAspect] = useState<boolean>(true);
+  const [lockCenter, setLockCenter] = useState<boolean>(false);
   const [sizeMode, setSizeMode] = useState<'preset' | 'custom'>('preset');
   const [copied, setCopied] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
@@ -308,7 +309,7 @@ export default function App() {
 
   return (
     <div
-      className="min-h-full bg-bg p-4 md:p-8"
+      className="h-full overflow-y-auto bg-bg p-4 md:p-8"
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
@@ -380,7 +381,14 @@ export default function App() {
                   <div className="space-y-4">
                     <ReactCrop
                       crop={crop}
-                      onChange={(c) => setCrop(c)}
+                      onChange={(c) => {
+                        const img = imgRef.current;
+                        if (lockCenter && img) {
+                          setCrop({ ...c, x: (img.width - c.width) / 2, y: (img.height - c.height) / 2 });
+                        } else {
+                          setCrop(c);
+                        }
+                      }}
                       onComplete={(c) => setCompletedCrop(c)}
                       aspect={maintainAspect ? 1 : undefined}
                     >
@@ -392,17 +400,31 @@ export default function App() {
                         className="max-w-full h-auto"
                       />
                     </ReactCrop>
-                    <div className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        id="aspect"
-                        checked={maintainAspect}
-                        onChange={(e) => setMaintainAspect(e.target.checked)}
-                        className="rounded"
-                      />
-                      <Label htmlFor="aspect" className="cursor-pointer">
-                        Maintain square aspect ratio
-                      </Label>
+                    <div className="flex flex-col gap-2">
+                      <div className="flex items-center space-x-2">
+                        <input
+                          type="checkbox"
+                          id="aspect"
+                          checked={maintainAspect}
+                          onChange={(e) => setMaintainAspect(e.target.checked)}
+                          className="rounded"
+                        />
+                        <Label htmlFor="aspect" className="cursor-pointer">
+                          Maintain square aspect ratio
+                        </Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <input
+                          type="checkbox"
+                          id="lockCenter"
+                          checked={lockCenter}
+                          onChange={(e) => setLockCenter(e.target.checked)}
+                          className="rounded"
+                        />
+                        <Label htmlFor="lockCenter" className="cursor-pointer">
+                          Lock to center
+                        </Label>
+                      </div>
                     </div>
                   </div>
                 </CardContent>

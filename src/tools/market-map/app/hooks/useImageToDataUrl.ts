@@ -23,14 +23,18 @@ async function loadAsDataUrl(url: string): Promise<string> {
     img.onload = () => {
       try {
         const canvas = document.createElement('canvas');
-        canvas.width = img.naturalWidth;
-        canvas.height = img.naturalHeight;
+        // SVGs without explicit dimensions have naturalWidth/Height = 0; fall back to 256px
+        canvas.width = img.naturalWidth || 256;
+        canvas.height = img.naturalHeight || 256;
         const ctx = canvas.getContext('2d');
         if (!ctx) { resolve(url); return; }
-        ctx.drawImage(img, 0, 0);
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
         const dataUrl = canvas.toDataURL('image/png');
-        imageCache.set(url, dataUrl);
-        resolve(dataUrl);
+        // Don't cache empty results — let the next render retry
+        if (dataUrl && dataUrl !== 'data:,') {
+          imageCache.set(url, dataUrl);
+        }
+        resolve(dataUrl && dataUrl !== 'data:,' ? dataUrl : url);
       } catch {
         resolve(url);
       }

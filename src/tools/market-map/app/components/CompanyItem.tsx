@@ -2,7 +2,6 @@ import { useDrag, useDrop } from "react-dnd";
 import { X, Edit2, Upload, Tag } from "lucide-react";
 import { Company, Settings } from "../App";
 import { useState, useRef, useEffect } from "react";
-import { useImageToDataUrl } from "../hooks/useImageToDataUrl";
 
 interface CompanyItemProps {
   company: Company;
@@ -24,10 +23,9 @@ interface CompanyItemProps {
 }
 
 function SubLogoImg({ logoUrl, name }: { logoUrl: string; name: string }) {
-  const dataUrl = useImageToDataUrl(logoUrl);
   return (
     <img
-      src={dataUrl || logoUrl}
+      src={logoUrl}
       alt={name}
       className="w-3.5 h-3.5 object-contain rounded-sm"
       onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
@@ -56,8 +54,6 @@ export function CompanyItem({
   const logoRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const subButtonRef = useRef<HTMLButtonElement>(null);
-
-  const logoDataUrl = useImageToDataUrl(company.logoUrl);
 
   // Sync editedLogoUrl with company.logoUrl when it changes
   useEffect(() => {
@@ -273,7 +269,7 @@ export function CompanyItem({
             >
               <img
                 key={company.logoUrl}
-                src={logoDataUrl || company.logoUrl}
+                src={company.logoUrl}
                 alt={company.name}
                 className="w-full h-full object-contain"
                 style={{ borderRadius: '8px' }}
@@ -350,7 +346,7 @@ export function CompanyItem({
             >
               <img
                 key={company.logoUrl}
-                src={logoDataUrl || company.logoUrl}
+                src={company.logoUrl}
                 alt={company.name}
                 className="w-full h-full object-contain"
                 style={{ borderRadius: '6px' }}

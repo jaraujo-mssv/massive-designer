@@ -678,6 +678,16 @@ export default function App() {
               cloned.style.backgroundImage = `url(${bgDataUrl})`;
             }
 
+            // Directly replace <img src> with pre-loaded data URLs before modern-screenshot's
+            // embed phase runs. This avoids the library re-fetching external URLs, which can
+            // taint the canvas and cause a silent black-image result.
+            cloned.querySelectorAll<HTMLImageElement>('img').forEach(img => {
+              const dataUrl = dataUrlMap.get(img.src);
+              if (dataUrl?.startsWith('data:')) {
+                img.src = dataUrl;
+              }
+            });
+
             // Remove all overflow clipping and height constraints from children
             cloned.querySelectorAll('*').forEach(el => {
               if (el instanceof HTMLElement) {
@@ -701,10 +711,12 @@ export default function App() {
             }
           }
         },
-        // Intercept every resource fetch and return our pre-converted data URLs
+        // Only return actual data URLs from fetchFn — if conversion failed and the map holds the
+        // original URL, fall through to modern-screenshot's default fetch rather than returning an
+        // external http:// URL, which would taint the canvas and produce a black image.
         fetchFn: async (url: string) => {
           const cached = dataUrlMap.get(url);
-          if (cached) return cached;
+          if (cached?.startsWith('data:')) return cached;
           return false; // fall back to default for fonts / other assets
         },
       });

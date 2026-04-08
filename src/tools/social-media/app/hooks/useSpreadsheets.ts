@@ -29,13 +29,13 @@ export function useSpreadsheets() {
     localStorage.setItem('savedSpreadsheets', JSON.stringify(toSave));
   };
 
-  const handleImport = async () => {
-    if (!spreadsheetUrl) return;
+  const handleImportUrl = async (url: string) => {
+    if (!url) return;
 
     setIsLoading(true);
     setError('');
 
-    const result = await fetchAndParseSpreadsheet(spreadsheetUrl);
+    const result = await fetchAndParseSpreadsheet(url);
 
     if (result.error) {
       setError(result.error);
@@ -45,14 +45,13 @@ export function useSpreadsheets() {
 
     setDesigns(result.designs);
 
-    // Save spreadsheet if not already saved
-    const existing = savedSpreadsheets.find(s => s.url === spreadsheetUrl);
+    const existing = savedSpreadsheets.find(s => s.url === url);
     if (!existing) {
-      const name = await extractSpreadsheetName(spreadsheetUrl);
+      const name = await extractSpreadsheetName(url);
       const newSheet: SavedSpreadsheet = {
         id: Date.now().toString(),
         name,
-        url: spreadsheetUrl,
+        url,
       };
       const updated = [...savedSpreadsheets, newSheet];
       setSavedSpreadsheets(updated);
@@ -64,6 +63,8 @@ export function useSpreadsheets() {
 
     setIsLoading(false);
   };
+
+  const handleImport = () => handleImportUrl(spreadsheetUrl);
 
   const loadSpreadsheet = async (spreadsheet: SavedSpreadsheet) => {
     setSpreadsheetUrl(spreadsheet.url);
@@ -107,6 +108,7 @@ export function useSpreadsheets() {
     isLoading,
     error,
     handleImport,
+    handleImportUrl,
     loadSpreadsheet,
     deleteSpreadsheet,
     openSpreadsheet,

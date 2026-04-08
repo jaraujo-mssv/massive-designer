@@ -640,6 +640,18 @@ export default function App() {
       const allSrcs = [...new Set(imgElements.map(img => img.src).filter(Boolean))];
       const dataUrlMap = await preloadImagesToDataUrls(allSrcs);
 
+      // Pre-fetch the background image (CSS background-image, not an <img> tag)
+      // so domToJpeg doesn't get a blank canvas for it
+      let bgDataUrl = '';
+      try {
+        const bgBlob = await fetch('/bg.jpg').then(r => r.blob());
+        bgDataUrl = await new Promise<string>(resolve => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result as string);
+          reader.readAsDataURL(bgBlob);
+        });
+      } catch { /* non-fatal — export proceeds without background */ }
+
       // Measure true content height from the scrollable MarketMapCanvas container
       // scrollHeight is in the element's own coordinate space (unscaled)
       const scrollContainer = element.querySelector<HTMLElement>('#market-map-canvas');
@@ -660,6 +672,11 @@ export default function App() {
             // Root: set full height, remove overflow
             cloned.style.overflow = 'visible';
             cloned.style.height = `${exportHeight}px`;
+
+            // Inject background as data URL so domToJpeg doesn't have to fetch it
+            if (bgDataUrl && cloned.id === 'market-map-export-area') {
+              cloned.style.backgroundImage = `url(${bgDataUrl})`;
+            }
 
             // Remove all overflow clipping and height constraints from children
             cloned.querySelectorAll('*').forEach(el => {

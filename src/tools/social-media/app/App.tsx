@@ -1,4 +1,5 @@
-import React, { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { useSearchParams } from 'react-router';
 import { TabType, Theme } from './types';
 import { THEMES } from './constants';
 import { DualCanvasLayout } from './DualCanvasLayout';
@@ -15,12 +16,23 @@ function App() {
   const [designTitle, setDesignTitle] = useState('design');
   const [loadedDesignIndex, setLoadedDesignIndex] = useState<number | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  
+
   const linkedinCanvasRef = useRef<HTMLDivElement>(null);
   const twitterCanvasRef = useRef<HTMLDivElement>(null);
+  const [searchParams] = useSearchParams();
 
   // Custom hooks
   const spreadsheets = useSpreadsheets();
+
+  // Auto-load spreadsheet from ?e= param
+  useEffect(() => {
+    const url = searchParams.get('e')
+    if (url) {
+      spreadsheets.setSpreadsheetUrl(url)
+      spreadsheets.handleImportUrl(url)
+      setActiveTab('import')
+    }
+  }, [])
   const blocksManager = useBlocks(projectTheme);
   const exportManager = useExport(designTitle);
   

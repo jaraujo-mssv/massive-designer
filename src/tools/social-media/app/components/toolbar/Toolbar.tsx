@@ -1,4 +1,3 @@
-import React from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { TabType, DesignBlock, HeadingLevel, SavedSpreadsheet, ImportedDesign } from '../../types';
 import { ImportTab } from './ImportTab';
@@ -41,10 +40,10 @@ interface ToolbarProps {
 
 export function Toolbar(props: ToolbarProps) {
   return (
-    <div className="relative flex">
+    <div className="relative flex h-full">
       {/* Sidebar */}
       <div
-        className={`bg-surface border-r border-border-subtle flex flex-col overflow-hidden transition-all duration-300 ease-in-out ${
+        className={`bg-surface border-r border-border-subtle flex flex-col overflow-hidden transition-all duration-300 ease-in-out h-full ${
           props.sidebarOpen ? 'w-96' : 'w-0'
         }`}
       >
@@ -71,7 +70,7 @@ export function Toolbar(props: ToolbarProps) {
         </div>
 
         {/* Tab Content */}
-        <div className="flex-1 overflow-y-auto p-6">
+        <div className="flex-1 overflow-y-auto p-6 pb-24">
           {props.activeTab === 'blocks' && (
             <BlocksTab
               blocks={props.blocks}

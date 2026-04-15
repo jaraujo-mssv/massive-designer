@@ -25,7 +25,7 @@ export const createHeadingBlock = (
   type: 'heading',
   text,
   level,
-  fontSize: HEADING_SIZES[level],
+  fontSize: HEADING_SIZES[level.split('-')[0]],
   color: THEMES[theme].headingColor,
 });
 
@@ -50,6 +50,14 @@ export const normalizeTheme = (themeStr: string): Theme => {
 };
 
 export const parseHeadingLevel = (headerStr: string): HeadingLevel => {
-  const normalized = headerStr?.toLowerCase().trim() as HeadingLevel;
-  return ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(normalized) ? normalized : 'h1';
+  const normalized = headerStr?.toLowerCase().trim();
+  const [base, weight] = normalized.split('-');
+  const validBase = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(base) ? base : 'h1';
+  if (weight) {
+    const parsedWeight = parseInt(weight);
+    if ([100, 200, 300, 400, 500, 600, 700, 800, 900].includes(parsedWeight)) {
+      return `${validBase}-${parsedWeight}` as HeadingLevel;
+    }
+  }
+  return validBase as HeadingLevel;
 };

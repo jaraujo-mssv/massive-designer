@@ -1,4 +1,4 @@
-import { ThemesConfig, HeadingLevel } from '../types';
+import { ThemesConfig } from '../types';
 
 export const THEMES: ThemesConfig = {
   light: {
@@ -39,7 +39,7 @@ export const THEMES: ThemesConfig = {
   },
 };
 
-export const HEADING_SIZES: Record<HeadingLevel, number> = {
+export const HEADING_SIZES: Record<string, number> = {
   h1: 100,
   h2: 80,
   h3: 64,
@@ -48,7 +48,7 @@ export const HEADING_SIZES: Record<HeadingLevel, number> = {
   h6: 28,
 };
 
-export const TWITTER_HEADING_SIZES: Record<HeadingLevel, number> = {
+export const TWITTER_HEADING_SIZES: Record<string, number> = {
   h1: 76,
   h2: 60,
   h3: 48,

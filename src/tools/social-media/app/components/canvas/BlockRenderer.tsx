@@ -46,8 +46,11 @@ export function BlockRenderer({ blocks, template, theme }: BlockRendererProps) {
     }
 
     if (isHeadingBlock(block)) {
+      const [baseLevel, weightStr] = block.level.split('-');
+      const weightOverride = weightStr ? parseInt(weightStr) : undefined;
+
       const fontSize = template === 'twitter'
-        ? `${TWITTER_HEADING_SIZES[block.level]}px`
+        ? `${TWITTER_HEADING_SIZES[baseLevel]}px`
         : `${block.fontSize}px`;
 
       return (
@@ -60,7 +63,7 @@ export function BlockRenderer({ blocks, template, theme }: BlockRendererProps) {
             color: block.color,
             textAlign: textStyles.heading.textAlign,
             fontFamily: textStyles.heading.fontFamily,
-            fontWeight: theme === 'pc-speaker' && block.level === 'h4' ? 400 : textStyles.heading.fontWeight,
+            fontWeight: weightOverride ?? textStyles.heading.fontWeight,
             fontStyle: textStyles.heading.fontStyle,
           }}
         />

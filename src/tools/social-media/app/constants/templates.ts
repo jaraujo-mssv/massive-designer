@@ -69,7 +69,7 @@ export const TWITTER_TEMPLATE_CONFIG: Record<Theme, ThemeConfig> = {
     },
     textStyles: {
       heading: {
-        lineHeight: "0.95",
+        lineHeight: "1",
         fontFamily: "Inter, sans-serif",
         fontWeight: 700,
         textAlign: "left",

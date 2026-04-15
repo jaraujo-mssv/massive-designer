@@ -70,15 +70,15 @@ export const TWITTER_TEMPLATE_CONFIG: Record<Theme, ThemeConfig> = {
     textStyles: {
       heading: {
         lineHeight: "0.95",
-        fontFamily: "Outfit, sans-serif",
+        fontFamily: "Inter, sans-serif",
         fontWeight: 700,
         textAlign: "left",
       },
       paragraph: {
         fontSize: "28px",
         lineHeight: "1.2",
-        fontFamily: "Outfit, sans-serif",
-        fontWeight: 400,
+        fontFamily: "Inter, sans-serif",
+        fontWeight: 500,
         textAlign: "left",
       },
     },

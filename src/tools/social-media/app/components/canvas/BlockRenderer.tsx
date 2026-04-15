@@ -60,7 +60,7 @@ export function BlockRenderer({ blocks, template, theme }: BlockRendererProps) {
             color: block.color,
             textAlign: textStyles.heading.textAlign,
             fontFamily: textStyles.heading.fontFamily,
-            fontWeight: textStyles.heading.fontWeight,
+            fontWeight: theme === 'pc-speaker' && block.level === 'h4' ? 400 : textStyles.heading.fontWeight,
             fontStyle: textStyles.heading.fontStyle,
           }}
         />

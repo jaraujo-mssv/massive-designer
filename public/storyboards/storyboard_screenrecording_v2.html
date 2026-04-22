@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Storyboard — Screen Recording + Voiceover · Massive Web Render</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --n0: #faf4ec; --n50: #f5ece0;
+  --n900: #1a1b2a; --n950: #1a1920; --n975: #121117; --n1000: #0a0a0f;
+  --r400: #ff8163; --r500: #d74939; --r600: #c9382a;
+  --bg: var(--n1000); --surface: var(--n975); --surface-2: var(--n950);
+  --text: var(--n0); --text-mid: rgba(250,244,236,0.75); --text-dim: rgba(250,244,236,0.5);
+  --border: rgba(250,244,236,0.08); --border-hover: rgba(250,244,236,0.15);
+  --red: var(--r500); --red-light: var(--r400); --red-glow: rgba(215,73,57,0.15);
+  --font-display: 'Outfit', sans-serif; --font-mono: 'JetBrains Mono', monospace;
+  --frame-w: 240px; --frame-h: 135px;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--text);
+  font-family: var(--font-display); line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh; padding: 56px 40px 100px;
+}
+.grid-bg {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(250,244,236,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(250,244,236,0.02) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+.grid-bg::after {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 50% at 50% 0%, var(--red-glow), transparent);
+}
+main { position: relative; z-index: 1; max-width: 1440px; margin: 0 auto; }
+
+.eyebrow {
+  font-family: var(--font-mono); font-size: 0.75rem; color: var(--red);
+  letter-spacing: 0.08em; text-transform: uppercase;
+  display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem;
+}
+.eyebrow::before { content: ''; display: block; width: 24px; height: 1px; background: var(--red); }
+h1 { font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 800; line-height: 1.05; letter-spacing: -0.035em; }
+h1 .hl {
+  background: linear-gradient(135deg, var(--red), var(--red-light));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.lede { font-size: 1rem; color: var(--text-mid); font-weight: 300; margin-top: 1rem; line-height: 1.7; }
+.meta-row { display: flex; gap: 24px; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border); flex-wrap: wrap; }
+.meta-item { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-dim); }
+.meta-item strong { display: block; color: var(--red-light); margin-bottom: 2px; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.08em; }
+header { margin-bottom: 48px; }
+
+/* Table */
+.table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--border); }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+thead tr { background: var(--surface); border-bottom: 1px solid rgba(250,244,236,0.12); }
+thead th {
+  padding: 12px 16px; text-align: left;
+  font-family: var(--font-mono); font-size: 0.62rem; font-weight: 600;
+  color: var(--red-light); letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap;
+}
+thead th:first-child { padding-left: 20px; }
+thead th:last-child  { padding-right: 20px; }
+tbody tr { border-bottom: 1px solid var(--border); vertical-align: top; transition: background 0.15s; }
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: rgba(250,244,236,0.02); }
+
+/* Pure-webcam row tint */
+tbody tr.row-cam { background: rgba(215,73,57,0.03); }
+tbody tr.row-cam:hover { background: rgba(215,73,57,0.05); }
+
+td { padding: 20px 16px; }
+td:first-child { padding-left: 20px; }
+td:last-child  { padding-right: 20px; }
+
+.col-num {
+  font-family: var(--font-mono); font-size: 0.72rem; font-weight: 600;
+  color: var(--text-dim); letter-spacing: 0.06em;
+  white-space: nowrap; width: 44px; padding-top: 24px;
+}
+.col-frame { width: var(--frame-w); padding: 20px 16px; }
+.frame {
+  width: var(--frame-w); height: var(--frame-h);
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 10px; overflow: hidden; position: relative; flex-shrink: 0;
+}
+
+.col-name { width: 180px; min-width: 150px; }
+.scene-name-text { font-size: 0.92rem; font-weight: 700; letter-spacing: -0.015em; color: var(--text); line-height: 1.35; }
+.scene-tag {
+  display: inline-block; margin-bottom: 6px;
+  font-family: var(--font-mono); font-size: 0.58rem; font-weight: 600;
+  padding: 1px 7px; border-radius: 999px; letter-spacing: 0.08em; text-transform: uppercase;
+}
+.scene-tag.cam { background: rgba(215,73,57,0.12); color: var(--red-light); border: 1px solid rgba(215,73,57,0.22); }
+.scene-tag.screen { background: rgba(250,244,236,0.06); color: var(--text-dim); border: 1px solid rgba(250,244,236,0.1); }
+
+.col-ts { width: 120px; white-space: nowrap; }
+.ts-time  { font-family: var(--font-mono); font-size: 0.68rem; color: var(--red); letter-spacing: 0.08em; margin-bottom: 4px; }
+.ts-label { font-family: var(--font-mono); font-size: 0.62rem; color: var(--text-dim); letter-spacing: 0.06em; text-transform: uppercase; }
+
+.col-screen { width: 210px; min-width: 180px; }
+.screen-pill { display: inline-block; margin-bottom: 6px; font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-dim); letter-spacing: 0.1em; text-transform: uppercase; }
+.screen-text { font-size: 0.82rem; color: var(--text-dim); line-height: 1.65; border-left: 2px solid rgba(250,244,236,0.12); padding-left: 10px; }
+.screen-none { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-dim); font-style: italic; }
+
+.col-vo { width: 220px; min-width: 180px; }
+.vo-pill { display: inline-block; margin-bottom: 6px; font-family: var(--font-mono); font-size: 0.6rem; color: var(--red); letter-spacing: 0.1em; text-transform: uppercase; }
+.vo-text { font-size: 0.83rem; color: var(--text-mid); font-style: italic; line-height: 1.65; border-left: 2px solid var(--red); padding-left: 10px; }
+
+.col-desc { min-width: 200px; }
+.desc-text { font-size: 0.83rem; color: var(--text-mid); font-weight: 300; line-height: 1.75; }
+
+/* ================================================================
+   WEBCAM COMPONENTS
+   ================================================================ */
+
+/* PIP — small webcam overlay on screen frames */
+.webcam-pip {
+  position: absolute; bottom: 8px; right: 8px; z-index: 10;
+  width: 56px; height: 42px; border-radius: 7px;
+  border: 1.5px solid rgba(250,244,236,0.2);
+  box-shadow: 0 3px 14px rgba(0,0,0,0.7), 0 0 0 1px rgba(0,0,0,0.4);
+  overflow: hidden; display: flex; flex-direction: column;
+}
+.pip-body {
+  flex: 1; display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(155deg, #222 0%, #0e0e0e 100%);
+}
+.pip-person { font-size: 22px; line-height: 1; }
+.pip-bar {
+  height: 9px; background: #0b0b0b; border-top: 1px solid rgba(250,244,236,0.06);
+  display: flex; align-items: center; padding: 0 5px; gap: 3px;
+}
+.pip-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--red); flex-shrink: 0; animation: rec-blink 1.4s step-end infinite; }
+.pip-name { font-family: var(--font-mono); font-size: 4.5px; color: rgba(250,244,236,0.35); white-space: nowrap; overflow: hidden; }
+@keyframes rec-blink { 0%,49%{opacity:1} 50%,100%{opacity:0} }
+
+/* Full-frame webcam */
+.webcam-full {
+  width: 100%; height: 100%; position: relative;
+  background: linear-gradient(155deg, #1e1e1e 0%, #0d0d0d 100%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+.wf-rec {
+  position: absolute; top: 8px; right: 9px;
+  display: flex; align-items: center; gap: 4px;
+}
+.wf-rec-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--red); animation: rec-blink 1.4s step-end infinite; }
+.wf-rec-label { font-family: var(--font-mono); font-size: 6px; color: var(--red-light); letter-spacing: 0.1em; }
+.wf-person { font-size: 44px; line-height: 1; margin-bottom: 4px; }
+.wf-lower {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 16px 10px 7px;
+  background: linear-gradient(transparent, rgba(0,0,0,0.75));
+  display: flex; align-items: flex-end; justify-content: space-between;
+}
+.wf-name { font-family: var(--font-mono); font-size: 6.5px; color: rgba(250,244,236,0.65); }
+.wf-title { font-family: var(--font-mono); font-size: 5.5px; color: rgba(250,244,236,0.35); margin-top: 1px; }
+
+/* ================================================================
+   SCREEN FRAME COMPONENTS
+   ================================================================ */
+
+.browser { display: flex; flex-direction: column; height: 100%; }
+.chrome { height: 20px; background: var(--n950); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 7px; gap: 4px; flex-shrink: 0; }
+.dot { width: 6px; height: 6px; border-radius: 50%; }
+.urlbar { flex: 1; height: 10px; background: var(--n1000); border-radius: 3px; margin-left: 5px; display: flex; align-items: center; padding: 0 5px; }
+.urltext { font-family: var(--font-mono); font-size: 6px; color: var(--text-dim); }
+.browser-body { flex: 1; overflow: hidden; }
+
+.term { background: #000; height: 100%; padding: 8px 10px; font-family: var(--font-mono); font-size: 7px; line-height: 1.6; color: rgba(250,244,236,0.6); }
+.t-prompt  { color: var(--red-light); }
+.t-flag    { color: rgba(250,244,236,0.5); }
+.t-str     { color: #e5c07b; }
+.t-val     { color: #98c379; }
+.t-comment { color: rgba(250,244,236,0.25); }
+.t-cursor  { display: inline-block; width: 5px; height: 9px; background: var(--red-light); animation: blink 0.9s step-end infinite; vertical-align: middle; border-radius: 1px; }
+@keyframes blink { 50% { opacity: 0; } }
+.t-success { color: #98c379; }
+.t-running { color: var(--red-light); animation: blink 0.9s step-end infinite; }
+
+.split { display: flex; height: 100%; }
+.split-pane { flex: 1; padding: 8px 9px; display: flex; flex-direction: column; background: var(--n1000); }
+.split-pane:first-child { border-right: 1px solid var(--border); }
+.split-flag  { font-size: 13px; margin-bottom: 2px; }
+.split-lbl   { font-family: var(--font-mono); font-size: 6px; color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 5px; }
+.split-hero  { font-family: var(--font-mono); font-size: 7px; color: var(--red-light); margin-bottom: 4px; font-weight: 600; }
+.split-line  { height: 4px; border-radius: 2px; background: rgba(250,244,236,0.06); margin-bottom: 3px; }
+.split-line.lit  { background: rgba(215,73,57,0.4); }
+.split-line.lit2 { background: rgba(255,129,99,0.3); }
+.split-line.s    { width: 68%; }
+.split-line.xs   { width: 44%; }
+.split-note  { font-family: var(--font-mono); font-size: 5.5px; color: var(--text-dim); margin-top: auto; line-height: 1.5; }
+.split-badge { font-family: var(--font-mono); font-size: 6px; padding: 2px 4px; border-radius: 3px; background: rgba(215,73,57,0.12); color: var(--red-light); border: 1px solid rgba(215,73,57,0.2); align-self: flex-start; margin-top: auto; }
+
+.docs-page    { background: var(--n1000); height: 100%; padding: 9px 11px; }
+.docs-eyebrow { font-family: var(--font-mono); font-size: 6px; color: var(--red); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+.docs-h       { font-size: 9.5px; font-weight: 700; letter-spacing: -0.01em; color: var(--text); margin-bottom: 5px; line-height: 1.3; }
+.docs-pill    { display: inline-block; padding: 1px 6px; border: 1px solid rgba(215,73,57,0.3); border-radius: 999px; font-family: var(--font-mono); font-size: 6px; color: var(--red-light); letter-spacing: 0.05em; text-transform: uppercase; margin-right: 3px; margin-bottom: 5px; }
+.docs-url     { background: var(--n950); border: 1px solid var(--border); border-radius: 4px; padding: 3px 7px; font-family: var(--font-mono); font-size: 6.5px; color: rgba(250,244,236,0.6); margin-top: 5px; }
+.docs-note    { font-family: var(--font-mono); font-size: 6px; color: var(--text-dim); margin-top: 4px; }
+
+.legend { display: flex; gap: 24px; margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); flex-wrap: wrap; }
+.legend-item { display: flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 0.66rem; color: var(--text-dim); }
+.legend-line { width: 20px; height: 2px; border-radius: 1px; }
+.legend-dot  { width: 8px; height: 8px; border-radius: 50%; }
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<main>
+
+<header>
+  <div class="eyebrow">// storyboard · screen recording + voiceover</div>
+  <h1>Massive Web Render —<br><span class="hl">Geotargeted Response Comparison</span></h1>
+  <p class="lede">Neutral narrator. Real terminal. One parameter change drives the whole demo. Webcam on throughout.</p>
+  <div class="meta-row">
+    <div class="meta-item"><strong>Format</strong>MP4 · 1080×720</div>
+    <div class="meta-item"><strong>Duration</strong>~100 seconds</div>
+    <div class="meta-item"><strong>Audio</strong>Neutral narrator + ambient</div>
+    <div class="meta-item"><strong>Style</strong>Screen Recording + Voiceover + Webcam</div>
+    <div class="meta-item"><strong>Placement</strong>Feature demo · Social / Blog embed</div>
+  </div>
+</header>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Frame Visual</th>
+        <th>Scene Name</th>
+        <th>Timestamp</th>
+        <th>Screen Content</th>
+        <th>Voiceover</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <!-- 01 — PURE WEBCAM -->
+      <tr class="row-cam">
+        <td class="col-num">01</td>
+        <td class="col-frame">
+          <div class="frame">
+            <div class="webcam-full">
+              <div class="wf-rec">
+                <div class="wf-rec-dot"></div>
+                <div class="wf-rec-label">REC</div>
+              </div>
+              <div class="wf-person">🧑‍💻</div>
+              <div class="wf-lower">
+                <div>
+                  <div class="wf-name">Narrator</div>
+                  <div class="wf-title">Massive Web Render</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-tag cam">Webcam only</div>
+          <div class="scene-name-text">Narrator intro. No screen. Sets the premise.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">0:00 – 0:10</div>
+          <div class="ts-label">Intro</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">📺 Screen</div>
+          <div class="screen-none">No screen — webcam only</div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-pill">🎙 Voiceover</div>
+          <div class="vo-text">"AI models don't give the same answer everywhere. Prices, policies, and local context all change what you get back. I'm going to show you exactly what that looks like — one prompt, two countries, two completely different responses."</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">Opens on webcam only. No screen share yet. Narrator speaks directly to camera — casual, not salesy. Establishes the hook before any demo begins. Hold for a beat after the last word, then transition to screen.</div>
+        </td>
+      </tr>
+
+      <!-- 02 — DOCS + WEBCAM PIP -->
+      <tr>
+        <td class="col-num">02</td>
+        <td class="col-frame">
+          <div class="frame">
+            <div class="browser">
+              <div class="chrome">
+                <div class="dot" style="background:#ff5f57"></div>
+                <div class="dot" style="background:#febc2e"></div>
+                <div class="dot" style="background:#28c840"></div>
+                <div class="urlbar"><span class="urltext">docs.joinmassive.com/web-render</span></div>
+              </div>
+              <div class="browser-body">
+                <div class="docs-page">
+                  <div class="docs-eyebrow">// massive web render</div>
+                  <div class="docs-h">Query any AI model.<br>From any country.</div>
+                  <span class="docs-pill">ChatGPT</span>
+                  <span class="docs-pill">Gemini</span>
+                  <span class="docs-pill">Perplexity</span>
+                </div>
+              </div>
+            </div>
+            <div class="webcam-pip">
+              <div class="pip-body"><div class="pip-person">🧑‍💻</div></div>
+              <div class="pip-bar"><div class="pip-dot"></div><div class="pip-name">Narrator · Massive</div></div>
+            </div>
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-tag screen">Screen + webcam</div>
+          <div class="scene-name-text">Docs page. Narrator walks through what the API does.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">0:10 – 0:20</div>
+          <div class="ts-label">Context</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">📺 Screen</div>
+          <div class="screen-text">Docs page visible. Cursor moves slowly across the supported models. No typing yet.</div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-pill">🎙 Voiceover</div>
+          <div class="vo-text">"Massive Web Render routes your queries through a residential network — so when you ask ChatGPT a question, it's coming from a real IP in that country, not a datacenter. Let me show you a live example."</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">Screen share begins. Webcam moves to PIP in the corner — stays there for the rest of the demo. Docs page is static while narrator provides context. Cursor drifts slowly over the model pills.</div>
+        </td>
+      </tr>
+
+      <!-- 03 — TERMINAL FIRST CALL + PIP -->
+      <tr>
+        <td class="col-num">03</td>
+        <td class="col-frame">
+          <div class="frame">
+            <div class="browser">
+              <div class="chrome">
+                <div class="dot" style="background:#ff5f57"></div>
+                <div class="dot" style="background:#febc2e"></div>
+                <div class="dot" style="background:#28c840"></div>
+                <div class="urlbar"><span class="urltext">terminal</span></div>
+              </div>
+              <div class="browser-body">
+                <div class="term">
+                  <div><span class="t-prompt">$</span> curl -X POST api.joinmassive.com/render \</div>
+                  <div style="padding-left:10px"><span class="t-flag">-H</span> <span class="t-str">"Authorization: Bearer $KEY"</span> \</div>
+                  <div style="padding-left:10px"><span class="t-flag">-d</span> <span class="t-str">'&#123;</span></div>
+                  <div style="padding-left:18px"><span class="t-str">"model":</span> <span class="t-val">"chatgpt"</span>,</div>
+                  <div style="padding-left:18px"><span class="t-str">"prompt":</span> <span class="t-val">"Best EV to buy?"</span>,</div>
+                  <div style="padding-left:18px"><span class="t-str">"country":</span> <span class="t-val">"US"</span></div>
+                  <div style="padding-left:10px"><span class="t-str">&#125;'</span></div>
+                  <div style="margin-top:4px"><span class="t-comment"># running...</span> <span class="t-cursor"></span></div>
+                </div>
+              </div>
+            </div>
+            <div class="webcam-pip">
+              <div class="pip-body"><div class="pip-person">🧑‍💻</div></div>
+              <div class="pip-bar"><div class="pip-dot"></div><div class="pip-name">Narrator · Massive</div></div>
+            </div>
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-tag screen">Screen + webcam</div>
+          <div class="scene-name-text">Terminal. First call typed live — routed through US.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">0:20 – 0:35</div>
+          <div class="ts-label">First call</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">📺 Screen</div>
+          <div class="screen-text">Cursor types the curl command live. Enter pressed. Response streams in — ChatGPT recommends Tesla Model 3, mentions US federal tax credit. Narrator highlights the tax credit line.</div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-pill">🎙 Voiceover</div>
+          <div class="vo-text">"Here's a simple call — we're asking ChatGPT for the best EV to buy, routing through a US residential IP. The response comes back in under two seconds."</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">Switches to terminal. Command typed live as narrator walks through each parameter. Enter pressed. Response streams in. Narrator reads the key phrase aloud. Webcam PIP stays bottom-right.</div>
+        </td>
+      </tr>
+
+      <!-- 04 — TERMINAL DE CHANGE + PIP -->
+      <tr>
+        <td class="col-num">04</td>
+        <td class="col-frame">
+          <div class="frame">
+            <div class="browser">
+              <div class="chrome">
+                <div class="dot" style="background:#ff5f57"></div>
+                <div class="dot" style="background:#febc2e"></div>
+                <div class="dot" style="background:#28c840"></div>
+                <div class="urlbar"><span class="urltext">terminal</span></div>
+              </div>
+              <div class="browser-body">
+                <div class="term">
+                  <div><span class="t-prompt">$</span> curl -X POST api.joinmassive.com/render \</div>
+                  <div style="padding-left:10px"><span class="t-flag">-H</span> <span class="t-str">"Authorization: Bearer $KEY"</span> \</div>
+                  <div style="padding-left:10px"><span class="t-flag">-d</span> <span class="t-str">'&#123;</span></div>
+                  <div style="padding-left:18px"><span class="t-str">"model":</span> <span class="t-val">"chatgpt"</span>,</div>
+                  <div style="padding-left:18px"><span class="t-str">"prompt":</span> <span class="t-val">"Best EV to buy?"</span>,</div>
+                  <div style="padding-left:18px;position:relative">
+                    <span class="t-str">"country":</span>
+                    <span style="background:rgba(215,73,57,0.2);border:1px solid rgba(215,73,57,0.4);border-radius:2px;padding:0 3px">
+                      <span class="t-val">"DE"</span>
+                    </span>
+                    <span style="font-family:var(--font-mono);font-size:5.5px;color:var(--red-light);margin-left:5px">← only change</span>
+                  </div>
+                  <div style="padding-left:10px"><span class="t-str">&#125;'</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="webcam-pip">
+              <div class="pip-body"><div class="pip-person">🧑‍💻</div></div>
+              <div class="pip-bar"><div class="pip-dot"></div><div class="pip-name">Narrator · Massive</div></div>
+            </div>
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-tag screen">Screen + webcam</div>
+          <div class="scene-name-text">Same command. One change: "US" → "DE".</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">0:35 – 0:50</div>
+          <div class="ts-label">Second call</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">📺 Screen</div>
+          <div class="screen-text">Cursor highlights "US", deletes, types "DE" deliberately. Red highlight appears on the country value. Enter pressed. Response streams in.</div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-pill">🎙 Voiceover</div>
+          <div class="vo-text">"Now the exact same prompt — one change. We swap the country to Germany. That's it. Same model, same question, different routing."</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">Command recalled from history. Cursor moves to "US", deletes, types "DE" slowly — deliberately paced so viewers track what changed. Enter pressed. Response streams in.</div>
+        </td>
+      </tr>
+
+      <!-- 05 — SPLIT COMPARISON + PIP -->
+      <tr>
+        <td class="col-num">05</td>
+        <td class="col-frame">
+          <div class="frame">
+            <div class="split">
+              <div class="split-pane">
+                <div class="split-flag">🇺🇸</div>
+                <div class="split-lbl">ChatGPT · US</div>
+                <div class="split-hero">Tesla Model 3</div>
+                <div class="split-line lit"></div>
+                <div class="split-line s"></div>
+                <div class="split-line xs"></div>
+                <div class="split-note">mentions $7,500<br>federal tax credit</div>
+              </div>
+              <div class="split-pane">
+                <div class="split-flag">🇩🇪</div>
+                <div class="split-lbl">ChatGPT · DE</div>
+                <div class="split-hero">Volkswagen ID.4</div>
+                <div class="split-line lit2"></div>
+                <div class="split-line s"></div>
+                <div class="split-line xs"></div>
+                <div class="split-badge">≠ different</div>
+              </div>
+            </div>
+            <div class="webcam-pip">
+              <div class="pip-body"><div class="pip-person">🧑‍💻</div></div>
+              <div class="pip-bar"><div class="pip-dot"></div><div class="pip-name">Narrator · Massive</div></div>
+            </div>
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-tag screen">Screen + webcam</div>
+          <div class="scene-name-text">Split view. Two responses side by side.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">0:50 – 1:08</div>
+          <div class="ts-label">The comparison</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">📺 Screen</div>
+          <div class="screen-text">Both responses side by side. Cursor hovers tax credit mention on the left, then subsidy mention on the right. Subtle highlight on each as narrator calls them out.</div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-pill">🎙 Voiceover</div>
+          <div class="vo-text">"The US response recommends a Tesla and mentions the federal tax credit. The German response recommends a Volkswagen ID.4 and references local subsidies. Same model. Same prompt. Completely different answers — because the internet it's seeing is different."</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">Comparison layout — US left, DE right. Cursor hovers the tax credit mention, then the subsidy mention. This is the core "wow" moment. Webcam PIP visible bottom-right throughout.</div>
+        </td>
+      </tr>
+
+      <!-- 06 — PURE WEBCAM REACTION -->
+      <tr class="row-cam">
+        <td class="col-num">06</td>
+        <td class="col-frame">
+          <div class="frame">
+            <div class="webcam-full">
+              <div class="wf-rec">
+                <div class="wf-rec-dot"></div>
+                <div class="wf-rec-label">REC</div>
+              </div>
+              <div class="wf-person">🧑‍💻</div>
+              <div class="wf-lower">
+                <div>
+                  <div class="wf-name">Narrator</div>
+                  <div class="wf-title">Massive Web Render</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-tag cam">Webcam only</div>
+          <div class="scene-name-text">Narrator reacts. Drives the insight home before moving on.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">1:08 – 1:16</div>
+          <div class="ts-label">Reaction beat</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">📺 Screen</div>
+          <div class="screen-none">No screen — webcam only</div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-pill">🎙 Voiceover</div>
+          <div class="vo-text">"That's not a fluke. That's how geo-aware AI responses work. And you can do this across every country Massive supports."</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">Screen share drops. Full webcam for a beat. Narrator looks directly at camera — lands the takeaway before moving to scale. Short but important: gives the viewer a moment to absorb the comparison.</div>
+        </td>
+      </tr>
+
+      <!-- 07 — COUNTRY LOOP + PIP -->
+      <tr>
+        <td class="col-num">07</td>
+        <td class="col-frame">
+          <div class="frame">
+            <div class="browser">
+              <div class="chrome">
+                <div class="dot" style="background:#ff5f57"></div>
+                <div class="dot" style="background:#febc2e"></div>
+                <div class="dot" style="background:#28c840"></div>
+                <div class="urlbar"><span class="urltext">terminal — 5 country loop</span></div>
+              </div>
+              <div class="browser-body">
+                <div class="term">
+                  <div><span class="t-comment"># loop across 5 countries</span></div>
+                  <div><span style="color:rgba(250,244,236,0.5)">for</span> c <span style="color:rgba(250,244,236,0.5)">in</span> <span class="t-str">US DE JP BR IN</span>; <span style="color:rgba(250,244,236,0.5)">do</span></div>
+                  <div style="padding-left:10px"><span class="t-val">query</span> --country <span class="t-str">$c</span> --prompt <span class="t-str">"Best EV?"</span></div>
+                  <div><span style="color:rgba(250,244,236,0.5)">done</span></div>
+                  <div style="margin-top:5px">
+                    <div class="t-success">✓ US → Tesla Model 3</div>
+                    <div class="t-success">✓ DE → Volkswagen ID.4</div>
+                    <div class="t-success">✓ JP → Nissan Ariya</div>
+                    <div class="t-running">▌ BR running...</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="webcam-pip">
+              <div class="pip-body"><div class="pip-person">🧑‍💻</div></div>
+              <div class="pip-bar"><div class="pip-dot"></div><div class="pip-name">Narrator · Massive</div></div>
+            </div>
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-tag screen">Screen + webcam</div>
+          <div class="scene-name-text">Loop across 5 countries. Results print fast.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">1:16 – 1:32</div>
+          <div class="ts-label">Scale</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">📺 Screen</div>
+          <div class="screen-text">Loop runs. US, DE, JP, BR, IN results print one by one — each a different recommendation. Counter overlay: "5 / 195 countries." Fast but readable.</div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-pill">🎙 Voiceover</div>
+          <div class="vo-text">"One loop, one API key — 195 countries. You're seeing the internet the way real users in every market see it."</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">Back to screen share. Loop runs — results print sequentially, each a different car recommendation. Counter overlay visible. The point: this isn't a two-country trick, it scales everywhere.</div>
+        </td>
+      </tr>
+
+      <!-- 08 — DOCS CTA + PIP -->
+      <tr>
+        <td class="col-num">08</td>
+        <td class="col-frame">
+          <div class="frame">
+            <div class="browser">
+              <div class="chrome">
+                <div class="dot" style="background:#ff5f57"></div>
+                <div class="dot" style="background:#febc2e"></div>
+                <div class="dot" style="background:#28c840"></div>
+                <div class="urlbar"><span class="urltext">docs.joinmassive.com/web-render</span></div>
+              </div>
+              <div class="browser-body">
+                <div class="docs-page">
+                  <div class="docs-eyebrow">// get started</div>
+                  <div class="docs-h">Try Massive Web Render →</div>
+                  <div class="docs-url">docs.joinmassive.com/web-render</div>
+                  <div class="docs-note" style="margin-top:7px">Free tier · No credit card required</div>
+                </div>
+              </div>
+            </div>
+            <div class="webcam-pip">
+              <div class="pip-body"><div class="pip-person">🧑‍💻</div></div>
+              <div class="pip-bar"><div class="pip-dot"></div><div class="pip-name">Narrator · Massive</div></div>
+            </div>
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-tag screen">Screen + webcam</div>
+          <div class="scene-name-text">Back to docs. URL on screen. No hard sell.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">1:32 – 1:42</div>
+          <div class="ts-label">CTA</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">📺 Screen</div>
+          <div class="screen-text">Cursor rests on the docs URL. Page static. URL stays visible for a full 5 seconds. Fade out.</div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-pill">🎙 Voiceover</div>
+          <div class="vo-text">"Massive Web Render is live now. Link in the description — free tier, no credit card required."</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">Returns to docs. Cursor rests on the URL. One calm closing sentence. URL holds on screen for 5 full seconds before fade. Webcam PIP stays visible to the end — human sign-off.</div>
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-line" style="background:var(--red)"></div>Voiceover line</div>
+  <div class="legend-item"><div class="legend-line" style="background:rgba(250,244,236,0.2)"></div>Screen action</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--red); opacity:0.6;"></div>Pure webcam scene</div>
+  <div class="legend-item"><div class="legend-line" style="background:rgba(250,244,236,0.06)"></div>Ambient audio — no music</div>
+  <div class="legend-item"><div class="legend-line" style="background:#98c379"></div>Live terminal output</div>
+</div>
+
+</main>
+</body>
+</html>

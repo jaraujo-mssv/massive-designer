@@ -499,6 +499,61 @@ export function Dashboard() {
           </a>
         </div>
 
+        {/* Web Render API Launch — Storyboards */}
+        <div style={{ marginBottom: '2rem' }}>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.75rem', marginBottom: '1rem' }}>
+            <h2 style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--text)', letterSpacing: '-0.02em', margin: 0 }}>
+              Web Render API Launch
+            </h2>
+            <span style={{ fontSize: '0.75rem', color: 'var(--text-dim)', fontWeight: 400 }}>Storyboards</span>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }}>
+            {[
+              { title: 'Kinetic', file: 'storyboard_kinetic_v2.html' },
+              { title: 'Screen Recording', file: 'storyboard_screenrecording_v2.html' },
+              { title: 'Teaser — Amazon', file: 'storyboard_teaser_amazon.html' },
+            ].map(({ title, file }) => (
+              <a
+                key={file}
+                href={`/storyboards/${file}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ textDecoration: 'none', display: 'block' }}
+              >
+                <div
+                  style={{
+                    border: '1px solid var(--border-subtle)',
+                    borderRadius: '10px',
+                    overflow: 'hidden',
+                    backgroundColor: 'var(--surface)',
+                    transition: 'border-color 0.15s, background-color 0.15s',
+                  }}
+                  onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'var(--border-hover-color)'; el.style.backgroundColor = 'var(--surface-2)' }}
+                  onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'var(--border-subtle)'; el.style.backgroundColor = 'var(--surface)' }}
+                >
+                  <div style={{ position: 'relative', width: '100%', paddingBottom: '56.25%', overflow: 'hidden', backgroundColor: 'var(--surface-2)' }}>
+                    <iframe
+                      src={`/storyboards/${file}`}
+                      title={title}
+                      style={{
+                        position: 'absolute', top: 0, left: 0,
+                        width: '200%', height: '200%',
+                        transform: 'scale(0.5)', transformOrigin: '0 0',
+                        border: 'none', pointerEvents: 'none',
+                      }}
+                      loading="lazy"
+                    />
+                  </div>
+                  <div style={{ padding: '0.65rem 0.85rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <span style={{ fontSize: '0.8rem', fontWeight: 500, color: 'var(--text)' }}>{title}</span>
+                    <ExternalLink size={11} style={{ color: 'var(--text-dim)', flexShrink: 0 }} />
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+
         {/* Tabs */}
         <div style={{ display: 'flex', gap: '0.25rem', borderBottom: '1px solid var(--border-subtle)' }}>
           {TABS.map((t, i) => {

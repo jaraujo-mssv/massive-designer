@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Storyboard — Kinetic Teaser · Massive Web Render</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --n0: #faf4ec; --n50: #f5ece0; --n100: #eee4d8;
+  --n900: #1a1b2a; --n950: #1a1920; --n975: #121117; --n1000: #0a0a0f;
+  --r400: #ff8163; --r500: #d74939; --r600: #c9382a;
+  --bg: var(--n1000); --surface: var(--n975); --surface-2: var(--n950);
+  --text: var(--n0); --text-mid: rgba(250,244,236,0.75); --text-dim: rgba(250,244,236,0.5);
+  --border: rgba(250,244,236,0.08); --border-hover: rgba(250,244,236,0.15);
+  --red: var(--r500); --red-light: var(--r400); --red-glow: rgba(215,73,57,0.15);
+  --font-display: 'Outfit', sans-serif; --font-mono: 'JetBrains Mono', monospace;
+  --frame-w: 240px; --frame-h: 135px;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg); color: var(--text);
+  font-family: var(--font-display); line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh; padding: 56px 40px 100px;
+}
+
+.grid-bg {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(250,244,236,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(250,244,236,0.02) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+.grid-bg::after {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 50% at 50% 0%, var(--red-glow), transparent);
+}
+
+main { position: relative; z-index: 1; max-width: 1440px; margin: 0 auto; }
+
+/* Header */
+.eyebrow {
+  font-family: var(--font-mono); font-size: 0.75rem; color: var(--red);
+  letter-spacing: 0.08em; text-transform: uppercase;
+  display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem;
+}
+.eyebrow::before { content: ''; display: block; width: 24px; height: 1px; background: var(--red); }
+
+h1 {
+  font-size: clamp(1.8rem, 3.5vw, 3rem); font-weight: 800;
+  line-height: 1.05; letter-spacing: -0.035em; margin-bottom: 0.25rem;
+}
+h1 .hl {
+  background: linear-gradient(135deg, var(--red), var(--red-light));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+
+.lede { font-size: 1rem; color: var(--text-mid); font-weight: 300; margin-top: 1rem; line-height: 1.7; }
+
+.meta-row {
+  display: flex; gap: 24px; margin-top: 20px; flex-wrap: wrap;
+  padding-top: 20px; border-top: 1px solid var(--border);
+}
+.meta-item { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-dim); }
+.meta-item strong { display: block; color: var(--red-light); margin-bottom: 2px; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.08em; }
+
+header { margin-bottom: 48px; }
+
+/* Table wrapper */
+.table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--border); }
+
+/* Table */
+table {
+  width: 100%; border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+thead tr {
+  background: var(--surface);
+  border-bottom: 1px solid rgba(250,244,236,0.12);
+}
+
+thead th {
+  padding: 12px 16px; text-align: left;
+  font-family: var(--font-mono); font-size: 0.62rem; font-weight: 600;
+  color: var(--red-light); letter-spacing: 0.1em; text-transform: uppercase;
+  white-space: nowrap;
+}
+thead th:first-child { padding-left: 20px; }
+thead th:last-child { padding-right: 20px; }
+
+tbody tr {
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  transition: background 0.15s;
+}
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: rgba(250,244,236,0.02); }
+
+td {
+  padding: 20px 16px;
+}
+td:first-child { padding-left: 20px; }
+td:last-child { padding-right: 20px; }
+
+/* Column: scene number */
+.col-num {
+  font-family: var(--font-mono); font-size: 0.72rem; font-weight: 600;
+  color: var(--text-dim); letter-spacing: 0.06em;
+  white-space: nowrap; width: 44px; padding-top: 24px;
+}
+
+/* Column: frame */
+.col-frame { width: var(--frame-w); padding: 20px 16px; }
+
+.frame {
+  width: var(--frame-w); height: var(--frame-h);
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 10px; overflow: hidden; position: relative; flex-shrink: 0;
+}
+
+/* Column: scene name */
+.col-name {
+  width: 180px; min-width: 150px;
+}
+.scene-name-text {
+  font-size: 0.92rem; font-weight: 700; letter-spacing: -0.015em;
+  color: var(--text); line-height: 1.35;
+}
+
+/* Column: timestamp */
+.col-ts {
+  width: 120px; white-space: nowrap;
+}
+.ts-time {
+  font-family: var(--font-mono); font-size: 0.68rem; color: var(--red);
+  letter-spacing: 0.08em; margin-bottom: 4px;
+}
+.ts-label {
+  font-family: var(--font-mono); font-size: 0.62rem; color: var(--text-dim);
+  letter-spacing: 0.06em; text-transform: uppercase;
+}
+
+/* Column: screen content */
+.col-screen { width: 190px; min-width: 160px; }
+
+.screen-pill {
+  display: inline-block; margin-bottom: 8px;
+  font-family: var(--font-mono); font-size: 0.6rem; color: var(--red);
+  letter-spacing: 0.1em; text-transform: uppercase;
+}
+.screen-text {
+  font-size: 0.83rem; color: var(--text-mid); font-style: italic; line-height: 1.6;
+  border-left: 2px solid var(--red); padding-left: 10px;
+}
+
+/* Column: voiceover */
+.col-vo { width: 130px; }
+.vo-tag {
+  display: inline-block; margin-bottom: 6px;
+  font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-dim);
+  letter-spacing: 0.08em; text-transform: uppercase;
+}
+.vo-none {
+  font-family: var(--font-mono); font-size: 0.72rem;
+  color: var(--text-dim); font-style: italic;
+}
+
+/* Column: description */
+.col-desc { min-width: 220px; }
+.desc-text {
+  font-size: 0.83rem; color: var(--text-mid); font-weight: 300; line-height: 1.75;
+}
+
+/* ===== FRAME VISUALS ===== */
+
+/* S1 */
+.s1-wrap { width: 100%; height: 100%; background: #000; display: flex; align-items: center; justify-content: center; }
+.s1-cursor { width: 9px; height: 18px; background: var(--red-light); animation: blink 0.9s step-end infinite; border-radius: 1px; }
+@keyframes blink { 50% { opacity: 0; } }
+
+/* S2 */
+.s2-wrap {
+  width: 100%; height: 100%; background: var(--n1000); position: relative;
+  background-image:
+    linear-gradient(rgba(250,244,236,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(250,244,236,0.025) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+.s2-dot {
+  position: absolute; border-radius: 50%;
+  background: var(--red-light); box-shadow: 0 0 8px var(--red);
+  animation: pulse-dot 2.2s ease-in-out infinite;
+}
+@keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.3;transform:scale(0.5)} }
+
+/* S3 */
+.s3-wrap { display: flex; width: 100%; height: 100%; }
+.s3-panel { flex: 1; padding: 9px 10px; display: flex; flex-direction: column; }
+.s3-panel:first-child { border-right: 1px solid var(--border); }
+.s3-flag { font-size: 14px; margin-bottom: 3px; }
+.s3-label { font-family: var(--font-mono); font-size: 6.5px; color: var(--text-dim); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
+.s3-line { height: 4px; border-radius: 2px; background: rgba(250,244,236,0.07); margin-bottom: 3px; }
+.s3-line.a { background: rgba(215,73,57,0.45); }
+.s3-line.b { background: rgba(255,129,99,0.35); }
+.s3-line.s { width: 65%; } .s3-line.xs { width: 42%; }
+.s3-badge {
+  font-family: var(--font-mono); font-size: 6.5px; padding: 2px 5px;
+  border-radius: 4px; align-self: flex-start; margin-top: auto;
+  background: rgba(215,73,57,0.15); color: var(--red-light); border: 1px solid rgba(215,73,57,0.25);
+}
+
+/* S4 */
+.s4-wrap { width: 100%; height: 100%; background: var(--n1000); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+.s4-ring {
+  position: absolute; border-radius: 50%;
+  border: 1px solid rgba(215,73,57,0.2);
+  animation: ripple 2.8s ease-out infinite;
+}
+@keyframes ripple { 0%{width:36px;height:36px;opacity:0.7} 100%{width:130px;height:130px;opacity:0} }
+.s4-icon { font-size: 36px; animation: unlock 3s ease-in-out infinite; }
+@keyframes unlock {
+  0%,55%{filter:grayscale(1) opacity(0.25);transform:scale(1)}
+  68%{filter:grayscale(0) opacity(1) drop-shadow(0 0 12px var(--red));transform:scale(1.18)}
+  80%{transform:scale(0.96)}
+  90%,100%{filter:grayscale(0) opacity(1) drop-shadow(0 0 6px var(--red-light));transform:scale(1)}
+}
+
+/* S5 */
+.s5-wrap { width: 100%; height: 100%; background: var(--n1000); display: flex; align-items: center; justify-content: center; padding: 10px; }
+.s5-card {
+  background: var(--surface); border: 1px solid rgba(215,73,57,0.2);
+  border-radius: 10px; padding: 10px 12px; width: 180px;
+  box-shadow: 0 0 24px rgba(215,73,57,0.08);
+}
+.s5-eyebrow { font-family: var(--font-mono); font-size: 6.5px; color: var(--red); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 5px; }
+.s5-price { font-size: 16px; font-weight: 800; letter-spacing: -0.02em; color: var(--text); margin-bottom: 6px; }
+.s5-row { display: flex; justify-content: space-between; margin-bottom: 3px; }
+.s5-k { font-family: var(--font-mono); font-size: 7px; color: var(--text-dim); }
+.s5-v { font-family: var(--font-mono); font-size: 7px; color: var(--red-light); }
+.s5-bar { height: 3px; background: rgba(250,244,236,0.06); border-radius: 2px; margin-top: 5px; }
+.s5-fill { height: 100%; background: linear-gradient(90deg, var(--red), var(--red-light)); border-radius: 2px; }
+
+/* S6 */
+.s6-wrap { width: 100%; height: 100%; background: #000; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; }
+.s6-word {
+  font-size: 22px; font-weight: 800; letter-spacing: 0.06em;
+  background: linear-gradient(135deg, var(--red), var(--red-light));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.s6-sub { font-family: var(--font-mono); font-size: 7.5px; color: var(--text-dim); letter-spacing: 0.2em; text-transform: uppercase; }
+.s6-date { font-family: var(--font-mono); font-size: 8.5px; color: var(--red-light); letter-spacing: 0.12em; margin-top: 3px; }
+
+/* Legend */
+.legend {
+  display: flex; gap: 24px; margin-top: 48px; padding-top: 24px;
+  border-top: 1px solid var(--border); flex-wrap: wrap;
+}
+.legend-item { display: flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 0.66rem; color: var(--text-dim); }
+.legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<main>
+
+<header>
+  <div class="eyebrow">// storyboard · kinetic / motion graphics</div>
+  <h1>Massive Web Render<br><span class="hl">Teaser — 60 sec</span></h1>
+  <p class="lede">No voiceover. Music only. Product name reveals at second 52. Everything before it sells the outcome.</p>
+  <div class="meta-row">
+    <div class="meta-item"><strong>Format</strong>MP4 · 1270×760</div>
+    <div class="meta-item"><strong>Duration</strong>~60 seconds</div>
+    <div class="meta-item"><strong>Audio</strong>Music + text overlays, no voiceover</div>
+    <div class="meta-item"><strong>Style</strong>Kinetic / Motion Graphics</div>
+    <div class="meta-item"><strong>Placement</strong>Product Hunt gallery hero · Pre-launch teaser</div>
+  </div>
+</header>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Frame Visual</th>
+        <th>Scene Name</th>
+        <th>Timestamp</th>
+        <th>Screen Content</th>
+        <th>Voiceover</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <!-- 01 -->
+      <tr>
+        <td class="col-num">01</td>
+        <td class="col-frame">
+          <div class="frame">
+            <div class="s1-wrap"><div class="s1-cursor"></div></div>
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-name-text">Black screen. One blinking cursor.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">0:00 – 0:05</div>
+          <div class="ts-label">Cold open</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">// on-screen text</div>
+          <div class="screen-text">The internet looks different<br>depending on where you are.</div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-tag">Voiceover</div>
+          <div class="vo-none">None — music only</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">Pure black. A single red cursor blinks center screen. No logo, no name, no context. Music opens on a single low synthesizer note. The silence before something happens.</div>
+        </td>
+      </tr>
+
+      <!-- 02 -->
+      <tr>
+        <td class="col-num">02</td>
+        <td class="col-frame">
+          <div class="frame">
+            <div class="s2-wrap">
+              <div class="s2-dot" style="left:28%;top:38%;width:6px;height:6px;animation-delay:0s"></div>
+              <div class="s2-dot" style="left:54%;top:24%;width:5px;height:5px;animation-delay:0.4s"></div>
+              <div class="s2-dot" style="left:72%;top:52%;width:6px;height:6px;animation-delay:0.8s"></div>
+              <div class="s2-dot" style="left:44%;top:62%;width:5px;height:5px;animation-delay:0.6s"></div>
+              <div class="s2-dot" style="left:18%;top:54%;width:5px;height:5px;animation-delay:1.1s"></div>
+              <div class="s2-dot" style="left:82%;top:34%;width:4px;height:4px;animation-delay:1.5s"></div>
+              <div class="s2-dot" style="left:62%;top:70%;width:4px;height:4px;animation-delay:0.3s"></div>
+            </div>
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-name-text">World map. Dots light up country by country.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">0:05 – 0:15</div>
+          <div class="ts-label">Setup</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">// on-screen text</div>
+          <div class="screen-text">Different prices. Different results.<br>Different answers from AI.</div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-tag">Voiceover</div>
+          <div class="vo-none">None — music only</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">The grid background morphs into a minimal world map. Red dots pulse into existence — Tokyo, São Paulo, Berlin, Lagos, New York. Each new dot triggers a music beat. The map fills.</div>
+        </td>
+      </tr>
+
+      <!-- 03 -->
+      <tr>
+        <td class="col-num">03</td>
+        <td class="col-frame">
+          <div class="frame">
+            <div class="s3-wrap">
+              <div class="s3-panel">
+                <div class="s3-flag">🇺🇸</div>
+                <div class="s3-label">ChatGPT · US</div>
+                <div class="s3-line a"></div>
+                <div class="s3-line s"></div>
+                <div class="s3-line xs"></div>
+                <div class="s3-line"></div>
+              </div>
+              <div class="s3-panel">
+                <div class="s3-flag">🇩🇪</div>
+                <div class="s3-label">ChatGPT · DE</div>
+                <div class="s3-line"></div>
+                <div class="s3-line b s"></div>
+                <div class="s3-line xs"></div>
+                <div class="s3-line"></div>
+                <div class="s3-badge">≠ different</div>
+              </div>
+            </div>
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-name-text">Split screen — same query, two different AI responses.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">0:15 – 0:28</div>
+          <div class="ts-label">Proof</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">// on-screen text</div>
+          <div class="screen-text">Same question.<br>Asked from two different countries.<br>Not the same answer.</div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-tag">Voiceover</div>
+          <div class="vo-none">None — music only</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">Screen splits. Left: ChatGPT US. Right: same prompt, German IP. Responses animate in line by line — visibly different. A "≠" badge appears between the panels. This is the "wait, what?" moment. Music peaks.</div>
+        </td>
+      </tr>
+
+      <!-- 04 -->
+      <tr>
+        <td class="col-num">04</td>
+        <td class="col-frame">
+          <div class="frame">
+            <div class="s4-wrap">
+              <div class="s4-ring"></div>
+              <div class="s4-icon">🔒</div>
+            </div>
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-name-text">A blocked page — then it opens.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">0:28 – 0:40</div>
+          <div class="ts-label">Tension + release</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">// on-screen text</div>
+          <div class="screen-text">Most tools get blocked.<br>Ours doesn't.</div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-tag">Voiceover</div>
+          <div class="vo-none">None — music only</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">A gray blocked-page treatment fades in. Lock icon pulses. Then a flash: the lock breaks open, ripple rings expand outward, the page renders clean. Music drops into a sharp resolved chord.</div>
+        </td>
+      </tr>
+
+      <!-- 05 -->
+      <tr>
+        <td class="col-num">05</td>
+        <td class="col-frame">
+          <div class="frame">
+            <div class="s5-wrap">
+              <div class="s5-card">
+                <div class="s5-eyebrow">// /ai · outcome</div>
+                <div class="s5-price">$34.99</div>
+                <div class="s5-row"><span class="s5-k">ASIN</span><span class="s5-v">✓ live</span></div>
+                <div class="s5-row"><span class="s5-k">Rating</span><span class="s5-v">4.7 ★</span></div>
+                <div class="s5-row"><span class="s5-k">In stock</span><span class="s5-v">yes</span></div>
+                <div class="s5-bar"><div class="s5-fill" style="width:87%"></div></div>
+              </div>
+            </div>
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-name-text">Clean data card — the result.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">0:40 – 0:52</div>
+          <div class="ts-label">Outcome</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">// on-screen text</div>
+          <div class="screen-text">One network.<br>Any data. Any country. Any page.</div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-tag">Voiceover</div>
+          <div class="vo-none">None — music only</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">A data card appears — Amazon product result, price, rating, stock. Fields populate fast. Cut quickly: SERP card, then ChatGPT response card. Three endpoints, three outcomes, three seconds each.</div>
+        </td>
+      </tr>
+
+      <!-- 06 -->
+      <tr>
+        <td class="col-num">06</td>
+        <td class="col-frame">
+          <div class="frame">
+            <div class="s6-wrap">
+              <div class="s6-word">MASSIVE</div>
+              <div class="s6-sub">Web Render API</div>
+              <div class="s6-date">May 5, 2026</div>
+            </div>
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-name-text">Wordmark. Product name. Date. Nothing else.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">0:52 – 1:00</div>
+          <div class="ts-label">Reveal</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">// on-screen text</div>
+          <div class="screen-text">Massive Web Render.<br>Launching May 5.</div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-tag">Voiceover</div>
+          <div class="vo-none">None — music resolves to silence</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">Black. The Massive wordmark fades in with a red gradient treatment. Below: "Web Render API". Below that: the launch date. No tagline, no explanation — the 52 seconds before did all the work.</div>
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div>On-screen text overlay</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--red-light)"></div>Music cue / beat sync</div>
+  <div class="legend-item"><div class="legend-dot" style="background:rgba(250,244,236,0.3)"></div>No voiceover throughout</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--n950)"></div>Outfit + JetBrains Mono</div>
+</div>
+
+</main>
+</body>
+</html>

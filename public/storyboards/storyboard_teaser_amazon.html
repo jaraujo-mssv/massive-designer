@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Storyboard — Amazon Price Tracker Teaser · Massive Web Render</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --n0: #faf4ec; --n50: #f5ece0; --n100: #eee4d8;
+  --n900: #1a1b2a; --n950: #1a1920; --n975: #121117; --n1000: #0a0a0f;
+  --r400: #ff8163; --r500: #d74939; --r600: #c9382a;
+  --bg: var(--n1000); --surface: var(--n975); --surface-2: var(--n950);
+  --text: var(--n0); --text-mid: rgba(250,244,236,0.75); --text-dim: rgba(250,244,236,0.5);
+  --border: rgba(250,244,236,0.08);
+  --red: var(--r500); --red-light: var(--r400); --red-glow: rgba(215,73,57,0.15);
+  --green: #98c379; --green-dim: rgba(152,195,121,0.15);
+  --font-display: 'Outfit', sans-serif; --font-mono: 'JetBrains Mono', monospace;
+  --frame-w: 240px; --frame-h: 135px;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg); color: var(--text);
+  font-family: var(--font-display); line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh; padding: 56px 40px 100px;
+}
+
+.grid-bg {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(250,244,236,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(250,244,236,0.02) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+.grid-bg::after {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 50% at 50% 0%, var(--red-glow), transparent);
+}
+
+main { position: relative; z-index: 1; max-width: 1440px; margin: 0 auto; }
+
+/* Header */
+.eyebrow {
+  font-family: var(--font-mono); font-size: 0.75rem; color: var(--red);
+  letter-spacing: 0.08em; text-transform: uppercase;
+  display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem;
+}
+.eyebrow::before { content: ''; display: block; width: 24px; height: 1px; background: var(--red); }
+h1 { font-size: clamp(1.8rem, 3.5vw, 3rem); font-weight: 800; line-height: 1.05; letter-spacing: -0.035em; margin-bottom: 0.25rem; }
+h1 .hl {
+  background: linear-gradient(135deg, var(--red), var(--red-light));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.lede { font-size: 1rem; color: var(--text-mid); font-weight: 300; margin-top: 1rem; line-height: 1.7; }
+.meta-row { display: flex; gap: 24px; margin-top: 20px; flex-wrap: wrap; padding-top: 20px; border-top: 1px solid var(--border); }
+.meta-item { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-dim); }
+.meta-item strong { display: block; color: var(--red-light); margin-bottom: 2px; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.08em; }
+header { margin-bottom: 48px; }
+
+/* Table */
+.table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--border); }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+
+thead tr { background: var(--surface); border-bottom: 1px solid rgba(250,244,236,0.12); }
+thead th {
+  padding: 12px 16px; text-align: left;
+  font-family: var(--font-mono); font-size: 0.62rem; font-weight: 600;
+  color: var(--red-light); letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap;
+}
+thead th:first-child { padding-left: 20px; }
+thead th:last-child  { padding-right: 20px; }
+
+tbody tr { border-bottom: 1px solid var(--border); vertical-align: top; transition: background 0.15s; }
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: rgba(250,244,236,0.02); }
+td { padding: 20px 16px; }
+td:first-child { padding-left: 20px; }
+td:last-child  { padding-right: 20px; }
+
+.col-num {
+  font-family: var(--font-mono); font-size: 0.72rem; font-weight: 600;
+  color: var(--text-dim); letter-spacing: 0.06em;
+  white-space: nowrap; width: 44px; padding-top: 24px;
+}
+.col-frame { width: var(--frame-w); padding: 20px 16px; }
+.frame {
+  width: var(--frame-w); height: var(--frame-h);
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 10px; overflow: hidden; position: relative; flex-shrink: 0;
+}
+
+.col-name { width: 180px; min-width: 150px; }
+.scene-name-text { font-size: 0.92rem; font-weight: 700; letter-spacing: -0.015em; color: var(--text); line-height: 1.35; }
+
+.col-ts { width: 120px; white-space: nowrap; }
+.ts-time  { font-family: var(--font-mono); font-size: 0.68rem; color: var(--red); letter-spacing: 0.08em; margin-bottom: 4px; }
+.ts-label { font-family: var(--font-mono); font-size: 0.62rem; color: var(--text-dim); letter-spacing: 0.06em; text-transform: uppercase; }
+
+.col-screen { width: 190px; min-width: 160px; }
+.screen-pill { display: inline-block; margin-bottom: 8px; font-family: var(--font-mono); font-size: 0.6rem; color: var(--red); letter-spacing: 0.1em; text-transform: uppercase; }
+.screen-text { font-size: 0.9rem; font-weight: 600; color: var(--text); line-height: 1.5; border-left: 2px solid var(--red); padding-left: 10px; letter-spacing: -0.01em; }
+
+.col-vo { width: 130px; }
+.vo-tag  { display: inline-block; margin-bottom: 6px; font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase; }
+.vo-none { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-dim); font-style: italic; }
+
+.col-desc { min-width: 220px; }
+.desc-text { font-size: 0.83rem; color: var(--text-mid); font-weight: 300; line-height: 1.75; }
+
+/* ================================================================
+   FRAME VISUALS
+   ================================================================ */
+
+/* S1: Fast-typing terminal */
+.s1-wrap {
+  width: 100%; height: 100%; background: #000;
+  padding: 9px 11px; font-family: var(--font-mono); font-size: 7px; line-height: 1.6; overflow: hidden;
+}
+.s1-line { color: rgba(250,244,236,0.55); opacity: 0; }
+.s1-line.kw  { color: #c678dd; }
+.s1-line.str { color: #e5c07b; }
+.s1-line.fn  { color: #61afef; }
+.s1-line.ok  { color: var(--green); }
+.s1-line:nth-child(1)  { animation: fadeline 0.1s 0.05s forwards; }
+.s1-line:nth-child(2)  { animation: fadeline 0.1s 0.18s forwards; }
+.s1-line:nth-child(3)  { animation: fadeline 0.1s 0.30s forwards; }
+.s1-line:nth-child(4)  { animation: fadeline 0.1s 0.42s forwards; }
+.s1-line:nth-child(5)  { animation: fadeline 0.1s 0.55s forwards; }
+.s1-line:nth-child(6)  { animation: fadeline 0.1s 0.70s forwards; }
+.s1-line:nth-child(7)  { animation: fadeline 0.1s 0.85s forwards; }
+.s1-line:nth-child(8)  { animation: fadeline 0.1s 1.00s forwards; }
+.s1-line:nth-child(9)  { animation: fadeline 0.1s 1.15s forwards; }
+.s1-line:nth-child(10) { animation: fadeline 0.1s 1.30s forwards; }
+.s1-cursor { display: inline-block; width: 5px; height: 9px; background: var(--green); animation: blink 0.9s step-end infinite; vertical-align: middle; border-radius: 1px; margin-left: 2px; }
+@keyframes fadeline { to { opacity: 1; } }
+@keyframes blink { 50% { opacity: 0; } }
+
+/* S2: Price comparison */
+.s2-wrap { width: 100%; height: 100%; background: var(--n1000); padding: 10px 12px; }
+.s2-title { font-family: var(--font-mono); font-size: 6.5px; color: var(--red); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 7px; }
+.s2-row { display: flex; align-items: center; gap: 5px; margin-bottom: 5px; }
+.s2-name { font-family: var(--font-mono); font-size: 6.5px; color: var(--text); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.s2-price { font-family: var(--font-mono); font-size: 6.5px; font-weight: 600; padding: 1px 5px; border-radius: 3px; }
+.s2-price.us { color: var(--green); background: var(--green-dim); }
+.s2-price.uk { color: #61afef; background: rgba(97,175,239,0.12); }
+.s2-price.de { color: #e5c07b; background: rgba(229,192,123,0.12); }
+.s2-check  { font-size: 8px; color: var(--green); flex-shrink: 0; }
+.s2-divider { height: 1px; background: var(--border); margin: 5px 0; }
+.s2-status { font-family: var(--font-mono); font-size: 6px; color: var(--green); margin-top: 6px; }
+
+/* S3: 403 flood — all errors, immediate chaos */
+.s3-wrap {
+  width: 100%; height: 100%; background: #000;
+  padding: 9px 11px; font-family: var(--font-mono); font-size: 6.5px; line-height: 1.55; overflow: hidden;
+}
+.s3-line { color: rgba(250,244,236,0.2); }
+.s3-line.err  { color: var(--red-light); }
+.s3-line.cap  { color: #e5c07b; }
+.s3-line.dead { color: rgba(215,73,57,0.45); }
+.s3-line:nth-child(odd).err  { animation: flicker 1.8s ease-in-out infinite; }
+.s3-line:nth-child(even).err { animation: flicker 2.3s 0.4s ease-in-out infinite; }
+@keyframes flicker { 0%,100%{opacity:1} 40%{opacity:0.35} 60%{opacity:0.9} }
+
+/* S4: Realization — server vs residential */
+.s4-wrap { display: flex; width: 100%; height: 100%; }
+.s4-pane { flex: 1; padding: 10px 11px; display: flex; flex-direction: column; align-items: flex-start; }
+.s4-pane:first-child { border-right: 1px solid var(--border); background: rgba(215,73,57,0.04); }
+.s4-pane:last-child  { background: rgba(152,195,121,0.04); }
+.s4-label { font-family: var(--font-mono); font-size: 6px; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 7px; }
+.s4-label.bad  { color: var(--red); }
+.s4-label.good { color: var(--green); }
+.s4-icon { font-size: 26px; margin-bottom: 6px; }
+.s4-ip { font-family: var(--font-mono); font-size: 6.5px; color: var(--text-dim); margin-bottom: 8px; line-height: 1.6; }
+.s4-verdict { font-family: var(--font-mono); font-size: 7px; font-weight: 700; padding: 2px 6px; border-radius: 4px; margin-top: auto; }
+.s4-verdict.blocked { background: rgba(215,73,57,0.15); color: var(--red-light); border: 1px solid rgba(215,73,57,0.3); animation: pulse-err 2s ease-in-out infinite; }
+.s4-verdict.allowed { background: rgba(152,195,121,0.15); color: var(--green); border: 1px solid rgba(152,195,121,0.3); }
+@keyframes pulse-err { 0%,100%{opacity:1} 50%{opacity:0.45} }
+
+/* S5: Wordmark reveal */
+.s5-wrap { width: 100%; height: 100%; background: #000; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; }
+.s5-word {
+  font-size: 22px; font-weight: 800; letter-spacing: 0.06em;
+  background: linear-gradient(135deg, var(--red), var(--red-light));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.s5-sub  { font-family: var(--font-mono); font-size: 7.5px; color: var(--text-dim); letter-spacing: 0.2em; text-transform: uppercase; }
+.s5-date { font-family: var(--font-mono); font-size: 8.5px; color: var(--red-light); letter-spacing: 0.12em; margin-top: 3px; }
+
+/* Legend */
+.legend { display: flex; gap: 24px; margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); flex-wrap: wrap; }
+.legend-item { display: flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 0.66rem; color: var(--text-dim); }
+.legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<main>
+
+<header>
+  <div class="eyebrow">// storyboard · kinetic / motion graphics · 30-second teaser</div>
+  <h1>Amazon Price Tracker —<br><span class="hl">It's Not Your Code.</span></h1>
+  <p class="lede">No voiceover. Music only. Build → works → blocked → realization → reveal. Every beat earns the next one.</p>
+  <div class="meta-row">
+    <div class="meta-item"><strong>Format</strong>MP4 · 1270×760</div>
+    <div class="meta-item"><strong>Duration</strong>30 seconds</div>
+    <div class="meta-item"><strong>Audio</strong>Music + text overlays, no voiceover</div>
+    <div class="meta-item"><strong>Style</strong>Kinetic / Motion Graphics</div>
+    <div class="meta-item"><strong>Placement</strong>Social teaser · Product Hunt gallery · Blog embed</div>
+  </div>
+</header>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Frame Visual</th>
+        <th>Scene Name</th>
+        <th>Timestamp</th>
+        <th>Screen Content</th>
+        <th>Voiceover</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <!-- 01 -->
+      <tr>
+        <td class="col-num">01</td>
+        <td class="col-frame">
+          <div class="frame">
+            <div class="s1-wrap">
+              <div class="s1-line kw">import requests, json</div>
+              <div class="s1-line str">from bs4 import BeautifulSoup</div>
+              <div class="s1-line"> </div>
+              <div class="s1-line fn">def get_price(asin, country):</div>
+              <div class="s1-line">  url = f"amazon.{country}/dp/{asin}"</div>
+              <div class="s1-line">  r = requests.get(url, headers)</div>
+              <div class="s1-line str">  soup = BeautifulSoup(r.text)</div>
+              <div class="s1-line fn">  return soup.find('a-price')</div>
+              <div class="s1-line"> </div>
+              <div class="s1-line ok">✓ price_tracker.py saved</div>
+              <div><span class="s1-cursor"></span></div>
+            </div>
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-name-text">You vibe-coded a price tracker. It shipped.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">0:00 – 0:06</div>
+          <div class="ts-label">The build</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">// on-screen text</div>
+          <div class="screen-text">so, you vibe-coded<br>a price tracker.</div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-tag">Voiceover</div>
+          <div class="vo-none">None — music only</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">Lines of Python appear in rapid bursts — developer in flow. requests, BeautifulSoup, a tight ASIN loop. Cursor blinks green at the end. Music opens uptempo, building.</div>
+        </td>
+      </tr>
+
+      <!-- 02 -->
+      <tr>
+        <td class="col-num">02</td>
+        <td class="col-frame">
+          <div class="frame">
+            <div class="s2-wrap">
+              <div class="s2-title">// price_tracker · live results</div>
+              <div class="s2-row">
+                <div class="s2-name">iPhone 16 Pro</div>
+                <div class="s2-price us">$999</div>
+                <div class="s2-price uk">£849</div>
+                <div class="s2-price de">€1,149</div>
+                <div class="s2-check">✓</div>
+              </div>
+              <div class="s2-divider"></div>
+              <div class="s2-row">
+                <div class="s2-name">AirPods Pro 2</div>
+                <div class="s2-price us">$249</div>
+                <div class="s2-price uk">£229</div>
+                <div class="s2-price de">€269</div>
+                <div class="s2-check">✓</div>
+              </div>
+              <div class="s2-divider"></div>
+              <div class="s2-row">
+                <div class="s2-name">Kindle Paperwhite</div>
+                <div class="s2-price us">$139</div>
+                <div class="s2-price uk">£149</div>
+                <div class="s2-price de">€169</div>
+                <div class="s2-check">✓</div>
+              </div>
+              <div class="s2-status">✓ 3 / 3 ASINs · 0 errors</div>
+            </div>
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-name-text">Clean data across every market. All green.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">0:06 – 0:12</div>
+          <div class="ts-label">It works</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">// on-screen text</div>
+          <div class="screen-text">it works!</div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-tag">Voiceover</div>
+          <div class="vo-none">None — music only</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">Price rows populate with a satisfying stagger — US, UK, DE, all green. "0 errors." This is the dopamine hit. Music peaks confidently. Hold for exactly two beats before the cut.</div>
+        </td>
+      </tr>
+
+      <!-- 03 -->
+      <tr>
+        <td class="col-num">03</td>
+        <td class="col-frame">
+          <div class="frame">
+            <div class="s3-wrap">
+              <div class="s3-line err">✗ 403 Forbidden — ASIN B0CX7R</div>
+              <div class="s3-line err">✗ 403 Forbidden — ASIN B0D1XD</div>
+              <div class="s3-line cap">⚠ CAPTCHA — amazon.co.uk</div>
+              <div class="s3-line err">✗ 403 Forbidden — ASIN B08N5W</div>
+              <div class="s3-line dead">  [proxy rotate → 45.33.x.x]</div>
+              <div class="s3-line err">✗ 403 Forbidden — ASIN B09G9H</div>
+              <div class="s3-line cap">⚠ CAPTCHA — amazon.de</div>
+              <div class="s3-line err">✗ 429 Too Many Requests</div>
+              <div class="s3-line dead">  [proxy rotate → 104.28.x.x]</div>
+              <div class="s3-line cap">⚠ Bot detected. Session killed.</div>
+            </div>
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-name-text">403s everywhere. Proxies fail. CAPTCHAs. Dead.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">0:12 – 0:22</div>
+          <div class="ts-label">The wall</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">// on-screen text</div>
+          <div class="screen-text">but you keep<br>getting blocked.</div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-tag">Voiceover</div>
+          <div class="vo-none">None — music only</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">Cut straight to a terminal flooding with red — no slow build-up. 403s, CAPTCHAs, two proxy rotations that also fail, a 429, a session kill. Everything at once. Music distorts hard, a dissonant chord held.</div>
+        </td>
+      </tr>
+
+      <!-- 04 -->
+      <tr>
+        <td class="col-num">04</td>
+        <td class="col-frame">
+          <div class="frame">
+            <div class="s4-wrap">
+              <div class="s4-pane">
+                <div class="s4-label bad">// your server IP</div>
+                <div class="s4-icon">🖥️</div>
+                <div class="s4-ip">104.28.12.x<br>AS13335 · Cloudflare</div>
+                <div class="s4-verdict blocked">BLOCKED</div>
+              </div>
+              <div class="s4-pane">
+                <div class="s4-label good">// residential IP</div>
+                <div class="s4-icon">🏠</div>
+                <div class="s4-ip">86.172.44.x<br>AS5089 · Virgin Media</div>
+                <div class="s4-verdict allowed">ALLOWED</div>
+              </div>
+            </div>
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-name-text">Not your code. Your infrastructure.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">0:22 – 0:28</div>
+          <div class="ts-label">The realization</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">// on-screen text</div>
+          <div class="screen-text">is not your code...<br>is your infrastructure.</div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-tag">Voiceover</div>
+          <div class="vo-none">None — music only</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">Split screen — server IP pulsing BLOCKED on the left, residential IP calm ALLOWED on the right. The logic was never wrong. The origin was wrong. Music drops to a single clean resolved note.</div>
+        </td>
+      </tr>
+
+      <!-- 05 -->
+      <tr>
+        <td class="col-num">05</td>
+        <td class="col-frame">
+          <div class="frame">
+            <div class="s5-wrap">
+              <div class="s5-word">MASSIVE</div>
+              <div class="s5-sub">Web Render API</div>
+              <div class="s5-date">May 5, 2026</div>
+            </div>
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-name-text">Wordmark. One date. Silence.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">0:28 – 0:30</div>
+          <div class="ts-label">Reveal</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">// on-screen text</div>
+          <div class="screen-text">Massive Web Render.<br>May 5.</div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-tag">Voiceover</div>
+          <div class="vo-none">None — music cuts to silence</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">Black. Wordmark fades in fast — red gradient, confident. "Web Render API" beneath. Then the date. Two seconds. No tagline. The 28 seconds before it earned this.</div>
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div>On-screen text overlay</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>Success state</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--red-light)"></div>Error / blocked state</div>
+  <div class="legend-item"><div class="legend-dot" style="background:rgba(250,244,236,0.3)"></div>No voiceover throughout</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--n950)"></div>Outfit + JetBrains Mono</div>
+</div>
+
+</main>
+</body>
+</html>

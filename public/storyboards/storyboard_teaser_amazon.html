@@ -92,6 +92,7 @@ td:last-child  { padding-right: 20px; }
   background: var(--surface-2); border: 1px solid var(--border);
   border-radius: 10px; overflow: hidden; position: relative; flex-shrink: 0;
 }
+.frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
 .col-name { width: 180px; min-width: 150px; }
 .scene-name-text { font-size: 0.92rem; font-weight: 700; letter-spacing: -0.015em; color: var(--text); line-height: 1.35; }
@@ -111,85 +112,6 @@ td:last-child  { padding-right: 20px; }
 .col-desc { min-width: 220px; }
 .desc-text { font-size: 0.83rem; color: var(--text-mid); font-weight: 300; line-height: 1.75; }
 
-/* ================================================================
-   FRAME VISUALS
-   ================================================================ */
-
-/* S1: Fast-typing terminal */
-.s1-wrap {
-  width: 100%; height: 100%; background: #000;
-  padding: 9px 11px; font-family: var(--font-mono); font-size: 7px; line-height: 1.6; overflow: hidden;
-}
-.s1-line { color: rgba(250,244,236,0.55); opacity: 0; }
-.s1-line.kw  { color: #c678dd; }
-.s1-line.str { color: #e5c07b; }
-.s1-line.fn  { color: #61afef; }
-.s1-line.ok  { color: var(--green); }
-.s1-line:nth-child(1)  { animation: fadeline 0.1s 0.05s forwards; }
-.s1-line:nth-child(2)  { animation: fadeline 0.1s 0.18s forwards; }
-.s1-line:nth-child(3)  { animation: fadeline 0.1s 0.30s forwards; }
-.s1-line:nth-child(4)  { animation: fadeline 0.1s 0.42s forwards; }
-.s1-line:nth-child(5)  { animation: fadeline 0.1s 0.55s forwards; }
-.s1-line:nth-child(6)  { animation: fadeline 0.1s 0.70s forwards; }
-.s1-line:nth-child(7)  { animation: fadeline 0.1s 0.85s forwards; }
-.s1-line:nth-child(8)  { animation: fadeline 0.1s 1.00s forwards; }
-.s1-line:nth-child(9)  { animation: fadeline 0.1s 1.15s forwards; }
-.s1-line:nth-child(10) { animation: fadeline 0.1s 1.30s forwards; }
-.s1-cursor { display: inline-block; width: 5px; height: 9px; background: var(--green); animation: blink 0.9s step-end infinite; vertical-align: middle; border-radius: 1px; margin-left: 2px; }
-@keyframes fadeline { to { opacity: 1; } }
-@keyframes blink { 50% { opacity: 0; } }
-
-/* S2: Price comparison */
-.s2-wrap { width: 100%; height: 100%; background: var(--n1000); padding: 10px 12px; }
-.s2-title { font-family: var(--font-mono); font-size: 6.5px; color: var(--red); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 7px; }
-.s2-row { display: flex; align-items: center; gap: 5px; margin-bottom: 5px; }
-.s2-name { font-family: var(--font-mono); font-size: 6.5px; color: var(--text); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.s2-price { font-family: var(--font-mono); font-size: 6.5px; font-weight: 600; padding: 1px 5px; border-radius: 3px; }
-.s2-price.us { color: var(--green); background: var(--green-dim); }
-.s2-price.uk { color: #61afef; background: rgba(97,175,239,0.12); }
-.s2-price.de { color: #e5c07b; background: rgba(229,192,123,0.12); }
-.s2-check  { font-size: 8px; color: var(--green); flex-shrink: 0; }
-.s2-divider { height: 1px; background: var(--border); margin: 5px 0; }
-.s2-status { font-family: var(--font-mono); font-size: 6px; color: var(--green); margin-top: 6px; }
-
-/* S3: 403 flood — all errors, immediate chaos */
-.s3-wrap {
-  width: 100%; height: 100%; background: #000;
-  padding: 9px 11px; font-family: var(--font-mono); font-size: 6.5px; line-height: 1.55; overflow: hidden;
-}
-.s3-line { color: rgba(250,244,236,0.2); }
-.s3-line.err  { color: var(--red-light); }
-.s3-line.cap  { color: #e5c07b; }
-.s3-line.dead { color: rgba(215,73,57,0.45); }
-.s3-line:nth-child(odd).err  { animation: flicker 1.8s ease-in-out infinite; }
-.s3-line:nth-child(even).err { animation: flicker 2.3s 0.4s ease-in-out infinite; }
-@keyframes flicker { 0%,100%{opacity:1} 40%{opacity:0.35} 60%{opacity:0.9} }
-
-/* S4: Realization — server vs residential */
-.s4-wrap { display: flex; width: 100%; height: 100%; }
-.s4-pane { flex: 1; padding: 10px 11px; display: flex; flex-direction: column; align-items: flex-start; }
-.s4-pane:first-child { border-right: 1px solid var(--border); background: rgba(215,73,57,0.04); }
-.s4-pane:last-child  { background: rgba(152,195,121,0.04); }
-.s4-label { font-family: var(--font-mono); font-size: 6px; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 7px; }
-.s4-label.bad  { color: var(--red); }
-.s4-label.good { color: var(--green); }
-.s4-icon { font-size: 26px; margin-bottom: 6px; }
-.s4-ip { font-family: var(--font-mono); font-size: 6.5px; color: var(--text-dim); margin-bottom: 8px; line-height: 1.6; }
-.s4-verdict { font-family: var(--font-mono); font-size: 7px; font-weight: 700; padding: 2px 6px; border-radius: 4px; margin-top: auto; }
-.s4-verdict.blocked { background: rgba(215,73,57,0.15); color: var(--red-light); border: 1px solid rgba(215,73,57,0.3); animation: pulse-err 2s ease-in-out infinite; }
-.s4-verdict.allowed { background: rgba(152,195,121,0.15); color: var(--green); border: 1px solid rgba(152,195,121,0.3); }
-@keyframes pulse-err { 0%,100%{opacity:1} 50%{opacity:0.45} }
-
-/* S5: Wordmark reveal */
-.s5-wrap { width: 100%; height: 100%; background: #000; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; }
-.s5-word {
-  font-size: 22px; font-weight: 800; letter-spacing: 0.06em;
-  background: linear-gradient(135deg, var(--red), var(--red-light));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-}
-.s5-sub  { font-family: var(--font-mono); font-size: 7.5px; color: var(--text-dim); letter-spacing: 0.2em; text-transform: uppercase; }
-.s5-date { font-family: var(--font-mono); font-size: 8.5px; color: var(--red-light); letter-spacing: 0.12em; margin-top: 3px; }
-
 /* Legend */
 .legend { display: flex; gap: 24px; margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); flex-wrap: wrap; }
 .legend-item { display: flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 0.66rem; color: var(--text-dim); }
@@ -201,12 +123,12 @@ td:last-child  { padding-right: 20px; }
 <main>
 
 <header>
-  <div class="eyebrow">// storyboard · kinetic / motion graphics · 30-second teaser</div>
+  <div class="eyebrow">// storyboard · kinetic / motion graphics · 45-second teaser</div>
   <h1>Amazon Price Tracker —<br><span class="hl">It's Not Your Code.</span></h1>
-  <p class="lede">No voiceover. Music only. Build → works → blocked → realization → reveal. Every beat earns the next one.</p>
+  <p class="lede">No voiceover. Music only. Prompt → app → works → problem → blocked → realization → capability → CTA. Every beat earns the next one.</p>
   <div class="meta-row">
     <div class="meta-item"><strong>Format</strong>MP4 · 1270×760</div>
-    <div class="meta-item"><strong>Duration</strong>30 seconds</div>
+    <div class="meta-item"><strong>Duration</strong>45 seconds</div>
     <div class="meta-item"><strong>Audio</strong>Music + text overlays, no voiceover</div>
     <div class="meta-item"><strong>Style</strong>Kinetic / Motion Graphics</div>
     <div class="meta-item"><strong>Placement</strong>Social teaser · Product Hunt gallery · Blog embed</div>
@@ -233,38 +155,26 @@ td:last-child  { padding-right: 20px; }
         <td class="col-num">01</td>
         <td class="col-frame">
           <div class="frame">
-            <div class="s1-wrap">
-              <div class="s1-line kw">import requests, json</div>
-              <div class="s1-line str">from bs4 import BeautifulSoup</div>
-              <div class="s1-line"> </div>
-              <div class="s1-line fn">def get_price(asin, country):</div>
-              <div class="s1-line">  url = f"amazon.{country}/dp/{asin}"</div>
-              <div class="s1-line">  r = requests.get(url, headers)</div>
-              <div class="s1-line str">  soup = BeautifulSoup(r.text)</div>
-              <div class="s1-line fn">  return soup.find('a-price')</div>
-              <div class="s1-line"> </div>
-              <div class="s1-line ok">✓ price_tracker.py saved</div>
-              <div><span class="s1-cursor"></span></div>
-            </div>
+            <img src="amazon-frames/1.jpg" alt="Vibe coding prompt UI">
           </div>
         </td>
         <td class="col-name">
-          <div class="scene-name-text">You vibe-coded a price tracker. It shipped.</div>
+          <div class="scene-name-text">You vibe-coded a price tracker.</div>
         </td>
         <td class="col-ts">
-          <div class="ts-time">0:00 – 0:06</div>
-          <div class="ts-label">The build</div>
+          <div class="ts-time">0:00 – 0:04</div>
+          <div class="ts-label">The prompt</div>
         </td>
         <td class="col-screen">
           <div class="screen-pill">// on-screen text</div>
-          <div class="screen-text">so, you vibe-coded<br>a price tracker.</div>
+          <div class="screen-text">so, you vibecoded</div>
         </td>
         <td class="col-vo">
           <div class="vo-tag">Voiceover</div>
           <div class="vo-none">None — music only</div>
         </td>
         <td class="col-desc">
-          <div class="desc-text">Lines of Python appear in rapid bursts — developer in flow. requests, BeautifulSoup, a tight ASIN loop. Cursor blinks green at the end. Music opens uptempo, building.</div>
+          <div class="desc-text">Light gradient UI. A prompt input reads "a price tracker, that tracks items from Amazon overtime." Cursor hovers over the red Create! button. Music opens light and uptempo — the feeling of something about to ship.</div>
         </td>
       </tr>
 
@@ -273,52 +183,26 @@ td:last-child  { padding-right: 20px; }
         <td class="col-num">02</td>
         <td class="col-frame">
           <div class="frame">
-            <div class="s2-wrap">
-              <div class="s2-title">// price_tracker · live results</div>
-              <div class="s2-row">
-                <div class="s2-name">iPhone 16 Pro</div>
-                <div class="s2-price us">$999</div>
-                <div class="s2-price uk">£849</div>
-                <div class="s2-price de">€1,149</div>
-                <div class="s2-check">✓</div>
-              </div>
-              <div class="s2-divider"></div>
-              <div class="s2-row">
-                <div class="s2-name">AirPods Pro 2</div>
-                <div class="s2-price us">$249</div>
-                <div class="s2-price uk">£229</div>
-                <div class="s2-price de">€269</div>
-                <div class="s2-check">✓</div>
-              </div>
-              <div class="s2-divider"></div>
-              <div class="s2-row">
-                <div class="s2-name">Kindle Paperwhite</div>
-                <div class="s2-price us">$139</div>
-                <div class="s2-price uk">£149</div>
-                <div class="s2-price de">€169</div>
-                <div class="s2-check">✓</div>
-              </div>
-              <div class="s2-status">✓ 3 / 3 ASINs · 0 errors</div>
-            </div>
+            <img src="amazon-frames/2.jpg" alt="PriceWatch app — three phones">
           </div>
         </td>
         <td class="col-name">
-          <div class="scene-name-text">Clean data across every market. All green.</div>
+          <div class="scene-name-text">The app is built. It looks great.</div>
         </td>
         <td class="col-ts">
-          <div class="ts-time">0:06 – 0:12</div>
-          <div class="ts-label">It works</div>
+          <div class="ts-time">0:04 – 0:08</div>
+          <div class="ts-label">The app</div>
         </td>
         <td class="col-screen">
           <div class="screen-pill">// on-screen text</div>
-          <div class="screen-text">it works!</div>
+          <div class="screen-text">a price tracker,<br>that tracks items<br>from Amazon.</div>
         </td>
         <td class="col-vo">
           <div class="vo-tag">Voiceover</div>
           <div class="vo-none">None — music only</div>
         </td>
         <td class="col-desc">
-          <div class="desc-text">Price rows populate with a satisfying stagger — US, UK, DE, all green. "0 errors." This is the dopamine hit. Music peaks confidently. Hold for exactly two beats before the cut.</div>
+          <div class="desc-text">Three phone screens fan out — product details with a price history chart, a home feed of tracked items with "Track Now" buttons, and a price alert setup screen. The app looks polished and complete. Music builds confidently.</div>
         </td>
       </tr>
 
@@ -327,37 +211,26 @@ td:last-child  { padding-right: 20px; }
         <td class="col-num">03</td>
         <td class="col-frame">
           <div class="frame">
-            <div class="s3-wrap">
-              <div class="s3-line err">✗ 403 Forbidden — ASIN B0CX7R</div>
-              <div class="s3-line err">✗ 403 Forbidden — ASIN B0D1XD</div>
-              <div class="s3-line cap">⚠ CAPTCHA — amazon.co.uk</div>
-              <div class="s3-line err">✗ 403 Forbidden — ASIN B08N5W</div>
-              <div class="s3-line dead">  [proxy rotate → 45.33.x.x]</div>
-              <div class="s3-line err">✗ 403 Forbidden — ASIN B09G9H</div>
-              <div class="s3-line cap">⚠ CAPTCHA — amazon.de</div>
-              <div class="s3-line err">✗ 429 Too Many Requests</div>
-              <div class="s3-line dead">  [proxy rotate → 104.28.x.x]</div>
-              <div class="s3-line cap">⚠ Bot detected. Session killed.</div>
-            </div>
+            <img src="amazon-frames/3.jpg" alt="and it works great!">
           </div>
         </td>
         <td class="col-name">
-          <div class="scene-name-text">403s everywhere. Proxies fail. CAPTCHAs. Dead.</div>
+          <div class="scene-name-text">And it works great.</div>
         </td>
         <td class="col-ts">
-          <div class="ts-time">0:12 – 0:22</div>
-          <div class="ts-label">The wall</div>
+          <div class="ts-time">0:08 – 0:12</div>
+          <div class="ts-label">It works</div>
         </td>
         <td class="col-screen">
           <div class="screen-pill">// on-screen text</div>
-          <div class="screen-text">but you keep<br>getting blocked.</div>
+          <div class="screen-text">and it works great!</div>
         </td>
         <td class="col-vo">
           <div class="vo-tag">Voiceover</div>
           <div class="vo-none">None — music only</div>
         </td>
         <td class="col-desc">
-          <div class="desc-text">Cut straight to a terminal flooding with red — no slow build-up. 403s, CAPTCHAs, two proxy rotations that also fail, a 429, a session kill. Everything at once. Music distorts hard, a dissonant chord held.</div>
+          <div class="desc-text">Same phone spread, zoomed slightly. "and it works great!" lands right. This is the dopamine hit — the app is real, the data flows, the alerts fire. Music peaks. Hold exactly two beats before the cut.</div>
         </td>
       </tr>
 
@@ -366,39 +239,26 @@ td:last-child  { padding-right: 20px; }
         <td class="col-num">04</td>
         <td class="col-frame">
           <div class="frame">
-            <div class="s4-wrap">
-              <div class="s4-pane">
-                <div class="s4-label bad">// your server IP</div>
-                <div class="s4-icon">🖥️</div>
-                <div class="s4-ip">104.28.12.x<br>AS13335 · Cloudflare</div>
-                <div class="s4-verdict blocked">BLOCKED</div>
-              </div>
-              <div class="s4-pane">
-                <div class="s4-label good">// residential IP</div>
-                <div class="s4-icon">🏠</div>
-                <div class="s4-ip">86.172.44.x<br>AS5089 · Virgin Media</div>
-                <div class="s4-verdict allowed">ALLOWED</div>
-              </div>
-            </div>
+            <img src="amazon-frames/4.jpg" alt="but there's a problem...">
           </div>
         </td>
         <td class="col-name">
-          <div class="scene-name-text">Not your code. Your infrastructure.</div>
+          <div class="scene-name-text">But there's a problem.</div>
         </td>
         <td class="col-ts">
-          <div class="ts-time">0:22 – 0:28</div>
-          <div class="ts-label">The realization</div>
+          <div class="ts-time">0:12 – 0:14</div>
+          <div class="ts-label">The pivot</div>
         </td>
         <td class="col-screen">
           <div class="screen-pill">// on-screen text</div>
-          <div class="screen-text">is not your code...<br>is your infrastructure.</div>
+          <div class="screen-text">but there's<br>a problem...</div>
         </td>
         <td class="col-vo">
           <div class="vo-tag">Voiceover</div>
-          <div class="vo-none">None — music only</div>
+          <div class="vo-none">None — music holds</div>
         </td>
         <td class="col-desc">
-          <div class="desc-text">Split screen — server IP pulsing BLOCKED on the left, residential IP calm ALLOWED on the right. The logic was never wrong. The origin was wrong. Music drops to a single clean resolved note.</div>
+          <div class="desc-text">Clean gradient card, single line of text. Two seconds of dread. Music drops to a single suspended note — the kind that tells you something is about to go wrong. No visuals, just the sentence.</div>
         </td>
       </tr>
 
@@ -407,30 +267,166 @@ td:last-child  { padding-right: 20px; }
         <td class="col-num">05</td>
         <td class="col-frame">
           <div class="frame">
-            <div class="s5-wrap">
-              <div class="s5-word">MASSIVE</div>
-              <div class="s5-sub">Web Render API</div>
-              <div class="s5-date">May 5, 2026</div>
-            </div>
+            <img src="amazon-frames/5.jpg" alt="Mixed 200s and 403s in results table">
           </div>
         </td>
         <td class="col-name">
-          <div class="scene-name-text">Wordmark. One date. Silence.</div>
+          <div class="scene-name-text">Some work. Then the 403s start.</div>
         </td>
         <td class="col-ts">
-          <div class="ts-time">0:28 – 0:30</div>
-          <div class="ts-label">Reveal</div>
+          <div class="ts-time">0:14 – 0:20</div>
+          <div class="ts-label">Things breaking</div>
         </td>
         <td class="col-screen">
           <div class="screen-pill">// on-screen text</div>
-          <div class="screen-text">Massive Web Render.<br>May 5.</div>
+          <div class="screen-text">200 · OK<br>200 · OK<br>403 · Error<br>429 · Too many requests</div>
         </td>
         <td class="col-vo">
           <div class="vo-tag">Voiceover</div>
-          <div class="vo-none">None — music cuts to silence</div>
+          <div class="vo-none">None — music distorts</div>
         </td>
         <td class="col-desc">
-          <div class="desc-text">Black. Wordmark fades in fast — red gradient, confident. "Web Render API" beneath. Then the date. Two seconds. No tagline. The 28 seconds before it earned this.</div>
+          <div class="desc-text">A results table — the first three rows green (iPhone 16 Pro, AirPods Pro 2, Kindle Paperwhite, all 200 OK), then red bleeds in: 403 Error, 403 Error, 429 Too many requests. The optimism drains row by row. Music distorts.</div>
+        </td>
+      </tr>
+
+      <!-- 06 -->
+      <tr>
+        <td class="col-num">06</td>
+        <td class="col-frame">
+          <div class="frame">
+            <img src="amazon-frames/6.jpg" alt="All 403s — you keep getting blocked">
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-name-text">403s everywhere. You keep getting blocked.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">0:20 – 0:25</div>
+          <div class="ts-label">The wall</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">// on-screen text</div>
+          <div class="screen-text">you keep<br>getting blocked.</div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-tag">Voiceover</div>
+          <div class="vo-none">None — dissonant chord held</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">The table has fully turned red — nothing but 403s cascading down, one 429 at the bottom. "you keep getting blocked." appears bold below. The whole frame is the failure state. Music holds a hard, unresolved dissonant chord.</div>
+        </td>
+      </tr>
+
+      <!-- 07 -->
+      <tr>
+        <td class="col-num">07</td>
+        <td class="col-frame">
+          <div class="frame">
+            <img src="amazon-frames/7.jpg" alt="is not your code...">
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-name-text">The problem is not your code.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">0:25 – 0:28</div>
+          <div class="ts-label">Realization pt. 1</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">// on-screen text</div>
+          <div class="screen-text">is not your code...</div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-tag">Voiceover</div>
+          <div class="vo-none">None — music only</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">Light gradient. Just the sentence, slightly left of center. Three seconds of suspended tension. The music hasn't resolved — the viewer is being held right before the answer drops.</div>
+        </td>
+      </tr>
+
+      <!-- 08 -->
+      <tr>
+        <td class="col-num">08</td>
+        <td class="col-frame">
+          <div class="frame">
+            <img src="amazon-frames/8.jpg" alt="is not your code... is your infrastructure. Fix it!">
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-name-text">It's your infrastructure. Fix it.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">0:28 – 0:33</div>
+          <div class="ts-label">Realization pt. 2</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">// on-screen text</div>
+          <div class="screen-text">is not your code...<br>is your infrastructure.</div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-tag">Voiceover</div>
+          <div class="vo-none">None — music resolves</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">Dark dramatic background with prismatic light. "is not your code... / is your infrastructure." bold and stacked. A red "Fix it!" button with a cursor hovering over it — the moment of agency. Music resolves to a single clean note. The viewer knows the solution exists.</div>
+        </td>
+      </tr>
+
+      <!-- 09 -->
+      <tr>
+        <td class="col-num">09</td>
+        <td class="col-frame">
+          <div class="frame">
+            <img src="amazon-frames/9.jpg" alt="MASSIVE cards — ecommerce, LLMs, search">
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-name-text">Any source. One ethical network.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">0:33 – 0:39</div>
+          <div class="ts-label">The capability</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">// on-screen text</div>
+          <div class="screen-text">use a ethical network<br>and query any ecommerce</div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-tag">Voiceover</div>
+          <div class="vo-none">None — music lifts</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">Six holographic MASSIVE cards fan across the frame — Etsy, Amazon, ChatGPT, Claude, Google, Bing. Each tagged with its use case (price monitoring, LLM training, market research) and the MASSIVE badge. The breadth lands in a single glance. Music lifts into a confident, energetic chord.</div>
+        </td>
+      </tr>
+
+      <!-- 10 -->
+      <tr>
+        <td class="col-num">10</td>
+        <td class="col-frame">
+          <div class="frame">
+            <img src="amazon-frames/10.jpg" alt="Free trial, sign up today — MASSIVE joinmassive.com">
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-name-text">Free trial. Sign up today.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">0:39 – 0:45</div>
+          <div class="ts-label">CTA</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">// on-screen text</div>
+          <div class="screen-text">free trial,<br>sign up today.</div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-tag">Voiceover</div>
+          <div class="vo-none">None — music resolves up</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">Dark gradient, prismatic light. "free trial, / sign up today" bold and stacked — white then orange. MASSIVE logo with wordmark centered below. joinmassive.com in mono beneath. Cursor visible. Music resolves fully on an open, confident chord — an invitation, not a door closing. Six seconds. The viewer knows exactly what to do.</div>
         </td>
       </tr>
 

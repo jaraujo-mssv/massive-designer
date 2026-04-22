@@ -92,7 +92,42 @@ td:last-child  { padding-right: 20px; }
   background: var(--surface-2); border: 1px solid var(--border);
   border-radius: 10px; overflow: hidden; position: relative; flex-shrink: 0;
 }
-.frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.frame img { width: 100%; height: 100%; object-fit: cover; display: block; cursor: zoom-in; }
+
+/* Lightbox */
+.lightbox {
+  display: none; position: fixed; inset: 0; z-index: 1000;
+  background: rgba(10,10,15,0.92); backdrop-filter: blur(8px);
+  align-items: center; justify-content: center;
+}
+.lightbox.open { display: flex; }
+.lightbox img {
+  max-width: min(90vw, 1270px); max-height: 90vh;
+  object-fit: contain; border-radius: 12px;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+  animation: lb-in 0.18s ease;
+}
+@keyframes lb-in { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+.lightbox-close {
+  position: fixed; top: 24px; right: 28px;
+  font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-dim);
+  letter-spacing: 0.1em; cursor: pointer; text-transform: uppercase;
+  background: none; border: none; padding: 8px;
+}
+.lightbox-close:hover { color: var(--text); }
+.lightbox-nav {
+  position: fixed; top: 50%; transform: translateY(-50%);
+  font-size: 1.2rem; color: var(--text-dim); background: none; border: none;
+  cursor: pointer; padding: 16px; line-height: 1; user-select: none;
+}
+.lightbox-nav:hover { color: var(--text); }
+.lightbox-nav.prev { left: 20px; }
+.lightbox-nav.next { right: 20px; }
+.lightbox-counter {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+  font-family: var(--font-mono); font-size: 0.68rem; color: var(--text-dim);
+  letter-spacing: 0.1em;
+}
 
 .col-name { width: 180px; min-width: 150px; }
 .scene-name-text { font-size: 0.92rem; font-weight: 700; letter-spacing: -0.015em; color: var(--text); line-height: 1.35; }
@@ -443,5 +478,58 @@ td:last-child  { padding-right: 20px; }
 </div>
 
 </main>
+
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lb-close">✕ close</button>
+  <button class="lightbox-nav prev" id="lb-prev">&#8592;</button>
+  <img id="lb-img" src="" alt="">
+  <button class="lightbox-nav next" id="lb-next">&#8594;</button>
+  <div class="lightbox-counter" id="lb-counter"></div>
+</div>
+
+<script>
+  const lightbox = document.getElementById('lightbox');
+  const lbImg    = document.getElementById('lb-img');
+  const lbCounter = document.getElementById('lb-counter');
+  const frames   = Array.from(document.querySelectorAll('.frame img'));
+  let current    = 0;
+
+  function open(index) {
+    current = index;
+    lbImg.src = frames[current].src;
+    lbImg.alt = frames[current].alt;
+    lbCounter.textContent = `${current + 1} / ${frames.length}`;
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function close() {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function go(dir) {
+    current = (current + dir + frames.length) % frames.length;
+    lbImg.src = frames[current].src;
+    lbImg.alt = frames[current].alt;
+    lbCounter.textContent = `${current + 1} / ${frames.length}`;
+    lbImg.style.animation = 'none';
+    lbImg.offsetHeight;
+    lbImg.style.animation = '';
+  }
+
+  frames.forEach((img, i) => img.addEventListener('click', () => open(i)));
+  document.getElementById('lb-close').addEventListener('click', close);
+  document.getElementById('lb-prev').addEventListener('click', () => go(-1));
+  document.getElementById('lb-next').addEventListener('click', () => go(1));
+  lightbox.addEventListener('click', e => { if (e.target === lightbox) close(); });
+  document.addEventListener('keydown', e => {
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === 'Escape') close();
+    if (e.key === 'ArrowLeft')  go(-1);
+    if (e.key === 'ArrowRight') go(1);
+  });
+</script>
+
 </body>
 </html>

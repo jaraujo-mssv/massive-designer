@@ -1,6 +1,6 @@
 // Define 8 stroke colors for category cards
 export const STROKE_COLORS = {
-  1: "#2C2A30", // Light Orange (default)
+  1: "#2C2A30", // Default
   2: "#FFAD5E", // Orange
   3: "#DEDEDE", // Light Gray
   4: "#D53E4F", // Red

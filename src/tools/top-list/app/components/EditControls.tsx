@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Upload, Layers, Heading, LayoutDashboard, Image, Link, Settings as SettingsIcon } from "lucide-react";
+import { Upload, Layers, Heading, LayoutDashboard, Image, Link, Settings as SettingsIcon, Sun, Moon } from "lucide-react";
 import Papa from "papaparse";
 import { toast } from "sonner";
 import { Column, Settings, Company } from "../App";
@@ -347,12 +347,24 @@ export function EditControls({
             </>
           )}
           {activeTab === "settings" && (
-            <div className="flex items-center justify-between p-3 bg-surface-2 rounded-lg border border-border-subtle">
-              <Label className="text-sm text-text-primary">Show Presented By Logo</Label>
-              <Switch
-                checked={settings.showPresentedBy}
-                onCheckedChange={(checked) => setSettings({ ...settings, showPresentedBy: checked })}
-              />
+            <div className="space-y-3">
+              <div className="flex items-center justify-between p-3 bg-surface-2 rounded-lg border border-border-subtle">
+                <Label className="text-sm text-text-primary">Show Presented By Logo</Label>
+                <Switch
+                  checked={settings.showPresentedBy}
+                  onCheckedChange={(checked) => setSettings({ ...settings, showPresentedBy: checked })}
+                />
+              </div>
+              <div className="flex items-center justify-between p-3 bg-surface-2 rounded-lg border border-border-subtle">
+                <Label className="text-sm text-text-primary flex items-center gap-2">
+                  {settings.canvasTheme === 'light' ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
+                  Canvas Theme
+                </Label>
+                <Switch
+                  checked={settings.canvasTheme === 'light'}
+                  onCheckedChange={(checked) => setSettings({ ...settings, canvasTheme: checked ? 'light' : 'dark' })}
+                />
+              </div>
             </div>
           )}
         </div>

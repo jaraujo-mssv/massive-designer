@@ -14,6 +14,7 @@ interface ColumnComponentProps {
   columnWidth: string;
   onMoveColumn: (fromIndex: number, toIndex: number) => void;
   onDeleteColumn: (columnId: string) => void;
+  canvasTheme: 'dark' | 'light';
 }
 
 export function ColumnComponent({
@@ -26,6 +27,7 @@ export function ColumnComponent({
   columnWidth,
   onMoveColumn,
   onDeleteColumn,
+  canvasTheme,
 }: ColumnComponentProps) {
   const [{ isDragging }, drag] = useDrag(
     () => ({
@@ -139,8 +141,8 @@ export function ColumnComponent({
       >
         {/* Column Header (Edit mode only) */}
         {mode === "edit" && (
-          <div className="flex items-center justify-between px-2 py-1 rounded-lg border" style={{ backgroundColor: '#1A1920', borderColor: '#2C2A30' }}>
-            <span className="text-xs font-medium" style={{ color: 'rgba(250,244,236,0.5)' }}>
+          <div className="flex items-center justify-between px-2 py-1 rounded-lg border" style={{ backgroundColor: canvasTheme === 'light' ? '#eee4d8' : '#1A1920', borderColor: canvasTheme === 'light' ? 'rgba(26,27,42,0.12)' : '#2C2A30' }}>
+            <span className="text-xs font-medium" style={{ color: canvasTheme === 'light' ? 'rgba(26,27,42,0.5)' : 'rgba(250,244,236,0.5)' }}>
               Column {columnIndex + 1}
             </span>
             <button
@@ -169,6 +171,7 @@ export function ColumnComponent({
               handleUpdateCategory(categoryIndex, updates)
             }
             onDeleteCategory={() => handleDeleteCategory(categoryIndex)}
+            canvasTheme={canvasTheme}
           />
         ))}
 

@@ -26,6 +26,7 @@ interface CategoryCardProps {
   ) => void;
   onUpdateCategory: (updates: Partial<Category>) => void;
   onDeleteCategory: () => void;
+  canvasTheme: 'dark' | 'light';
 }
 
 export function CategoryCard({
@@ -39,6 +40,7 @@ export function CategoryCard({
   onMoveCategory,
   onUpdateCategory,
   onDeleteCategory,
+  canvasTheme,
 }: CategoryCardProps) {
   const [isEditingName, setIsEditingName] = useState(false);
   const [editedName, setEditedName] = useState(category.name);
@@ -144,7 +146,10 @@ export function CategoryCard({
   };
 
   const currentCompanyGap = category.customCompanyGap ?? settings.companyGap;
-  const strokeColor = getStrokeColor(category.stroke);
+  const rawStrokeColor = getStrokeColor(category.stroke);
+  const strokeColor = canvasTheme === 'light' && (!category.stroke || category.stroke === 1)
+    ? 'rgba(26, 27, 42, 0.1)'
+    : rawStrokeColor;
   
   console.log(`CategoryCard ${category.name}: stroke=${category.stroke}, color=${strokeColor}`);
 
@@ -167,7 +172,7 @@ export function CategoryCard({
           isDragging ? "opacity-50" : ""
         } ${isOver && mode === "edit" ? "ring-2 ring-orange-400" : ""}`}
         style={{
-          backgroundColor: '#1A1920',
+          backgroundColor: canvasTheme === 'light' ? '#faf4ec' : '#1A1920',
           border: `${settings.cardStrokeSize}px solid ${strokeColor}`,
           borderRadius: '8px',
         }}
@@ -213,7 +218,7 @@ export function CategoryCard({
                 fontFamily: 'Outfit, sans-serif',
                 fontWeight: 700,
                 fontStyle: 'normal',
-                color: '#FAF4EC'
+                color: canvasTheme === 'light' ? '#1a1b2a' : '#FAF4EC'
               }}
               autoFocus
             />
@@ -244,7 +249,7 @@ export function CategoryCard({
                   fontWeight: 700,
                   fontStyle: 'normal',
                   fontSize: `${settings.categoryFontSize}px`,
-                  color: '#FAF4EC',
+                  color: canvasTheme === 'light' ? '#1a1b2a' : '#FAF4EC',
                   lineHeight: '120%'
                 }}
               >
@@ -256,7 +261,7 @@ export function CategoryCard({
         {/* Company Gap Control - Edit Mode Only */}
         {mode === "edit" && (
           <div className="px-4 pb-3 pt-0 flex items-center gap-2 border-t border-white/10">
-            <Label className="text-xs whitespace-nowrap" style={{ color: 'rgba(250,244,236,0.5)' }}>Item Gap</Label>
+            <Label className="text-xs whitespace-nowrap" style={{ color: canvasTheme === 'light' ? 'rgba(26,27,42,0.5)' : 'rgba(250,244,236,0.5)' }}>Item Gap</Label>
             <Slider
               value={[currentCompanyGap]}
               onValueChange={([value]) => onUpdateCategory({ customCompanyGap: value })}
@@ -265,7 +270,7 @@ export function CategoryCard({
               step={1}
               className="flex-1"
             />
-            <span className="text-xs w-6" style={{ color: 'rgba(250,244,236,0.5)' }}>{currentCompanyGap}</span>
+            <span className="text-xs w-6" style={{ color: canvasTheme === 'light' ? 'rgba(26,27,42,0.5)' : 'rgba(250,244,236,0.5)' }}>{currentCompanyGap}</span>
             {category.customCompanyGap !== undefined && (
               <button
                 onClick={() => onUpdateCategory({ customCompanyGap: undefined })}
@@ -306,6 +311,7 @@ export function CategoryCard({
               onMoveCompany={handleMoveCompany}
               onUpdateCompany={(updates) => handleUpdateCompany(companyIndex, updates)}
               onDeleteCompany={() => handleDeleteCompany(companyIndex)}
+              canvasTheme={canvasTheme}
             />
           ))}
           {mode === "edit" && <AddCompanyPanel onAddCompany={handleAddCompany} viewMode={settings.viewMode} settings={settings} />}

@@ -15,6 +15,7 @@ interface ColumnComponentProps {
   onMoveColumn: (fromIndex: number, toIndex: number) => void;
   onDeleteColumn: (columnId: string) => void;
   autoCardHeight?: number;
+  canvasTheme: 'dark' | 'light';
 }
 
 export function ColumnComponent({
@@ -28,6 +29,7 @@ export function ColumnComponent({
   onMoveColumn,
   onDeleteColumn,
   autoCardHeight,
+  canvasTheme,
 }: ColumnComponentProps) {
   const [{ isDragging }, drag] = useDrag(
     () => ({
@@ -190,6 +192,7 @@ export function ColumnComponent({
             }
             onDeleteCompany={() => handleDeleteCompany(companyIndex)}
             fillHeight={!!autoCardHeight}
+            canvasTheme={canvasTheme}
           />
         ))}
 

@@ -7,6 +7,7 @@ interface MarketMapCanvasProps {
   setColumns: (columns: Column[]) => void;
   settings: Settings;
   mode: "edit" | "preview";
+  canvasTheme: 'dark' | 'light';
 }
 
 export function MarketMapCanvas({
@@ -14,6 +15,7 @@ export function MarketMapCanvas({
   setColumns,
   settings,
   mode,
+  canvasTheme,
 }: MarketMapCanvasProps) {
   const canvasRef = useRef<HTMLDivElement>(null);
 
@@ -93,6 +95,7 @@ export function MarketMapCanvas({
             onMoveColumn={handleMoveColumn}
             onDeleteColumn={handleDeleteColumn}
             autoCardHeight={autoCardHeight}
+            canvasTheme={canvasTheme}
           />
         ))}
       </div>

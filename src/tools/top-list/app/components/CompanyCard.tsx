@@ -18,6 +18,7 @@ interface CompanyCardProps {
   onUpdateCompany: (updates: Partial<Company>) => void;
   onDeleteCompany: () => void;
   fillHeight?: boolean;
+  canvasTheme: 'dark' | 'light';
 }
 
 export function CompanyCard({
@@ -30,6 +31,7 @@ export function CompanyCard({
   onUpdateCompany,
   onDeleteCompany,
   fillHeight,
+  canvasTheme,
 }: CompanyCardProps) {
   const [isEditingLogo, setIsEditingLogo] = useState(false);
   const [editedLogoUrl, setEditedLogoUrl] = useState(company.logoUrl);
@@ -146,8 +148,8 @@ export function CompanyCard({
           isOver && mode === "edit" ? "ring-2 ring-orange-400" : ""
         }`}
         style={{
-          backgroundColor: '#1a1920',
-          border: `${settings.cardStrokeSize}px solid #2C2A30`,
+          backgroundColor: canvasTheme === 'light' ? '#faf4ec' : '#1a1920',
+          border: `${settings.cardStrokeSize}px solid ${canvasTheme === 'light' ? 'rgba(26, 27, 42, 0.1)' : '#2C2A30'}`,
           borderRadius: '8px',
           paddingTop: `${settings.cardPaddingY}px`,
           paddingBottom: `${settings.cardPaddingY}px`,
@@ -175,7 +177,7 @@ export function CompanyCard({
               fontFamily: 'Outfit, sans-serif',
               fontWeight: 700,
               fontSize: `${settings.positionFontSize}px`,
-              color: '#FAF4EC',
+              color: canvasTheme === 'light' ? '#1a1b2a' : '#FAF4EC',
               width: `${settings.positionWidth}px`,
               textAlign: 'center',
               flexShrink: 0,
@@ -192,7 +194,7 @@ export function CompanyCard({
                   fontSize: `${settings.positionFontSize}px`,
                   fontFamily: 'Outfit, sans-serif',
                   fontWeight: 700,
-                  color: '#FAF4EC'
+                  color: canvasTheme === 'light' ? '#1a1b2a' : '#FAF4EC'
                 }}
               />
             ) : (
@@ -254,7 +256,7 @@ export function CompanyCard({
                   fontSize: `${settings.companyFontSize}px`,
                   fontFamily: 'Outfit, sans-serif',
                   fontWeight: 400,
-                  color: '#FAF4EC',
+                  color: canvasTheme === 'light' ? '#1a1b2a' : '#FAF4EC',
                   minHeight: `${settings.companyFontSize * 1.5}px`
                 }}
                 rows={1}
@@ -270,7 +272,7 @@ export function CompanyCard({
                   fontSize: `${settings.companyFontSize}px`,
                   fontFamily: 'Outfit, sans-serif',
                   fontWeight: 400,
-                  color: '#FAF4EC',
+                  color: canvasTheme === 'light' ? '#1a1b2a' : '#FAF4EC',
                   paddingLeft: '4px',
                   paddingRight: '4px',
                   whiteSpace: 'pre-wrap',
@@ -297,7 +299,7 @@ export function CompanyCard({
                   style={{
                     fontSize: `${settings.valuationFontSize}px`,
                     fontFamily: 'Outfit, sans-serif',
-                    color: '#FAF4EC',
+                    color: canvasTheme === 'light' ? '#1a1b2a' : '#FAF4EC',
                     padding: '3px 10px',
                     width: '90px',
                   }}
@@ -308,9 +310,9 @@ export function CompanyCard({
                     fontSize: `${settings.valuationFontSize}px`,
                     fontFamily: 'Outfit, sans-serif',
                     fontWeight: 500,
-                    color: '#FAF4EC',
-                    backgroundColor: '#2C2A30',
-                    border: '1px solid #3D3A45',
+                    color: canvasTheme === 'light' ? '#1a1b2a' : '#FAF4EC',
+                    backgroundColor: canvasTheme === 'light' ? '#eee4d8' : '#2C2A30',
+                    border: canvasTheme === 'light' ? '1px solid rgba(26,27,42,0.15)' : '1px solid #3D3A45',
                     borderRadius: '999px',
                     padding: '3px 10px',
                     whiteSpace: 'nowrap',

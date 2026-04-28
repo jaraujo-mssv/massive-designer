@@ -122,37 +122,24 @@ export function LogoShowcase({ content, theme, platform }: Props) {
         {showcaseTitle || 'One API. Any LLM.'}
       </h2>
 
-      {/* Dock container */}
+      {/* Dock container — logos sit inside */}
       <div
         style={{
           position: 'relative',
           zIndex: 1,
+          padding: dockPadding,
+          background: 'rgba(250,244,236,0.06)',
+          border: '1px solid rgba(250,244,236,0.12)',
+          borderRadius: isLinkedin ? 56 : 40,
           display: 'flex',
-          flexDirection: 'column',
           alignItems: 'center',
+          justifyContent: 'center',
+          gap,
         }}
       >
-        {/* Icons row */}
-        <div style={{ display: 'flex', alignItems: 'flex-end', gap, marginBottom: 0 }}>
-          {displayLogos.map((item) => (
-            <LogoIcon key={item.name} item={item} size={iconSize} isLinkedin={isLinkedin} />
-          ))}
-        </div>
-
-        {/* Dock shelf */}
-        <div
-          style={{
-            marginTop: isLinkedin ? 24 : 16,
-            padding: dockPadding,
-            background: 'rgba(250,244,236,0.06)',
-            backdropFilter: 'blur(20px)',
-            WebkitBackdropFilter: 'blur(20px)',
-            border: '1px solid rgba(250,244,236,0.12)',
-            borderRadius: isLinkedin ? 24 : 16,
-            width: '100%',
-            height: isLinkedin ? 8 : 6,
-          }}
-        />
+        {displayLogos.map((item) => (
+          <LogoIcon key={item.name} item={item} size={iconSize} isLinkedin={isLinkedin} />
+        ))}
       </div>
 
       {/* Massive logo at bottom */}

@@ -3,6 +3,7 @@ import { lazy, Suspense } from 'react'
 import { Header } from '@/shared/components/Header'
 import { LandingPage } from '@/shared/components/LandingPage'
 
+const CampaignDesignerApp = lazy(() => import('@/tools/campaign-designer/app/App'))
 const ImageUploadApp = lazy(() => import('@/tools/image-upload/app/App'))
 const MarketMapApp = lazy(() => import('@/tools/market-map/app/App'))
 const SocialMediaApp = lazy(() => import('@/tools/social-media/app/App'))
@@ -35,6 +36,14 @@ export const router = createBrowserRouter([
         <Header />
         <LandingPage />
       </>
+    ),
+  },
+  {
+    path: '/campaign-designer',
+    element: (
+      <ToolLayout themeClass="tool-campaign-designer">
+        <CampaignDesignerApp />
+      </ToolLayout>
     ),
   },
   {

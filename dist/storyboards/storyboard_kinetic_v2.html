@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Storyboard — Kinetic Teaser · Massive Web Render</title>
+<link rel="icon" type="image/png" href="../favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --n0: #faf4ec; --n50: #f5ece0; --n100: #eee4d8;
+  --n900: #1a1b2a; --n950: #1a1920; --n975: #121117; --n1000: #0a0a0f;
+  --r400: #ff8163; --r500: #d74939; --r600: #c9382a;
+  --bg: var(--n1000); --surface: var(--n975); --surface-2: var(--n950);
+  --text: var(--n0); --text-mid: rgba(250,244,236,0.75); --text-dim: rgba(250,244,236,0.5);
+  --border: rgba(250,244,236,0.08); --border-hover: rgba(250,244,236,0.15);
+  --red: var(--r500); --red-light: var(--r400); --red-glow: rgba(215,73,57,0.15);
+  --font-display: 'Outfit', sans-serif; --font-mono: 'JetBrains Mono', monospace;
+  --frame-w: 240px; --frame-h: 135px;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg); color: var(--text);
+  font-family: var(--font-display); line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh; padding: 56px 40px 100px;
+}
+
+.grid-bg {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(250,244,236,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(250,244,236,0.02) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+.grid-bg::after {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 50% at 50% 0%, var(--red-glow), transparent);
+}
+
+main { position: relative; z-index: 1; max-width: 1440px; margin: 0 auto; }
+
+/* Header */
+.eyebrow {
+  font-family: var(--font-mono); font-size: 0.75rem; color: var(--red);
+  letter-spacing: 0.08em; text-transform: uppercase;
+  display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem;
+}
+.eyebrow::before { content: ''; display: block; width: 24px; height: 1px; background: var(--red); }
+
+h1 {
+  font-size: clamp(1.8rem, 3.5vw, 3rem); font-weight: 800;
+  line-height: 1.05; letter-spacing: -0.035em; margin-bottom: 0.25rem;
+}
+h1 .hl {
+  background: linear-gradient(135deg, var(--red), var(--red-light));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+
+.lede { font-size: 1rem; color: var(--text-mid); font-weight: 300; margin-top: 1rem; line-height: 1.7; }
+
+.meta-row {
+  display: flex; gap: 24px; margin-top: 20px; flex-wrap: wrap;
+  padding-top: 20px; border-top: 1px solid var(--border);
+}
+.meta-item { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-dim); }
+.meta-item strong { display: block; color: var(--red-light); margin-bottom: 2px; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.08em; }
+
+header { margin-bottom: 48px; }
+
+/* Table */
+.table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--border); }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+
+thead tr { background: var(--surface); border-bottom: 1px solid rgba(250,244,236,0.12); }
+thead th {
+  padding: 12px 16px; text-align: left;
+  font-family: var(--font-mono); font-size: 0.62rem; font-weight: 600;
+  color: var(--red-light); letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap;
+}
+thead th:first-child { padding-left: 20px; }
+thead th:last-child  { padding-right: 20px; }
+
+tbody tr { border-bottom: 1px solid var(--border); vertical-align: top; transition: background 0.15s; }
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: rgba(250,244,236,0.02); }
+
+td { padding: 20px 16px; }
+td:first-child { padding-left: 20px; }
+td:last-child  { padding-right: 20px; }
+
+.col-num {
+  font-family: var(--font-mono); font-size: 0.72rem; font-weight: 600;
+  color: var(--text-dim); letter-spacing: 0.06em;
+  white-space: nowrap; width: 44px; padding-top: 24px;
+}
+.col-frame { width: var(--frame-w); padding: 20px 16px; }
+.frame {
+  width: var(--frame-w); height: var(--frame-h);
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 10px; overflow: hidden; position: relative; flex-shrink: 0;
+}
+.frame img { width: 100%; height: 100%; object-fit: cover; display: block; cursor: zoom-in; }
+
+.col-name { width: 180px; min-width: 150px; }
+.scene-name-text { font-size: 0.92rem; font-weight: 700; letter-spacing: -0.015em; color: var(--text); line-height: 1.35; }
+
+.col-ts { width: 120px; white-space: nowrap; }
+.ts-time  { font-family: var(--font-mono); font-size: 0.68rem; color: var(--red); letter-spacing: 0.08em; margin-bottom: 4px; }
+.ts-label { font-family: var(--font-mono); font-size: 0.62rem; color: var(--text-dim); letter-spacing: 0.06em; text-transform: uppercase; }
+
+.col-screen { width: 190px; min-width: 160px; }
+.screen-pill { display: inline-block; margin-bottom: 8px; font-family: var(--font-mono); font-size: 0.6rem; color: var(--red); letter-spacing: 0.1em; text-transform: uppercase; }
+.screen-text { font-size: 0.9rem; font-weight: 600; color: var(--text); line-height: 1.5; border-left: 2px solid var(--red); padding-left: 10px; letter-spacing: -0.01em; }
+
+.col-vo { width: 130px; }
+.vo-tag  { display: inline-block; margin-bottom: 6px; font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase; }
+.vo-none { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-dim); font-style: italic; }
+
+.col-desc { min-width: 220px; }
+.desc-text { font-size: 0.83rem; color: var(--text-mid); font-weight: 300; line-height: 1.75; }
+
+/* Lightbox */
+.lightbox {
+  display: none; position: fixed; inset: 0; z-index: 1000;
+  background: rgba(10,10,15,0.92); backdrop-filter: blur(8px);
+  align-items: center; justify-content: center;
+}
+.lightbox.open { display: flex; }
+.lightbox img {
+  max-width: min(90vw, 1270px); max-height: 90vh;
+  object-fit: contain; border-radius: 12px;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+  animation: lb-in 0.18s ease;
+}
+@keyframes lb-in { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+.lightbox-close {
+  position: fixed; top: 24px; right: 28px;
+  font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-dim);
+  letter-spacing: 0.1em; cursor: pointer; text-transform: uppercase;
+  background: none; border: none; padding: 8px;
+}
+.lightbox-close:hover { color: var(--text); }
+.lightbox-nav {
+  position: fixed; top: 50%; transform: translateY(-50%);
+  font-size: 1.2rem; color: var(--text-dim); background: none; border: none;
+  cursor: pointer; padding: 16px; line-height: 1; user-select: none;
+}
+.lightbox-nav:hover { color: var(--text); }
+.lightbox-nav.prev { left: 20px; }
+.lightbox-nav.next { right: 20px; }
+.lightbox-counter {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+  font-family: var(--font-mono); font-size: 0.68rem; color: var(--text-dim);
+  letter-spacing: 0.1em;
+}
+
+/* Legend */
+.legend { display: flex; gap: 24px; margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); flex-wrap: wrap; }
+.legend-item { display: flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 0.66rem; color: var(--text-dim); }
+.legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<main>
+
+<header>
+  <div class="eyebrow">// storyboard · kinetic / motion graphics · 55-second teaser</div>
+  <h1>Massive Web Render —<br><span class="hl">The Internet Looks Different.</span></h1>
+  <p class="lede">No voiceover. Music only. Hook → proof → wall → flip → kinetic → CTA. The sentence builds across the first three shots before the viewer knows where it's going.</p>
+  <div class="meta-row">
+    <div class="meta-item"><strong>Format</strong>MP4 · 1270×760</div>
+    <div class="meta-item"><strong>Duration</strong>~55 seconds</div>
+    <div class="meta-item"><strong>Audio</strong>Music + text overlays, no voiceover</div>
+    <div class="meta-item"><strong>Style</strong>Kinetic / Motion Graphics</div>
+    <div class="meta-item"><strong>Placement</strong>Product Hunt gallery · Social teaser · Blog embed</div>
+  </div>
+</header>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Frame Visual</th>
+        <th>Scene Name</th>
+        <th>Timestamp</th>
+        <th>Screen Content</th>
+        <th>Voiceover</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <!-- 01 -->
+      <tr>
+        <td class="col-num">01</td>
+        <td class="col-frame">
+          <div class="frame">
+            <img src="kinetic-frames/1.jpg" alt="Tokyo neon street — The internet looks different">
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-name-text">The internet looks different.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">0:00 – 0:03</div>
+          <div class="ts-label">Hook</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">// on-screen text</div>
+          <div class="screen-text">The internet looks different</div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-tag">Voiceover</div>
+          <div class="vo-none">None — music only</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">Tokyo at night — dense neon, billboards in kanji, a visual assault of a different internet. Bold white text cuts across center: "The internet looks different." Music opens uptempo. Three seconds, then cut.</div>
+        </td>
+      </tr>
+
+      <!-- 02 -->
+      <tr>
+        <td class="col-num">02</td>
+        <td class="col-frame">
+          <div class="frame">
+            <img src="kinetic-frames/2.jpg" alt="Prague cobblestone street — depending on">
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-name-text">…depending on…</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">0:03 – 0:06</div>
+          <div class="ts-label">Hook pt. 2</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">// on-screen text</div>
+          <div class="screen-text">The internet looks different<br>depending on</div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-tag">Voiceover</div>
+          <div class="vo-none">None — music only</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">Cut to Prague — cobblestone street at dusk, European storefronts. Sentence continues on screen: "depending on". The cut itself is part of the idea. Music holds the same tempo, building.</div>
+        </td>
+      </tr>
+
+      <!-- 03 -->
+      <tr>
+        <td class="col-num">03</td>
+        <td class="col-frame">
+          <div class="frame">
+            <img src="kinetic-frames/3.jpg" alt="NYC Times Square — where you are">
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-name-text">…where you are.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">0:06 – 0:10</div>
+          <div class="ts-label">Hook pt. 3</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">// on-screen text</div>
+          <div class="screen-text">The internet looks different<br>depending on <span style="color:#ff8163">where you are</span></div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-tag">Voiceover</div>
+          <div class="vo-none">None — music only</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">NYC Times Square — backpacker in the crowd, the full sentence completes: "where you are" lands in orange. The sentence has been three cities in ten seconds. Music peaks on this cut. Hold a beat before transitioning.</div>
+        </td>
+      </tr>
+
+      <!-- 04 -->
+      <tr>
+        <td class="col-num">04</td>
+        <td class="col-frame">
+          <div class="frame">
+            <img src="kinetic-frames/4.jpg" alt="Two chat UIs — same question in different countries">
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-name-text">Same question, two countries.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">0:10 – 0:17</div>
+          <div class="ts-label">Proof setup</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">// on-screen text</div>
+          <div class="screen-text">same question<br>in different countries</div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-tag">Voiceover</div>
+          <div class="vo-none">None — music only</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">Dark background. Two chat UIs appear side by side — 🇬🇧 "Welcome!" and 🇪🇸 "¡Bienvenido!" — both with the same query: "Best restaurants?" The symmetry is the point. Music drops to a quieter, anticipatory beat.</div>
+        </td>
+      </tr>
+
+      <!-- 05 -->
+      <tr>
+        <td class="col-num">05</td>
+        <td class="col-frame">
+          <div class="frame">
+            <img src="kinetic-frames/5.jpg" alt="Two result sets — yield different answers">
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-name-text">…yield different answers.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">0:17 – 0:24</div>
+          <div class="ts-label">Proof</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">// on-screen text</div>
+          <div class="screen-text">same question in different countries<br><span style="color:#ff8163">yield different answers</span></div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-tag">Voiceover</div>
+          <div class="vo-none">None — music only</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">The two cards expand to show results. UK: The Broomsticks, Rusty Crown, The Fox & Fern. Spain: Los Olivos, Bodega secreta, El Roberto. "yield different answers" appears in orange. The gap between markets is real. Music distorts slightly.</div>
+        </td>
+      </tr>
+
+      <!-- 06 -->
+      <tr>
+        <td class="col-num">06</td>
+        <td class="col-frame">
+          <div class="frame">
+            <img src="kinetic-frames/6.jpg" alt="Error 439 Forbidden — most tools">
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-name-text">Most tools hit the wall.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">0:24 – 0:27</div>
+          <div class="ts-label">The wall</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">// on-screen text</div>
+          <div class="screen-text">most tools</div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-tag">Voiceover</div>
+          <div class="vo-none">None — music distorts</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">A raw HTTP 403 Forbidden error page — gray, brutal, no styling. "Error 439 Forbidden. Varnish cache server." The word "most tools" appears over it. The internet that looked different just became unreachable. Music hits a sharp dissonant note.</div>
+        </td>
+      </tr>
+
+      <!-- 07 -->
+      <tr>
+        <td class="col-num">07</td>
+        <td class="col-frame">
+          <div class="frame">
+            <img src="kinetic-frames/7.jpg" alt="Console flooded with ERR_BLOCKED errors — most tools get blocked...">
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-name-text">…get blocked.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">0:27 – 0:31</div>
+          <div class="ts-label">The wall pt. 2</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">// on-screen text</div>
+          <div class="screen-text">most tools<br>get blocked...</div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-tag">Voiceover</div>
+          <div class="vo-none">None — dissonant chord held</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">A browser console floods the screen in red — row after row of "Failed to load resource: net::ERR_BLOCKED_BY_AD". "most tools / get blocked..." overlaid in white, bold. The repetition of errors is the point. Music holds the dissonant chord.</div>
+        </td>
+      </tr>
+
+      <!-- 08 -->
+      <tr>
+        <td class="col-num">08</td>
+        <td class="col-frame">
+          <div class="frame">
+            <img src="kinetic-frames/8.jpg" alt="most tools get blocked... ours doesn't">
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-name-text">Ours doesn't.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">0:31 – 0:36</div>
+          <div class="ts-label">The flip</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">// on-screen text</div>
+          <div class="screen-text">most tools get blocked...<br><span style="color:#ff8163">ours doesn't</span></div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-tag">Voiceover</div>
+          <div class="vo-none">None — music resolves</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">Dark background, prismatic light rising from bottom. "most tools / get blocked... / ours doesn't" — the third line lands in orange. The chord resolves. This is the pivot of the whole video. Five seconds of silence after the chaos.</div>
+        </td>
+      </tr>
+
+      <!-- 09 -->
+      <tr>
+        <td class="col-num">09</td>
+        <td class="col-frame">
+          <div class="frame">
+            <img src="kinetic-frames/9.jpg" alt="one network">
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-name-text">One network.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">0:36 – 0:38</div>
+          <div class="ts-label">Kinetic pt. 1</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">// on-screen text</div>
+          <div class="screen-text">one network</div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-tag">Voiceover</div>
+          <div class="vo-none">None — music lifts</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">Pure black. "one network" in massive white type, left-aligned. Two seconds. Music lifts into a driving, confident beat. The rapid-fire sequence begins.</div>
+        </td>
+      </tr>
+
+      <!-- 10 -->
+      <tr>
+        <td class="col-num">10</td>
+        <td class="col-frame">
+          <div class="frame">
+            <img src="kinetic-frames/10.jpg" alt="one network any data">
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-name-text">Any data.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">0:38 – 0:40</div>
+          <div class="ts-label">Kinetic pt. 2</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">// on-screen text</div>
+          <div class="screen-text">one network<br><span style="color:#ff8163">any data</span></div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-tag">Voiceover</div>
+          <div class="vo-none">None — music drives</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">"one network" stays top. "any data" slams in below in orange. Beat sync. Two seconds.</div>
+        </td>
+      </tr>
+
+      <!-- 11 -->
+      <tr>
+        <td class="col-num">11</td>
+        <td class="col-frame">
+          <div class="frame">
+            <img src="kinetic-frames/11.jpg" alt="one network any country">
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-name-text">Any country.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">0:40 – 0:42</div>
+          <div class="ts-label">Kinetic pt. 3</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">// on-screen text</div>
+          <div class="screen-text">one network<br><span style="color:#ff8163">any country</span></div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-tag">Voiceover</div>
+          <div class="vo-none">None — music drives</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">"any country" replaces "any data" on beat. Same layout, same energy. Two seconds.</div>
+        </td>
+      </tr>
+
+      <!-- 12 -->
+      <tr>
+        <td class="col-num">12</td>
+        <td class="col-frame">
+          <div class="frame">
+            <img src="kinetic-frames/12.jpg" alt="one network any page">
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-name-text">Any page.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">0:42 – 0:45</div>
+          <div class="ts-label">Kinetic pt. 4</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">// on-screen text</div>
+          <div class="screen-text">one network<br><span style="color:#ff8163">any page</span></div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-tag">Voiceover</div>
+          <div class="vo-none">None — music peaks</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">"any page" — the final beat of the kinetic sequence. Music peaks here. Two seconds, then the cut to the CTA is the release.</div>
+        </td>
+      </tr>
+
+      <!-- 13 -->
+      <tr>
+        <td class="col-num">13</td>
+        <td class="col-frame">
+          <div class="frame">
+            <img src="kinetic-frames/13.jpg" alt="Web Render API — Try it for free today">
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-name-text">Web Render API. Try it for free.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">0:45 – 0:51</div>
+          <div class="ts-label">CTA</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">// on-screen text</div>
+          <div class="screen-text">Web Render API<br>Try it for free today</div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-tag">Voiceover</div>
+          <div class="vo-none">None — music resolves up</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">Dark gradient, prismatic light from bottom-right. "Web Render API" in orange, large. "Try it for free today" in white below. Music resolves on an open, warm chord — an invitation. Six seconds.</div>
+        </td>
+      </tr>
+
+      <!-- 13-1 -->
+      <tr>
+        <td class="col-num">13+</td>
+        <td class="col-frame">
+          <div class="frame">
+            <img src="kinetic-frames/13-1.jpg" alt="MASSIVE logo + joinmassive.com">
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-name-text">MASSIVE. joinmassive.com.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">0:51 – 0:55</div>
+          <div class="ts-label">Brand close</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">// on-screen text</div>
+          <div class="screen-text">MASSIVE<br>joinmassive.com</div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-tag">Voiceover</div>
+          <div class="vo-none">None — music holds</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">Same dark gradient background. MASSIVE logo with wordmark centered. "joinmassive.com" in mono below. Cursor visible. Music holds the resolved chord and fades. Four seconds. The viewer knows exactly where to go.</div>
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div>On-screen text overlay</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--red-light)"></div>Orange accent text</div>
+  <div class="legend-item"><div class="legend-dot" style="background:rgba(250,244,236,0.3)"></div>No voiceover throughout</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--n950)"></div>Outfit + JetBrains Mono</div>
+</div>
+
+</main>
+
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lb-close">✕ close</button>
+  <button class="lightbox-nav prev" id="lb-prev">&#8592;</button>
+  <img id="lb-img" src="" alt="">
+  <button class="lightbox-nav next" id="lb-next">&#8594;</button>
+  <div class="lightbox-counter" id="lb-counter"></div>
+</div>
+
+<script>
+  const lightbox  = document.getElementById('lightbox');
+  const lbImg     = document.getElementById('lb-img');
+  const lbCounter = document.getElementById('lb-counter');
+  const frames    = Array.from(document.querySelectorAll('.frame img'));
+  let current     = 0;
+
+  function open(index) {
+    current = index;
+    lbImg.src = frames[current].src;
+    lbImg.alt = frames[current].alt;
+    lbCounter.textContent = `${current + 1} / ${frames.length}`;
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function close() {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function go(dir) {
+    current = (current + dir + frames.length) % frames.length;
+    lbImg.src = frames[current].src;
+    lbImg.alt = frames[current].alt;
+    lbCounter.textContent = `${current + 1} / ${frames.length}`;
+    lbImg.style.animation = 'none';
+    lbImg.offsetHeight;
+    lbImg.style.animation = '';
+  }
+
+  frames.forEach((img, i) => img.addEventListener('click', () => open(i)));
+  document.getElementById('lb-close').addEventListener('click', close);
+  document.getElementById('lb-prev').addEventListener('click',  () => go(-1));
+  document.getElementById('lb-next').addEventListener('click',  () => go(1));
+  lightbox.addEventListener('click', e => { if (e.target === lightbox) close(); });
+  document.addEventListener('keydown', e => {
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === 'Escape')      close();
+    if (e.key === 'ArrowLeft')   go(-1);
+    if (e.key === 'ArrowRight')  go(1);
+  });
+</script>
+
+</body>
+</html>

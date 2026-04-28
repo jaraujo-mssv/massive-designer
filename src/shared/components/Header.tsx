@@ -5,6 +5,7 @@ const tools = [
   { label: 'Social Media', route: '/social-media' },
   { label: 'Top List', route: '/top-list' },
   { label: 'Image Converter', route: '/image-upload' },
+  { label: 'Campaign Designer', route: '/campaign-designer' },
 ]
 
 function NavLink({ to, label }: { to: string; label: string }) {

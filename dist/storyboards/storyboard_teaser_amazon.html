@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Storyboard — Amazon Price Tracker Teaser · Massive Web Render</title>
+<link rel="icon" type="image/png" href="../favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --n0: #faf4ec; --n50: #f5ece0; --n100: #eee4d8;
+  --n900: #1a1b2a; --n950: #1a1920; --n975: #121117; --n1000: #0a0a0f;
+  --r400: #ff8163; --r500: #d74939; --r600: #c9382a;
+  --bg: var(--n1000); --surface: var(--n975); --surface-2: var(--n950);
+  --text: var(--n0); --text-mid: rgba(250,244,236,0.75); --text-dim: rgba(250,244,236,0.5);
+  --border: rgba(250,244,236,0.08);
+  --red: var(--r500); --red-light: var(--r400); --red-glow: rgba(215,73,57,0.15);
+  --green: #98c379; --green-dim: rgba(152,195,121,0.15);
+  --font-display: 'Outfit', sans-serif; --font-mono: 'JetBrains Mono', monospace;
+  --frame-w: 240px; --frame-h: 135px;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg); color: var(--text);
+  font-family: var(--font-display); line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh; padding: 56px 40px 100px;
+}
+
+.grid-bg {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(250,244,236,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(250,244,236,0.02) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+.grid-bg::after {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 50% at 50% 0%, var(--red-glow), transparent);
+}
+
+main { position: relative; z-index: 1; max-width: 1440px; margin: 0 auto; }
+
+/* Header */
+.eyebrow {
+  font-family: var(--font-mono); font-size: 0.75rem; color: var(--red);
+  letter-spacing: 0.08em; text-transform: uppercase;
+  display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem;
+}
+.eyebrow::before { content: ''; display: block; width: 24px; height: 1px; background: var(--red); }
+h1 { font-size: clamp(1.8rem, 3.5vw, 3rem); font-weight: 800; line-height: 1.05; letter-spacing: -0.035em; margin-bottom: 0.25rem; }
+h1 .hl {
+  background: linear-gradient(135deg, var(--red), var(--red-light));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.lede { font-size: 1rem; color: var(--text-mid); font-weight: 300; margin-top: 1rem; line-height: 1.7; }
+.meta-row { display: flex; gap: 24px; margin-top: 20px; flex-wrap: wrap; padding-top: 20px; border-top: 1px solid var(--border); }
+.meta-item { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-dim); }
+.meta-item strong { display: block; color: var(--red-light); margin-bottom: 2px; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.08em; }
+header { margin-bottom: 48px; }
+
+/* Table */
+.table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--border); }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+
+thead tr { background: var(--surface); border-bottom: 1px solid rgba(250,244,236,0.12); }
+thead th {
+  padding: 12px 16px; text-align: left;
+  font-family: var(--font-mono); font-size: 0.62rem; font-weight: 600;
+  color: var(--red-light); letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap;
+}
+thead th:first-child { padding-left: 20px; }
+thead th:last-child  { padding-right: 20px; }
+
+tbody tr { border-bottom: 1px solid var(--border); vertical-align: top; transition: background 0.15s; }
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: rgba(250,244,236,0.02); }
+td { padding: 20px 16px; }
+td:first-child { padding-left: 20px; }
+td:last-child  { padding-right: 20px; }
+
+.col-num {
+  font-family: var(--font-mono); font-size: 0.72rem; font-weight: 600;
+  color: var(--text-dim); letter-spacing: 0.06em;
+  white-space: nowrap; width: 44px; padding-top: 24px;
+}
+.col-frame { width: var(--frame-w); padding: 20px 16px; }
+.frame {
+  width: var(--frame-w); height: var(--frame-h);
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 10px; overflow: hidden; position: relative; flex-shrink: 0;
+}
+.frame img { width: 100%; height: 100%; object-fit: cover; display: block; cursor: zoom-in; }
+
+/* Lightbox */
+.lightbox {
+  display: none; position: fixed; inset: 0; z-index: 1000;
+  background: rgba(10,10,15,0.92); backdrop-filter: blur(8px);
+  align-items: center; justify-content: center;
+}
+.lightbox.open { display: flex; }
+.lightbox img {
+  max-width: min(90vw, 1270px); max-height: 90vh;
+  object-fit: contain; border-radius: 12px;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+  animation: lb-in 0.18s ease;
+}
+@keyframes lb-in { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+.lightbox-close {
+  position: fixed; top: 24px; right: 28px;
+  font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-dim);
+  letter-spacing: 0.1em; cursor: pointer; text-transform: uppercase;
+  background: none; border: none; padding: 8px;
+}
+.lightbox-close:hover { color: var(--text); }
+.lightbox-nav {
+  position: fixed; top: 50%; transform: translateY(-50%);
+  font-size: 1.2rem; color: var(--text-dim); background: none; border: none;
+  cursor: pointer; padding: 16px; line-height: 1; user-select: none;
+}
+.lightbox-nav:hover { color: var(--text); }
+.lightbox-nav.prev { left: 20px; }
+.lightbox-nav.next { right: 20px; }
+.lightbox-counter {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+  font-family: var(--font-mono); font-size: 0.68rem; color: var(--text-dim);
+  letter-spacing: 0.1em;
+}
+
+.col-name { width: 180px; min-width: 150px; }
+.scene-name-text { font-size: 0.92rem; font-weight: 700; letter-spacing: -0.015em; color: var(--text); line-height: 1.35; }
+
+.col-ts { width: 120px; white-space: nowrap; }
+.ts-time  { font-family: var(--font-mono); font-size: 0.68rem; color: var(--red); letter-spacing: 0.08em; margin-bottom: 4px; }
+.ts-label { font-family: var(--font-mono); font-size: 0.62rem; color: var(--text-dim); letter-spacing: 0.06em; text-transform: uppercase; }
+
+.col-screen { width: 190px; min-width: 160px; }
+.screen-pill { display: inline-block; margin-bottom: 8px; font-family: var(--font-mono); font-size: 0.6rem; color: var(--red); letter-spacing: 0.1em; text-transform: uppercase; }
+.screen-text { font-size: 0.9rem; font-weight: 600; color: var(--text); line-height: 1.5; border-left: 2px solid var(--red); padding-left: 10px; letter-spacing: -0.01em; }
+
+.col-vo { width: 130px; }
+.vo-tag  { display: inline-block; margin-bottom: 6px; font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase; }
+.vo-none { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-dim); font-style: italic; }
+
+.col-desc { min-width: 220px; }
+.desc-text { font-size: 0.83rem; color: var(--text-mid); font-weight: 300; line-height: 1.75; }
+
+/* Legend */
+.legend { display: flex; gap: 24px; margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); flex-wrap: wrap; }
+.legend-item { display: flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 0.66rem; color: var(--text-dim); }
+.legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<main>
+
+<header>
+  <div class="eyebrow">// storyboard · kinetic / motion graphics · 45-second teaser</div>
+  <h1>Amazon Price Tracker —<br><span class="hl">It's Not Your Code.</span></h1>
+  <p class="lede">No voiceover. Music only. Prompt → app → works → problem → blocked → realization → capability → CTA. Every beat earns the next one.</p>
+  <div class="meta-row">
+    <div class="meta-item"><strong>Format</strong>MP4 · 1270×760</div>
+    <div class="meta-item"><strong>Duration</strong>45 seconds</div>
+    <div class="meta-item"><strong>Audio</strong>Music + text overlays, no voiceover</div>
+    <div class="meta-item"><strong>Style</strong>Kinetic / Motion Graphics</div>
+    <div class="meta-item"><strong>Placement</strong>Social teaser · Product Hunt gallery · Blog embed</div>
+  </div>
+</header>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Frame Visual</th>
+        <th>Scene Name</th>
+        <th>Timestamp</th>
+        <th>Screen Content</th>
+        <th>Voiceover</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <!-- 01 -->
+      <tr>
+        <td class="col-num">01</td>
+        <td class="col-frame">
+          <div class="frame">
+            <img src="amazon-frames/1.jpg" alt="Vibe coding prompt UI">
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-name-text">You vibe-coded a price tracker.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">0:00 – 0:04</div>
+          <div class="ts-label">The prompt</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">// on-screen text</div>
+          <div class="screen-text">so, you vibecoded</div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-tag">Voiceover</div>
+          <div class="vo-none">None — music only</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">Light gradient UI. A prompt input reads "a price tracker, that tracks items from Amazon overtime." Cursor hovers over the red Create! button. Music opens light and uptempo — the feeling of something about to ship.</div>
+        </td>
+      </tr>
+
+      <!-- 02 -->
+      <tr>
+        <td class="col-num">02</td>
+        <td class="col-frame">
+          <div class="frame">
+            <img src="amazon-frames/2.jpg" alt="PriceWatch app — three phones">
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-name-text">The app is built. It looks great.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">0:04 – 0:08</div>
+          <div class="ts-label">The app</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">// on-screen text</div>
+          <div class="screen-text">a price tracker,<br>that tracks items<br>from Amazon.</div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-tag">Voiceover</div>
+          <div class="vo-none">None — music only</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">Three phone screens fan out — product details with a price history chart, a home feed of tracked items with "Track Now" buttons, and a price alert setup screen. The app looks polished and complete. Music builds confidently.</div>
+        </td>
+      </tr>
+
+      <!-- 03 -->
+      <tr>
+        <td class="col-num">03</td>
+        <td class="col-frame">
+          <div class="frame">
+            <img src="amazon-frames/3.jpg" alt="and it works great!">
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-name-text">And it works great.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">0:08 – 0:12</div>
+          <div class="ts-label">It works</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">// on-screen text</div>
+          <div class="screen-text">and it works great!</div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-tag">Voiceover</div>
+          <div class="vo-none">None — music only</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">Same phone spread, zoomed slightly. "and it works great!" lands right. This is the dopamine hit — the app is real, the data flows, the alerts fire. Music peaks. Hold exactly two beats before the cut.</div>
+        </td>
+      </tr>
+
+      <!-- 04 -->
+      <tr>
+        <td class="col-num">04</td>
+        <td class="col-frame">
+          <div class="frame">
+            <img src="amazon-frames/4.jpg" alt="but there's a problem...">
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-name-text">But there's a problem.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">0:12 – 0:14</div>
+          <div class="ts-label">The pivot</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">// on-screen text</div>
+          <div class="screen-text">but there's<br>a problem...</div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-tag">Voiceover</div>
+          <div class="vo-none">None — music holds</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">Clean gradient card, single line of text. Two seconds of dread. Music drops to a single suspended note — the kind that tells you something is about to go wrong. No visuals, just the sentence.</div>
+        </td>
+      </tr>
+
+      <!-- 05 -->
+      <tr>
+        <td class="col-num">05</td>
+        <td class="col-frame">
+          <div class="frame">
+            <img src="amazon-frames/5.jpg" alt="Mixed 200s and 403s in results table">
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-name-text">Some work. Then the 403s start.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">0:14 – 0:20</div>
+          <div class="ts-label">Things breaking</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">// on-screen text</div>
+          <div class="screen-text">200 · OK<br>200 · OK<br>403 · Error<br>429 · Too many requests</div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-tag">Voiceover</div>
+          <div class="vo-none">None — music distorts</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">A results table — the first three rows green (iPhone 16 Pro, AirPods Pro 2, Kindle Paperwhite, all 200 OK), then red bleeds in: 403 Error, 403 Error, 429 Too many requests. The optimism drains row by row. Music distorts.</div>
+        </td>
+      </tr>
+
+      <!-- 06 -->
+      <tr>
+        <td class="col-num">06</td>
+        <td class="col-frame">
+          <div class="frame">
+            <img src="amazon-frames/6.jpg" alt="All 403s — you keep getting blocked">
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-name-text">403s everywhere. You keep getting blocked.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">0:20 – 0:25</div>
+          <div class="ts-label">The wall</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">// on-screen text</div>
+          <div class="screen-text">you keep<br>getting blocked.</div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-tag">Voiceover</div>
+          <div class="vo-none">None — dissonant chord held</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">The table has fully turned red — nothing but 403s cascading down, one 429 at the bottom. "you keep getting blocked." appears bold below. The whole frame is the failure state. Music holds a hard, unresolved dissonant chord.</div>
+        </td>
+      </tr>
+
+      <!-- 07 -->
+      <tr>
+        <td class="col-num">07</td>
+        <td class="col-frame">
+          <div class="frame">
+            <img src="amazon-frames/7.jpg" alt="is not your code...">
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-name-text">The problem is not your code.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">0:25 – 0:28</div>
+          <div class="ts-label">Realization pt. 1</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">// on-screen text</div>
+          <div class="screen-text">is not your code...</div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-tag">Voiceover</div>
+          <div class="vo-none">None — music only</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">Light gradient. Just the sentence, slightly left of center. Three seconds of suspended tension. The music hasn't resolved — the viewer is being held right before the answer drops.</div>
+        </td>
+      </tr>
+
+      <!-- 08 -->
+      <tr>
+        <td class="col-num">08</td>
+        <td class="col-frame">
+          <div class="frame">
+            <img src="amazon-frames/8.jpg" alt="is not your code... is your infrastructure. Fix it!">
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-name-text">It's your infrastructure. Fix it.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">0:28 – 0:33</div>
+          <div class="ts-label">Realization pt. 2</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">// on-screen text</div>
+          <div class="screen-text">is not your code...<br>is your infrastructure.</div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-tag">Voiceover</div>
+          <div class="vo-none">None — music resolves</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">Dark dramatic background with prismatic light. "is not your code... / is your infrastructure." bold and stacked. A red "Fix it!" button with a cursor hovering over it — the moment of agency. Music resolves to a single clean note. The viewer knows the solution exists.</div>
+        </td>
+      </tr>
+
+      <!-- 09 -->
+      <tr>
+        <td class="col-num">09</td>
+        <td class="col-frame">
+          <div class="frame">
+            <img src="amazon-frames/9.jpg" alt="MASSIVE cards — ecommerce, LLMs, search">
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-name-text">Any source. One ethical network.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">0:33 – 0:39</div>
+          <div class="ts-label">The capability</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">// on-screen text</div>
+          <div class="screen-text">use a ethical network<br>and query any ecommerce</div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-tag">Voiceover</div>
+          <div class="vo-none">None — music lifts</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">Six holographic MASSIVE cards fan across the frame — Etsy, Amazon, ChatGPT, Claude, Google, Bing. Each tagged with its use case (price monitoring, LLM training, market research) and the MASSIVE badge. The breadth lands in a single glance. Music lifts into a confident, energetic chord.</div>
+        </td>
+      </tr>
+
+      <!-- 10 -->
+      <tr>
+        <td class="col-num">10</td>
+        <td class="col-frame">
+          <div class="frame">
+            <img src="amazon-frames/10.jpg" alt="Free trial, sign up today — MASSIVE joinmassive.com">
+          </div>
+        </td>
+        <td class="col-name">
+          <div class="scene-name-text">Free trial. Sign up today.</div>
+        </td>
+        <td class="col-ts">
+          <div class="ts-time">0:39 – 0:45</div>
+          <div class="ts-label">CTA</div>
+        </td>
+        <td class="col-screen">
+          <div class="screen-pill">// on-screen text</div>
+          <div class="screen-text">free trial,<br>sign up today.</div>
+        </td>
+        <td class="col-vo">
+          <div class="vo-tag">Voiceover</div>
+          <div class="vo-none">None — music resolves up</div>
+        </td>
+        <td class="col-desc">
+          <div class="desc-text">Dark gradient, prismatic light. "free trial, / sign up today" bold and stacked — white then orange. MASSIVE logo with wordmark centered below. joinmassive.com in mono beneath. Cursor visible. Music resolves fully on an open, confident chord — an invitation, not a door closing. Six seconds. The viewer knows exactly what to do.</div>
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div>On-screen text overlay</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>Success state</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--red-light)"></div>Error / blocked state</div>
+  <div class="legend-item"><div class="legend-dot" style="background:rgba(250,244,236,0.3)"></div>No voiceover throughout</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--n950)"></div>Outfit + JetBrains Mono</div>
+</div>
+
+</main>
+
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lb-close">✕ close</button>
+  <button class="lightbox-nav prev" id="lb-prev">&#8592;</button>
+  <img id="lb-img" src="" alt="">
+  <button class="lightbox-nav next" id="lb-next">&#8594;</button>
+  <div class="lightbox-counter" id="lb-counter"></div>
+</div>
+
+<script>
+  const lightbox = document.getElementById('lightbox');
+  const lbImg    = document.getElementById('lb-img');
+  const lbCounter = document.getElementById('lb-counter');
+  const frames   = Array.from(document.querySelectorAll('.frame img'));
+  let current    = 0;
+
+  function open(index) {
+    current = index;
+    lbImg.src = frames[current].src;
+    lbImg.alt = frames[current].alt;
+    lbCounter.textContent = `${current + 1} / ${frames.length}`;
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function close() {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function go(dir) {
+    current = (current + dir + frames.length) % frames.length;
+    lbImg.src = frames[current].src;
+    lbImg.alt = frames[current].alt;
+    lbCounter.textContent = `${current + 1} / ${frames.length}`;
+    lbImg.style.animation = 'none';
+    lbImg.offsetHeight;
+    lbImg.style.animation = '';
+  }
+
+  frames.forEach((img, i) => img.addEventListener('click', () => open(i)));
+  document.getElementById('lb-close').addEventListener('click', close);
+  document.getElementById('lb-prev').addEventListener('click', () => go(-1));
+  document.getElementById('lb-next').addEventListener('click', () => go(1));
+  lightbox.addEventListener('click', e => { if (e.target === lightbox) close(); });
+  document.addEventListener('keydown', e => {
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === 'Escape') close();
+    if (e.key === 'ArrowLeft')  go(-1);
+    if (e.key === 'ArrowRight') go(1);
+  });
+</script>
+
+</body>
+</html>

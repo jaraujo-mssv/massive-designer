@@ -17,6 +17,16 @@ export function PostGallery({ campaign, selectedPostId, onSelectPost }: Props) {
     }
   }, [selectedPostId]);
 
+  // On initial load, scroll to the post matching the URL hash
+  useEffect(() => {
+    const hash = window.location.hash.slice(1);
+    if (!hash) return;
+    const el = postRefs.current[hash];
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, []);
+
   return (
     <div
       style={{

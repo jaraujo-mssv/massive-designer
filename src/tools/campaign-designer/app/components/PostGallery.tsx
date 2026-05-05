@@ -1,14 +1,20 @@
 import { useRef, useEffect } from 'react';
-import { Campaign, Post } from '../types';
+import { Campaign, Post, SidebarTab } from '../types';
 import { PostPair } from './PostPair';
+import { TemplatePair } from './TemplatePair';
+import { ARTICLE_TEMPLATES } from './templates/articles/articleTemplates';
 
 interface Props {
   campaign: Campaign;
+  activeTab: SidebarTab;
   selectedPostId: string | null;
   onSelectPost: (post: Post) => void;
+  selectedTemplateId: string | null;
+  onSelectTemplate: (id: string) => void;
 }
 
-export function PostGallery({ campaign, selectedPostId, onSelectPost }: Props) {
+export function PostGallery({ campaign, activeTab, selectedPostId, onSelectPost, selectedTemplateId, onSelectTemplate }: Props) {
+  const templateRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const postRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   useEffect(() => {
@@ -16,6 +22,12 @@ export function PostGallery({ campaign, selectedPostId, onSelectPost }: Props) {
       postRefs.current[selectedPostId]!.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }, [selectedPostId]);
+
+  useEffect(() => {
+    if (selectedTemplateId && templateRefs.current[selectedTemplateId]) {
+      templateRefs.current[selectedTemplateId]!.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [selectedTemplateId]);
 
   // On initial load, scroll to the post matching the URL hash
   useEffect(() => {
@@ -66,26 +78,46 @@ export function PostGallery({ campaign, selectedPostId, onSelectPost }: Props) {
             margin: '6px 0 0',
           }}
         >
-          {campaign.posts.length} posts · Click a post to edit
+          {activeTab === 'template'
+            ? `${ARTICLE_TEMPLATES.length} templates · LinkedIn + X variants`
+            : `${campaign.posts.length} posts · Click a post to edit`}
         </p>
       </div>
 
-      {/* Post pairs */}
-      {campaign.posts.map((post) => (
-        <div
-          key={post.id}
-          id={post.id}
-          ref={(el) => { postRefs.current[post.id] = el; }}
-          style={{ width: '100%', maxWidth: 1100 }}
-        >
-          <PostPair
-            post={post}
-            campaign={campaign}
-            isSelected={selectedPostId === post.id}
-            onClick={() => onSelectPost(post)}
-          />
-        </div>
-      ))}
+      {activeTab === 'template' ? (
+        ARTICLE_TEMPLATES.map((tpl) => (
+          <div
+            key={tpl.id}
+            id={tpl.id}
+            ref={(el) => { templateRefs.current[tpl.id] = el; }}
+            style={{ width: '100%', maxWidth: 1100 }}
+          >
+            <TemplatePair
+              template={tpl}
+              campaign={campaign}
+              isSelected={selectedTemplateId === tpl.id}
+              onClick={() => onSelectTemplate(tpl.id)}
+            />
+          </div>
+        ))
+      ) : (
+        /* Post pairs */
+        campaign.posts.map((post) => (
+          <div
+            key={post.id}
+            id={post.id}
+            ref={(el) => { postRefs.current[post.id] = el; }}
+            style={{ width: '100%', maxWidth: 1100 }}
+          >
+            <PostPair
+              post={post}
+              campaign={campaign}
+              isSelected={selectedPostId === post.id}
+              onClick={() => onSelectPost(post)}
+            />
+          </div>
+        ))
+      )}
     </div>
   );
 }

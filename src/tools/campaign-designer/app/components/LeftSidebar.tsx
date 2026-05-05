@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { ChevronDown, ChevronRight, Link2, Check } from 'lucide-react';
 import { Campaign, CampaignTheme, Post, PostTemplateType, SidebarTab } from '../types';
 import { FONT_OPTIONS } from '../constants';
+import { ARTICLE_TEMPLATES } from './templates/articles/articleTemplates';
 
 interface Props {
   campaign: Campaign;
@@ -9,6 +10,8 @@ interface Props {
   setActiveTab: (tab: SidebarTab) => void;
   selectedPostId: string | null;
   onSelectPost: (post: Post) => void;
+  selectedTemplateId: string | null;
+  onSelectTemplate: (id: string) => void;
   onUpdateTheme: (theme: Partial<CampaignTheme>) => void;
 }
 
@@ -104,17 +107,25 @@ function FontField({ label, value, onChange }: { label: string; value: string; o
   );
 }
 
-export function LeftSidebar({ campaign, activeTab, setActiveTab, selectedPostId, onSelectPost, onUpdateTheme }: Props) {
+export function LeftSidebar({ campaign, activeTab, setActiveTab, selectedPostId, onSelectPost, selectedTemplateId, onSelectTemplate, onUpdateTheme }: Props) {
   const { theme } = campaign;
   const [collapsed, setCollapsed] = useState<Set<PostTemplateType>>(new Set());
+  const [templateGroupCollapsed, setTemplateGroupCollapsed] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const postButtonRefs = useRef<Record<string, HTMLButtonElement | null>>({});
+  const templateButtonRefs = useRef<Record<string, HTMLButtonElement | null>>({});
 
   useEffect(() => {
     if (selectedPostId && postButtonRefs.current[selectedPostId]) {
       postButtonRefs.current[selectedPostId]!.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
   }, [selectedPostId]);
+
+  useEffect(() => {
+    if (selectedTemplateId && templateButtonRefs.current[selectedTemplateId]) {
+      templateButtonRefs.current[selectedTemplateId]!.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }, [selectedTemplateId]);
 
   function copyAnchorLink(postId: string, e: React.MouseEvent) {
     e.stopPropagation();
@@ -163,15 +174,16 @@ export function LeftSidebar({ campaign, activeTab, setActiveTab, selectedPostId,
 
       {/* Tabs */}
       <div style={{ display: 'flex', borderBottom: '1px solid rgba(250,244,236,0.07)', padding: '0 4px' }}>
-        <button style={TAB_STYLE(activeTab === 'posts')} onClick={() => setActiveTab('posts')}>Posts</button>
+        <button style={TAB_STYLE(activeTab === 'template')} onClick={() => setActiveTab('template')}>Template</button>
+        <button style={TAB_STYLE(activeTab === 'draft')} onClick={() => setActiveTab('draft')}>Draft</button>
         <button style={TAB_STYLE(activeTab === 'theme')} onClick={() => setActiveTab('theme')}>Theme</button>
       </div>
 
       {/* Tab content */}
       <div style={{ flex: 1, overflowY: 'auto' }}>
 
-        {/* ── Posts tab ──────────────────────────────────────────── */}
-        {activeTab === 'posts' && (
+        {/* ── Draft tab ──────────────────────────────────────────── */}
+        {activeTab === 'draft' && (
           <div style={{ paddingBottom: 16 }}>
             {(Object.entries(grouped) as [PostTemplateType, Post[]][]).map(([type, posts]) => {
               const isCollapsed = collapsed.has(type);
@@ -276,6 +288,79 @@ export function LeftSidebar({ campaign, activeTab, setActiveTab, selectedPostId,
                     );
                   })}
                 </div>
+              );
+            })}
+          </div>
+        )}
+
+        {/* ── Template tab ───────────────────────────────────────── */}
+        {activeTab === 'template' && (
+          <div style={{ paddingBottom: 16 }}>
+            <button
+              onClick={() => setTemplateGroupCollapsed((v) => !v)}
+              style={{
+                width: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 8,
+                padding: '10px 16px 10px 20px',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                borderTop: '1px solid rgba(250,244,236,0.05)',
+                marginTop: 4,
+              }}
+            >
+              <span style={{ width: 8, height: 8, borderRadius: 2, background: '#d74939', flexShrink: 0 }} />
+              <span
+                style={{
+                  fontFamily: "'JetBrains Mono', monospace",
+                  fontSize: 10,
+                  fontWeight: 600,
+                  color: 'rgba(250,244,236,0.5)',
+                  letterSpacing: '0.07em',
+                  textTransform: 'uppercase',
+                  flex: 1,
+                  textAlign: 'left',
+                }}
+              >
+                Templates
+              </span>
+              <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: 'rgba(250,244,236,0.25)', marginRight: 4 }}>
+                {ARTICLE_TEMPLATES.length}
+              </span>
+              {templateGroupCollapsed
+                ? <ChevronRight size={12} color="rgba(250,244,236,0.3)" />
+                : <ChevronDown size={12} color="rgba(250,244,236,0.3)" />}
+            </button>
+
+            {!templateGroupCollapsed && ARTICLE_TEMPLATES.map((tpl) => {
+              const selected = selectedTemplateId === tpl.id;
+              return (
+                <button
+                  key={tpl.id}
+                  ref={(el) => { templateButtonRefs.current[tpl.id] = el; }}
+                  onClick={() => onSelectTemplate(tpl.id)}
+                  style={{
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    padding: '9px 12px 9px 36px',
+                    background: selected ? 'rgba(215,73,57,0.09)' : 'transparent',
+                    border: 'none',
+                    borderLeft: `3px solid ${selected ? '#d74939' : 'transparent'}`,
+                    color: selected ? '#faf4ec' : 'rgba(250,244,236,0.5)',
+                    fontFamily: 'Outfit, sans-serif',
+                    fontSize: 13,
+                    fontWeight: selected ? 600 : 400,
+                    cursor: 'pointer',
+                    transition: 'background 0.12s, color 0.12s',
+                    lineHeight: 1.3,
+                    textAlign: 'left',
+                  }}
+                >
+                  {tpl.name}
+                </button>
               );
             })}
           </div>

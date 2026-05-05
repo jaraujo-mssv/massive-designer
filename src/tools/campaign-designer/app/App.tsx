@@ -7,11 +7,16 @@ import { RightPanel } from './components/RightPanel';
 
 function App() {
   const { activeCampaign, updatePost, updateTheme } = useCampaigns();
-  const [activeTab, setActiveTab] = useState<SidebarTab>('posts');
+  const [activeTab, setActiveTab] = useState<SidebarTab>('template');
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
+  const [selectedTemplateId, setSelectedTemplateId] = useState<string | null>(null);
 
   function handleSelectPost(post: Post) {
     setSelectedPost((prev) => (prev?.id === post.id ? null : post));
+  }
+
+  function handleSelectTemplate(id: string) {
+    setSelectedTemplateId((prev) => (prev === id ? null : id));
   }
 
   // Keep selectedPost in sync with live campaign state
@@ -34,13 +39,18 @@ function App() {
         setActiveTab={setActiveTab}
         selectedPostId={liveSelectedPost?.id ?? null}
         onSelectPost={handleSelectPost}
+        selectedTemplateId={selectedTemplateId}
+        onSelectTemplate={handleSelectTemplate}
         onUpdateTheme={updateTheme}
       />
 
       <PostGallery
         campaign={activeCampaign}
+        activeTab={activeTab}
         selectedPostId={liveSelectedPost?.id ?? null}
         onSelectPost={handleSelectPost}
+        selectedTemplateId={selectedTemplateId}
+        onSelectTemplate={handleSelectTemplate}
       />
 
       <RightPanel

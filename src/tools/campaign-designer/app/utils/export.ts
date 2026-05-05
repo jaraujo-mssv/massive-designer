@@ -9,9 +9,12 @@ export async function exportPostCanvas(
 ): Promise<void> {
   if (!ref.current) throw new Error('Canvas ref not found');
 
-  const width = platform === 'linkedin' ? 1080 : 1200;
-  const height = platform === 'linkedin' ? 1350 : 675;
-  const platformLabel = platform === 'linkedin' ? 'LinkedIn' : 'X-Twitter';
+  const dims = {
+    linkedin: { w: 1080, h: 1350, label: 'LinkedIn' },
+    twitter: { w: 1200, h: 675, label: 'X-Twitter' },
+    'twitter-article': { w: 1244, h: 500, label: 'X-Twitter-Article' },
+  } as const;
+  const { w: width, h: height, label: platformLabel } = dims[platform];
 
   const blob = await domToBlob(ref.current, {
     width,

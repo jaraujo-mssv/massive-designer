@@ -11,7 +11,5 @@ export interface ArticleTemplate {
 }
 
 export const ARTICLE_TEMPLATES: ArticleTemplate[] = [
-  { id: 'article-one',   name: 'Template 1', Component: ArticleOne,   content: DEFAULT_ARTICLE_CONTENT },
-  { id: 'article-two',   name: 'Template 2', Component: ArticleTwo,   content: { ...DEFAULT_ARTICLE_CONTENT, bgImageUrl: '/web-render-api/Network.jpg' } },
-  { id: 'article-three', name: 'Template 3', Component: ArticleThree, content: { ...DEFAULT_ARTICLE_CONTENT, bgImageUrl: '/web-render-api/World.jpg' } },
+  { id: 'article-one',   name: 'Launch Post', Component: ArticleOne,   content: DEFAULT_ARTICLE_CONTENT },
 ];

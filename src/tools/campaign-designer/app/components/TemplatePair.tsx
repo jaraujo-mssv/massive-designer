@@ -12,7 +12,7 @@ interface Props {
 }
 
 const LI_W = 1080;
-const LI_H = 1350;
+const LI_H = 1080;
 const TW_W = 1200;
 const TW_H = 675;
 const TA_W = 1244;
@@ -75,7 +75,7 @@ export function TemplatePair({ template, campaign, isSelected, onClick }: Props)
         {/* LinkedIn */}
         <Canvas
           label="LinkedIn"
-          dimensions="1080×1350"
+          dimensions="1080×1080"
           width={LI_W}
           height={LI_H}
           scale={LI_SCALE}

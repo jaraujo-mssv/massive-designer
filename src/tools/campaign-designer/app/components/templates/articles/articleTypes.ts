@@ -11,14 +11,14 @@ export interface ArticleProps {
 }
 
 export const DIMENSIONS = {
-  linkedin:         { w: 1080, h: 1350 },
+  linkedin:         { w: 1080, h: 1080 },
   twitter:          { w: 1200, h: 675 },
   'twitter-article': { w: 1244, h: 500 },
 } as const;
 
 export interface ArticleContent {
   title: string;       // "Web Render API"
-  tagline: string;     // "The data layer for the agentic cloud"
+  tagline: string;     // "Real-time web access for your AI"
   endpoints: ArticleEndpoint[];
   bgImageUrl: string;
   logoUrl: string;
@@ -26,11 +26,11 @@ export interface ArticleContent {
 
 export const DEFAULT_ARTICLE_CONTENT: ArticleContent = {
   title: 'Web Render API',
-  tagline: 'The data layer for the agentic cloud',
+  tagline: 'Real-time web access for your AI',
   endpoints: [
     { name: '/ai',     description: 'ChatGPT, Gemini, Perpexity and Copilot' },
-    { name: '/search', description: 'Search, AI Overviews' },
-    { name: '/browse', description: 'Render any page. JS, CAPTCHAs, sessions.' },
+    { name: '/search', description: 'Search results and AI Overviews' },
+    { name: '/browse', description: 'Render any page; JS, CAPTCHAs, sessions' },
   ],
   bgImageUrl: '/web-render-api/Gradient 14.jpg',
   logoUrl: '/logo.svg',

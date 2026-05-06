@@ -19,9 +19,10 @@ fs.cpSync(path.join(ROOT, 'public', 'web-render-api'), path.join(OUT, 'web-rende
 
 // 3. Render each (template, platform) to static markup
 const PLATFORMS: { id: Platform; label: string; w: number; h: number; scale: number }[] = [
-  { id: 'linkedin',         label: 'LinkedIn',                            w: 1080, h: 1080, scale: 0.32 },
-  { id: 'twitter',          label: 'X / Twitter Post and Blog Post',      w: 1200, h: 675,  scale: 0.4  },
-  { id: 'twitter-article',  label: 'X / Twitter Article and Email Header', w: 1244, h: 500,  scale: 0.4  },
+  { id: 'linkedin',         label: 'LinkedIn',                   w: 1080, h: 1080, scale: 0.32 },
+  { id: 'twitter',          label: 'X / Twitter Post',           w: 1200, h: 675,  scale: 0.4  },
+  { id: 'twitter-article',  label: 'X / Twitter Article',        w: 1244, h: 500,  scale: 0.4  },
+  { id: 'blog-email',       label: 'Blog Post and Email Header', w: 1200, h: 675,  scale: 0.4  },
 ];
 
 // Rewrite absolute image paths (e.g. src="/logo.svg") to relative for file:// usage

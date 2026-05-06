@@ -17,21 +17,29 @@ const TW_W = 1200;
 const TW_H = 675;
 const TA_W = 1244;
 const TA_H = 500;
+const BE_W = 1200;
+const BE_H = 675;
 const LI_SCALE = 0.3;
 const TW_SCALE = 0.38;
 const TA_SCALE = 0.38;
+const BE_SCALE = 0.38;
 
-type ExportPlatform = 'linkedin' | 'twitter' | 'twitter-article';
+type ExportPlatform = 'linkedin' | 'twitter' | 'twitter-article' | 'blog-email';
 
 export function TemplatePair({ template, campaign, isSelected, onClick }: Props) {
   const liRef = useRef<HTMLDivElement>(null);
   const twRef = useRef<HTMLDivElement>(null);
   const taRef = useRef<HTMLDivElement>(null);
+  const beRef = useRef<HTMLDivElement>(null);
   const [exporting, setExporting] = useState<ExportPlatform | null>(null);
   const { Component, content, name } = template;
 
   async function handleExport(platform: ExportPlatform) {
-    const ref = platform === 'linkedin' ? liRef : platform === 'twitter' ? twRef : taRef;
+    const ref =
+      platform === 'linkedin' ? liRef :
+      platform === 'twitter' ? twRef :
+      platform === 'twitter-article' ? taRef :
+      beRef;
     try {
       setExporting(platform);
       await exportPostCanvas(ref, platform, name, campaign.name);
@@ -88,7 +96,7 @@ export function TemplatePair({ template, campaign, isSelected, onClick }: Props)
 
         {/* Twitter */}
         <Canvas
-          label="X / Twitter Post and Blog Post"
+          label="X / Twitter Post"
           dimensions="1200×675"
           width={TW_W}
           height={TW_H}
@@ -102,7 +110,7 @@ export function TemplatePair({ template, campaign, isSelected, onClick }: Props)
 
         {/* X / Twitter Article */}
         <Canvas
-          label="X / Twitter Article and Email Header"
+          label="X / Twitter Article"
           dimensions="1244×500"
           width={TA_W}
           height={TA_H}
@@ -112,6 +120,20 @@ export function TemplatePair({ template, campaign, isSelected, onClick }: Props)
           onExport={(e) => { e.stopPropagation(); handleExport('twitter-article'); }}
         >
           <Component content={content} platform="twitter-article" />
+        </Canvas>
+
+        {/* Blog Post and Email Header */}
+        <Canvas
+          label="Blog Post and Email Header"
+          dimensions="1200×675"
+          width={BE_W}
+          height={BE_H}
+          scale={BE_SCALE}
+          ref_={beRef}
+          loading={exporting === 'blog-email'}
+          onExport={(e) => { e.stopPropagation(); handleExport('blog-email'); }}
+        >
+          <Component content={content} platform="blog-email" />
         </Canvas>
       </div>
     </div>

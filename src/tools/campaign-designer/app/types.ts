@@ -21,7 +21,7 @@ export interface GeoCountryItem {
   snippet?: string;
 }
 
-export type Platform = 'linkedin' | 'twitter' | 'twitter-article';
+export type Platform = 'linkedin' | 'twitter' | 'twitter-article' | 'blog-email';
 export type SidebarTab = 'draft' | 'template' | 'theme';
 
 export interface CampaignTheme {

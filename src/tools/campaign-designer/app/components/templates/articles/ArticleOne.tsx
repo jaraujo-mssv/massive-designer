@@ -11,8 +11,83 @@ const GLASS_CARD: React.CSSProperties = {
 export function ArticleOne({ content, platform }: ArticleProps) {
   const isLi = platform === 'linkedin';
   const isArticle = platform === 'twitter-article';
+  const isBlogEmail = platform === 'blog-email';
   const { w: W, h: H } = DIMENSIONS[platform];
   const { title, tagline, endpoints, bgImageUrl, logoUrl } = content;
+
+  // ---- Blog Post and Email Header: centered, no frame, no endpoint cards ----
+  if (isBlogEmail) {
+    return (
+      <div
+        style={{
+          width: W,
+          height: H,
+          background: '#0d0b10',
+          position: 'relative',
+          overflow: 'hidden',
+          fontFamily: 'Outfit, sans-serif',
+        }}
+      >
+        <img src={bgImageUrl} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.41 }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.7) 100%)' }} />
+
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '0 80px',
+          }}
+        >
+          <img src={logoUrl} alt="Massive" style={{ height: 40, width: 'auto' }} />
+          <div
+            style={{
+              marginTop: 40,
+              fontSize: 48,
+              fontWeight: 700,
+              color: '#faf4ec',
+              lineHeight: 1.13,
+              letterSpacing: '0.01em',
+              textAlign: 'center',
+            }}
+          >
+            New Product Launch!
+          </div>
+          <div
+            style={{
+              marginTop: 4,
+              fontSize: 68,
+              fontWeight: 800,
+              background: ORANGE_GRADIENT,
+              WebkitBackgroundClip: 'text',
+              backgroundClip: 'text',
+              color: 'transparent',
+              lineHeight: 1.13,
+              letterSpacing: '0.01em',
+              textAlign: 'center',
+            }}
+          >
+            {title}
+          </div>
+          <div
+            style={{
+              marginTop: 36,
+              fontSize: 26,
+              fontWeight: 400,
+              color: 'rgba(255,255,255,0.71)',
+              lineHeight: 1.18,
+              textAlign: 'center',
+            }}
+          >
+            {tagline}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   // Layout per platform
   // LinkedIn: hero (720×380) + 90 gap + cards (h=240) = 710 total, centered vertically

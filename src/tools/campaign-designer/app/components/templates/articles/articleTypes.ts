@@ -11,9 +11,10 @@ export interface ArticleProps {
 }
 
 export const DIMENSIONS = {
-  linkedin:         { w: 1080, h: 1080 },
-  twitter:          { w: 1200, h: 675 },
+  linkedin:          { w: 1080, h: 1080 },
+  twitter:           { w: 1200, h: 675 },
   'twitter-article': { w: 1244, h: 500 },
+  'blog-email':      { w: 1200, h: 675 },
 } as const;
 
 export interface ArticleContent {

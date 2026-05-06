@@ -13,6 +13,7 @@ export async function exportPostCanvas(
     linkedin: { w: 1080, h: 1080, label: 'LinkedIn' },
     twitter: { w: 1200, h: 675, label: 'X-Twitter' },
     'twitter-article': { w: 1244, h: 500, label: 'X-Twitter-Article' },
+    'blog-email': { w: 1200, h: 675, label: 'Blog-Post-and-Email-Header' },
   } as const;
   const { w: width, h: height, label: platformLabel } = dims[platform];
 

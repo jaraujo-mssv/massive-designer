@@ -80,6 +80,7 @@ export function ArticleOne({ content, platform }: ArticleProps) {
               color: 'rgba(255,255,255,0.71)',
               lineHeight: 1.18,
               textAlign: 'center',
+              whiteSpace: 'nowrap',
             }}
           >
             {tagline}

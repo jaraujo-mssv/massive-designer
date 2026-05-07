@@ -273,18 +273,16 @@ export default function App() {
       const allSrcs = [...new Set(imgElements.map(img => img.src).filter(Boolean))];
       const dataUrlMap = await preloadImagesToDataUrls(allSrcs);
 
-      // Light mode has no bg image; only fetch in dark mode.
+      const bgSrc = settings.canvasTheme === 'light' ? '/bg-light.jpg' : '/bg.jpg';
       let bgDataUrl = '';
-      if (settings.canvasTheme === 'dark') {
-        try {
-          const bgBlob = await fetch('/bg.jpg').then(r => r.blob());
-          bgDataUrl = await new Promise<string>(resolve => {
-            const reader = new FileReader();
-            reader.onload = () => resolve(reader.result as string);
-            reader.readAsDataURL(bgBlob);
-          });
-        } catch { /* non-fatal */ }
-      }
+      try {
+        const bgBlob = await fetch(bgSrc).then(r => r.blob());
+        bgDataUrl = await new Promise<string>(resolve => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result as string);
+          reader.readAsDataURL(bgBlob);
+        });
+      } catch { /* non-fatal */ }
 
       const dataUrl = await domToJpeg(element, {
         quality: 0.95,

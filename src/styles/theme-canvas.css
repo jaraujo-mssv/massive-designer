@@ -11,8 +11,8 @@
   --canvas-border-12: rgba(26, 27, 42, 0.12);
   --canvas-border-15: rgba(26, 27, 42, 0.15);
   --canvas-tint-08: rgba(26, 27, 42, 0.08);
-  --canvas-export-bg-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='96' height='96'><path d='M 96 0 L 0 0 0 96' fill='none' stroke='%231a1b2a' stroke-opacity='0.05' stroke-width='2'/></svg>");
-  --canvas-export-bg-size: 96px 96px;
+  --canvas-export-bg-image: url(/bg-light.jpg);
+  --canvas-export-bg-size: cover;
 }
 
 .canvas-dark {

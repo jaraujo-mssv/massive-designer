@@ -643,18 +643,17 @@ export default function App() {
       const dataUrlMap = await preloadImagesToDataUrls(allSrcs);
 
       // Pre-fetch the background image (CSS background-image, not an <img> tag)
-      // so domToJpeg doesn't get a blank canvas for it. Light mode has no bg image.
+      // so domToJpeg doesn't get a blank canvas for it.
+      const bgSrc = settings.canvasTheme === 'light' ? '/bg-light.jpg' : '/bg.jpg';
       let bgDataUrl = '';
-      if (settings.canvasTheme === 'dark') {
-        try {
-          const bgBlob = await fetch('/bg.jpg').then(r => r.blob());
-          bgDataUrl = await new Promise<string>(resolve => {
-            const reader = new FileReader();
-            reader.onload = () => resolve(reader.result as string);
-            reader.readAsDataURL(bgBlob);
-          });
-        } catch { /* non-fatal — export proceeds without background */ }
-      }
+      try {
+        const bgBlob = await fetch(bgSrc).then(r => r.blob());
+        bgDataUrl = await new Promise<string>(resolve => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result as string);
+          reader.readAsDataURL(bgBlob);
+        });
+      } catch { /* non-fatal — export proceeds without background */ }
 
       // Measure true content height from the scrollable MarketMapCanvas container
       // scrollHeight is in the element's own coordinate space (unscaled)

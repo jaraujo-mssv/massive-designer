@@ -304,7 +304,7 @@ export function CompanyItem({
                     fontSize: `${settings.companyFontSize}px`,
                     fontFamily: 'Outfit, sans-serif',
                     fontWeight: 400,
-                    color: canvasTheme === 'light' ? 'rgba(26,27,42,0.85)' : 'rgba(255,255,255,0.85)'
+                    color: 'var(--canvas-text-85)'
                   }}
                 />
               ) : (
@@ -316,7 +316,7 @@ export function CompanyItem({
                     fontSize: `${settings.companyFontSize}px`,
                     fontFamily: 'Outfit, sans-serif',
                     fontWeight: 400,
-                    color: canvasTheme === 'light' ? 'rgba(26,27,42,0.85)' : 'rgba(255,255,255,0.85)'
+                    color: 'var(--canvas-text-85)'
                   }}
                 >
                   {company.name}
@@ -381,7 +381,7 @@ export function CompanyItem({
                     fontSize: `${settings.companyFontSize}px`,
                     fontFamily: 'Outfit, sans-serif',
                     fontWeight: 400,
-                    color: canvasTheme === 'light' ? 'rgba(26,27,42,0.85)' : 'rgba(255,255,255,0.85)'
+                    color: 'var(--canvas-text-85)'
                   }}
                 />
               ) : (
@@ -393,7 +393,7 @@ export function CompanyItem({
                     fontSize: `${settings.companyFontSize}px`,
                     fontFamily: 'Outfit, sans-serif',
                     fontWeight: 400,
-                    color: canvasTheme === 'light' ? 'rgba(26,27,42,0.85)' : 'rgba(255,255,255,0.85)'
+                    color: 'var(--canvas-text-85)'
                   }}
                 >
                   {company.name}
@@ -407,13 +407,13 @@ export function CompanyItem({
                     <div
                       key={sub.id}
                       className="flex items-center gap-1 px-2 py-0.5 rounded-full flex-shrink-0"
-                      style={{ backgroundColor: canvasTheme === 'light' ? 'rgba(26,27,42,0.08)' : 'rgba(255,255,255,0.08)', border: canvasTheme === 'light' ? '1px solid rgba(26,27,42,0.12)' : '1px solid rgba(255,255,255,0.12)' }}
+                      style={{ backgroundColor: 'var(--canvas-tint-08)', border: '1px solid var(--canvas-border-12)' }}
                       title={sub.name}
                     >
                       <SubLogoImg logoUrl={sub.logoUrl} name={sub.name} />
                       <span
                         className="text-xs font-medium"
-                        style={{ fontFamily: 'Outfit, sans-serif', color: canvasTheme === 'light' ? 'rgba(26,27,42,0.7)' : 'rgba(255,255,255,0.7)' }}
+                        style={{ fontFamily: 'Outfit, sans-serif', color: 'var(--canvas-text-70)' }}
                       >
                         {sub.name}
                       </span>

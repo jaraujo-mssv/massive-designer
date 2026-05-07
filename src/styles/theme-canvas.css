@@ -1,0 +1,35 @@
+.canvas-light {
+  --canvas-bg: #f5ece0;
+  --canvas-card-bg: #faf4ec;
+  --canvas-card-bg-2: #eee4d8;
+  --canvas-text: #1a1b2a;
+  --canvas-text-85: rgba(26, 27, 42, 0.85);
+  --canvas-text-70: rgba(26, 27, 42, 0.7);
+  --canvas-text-dim: rgba(26, 27, 42, 0.5);
+  --canvas-red: #c9382a;
+  --canvas-border: rgba(26, 27, 42, 0.1);
+  --canvas-border-12: rgba(26, 27, 42, 0.12);
+  --canvas-border-15: rgba(26, 27, 42, 0.15);
+  --canvas-tint-08: rgba(26, 27, 42, 0.08);
+  --canvas-export-bg-image:
+    linear-gradient(rgba(26, 27, 42, 0.05) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(26, 27, 42, 0.05) 2px, transparent 2px);
+  --canvas-export-bg-size: 96px 96px;
+}
+
+.canvas-dark {
+  --canvas-bg: #0d0c17;
+  --canvas-card-bg: #1a1920;
+  --canvas-card-bg-2: #2c2a30;
+  --canvas-text: #faf4ec;
+  --canvas-text-85: rgba(255, 255, 255, 0.85);
+  --canvas-text-70: rgba(255, 255, 255, 0.7);
+  --canvas-text-dim: rgba(255, 255, 255, 0.5);
+  --canvas-red: #e05642;
+  --canvas-border: rgba(255, 255, 255, 0.08);
+  --canvas-border-12: rgba(255, 255, 255, 0.12);
+  --canvas-border-15: #3d3a45;
+  --canvas-tint-08: rgba(255, 255, 255, 0.08);
+  --canvas-export-bg-image: url(/bg.jpg);
+  --canvas-export-bg-size: cover;
+}

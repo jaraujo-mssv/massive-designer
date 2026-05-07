@@ -141,8 +141,8 @@ export function ColumnComponent({
       >
         {/* Column Header (Edit mode only) */}
         {mode === "edit" && (
-          <div className="flex items-center justify-between px-2 py-1 rounded-lg border" style={{ backgroundColor: canvasTheme === 'light' ? '#eee4d8' : '#1A1920', borderColor: canvasTheme === 'light' ? 'rgba(26,27,42,0.12)' : '#2C2A30' }}>
-            <span className="text-xs font-medium" style={{ color: canvasTheme === 'light' ? 'rgba(26,27,42,0.5)' : 'rgba(250,244,236,0.5)' }}>
+          <div className="flex items-center justify-between px-2 py-1 rounded-lg border" style={{ backgroundColor: 'var(--canvas-card-bg-2)', borderColor: 'var(--canvas-border-12)' }}>
+            <span className="text-xs font-medium" style={{ color: 'var(--canvas-text-dim)' }}>
               Column {columnIndex + 1}
             </span>
             <button

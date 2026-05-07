@@ -1,6 +1,7 @@
 @import './fonts.css';
 @import './tailwind.css';
 @import './theme-base.css';
+@import './theme-canvas.css';
 @import './theme-market-map.css';
 @import './theme-top-list.css';
 @import './theme-image-upload.css';

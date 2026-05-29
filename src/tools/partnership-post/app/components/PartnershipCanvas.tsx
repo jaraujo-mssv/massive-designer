@@ -7,9 +7,10 @@ const SLOT_HEIGHT = 280;
 interface PartnershipCanvasProps {
   canvasRef: React.RefObject<HTMLDivElement>;
   imageUrl: string;
+  onImageLoad?: () => void;
 }
 
-export function PartnershipCanvas({ canvasRef, imageUrl }: PartnershipCanvasProps) {
+export function PartnershipCanvas({ canvasRef, imageUrl, onImageLoad }: PartnershipCanvasProps) {
   return (
     <div style={{ width: 1200 * 0.5, height: 675 * 0.5 }}>
       <div
@@ -67,6 +68,7 @@ export function PartnershipCanvas({ canvasRef, imageUrl }: PartnershipCanvasProp
                 src={imageUrl}
                 alt="Partner"
                 crossOrigin="anonymous"
+                onLoad={onImageLoad}
                 style={{ maxWidth: '100%', maxHeight: SLOT_HEIGHT, width: 'auto', height: 'auto', objectFit: 'contain' }}
               />
             ) : (

@@ -12,6 +12,9 @@ function App() {
   const canvasRef = useRef<HTMLDivElement>(null);
   const [searchParams] = useSearchParams();
 
+  const autoDownload = searchParams.get('jpg') === '1';
+  const didAutoDownload = useRef(false);
+
   // Auto-load image URL from ?e= param
   useEffect(() => {
     const url = searchParams.get('e');
@@ -31,6 +34,20 @@ function App() {
       setExporting(false);
     }
   };
+
+  // Auto-download a JPG once when ?jpg=1 is present (fired after the partner
+  // image loads, or shortly after mount when there is no image).
+  const triggerAutoDownload = () => {
+    if (!autoDownload || didAutoDownload.current) return;
+    didAutoDownload.current = true;
+    requestAnimationFrame(() => handleExport('jpg'));
+  };
+
+  useEffect(() => {
+    if (!autoDownload || imageUrl) return;
+    const id = setTimeout(triggerAutoDownload, 300);
+    return () => clearTimeout(id);
+  }, [autoDownload, imageUrl]);
 
   return (
     <div className="flex h-screen bg-bg">
@@ -55,7 +72,7 @@ function App() {
         }}
       >
         <h3 className="text-lg font-semibold text-text-primary">X/Twitter (1200x675)</h3>
-        <PartnershipCanvas canvasRef={canvasRef} imageUrl={imageUrl} />
+        <PartnershipCanvas canvasRef={canvasRef} imageUrl={imageUrl} onImageLoad={triggerAutoDownload} />
       </div>
     </div>
   );

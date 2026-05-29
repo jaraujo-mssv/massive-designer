@@ -3,6 +3,7 @@ import { Link, useMatch } from 'react-router'
 const tools = [
   { label: 'Market Map', route: '/market-map' },
   { label: 'Social Media', route: '/social-media' },
+  { label: 'Partnership Post', route: '/partnership-post' },
   { label: 'Top List', route: '/top-list' },
   { label: 'Image Converter', route: '/image-upload' },
   { label: 'Campaign Designer', route: '/campaign-designer' },

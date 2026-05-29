@@ -6,6 +6,7 @@ import { LandingPage } from '@/shared/components/LandingPage'
 const CampaignDesignerApp = lazy(() => import('@/tools/campaign-designer/app/App'))
 const ImageUploadApp = lazy(() => import('@/tools/image-upload/app/App'))
 const MarketMapApp = lazy(() => import('@/tools/market-map/app/App'))
+const PartnershipPostApp = lazy(() => import('@/tools/partnership-post/app/App'))
 const SocialMediaApp = lazy(() => import('@/tools/social-media/app/App'))
 const TopListApp = lazy(() => import('@/tools/top-list/app/App'))
 
@@ -59,6 +60,14 @@ export const router = createBrowserRouter([
     element: (
       <ToolLayout themeClass="tool-market-map">
         <MarketMapApp />
+      </ToolLayout>
+    ),
+  },
+  {
+    path: '/partnership-post',
+    element: (
+      <ToolLayout themeClass="tool-partnership-post">
+        <PartnershipPostApp />
       </ToolLayout>
     ),
   },

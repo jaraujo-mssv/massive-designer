@@ -2,15 +2,18 @@ import { useState, useRef, useEffect } from 'react';
 import { useSearchParams } from 'react-router';
 import { Sidebar } from './components/Sidebar';
 import { PartnershipCanvas } from './components/PartnershipCanvas';
-import { exportCanvas, ExportFormat } from './utils/export';
+import { exportCanvas, fileNameFromUrl, ExportFormat } from './utils/export';
+import { TEMPLATES, TemplateId, resolveTemplate } from './constants/templates';
 
 function App() {
+  const [searchParams] = useSearchParams();
+
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [imageUrl, setImageUrl] = useState('');
   const [exporting, setExporting] = useState(false);
+  const [template, setTemplate] = useState<TemplateId>(resolveTemplate(searchParams));
 
   const canvasRef = useRef<HTMLDivElement>(null);
-  const [searchParams] = useSearchParams();
 
   const autoDownload = searchParams.get('jpg') === '1';
   const didAutoDownload = useRef(false);
@@ -26,7 +29,7 @@ function App() {
   const handleExport = async (format: ExportFormat) => {
     setExporting(true);
     try {
-      await exportCanvas(canvasRef, format);
+      await exportCanvas(canvasRef, format, fileNameFromUrl(imageUrl));
     } catch (err) {
       console.error('Export failed:', err);
       alert(`Export failed: ${err instanceof Error ? err.message : 'Unknown error'}. Please try again.`);
@@ -56,6 +59,8 @@ function App() {
         setSidebarOpen={setSidebarOpen}
         imageUrl={imageUrl}
         setImageUrl={setImageUrl}
+        template={template}
+        setTemplate={setTemplate}
         exporting={exporting}
         onExport={handleExport}
       />
@@ -72,7 +77,7 @@ function App() {
         }}
       >
         <h3 className="text-lg font-semibold text-text-primary">X/Twitter (1200x675)</h3>
-        <PartnershipCanvas canvasRef={canvasRef} imageUrl={imageUrl} onImageLoad={triggerAutoDownload} />
+        <PartnershipCanvas canvasRef={canvasRef} imageUrl={imageUrl} template={TEMPLATES[template]} onImageLoad={triggerAutoDownload} />
       </div>
     </div>
   );

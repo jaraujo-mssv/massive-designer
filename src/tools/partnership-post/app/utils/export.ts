@@ -2,9 +2,23 @@ import { domToBlob } from 'modern-screenshot';
 
 export type ExportFormat = 'jpg' | 'png';
 
+// Derive a download base name from the partner image URL: last path segment, no extension.
+export const fileNameFromUrl = (url: string): string => {
+  if (!url) return 'X-Twitter';
+  try {
+    const path = new URL(url, window.location.href).pathname;
+    const last = path.split('/').pop() || '';
+    const name = decodeURIComponent(last).replace(/\.[^.]+$/, '').trim();
+    return name || 'X-Twitter';
+  } catch {
+    return 'X-Twitter';
+  }
+};
+
 export const exportCanvas = async (
   canvasRef: React.RefObject<HTMLDivElement>,
-  format: ExportFormat
+  format: ExportFormat,
+  baseName: string
 ): Promise<void> => {
   if (!canvasRef.current) {
     throw new Error('Canvas reference not found');
@@ -25,7 +39,7 @@ export const exportCanvas = async (
     throw new Error('Failed to create blob');
   }
 
-  const filename = `Partnership Post - X-Twitter.${format}`;
+  const filename = `Partnership Post - ${baseName}.${format}`;
 
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');

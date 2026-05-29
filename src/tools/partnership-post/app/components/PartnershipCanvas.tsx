@@ -1,33 +1,105 @@
 import React from 'react';
-
-// Each logo slot is ~30% of the 1200px canvas width, with a height cap so tall/square images stay balanced.
-const SLOT_WIDTH = 360;
-const SLOT_HEIGHT = 280;
+import { TemplateConfig } from '../constants/templates';
+import { MacWindow } from './MacWindow';
 
 interface PartnershipCanvasProps {
   canvasRef: React.RefObject<HTMLDivElement>;
   imageUrl: string;
+  template: TemplateConfig;
   onImageLoad?: () => void;
 }
 
-export function PartnershipCanvas({ canvasRef, imageUrl, onImageLoad }: PartnershipCanvasProps) {
+interface LockupProps {
+  mode: 'dark' | 'light';
+  imageUrl: string;
+  onImageLoad?: () => void;
+  slotWidth: number;
+  slotHeight: number;
+  timesSize: number;
+  fullWidth?: boolean;
+}
+
+// The Massive × Partner lockup. Slots cap image height so tall/square images stay balanced.
+function Lockup({ mode, imageUrl, onImageLoad, slotWidth, slotHeight, timesSize, fullWidth }: LockupProps) {
+  const imgStyle: React.CSSProperties = {
+    maxWidth: '100%',
+    maxHeight: slotHeight,
+    width: 'auto',
+    height: 'auto',
+    objectFit: 'contain',
+  };
+
+  return (
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 0,
+        width: fullWidth ? '100%' : 'auto',
+      }}
+    >
+      {/* Massive logo — logo-negative.svg (white, dark bg) / logo-positive.svg (dark, light bg); same 290x79 viewBox */}
+      <div style={{ width: slotWidth, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <img src={mode === 'light' ? '/logo-positive.svg' : '/logo-negative.svg'} alt="Massive" style={imgStyle} />
+      </div>
+
+      <span style={{ fontSize: timesSize, fontWeight: 300, lineHeight: 1, color: 'var(--canvas-text)' }}>×</span>
+
+      {/* Partner logo — fits any aspect ratio / format */}
+      <div style={{ width: slotWidth, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        {imageUrl ? (
+          <img src={imageUrl} alt="Partner" crossOrigin="anonymous" onLoad={onImageLoad} style={imgStyle} />
+        ) : (
+          <div
+            style={{
+              height: slotHeight,
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              border: '2px dashed var(--canvas-border-15)',
+              borderRadius: 12,
+              color: 'var(--canvas-text-dim)',
+              fontSize: 18,
+              textAlign: 'center',
+              padding: 16,
+            }}
+          >
+            Partner image
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export function PartnershipCanvas({ canvasRef, imageUrl, template, onImageLoad }: PartnershipCanvasProps) {
+  const composition = template.framed ? (
+    <MacWindow>
+      <Lockup mode={template.mode} imageUrl={imageUrl} onImageLoad={onImageLoad} slotWidth={360} slotHeight={300} timesSize={88} />
+    </MacWindow>
+  ) : (
+    <Lockup mode={template.mode} imageUrl={imageUrl} onImageLoad={onImageLoad} slotWidth={500} slotHeight={400} timesSize={112} fullWidth />
+  );
+
   return (
     <div style={{ width: 1200 * 0.5, height: 675 * 0.5 }}>
       <div
         ref={canvasRef}
-        className="canvas-dark shadow-2xl relative overflow-hidden"
+        className={`canvas-${template.mode} shadow-2xl relative overflow-hidden`}
         style={{
           width: 1200,
           height: 675,
           backgroundColor: 'var(--canvas-bg)',
-          backgroundImage: 'var(--canvas-export-bg-image)',
-          backgroundSize: 'var(--canvas-export-bg-size)',
+          backgroundImage: `url(${template.background})`,
+          backgroundSize: 'cover',
           backgroundPosition: 'center',
           transform: 'scale(0.5)',
           transformOrigin: 'top left',
         }}
       >
-        {/* Centered content row */}
+        {/* Centered composition */}
         <div
           style={{
             position: 'relative',
@@ -37,60 +109,13 @@ export function PartnershipCanvas({ canvasRef, imageUrl, onImageLoad }: Partners
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: 80,
-            padding: '0 100px',
+            padding: template.framed ? 0 : '0 140px',
+            // Scale the whole composition per the active template
+            transform: `scale(${template.scale})`,
+            transformOrigin: 'center center',
           }}
         >
-          {/* Massive logo — 30% of canvas width */}
-          <div style={{ width: SLOT_WIDTH, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <img
-              src="/logo.svg"
-              alt="Massive"
-              style={{ maxWidth: '100%', maxHeight: SLOT_HEIGHT, width: 'auto', height: 'auto', objectFit: 'contain' }}
-            />
-          </div>
-
-          <span
-            style={{
-              fontSize: 80,
-              fontWeight: 300,
-              lineHeight: 1,
-              color: '#faf4ec',
-            }}
-          >
-            ×
-          </span>
-
-          {/* Partner logo — 30% of canvas width, fits any aspect ratio / format */}
-          <div style={{ width: SLOT_WIDTH, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            {imageUrl ? (
-              <img
-                src={imageUrl}
-                alt="Partner"
-                crossOrigin="anonymous"
-                onLoad={onImageLoad}
-                style={{ maxWidth: '100%', maxHeight: SLOT_HEIGHT, width: 'auto', height: 'auto', objectFit: 'contain' }}
-              />
-            ) : (
-              <div
-                style={{
-                  height: SLOT_HEIGHT,
-                  width: '100%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  border: '2px dashed rgba(250, 244, 236, 0.4)',
-                  borderRadius: 12,
-                  color: 'rgba(250, 244, 236, 0.6)',
-                  fontSize: 18,
-                  textAlign: 'center',
-                  padding: 16,
-                }}
-              >
-                Partner image
-              </div>
-            )}
-          </div>
+          {composition}
         </div>
       </div>
     </div>

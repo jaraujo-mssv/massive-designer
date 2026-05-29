@@ -1,11 +1,14 @@
 import { ChevronLeft, ChevronRight, Download, Loader2 } from 'lucide-react';
 import { ExportFormat } from '../utils/export';
+import { TEMPLATES, TemplateId } from '../constants/templates';
 
 interface SidebarProps {
   sidebarOpen: boolean;
   setSidebarOpen: (open: boolean) => void;
   imageUrl: string;
   setImageUrl: (url: string) => void;
+  template: TemplateId;
+  setTemplate: (id: TemplateId) => void;
   exporting: boolean;
   onExport: (format: ExportFormat) => void;
 }
@@ -18,6 +21,8 @@ export function Sidebar({
   setSidebarOpen,
   imageUrl,
   setImageUrl,
+  template,
+  setTemplate,
   exporting,
   onExport,
 }: SidebarProps) {
@@ -46,6 +51,27 @@ export function Sidebar({
               className={inputClass}
             />
             <p className="text-xs text-text-dim">Can also be set via the <code>?e=</code> URL parameter.</p>
+          </div>
+
+          {/* Template */}
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium text-text-primary">Template</label>
+            <div className="grid grid-cols-2 gap-2">
+              {Object.values(TEMPLATES).map((t) => (
+                <button
+                  key={t.id}
+                  onClick={() => setTemplate(t.id)}
+                  className={`flex items-center justify-center px-3 py-2 rounded-lg text-sm font-medium border ${
+                    template === t.id
+                      ? 'bg-brand text-white border-brand'
+                      : 'border-border-subtle text-text-primary hover:bg-surface-2'
+                  }`}
+                >
+                  {t.label}
+                </button>
+              ))}
+            </div>
+            <p className="text-xs text-text-dim">Can also be set via the <code>?template=</code> URL parameter (<code>?mode=light</code> still works).</p>
           </div>
 
           {/* Export */}

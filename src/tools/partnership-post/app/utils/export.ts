@@ -18,7 +18,8 @@ export const fileNameFromUrl = (url: string): string => {
 export const exportCanvas = async (
   canvasRef: React.RefObject<HTMLDivElement>,
   format: ExportFormat,
-  baseName: string
+  baseName: string,
+  templateName: string
 ): Promise<void> => {
   if (!canvasRef.current) {
     throw new Error('Canvas reference not found');
@@ -39,7 +40,7 @@ export const exportCanvas = async (
     throw new Error('Failed to create blob');
   }
 
-  const filename = `Partnership Post - ${baseName}.${format}`;
+  const filename = `Partnership Post - ${baseName} - ${templateName}.${format}`;
 
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');

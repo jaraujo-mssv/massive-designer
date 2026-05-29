@@ -29,7 +29,7 @@ function App() {
   const handleExport = async (format: ExportFormat) => {
     setExporting(true);
     try {
-      await exportCanvas(canvasRef, format, fileNameFromUrl(imageUrl));
+      await exportCanvas(canvasRef, format, fileNameFromUrl(imageUrl), TEMPLATES[template].label);
     } catch (err) {
       console.error('Export failed:', err);
       alert(`Export failed: ${err instanceof Error ? err.message : 'Unknown error'}. Please try again.`);

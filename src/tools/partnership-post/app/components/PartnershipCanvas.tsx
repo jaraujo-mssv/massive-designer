@@ -46,8 +46,8 @@ function Lockup({ mode, imageUrl, onImageLoad, slotWidth, slotHeight, timesSize,
 
       <span style={{ fontSize: timesSize, fontWeight: 300, lineHeight: 1, color: 'var(--canvas-text)' }}>×</span>
 
-      {/* Partner logo — fits any aspect ratio / format */}
-      <div style={{ width: slotWidth, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      {/* Partner logo — fits any aspect ratio / format; 5% horizontal padding */}
+      <div style={{ width: slotWidth, padding: '0 5%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         {imageUrl ? (
           <img src={imageUrl} alt="Partner" crossOrigin="anonymous" onLoad={onImageLoad} style={imgStyle} />
         ) : (

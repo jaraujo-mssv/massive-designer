@@ -12,6 +12,7 @@ import { RichTextEditor } from "./components/RichTextEditor";
 import { Download, Loader2, FileSpreadsheet } from "lucide-react";
 import { preloadImagesToDataUrls } from "./hooks/useImageToDataUrl";
 import { convertToGoogleSheetsTsvUrl } from "./utils/googleSheets";
+import { renumberColumns } from "./utils/renumber";
 
 export interface Company {
   id: string;
@@ -67,6 +68,46 @@ export interface Settings {
   thumbnailShowText: boolean;
 }
 
+export const DEFAULT_SETTINGS: Settings = {
+  columnGap: 22,
+  categoryGap: 22,
+  companyGap: 10,
+  showFullNames: true,
+  companyFontSize: 18,
+  titleGap: 0,
+  titleFontSize: 60,
+  subtitleFontSize: 32,
+  titleBold: true,
+  titleItalic: true,
+  titleLineHeight: 1.1,
+  logoSize: 56,
+  cardStrokeSize: 2,
+  sitePadding: 80,
+  topSectionBottomPadding: 0,
+  positionFontSize: 20,
+  positionWidth: 24,
+  cardMinHeight: 12,
+  cardPaddingY: 13,
+  valuationFontSize: 13,
+  autoCardHeight: false,
+  showPresentedBy: true,
+  canvasTheme: 'dark',
+  width: 850,
+  height: 1100,
+  // Thumbnail settings
+  thumbnailLogoSize: 48,
+  thumbnailLogoPadding: 10,
+  thumbnailRowPadding: 20,
+  thumbnailRowOffset: 5,
+  thumbnailRotation: 0,
+  thumbnailOpacity: 1,
+  thumbnailOffsetX: 0,
+  thumbnailOffsetY: 0,
+  thumbnailTitleFontSize: 36,
+  thumbnailDateFontSize: 24,
+  thumbnailShowText: true,
+};
+
 export default function App() {
   const [mode, setMode] = useState<"edit" | "preview">("edit");
   const [layout, setLayout] = useState<"list" | "thumbnail">("list");
@@ -79,45 +120,7 @@ export default function App() {
     { id: "col-1", companies: [] },
     { id: "col-2", companies: [] },
   ]);
-  const [settings, setSettings] = useState<Settings>({
-    columnGap: 12,
-    categoryGap: 24,
-    companyGap: 12,
-    showFullNames: true,
-    companyFontSize: 18,
-    titleGap: 0,
-    titleFontSize: 50,
-    subtitleFontSize: 36,
-    titleBold: true,
-    titleItalic: true,
-    titleLineHeight: 1.2,
-    logoSize: 48,
-    cardStrokeSize: 2,
-    sitePadding: 60,
-    topSectionBottomPadding: 0,
-    positionFontSize: 24,
-    positionWidth: 35,
-    cardMinHeight: 94,
-    cardPaddingY: 16,
-    valuationFontSize: 13,
-    autoCardHeight: false,
-    showPresentedBy: true,
-    canvasTheme: 'dark',
-    width: 850,
-    height: 1100,
-    // Thumbnail settings
-    thumbnailLogoSize: 48,
-    thumbnailLogoPadding: 10,
-    thumbnailRowPadding: 20,
-    thumbnailRowOffset: 5,
-    thumbnailRotation: 0,
-    thumbnailOpacity: 1,
-    thumbnailOffsetX: 0,
-    thumbnailOffsetY: 0,
-    thumbnailTitleFontSize: 36,
-    thumbnailDateFontSize: 24,
-    thumbnailShowText: true,
-  });
+  const [settings, setSettings] = useState<Settings>(DEFAULT_SETTINGS);
 
   const canvasRef = useRef<HTMLDivElement>(null);
   const canvasContainerRef = useRef<HTMLDivElement>(null);
@@ -244,7 +247,7 @@ export default function App() {
           const colIndex = Math.min(Math.floor(index / itemsPerCol), numColumns - 1);
           newColumns[colIndex].companies.push(company);
         });
-        setColumns(newColumns);
+        setColumns(renumberColumns(newColumns));
         setMode("preview");
         toast.success(`Loaded ${companies.length} companies from ${sourceName}`);
       },

@@ -3,6 +3,7 @@ import { Trash2 } from "lucide-react";
 import { Column, Company, Settings } from "../App";
 import { CompanyCard } from "./CompanyCard";
 import { AddCompanyPanel } from "./AddCompanyPanel";
+import { renumberColumns } from "../utils/renumber";
 
 interface ColumnComponentProps {
   column: Column;
@@ -98,13 +99,13 @@ export function ColumnComponent({
       0,
       movedCompany
     );
-    setColumns(newColumns);
+    setColumns(renumberColumns(newColumns));
   };
 
   const handleAddCompany = (company: Company) => {
     const newColumns = [...columns];
     newColumns[columnIndex].companies.push(company);
-    setColumns(newColumns);
+    setColumns(renumberColumns(newColumns));
   };
 
   const handleUpdateCompany = (
@@ -122,7 +123,7 @@ export function ColumnComponent({
   const handleDeleteCompany = (companyIndex: number) => {
     const newColumns = [...columns];
     newColumns[columnIndex].companies.splice(companyIndex, 1);
-    setColumns(newColumns);
+    setColumns(renumberColumns(newColumns));
   };
 
   const combineRefs = (node: HTMLDivElement | null) => {

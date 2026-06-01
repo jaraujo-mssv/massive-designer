@@ -1,6 +1,7 @@
 import { useRef, useMemo } from "react";
 import { Column, Settings } from "../App";
 import { ColumnComponent } from "./ColumnComponent";
+import { renumberColumns } from "../utils/renumber";
 
 interface MarketMapCanvasProps {
   columns: Column[];
@@ -23,7 +24,7 @@ export function MarketMapCanvas({
     const newColumns = [...columns];
     const [movedColumn] = newColumns.splice(fromIndex, 1);
     newColumns.splice(toIndex, 0, movedColumn);
-    setColumns(newColumns);
+    setColumns(renumberColumns(newColumns));
   };
 
   const handleDeleteColumn = (columnId: string) => {
@@ -41,7 +42,7 @@ export function MarketMapCanvas({
       });
     }
 
-    setColumns(remainingColumns);
+    setColumns(renumberColumns(remainingColumns));
   };
 
   // Calculate column width based on number of columns (max 5)

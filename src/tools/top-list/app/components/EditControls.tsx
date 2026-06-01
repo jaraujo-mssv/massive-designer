@@ -1,12 +1,14 @@
 import { useState } from "react";
-import { Upload, Layers, Heading, LayoutDashboard, Image, Link, Settings as SettingsIcon, Sun, Moon } from "lucide-react";
+import { Upload, Layers, Heading, LayoutDashboard, Image, Link, Settings as SettingsIcon, Sun, Moon, RotateCcw } from "lucide-react";
 import Papa from "papaparse";
 import { toast } from "sonner";
-import { Column, Settings, Company } from "../App";
+import { Column, Settings, Company, DEFAULT_SETTINGS } from "../App";
 import { SliderWithInput } from "./SliderWithInput";
 import { Switch } from "@/shared/components/ui/switch";
 import { Label } from "@/shared/components/ui/label";
 import { convertToGoogleSheetsTsvUrl } from "../utils/googleSheets";
+import { renumberColumns } from "../utils/renumber";
+import { CollapsibleSection } from "./CollapsibleSection";
 
 interface EditControlsProps {
   settings: Settings;
@@ -51,10 +53,12 @@ export function EditControls({
     for (let i = 0; i < newCount; i++) {
       newColumns.push({ id: `col-${Date.now()}-${i}`, companies: [] });
     }
+    const itemsPerCol = Math.ceil(allCompanies.length / newCount);
     allCompanies.forEach((company, index) => {
-      newColumns[index % newCount].companies.push(company);
+      const colIndex = Math.min(Math.floor(index / itemsPerCol), newCount - 1);
+      newColumns[colIndex].companies.push(company);
     });
-    setColumns(newColumns);
+    setColumns(renumberColumns(newColumns));
   };
 
   const processDataContent = (tsvContent: string, sourceName: string = "file") => {
@@ -138,10 +142,12 @@ export function EditControls({
         for (let i = 0; i < numColumns; i++) {
           newColumns.push({ id: `col-${Date.now()}-${i}`, companies: [] });
         }
+        const itemsPerCol = Math.ceil(companies.length / numColumns);
         companies.forEach((company, index) => {
-          newColumns[index % numColumns].companies.push(company);
+          const colIndex = Math.min(Math.floor(index / itemsPerCol), numColumns - 1);
+          newColumns[colIndex].companies.push(company);
         });
-        setColumns(newColumns);
+        setColumns(renumberColumns(newColumns));
         setMode?.("preview");
 
         const settingsImported = Object.keys(parsedSettings).length > 0;
@@ -202,13 +208,13 @@ export function EditControls({
             if (companies.length === 0) { toast.error("No valid data found."); return; }
             companies.sort((a, b) => a.position - b.position);
 
-            const col1: Company[] = [];
-            const col2: Company[] = [];
-            companies.forEach((c, i) => (i % 2 === 0 ? col1 : col2).push(c));
-            setColumns([
+            const itemsPerCol = Math.ceil(companies.length / 2);
+            const col1 = companies.slice(0, itemsPerCol);
+            const col2 = companies.slice(itemsPerCol);
+            setColumns(renumberColumns([
               { id: `col-${Date.now()}-1`, companies: col1 },
               { id: `col-${Date.now()}-2`, companies: col2 },
-            ]);
+            ]));
             toast.success(`Loaded ${companies.length} companies`);
           },
           error: (error) => toast.error(`Failed to parse file: ${error.message}`),
@@ -275,47 +281,31 @@ export function EditControls({
           {activeTab === "cards" && (
             <>
               <SliderWithInput label="Font Size" value={settings.companyFontSize} onChange={(v) => setSettings({ ...settings, companyFontSize: v })} min={8} max={24} />
-              <SliderWithInput label="Item Gap" value={settings.companyGap} onChange={(v) => setSettings({ ...settings, companyGap: v })} min={0} max={48} />
               <SliderWithInput label="Logo Size" value={settings.logoSize} onChange={(v) => setSettings({ ...settings, logoSize: v })} min={24} max={120} />
-              <SliderWithInput label="Border Width" value={settings.cardStrokeSize} onChange={(v) => setSettings({ ...settings, cardStrokeSize: v })} min={0} max={8} />
-              <SliderWithInput label="Rank Font Size" value={settings.positionFontSize} onChange={(v) => setSettings({ ...settings, positionFontSize: v })} min={12} max={48} />
-              <SliderWithInput label="Rank Width" value={settings.positionWidth} onChange={(v) => setSettings({ ...settings, positionWidth: v })} min={24} max={120} />
-              <SliderWithInput label="Row Height" value={settings.cardMinHeight} onChange={(v) => setSettings({ ...settings, cardMinHeight: v })} min={0} max={200} />
-              <SliderWithInput label="Vertical Padding" value={settings.cardPaddingY} onChange={(v) => setSettings({ ...settings, cardPaddingY: v })} min={4} max={60} />
               <SliderWithInput label="Valuation Font Size" value={settings.valuationFontSize} onChange={(v) => setSettings({ ...settings, valuationFontSize: v })} min={8} max={32} />
+              <CollapsibleSection label="Advanced">
+                <SliderWithInput label="Item Gap" value={settings.companyGap} onChange={(v) => setSettings({ ...settings, companyGap: v })} min={0} max={48} />
+                <SliderWithInput label="Border Width" value={settings.cardStrokeSize} onChange={(v) => setSettings({ ...settings, cardStrokeSize: v })} min={0} max={8} />
+                <SliderWithInput label="Rank Font Size" value={settings.positionFontSize} onChange={(v) => setSettings({ ...settings, positionFontSize: v })} min={12} max={48} />
+                <SliderWithInput label="Rank Width" value={settings.positionWidth} onChange={(v) => setSettings({ ...settings, positionWidth: v })} min={24} max={120} />
+                <SliderWithInput label="Row Height" value={settings.cardMinHeight} onChange={(v) => setSettings({ ...settings, cardMinHeight: v })} min={0} max={200} />
+                <SliderWithInput label="Vertical Padding" value={settings.cardPaddingY} onChange={(v) => setSettings({ ...settings, cardPaddingY: v })} min={4} max={60} />
+              </CollapsibleSection>
             </>
           )}
           {activeTab === "title" && (
             <>
-              <SliderWithInput label="Title Gap" value={settings.titleGap} onChange={(v) => setSettings({ ...settings, titleGap: v })} min={0} max={40} />
               <SliderWithInput label="Title Font" value={settings.titleFontSize} onChange={(v) => setSettings({ ...settings, titleFontSize: v })} min={20} max={72} />
               <SliderWithInput label="Subtitle Font" value={settings.subtitleFontSize} onChange={(v) => setSettings({ ...settings, subtitleFontSize: v })} min={12} max={60} />
-              <SliderWithInput label="Line Height" value={settings.titleLineHeight} onChange={(v) => setSettings({ ...settings, titleLineHeight: v })} min={0.8} max={2.5} step={0.1} />
+              <CollapsibleSection label="Advanced">
+                <SliderWithInput label="Title Gap" value={settings.titleGap} onChange={(v) => setSettings({ ...settings, titleGap: v })} min={0} max={40} />
+                <SliderWithInput label="Line Height" value={settings.titleLineHeight} onChange={(v) => setSettings({ ...settings, titleLineHeight: v })} min={0.8} max={2.5} step={0.1} />
+              </CollapsibleSection>
             </>
           )}
           {activeTab === "layout" && (
             <>
-              {/* Layout toggle */}
-              <div className="flex items-center gap-2 pb-3 border-b border-border-subtle">
-                <div className="flex items-center bg-surface-2 rounded-lg border border-border-subtle overflow-hidden">
-                  <button
-                    onClick={() => setLayout("list")}
-                    className={`px-3 py-1.5 text-xs font-medium transition-colors ${layout === "list" ? "bg-brand text-white" : "text-text-dim hover:text-text-primary"}`}
-                  >
-                    List
-                  </button>
-                  <button
-                    onClick={() => setLayout("thumbnail")}
-                    className={`px-3 py-1.5 text-xs font-medium transition-colors ${layout === "thumbnail" ? "bg-brand text-white" : "text-text-dim hover:text-text-primary"}`}
-                  >
-                    Thumbnail
-                  </button>
-                </div>
-              </div>
               <SliderWithInput label="Columns" value={columns.length} onChange={handleColumnCountChange} min={1} max={6} />
-              <SliderWithInput label="Column Gap" value={settings.columnGap} onChange={(v) => setSettings({ ...settings, columnGap: v, categoryGap: v })} min={8} max={48} />
-              <SliderWithInput label="Outer Padding" value={settings.sitePadding} onChange={(v) => setSettings({ ...settings, sitePadding: v })} min={0} max={80} />
-              <SliderWithInput label="Content Gap" value={settings.topSectionBottomPadding} onChange={(v) => setSettings({ ...settings, topSectionBottomPadding: v })} min={0} max={80} />
               <div className="flex items-center justify-between p-3 bg-surface-2 rounded-lg border border-border-subtle">
                 <Label className="text-sm text-text-primary">Fill Column Height</Label>
                 <Switch
@@ -323,6 +313,29 @@ export function EditControls({
                   onCheckedChange={(checked) => setSettings({ ...settings, autoCardHeight: checked })}
                 />
               </div>
+              <CollapsibleSection label="Advanced">
+                {/* Layout mode toggle */}
+                <div className="flex items-center justify-between">
+                  <Label className="text-xs font-medium text-text-dim uppercase tracking-wide">Layout</Label>
+                  <div className="flex items-center bg-surface-2 rounded-lg border border-border-subtle overflow-hidden">
+                    <button
+                      onClick={() => setLayout("list")}
+                      className={`px-3 py-1.5 text-xs font-medium transition-colors ${layout === "list" ? "bg-brand text-white" : "text-text-dim hover:text-text-primary"}`}
+                    >
+                      List
+                    </button>
+                    <button
+                      onClick={() => setLayout("thumbnail")}
+                      className={`px-3 py-1.5 text-xs font-medium transition-colors ${layout === "thumbnail" ? "bg-brand text-white" : "text-text-dim hover:text-text-primary"}`}
+                    >
+                      Thumbnail
+                    </button>
+                  </div>
+                </div>
+                <SliderWithInput label="Column Gap" value={settings.columnGap} onChange={(v) => setSettings({ ...settings, columnGap: v, categoryGap: v })} min={8} max={48} />
+                <SliderWithInput label="Outer Padding" value={settings.sitePadding} onChange={(v) => setSettings({ ...settings, sitePadding: v })} min={0} max={80} />
+                <SliderWithInput label="Content Gap" value={settings.topSectionBottomPadding} onChange={(v) => setSettings({ ...settings, topSectionBottomPadding: v })} min={0} max={80} />
+              </CollapsibleSection>
             </>
           )}
           {activeTab === "thumbnail" && (
@@ -335,15 +348,17 @@ export function EditControls({
                 />
               </div>
               <SliderWithInput label="Title Font Size" value={settings.thumbnailTitleFontSize} onChange={(v) => setSettings({ ...settings, thumbnailTitleFontSize: v })} min={20} max={200} />
-              <SliderWithInput label="Date Font Size" value={settings.thumbnailDateFontSize} onChange={(v) => setSettings({ ...settings, thumbnailDateFontSize: v })} min={20} max={200} />
               <SliderWithInput label="Logo Size" value={settings.thumbnailLogoSize} onChange={(v) => setSettings({ ...settings, thumbnailLogoSize: v })} min={20} max={200} />
-              <SliderWithInput label="Logo Padding" value={settings.thumbnailLogoPadding} onChange={(v) => setSettings({ ...settings, thumbnailLogoPadding: v })} min={0} max={100} />
-              <SliderWithInput label="Row Padding" value={settings.thumbnailRowPadding} onChange={(v) => setSettings({ ...settings, thumbnailRowPadding: v })} min={0} max={150} />
-              <SliderWithInput label="List Offset" value={settings.thumbnailRowOffset} onChange={(v) => setSettings({ ...settings, thumbnailRowOffset: v })} min={-200} max={200} />
-              <SliderWithInput label="Horizontal Offset" value={settings.thumbnailOffsetX} onChange={(v) => setSettings({ ...settings, thumbnailOffsetX: v })} min={-600} max={600} />
-              <SliderWithInput label="Vertical Offset" value={settings.thumbnailOffsetY} onChange={(v) => setSettings({ ...settings, thumbnailOffsetY: v })} min={-400} max={400} />
-              <SliderWithInput label="Rotation" value={settings.thumbnailRotation} onChange={(v) => setSettings({ ...settings, thumbnailRotation: v })} min={-90} max={90} unit="°" />
-              <SliderWithInput label="Opacity" value={settings.thumbnailOpacity} onChange={(v) => setSettings({ ...settings, thumbnailOpacity: v })} min={0} max={100} step={1} unit="%" />
+              <CollapsibleSection label="Advanced">
+                <SliderWithInput label="Date Font Size" value={settings.thumbnailDateFontSize} onChange={(v) => setSettings({ ...settings, thumbnailDateFontSize: v })} min={20} max={200} />
+                <SliderWithInput label="Logo Padding" value={settings.thumbnailLogoPadding} onChange={(v) => setSettings({ ...settings, thumbnailLogoPadding: v })} min={0} max={100} />
+                <SliderWithInput label="Row Padding" value={settings.thumbnailRowPadding} onChange={(v) => setSettings({ ...settings, thumbnailRowPadding: v })} min={0} max={150} />
+                <SliderWithInput label="List Offset" value={settings.thumbnailRowOffset} onChange={(v) => setSettings({ ...settings, thumbnailRowOffset: v })} min={-200} max={200} />
+                <SliderWithInput label="Horizontal Offset" value={settings.thumbnailOffsetX} onChange={(v) => setSettings({ ...settings, thumbnailOffsetX: v })} min={-600} max={600} />
+                <SliderWithInput label="Vertical Offset" value={settings.thumbnailOffsetY} onChange={(v) => setSettings({ ...settings, thumbnailOffsetY: v })} min={-400} max={400} />
+                <SliderWithInput label="Rotation" value={settings.thumbnailRotation} onChange={(v) => setSettings({ ...settings, thumbnailRotation: v })} min={-90} max={90} unit="°" />
+                <SliderWithInput label="Opacity" value={settings.thumbnailOpacity} onChange={(v) => setSettings({ ...settings, thumbnailOpacity: v })} min={0} max={100} step={1} unit="%" />
+              </CollapsibleSection>
             </>
           )}
           {activeTab === "settings" && (
@@ -365,6 +380,16 @@ export function EditControls({
                   onCheckedChange={(checked) => setSettings({ ...settings, canvasTheme: checked ? 'light' : 'dark' })}
                 />
               </div>
+              <button
+                onClick={() => {
+                  setSettings(DEFAULT_SETTINGS);
+                  toast.success("Settings restored to defaults");
+                }}
+                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-surface-2 border border-border-subtle text-text-primary rounded-lg hover:border-brand hover:text-brand-light text-sm transition-colors"
+              >
+                <RotateCcw className="w-4 h-4" />
+                Restore Defaults
+              </button>
             </div>
           )}
         </div>

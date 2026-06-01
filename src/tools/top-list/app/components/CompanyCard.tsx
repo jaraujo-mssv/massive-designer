@@ -184,22 +184,7 @@ export function CompanyCard({
               lineHeight: 1,
             }}
           >
-            {mode === "edit" ? (
-              <input
-                type="number"
-                value={company.position}
-                onChange={(e) => onUpdateCompany({ position: parseInt(e.target.value, 10) || 1 })}
-                className="w-full text-center bg-transparent border-none outline-none focus:ring-1 focus:ring-orange-500 rounded px-1"
-                style={{
-                  fontSize: `${settings.positionFontSize}px`,
-                  fontFamily: 'Outfit, sans-serif',
-                  fontWeight: 700,
-                  color: 'var(--canvas-text)'
-                }}
-              />
-            ) : (
-              company.position
-            )}
+            {company.position}
           </div>
 
           {/* Logo (Center) */}

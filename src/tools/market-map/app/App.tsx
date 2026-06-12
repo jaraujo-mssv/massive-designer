@@ -240,6 +240,38 @@ export function equalizeColumnHeights(columns: Column[], settings: Settings): Co
   });
 }
 
+export const DEFAULT_SETTINGS: Settings = {
+  columnGap: 16,
+  categoryGap: 16,
+  companyGap: 4,
+  companiesPerRow: 3,
+  showFullNames: true,
+  companyFontSize: 16,
+  titleGap: 0,
+  titleFontSize: 44,
+  dateFontSize: 44,
+  titleBold: true,
+  titleItalic: true,
+  dateBold: true,
+  dateItalic: true,
+  responsiveMode: false,
+  viewMode: "list",
+  logoSize: 24,
+  listItemPadding: 0,
+  cardStrokeSize: 3,
+  sitePadding: 48,
+  topSectionBottomPadding: 16,
+  logoGap: 12,
+  categoryFontSize: 16,
+  categoryLogoSize: 24,
+  categoryLogoGap: 12,
+  categoryCardGap: 16,
+  showPresentedBy: true,
+  canvasTheme: 'dark',
+  width: 1920,
+  height: 1080,
+};
+
 export default function App() {
   const [mode, setMode] = useState<"edit" | "preview">("edit");
   const [title, setTitle] = useState("MARKET MAP TOOL");
@@ -254,37 +286,8 @@ export default function App() {
     { id: "col-2", categories: [] },
     { id: "col-3", categories: [] },
   ]);
-  const [settings, setSettings] = useState<Settings>({
-    columnGap: 16,
-    categoryGap: 16,
-    companyGap: 4,
-    companiesPerRow: 3,
-    showFullNames: true,
-    companyFontSize: 16,
-    titleGap: 0,
-    titleFontSize: 44,
-    dateFontSize: 44,
-    titleBold: true,
-    titleItalic: true,
-    dateBold: true,
-    dateItalic: true,
-    responsiveMode: false,
-    viewMode: "list",
-    logoSize: 24,
-    listItemPadding: 0,
-    cardStrokeSize: 3,
-    sitePadding: 48,
-    topSectionBottomPadding: 16,
-    logoGap: 12,
-    categoryFontSize: 16,
-    categoryLogoSize: 24,
-    categoryLogoGap: 12,
-    categoryCardGap: 16,
-    showPresentedBy: true,
-    canvasTheme: 'dark',
-    width: 1920,
-    height: 1080,
-  });
+  const [settings, setSettings] = useState<Settings>(DEFAULT_SETTINGS);
+  const [pendingAutoFit, setPendingAutoFit] = useState(false);
 
   const canvasRef = useRef<HTMLDivElement>(null);
   const canvasContainerRef = useRef<HTMLDivElement>(null);
@@ -329,9 +332,9 @@ export default function App() {
 
   // Auto-adjust company gaps based on real rendered heights (call in preview mode)
   // Caps at available canvas height so it never pushes content beyond 1080px
-  const handleAutoGaps = () => {
+  const handleAutoGaps = (opts?: { silent?: boolean }) => {
     const columnEls = document.querySelectorAll<HTMLElement>('div[style*="align-self: stretch"]');
-    if (columnEls.length === 0) { toast.error("No columns found"); return; }
+    if (columnEls.length === 0) { if (!opts?.silent) toast.error("No columns found"); return; }
 
     // Measure available height: canvas height minus header area
     const headerArea = document.querySelector<HTMLElement>('#market-map-export-area > div:first-child');
@@ -359,7 +362,7 @@ export default function App() {
     const targetHeight = Math.min(availableH, availableH);
 
     const needsEqualize = realHeights.some(h => targetHeight - h > 3);
-    if (!needsEqualize) { toast.success("Columns already balanced"); return; }
+    if (!needsEqualize) { if (!opts?.silent) toast.success("Columns already balanced"); return; }
 
     setColumns(prev => {
       const baseGap = settings.companyGap;
@@ -383,11 +386,11 @@ export default function App() {
         return { ...col, categories: newCategories };
       });
     });
-    toast.success("Gaps adjusted within canvas bounds");
+    if (!opts?.silent) toast.success("Gaps adjusted within canvas bounds");
   };
 
   // Auto Fit: iteratively shrink settings until content fits in canvas height
-  const handleAutoFit = async () => {
+  const handleAutoFit = async (opts?: { silent?: boolean }) => {
     // Define settings range: [settingKey, min value]
     const settingsRange: [keyof Settings, number][] = [
       ['companyGap', 0],
@@ -448,7 +451,7 @@ export default function App() {
     // Check if content already fits
     let currentHeight = await measureHeight();
     if (currentHeight <= canvasH) {
-      toast.success("Content already fits — no changes needed");
+      if (!opts?.silent) toast.success("Content already fits — no changes needed");
       return;
     }
 
@@ -478,8 +481,31 @@ export default function App() {
     setSettings(prev => ({ ...prev, ...finalSettings }));
     await new Promise<void>(resolve => setTimeout(resolve, 100));
 
-    toast.success("Auto Fit complete — content fits in canvas");
+    if (!opts?.silent) toast.success("Auto Fit complete — content fits in canvas");
   };
+
+  // Keep refs to the latest handlers so the post-load effect can call them
+  // without depending on their identity (both call setSettings/setColumns,
+  // which would otherwise re-trigger the effect in a loop).
+  const autoFitRef = useRef(handleAutoFit);
+  const autoGapsRef = useRef(handleAutoGaps);
+  autoFitRef.current = handleAutoFit;
+  autoGapsRef.current = handleAutoGaps;
+
+  // After a Market Map loads, auto-fit then balance gaps so it fits and fills
+  // the canvas without manual clicks.
+  useEffect(() => {
+    if (!pendingAutoFit) return;
+    let cancelled = false;
+    (async () => {
+      await autoFitRef.current({ silent: true });
+      await new Promise(resolve => setTimeout(resolve, 120));
+      if (cancelled) return;
+      autoGapsRef.current({ silent: true });
+      setPendingAutoFit(false);
+    })();
+    return () => { cancelled = true; };
+  }, [pendingAutoFit]);
 
   const canvasScale = containerDims.w > 0
     ? Math.min(containerDims.w / canvasW, containerDims.h / canvasH) * 0.95
@@ -615,6 +641,7 @@ export default function App() {
             for (let i = 0; i < columnCount; i++) newColumns.push({ id: `col-${i + 1}`, categories: [] });
             categories.forEach((category, index) => newColumns[index % columnCount].categories.push(category));
             setColumns(newColumns);
+            setPendingAutoFit(true);
             toast.success("Market map loaded successfully");
           },
         });
@@ -802,6 +829,7 @@ export default function App() {
                 setActiveTab={setActiveTab}
                 setMode={setMode}
                 onAutoAdjust={handleAutoAdjust}
+                onDataLoaded={() => setPendingAutoFit(true)}
               />
             </div>
 

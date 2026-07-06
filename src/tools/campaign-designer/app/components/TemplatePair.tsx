@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { Download, Loader2 } from 'lucide-react';
+import { Download, Loader2, Copy, Check } from 'lucide-react';
 import { Campaign } from '../types';
 import { ArticleTemplate } from './templates/articles/articleTemplates';
 import { exportPostCanvas } from '../utils/export';
@@ -32,7 +32,19 @@ export function TemplatePair({ template, campaign, isSelected, onClick }: Props)
   const taRef = useRef<HTMLDivElement>(null);
   const beRef = useRef<HTMLDivElement>(null);
   const [exporting, setExporting] = useState<ExportPlatform | null>(null);
-  const { Component, content, name } = template;
+  const [copiedCaption, setCopiedCaption] = useState<'linkedin' | 'x' | null>(null);
+  const { Component, content, name, platforms, linkedinCopy, xCopy } = template;
+  const showPlatform = (p: ExportPlatform) => !platforms || platforms.includes(p);
+
+  function handleCopyCaption(kind: 'linkedin' | 'x', text: string) {
+    return (e: React.MouseEvent) => {
+      e.stopPropagation();
+      if (!text) return;
+      navigator.clipboard.writeText(text);
+      setCopiedCaption(kind);
+      setTimeout(() => setCopiedCaption(null), 1500);
+    };
+  }
 
   async function handleExport(platform: ExportPlatform) {
     const ref =
@@ -81,64 +93,164 @@ export function TemplatePair({ template, campaign, isSelected, onClick }: Props)
 
       <div style={{ display: 'flex', gap: 32, alignItems: 'flex-start', flexWrap: 'wrap', justifyContent: 'center' }}>
         {/* LinkedIn */}
-        <Canvas
-          label="LinkedIn"
-          dimensions="1080×1080"
-          width={LI_W}
-          height={LI_H}
-          scale={LI_SCALE}
-          ref_={liRef}
-          loading={exporting === 'linkedin'}
-          onExport={(e) => { e.stopPropagation(); handleExport('linkedin'); }}
-        >
-          <Component content={content} platform="linkedin" />
-        </Canvas>
+        {showPlatform('linkedin') && (
+          <Canvas
+            label="LinkedIn"
+            dimensions="1080×1080"
+            width={LI_W}
+            height={LI_H}
+            scale={LI_SCALE}
+            ref_={liRef}
+            loading={exporting === 'linkedin'}
+            onExport={(e) => { e.stopPropagation(); handleExport('linkedin'); }}
+          >
+            <Component content={content} platform="linkedin" />
+          </Canvas>
+        )}
 
         {/* Twitter */}
-        <Canvas
-          label="X / Twitter Post"
-          dimensions="1200×675"
-          width={TW_W}
-          height={TW_H}
-          scale={TW_SCALE}
-          ref_={twRef}
-          loading={exporting === 'twitter'}
-          onExport={(e) => { e.stopPropagation(); handleExport('twitter'); }}
-        >
-          <Component content={content} platform="twitter" />
-        </Canvas>
+        {showPlatform('twitter') && (
+          <Canvas
+            label="X / Twitter Post"
+            dimensions="1200×675"
+            width={TW_W}
+            height={TW_H}
+            scale={TW_SCALE}
+            ref_={twRef}
+            loading={exporting === 'twitter'}
+            onExport={(e) => { e.stopPropagation(); handleExport('twitter'); }}
+          >
+            <Component content={content} platform="twitter" />
+          </Canvas>
+        )}
 
         {/* X / Twitter Article */}
-        <Canvas
-          label="X / Twitter Article"
-          dimensions="1244×500"
-          width={TA_W}
-          height={TA_H}
-          scale={TA_SCALE}
-          ref_={taRef}
-          loading={exporting === 'twitter-article'}
-          onExport={(e) => { e.stopPropagation(); handleExport('twitter-article'); }}
-        >
-          <Component content={content} platform="twitter-article" />
-        </Canvas>
+        {showPlatform('twitter-article') && (
+          <Canvas
+            label="X / Twitter Article"
+            dimensions="1244×500"
+            width={TA_W}
+            height={TA_H}
+            scale={TA_SCALE}
+            ref_={taRef}
+            loading={exporting === 'twitter-article'}
+            onExport={(e) => { e.stopPropagation(); handleExport('twitter-article'); }}
+          >
+            <Component content={content} platform="twitter-article" />
+          </Canvas>
+        )}
 
         {/* Blog Post and Email Header */}
-        <Canvas
-          label="Blog Post and Email Header"
-          dimensions="1200×675"
-          width={BE_W}
-          height={BE_H}
-          scale={BE_SCALE}
-          ref_={beRef}
-          loading={exporting === 'blog-email'}
-          onExport={(e) => { e.stopPropagation(); handleExport('blog-email'); }}
-        >
-          <Component content={content} platform="blog-email" />
-        </Canvas>
+        {showPlatform('blog-email') && (
+          <Canvas
+            label="Blog Post and Email Header"
+            dimensions="1200×675"
+            width={BE_W}
+            height={BE_H}
+            scale={BE_SCALE}
+            ref_={beRef}
+            loading={exporting === 'blog-email'}
+            onExport={(e) => { e.stopPropagation(); handleExport('blog-email'); }}
+          >
+            <Component content={content} platform="blog-email" />
+          </Canvas>
+        )}
       </div>
+
+      {(linkedinCopy || xCopy) && (
+        <div style={{ display: 'flex', flexDirection: 'row', gap: 16, alignItems: 'stretch', flexWrap: 'wrap' }}>
+          {linkedinCopy && (
+            <CaptionBlock
+              label="LinkedIn Caption"
+              value={linkedinCopy}
+              copied={copiedCaption === 'linkedin'}
+              onCopy={handleCopyCaption('linkedin', linkedinCopy)}
+              flex={3}
+            />
+          )}
+          {xCopy && (
+            <CaptionBlock
+              label="X Caption"
+              value={xCopy}
+              copied={copiedCaption === 'x'}
+              onCopy={handleCopyCaption('x', xCopy)}
+              flex={2}
+            />
+          )}
+        </div>
+      )}
     </div>
   );
 }
+
+interface CaptionBlockProps {
+  label: string;
+  value: string;
+  copied: boolean;
+  onCopy: (e: React.MouseEvent) => void;
+  flex: number;
+}
+
+function CaptionBlock({ label, value, copied, onCopy, flex }: CaptionBlockProps) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 8, flex, minWidth: 280 }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div
+          style={{
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: 11,
+            fontWeight: 600,
+            color: 'rgba(250,244,236,0.5)',
+            letterSpacing: '0.07em',
+            textTransform: 'uppercase',
+          }}
+        >
+          {label}
+        </div>
+        <button onClick={onCopy} style={COPY_BTN(copied)}>
+          {copied ? <Check size={12} /> : <Copy size={12} />}
+          {copied ? 'Copied' : 'Copy'}
+        </button>
+      </div>
+      <textarea
+        readOnly
+        value={value}
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          width: '100%',
+          minHeight: 280,
+          resize: 'vertical',
+          background: 'rgba(250,244,236,0.04)',
+          border: '1px solid rgba(250,244,236,0.1)',
+          borderRadius: 8,
+          padding: '12px 14px',
+          color: 'rgba(250,244,236,0.85)',
+          fontFamily: 'Outfit, sans-serif',
+          fontSize: 13,
+          lineHeight: 1.5,
+          boxSizing: 'border-box',
+          flex: 1,
+        }}
+      />
+    </div>
+  );
+}
+
+const COPY_BTN = (active: boolean): React.CSSProperties => ({
+  display: 'flex',
+  alignItems: 'center',
+  gap: 6,
+  padding: '6px 12px',
+  background: active ? 'rgba(39,201,63,0.15)' : 'rgba(250,244,236,0.06)',
+  border: `1px solid ${active ? 'rgba(39,201,63,0.4)' : 'rgba(250,244,236,0.12)'}`,
+  borderRadius: 6,
+  color: active ? '#27c93f' : 'rgba(250,244,236,0.7)',
+  fontFamily: "'JetBrains Mono', monospace",
+  fontSize: 11,
+  fontWeight: 600,
+  cursor: 'pointer',
+  transition: 'background 0.15s, color 0.15s, border-color 0.15s',
+});
 
 interface CanvasProps {
   label: string;

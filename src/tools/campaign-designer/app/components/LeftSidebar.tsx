@@ -174,7 +174,7 @@ export function LeftSidebar({ campaign, activeTab, setActiveTab, selectedPostId,
 
       {/* Tabs */}
       <div style={{ display: 'flex', borderBottom: '1px solid rgba(250,244,236,0.07)', padding: '0 4px' }}>
-        <button style={TAB_STYLE(activeTab === 'template')} onClick={() => setActiveTab('template')}>Template</button>
+        <button style={TAB_STYLE(activeTab === 'template')} onClick={() => setActiveTab('template')}>Posts</button>
         <button style={TAB_STYLE(activeTab === 'draft')} onClick={() => setActiveTab('draft')}>Draft</button>
         <button style={TAB_STYLE(activeTab === 'theme')} onClick={() => setActiveTab('theme')}>Theme</button>
       </div>
@@ -324,7 +324,7 @@ export function LeftSidebar({ campaign, activeTab, setActiveTab, selectedPostId,
                   textAlign: 'left',
                 }}
               >
-                Templates
+                Posts
               </span>
               <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: 'rgba(250,244,236,0.25)', marginRight: 4 }}>
                 {ARTICLE_TEMPLATES.length}

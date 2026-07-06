@@ -1,8 +1,16 @@
-import { Platform } from '../../../types';
+import { LogoItem, Platform } from '../../../types';
 
 export interface ArticleEndpoint {
-  name: string;        // e.g. "/ai"
-  description: string; // e.g. "ChatGPT, Gemini, Perpexity and Copilot"
+  name: string;                   // e.g. "/ai"
+  description: string;            // e.g. "ChatGPT, Gemini, Perpexity and Copilot"
+  descriptionIsCode?: boolean;    // when true, render description in monospace
+  descriptionWrap?: boolean;      // when true, long lines wrap; when false, lines preserve formatting (default false)
+}
+
+export interface ArticleStat {
+  value: string;       // e.g. "195+"
+  label: string;       // e.g. "Countries"
+  description: string; // e.g. "Geo-target every tool call by country and city"
 }
 
 export interface ArticleProps {
@@ -18,9 +26,12 @@ export const DIMENSIONS = {
 } as const;
 
 export interface ArticleContent {
+  eyebrow?: string;    // small label above the title, e.g. "Massive MCP"
   title: string;       // "Web Render API"
-  tagline: string;     // "Real-time web access for your AI"
-  endpoints: ArticleEndpoint[];
+  tagline?: string;    // "Real-time web access for your AI"
+  endpoints?: ArticleEndpoint[];
+  stats?: ArticleStat[];
+  logos?: LogoItem[];
   bgImageUrl: string;
   logoUrl: string;
 }

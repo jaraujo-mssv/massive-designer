@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Massive — Best Practices for Consent-Based Residential Network Services</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css" />
+<link rel="stylesheet" href="massive-doc.css" />
+</head>
+<body>
+
+  <!-- ==================== PAGE 1 — meta + §1 | §2 ==================== -->
+  <div class="page">
+    <header class="header">
+      <div class="header-top">
+        <div class="logo"><img src="../../public/logo-positive.svg" alt="Massive" /></div>
+        <div class="header-meta">Massive Computing, Inc.&nbsp; ·&nbsp; Industry Best Practices</div>
+      </div>
+
+      <h1>Best Practices for Consent-Based Residential Network Services</h1>
+      <p class="subtitle">Recommendations for Policymakers and Standards Bodies</p>
+      <div class="header-rule"></div>
+    </header>
+
+    <div class="grid">
+      <!-- LEFT COLUMN -->
+      <div class="col">
+        <!-- Document meta card -->
+        <section class="card">
+          <div class="meta-block">
+            <div class="meta-row"><span class="meta-label">Document Type</span>Industry Best Practices Reference</div>
+            <div class="meta-row"><span class="meta-label">Audience</span>State and federal policymakers, standards bodies, certification schemes, industry working groups</div>
+            <div class="meta-row"><span class="meta-label">Status</span>Adopted 16 Jul 2026 for public release</div>
+          </div>
+        </section>
+
+        <!-- 1. Purpose -->
+        <section class="card">
+          <div class="card-head">
+            <div class="card-icon"><i class="ph-bold ph-compass"></i></div>
+            <div class="card-title">1. Purpose</div>
+          </div>
+          <p class="body">Residential network services (sometimes called residential proxies, bandwidth sharing, or web access networks) route business customer traffic through consumer devices whose owners have agreed to participate. Done well, this model rests on informed consumer consent on one side and rigorous customer vetting on the other. Done poorly, it exposes consumers to hidden resource use and exposes the internet to abusive traffic.</p>
+          <p class="body">This document recommends baseline standards any operator in this industry should meet, in a form suitable for adoption by legislators, regulators, and standards bodies. It is organized around four pillars:</p>
+          <ul class="bullets tight" style="margin-top: 3.5mm;">
+            <li>Consumer consent and disclosure</li>
+            <li>Consumer data protection</li>
+            <li>Device-level technical safeguards</li>
+            <li>Customer vetting and abuse prevention</li>
+          </ul>
+          <p class="body">It closes with recommendations on how conformance should be tested and governed.</p>
+        </section>
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <div class="col">
+        <!-- 2. Consumer Consent and Disclosure -->
+        <section class="card">
+          <div class="card-head">
+            <div class="card-icon"><i class="ph-bold ph-hand-heart"></i></div>
+            <div class="card-title">2. Consumer Consent and Disclosure</div>
+          </div>
+          <p class="lead">An operator should not enroll a device without an informed, affirmative, reversible decision by its owner.</p>
+          <p class="sublabel">Recommended requirements:</p>
+          <ul class="bullets">
+            <li><b>Affirmative opt-in.</b> Enrollment requires explicit user action. No pre-checked boxes. No bundling participation silently into an install, update, or unrelated feature.</li>
+            <li><b>Equal prominence.</b> Accept and decline options presented with equal visual weight. Declining must not degrade the host application's core functionality beyond withholding any participation incentive.</li>
+            <li><b>Point-of-decision disclosure.</b> Before enrolling, the user sees in plain language: what participation means, that third-party traffic will exit through their connection, and what device resources are used (bandwidth, CPU, electricity).</li>
+            <li><b>Linked terms.</b> Direct links to the operator's license terms and privacy policy on the consent screen itself.</li>
+            <li><b>Revocable at any time.</b> One-click opt-out from device or app settings, effective immediately.</li>
+            <li><b>Re-consent on material change.</b> If the nature of participation changes materially, existing users must be re-prompted, not migrated silently.</li>
+          </ul>
+        </section>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <span>© 2026 Massive Computing, Inc. · joinmassive.com</span>
+      <span class="brand">100% ethically-sourced residential proxy network</span>
+      <span class="page-num">Page 1</span>
+    </footer>
+  </div>
+
+  <!-- ==================== PAGE 2 — host app + §3 | §4 ==================== -->
+  <div class="page">
+    <div class="mini-head">
+      <img src="../../public/logo-positive.svg" alt="Massive" />
+      <div class="eyebrow">Best Practices for Consent-Based Residential Network Services</div>
+    </div>
+
+    <div class="grid">
+      <!-- LEFT COLUMN -->
+      <div class="col">
+        <!-- Host application requirements (part of §2) — secondary/accent card -->
+        <section class="card accent">
+          <div class="card-head">
+            <div class="card-icon"><i class="ph-bold ph-app-window"></i></div>
+            <div class="card-title">Host application requirements</div>
+          </div>
+          <p class="body">Where the network is embedded via SDK in a third-party application, the host application should be required to: disclose the integration in its own terms of service and privacy notice, present the full consent flow unmodified, and identify the network operator by name. The operator should remain independently accountable to the end user regardless of the embedding relationship, and should review each integration against these requirements before launch.</p>
+        </section>
+
+        <!-- 3. Consumer Data Protection -->
+        <section class="card">
+          <div class="card-head">
+            <div class="card-icon"><i class="ph-bold ph-lock-key"></i></div>
+            <div class="card-title">3. Consumer Data Protection</div>
+          </div>
+          <p class="sublabel">Recommended requirements:</p>
+          <ul class="bullets">
+            <li><b>Data minimization.</b> Collect only what operation requires. Appropriate: session IP, anonymous device identifier, coarse (city-level) location, device specifications, bandwidth statistics.</li>
+            <li><b>Prohibited collection.</b> Browsing history, app usage, file contents, personal communications, precise GPS location.</li>
+            <li><b>Retention cap.</b> Participant-side data purged on a short fixed schedule (60 days is an achievable industry benchmark), with operational logs retained only as security controls and law require.</li>
+            <li><b>No secondary use.</b> Participant data not sold or used for purposes beyond operating the network.</li>
+          </ul>
+        </section>
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <div class="col">
+        <!-- 4. Device-Level Technical Safeguards -->
+        <section class="card">
+          <div class="card-head">
+            <div class="card-icon"><i class="ph-bold ph-shield-check"></i></div>
+            <div class="card-title">4. Device-Level Technical Safeguards</div>
+          </div>
+          <p class="lead">A customer session must never be usable to reach the participating device's own private network, loopback interface, or cloud-metadata endpoints. Without this, customer traffic could probe the participant's home network or steal credentials from co-located infrastructure.</p>
+          <p class="sublabel">Recommended requirements:</p>
+          <ul class="bullets">
+            <li><b>Private-range egress blocking.</b> Block customer traffic to loopback, RFC 1918 private ranges, link-local and cloud-metadata addresses, carrier-grade NAT space, and IPv6 equivalents (link-local, unique-local).</li>
+            <li><b>Resolution-aware enforcement.</b> Block a request if any DNS-resolved address falls in a protected range. Validate IP literals directly. Unwrap and validate IPv4-mapped IPv6 addresses. Reject on resolution failure.</li>
+            <li><b>Server-side enforcement as the floor.</b> Because deployed client software updates slowly (TV and mobile app-store cycles can lag by months or years), server-side enforcement covering all traffic should be mandatory. Client-side blocking is valuable defense in depth but cannot be the sole control, since old clients remain in the field.</li>
+            <li><b>Port restrictions.</b> Customer traffic limited to standard web ports. Mail ports (SMTP and related) and remote administration ports (SSH, RDP, SMB, Telnet) blocked at the network layer, since these enable spam, credential attacks, and lateral movement.</li>
+          </ul>
+        </section>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <span>© 2026 Massive Computing, Inc. · joinmassive.com</span>
+      <span class="brand">100% ethically-sourced residential proxy network</span>
+      <span class="page-num">Page 2</span>
+    </footer>
+  </div>
+
+  <!-- ==================== PAGE 3 — §5 | §6 ==================== -->
+  <div class="page">
+    <div class="mini-head">
+      <img src="../../public/logo-positive.svg" alt="Massive" />
+      <div class="eyebrow">Best Practices for Consent-Based Residential Network Services</div>
+    </div>
+
+    <div class="grid">
+      <!-- LEFT COLUMN -->
+      <div class="col">
+        <!-- 5. Runtime Abuse Controls -->
+        <section class="card">
+          <div class="card-head">
+            <div class="card-icon"><i class="ph-bold ph-gauge"></i></div>
+            <div class="card-title">5. Runtime Abuse Controls</div>
+          </div>
+          <p class="lead">Vetting happens once; abuse controls run continuously. An approved customer can still misbehave, be compromised, or have credentials stolen. Operators should enforce runtime limits that make the network structurally resistant to abuse regardless of who is using it.</p>
+          <p class="sublabel">Recommended requirements:</p>
+          <ul class="bullets">
+            <li><b>Per-device bandwidth throughput caps.</b> Bound the traffic any participating device carries, protecting the participant's connection and preventing any single device from being weaponized.</li>
+            <li><b>Rate limiting.</b> Per-customer and per-session request rate limits that make volumetric abuse (DDoS participation, credential stuffing, aggressive scraping bursts) infeasible at the network level rather than merely prohibited on paper.</li>
+            <li><b>Traffic anomaly detection.</b> Monitor for patterns consistent with abuse: sudden volume spikes, high error-rate bursts against a single target, distributed request patterns matching known attack signatures.</li>
+            <li><b>Automated response.</b> Throttle or suspend the offending customer session automatically on anomaly, with the participating device held harmless.</li>
+            <li><b>Kill switch.</b> The operator must be able to immediately halt traffic per customer and per device.</li>
+          </ul>
+        </section>
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <div class="col">
+        <!-- 6. Customer Vetting and Abuse Response -->
+        <section class="card">
+          <div class="card-head">
+            <div class="card-icon"><i class="ph-bold ph-user-focus"></i></div>
+            <div class="card-title">6. Customer Vetting and Abuse Response</div>
+          </div>
+          <p class="lead">Consumer-side protections mean little if anyone can buy access anonymously.</p>
+          <p class="sublabel">Recommended requirements:</p>
+          <ul class="bullets">
+            <li><b>Know your customer before production access.</b> Staged onboarding where full network access is granted only after: individual or business identity verification, use-case review against a published acceptable use policy, beneficial-ownership review for higher-risk profiles, payment validation, and sanctions screening (OFAC, EU, UK, UN).</li>
+            <li><b>Heightened scrutiny tiers.</b> Additional review for resellers, sensitive verticals (financial services, healthcare, government), high-risk jurisdictional exposure, and use cases near policy boundaries.</li>
+            <li><b>Published prohibited uses.</b> At minimum: denial-of-service, malware distribution, CSAM (with mandatory reporting to NCMEC or the applicable national authority), spam, credential stuffing, unauthorized scanning, and any unlawful activity.</li>
+            <li><b>Graded, documented enforcement.</b> Severity-tiered response from warning through immediate termination without cure period, with evidence preservation and law-enforcement referral where applicable.</li>
+            <li><b>Contract chain accountability.</b> Customers contractually liable for the conduct of their own downstream users, so accountability survives resale.</li>
+            <li><b>Law-enforcement process.</b> Documented intake with validity, jurisdiction, and scope review; narrowly scoped production; participant and customer notification where legally permitted.</li>
+          </ul>
+        </section>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <span>© 2026 Massive Computing, Inc. · joinmassive.com</span>
+      <span class="brand">100% ethically-sourced residential proxy network</span>
+      <span class="page-num">Page 3</span>
+    </footer>
+  </div>
+
+  <!-- ==================== PAGE 4 — §7 + §8 ==================== -->
+  <div class="page">
+    <div class="mini-head">
+      <img src="../../public/logo-positive.svg" alt="Massive" />
+      <div class="eyebrow">Best Practices for Consent-Based Residential Network Services</div>
+    </div>
+
+    <div class="stack">
+      <!-- 7. Conformance -->
+      <section class="card">
+        <div class="card-head">
+          <div class="card-icon"><i class="ph-bold ph-scales"></i></div>
+          <div class="card-title">7. How Conformance Should Be Tested and Governed</div>
+        </div>
+        <p class="lead">For standards bodies and certification schemes, how a standard is tested matters as much as what it requires. Recommended principles:</p>
+        <ul class="bullets">
+          <li><b>Outcome-based, implementation-neutral testing.</b> Judge conformance by whether the prohibited outcome can actually occur (for example: can a request to a blocked private range actually egress a participating device), not by which mechanism prevents it. Criteria that mandate a specific mechanism let one operator's architecture become the standard.</li>
+          <li><b>Reproducible tests, not commercial lists.</b> Conformance measured by the scheme's own documented, reproducible test. Never by inclusion on a block list or reputation feed that a market participant controls.</li>
+          <li><b>Due process before adverse findings.</b> Pre-publication notice, a comment window, and re-test rights. No adverse listing on a contested result before appeal is exhausted.</li>
+          <li><b>Neutral list governance.</b> Any criteria or block list owned neutrally, versioned, with a documented operator challenge process. No single participant or detection vendor curates it.</li>
+          <li><b>Conflict disclosure and recusal.</b> Any participant that sells competing detection or scoring services, or is in active litigation with another participant, discloses the conflict and recuses from judging that party.</li>
+        </ul>
+      </section>
+
+      <!-- 8. Summary Checklist -->
+      <section class="card">
+        <div class="card-head">
+          <div class="card-icon"><i class="ph-bold ph-list-checks"></i></div>
+          <div class="card-title">8. Summary Checklist</div>
+        </div>
+        <table class="doc-table">
+          <thead>
+            <tr><th>Area</th><th>Baseline requirement</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Consent</td><td>Affirmative opt-in, equal-prominence decline, point-of-decision resource disclosure</td></tr>
+            <tr><td>Revocation</td><td>One-click opt-out, immediate effect</td></tr>
+            <tr><td>SDK embedding</td><td>Host app ToS and privacy disclosure, unmodified consent flow, pre-launch review</td></tr>
+            <tr><td>Data</td><td>Minimization, no content or history collection, fixed retention cap</td></tr>
+            <tr><td>Device safety</td><td>Private-range egress blocking, server-side enforcement for all traffic, resolution-aware</td></tr>
+            <tr><td>Ports</td><td>Web ports only; mail and remote-admin ports blocked</td></tr>
+            <tr><td>Runtime abuse controls</td><td>Per-device bandwidth caps, rate limiting, anomaly detection, automated response, kill switch</td></tr>
+            <tr><td>Vetting</td><td>Identity, use case, ownership, payment, sanctions before production access</td></tr>
+            <tr><td>Abuse</td><td>Published prohibited uses, graded enforcement, mandatory CSAM reporting</td></tr>
+            <tr><td>Accountability</td><td>Downstream liability through the contract chain</td></tr>
+            <tr><td>Certification</td><td>Outcome-based testing, reproducible tests, due process, neutral governance, conflict recusal</td></tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
+
+    <footer class="footer">
+      <span>© 2026 Massive Computing, Inc. · joinmassive.com</span>
+      <span class="brand">100% ethically-sourced residential proxy network</span>
+      <span class="page-num">Page 4</span>
+    </footer>
+  </div>
+
+</body>
+</html>

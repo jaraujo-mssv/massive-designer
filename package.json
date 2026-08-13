@@ -8,7 +8,9 @@
     "dev": "vite",
     "preview": "vite preview",
     "banners": "node scripts/banners/render.mjs",
-    "banners:html": "node scripts/banners/html.mjs"
+    "banners:html": "node scripts/banners/html.mjs",
+    "onepager": "node scripts/onepager/render.mjs",
+    "docs": "node scripts/docs/render.mjs"
   },
   "dependencies": {
     "@emotion/react": "11.14.0",

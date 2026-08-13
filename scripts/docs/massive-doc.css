@@ -1,0 +1,337 @@
+/* ==========================================================================
+   Massive Document System — light mode
+   Shared by every doc in scripts/docs/. Mirrors the compliance one-pager.
+   Single column, cards + icons, no shading.
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --bg: #f5ece0;
+  --surface: #faf4ec;
+  --surface-2: #eee4d8;
+  --text: #1a1b2a;
+  --text-mid: rgba(26, 27, 42, 0.7);
+  --text-dim: rgba(26, 27, 42, 0.5);
+  --red: #c9382a;
+  --red-light: #d74939;
+  --red-glow: rgba(201, 56, 42, 0.08);
+  --border: rgba(26, 27, 42, 0.1);
+  --font-display: 'Outfit', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+@page { size: A4; margin: 0; }
+
+html, body {
+  font-family: var(--font-display);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  background: #d8cec2;
+}
+
+/* ---------- Page ---------- */
+.page {
+  position: relative;
+  width: 210mm;
+  height: 297mm;
+  margin: 0 auto;
+  padding: 14mm 15mm 16mm;
+  overflow: hidden;
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(120% 90% at 12% -8%, var(--red-glow) 0%, transparent 42%),
+    linear-gradient(rgba(26, 27, 42, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26, 27, 42, 0.05) 1px, transparent 1px);
+  background-size: 100% 100%, 26px 26px, 26px 26px;
+  break-after: page;
+}
+.page:last-of-type { break-after: auto; }
+
+/* ---------- Header (page 1) ---------- */
+.header { position: relative; z-index: 1; }
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8mm;
+  margin-bottom: 4mm;
+}
+.logo img { height: 30px; width: auto; display: block; }
+.header-meta {
+  font-family: var(--font-mono);
+  font-size: 8pt;
+  letter-spacing: 0.02em;
+  color: var(--text-dim);
+  text-align: right;
+}
+h1 {
+  font-size: 27pt;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.03;
+  margin-bottom: 2.5mm;
+}
+.subtitle {
+  font-size: 12.5pt;
+  font-weight: 500;
+  color: var(--text-mid);
+  letter-spacing: -0.01em;
+  margin-bottom: 4mm;
+}
+.header-rule {
+  height: 3px;
+  width: 100%;
+  background: var(--red);
+  border-radius: 2px;
+  margin-bottom: 5mm;
+}
+.intro {
+  font-size: 10.5pt;
+  line-height: 1.55;
+  color: var(--text-mid);
+  margin-bottom: 6mm;
+}
+.intro strong { color: var(--text); font-weight: 600; }
+
+/* ---------- Status chip (e.g. DRAFT) ---------- */
+.status-chip {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 8pt;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--red);
+  background: rgba(201, 56, 42, 0.1);
+  border: 1px solid rgba(201, 56, 42, 0.28);
+  border-radius: 5px;
+  padding: 1.4mm 2.6mm;
+  vertical-align: middle;
+}
+
+/* ---------- Meta block (labelled lines) ---------- */
+.meta-block {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4mm;
+  margin-bottom: 5mm;
+}
+.meta-row { font-size: 8.5pt; line-height: 1.4; color: var(--text-mid); }
+.meta-row .meta-label {
+  font-family: var(--font-mono);
+  font-size: 7.5pt;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--red);
+  text-transform: uppercase;
+  margin-right: 2mm;
+}
+
+/* ---------- Links ---------- */
+a, .link {
+  color: var(--red);
+  text-decoration: none;
+  font-weight: 500;
+  border-bottom: 1px solid rgba(201, 56, 42, 0.28);
+  transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+}
+a:hover, a.link:hover {
+  color: var(--red-light);
+  border-bottom-color: var(--red-light);
+  background-color: rgba(215, 73, 57, 0.08);
+}
+
+/* ---------- Stack (single column) ---------- */
+.stack {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5mm;
+}
+
+/* ---------- Grid (two columns) ---------- */
+.grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5mm;
+  align-items: start;
+}
+.col { display: flex; flex-direction: column; gap: 5mm; }
+
+/* ---------- Card (no shading) ---------- */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 5mm 5.5mm 6.5mm;
+}
+.card.accent {
+  background: linear-gradient(160deg, rgba(215, 73, 57, 0.07), rgba(201, 56, 42, 0.03));
+  border-color: rgba(201, 56, 42, 0.2);
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  gap: 3.5mm;
+  margin-bottom: 3.5mm;
+}
+.card-icon {
+  flex: 0 0 auto;
+  width: 12mm;
+  height: 12mm;
+  display: grid;
+  place-items: center;
+  border-radius: 11px;
+  background: linear-gradient(150deg, rgba(215, 73, 57, 0.14), rgba(201, 56, 42, 0.08));
+  border: 1px solid rgba(201, 56, 42, 0.18);
+  color: var(--red);
+  font-size: 22pt;
+}
+.card-title {
+  font-size: 15pt;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+/* ---------- Body copy ---------- */
+.lead {
+  font-size: 10pt;
+  line-height: 1.5;
+  color: var(--text-mid);
+  margin-bottom: 3.5mm;
+}
+.body { font-size: 10pt; line-height: 1.55; color: var(--text-mid); }
+.body + .body { margin-top: 3.5mm; }
+.body strong, .lead strong { color: var(--text); font-weight: 700; }
+.note { font-size: 9.5pt; line-height: 1.5; color: var(--text-mid); }
+.sublabel {
+  font-size: 9.5pt;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 3mm;
+}
+
+/* ---------- Bullets ---------- */
+ul.bullets { list-style: none; display: flex; flex-direction: column; gap: 2.6mm; }
+ul.bullets li {
+  position: relative;
+  padding-left: 6mm;
+  font-size: 9.5pt;
+  line-height: 1.45;
+  color: var(--text-mid);
+}
+ul.bullets li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 4px;
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
+  background: var(--red);
+}
+ul.bullets li b { color: var(--text); font-weight: 700; }
+ul.bullets.tight { gap: 2.2mm; }
+ul.bullets + .body { margin-top: 4mm; }
+
+/* ---------- Category rows (icon + name + description) ---------- */
+.cat-rows { display: flex; flex-direction: column; gap: 3.5mm; }
+.cat-row { display: flex; align-items: flex-start; gap: 3mm; }
+.cat-icon {
+  flex: 0 0 auto;
+  width: 7mm;
+  display: grid;
+  place-items: center;
+  color: var(--red);
+  font-size: 15pt;
+  margin-top: 0.2mm;
+}
+.cat-name {
+  font-size: 10.5pt;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  margin-bottom: 0.8mm;
+}
+.cat-desc { font-size: 9.5pt; line-height: 1.42; color: var(--text-mid); }
+
+/* ---------- Table ---------- */
+.doc-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 8.5pt;
+}
+.doc-table thead th {
+  background: var(--surface-2);
+  font-family: var(--font-mono);
+  font-size: 7pt;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--red);
+  text-align: left;
+  padding: 2mm 2.6mm;
+  border-bottom: 1px solid var(--border);
+}
+.doc-table thead th:first-child { border-top-left-radius: 8px; }
+.doc-table thead th:last-child { border-top-right-radius: 8px; }
+.doc-table tbody td {
+  padding: 1.9mm 2.6mm;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  line-height: 1.35;
+  color: var(--text-mid);
+}
+.doc-table tbody tr:last-child td { border-bottom: none; }
+.doc-table tbody td:first-child {
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+  width: 30mm;
+}
+
+/* ---------- Mini header (pages 2+) ---------- */
+.mini-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8mm;
+  margin-bottom: 7mm;
+  position: relative;
+  z-index: 1;
+}
+.mini-head img { height: 22px; width: auto; display: block; }
+.mini-head .eyebrow {
+  font-family: var(--font-mono);
+  font-size: 8pt;
+  color: var(--text-dim);
+  letter-spacing: 0.04em;
+  text-align: right;
+}
+
+/* ---------- Footer ---------- */
+.footer {
+  position: absolute;
+  left: 15mm;
+  right: 15mm;
+  bottom: 9mm;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6mm;
+  padding-top: 4mm;
+  border-top: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 7.5pt;
+  letter-spacing: 0.01em;
+  color: var(--text-dim);
+}
+.footer .brand { color: var(--red); font-weight: 600; }

@@ -6,6 +6,7 @@ const tools = [
   { label: 'Social Media', route: '/social-media', deprecated: true },
   { label: 'Partnership Post', route: '/partnership-post' },
   { label: 'Top List', route: '/top-list' },
+  { label: 'Bento Map', route: '/bento-map' },
   { label: 'Image Converter', route: '/image-upload' },
   { label: 'Campaign Designer', route: '/campaign-designer', deprecated: true },
   { label: 'Dither', route: '/dither', deprecated: true },

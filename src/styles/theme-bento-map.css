@@ -1,0 +1,29 @@
+/* Bento Map — contenteditable rich text rules */
+.tool-bento-map [contenteditable] {
+  font-weight: 300;
+  font-style: normal;
+}
+
+.tool-bento-map [contenteditable] b,
+.tool-bento-map [contenteditable] strong {
+  font-weight: 900;
+  font-style: normal;
+}
+
+.tool-bento-map [contenteditable] i,
+.tool-bento-map [contenteditable] em {
+  font-weight: 300;
+  font-style: italic;
+}
+
+.tool-bento-map [contenteditable] b i,
+.tool-bento-map [contenteditable] b em,
+.tool-bento-map [contenteditable] strong i,
+.tool-bento-map [contenteditable] strong em,
+.tool-bento-map [contenteditable] i b,
+.tool-bento-map [contenteditable] i strong,
+.tool-bento-map [contenteditable] em b,
+.tool-bento-map [contenteditable] em strong {
+  font-weight: 900;
+  font-style: italic;
+}

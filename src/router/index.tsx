@@ -3,6 +3,7 @@ import { lazy, Suspense } from 'react'
 import { Header } from '@/shared/components/Header'
 import { LandingPage } from '@/shared/components/LandingPage'
 
+const BentoMapApp = lazy(() => import('@/tools/bento-map/app/App'))
 const CampaignDesignerApp = lazy(() => import('@/tools/campaign-designer/app/App'))
 const DitherApp = lazy(() => import('@/tools/dither/app/App'))
 const ImageUploadApp = lazy(() => import('@/tools/image-upload/app/App'))
@@ -38,6 +39,14 @@ export const router = createBrowserRouter([
         <Header />
         <LandingPage />
       </>
+    ),
+  },
+  {
+    path: '/bento-map',
+    element: (
+      <ToolLayout themeClass="tool-bento-map">
+        <BentoMapApp />
+      </ToolLayout>
     ),
   },
   {

@@ -25,11 +25,13 @@ function sheetCsvUrl(sheetName: string) {
   return `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`
 }
 
-const TABS = [
+// Tabs for deprecated tools are hidden; drop the flag to bring one back.
+const ALL_TABS = [
   { label: 'Market Maps',        sheetName: 'Market Maps',        tool: '/market-map',   icon: LayoutGrid, accent: '#8b5cf6' },
   { label: 'Top Lists',          sheetName: 'Top Lists',          tool: '/top-list',     icon: Trophy,     accent: '#f59e0b' },
-  { label: 'Social Media Posts', sheetName: 'Social Media Posts', tool: '/social-media', icon: Share2,     accent: '#3b82f6' },
+  { label: 'Social Media Posts', sheetName: 'Social Media Posts', tool: '/social-media', icon: Share2,     accent: '#3b82f6', deprecated: true },
 ]
+const TABS = ALL_TABS.filter((t) => !t.deprecated)
 
 // ─── CSV Parser ─────────────────────────────────────────────────────────────
 

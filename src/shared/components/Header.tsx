@@ -1,12 +1,14 @@
 import { Link, useMatch } from 'react-router'
 
+// Deprecated tools stay routable by direct URL but are hidden from the nav.
 const tools = [
   { label: 'Market Map', route: '/market-map' },
-  { label: 'Social Media', route: '/social-media' },
+  { label: 'Social Media', route: '/social-media', deprecated: true },
   { label: 'Partnership Post', route: '/partnership-post' },
   { label: 'Top List', route: '/top-list' },
   { label: 'Image Converter', route: '/image-upload' },
-  { label: 'Campaign Designer', route: '/campaign-designer' },
+  { label: 'Campaign Designer', route: '/campaign-designer', deprecated: true },
+  { label: 'Dither', route: '/dither', deprecated: true },
 ]
 
 function NavLink({ to, label }: { to: string; label: string }) {
@@ -87,7 +89,7 @@ export function Header() {
 
       {/* Nav */}
       <nav style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', flexWrap: 'wrap' }}>
-        {tools.map((t) => (
+        {tools.filter((t) => !t.deprecated).map((t) => (
           <NavLink key={t.route} to={t.route} label={t.label} />
         ))}
       </nav>

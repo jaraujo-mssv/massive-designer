@@ -1,0 +1,9 @@
+{
+  "id": "biztray-how-to-merge-pdf-files",
+  "name": "How to merge PDF files",
+  "group": "templates",
+  "kind": "template",
+  "brand": "biztray",
+  "status": "draft",
+  "source": "sparktray-campaign/content/biztray/scripts/guide-pdf-organizer-how-to-merge-pdf-files.md"
+}

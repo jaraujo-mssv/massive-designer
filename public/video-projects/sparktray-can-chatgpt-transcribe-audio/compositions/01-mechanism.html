@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <!-- bg-mechanism: beat 1 @ 0.00s, beat 2 @ 8.17s, beat 3 @ 14.13s. Drawn by js/tray-kit.js (shared template kit). -->
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+        }
+      </style>
+      <div id="root" data-composition-id="ctr-01-mechanism" data-width="1920" data-height="1080" data-duration="21.483333">
+        <div class="tk-scene" data-layout-allow-overflow data-layout-allow-overlap></div>
+      </div>
+      <script>
+        TrayKit.mount("ctr-01-mechanism", {"scene":"bg-mechanism","brand":"sparktray","frames":1289,"fps":60,"beats":[{"at":0,"step":0,"steps":3},{"at":490,"step":1,"steps":3},{"at":848,"step":2,"steps":3}],"items":[["Whisper","audio-lines","OpenAI's model, and the one most tools run"],["The chat window","radio","a wrapper around it"],["Local","mic","the same model, on your machine"]]});
+      </script>
+    </template>
+  </body>
+</html>

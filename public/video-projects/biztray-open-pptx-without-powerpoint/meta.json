@@ -1,0 +1,9 @@
+{
+  "id": "biztray-open-pptx-without-powerpoint",
+  "name": "How to open a PPTX file without PowerPoint",
+  "group": "templates",
+  "kind": "template",
+  "brand": "biztray",
+  "status": "draft",
+  "source": "sparktray-campaign/content/biztray/scripts/guide-office-to-pdf-how-to-open-a-pptx-file-without-powerpoint.md"
+}

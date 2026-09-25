@@ -1,0 +1,9 @@
+{
+  "id": "sparktray-can-chatgpt-transcribe-audio",
+  "name": "Can ChatGPT transcribe audio?",
+  "group": "templates",
+  "kind": "template",
+  "brand": "sparktray",
+  "status": "draft",
+  "source": "sparktray-campaign/content/sparktray/scripts/guide-transcriber-can-chatgpt-transcribe-audio.md"
+}

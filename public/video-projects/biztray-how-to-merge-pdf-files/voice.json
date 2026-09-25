@@ -1,0 +1,2045 @@
+{
+  "file": "assets/voice/take-e02d335f.mp3",
+  "seconds": 146.24,
+  "voiceId": "v3p1kjzUvro6S76qmYmH",
+  "voiceName": "Mark - Solid, Clear and Dependable",
+  "modelId": "eleven_v3",
+  "stability": 0.55,
+  "similarityBoost": 0.75,
+  "style": 0,
+  "speed": 1,
+  "outputFormat": "mp3_44100_192",
+  "seed": 20260806,
+  "requestId": "dLmMbS0oBUm9qC6dsaG8",
+  "source": "sparktray-campaign/content/voice.json → scripts[\"biztray/guide-pdf-organizer-how-to-merge-pdf-files\"]",
+  "lines": [
+    {
+      "n": 1,
+      "heading": "bg-contrast · beat 1",
+      "from": 0,
+      "to": 6.374,
+      "text": "[thoughtful] Four separate PDFs, and the form you are filling in accepts exactly one attachment.",
+      "words": [
+        {
+          "text": "Four",
+          "start": 0.269,
+          "end": 0.32
+        },
+        {
+          "text": "separate",
+          "start": 0.382,
+          "end": 0.88
+        },
+        {
+          "text": "PDFs,",
+          "start": 1.06,
+          "end": 1.76
+        },
+        {
+          "text": "and",
+          "start": 1.88,
+          "end": 2.24
+        },
+        {
+          "text": "the",
+          "start": 2.26,
+          "end": 2.32
+        },
+        {
+          "text": "form",
+          "start": 2.4,
+          "end": 2.72
+        },
+        {
+          "text": "you",
+          "start": 2.76,
+          "end": 2.88
+        },
+        {
+          "text": "are",
+          "start": 2.9,
+          "end": 2.96
+        },
+        {
+          "text": "filling",
+          "start": 3.02,
+          "end": 3.44
+        },
+        {
+          "text": "in",
+          "start": 3.493,
+          "end": 3.6
+        },
+        {
+          "text": "accepts",
+          "start": 3.66,
+          "end": 4.08
+        },
+        {
+          "text": "exactly",
+          "start": 4.17,
+          "end": 4.8
+        },
+        {
+          "text": "one",
+          "start": 4.9,
+          "end": 5.2
+        },
+        {
+          "text": "attachment.",
+          "start": 5.273,
+          "end": 6.08
+        }
+      ]
+    },
+    {
+      "n": 2,
+      "heading": "bg-contrast · beat 2",
+      "from": 6.374,
+      "to": 14.32,
+      "text": "To merge PDF files the first search result wants you to upload all four to a server you have never heard of.",
+      "words": [
+        {
+          "text": "To",
+          "start": 0.293,
+          "end": 0.586
+        },
+        {
+          "text": "merge",
+          "start": 0.626,
+          "end": 0.826
+        },
+        {
+          "text": "PDF",
+          "start": 0.946,
+          "end": 1.306
+        },
+        {
+          "text": "files",
+          "start": 1.359,
+          "end": 1.626
+        },
+        {
+          "text": "the",
+          "start": 1.686,
+          "end": 1.866
+        },
+        {
+          "text": "first",
+          "start": 1.933,
+          "end": 2.266
+        },
+        {
+          "text": "search",
+          "start": 2.312,
+          "end": 2.586
+        },
+        {
+          "text": "result",
+          "start": 2.655,
+          "end": 3.066
+        },
+        {
+          "text": "wants",
+          "start": 3.146,
+          "end": 3.546
+        },
+        {
+          "text": "you",
+          "start": 3.566,
+          "end": 3.626
+        },
+        {
+          "text": "to",
+          "start": 3.679,
+          "end": 3.786
+        },
+        {
+          "text": "upload",
+          "start": 3.855,
+          "end": 4.266
+        },
+        {
+          "text": "all",
+          "start": 4.366,
+          "end": 4.666
+        },
+        {
+          "text": "four",
+          "start": 4.778,
+          "end": 5.226
+        },
+        {
+          "text": "to",
+          "start": 5.333,
+          "end": 5.546
+        },
+        {
+          "text": "a",
+          "start": 5.586,
+          "end": 5.626
+        },
+        {
+          "text": "server",
+          "start": 5.695,
+          "end": 6.106
+        },
+        {
+          "text": "you",
+          "start": 6.246,
+          "end": 6.666
+        },
+        {
+          "text": "have",
+          "start": 6.714,
+          "end": 6.906
+        },
+        {
+          "text": "never",
+          "start": 6.959,
+          "end": 7.226
+        },
+        {
+          "text": "heard",
+          "start": 7.266,
+          "end": 7.466
+        },
+        {
+          "text": "of.",
+          "start": 7.546,
+          "end": 7.786
+        }
+      ]
+    },
+    {
+      "n": 3,
+      "heading": "bg-contrast · beat 3",
+      "from": 14.32,
+      "to": 22.13,
+      "text": "For a contract or a payslip, that is a decision worth making on purpose rather than by default.",
+      "words": [
+        {
+          "text": "For",
+          "start": 0.16,
+          "end": 0.88
+        },
+        {
+          "text": "a",
+          "start": 0.92,
+          "end": 0.96
+        },
+        {
+          "text": "contract",
+          "start": 1.031,
+          "end": 1.6
+        },
+        {
+          "text": "or",
+          "start": 1.653,
+          "end": 1.76
+        },
+        {
+          "text": "a",
+          "start": 1.88,
+          "end": 2
+        },
+        {
+          "text": "payslip,",
+          "start": 2.048,
+          "end": 2.96
+        },
+        {
+          "text": "that",
+          "start": 3.024,
+          "end": 3.28
+        },
+        {
+          "text": "is",
+          "start": 3.333,
+          "end": 3.44
+        },
+        {
+          "text": "a",
+          "start": 3.52,
+          "end": 3.6
+        },
+        {
+          "text": "decision",
+          "start": 3.653,
+          "end": 4.08
+        },
+        {
+          "text": "worth",
+          "start": 4.133,
+          "end": 4.4
+        },
+        {
+          "text": "making",
+          "start": 4.457,
+          "end": 4.8
+        },
+        {
+          "text": "on",
+          "start": 4.907,
+          "end": 5.12
+        },
+        {
+          "text": "purpose",
+          "start": 5.2,
+          "end": 5.76
+        },
+        {
+          "text": "rather",
+          "start": 5.84,
+          "end": 6.32
+        },
+        {
+          "text": "than",
+          "start": 6.368,
+          "end": 6.56
+        },
+        {
+          "text": "by",
+          "start": 6.613,
+          "end": 6.72
+        },
+        {
+          "text": "default.",
+          "start": 6.79,
+          "end": 7.36
+        }
+      ]
+    },
+    {
+      "n": 4,
+      "heading": "app-open · beat 4",
+      "from": 22.13,
+      "to": 28.456,
+      "text": "BizTray is the small icon down in your system tray. Click it and the window opens.",
+      "words": [
+        {
+          "text": "BizTray",
+          "start": 0.45,
+          "end": 1.31
+        },
+        {
+          "text": "is",
+          "start": 1.417,
+          "end": 1.63
+        },
+        {
+          "text": "the",
+          "start": 1.67,
+          "end": 1.79
+        },
+        {
+          "text": "small",
+          "start": 1.843,
+          "end": 2.11
+        },
+        {
+          "text": "icon",
+          "start": 2.206,
+          "end": 2.59
+        },
+        {
+          "text": "down",
+          "start": 2.638,
+          "end": 2.83
+        },
+        {
+          "text": "in",
+          "start": 2.883,
+          "end": 2.99
+        },
+        {
+          "text": "your",
+          "start": 3.022,
+          "end": 3.15
+        },
+        {
+          "text": "system",
+          "start": 3.207,
+          "end": 3.55
+        },
+        {
+          "text": "tray.",
+          "start": 3.63,
+          "end": 4.03
+        },
+        {
+          "text": "Click",
+          "start": 4.15,
+          "end": 4.75
+        },
+        {
+          "text": "it",
+          "start": 4.83,
+          "end": 4.99
+        },
+        {
+          "text": "and",
+          "start": 5.03,
+          "end": 5.15
+        },
+        {
+          "text": "the",
+          "start": 5.17,
+          "end": 5.23
+        },
+        {
+          "text": "window",
+          "start": 5.276,
+          "end": 5.55
+        },
+        {
+          "text": "opens.",
+          "start": 5.643,
+          "end": 6.19
+        }
+      ]
+    },
+    {
+      "n": 5,
+      "heading": "app-pick · beat 5",
+      "from": 28.456,
+      "to": 34.396,
+      "text": "Open PDF Organizer, the sixth one in the list of utilities on the left.",
+      "words": [
+        {
+          "text": "Open",
+          "start": 0.136,
+          "end": 0.904
+        },
+        {
+          "text": "PDF",
+          "start": 1.044,
+          "end": 1.464
+        },
+        {
+          "text": "Organizer,",
+          "start": 1.536,
+          "end": 2.504
+        },
+        {
+          "text": "the",
+          "start": 2.564,
+          "end": 2.744
+        },
+        {
+          "text": "sixth",
+          "start": 2.824,
+          "end": 3.224
+        },
+        {
+          "text": "one",
+          "start": 3.304,
+          "end": 3.544
+        },
+        {
+          "text": "in",
+          "start": 3.624,
+          "end": 3.784
+        },
+        {
+          "text": "the",
+          "start": 3.804,
+          "end": 3.864
+        },
+        {
+          "text": "list",
+          "start": 3.912,
+          "end": 4.104
+        },
+        {
+          "text": "of",
+          "start": 4.131,
+          "end": 4.184
+        },
+        {
+          "text": "utilities",
+          "start": 4.248,
+          "end": 4.824
+        },
+        {
+          "text": "on",
+          "start": 4.877,
+          "end": 4.984
+        },
+        {
+          "text": "the",
+          "start": 5.004,
+          "end": 5.064
+        },
+        {
+          "text": "left.",
+          "start": 5.144,
+          "end": 5.744
+        }
+      ]
+    },
+    {
+      "n": 6,
+      "heading": "app-input · beat 6",
+      "from": 34.396,
+      "to": 39.57,
+      "text": "Drag all four PDFs onto the drop zone in the middle of the window at once.",
+      "words": [
+        {
+          "text": "Drag",
+          "start": 0.196,
+          "end": 0.644
+        },
+        {
+          "text": "all",
+          "start": 0.744,
+          "end": 1.044
+        },
+        {
+          "text": "four",
+          "start": 1.108,
+          "end": 1.364
+        },
+        {
+          "text": "PDFs",
+          "start": 1.504,
+          "end": 2.004
+        },
+        {
+          "text": "onto",
+          "start": 2.084,
+          "end": 2.404
+        },
+        {
+          "text": "the",
+          "start": 2.424,
+          "end": 2.484
+        },
+        {
+          "text": "drop",
+          "start": 2.564,
+          "end": 2.884
+        },
+        {
+          "text": "zone",
+          "start": 2.948,
+          "end": 3.204
+        },
+        {
+          "text": "in",
+          "start": 3.257,
+          "end": 3.364
+        },
+        {
+          "text": "the",
+          "start": 3.384,
+          "end": 3.444
+        },
+        {
+          "text": "middle",
+          "start": 3.49,
+          "end": 3.764
+        },
+        {
+          "text": "of",
+          "start": 3.791,
+          "end": 3.844
+        },
+        {
+          "text": "the",
+          "start": 3.864,
+          "end": 3.924
+        },
+        {
+          "text": "window",
+          "start": 3.981,
+          "end": 4.324
+        },
+        {
+          "text": "at",
+          "start": 4.377,
+          "end": 4.484
+        },
+        {
+          "text": "once.",
+          "start": 4.58,
+          "end": 5.044
+        }
+      ]
+    },
+    {
+      "n": 7,
+      "heading": "app-input · beat 7",
+      "from": 39.57,
+      "to": 45.42,
+      "text": "The order you drop them in is the order they combine in, so drop them in the order you want.",
+      "words": [
+        {
+          "text": "The",
+          "start": 0.13,
+          "end": 0.67
+        },
+        {
+          "text": "order",
+          "start": 0.737,
+          "end": 1.07
+        },
+        {
+          "text": "you",
+          "start": 1.11,
+          "end": 1.23
+        },
+        {
+          "text": "drop",
+          "start": 1.294,
+          "end": 1.55
+        },
+        {
+          "text": "them",
+          "start": 1.582,
+          "end": 1.71
+        },
+        {
+          "text": "in",
+          "start": 1.817,
+          "end": 2.03
+        },
+        {
+          "text": "is",
+          "start": 2.11,
+          "end": 2.27
+        },
+        {
+          "text": "the",
+          "start": 2.29,
+          "end": 2.35
+        },
+        {
+          "text": "order",
+          "start": 2.417,
+          "end": 2.75
+        },
+        {
+          "text": "they",
+          "start": 2.782,
+          "end": 2.91
+        },
+        {
+          "text": "combine",
+          "start": 2.97,
+          "end": 3.39
+        },
+        {
+          "text": "in,",
+          "start": 3.47,
+          "end": 3.87
+        },
+        {
+          "text": "so",
+          "start": 3.923,
+          "end": 4.03
+        },
+        {
+          "text": "drop",
+          "start": 4.094,
+          "end": 4.35
+        },
+        {
+          "text": "them",
+          "start": 4.382,
+          "end": 4.51
+        },
+        {
+          "text": "in",
+          "start": 4.537,
+          "end": 4.59
+        },
+        {
+          "text": "the",
+          "start": 4.61,
+          "end": 4.67
+        },
+        {
+          "text": "order",
+          "start": 4.723,
+          "end": 4.99
+        },
+        {
+          "text": "you",
+          "start": 5.01,
+          "end": 5.07
+        },
+        {
+          "text": "want.",
+          "start": 5.15,
+          "end": 5.55
+        }
+      ]
+    },
+    {
+      "n": 8,
+      "heading": "app-read · beat 8",
+      "from": 45.42,
+      "to": 52.134,
+      "text": "The drop zone becomes a page grid. Sixteen pages here, across the files it picked up.",
+      "words": [
+        {
+          "text": "The",
+          "start": 0.3,
+          "end": 0.66
+        },
+        {
+          "text": "drop",
+          "start": 0.708,
+          "end": 0.9
+        },
+        {
+          "text": "zone",
+          "start": 0.964,
+          "end": 1.22
+        },
+        {
+          "text": "becomes",
+          "start": 1.27,
+          "end": 1.62
+        },
+        {
+          "text": "a",
+          "start": 1.66,
+          "end": 1.7
+        },
+        {
+          "text": "page",
+          "start": 1.78,
+          "end": 2.1
+        },
+        {
+          "text": "grid.",
+          "start": 2.18,
+          "end": 2.58
+        },
+        {
+          "text": "Sixteen",
+          "start": 2.76,
+          "end": 3.46
+        },
+        {
+          "text": "pages",
+          "start": 3.553,
+          "end": 4.02
+        },
+        {
+          "text": "here,",
+          "start": 4.084,
+          "end": 4.74
+        },
+        {
+          "text": "across",
+          "start": 4.809,
+          "end": 5.22
+        },
+        {
+          "text": "the",
+          "start": 5.24,
+          "end": 5.3
+        },
+        {
+          "text": "files",
+          "start": 5.38,
+          "end": 5.78
+        },
+        {
+          "text": "it",
+          "start": 5.86,
+          "end": 6.02
+        },
+        {
+          "text": "picked",
+          "start": 6.054,
+          "end": 6.26
+        },
+        {
+          "text": "up.",
+          "start": 6.367,
+          "end": 6.62
+        }
+      ]
+    },
+    {
+      "n": 9,
+      "heading": "app-read · beat 9",
+      "from": 52.134,
+      "to": 59.3,
+      "text": "Every page is a thumbnail, numbered, so you can see straight away whether a file came in upside down.",
+      "words": [
+        {
+          "text": "Every",
+          "start": 0.093,
+          "end": 0.826
+        },
+        {
+          "text": "page",
+          "start": 0.906,
+          "end": 1.226
+        },
+        {
+          "text": "is",
+          "start": 1.279,
+          "end": 1.386
+        },
+        {
+          "text": "a",
+          "start": 1.426,
+          "end": 1.466
+        },
+        {
+          "text": "thumbnail,",
+          "start": 1.522,
+          "end": 2.106
+        },
+        {
+          "text": "numbered,",
+          "start": 2.177,
+          "end": 3.066
+        },
+        {
+          "text": "so",
+          "start": 3.119,
+          "end": 3.226
+        },
+        {
+          "text": "you",
+          "start": 3.266,
+          "end": 3.386
+        },
+        {
+          "text": "can",
+          "start": 3.426,
+          "end": 3.546
+        },
+        {
+          "text": "see",
+          "start": 3.626,
+          "end": 3.866
+        },
+        {
+          "text": "straight",
+          "start": 3.902,
+          "end": 4.186
+        },
+        {
+          "text": "away",
+          "start": 4.266,
+          "end": 4.586
+        },
+        {
+          "text": "whether",
+          "start": 4.636,
+          "end": 4.986
+        },
+        {
+          "text": "a",
+          "start": 5.066,
+          "end": 5.146
+        },
+        {
+          "text": "file",
+          "start": 5.21,
+          "end": 5.466
+        },
+        {
+          "text": "came",
+          "start": 5.514,
+          "end": 5.706
+        },
+        {
+          "text": "in",
+          "start": 5.813,
+          "end": 6.026
+        },
+        {
+          "text": "upside",
+          "start": 6.083,
+          "end": 6.426
+        },
+        {
+          "text": "down.",
+          "start": 6.506,
+          "end": 6.866
+        }
+      ]
+    },
+    {
+      "n": 10,
+      "heading": "app-options · beat 10",
+      "from": 59.3,
+      "to": 66.744,
+      "text": "[thoughtful] The grid is the control. Click a page to select it, ctrl for several, shift for a range.",
+      "words": [
+        {
+          "text": "The",
+          "start": 0.925,
+          "end": 0.94
+        },
+        {
+          "text": "grid",
+          "start": 1.004,
+          "end": 1.26
+        },
+        {
+          "text": "is",
+          "start": 1.313,
+          "end": 1.42
+        },
+        {
+          "text": "the",
+          "start": 1.46,
+          "end": 1.58
+        },
+        {
+          "text": "control.",
+          "start": 1.65,
+          "end": 2.22
+        },
+        {
+          "text": "Click",
+          "start": 2.313,
+          "end": 2.78
+        },
+        {
+          "text": "a",
+          "start": 2.82,
+          "end": 2.86
+        },
+        {
+          "text": "page",
+          "start": 2.94,
+          "end": 3.26
+        },
+        {
+          "text": "to",
+          "start": 3.287,
+          "end": 3.34
+        },
+        {
+          "text": "select",
+          "start": 3.42,
+          "end": 3.9
+        },
+        {
+          "text": "it,",
+          "start": 3.927,
+          "end": 4.3
+        },
+        {
+          "text": "ctrl",
+          "start": 4.38,
+          "end": 4.7
+        },
+        {
+          "text": "for",
+          "start": 4.76,
+          "end": 4.94
+        },
+        {
+          "text": "several,",
+          "start": 5,
+          "end": 5.74
+        },
+        {
+          "text": "shift",
+          "start": 5.833,
+          "end": 6.3
+        },
+        {
+          "text": "for",
+          "start": 6.36,
+          "end": 6.54
+        },
+        {
+          "text": "a",
+          "start": 6.58,
+          "end": 6.62
+        },
+        {
+          "text": "range.",
+          "start": 6.7,
+          "end": 7.18
+        }
+      ]
+    },
+    {
+      "n": 11,
+      "heading": "app-options · beat 11",
+      "from": 66.744,
+      "to": 72.654,
+      "text": "Drag a thumbnail to move it. That is how you fix an order you got wrong on the way in.",
+      "words": [
+        {
+          "text": "Drag",
+          "start": 0.264,
+          "end": 0.616
+        },
+        {
+          "text": "a",
+          "start": 0.656,
+          "end": 0.696
+        },
+        {
+          "text": "thumbnail",
+          "start": 0.744,
+          "end": 1.176
+        },
+        {
+          "text": "to",
+          "start": 1.229,
+          "end": 1.336
+        },
+        {
+          "text": "move",
+          "start": 1.4,
+          "end": 1.656
+        },
+        {
+          "text": "it.",
+          "start": 1.709,
+          "end": 1.976
+        },
+        {
+          "text": "That",
+          "start": 2.152,
+          "end": 2.856
+        },
+        {
+          "text": "is",
+          "start": 2.909,
+          "end": 3.016
+        },
+        {
+          "text": "how",
+          "start": 3.076,
+          "end": 3.256
+        },
+        {
+          "text": "you",
+          "start": 3.276,
+          "end": 3.336
+        },
+        {
+          "text": "fix",
+          "start": 3.436,
+          "end": 3.736
+        },
+        {
+          "text": "an",
+          "start": 3.789,
+          "end": 3.896
+        },
+        {
+          "text": "order",
+          "start": 3.949,
+          "end": 4.216
+        },
+        {
+          "text": "you",
+          "start": 4.256,
+          "end": 4.376
+        },
+        {
+          "text": "got",
+          "start": 4.436,
+          "end": 4.616
+        },
+        {
+          "text": "wrong",
+          "start": 4.669,
+          "end": 4.936
+        },
+        {
+          "text": "on",
+          "start": 4.989,
+          "end": 5.096
+        },
+        {
+          "text": "the",
+          "start": 5.116,
+          "end": 5.176
+        },
+        {
+          "text": "way",
+          "start": 5.236,
+          "end": 5.416
+        },
+        {
+          "text": "in.",
+          "start": 5.496,
+          "end": 5.736
+        }
+      ]
+    },
+    {
+      "n": 12,
+      "heading": "app-options · beat 12",
+      "from": 72.654,
+      "to": 78.725,
+      "text": "If the last file should have been second, drag its block up and the numbering follows.",
+      "words": [
+        {
+          "text": "If",
+          "start": 0.173,
+          "end": 0.706
+        },
+        {
+          "text": "the",
+          "start": 0.726,
+          "end": 0.786
+        },
+        {
+          "text": "last",
+          "start": 0.866,
+          "end": 1.186
+        },
+        {
+          "text": "file",
+          "start": 1.25,
+          "end": 1.506
+        },
+        {
+          "text": "should",
+          "start": 1.54,
+          "end": 1.746
+        },
+        {
+          "text": "have",
+          "start": 1.762,
+          "end": 1.826
+        },
+        {
+          "text": "been",
+          "start": 1.858,
+          "end": 1.986
+        },
+        {
+          "text": "second,",
+          "start": 2.055,
+          "end": 2.786
+        },
+        {
+          "text": "drag",
+          "start": 2.866,
+          "end": 3.186
+        },
+        {
+          "text": "its",
+          "start": 3.226,
+          "end": 3.346
+        },
+        {
+          "text": "block",
+          "start": 3.413,
+          "end": 3.746
+        },
+        {
+          "text": "up",
+          "start": 3.879,
+          "end": 4.146
+        },
+        {
+          "text": "and",
+          "start": 4.206,
+          "end": 4.386
+        },
+        {
+          "text": "the",
+          "start": 4.406,
+          "end": 4.466
+        },
+        {
+          "text": "numbering",
+          "start": 4.522,
+          "end": 5.026
+        },
+        {
+          "text": "follows.",
+          "start": 5.096,
+          "end": 5.746
+        }
+      ]
+    },
+    {
+      "n": 13,
+      "heading": "app-options · beat 13",
+      "from": 78.725,
+      "to": 84.36,
+      "text": "Nothing has changed on disk yet. The grid is a plan, not an edit.",
+      "words": [
+        {
+          "text": "Nothing",
+          "start": 0.325,
+          "end": 0.955
+        },
+        {
+          "text": "has",
+          "start": 1.015,
+          "end": 1.195
+        },
+        {
+          "text": "changed",
+          "start": 1.245,
+          "end": 1.595
+        },
+        {
+          "text": "on",
+          "start": 1.648,
+          "end": 1.755
+        },
+        {
+          "text": "disk",
+          "start": 1.819,
+          "end": 2.075
+        },
+        {
+          "text": "yet.",
+          "start": 2.155,
+          "end": 2.635
+        },
+        {
+          "text": "The",
+          "start": 2.695,
+          "end": 2.875
+        },
+        {
+          "text": "grid",
+          "start": 2.955,
+          "end": 3.275
+        },
+        {
+          "text": "is",
+          "start": 3.355,
+          "end": 3.515
+        },
+        {
+          "text": "a",
+          "start": 3.595,
+          "end": 3.675
+        },
+        {
+          "text": "plan,",
+          "start": 3.787,
+          "end": 4.635
+        },
+        {
+          "text": "not",
+          "start": 4.695,
+          "end": 4.875
+        },
+        {
+          "text": "an",
+          "start": 4.928,
+          "end": 5.035
+        },
+        {
+          "text": "edit.",
+          "start": 5.115,
+          "end": 5.515
+        }
+      ]
+    },
+    {
+      "n": 14,
+      "heading": "app-run · beat 14",
+      "from": 84.36,
+      "to": 88.645,
+      "text": "Hit the button at the bottom of the panel to write the merged file.",
+      "words": [
+        {
+          "text": "Hit",
+          "start": 0.12,
+          "end": 0.84
+        },
+        {
+          "text": "the",
+          "start": 0.86,
+          "end": 0.92
+        },
+        {
+          "text": "button",
+          "start": 0.966,
+          "end": 1.24
+        },
+        {
+          "text": "at",
+          "start": 1.267,
+          "end": 1.32
+        },
+        {
+          "text": "the",
+          "start": 1.36,
+          "end": 1.48
+        },
+        {
+          "text": "bottom",
+          "start": 1.526,
+          "end": 1.8
+        },
+        {
+          "text": "of",
+          "start": 1.827,
+          "end": 1.88
+        },
+        {
+          "text": "the",
+          "start": 1.9,
+          "end": 1.96
+        },
+        {
+          "text": "panel",
+          "start": 2.04,
+          "end": 2.44
+        },
+        {
+          "text": "to",
+          "start": 2.493,
+          "end": 2.6
+        },
+        {
+          "text": "write",
+          "start": 2.653,
+          "end": 2.92
+        },
+        {
+          "text": "the",
+          "start": 2.94,
+          "end": 3
+        },
+        {
+          "text": "merged",
+          "start": 3.057,
+          "end": 3.4
+        },
+        {
+          "text": "file.",
+          "start": 3.496,
+          "end": 3.96
+        }
+      ]
+    },
+    {
+      "n": 15,
+      "heading": "app-queue · beat 15",
+      "from": 88.645,
+      "to": 95.82,
+      "text": "Job Queue shows it working. Merging is fast because the pages are copied, not re-encoded.",
+      "words": [
+        {
+          "text": "Job",
+          "start": 0.325,
+          "end": 0.715
+        },
+        {
+          "text": "Queue",
+          "start": 0.768,
+          "end": 1.035
+        },
+        {
+          "text": "shows",
+          "start": 1.088,
+          "end": 1.355
+        },
+        {
+          "text": "it",
+          "start": 1.382,
+          "end": 1.435
+        },
+        {
+          "text": "working.",
+          "start": 1.505,
+          "end": 2.435
+        },
+        {
+          "text": "Merging",
+          "start": 2.655,
+          "end": 3.195
+        },
+        {
+          "text": "is",
+          "start": 3.248,
+          "end": 3.355
+        },
+        {
+          "text": "fast",
+          "start": 3.451,
+          "end": 3.835
+        },
+        {
+          "text": "because",
+          "start": 3.875,
+          "end": 4.155
+        },
+        {
+          "text": "the",
+          "start": 4.195,
+          "end": 4.315
+        },
+        {
+          "text": "pages",
+          "start": 4.382,
+          "end": 4.715
+        },
+        {
+          "text": "are",
+          "start": 4.755,
+          "end": 4.875
+        },
+        {
+          "text": "copied,",
+          "start": 4.955,
+          "end": 5.595
+        },
+        {
+          "text": "not",
+          "start": 5.695,
+          "end": 5.995
+        },
+        {
+          "text": "re-encoded.",
+          "start": 6.075,
+          "end": 6.875
+        }
+      ]
+    },
+    {
+      "n": 16,
+      "heading": "app-done · beat 16",
+      "from": 95.82,
+      "to": 103.314,
+      "text": "[short pause] Done. One PDF containing all sixteen pages, written next to the originals.",
+      "words": [
+        {
+          "text": "Done.",
+          "start": 1.076,
+          "end": 1.66
+        },
+        {
+          "text": "One",
+          "start": 1.79,
+          "end": 2.18
+        },
+        {
+          "text": "PDF",
+          "start": 2.34,
+          "end": 2.82
+        },
+        {
+          "text": "containing",
+          "start": 2.856,
+          "end": 3.22
+        },
+        {
+          "text": "all",
+          "start": 3.34,
+          "end": 3.7
+        },
+        {
+          "text": "sixteen",
+          "start": 3.76,
+          "end": 4.18
+        },
+        {
+          "text": "pages,",
+          "start": 4.273,
+          "end": 5.14
+        },
+        {
+          "text": "written",
+          "start": 5.19,
+          "end": 5.54
+        },
+        {
+          "text": "next",
+          "start": 5.652,
+          "end": 6.1
+        },
+        {
+          "text": "to",
+          "start": 6.153,
+          "end": 6.26
+        },
+        {
+          "text": "the",
+          "start": 6.3,
+          "end": 6.42
+        },
+        {
+          "text": "originals.",
+          "start": 6.484,
+          "end": 7.327
+        }
+      ]
+    },
+    {
+      "n": 17,
+      "heading": "app-done · beat 17",
+      "from": 103.314,
+      "to": 109.54,
+      "text": "The four source files are untouched, so a merge you got wrong costs you nothing.",
+      "words": [
+        {
+          "text": "The",
+          "start": 0.166,
+          "end": 0.366
+        },
+        {
+          "text": "four",
+          "start": 0.43,
+          "end": 0.686
+        },
+        {
+          "text": "source",
+          "start": 0.743,
+          "end": 1.086
+        },
+        {
+          "text": "files",
+          "start": 1.139,
+          "end": 1.406
+        },
+        {
+          "text": "are",
+          "start": 1.446,
+          "end": 1.566
+        },
+        {
+          "text": "untouched,",
+          "start": 1.646,
+          "end": 2.526
+        },
+        {
+          "text": "so",
+          "start": 2.579,
+          "end": 2.686
+        },
+        {
+          "text": "a",
+          "start": 2.766,
+          "end": 2.846
+        },
+        {
+          "text": "merge",
+          "start": 2.899,
+          "end": 3.166
+        },
+        {
+          "text": "you",
+          "start": 3.206,
+          "end": 3.326
+        },
+        {
+          "text": "got",
+          "start": 3.386,
+          "end": 3.566
+        },
+        {
+          "text": "wrong",
+          "start": 3.646,
+          "end": 4.046
+        },
+        {
+          "text": "costs",
+          "start": 4.179,
+          "end": 4.846
+        },
+        {
+          "text": "you",
+          "start": 4.906,
+          "end": 5.086
+        },
+        {
+          "text": "nothing.",
+          "start": 5.166,
+          "end": 5.806
+        }
+      ]
+    },
+    {
+      "n": 18,
+      "heading": "bg-caveat · beat 18",
+      "from": 109.54,
+      "to": 115.89,
+      "text": "[exhales] Merging copies the pages as they are. It does NOT re-number anything.",
+      "words": [
+        {
+          "text": "Merging",
+          "start": 1.252,
+          "end": 1.58
+        },
+        {
+          "text": "copies",
+          "start": 1.637,
+          "end": 1.98
+        },
+        {
+          "text": "the",
+          "start": 2.02,
+          "end": 2.14
+        },
+        {
+          "text": "pages",
+          "start": 2.233,
+          "end": 2.7
+        },
+        {
+          "text": "as",
+          "start": 2.807,
+          "end": 3.02
+        },
+        {
+          "text": "they",
+          "start": 3.068,
+          "end": 3.26
+        },
+        {
+          "text": "are.",
+          "start": 3.34,
+          "end": 3.66
+        },
+        {
+          "text": "It",
+          "start": 3.793,
+          "end": 4.06
+        },
+        {
+          "text": "does",
+          "start": 4.108,
+          "end": 4.3
+        },
+        {
+          "text": "NOT",
+          "start": 4.44,
+          "end": 4.86
+        },
+        {
+          "text": "re-number",
+          "start": 4.94,
+          "end": 5.5
+        },
+        {
+          "text": "anything.",
+          "start": 5.562,
+          "end": 6.14
+        }
+      ]
+    },
+    {
+      "n": 19,
+      "heading": "bg-caveat · beat 19",
+      "from": 115.89,
+      "to": 124.76,
+      "text": "Which means if each of the four documents had its own printed page numbers, the merged file counts to four and starts again.",
+      "words": [
+        {
+          "text": "Which",
+          "start": 0.21,
+          "end": 0.51
+        },
+        {
+          "text": "means",
+          "start": 0.59,
+          "end": 0.99
+        },
+        {
+          "text": "if",
+          "start": 1.123,
+          "end": 1.39
+        },
+        {
+          "text": "each",
+          "start": 1.454,
+          "end": 1.71
+        },
+        {
+          "text": "of",
+          "start": 1.763,
+          "end": 1.87
+        },
+        {
+          "text": "the",
+          "start": 1.91,
+          "end": 2.03
+        },
+        {
+          "text": "four",
+          "start": 2.062,
+          "end": 2.19
+        },
+        {
+          "text": "documents",
+          "start": 2.254,
+          "end": 2.83
+        },
+        {
+          "text": "had",
+          "start": 2.87,
+          "end": 2.99
+        },
+        {
+          "text": "its",
+          "start": 3.03,
+          "end": 3.15
+        },
+        {
+          "text": "own",
+          "start": 3.23,
+          "end": 3.47
+        },
+        {
+          "text": "printed",
+          "start": 3.52,
+          "end": 3.87
+        },
+        {
+          "text": "page",
+          "start": 3.95,
+          "end": 4.27
+        },
+        {
+          "text": "numbers,",
+          "start": 4.32,
+          "end": 5.23
+        },
+        {
+          "text": "the",
+          "start": 5.25,
+          "end": 5.31
+        },
+        {
+          "text": "merged",
+          "start": 5.379,
+          "end": 5.79
+        },
+        {
+          "text": "file",
+          "start": 5.854,
+          "end": 6.11
+        },
+        {
+          "text": "counts",
+          "start": 6.167,
+          "end": 6.51
+        },
+        {
+          "text": "to",
+          "start": 6.563,
+          "end": 6.67
+        },
+        {
+          "text": "four",
+          "start": 6.782,
+          "end": 7.23
+        },
+        {
+          "text": "and",
+          "start": 7.35,
+          "end": 7.71
+        },
+        {
+          "text": "starts",
+          "start": 7.779,
+          "end": 8.19
+        },
+        {
+          "text": "again.",
+          "start": 8.257,
+          "end": 8.67
+        }
+      ]
+    },
+    {
+      "n": 20,
+      "heading": "bg-caveat · beat 20",
+      "from": 124.76,
+      "to": 133.02,
+      "text": "PDF Tools adds a fresh set of page numbers across the whole document, which is the usual second step on a report.",
+      "words": [
+        {
+          "text": "PDF",
+          "start": 0.2,
+          "end": 1.16
+        },
+        {
+          "text": "Tools",
+          "start": 1.267,
+          "end": 1.8
+        },
+        {
+          "text": "adds",
+          "start": 1.864,
+          "end": 2.12
+        },
+        {
+          "text": "a",
+          "start": 2.2,
+          "end": 2.28
+        },
+        {
+          "text": "fresh",
+          "start": 2.333,
+          "end": 2.6
+        },
+        {
+          "text": "set",
+          "start": 2.64,
+          "end": 2.76
+        },
+        {
+          "text": "of",
+          "start": 2.787,
+          "end": 2.84
+        },
+        {
+          "text": "page",
+          "start": 2.904,
+          "end": 3.16
+        },
+        {
+          "text": "numbers",
+          "start": 3.21,
+          "end": 3.56
+        },
+        {
+          "text": "across",
+          "start": 3.629,
+          "end": 4.04
+        },
+        {
+          "text": "the",
+          "start": 4.08,
+          "end": 4.2
+        },
+        {
+          "text": "whole",
+          "start": 4.253,
+          "end": 4.52
+        },
+        {
+          "text": "document,",
+          "start": 4.582,
+          "end": 5.64
+        },
+        {
+          "text": "which",
+          "start": 5.667,
+          "end": 5.8
+        },
+        {
+          "text": "is",
+          "start": 5.853,
+          "end": 5.96
+        },
+        {
+          "text": "the",
+          "start": 6,
+          "end": 6.12
+        },
+        {
+          "text": "usual",
+          "start": 6.187,
+          "end": 6.52
+        },
+        {
+          "text": "second",
+          "start": 6.589,
+          "end": 7
+        },
+        {
+          "text": "step",
+          "start": 7.08,
+          "end": 7.4
+        },
+        {
+          "text": "on",
+          "start": 7.427,
+          "end": 7.48
+        },
+        {
+          "text": "a",
+          "start": 7.52,
+          "end": 7.56
+        },
+        {
+          "text": "report.",
+          "start": 7.64,
+          "end": 8.2
+        }
+      ]
+    },
+    {
+      "n": 21,
+      "heading": "logo · beat 21",
+      "from": 133.02,
+      "to": 141.677,
+      "text": "[short pause] So that is four PDFs dropped in, the order fixed on the grid, and one merged document written out.",
+      "words": [
+        {
+          "text": "So",
+          "start": 1.113,
+          "end": 1.22
+        },
+        {
+          "text": "that",
+          "start": 1.252,
+          "end": 1.38
+        },
+        {
+          "text": "is",
+          "start": 1.487,
+          "end": 1.7
+        },
+        {
+          "text": "four",
+          "start": 1.828,
+          "end": 2.34
+        },
+        {
+          "text": "PDFs",
+          "start": 2.48,
+          "end": 3.1
+        },
+        {
+          "text": "dropped",
+          "start": 3.125,
+          "end": 3.3
+        },
+        {
+          "text": "in,",
+          "start": 3.38,
+          "end": 4.02
+        },
+        {
+          "text": "the",
+          "start": 4.04,
+          "end": 4.1
+        },
+        {
+          "text": "order",
+          "start": 4.18,
+          "end": 4.58
+        },
+        {
+          "text": "fixed",
+          "start": 4.647,
+          "end": 4.98
+        },
+        {
+          "text": "on",
+          "start": 5.007,
+          "end": 5.06
+        },
+        {
+          "text": "the",
+          "start": 5.08,
+          "end": 5.14
+        },
+        {
+          "text": "grid,",
+          "start": 5.236,
+          "end": 6.02
+        },
+        {
+          "text": "and",
+          "start": 6.06,
+          "end": 6.18
+        },
+        {
+          "text": "one",
+          "start": 6.26,
+          "end": 6.5
+        },
+        {
+          "text": "merged",
+          "start": 6.557,
+          "end": 6.9
+        },
+        {
+          "text": "document",
+          "start": 6.962,
+          "end": 7.46
+        },
+        {
+          "text": "written",
+          "start": 7.5,
+          "end": 7.78
+        },
+        {
+          "text": "out.",
+          "start": 7.88,
+          "end": 8.473
+        }
+      ]
+    },
+    {
+      "n": 22,
+      "heading": "logo · beat 22",
+      "from": 141.677,
+      "to": 146.24,
+      "text": "All of it on your own machine, and nothing uploaded anywhere.",
+      "words": [
+        {
+          "text": "All",
+          "start": 0.183,
+          "end": 0.403
+        },
+        {
+          "text": "of",
+          "start": 0.43,
+          "end": 0.483
+        },
+        {
+          "text": "it",
+          "start": 0.563,
+          "end": 0.723
+        },
+        {
+          "text": "on",
+          "start": 0.803,
+          "end": 0.963
+        },
+        {
+          "text": "your",
+          "start": 0.995,
+          "end": 1.123
+        },
+        {
+          "text": "own",
+          "start": 1.183,
+          "end": 1.363
+        },
+        {
+          "text": "machine,",
+          "start": 1.433,
+          "end": 2.003
+        },
+        {
+          "text": "and",
+          "start": 2.143,
+          "end": 2.563
+        },
+        {
+          "text": "nothing",
+          "start": 2.633,
+          "end": 3.123
+        },
+        {
+          "text": "uploaded",
+          "start": 3.194,
+          "end": 3.763
+        },
+        {
+          "text": "anywhere.",
+          "start": 3.834,
+          "end": 4.563
+        }
+      ]
+    }
+  ]
+}

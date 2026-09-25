@@ -1,0 +1,1945 @@
+{
+  "file": "assets/voice/take-63531328.mp3",
+  "seconds": 144.96,
+  "voiceId": "v3p1kjzUvro6S76qmYmH",
+  "voiceName": "Mark - Solid, Clear and Dependable",
+  "modelId": "eleven_v3",
+  "stability": 0.55,
+  "similarityBoost": 0.75,
+  "style": 0,
+  "speed": 1,
+  "outputFormat": "mp3_44100_192",
+  "seed": 20260806,
+  "requestId": "S4Sd9i0rkAHEV8L8VMC0",
+  "source": "sparktray-campaign/content/voice.json → scripts[\"sparktray/guide-transcriber-can-chatgpt-transcribe-audio\"]",
+  "lines": [
+    {
+      "n": 1,
+      "heading": "bg-mechanism · beat 1",
+      "from": 0,
+      "to": 8.17,
+      "text": "[thoughtful] Can ChatGPT transcribe audio? Yes, and it is good at it, and there are three limits worth knowing first.",
+      "words": [
+        {
+          "text": "Can",
+          "start": 0.068,
+          "end": 0.08
+        },
+        {
+          "text": "ChatGPT",
+          "start": 0.144,
+          "end": 0.88
+        },
+        {
+          "text": "transcribe",
+          "start": 0.933,
+          "end": 1.52
+        },
+        {
+          "text": "audio?",
+          "start": 1.587,
+          "end": 2
+        },
+        {
+          "text": "Yes,",
+          "start": 2.32,
+          "end": 3.6
+        },
+        {
+          "text": "and",
+          "start": 3.64,
+          "end": 3.76
+        },
+        {
+          "text": "it",
+          "start": 3.787,
+          "end": 3.84
+        },
+        {
+          "text": "is",
+          "start": 3.893,
+          "end": 4
+        },
+        {
+          "text": "good",
+          "start": 4.08,
+          "end": 4.4
+        },
+        {
+          "text": "at",
+          "start": 4.453,
+          "end": 4.56
+        },
+        {
+          "text": "it,",
+          "start": 4.613,
+          "end": 5.28
+        },
+        {
+          "text": "and",
+          "start": 5.3,
+          "end": 5.36
+        },
+        {
+          "text": "there",
+          "start": 5.387,
+          "end": 5.52
+        },
+        {
+          "text": "are",
+          "start": 5.56,
+          "end": 5.68
+        },
+        {
+          "text": "three",
+          "start": 5.72,
+          "end": 5.92
+        },
+        {
+          "text": "limits",
+          "start": 5.989,
+          "end": 6.4
+        },
+        {
+          "text": "worth",
+          "start": 6.44,
+          "end": 6.64
+        },
+        {
+          "text": "knowing",
+          "start": 6.68,
+          "end": 6.96
+        },
+        {
+          "text": "first.",
+          "start": 7.053,
+          "end": 7.92
+        }
+      ]
+    },
+    {
+      "n": 2,
+      "heading": "bg-mechanism · beat 2",
+      "from": 8.17,
+      "to": 14.134,
+      "text": "The company that makes it also made Whisper, which is the model most transcription tools run.",
+      "words": [
+        {
+          "text": "The",
+          "start": 0.25,
+          "end": 0.55
+        },
+        {
+          "text": "company",
+          "start": 0.59,
+          "end": 0.87
+        },
+        {
+          "text": "that",
+          "start": 0.902,
+          "end": 1.03
+        },
+        {
+          "text": "makes",
+          "start": 1.083,
+          "end": 1.35
+        },
+        {
+          "text": "it",
+          "start": 1.403,
+          "end": 1.51
+        },
+        {
+          "text": "also",
+          "start": 1.574,
+          "end": 1.83
+        },
+        {
+          "text": "made",
+          "start": 1.894,
+          "end": 2.15
+        },
+        {
+          "text": "Whisper,",
+          "start": 2.22,
+          "end": 2.87
+        },
+        {
+          "text": "which",
+          "start": 2.91,
+          "end": 3.11
+        },
+        {
+          "text": "is",
+          "start": 3.19,
+          "end": 3.35
+        },
+        {
+          "text": "the",
+          "start": 3.39,
+          "end": 3.51
+        },
+        {
+          "text": "model",
+          "start": 3.55,
+          "end": 3.75
+        },
+        {
+          "text": "most",
+          "start": 3.83,
+          "end": 4.15
+        },
+        {
+          "text": "transcription",
+          "start": 4.196,
+          "end": 4.79
+        },
+        {
+          "text": "tools",
+          "start": 4.857,
+          "end": 5.19
+        },
+        {
+          "text": "run.",
+          "start": 5.29,
+          "end": 5.67
+        }
+      ]
+    },
+    {
+      "n": 3,
+      "heading": "bg-mechanism · beat 3",
+      "from": 14.134,
+      "to": 21.48,
+      "text": "So this is not a question about accuracy. It is a question about file size, privacy and format.",
+      "words": [
+        {
+          "text": "So",
+          "start": 0.293,
+          "end": 0.506
+        },
+        {
+          "text": "this",
+          "start": 0.538,
+          "end": 0.666
+        },
+        {
+          "text": "is",
+          "start": 0.746,
+          "end": 0.906
+        },
+        {
+          "text": "not",
+          "start": 0.966,
+          "end": 1.146
+        },
+        {
+          "text": "a",
+          "start": 1.226,
+          "end": 1.306
+        },
+        {
+          "text": "question",
+          "start": 1.35,
+          "end": 1.706
+        },
+        {
+          "text": "about",
+          "start": 1.746,
+          "end": 1.946
+        },
+        {
+          "text": "accuracy.",
+          "start": 2.026,
+          "end": 2.826
+        },
+        {
+          "text": "It",
+          "start": 2.959,
+          "end": 3.226
+        },
+        {
+          "text": "is",
+          "start": 3.253,
+          "end": 3.306
+        },
+        {
+          "text": "a",
+          "start": 3.386,
+          "end": 3.466
+        },
+        {
+          "text": "question",
+          "start": 3.502,
+          "end": 3.786
+        },
+        {
+          "text": "about",
+          "start": 3.839,
+          "end": 4.106
+        },
+        {
+          "text": "file",
+          "start": 4.17,
+          "end": 4.426
+        },
+        {
+          "text": "size,",
+          "start": 4.522,
+          "end": 5.386
+        },
+        {
+          "text": "privacy",
+          "start": 5.456,
+          "end": 5.946
+        },
+        {
+          "text": "and",
+          "start": 6.046,
+          "end": 6.346
+        },
+        {
+          "text": "format.",
+          "start": 6.426,
+          "end": 6.985
+        }
+      ]
+    },
+    {
+      "n": 4,
+      "heading": "bg-steps · beat 4",
+      "from": 21.48,
+      "to": 30.309,
+      "text": "[short pause] First, the upload cap. There is a ceiling on the file you can attach, and an hour of uncompressed audio goes past it.",
+      "words": [
+        {
+          "text": "First,",
+          "start": 1.27,
+          "end": 1.4
+        },
+        {
+          "text": "the",
+          "start": 1.42,
+          "end": 1.48
+        },
+        {
+          "text": "upload",
+          "start": 1.537,
+          "end": 1.88
+        },
+        {
+          "text": "cap.",
+          "start": 1.98,
+          "end": 2.36
+        },
+        {
+          "text": "There",
+          "start": 2.48,
+          "end": 3.08
+        },
+        {
+          "text": "is",
+          "start": 3.133,
+          "end": 3.24
+        },
+        {
+          "text": "a",
+          "start": 3.32,
+          "end": 3.4
+        },
+        {
+          "text": "ceiling",
+          "start": 3.45,
+          "end": 3.8
+        },
+        {
+          "text": "on",
+          "start": 3.853,
+          "end": 3.96
+        },
+        {
+          "text": "the",
+          "start": 3.98,
+          "end": 4.04
+        },
+        {
+          "text": "file",
+          "start": 4.12,
+          "end": 4.44
+        },
+        {
+          "text": "you",
+          "start": 4.48,
+          "end": 4.6
+        },
+        {
+          "text": "can",
+          "start": 4.64,
+          "end": 4.76
+        },
+        {
+          "text": "attach,",
+          "start": 4.851,
+          "end": 5.56
+        },
+        {
+          "text": "and",
+          "start": 5.6,
+          "end": 5.72
+        },
+        {
+          "text": "an",
+          "start": 5.773,
+          "end": 5.88
+        },
+        {
+          "text": "hour",
+          "start": 5.944,
+          "end": 6.2
+        },
+        {
+          "text": "of",
+          "start": 6.253,
+          "end": 6.36
+        },
+        {
+          "text": "uncompressed",
+          "start": 6.409,
+          "end": 7
+        },
+        {
+          "text": "audio",
+          "start": 7.08,
+          "end": 7.48
+        },
+        {
+          "text": "goes",
+          "start": 7.528,
+          "end": 7.72
+        },
+        {
+          "text": "past",
+          "start": 7.8,
+          "end": 8.12
+        },
+        {
+          "text": "it.",
+          "start": 8.2,
+          "end": 8.44
+        }
+      ]
+    },
+    {
+      "n": 5,
+      "heading": "bg-steps · beat 5",
+      "from": 30.309,
+      "to": 38.62,
+      "text": "Second, it hands you prose. You get the words, not a subtitle file with timings you can use in an editor.",
+      "words": [
+        {
+          "text": "Second,",
+          "start": 0.388,
+          "end": 1.211
+        },
+        {
+          "text": "it",
+          "start": 1.264,
+          "end": 1.371
+        },
+        {
+          "text": "hands",
+          "start": 1.424,
+          "end": 1.691
+        },
+        {
+          "text": "you",
+          "start": 1.711,
+          "end": 1.771
+        },
+        {
+          "text": "prose.",
+          "start": 1.878,
+          "end": 2.491
+        },
+        {
+          "text": "You",
+          "start": 2.671,
+          "end": 3.211
+        },
+        {
+          "text": "get",
+          "start": 3.251,
+          "end": 3.371
+        },
+        {
+          "text": "the",
+          "start": 3.391,
+          "end": 3.451
+        },
+        {
+          "text": "words,",
+          "start": 3.544,
+          "end": 4.251
+        },
+        {
+          "text": "not",
+          "start": 4.291,
+          "end": 4.411
+        },
+        {
+          "text": "a",
+          "start": 4.451,
+          "end": 4.491
+        },
+        {
+          "text": "subtitle",
+          "start": 4.562,
+          "end": 5.131
+        },
+        {
+          "text": "file",
+          "start": 5.211,
+          "end": 5.531
+        },
+        {
+          "text": "with",
+          "start": 5.563,
+          "end": 5.691
+        },
+        {
+          "text": "timings",
+          "start": 5.771,
+          "end": 6.331
+        },
+        {
+          "text": "you",
+          "start": 6.371,
+          "end": 6.491
+        },
+        {
+          "text": "can",
+          "start": 6.531,
+          "end": 6.651
+        },
+        {
+          "text": "use",
+          "start": 6.731,
+          "end": 6.971
+        },
+        {
+          "text": "in",
+          "start": 7.051,
+          "end": 7.211
+        },
+        {
+          "text": "an",
+          "start": 7.238,
+          "end": 7.291
+        },
+        {
+          "text": "editor.",
+          "start": 7.348,
+          "end": 7.771
+        }
+      ]
+    },
+    {
+      "n": 6,
+      "heading": "bg-contrast · beat 6",
+      "from": 38.62,
+      "to": 44.17,
+      "text": "[thoughtful] Third, the recording goes to a server. For a lecture that is nothing at all.",
+      "words": [
+        {
+          "text": "Third,",
+          "start": 1.09,
+          "end": 1.3
+        },
+        {
+          "text": "the",
+          "start": 1.32,
+          "end": 1.38
+        },
+        {
+          "text": "recording",
+          "start": 1.436,
+          "end": 1.94
+        },
+        {
+          "text": "goes",
+          "start": 2.004,
+          "end": 2.26
+        },
+        {
+          "text": "to",
+          "start": 2.287,
+          "end": 2.34
+        },
+        {
+          "text": "a",
+          "start": 2.38,
+          "end": 2.42
+        },
+        {
+          "text": "server.",
+          "start": 2.489,
+          "end": 2.98
+        },
+        {
+          "text": "For",
+          "start": 3.18,
+          "end": 3.78
+        },
+        {
+          "text": "a",
+          "start": 3.9,
+          "end": 4.02
+        },
+        {
+          "text": "lecture",
+          "start": 4.05,
+          "end": 4.26
+        },
+        {
+          "text": "that",
+          "start": 4.292,
+          "end": 4.42
+        },
+        {
+          "text": "is",
+          "start": 4.473,
+          "end": 4.58
+        },
+        {
+          "text": "nothing",
+          "start": 4.63,
+          "end": 4.98
+        },
+        {
+          "text": "at",
+          "start": 5.007,
+          "end": 5.06
+        },
+        {
+          "text": "all.",
+          "start": 5.14,
+          "end": 5.46
+        }
+      ]
+    },
+    {
+      "n": 7,
+      "heading": "bg-contrast · beat 7",
+      "from": 44.17,
+      "to": 52.027,
+      "text": "For a client call, a medical conversation or an unpublished interview, that is a decision, and it should be a deliberate one.",
+      "words": [
+        {
+          "text": "For",
+          "start": 0.09,
+          "end": 0.39
+        },
+        {
+          "text": "a",
+          "start": 0.49,
+          "end": 0.59
+        },
+        {
+          "text": "client",
+          "start": 0.619,
+          "end": 0.79
+        },
+        {
+          "text": "call,",
+          "start": 0.87,
+          "end": 1.35
+        },
+        {
+          "text": "a",
+          "start": 1.39,
+          "end": 1.43
+        },
+        {
+          "text": "medical",
+          "start": 1.48,
+          "end": 1.83
+        },
+        {
+          "text": "conversation",
+          "start": 1.898,
+          "end": 2.71
+        },
+        {
+          "text": "or",
+          "start": 2.87,
+          "end": 3.19
+        },
+        {
+          "text": "an",
+          "start": 3.217,
+          "end": 3.27
+        },
+        {
+          "text": "unpublished",
+          "start": 3.33,
+          "end": 3.99
+        },
+        {
+          "text": "interview,",
+          "start": 4.038,
+          "end": 4.71
+        },
+        {
+          "text": "that",
+          "start": 4.742,
+          "end": 4.87
+        },
+        {
+          "text": "is",
+          "start": 4.977,
+          "end": 5.19
+        },
+        {
+          "text": "a",
+          "start": 5.27,
+          "end": 5.35
+        },
+        {
+          "text": "decision,",
+          "start": 5.403,
+          "end": 6.39
+        },
+        {
+          "text": "and",
+          "start": 6.41,
+          "end": 6.47
+        },
+        {
+          "text": "it",
+          "start": 6.523,
+          "end": 6.63
+        },
+        {
+          "text": "should",
+          "start": 6.653,
+          "end": 6.79
+        },
+        {
+          "text": "be",
+          "start": 6.817,
+          "end": 6.87
+        },
+        {
+          "text": "a",
+          "start": 6.91,
+          "end": 6.95
+        },
+        {
+          "text": "deliberate",
+          "start": 6.994,
+          "end": 7.43
+        },
+        {
+          "text": "one.",
+          "start": 7.49,
+          "end": 7.75
+        }
+      ]
+    },
+    {
+      "n": 8,
+      "heading": "bg-contrast · beat 8",
+      "from": 52.027,
+      "to": 56.71,
+      "text": "Where it genuinely wins is everything after the transcript.",
+      "words": [
+        {
+          "text": "Where",
+          "start": 0.106,
+          "end": 1.173
+        },
+        {
+          "text": "it",
+          "start": 1.2,
+          "end": 1.253
+        },
+        {
+          "text": "genuinely",
+          "start": 1.325,
+          "end": 1.973
+        },
+        {
+          "text": "wins",
+          "start": 2.037,
+          "end": 2.293
+        },
+        {
+          "text": "is",
+          "start": 2.346,
+          "end": 2.453
+        },
+        {
+          "text": "everything",
+          "start": 2.511,
+          "end": 3.093
+        },
+        {
+          "text": "after",
+          "start": 3.173,
+          "end": 3.573
+        },
+        {
+          "text": "the",
+          "start": 3.593,
+          "end": 3.653
+        },
+        {
+          "text": "transcript.",
+          "start": 3.726,
+          "end": 4.533
+        }
+      ]
+    },
+    {
+      "n": 9,
+      "heading": "bg-contrast · beat 9",
+      "from": 56.71,
+      "to": 65.381,
+      "text": "Ask it to summarise the call or pull the action items and it will, immediately, which no local tool here does.",
+      "words": [
+        {
+          "text": "Ask",
+          "start": 0.15,
+          "end": 0.81
+        },
+        {
+          "text": "it",
+          "start": 0.837,
+          "end": 0.89
+        },
+        {
+          "text": "to",
+          "start": 0.917,
+          "end": 0.97
+        },
+        {
+          "text": "summarise",
+          "start": 1.016,
+          "end": 1.53
+        },
+        {
+          "text": "the",
+          "start": 1.55,
+          "end": 1.61
+        },
+        {
+          "text": "call",
+          "start": 1.706,
+          "end": 2.09
+        },
+        {
+          "text": "or",
+          "start": 2.223,
+          "end": 2.49
+        },
+        {
+          "text": "pull",
+          "start": 2.538,
+          "end": 2.73
+        },
+        {
+          "text": "the",
+          "start": 2.75,
+          "end": 2.81
+        },
+        {
+          "text": "action",
+          "start": 2.867,
+          "end": 3.21
+        },
+        {
+          "text": "items",
+          "start": 3.277,
+          "end": 3.61
+        },
+        {
+          "text": "and",
+          "start": 3.69,
+          "end": 3.93
+        },
+        {
+          "text": "it",
+          "start": 3.983,
+          "end": 4.09
+        },
+        {
+          "text": "will,",
+          "start": 4.17,
+          "end": 4.89
+        },
+        {
+          "text": "immediately,",
+          "start": 4.957,
+          "end": 6.17
+        },
+        {
+          "text": "which",
+          "start": 6.21,
+          "end": 6.41
+        },
+        {
+          "text": "no",
+          "start": 6.463,
+          "end": 6.57
+        },
+        {
+          "text": "local",
+          "start": 6.65,
+          "end": 7.05
+        },
+        {
+          "text": "tool",
+          "start": 7.13,
+          "end": 7.45
+        },
+        {
+          "text": "here",
+          "start": 7.514,
+          "end": 7.77
+        },
+        {
+          "text": "does.",
+          "start": 7.866,
+          "end": 8.251
+        }
+      ]
+    },
+    {
+      "n": 10,
+      "heading": "app-input · beat 10",
+      "from": 65.381,
+      "to": 71.595,
+      "text": "[short pause] For the transcript itself, open Transcriber, the last utility on the left.",
+      "words": [
+        {
+          "text": "For",
+          "start": 1.164,
+          "end": 1.179
+        },
+        {
+          "text": "the",
+          "start": 1.199,
+          "end": 1.259
+        },
+        {
+          "text": "transcript",
+          "start": 1.31,
+          "end": 1.819
+        },
+        {
+          "text": "itself,",
+          "start": 1.91,
+          "end": 2.699
+        },
+        {
+          "text": "open",
+          "start": 2.747,
+          "end": 2.939
+        },
+        {
+          "text": "Transcriber,",
+          "start": 3.006,
+          "end": 4.059
+        },
+        {
+          "text": "the",
+          "start": 4.099,
+          "end": 4.219
+        },
+        {
+          "text": "last",
+          "start": 4.283,
+          "end": 4.539
+        },
+        {
+          "text": "utility",
+          "start": 4.599,
+          "end": 5.019
+        },
+        {
+          "text": "on",
+          "start": 5.072,
+          "end": 5.179
+        },
+        {
+          "text": "the",
+          "start": 5.199,
+          "end": 5.259
+        },
+        {
+          "text": "left.",
+          "start": 5.339,
+          "end": 6.006
+        }
+      ]
+    },
+    {
+      "n": 11,
+      "heading": "app-input · beat 11",
+      "from": 71.595,
+      "to": 79.21,
+      "text": "Drop the recording onto the drop zone in the middle of the window. There is no size limit, because there is no upload.",
+      "words": [
+        {
+          "text": "Drop",
+          "start": 0.208,
+          "end": 0.485
+        },
+        {
+          "text": "the",
+          "start": 0.505,
+          "end": 0.565
+        },
+        {
+          "text": "recording",
+          "start": 0.629,
+          "end": 1.205
+        },
+        {
+          "text": "onto",
+          "start": 1.253,
+          "end": 1.445
+        },
+        {
+          "text": "the",
+          "start": 1.465,
+          "end": 1.525
+        },
+        {
+          "text": "drop",
+          "start": 1.589,
+          "end": 1.845
+        },
+        {
+          "text": "zone",
+          "start": 1.909,
+          "end": 2.165
+        },
+        {
+          "text": "in",
+          "start": 2.218,
+          "end": 2.325
+        },
+        {
+          "text": "the",
+          "start": 2.345,
+          "end": 2.405
+        },
+        {
+          "text": "middle",
+          "start": 2.439,
+          "end": 2.645
+        },
+        {
+          "text": "of",
+          "start": 2.672,
+          "end": 2.725
+        },
+        {
+          "text": "the",
+          "start": 2.765,
+          "end": 2.885
+        },
+        {
+          "text": "window.",
+          "start": 2.942,
+          "end": 3.445
+        },
+        {
+          "text": "There",
+          "start": 3.578,
+          "end": 4.245
+        },
+        {
+          "text": "is",
+          "start": 4.298,
+          "end": 4.405
+        },
+        {
+          "text": "no",
+          "start": 4.485,
+          "end": 4.645
+        },
+        {
+          "text": "size",
+          "start": 4.741,
+          "end": 5.125
+        },
+        {
+          "text": "limit,",
+          "start": 5.178,
+          "end": 5.685
+        },
+        {
+          "text": "because",
+          "start": 5.725,
+          "end": 6.005
+        },
+        {
+          "text": "there",
+          "start": 6.032,
+          "end": 6.165
+        },
+        {
+          "text": "is",
+          "start": 6.218,
+          "end": 6.325
+        },
+        {
+          "text": "no",
+          "start": 6.378,
+          "end": 6.485
+        },
+        {
+          "text": "upload.",
+          "start": 6.554,
+          "end": 7.045
+        }
+      ]
+    },
+    {
+      "n": 12,
+      "heading": "app-options · beat 12",
+      "from": 79.21,
+      "to": 85.616,
+      "text": "[thoughtful] Model. Tiny through Medium, and you choose rather than being given one.",
+      "words": [
+        {
+          "text": "Model.",
+          "start": 1.026,
+          "end": 1.439
+        },
+        {
+          "text": "Tiny",
+          "start": 1.631,
+          "end": 2.399
+        },
+        {
+          "text": "through",
+          "start": 2.439,
+          "end": 2.719
+        },
+        {
+          "text": "Medium,",
+          "start": 2.788,
+          "end": 3.439
+        },
+        {
+          "text": "and",
+          "start": 3.499,
+          "end": 3.679
+        },
+        {
+          "text": "you",
+          "start": 3.759,
+          "end": 3.999
+        },
+        {
+          "text": "choose",
+          "start": 4.079,
+          "end": 4.559
+        },
+        {
+          "text": "rather",
+          "start": 4.605,
+          "end": 4.879
+        },
+        {
+          "text": "than",
+          "start": 4.911,
+          "end": 5.039
+        },
+        {
+          "text": "being",
+          "start": 5.092,
+          "end": 5.359
+        },
+        {
+          "text": "given",
+          "start": 5.412,
+          "end": 5.679
+        },
+        {
+          "text": "one.",
+          "start": 5.739,
+          "end": 6.079
+        }
+      ]
+    },
+    {
+      "n": 13,
+      "heading": "app-options · beat 13",
+      "from": 85.616,
+      "to": 94.669,
+      "text": "Under Output formats, SRT and VTT are the two you cannot get out of a chat window. That is the practical difference.",
+      "words": [
+        {
+          "text": "Under",
+          "start": 0.326,
+          "end": 0.793
+        },
+        {
+          "text": "Output",
+          "start": 0.85,
+          "end": 1.193
+        },
+        {
+          "text": "formats,",
+          "start": 1.273,
+          "end": 2.073
+        },
+        {
+          "text": "SRT",
+          "start": 2.193,
+          "end": 2.713
+        },
+        {
+          "text": "and",
+          "start": 2.773,
+          "end": 2.953
+        },
+        {
+          "text": "VTT",
+          "start": 3.073,
+          "end": 3.673
+        },
+        {
+          "text": "are",
+          "start": 3.733,
+          "end": 3.913
+        },
+        {
+          "text": "the",
+          "start": 3.953,
+          "end": 4.073
+        },
+        {
+          "text": "two",
+          "start": 4.133,
+          "end": 4.313
+        },
+        {
+          "text": "you",
+          "start": 4.373,
+          "end": 4.553
+        },
+        {
+          "text": "cannot",
+          "start": 4.633,
+          "end": 5.113
+        },
+        {
+          "text": "get",
+          "start": 5.193,
+          "end": 5.433
+        },
+        {
+          "text": "out",
+          "start": 5.473,
+          "end": 5.593
+        },
+        {
+          "text": "of",
+          "start": 5.62,
+          "end": 5.673
+        },
+        {
+          "text": "a",
+          "start": 5.713,
+          "end": 5.753
+        },
+        {
+          "text": "chat",
+          "start": 5.817,
+          "end": 6.073
+        },
+        {
+          "text": "window.",
+          "start": 6.13,
+          "end": 6.953
+        },
+        {
+          "text": "That",
+          "start": 7.065,
+          "end": 7.513
+        },
+        {
+          "text": "is",
+          "start": 7.566,
+          "end": 7.673
+        },
+        {
+          "text": "the",
+          "start": 7.713,
+          "end": 7.833
+        },
+        {
+          "text": "practical",
+          "start": 7.881,
+          "end": 8.313
+        },
+        {
+          "text": "difference.",
+          "start": 8.357,
+          "end": 8.873
+        }
+      ]
+    },
+    {
+      "n": 14,
+      "heading": "app-run · beat 14",
+      "from": 94.669,
+      "to": 99.109,
+      "text": "Hit Transcribe, the button at the bottom of the panel.",
+      "words": [
+        {
+          "text": "Hit",
+          "start": 0.18,
+          "end": 1.02
+        },
+        {
+          "text": "Transcribe,",
+          "start": 1.087,
+          "end": 2.06
+        },
+        {
+          "text": "the",
+          "start": 2.1,
+          "end": 2.22
+        },
+        {
+          "text": "button",
+          "start": 2.254,
+          "end": 2.46
+        },
+        {
+          "text": "at",
+          "start": 2.513,
+          "end": 2.62
+        },
+        {
+          "text": "the",
+          "start": 2.64,
+          "end": 2.7
+        },
+        {
+          "text": "bottom",
+          "start": 2.757,
+          "end": 3.1
+        },
+        {
+          "text": "of",
+          "start": 3.127,
+          "end": 3.18
+        },
+        {
+          "text": "the",
+          "start": 3.2,
+          "end": 3.26
+        },
+        {
+          "text": "panel.",
+          "start": 3.34,
+          "end": 4.14
+        }
+      ]
+    },
+    {
+      "n": 15,
+      "heading": "app-done · beat 15",
+      "from": 99.109,
+      "to": 105.129,
+      "text": "[short pause] Six hundred and twelve timestamped lines, as an SRT and as plain text.",
+      "words": [
+        {
+          "text": "Six",
+          "start": 0.695,
+          "end": 0.74
+        },
+        {
+          "text": "hundred",
+          "start": 0.77,
+          "end": 0.98
+        },
+        {
+          "text": "and",
+          "start": 1.04,
+          "end": 1.22
+        },
+        {
+          "text": "twelve",
+          "start": 1.254,
+          "end": 1.46
+        },
+        {
+          "text": "timestamped",
+          "start": 1.532,
+          "end": 2.34
+        },
+        {
+          "text": "lines,",
+          "start": 2.433,
+          "end": 3.1
+        },
+        {
+          "text": "as",
+          "start": 3.167,
+          "end": 3.3
+        },
+        {
+          "text": "an",
+          "start": 3.327,
+          "end": 3.38
+        },
+        {
+          "text": "SRT",
+          "start": 3.5,
+          "end": 4.02
+        },
+        {
+          "text": "and",
+          "start": 4.18,
+          "end": 4.66
+        },
+        {
+          "text": "as",
+          "start": 4.713,
+          "end": 4.82
+        },
+        {
+          "text": "plain",
+          "start": 4.873,
+          "end": 5.14
+        },
+        {
+          "text": "text.",
+          "start": 5.236,
+          "end": 5.78
+        }
+      ]
+    },
+    {
+      "n": 16,
+      "heading": "bg-caveat · beat 16",
+      "from": 105.129,
+      "to": 108.634,
+      "text": "[exhales] This gives you a transcript and stops there.",
+      "words": [
+        {
+          "text": "This",
+          "start": 0.467,
+          "end": 0.48
+        },
+        {
+          "text": "gives",
+          "start": 0.533,
+          "end": 0.8
+        },
+        {
+          "text": "you",
+          "start": 0.82,
+          "end": 0.88
+        },
+        {
+          "text": "a",
+          "start": 0.92,
+          "end": 0.96
+        },
+        {
+          "text": "transcript",
+          "start": 1.033,
+          "end": 1.76
+        },
+        {
+          "text": "and",
+          "start": 1.86,
+          "end": 2.16
+        },
+        {
+          "text": "stops",
+          "start": 2.24,
+          "end": 2.64
+        },
+        {
+          "text": "there.",
+          "start": 2.707,
+          "end": 3.333
+        }
+      ]
+    },
+    {
+      "n": 17,
+      "heading": "bg-caveat · beat 17",
+      "from": 108.634,
+      "to": 115.096,
+      "text": "Which means no summary, no action items and no answering questions about what was said.",
+      "words": [
+        {
+          "text": "Which",
+          "start": 0.171,
+          "end": 0.415
+        },
+        {
+          "text": "means",
+          "start": 0.468,
+          "end": 0.735
+        },
+        {
+          "text": "no",
+          "start": 0.815,
+          "end": 0.975
+        },
+        {
+          "text": "summary,",
+          "start": 1.045,
+          "end": 1.855
+        },
+        {
+          "text": "no",
+          "start": 1.935,
+          "end": 2.095
+        },
+        {
+          "text": "action",
+          "start": 2.152,
+          "end": 2.495
+        },
+        {
+          "text": "items",
+          "start": 2.575,
+          "end": 2.975
+        },
+        {
+          "text": "and",
+          "start": 3.095,
+          "end": 3.455
+        },
+        {
+          "text": "no",
+          "start": 3.508,
+          "end": 3.615
+        },
+        {
+          "text": "answering",
+          "start": 3.671,
+          "end": 4.175
+        },
+        {
+          "text": "questions",
+          "start": 4.239,
+          "end": 4.815
+        },
+        {
+          "text": "about",
+          "start": 4.868,
+          "end": 5.135
+        },
+        {
+          "text": "what",
+          "start": 5.167,
+          "end": 5.295
+        },
+        {
+          "text": "was",
+          "start": 5.355,
+          "end": 5.535
+        },
+        {
+          "text": "said.",
+          "start": 5.615,
+          "end": 6.215
+        }
+      ]
+    },
+    {
+      "n": 18,
+      "heading": "bg-caveat · beat 18",
+      "from": 115.096,
+      "to": 120.089,
+      "text": "If that is what you actually wanted, the chat window is the right tool.",
+      "words": [
+        {
+          "text": "If",
+          "start": 0.246,
+          "end": 0.673
+        },
+        {
+          "text": "that",
+          "start": 0.705,
+          "end": 0.833
+        },
+        {
+          "text": "is",
+          "start": 0.886,
+          "end": 0.993
+        },
+        {
+          "text": "what",
+          "start": 1.025,
+          "end": 1.153
+        },
+        {
+          "text": "you",
+          "start": 1.193,
+          "end": 1.313
+        },
+        {
+          "text": "actually",
+          "start": 1.375,
+          "end": 1.873
+        },
+        {
+          "text": "wanted,",
+          "start": 1.93,
+          "end": 2.673
+        },
+        {
+          "text": "the",
+          "start": 2.713,
+          "end": 2.833
+        },
+        {
+          "text": "chat",
+          "start": 2.897,
+          "end": 3.153
+        },
+        {
+          "text": "window",
+          "start": 3.222,
+          "end": 3.633
+        },
+        {
+          "text": "is",
+          "start": 3.686,
+          "end": 3.793
+        },
+        {
+          "text": "the",
+          "start": 3.813,
+          "end": 3.873
+        },
+        {
+          "text": "right",
+          "start": 3.913,
+          "end": 4.113
+        },
+        {
+          "text": "tool.",
+          "start": 4.193,
+          "end": 4.593
+        }
+      ]
+    },
+    {
+      "n": 19,
+      "heading": "bg-caveat · beat 19",
+      "from": 120.089,
+      "to": 127.449,
+      "text": "A reasonable middle: transcribe locally, then paste the text somewhere if you want it summarised.",
+      "words": [
+        {
+          "text": "A",
+          "start": 0.4,
+          "end": 1.12
+        },
+        {
+          "text": "reasonable",
+          "start": 1.164,
+          "end": 1.6
+        },
+        {
+          "text": "middle:",
+          "start": 1.646,
+          "end": 2.48
+        },
+        {
+          "text": "transcribe",
+          "start": 2.533,
+          "end": 3.12
+        },
+        {
+          "text": "locally,",
+          "start": 3.18,
+          "end": 4
+        },
+        {
+          "text": "then",
+          "start": 4.048,
+          "end": 4.24
+        },
+        {
+          "text": "paste",
+          "start": 4.307,
+          "end": 4.64
+        },
+        {
+          "text": "the",
+          "start": 4.68,
+          "end": 4.8
+        },
+        {
+          "text": "text",
+          "start": 4.864,
+          "end": 5.12
+        },
+        {
+          "text": "somewhere",
+          "start": 5.168,
+          "end": 5.6
+        },
+        {
+          "text": "if",
+          "start": 5.68,
+          "end": 5.84
+        },
+        {
+          "text": "you",
+          "start": 5.88,
+          "end": 6
+        },
+        {
+          "text": "want",
+          "start": 6.032,
+          "end": 6.16
+        },
+        {
+          "text": "it",
+          "start": 6.213,
+          "end": 6.32
+        },
+        {
+          "text": "summarised.",
+          "start": 6.366,
+          "end": 7.12
+        }
+      ]
+    },
+    {
+      "n": 20,
+      "heading": "bg-caveat · beat 20",
+      "from": 127.449,
+      "to": 132.259,
+      "text": "The audio stays on your machine and only the words travel.",
+      "words": [
+        {
+          "text": "The",
+          "start": 0.24,
+          "end": 0.48
+        },
+        {
+          "text": "audio",
+          "start": 0.547,
+          "end": 0.88
+        },
+        {
+          "text": "stays",
+          "start": 0.933,
+          "end": 1.2
+        },
+        {
+          "text": "on",
+          "start": 1.253,
+          "end": 1.36
+        },
+        {
+          "text": "your",
+          "start": 1.408,
+          "end": 1.6
+        },
+        {
+          "text": "machine",
+          "start": 1.68,
+          "end": 2.24
+        },
+        {
+          "text": "and",
+          "start": 2.34,
+          "end": 2.64
+        },
+        {
+          "text": "only",
+          "start": 2.736,
+          "end": 3.12
+        },
+        {
+          "text": "the",
+          "start": 3.16,
+          "end": 3.28
+        },
+        {
+          "text": "words",
+          "start": 3.347,
+          "end": 3.68
+        },
+        {
+          "text": "travel.",
+          "start": 3.749,
+          "end": 4.24
+        }
+      ]
+    },
+    {
+      "n": 21,
+      "heading": "logo · beat 21",
+      "from": 132.259,
+      "to": 138.599,
+      "text": "[short pause] So yes it can, with a size cap, prose output, and an upload.",
+      "words": [
+        {
+          "text": "So",
+          "start": 1.083,
+          "end": 1.11
+        },
+        {
+          "text": "yes",
+          "start": 1.21,
+          "end": 1.51
+        },
+        {
+          "text": "it",
+          "start": 1.563,
+          "end": 1.67
+        },
+        {
+          "text": "can,",
+          "start": 1.79,
+          "end": 2.35
+        },
+        {
+          "text": "with",
+          "start": 2.39,
+          "end": 2.55
+        },
+        {
+          "text": "a",
+          "start": 2.59,
+          "end": 2.63
+        },
+        {
+          "text": "size",
+          "start": 2.694,
+          "end": 2.95
+        },
+        {
+          "text": "cap,",
+          "start": 3.05,
+          "end": 3.43
+        },
+        {
+          "text": "prose",
+          "start": 3.55,
+          "end": 4.15
+        },
+        {
+          "text": "output,",
+          "start": 4.219,
+          "end": 4.71
+        },
+        {
+          "text": "and",
+          "start": 4.85,
+          "end": 5.27
+        },
+        {
+          "text": "an",
+          "start": 5.297,
+          "end": 5.35
+        },
+        {
+          "text": "upload.",
+          "start": 5.419,
+          "end": 5.99
+        }
+      ]
+    },
+    {
+      "n": 22,
+      "heading": "logo · beat 22",
+      "from": 138.599,
+      "to": 144.96,
+      "text": "Locally you get timestamps and no cap, on your own machine, with nothing uploaded.",
+      "words": [
+        {
+          "text": "Locally",
+          "start": 0.35,
+          "end": 1.01
+        },
+        {
+          "text": "you",
+          "start": 1.03,
+          "end": 1.09
+        },
+        {
+          "text": "get",
+          "start": 1.13,
+          "end": 1.25
+        },
+        {
+          "text": "timestamps",
+          "start": 1.33,
+          "end": 2.13
+        },
+        {
+          "text": "and",
+          "start": 2.19,
+          "end": 2.37
+        },
+        {
+          "text": "no",
+          "start": 2.45,
+          "end": 2.61
+        },
+        {
+          "text": "cap,",
+          "start": 2.73,
+          "end": 3.33
+        },
+        {
+          "text": "on",
+          "start": 3.383,
+          "end": 3.49
+        },
+        {
+          "text": "your",
+          "start": 3.522,
+          "end": 3.65
+        },
+        {
+          "text": "own",
+          "start": 3.69,
+          "end": 3.81
+        },
+        {
+          "text": "machine,",
+          "start": 3.88,
+          "end": 4.53
+        },
+        {
+          "text": "with",
+          "start": 4.658,
+          "end": 5.17
+        },
+        {
+          "text": "nothing",
+          "start": 5.22,
+          "end": 5.57
+        },
+        {
+          "text": "uploaded.",
+          "start": 5.632,
+          "end": 6.37
+        }
+      ]
+    }
+  ]
+}

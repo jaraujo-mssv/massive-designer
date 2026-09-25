@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>How to merge PDF files</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="lib/frame-kit.js"></script>
+    <script src="js/tray-data.js"></script>
+    <script src="js/tray-kit.js"></script>
+    <link rel="stylesheet" href="lib/frame-kit.css" />
+    <style>
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #000;
+      }
+      #stage {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+      }
+      #mpdf-ground {
+        position: absolute;
+        inset: 0;
+        background: #000;
+      }
+      /* ScriptVideo's top-and-tail: the whole picture fades up over the first
+         8 frames and out over the last 8, to black. */
+      #mpdf-toptail {
+        position: absolute;
+        inset: 0;
+        z-index: 100;
+        background: #000;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="stage"
+      data-composition-id="biztray-how-to-merge-pdf-files"
+      data-start="0"
+      data-duration="147.433333"
+      data-fps="60"
+      data-width="1920"
+      data-height="1080"
+    >
+      <div id="mpdf-ground" class="clip" data-start="0" data-duration="147.433333" data-track-index="0"></div>
+      <div id="mpdf-01-contrast" class="clip scene"
+        data-composition-id="mpdf-01-contrast" data-composition-src="compositions/01-contrast.html"
+        data-start="0" data-duration="22.133333" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="mpdf-02-app-open" class="clip scene"
+        data-composition-id="mpdf-02-app-open" data-composition-src="compositions/02-app-open.html"
+        data-start="22.133333" data-duration="6.316667" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="mpdf-03-app-pick" class="clip scene"
+        data-composition-id="mpdf-03-app-pick" data-composition-src="compositions/03-app-pick.html"
+        data-start="28.45" data-duration="5.95" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="mpdf-04-app-input" class="clip scene"
+        data-composition-id="mpdf-04-app-input" data-composition-src="compositions/04-app-input.html"
+        data-start="34.4" data-duration="11.016667" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="mpdf-05-app-read" class="clip scene"
+        data-composition-id="mpdf-05-app-read" data-composition-src="compositions/05-app-read.html"
+        data-start="45.416667" data-duration="13.883333" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="mpdf-06-app-options" class="clip scene"
+        data-composition-id="mpdf-06-app-options" data-composition-src="compositions/06-app-options.html"
+        data-start="59.3" data-duration="25.066667" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="mpdf-07-app-run" class="clip scene"
+        data-composition-id="mpdf-07-app-run" data-composition-src="compositions/07-app-run.html"
+        data-start="84.366667" data-duration="4.283333" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="mpdf-08-app-queue" class="clip scene"
+        data-composition-id="mpdf-08-app-queue" data-composition-src="compositions/08-app-queue.html"
+        data-start="88.65" data-duration="7.166667" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="mpdf-09-app-done" class="clip scene"
+        data-composition-id="mpdf-09-app-done" data-composition-src="compositions/09-app-done.html"
+        data-start="95.816667" data-duration="13.716667" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="mpdf-10-caveat" class="clip scene"
+        data-composition-id="mpdf-10-caveat" data-composition-src="compositions/10-caveat.html"
+        data-start="109.533333" data-duration="23.483333" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="mpdf-11-logo" class="clip scene"
+        data-composition-id="mpdf-11-logo" data-composition-src="compositions/11-logo.html"
+        data-start="133.016667" data-duration="14.416667" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="mpdf-toptail" data-layout-allow-overlap></div>
+      <!-- One continuous take from frame 0, as ScriptVideo plays it: no lead-in offset.
+           The 0.05s ramp is ScriptVideo's 3-frame click guard. -->
+      <audio
+        id="mpdf-voice"
+        src="assets/voice/take-e02d335f.mp3"
+        data-start="0"
+        data-duration="146.24"
+        data-track-index="2"
+        data-volume="1"
+        data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":0},{"t":0.05,"v":1}]}]}'
+      ></audio>
+    </div>
+    <script>
+      (function () {
+        const { interpolate, CLAMP, drive } = FrameKit;
+        const FRAMES = 8846;
+        const cover = document.getElementById("mpdf-toptail");
+        const tl = gsap.timeline({ paused: true });
+        drive(tl, 60, FRAMES, (f) => {
+          const fade = interpolate(f, [0, 8, FRAMES - 8, FRAMES - 1], [0, 1, 1, 0], CLAMP);
+          cover.style.opacity = String(1 - fade);
+        });
+        window.__timelines["biztray-how-to-merge-pdf-files"] = tl;
+      })();
+    </script>
+  </body>
+</html>

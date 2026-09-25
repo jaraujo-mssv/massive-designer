@@ -1,0 +1,302 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+        }
+        /* ConverterScreen (sparktray brand/ui/pc/screens.tsx), mid-job. */
+        #root .conv {
+          flex: 1;
+          display: flex;
+          min-height: 0;
+        }
+        #root .jobs {
+          flex: 1;
+          min-width: 0;
+          display: flex;
+          flex-direction: column;
+        }
+        #root .jobs-head {
+          display: flex;
+          gap: 16px;
+          padding: 9px 16px;
+          border-bottom: 1px solid var(--s-line);
+          font-size: 11.5px;
+          color: var(--s-fg-ghost);
+          letter-spacing: 0.02em;
+        }
+        #root .job {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          padding: 13px 16px;
+          font-size: 12.5px;
+          color: var(--s-fg);
+          border-bottom: 1px solid var(--s-line);
+        }
+        #root .job.first {
+          background: var(--s-accent-tint-soft);
+        }
+        #root .job-file {
+          flex: 1;
+          min-width: 0;
+          display: flex;
+          align-items: center;
+          gap: 9px;
+          overflow: hidden;
+        }
+        #root .job-file span {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        #root .dim {
+          color: var(--s-fg-dim);
+        }
+        #root .r {
+          text-align: right;
+        }
+        #root .prog {
+          width: 108px;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+        #root .prog-track {
+          flex: 1;
+          height: 5px;
+          border-radius: 3px;
+          background: var(--s-control);
+          overflow: hidden;
+        }
+        #root .prog-fill {
+          height: 100%;
+          background: var(--s-accent);
+        }
+        #root .prog-pct {
+          font-size: 11px;
+          color: var(--s-fg-ghost);
+          width: 28px;
+          text-align: right;
+        }
+        #root .side {
+          width: 306px;
+          border-left: 1px solid var(--s-line);
+          background: var(--s-panel);
+          display: flex;
+          flex-direction: column;
+          flex-shrink: 0;
+        }
+        #root .preview {
+          margin: 14px;
+          height: 150px;
+          border-radius: 7px;
+          background: var(--s-control);
+          border: 1px solid var(--s-line);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        #root .transport {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          padding: 0 16px 12px;
+          color: var(--s-fg-dim);
+        }
+        #root .scrub {
+          flex: 1;
+          height: 3px;
+          border-radius: 2px;
+          background: var(--s-control);
+        }
+        #root .scrub div {
+          width: 72%;
+          height: 100%;
+          border-radius: 2px;
+          background: var(--s-fg-ghost);
+        }
+        #root .info {
+          padding: 0 16px;
+          overflow: hidden;
+        }
+        #root .info-title {
+          font-size: 11.5px;
+          color: var(--s-fg-ghost);
+          letter-spacing: 0.06em;
+          margin-bottom: 8px;
+        }
+        #root .info-row {
+          display: flex;
+          padding: 6px 0;
+          border-bottom: 1px solid var(--s-line);
+          font-size: 12px;
+        }
+        #root .info-row .k {
+          flex: 1;
+          color: var(--s-fg-dim);
+        }
+        #root .info-row .v {
+          color: var(--s-fg);
+        }
+        #root .outrow {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 11px 16px;
+          border-top: 1px solid var(--s-line);
+          flex-shrink: 0;
+        }
+        #root .out-label {
+          font-size: 12.5px;
+          color: var(--s-fg-dim);
+        }
+        #root .out-path {
+          flex: 1;
+          display: flex;
+          align-items: center;
+          padding: 7px 12px;
+          border-radius: 6px;
+          background: var(--s-control);
+          border: 1px solid var(--s-line);
+          font-size: 12.5px;
+          color: var(--s-fg);
+        }
+        #root .browse {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 7px 14px;
+          border-radius: 6px;
+          border: 1px solid var(--s-line);
+          font-size: 12.5px;
+          color: var(--s-fg-dim);
+        }
+        #root .status {
+          display: flex;
+          align-items: center;
+          gap: 9px;
+          padding: 8px 16px;
+          border-top: 1px solid var(--s-line);
+          background: var(--s-panel);
+          font-size: 11.5px;
+          color: var(--s-fg-ghost);
+          flex-shrink: 0;
+        }
+        #root .status-dot {
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: var(--s-accent);
+        }
+      </style>
+      <div id="root" data-composition-id="wc-pc-app" data-width="1920" data-height="1080" data-duration="16.85">
+        <div class="pc-desktop" data-win-w="1040" data-win-h="660" data-fill="0.86" data-pinned>
+          <div class="pc-window">
+            <div class="app">
+              <div class="app-title">
+                <div class="app-logo"><i data-icon="Film" data-size="9" data-color="#fff" data-sw="2.4"></i></div>
+                <div class="app-name">Video Converter</div>
+                <div class="app-winbtn"><i data-icon="Minimize2" data-size="12" data-color="rgba(237, 242, 242, 0.55)" data-sw="1.8"></i></div>
+                <div class="app-winbtn"><i data-icon="X" data-size="12" data-color="rgba(237, 242, 242, 0.55)" data-sw="1.8"></i></div>
+              </div>
+              <div class="cmdbar">
+                <div class="cmd"><i data-icon="Plus" data-size="16"></i>Add video</div>
+                <div class="cmd"><i data-icon="Trash2" data-size="16"></i>Remove</div>
+                <div class="cmd-sep"></div>
+                <div class="cmd primary active"><i data-icon="Play" data-size="16"></i>Convert</div>
+                <div class="cmd"><i data-icon="Square" data-size="16"></i>Stop</div>
+                <div class="cmd"><i data-icon="Pause" data-size="16"></i>Pause</div>
+                <div class="cmd-sep"></div>
+                <div class="cmd"><i data-icon="Wrench" data-size="16"></i>Tools</div>
+                <div class="cmd"><i data-icon="Settings" data-size="16"></i>Settings</div>
+              </div>
+              <div class="app-body">
+                <div class="conv">
+                  <div class="jobs">
+                    <div class="jobs-head">
+                      <div style="flex: 1">Source file</div>
+                      <div style="width: 78px">Total time</div>
+                      <div style="width: 72px" class="r">Size</div>
+                      <div style="width: 82px" class="r">Out size</div>
+                      <div style="width: 58px" class="r">FPS</div>
+                      <div style="width: 52px">To</div>
+                      <div style="width: 108px">Progress</div>
+                    </div>
+                    <div class="job first">
+                      <div class="job-file"><i data-icon="Film" data-size="15" data-color="#7c8da8"></i><span>day-break-s01e01.avi</span></div>
+                      <div style="width: 78px" class="dim">02:44:03</div>
+                      <div style="width: 72px" class="dim r">1.36 GB</div>
+                      <div style="width: 82px" class="dim r">332.71 MB</div>
+                      <div style="width: 58px" class="dim r">23.976</div>
+                      <div style="width: 52px" class="dim">MPG</div>
+                      <div class="prog"><div class="prog-track"><div class="prog-fill" style="width: 10%"></div></div><span class="prog-pct">10%</span></div>
+                    </div>
+                    <div class="job">
+                      <div class="job-file"><i data-icon="Film" data-size="15" data-color="#7c8da8"></i><span>lecture-part-2.mkv</span></div>
+                      <div style="width: 78px" class="dim">00:48:11</div>
+                      <div style="width: 72px" class="dim r">612 MB</div>
+                      <div style="width: 82px" class="dim r">—</div>
+                      <div style="width: 58px" class="dim r">25</div>
+                      <div style="width: 52px" class="dim">MP4</div>
+                      <div class="prog"><div class="prog-track"><div class="prog-fill" style="width: 0%"></div></div><span class="prog-pct">0%</span></div>
+                    </div>
+                  </div>
+                  <div class="side">
+                    <div class="preview"><i data-icon="Film" data-size="26" data-color="rgba(237, 242, 242, 0.28)" data-sw="1.6"></i></div>
+                    <div class="transport">
+                      <i data-icon="Play" data-size="15"></i>
+                      <i data-icon="Pause" data-size="15"></i>
+                      <i data-icon="Square" data-size="15"></i>
+                      <i data-icon="Camera" data-size="15"></i>
+                      <i data-icon="Volume2" data-size="15"></i>
+                      <div class="scrub"><div></div></div>
+                    </div>
+                    <div class="info">
+                      <div class="info-title">MAIN INFORMATION</div>
+                      <div class="info-row"><div class="k">Convert to</div><div class="v">DVD Video PAL</div></div>
+                      <div class="info-row"><div class="k">Extension</div><div class="v">*.mpg</div></div>
+                      <div class="info-row"><div class="k">Duration</div><div class="v">02:44:03.192</div></div>
+                      <div class="info-row"><div class="k">Video codec</div><div class="v">mpeg2video</div></div>
+                      <div class="info-row"><div class="k">Video size</div><div class="v">720 x 576</div></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="outrow">
+                  <div class="out-label">Output folder</div>
+                  <div class="out-path">C:\Users\you\Videos</div>
+                  <div class="browse"><i data-icon="FolderOpen" data-size="14"></i>Browse</div>
+                </div>
+                <div class="status"><div class="status-dot"></div>Converting… 10%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        ConsentKit.mount("wc-pc-app", 1011, (h) => {
+          const { ease, at } = ConsentKit;
+          const desk = PcDesktop.build(h.$(".pc-desktop"), "wc-pc-app");
+          // Marks read off the take (PcScene.tsx APP): click the pinned app on "PC." (1.97 s),
+          // the window is fully up 0.45 s later, then the pointer rests on the job table.
+          const APP = { click: 0.117, open: 0.144, idle: [1420, 700], rest: [280, 407], restAt: 0.273 };
+          const RUN_SECONDS = 16.85;
+          const stops = [
+            { t: 0, at: APP.idle, space: "frame" },
+            { t: APP.click, space: "pinned", click: true },
+            { t: APP.restAt, at: APP.rest },
+          ];
+          return (t) => {
+            desk.set({ open: ease(at(t, APP.click, APP.open)), cursor: desk.cursorFor(stops, t, RUN_SECONDS) });
+          };
+        });
+      </script>
+    </template>
+  </body>
+</html>

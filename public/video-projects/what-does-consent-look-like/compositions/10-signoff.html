@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+        }
+        /* MassiveSignoff (sparktray brand/ui/MassiveSignoff.tsx): logo on the grid plate, no URL. */
+        #root .logo-wrap {
+          position: absolute;
+          inset: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          opacity: 0;
+        }
+        #root .logo {
+          width: 30%;
+          aspect-ratio: 1091 / 124;
+          background-image: url(assets/images/massive-logo-light.png);
+          background-size: contain;
+          background-repeat: no-repeat;
+          background-position: center;
+        }
+      </style>
+      <div id="root" data-composition-id="wc-signoff" data-width="1920" data-height="1080" data-duration="2.5">
+        <div class="grid-plate"></div>
+        <div class="logo-wrap"><div class="logo" role="img" aria-label="Massive"></div></div>
+      </div>
+      <script>
+        // Silent, still sign-off after the last beat: fades up over the first third, then holds.
+        // The film's top-and-tail fade (index.html) takes it out.
+        ConsentKit.mount("wc-signoff", 150, (h) => {
+          const wrap = h.$(".logo-wrap");
+          return (t) => {
+            wrap.style.opacity = Math.min(1, Math.max(0, t / 0.34));
+          };
+        });
+      </script>
+    </template>
+  </body>
+</html>

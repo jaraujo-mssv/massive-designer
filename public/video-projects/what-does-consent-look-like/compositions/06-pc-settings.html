@@ -1,0 +1,219 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+        }
+        /* SettingsScreen (sparktray brand/ui/pc/screens.tsx): the bandwidth switch. */
+        #root .settings {
+          flex: 1;
+          padding: 22px 26px;
+          overflow: hidden;
+        }
+        #root .pane {
+          border-radius: 10px;
+          border: 1px solid var(--s-line);
+          background: var(--s-panel);
+          padding: 20px;
+          margin-bottom: 18px;
+        }
+        #root .pane-title {
+          font-size: 15px;
+          font-weight: 600;
+          color: var(--s-fg);
+        }
+        #root .pane-copy {
+          font-size: 12.5px;
+          color: var(--s-fg-dim);
+          margin-top: 6px;
+        }
+        #root .pane-copy.long {
+          line-height: 1.5;
+        }
+        #root .setting {
+          display: flex;
+          align-items: center;
+        }
+        #root .setting .name {
+          font-size: 14px;
+          color: var(--s-fg);
+        }
+        #root .setting .sub {
+          font-size: 12px;
+          color: var(--s-fg-ghost);
+          margin-top: 3px;
+        }
+        /* Toggle: the accent rides over the off-grey on its own opacity, the knob travels 18px. */
+        #root .toggle {
+          width: 38px;
+          height: 20px;
+          border-radius: 10px;
+          background: #3a3a44;
+          position: relative;
+          flex-shrink: 0;
+        }
+        #root .toggle .on {
+          position: absolute;
+          inset: 0;
+          border-radius: 10px;
+          background: var(--s-accent);
+        }
+        #root .toggle .knob {
+          position: absolute;
+          top: 3px;
+          left: 21px;
+          width: 14px;
+          height: 14px;
+          border-radius: 50%;
+          background: #fff;
+        }
+        #root .pill {
+          display: inline-flex;
+          align-items: center;
+          gap: 7px;
+          padding: 5px 11px;
+          border-radius: 12px;
+          background: var(--s-accent-tint-soft);
+        }
+        #root .pill .dot {
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: var(--s-success);
+        }
+        #root .pill .word {
+          font-size: 12px;
+          color: var(--s-accent-text);
+        }
+        #root .job {
+          display: flex;
+          align-items: center;
+          gap: 13px;
+          margin-top: 16px;
+          padding: 13px;
+          border-radius: 8px;
+          border: 1px solid var(--s-line);
+          background: var(--s-control);
+        }
+        #root .job-icon {
+          width: 32px;
+          height: 32px;
+          border-radius: 7px;
+          background: var(--s-accent-tint);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        #root .job .file {
+          font-size: 13.5px;
+          color: var(--s-fg);
+        }
+        #root .job .state {
+          font-size: 11.5px;
+          color: var(--s-fg-ghost);
+          margin-top: 2px;
+        }
+      </style>
+      <div id="root" data-composition-id="wc-pc-settings" data-width="1920" data-height="1080" data-duration="4.533333">
+        <div class="pc-desktop" data-win-w="1040" data-win-h="660" data-fill="0.86">
+          <div class="pc-window">
+            <div class="app">
+              <div class="app-title">
+                <div class="app-logo"><i data-icon="Film" data-size="9" data-color="#fff" data-sw="2.4"></i></div>
+                <div class="app-name">Video Converter</div>
+                <div class="app-winbtn"><i data-icon="Minimize2" data-size="12" data-color="rgba(237, 242, 242, 0.55)" data-sw="1.8"></i></div>
+                <div class="app-winbtn"><i data-icon="X" data-size="12" data-color="rgba(237, 242, 242, 0.55)" data-sw="1.8"></i></div>
+              </div>
+              <div class="cmdbar">
+                <div class="cmd"><i data-icon="Plus" data-size="16"></i>Add video</div>
+                <div class="cmd"><i data-icon="Trash2" data-size="16"></i>Remove</div>
+                <div class="cmd-sep"></div>
+                <div class="cmd primary"><i data-icon="Play" data-size="16"></i>Convert</div>
+                <div class="cmd"><i data-icon="Square" data-size="16"></i>Stop</div>
+                <div class="cmd"><i data-icon="Pause" data-size="16"></i>Pause</div>
+                <div class="cmd-sep"></div>
+                <div class="cmd"><i data-icon="Wrench" data-size="16"></i>Tools</div>
+                <div class="cmd active"><i data-icon="Settings" data-size="16"></i>Settings</div>
+              </div>
+              <div class="app-body">
+                <div class="settings">
+                  <div class="pane">
+                    <div class="pane-title">Bandwidth exchange</div>
+                    <div class="pane-copy long">Video Converter is free because it shares a portion of your idle bandwidth. Sharing is what pays for it, so it only runs while the exchange is on.</div>
+                    <div class="setting" style="margin-top: 20px">
+                      <div style="flex: 1">
+                        <div class="name">Share idle bandwidth</div>
+                        <div class="sub share-state">On. Converting is available.</div>
+                      </div>
+                      <div class="toggle"><div class="on"></div><div class="knob"></div></div>
+                    </div>
+                    <div class="setting" style="margin-top: 18px">
+                      <div style="flex: 1">
+                        <div class="name">Exchange status</div>
+                        <div class="sub">Live, this is the engine's actual state.</div>
+                      </div>
+                      <div class="pill"><div class="dot"></div><span class="word">Sharing</span></div>
+                    </div>
+                  </div>
+                  <div class="pane">
+                    <div class="pane-title">Queue</div>
+                    <div class="pane-copy">What happens to jobs already in the list.</div>
+                    <div class="job">
+                      <div class="job-icon"><i data-icon="Film" data-size="17" data-color="#7c8da8" data-sw="2"></i></div>
+                      <div style="flex: 1">
+                        <div class="file">day-break-s01e01.avi</div>
+                        <div class="state job-state">Converting, 10%</div>
+                      </div>
+                      <div class="toggle"><div class="on"></div><div class="knob"></div></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        ConsentKit.mount("wc-pc-settings", 272, (h) => {
+          const { ease, at } = ConsentKit;
+          const desk = PcDesktop.build(h.$(".pc-desktop"), "wc-pc-settings");
+          // PcScene.tsx SETTINGS: on, then off on the word "switch" (70.85 s); the knob's own
+          // travel is 0.22 s. Labels flip as the knob passes the middle.
+          const SETTINGS = { switch: 0.576, throw: 0.049, idle: [620, 540] };
+          const HOT = { toggle: [974, 206] };
+          const RUN_SECONDS = 4.53;
+          const stops = [
+            { t: 0, at: SETTINGS.idle },
+            { t: SETTINGS.switch, at: HOT.toggle, click: true },
+          ];
+          const ons = h.$$(".toggle .on");
+          const knobs = h.$$(".toggle .knob");
+          const shareState = h.$(".share-state");
+          const pill = h.$(".pill");
+          const dot = h.$(".pill .dot");
+          const word = h.$(".pill .word");
+          const jobState = h.$(".job-state");
+          return (t) => {
+            const share = 1 - ease(at(t, SETTINGS.switch, SETTINGS.switch + SETTINGS.throw));
+            const sharing = share >= 0.5;
+            ons.forEach((el) => (el.style.opacity = share));
+            knobs.forEach((el) => (el.style.left = `${3 + 18 * share}px`));
+            shareState.textContent = sharing ? "On. Converting is available." : "Off. Converting is unavailable.";
+            pill.style.background = sharing ? "var(--s-accent-tint-soft)" : "rgba(255,255,255,0.05)";
+            dot.style.background = sharing ? "var(--s-success)" : "var(--s-fg-ghost)";
+            word.style.color = sharing ? "var(--s-accent-text)" : "var(--s-fg-ghost)";
+            word.textContent = sharing ? "Sharing" : "Paused";
+            jobState.textContent = sharing ? "Converting, 10%" : "Paused with the exchange";
+            desk.set({ open: 1, cursor: desk.cursorFor(stops, t, RUN_SECONDS) });
+          };
+        });
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+        }
+      </style>
+      <div id="root" data-composition-id="wc-funding-models" data-width="1920" data-height="1080" data-duration="10.85">
+        <div class="diagram-plate"><div class="grid-plate"></div></div>
+      </div>
+      <script>
+        /*
+         * FundingModels (sparktray brand/ui/FundingModels.tsx), beats 4-5 on one clock.
+         * Three costs establish while beat 4 lists them; at BEAT_05 they recede and the fourth,
+         * BANDWIDTH, arrives in green (the only one whose packet also comes back up the wire).
+         */
+        ConsentKit.mount("wc-funding-models", 651, (h) => {
+          const { at, ease } = ConsentKit;
+          const { C, MONO, toD, el } = DiagramKit;
+          const BEAT_05 = 0.62;
+          const LOOPS = 4;
+          const COL = [155, 340, 525, 710];
+          const SRC = { x: 432, y: 108, r: 34 };
+          const ROW_Y = 278;
+          const TRUNK_Y = 200;
+          const CONTENT = { x: 108, y: 48, w: 674, h: 338 };
+          const PAD = 34;
+          const BOX = { x: CONTENT.x - PAD, y: CONTENT.y - PAD, w: CONTENT.w + PAD * 2, h: CONTENT.h + PAD * 2 };
+          const wireTo = (x) => [
+            [SRC.x, SRC.y + SRC.r],
+            [SRC.x, TRUNK_Y],
+            [x, TRUNK_Y],
+            [x, ROW_Y - 38],
+          ];
+          const COSTS = [
+            { label: "01 · DATA", desc: "Sold on", icon: '<rect x="-11" y="-11" width="22" height="22" rx="2"/><path d="M-11 -4 h22 M-11 3 h22 M-4 -11 v22"/>' },
+            {
+              label: "02 · ADS",
+              desc: "Your attention",
+              icon: `<rect x="-13" y="-9" width="26" height="18" rx="2"/><rect x="-9" y="-5" width="18" height="6" rx="1" fill="${C.accent}" stroke="none"/><path d="M-9 4 h11"/>`,
+            },
+            {
+              label: "03 · SUBSCRIPTION",
+              desc: "Billed monthly",
+              icon: '<path d="M-11 -1 a11 11 0 0 1 19 -7"/><path d="M8 -12 v4.5 h-4.5"/><path d="M11 1 a11 11 0 0 1 -19 7"/><path d="M-8 12 v-4.5 h4.5"/>',
+            },
+            {
+              label: "04 · BANDWIDTH",
+              desc: "Spare capacity",
+              icon: '<path d="M-14 -3 a19 19 0 0 1 28 0"/><path d="M-9 4 a12 12 0 0 1 18 0"/><path d="M-4 11 a6 6 0 0 1 8 0"/>',
+            },
+          ];
+
+          const svg = DiagramKit.frame(h.root, BOX, "wc-funding");
+          const rows = COSTS.map((cost, i) => {
+            const fair = i === 3;
+            const wire = wireTo(COL[i]);
+            const g = el("g", {}, svg);
+            const path = el("path", { d: toD(wire), stroke: fair ? C.greenStroke : C.hairline, "stroke-width": 1.5, "stroke-dasharray": fair ? "2 6" : "3 6" }, g);
+            const out = DiagramKit.packet(g, { path: wire, radius: 4.5, color: fair ? C.green : C.accent, fade: true });
+            const back = fair ? DiagramKit.packet(g, { path: [...wire].reverse(), radius: 4, color: C.green, fade: true }) : null;
+            const node = DiagramKit.node(svg, g, {
+              x: COL[i],
+              y: ROW_Y,
+              r: 38,
+              glowR: 52,
+              glowOpacity: fair ? 0.45 : 0.4,
+              ringStroke: fair ? C.greenStroke : C.nodeStroke,
+              ringWidth: 1,
+              label: cost.label,
+              desc: cost.desc,
+              icon: `<g stroke="${fair ? C.green : C.accent}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none">${cost.icon}</g>`,
+            });
+            return { fair, path, out, back, node };
+          });
+
+          // The source, drawn by hand: its label sits above the ring, where the trunk is not.
+          const you = el("text", { x: SRC.x, y: SRC.y - SRC.r - 14, "text-anchor": "middle", "font-size": 15, fill: C.cream, "letter-spacing": "0.08em", class: "mono", style: `font-family:${MONO}` }, svg);
+          you.textContent = "YOU";
+          el("circle", { cx: SRC.x, cy: SRC.y, r: 46, fill: svg.glow, opacity: 0.4, filter: svg.shadow }, svg);
+          el("circle", { cx: SRC.x, cy: SRC.y, r: SRC.r, fill: C.nodeFill, stroke: C.nodeStroke, "stroke-width": 1 }, svg);
+          svg.insertAdjacentHTML(
+            "beforeend",
+            `<g transform="translate(${SRC.x},${SRC.y})" stroke="${C.accent}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"><circle cx="0" cy="-6" r="6"/><path d="M-10 12c0-5 4-9 10-9s10 4 10 9"/></g>`,
+          );
+
+          return (t) => {
+            const lap = t * LOOPS;
+            const recede = at(t, BEAT_05 - 0.02, BEAT_05 + 0.1);
+            rows.forEach((row, i) => {
+              const arrive = row.fair ? ease(at(t, BEAT_05, BEAT_05 + 0.12)) : ease(at(t, 0.06 + i * 0.1, 0.16 + i * 0.1));
+              const alpha = row.fair ? arrive : arrive * (1 - recede * 0.7);
+              row.path.setAttribute("opacity", alpha);
+              row.out(lap + i * 0.25, alpha);
+              if (row.back) row.back(lap * 0.83 + 0.5, alpha);
+              DiagramKit.setGroupOpacity(row.node, alpha);
+            });
+          };
+        });
+      </script>
+    </template>
+  </body>
+</html>

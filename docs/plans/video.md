@@ -1,6 +1,17 @@
 # Plan: Video tool (HyperFrames)
 
-**Status:** Planned.
+**Status:** Implemented (phases 1–6). Phase 7, porting the remaining 19 playground videos, waits on review of the three proof ports.
+
+### As built (differences from the plan below)
+- The Remotion ports keep their per-frame math: `FrameKit.drive()` (`_brand/lib/frame-kit.js`) instead of approximating with GSAP tweens. WhyAEO scores SSIM 0.987 against its Remotion render. MassiveBrandVideo's baseline is older than its source, so it has no meaningful score (see its `TRANSLATION_NOTES.md`).
+- BizTray `tutorial-office-to-pdf` had no voice take, so the pptx guide replaced it (`biztray-open-pptx-without-powerpoint`). The two BizTray templates score SSIM 0.992 against their Remotion renders.
+- The consent video is filed under Massive / New (`kind: native`).
+- Templates share a tray-app kit in `_templates/js/`, which `video:brand` copies into `kind: template` projects.
+- The house style is `_brand/frame.md` (the spec name HyperFrames prefers) plus `lib/massive.css`, not `DESIGN.md`.
+- Added `video:new` (scaffold) and `video:voice` (ElevenLabs take → `voice.json`, ported from sparktray).
+- Only `.claude/skills/massive-video/` is un-ignored; the other local skills stay private.
+- Compositions must set `window.__timelines = window.__timelines || {}`, because the embedded player injects the runtime late. FrameKit does this.
+- With media missing, the player still loads and seeks; images and audio are just absent.
 
 ## Context
 Massive's video work lives in two sibling repos:

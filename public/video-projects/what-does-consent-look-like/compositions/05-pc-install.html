@@ -1,0 +1,226 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+        }
+        /* InstallerScreen (sparktray brand/ui/pc/screens.tsx): light chrome, as real installers are. */
+        #root .inst {
+          width: 499px;
+          height: 391px;
+          background: #f0f0f0;
+          color: #1b1b1b;
+          display: flex;
+          flex-direction: column;
+          overflow: hidden;
+        }
+        #root .inst-title {
+          height: 30px;
+          background: #ffffff;
+          border-bottom: 1px solid #d6d6d6;
+          display: flex;
+          align-items: center;
+          padding: 0 4px 0 10px;
+          flex-shrink: 0;
+        }
+        #root .inst-title .name {
+          font-size: 12px;
+          flex: 1;
+        }
+        #root .inst-winbtn {
+          width: 30px;
+          height: 26px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        #root .inst-head {
+          background: #ffffff;
+          border-bottom: 1px solid #d6d6d6;
+          padding: 10px 14px;
+          display: flex;
+          align-items: flex-start;
+          gap: 10px;
+          flex-shrink: 0;
+        }
+        #root .inst-head .h1 {
+          font-size: 13px;
+          font-weight: 700;
+        }
+        #root .inst-head .h2 {
+          font-size: 11px;
+          color: #3c3c3c;
+          margin-top: 3px;
+        }
+        #root .inst-logo {
+          width: 26px;
+          height: 26px;
+          border-radius: 6px;
+          background: var(--s-accent);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+        }
+        #root .inst-body {
+          flex: 1;
+          padding: 14px 18px;
+          display: flex;
+          flex-direction: column;
+          min-height: 0;
+        }
+        #root .banner {
+          width: 100%;
+          aspect-ratio: 1920 / 239;
+          background-image: url(assets/images/installer-banner.png);
+          background-size: contain;
+          background-repeat: no-repeat;
+          background-position: center;
+          flex-shrink: 0;
+          margin-bottom: 12px;
+        }
+        #root .disclosure {
+          font-size: 10.5px;
+          line-height: 1.5;
+          color: #3c3c3c;
+        }
+        #root .agree {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          margin-top: 16px;
+        }
+        #root .box {
+          position: relative;
+          width: 13px;
+          height: 13px;
+          border: 1px solid #8a8a8a;
+          background: #ffffff;
+          border-radius: 2px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+        }
+        #root .box svg {
+          opacity: 0;
+        }
+        #root .agree-label {
+          font-size: 11px;
+        }
+        #root .learn {
+          margin-top: 22px;
+          font-size: 10.5px;
+        }
+        #root .learn .lbl {
+          color: #3c3c3c;
+        }
+        #root .links {
+          display: flex;
+          gap: 30px;
+          margin-top: 5px;
+          color: #2a52a8;
+        }
+        #root .inst-foot {
+          border-top: 1px solid #d6d6d6;
+          padding: 8px 12px;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          flex-shrink: 0;
+        }
+        #root .inst-foot .ver {
+          flex: 1;
+          font-size: 10.5px;
+          color: #a0a0a0;
+        }
+        #root .btn {
+          min-width: 86px;
+          padding: 5px 12px;
+          font-size: 12px;
+          color: #1b1b1b;
+          background: #ffffff;
+          border: 1px solid #adadad;
+          border-radius: 3px;
+          text-align: center;
+        }
+      </style>
+      <div id="root" data-composition-id="wc-pc-install" data-width="1920" data-height="1080" data-duration="16.35">
+        <div class="pc-desktop" data-win-w="499" data-win-h="391" data-fill="0.62">
+          <div class="pc-window">
+            <div class="inst">
+              <div class="inst-title">
+                <div class="name">Setup</div>
+                <div class="inst-winbtn"><i data-icon="Minimize2" data-size="11" data-color="#3c3c3c" data-sw="1.8"></i></div>
+                <div class="inst-winbtn"><i data-icon="X" data-size="11" data-color="#3c3c3c" data-sw="1.8"></i></div>
+              </div>
+              <div class="inst-head">
+                <div style="flex: 1">
+                  <div class="h1">Terms of Service</div>
+                  <div class="h2">Please review and accept the terms to continue installing.</div>
+                </div>
+                <div class="inst-logo"><i data-icon="Film" data-size="15" data-color="#fff" data-sw="2"></i></div>
+              </div>
+              <div class="inst-body">
+                <div class="banner"></div>
+                <!-- On-screen disclosure, verbatim from the source component. Do not paraphrase. -->
+                <div class="disclosure">To remove ads and get free content, please let Massive use a small amount of your device's free resources and IP address to download public web data. Your participation is optional, and you may opt out anytime. Pressing Accept indicates that you agree to the license and privacy policy. You can opt out at any time after opting in.</div>
+                <div class="agree">
+                  <div class="box"><i data-icon="Check" data-size="10" data-color="#fff" data-sw="3.5"></i></div>
+                  <div class="agree-label">I agree and want to continue</div>
+                </div>
+                <div class="learn">
+                  <div class="lbl">Learn more:</div>
+                  <div class="links"><span>FAQ</span><span>License</span><span>Privacy Policy</span></div>
+                </div>
+              </div>
+              <div class="inst-foot">
+                <div class="ver">Video Converter 1.0.4</div>
+                <div class="btn next">Next &gt;</div>
+                <div class="btn">Cancel</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        ConsentKit.mount("wc-pc-install", 981, (h) => {
+          const { pulse, paceOf } = ConsentKit;
+          const desk = PcDesktop.build(h.$(".pc-desktop"), "wc-pc-install");
+          // PcScene.tsx INSTALL: ticks on "You" of "You reach out and choose it" (65.46 s in the
+          // take), so the box is empty under "Nothing is ticked for you". Next is pressed on "choose".
+          const INSTALL = { agree: 0.83, next: 0.926, idle: [250, 330] };
+          const HOT = { agree: [25, 259], next: [350, 373] };
+          const RUN_SECONDS = 16.35;
+          const pace = paceOf(RUN_SECONDS);
+          const stops = [
+            { t: 0, at: INSTALL.idle },
+            { t: INSTALL.agree, at: HOT.agree, click: true },
+            { t: INSTALL.next, at: HOT.next, click: true },
+          ];
+          const box = h.$(".box");
+          const tick = h.$(".box svg");
+          const next = h.$(".btn.next");
+          return (t) => {
+            const agreed = t >= INSTALL.agree;
+            const press = pulse(t, INSTALL.next, pace.press);
+            box.style.borderColor = agreed ? "var(--s-accent)" : "#8a8a8a";
+            box.style.background = agreed ? "var(--s-accent)" : "#ffffff";
+            tick.style.opacity = agreed ? 1 : 0;
+            // Next stays disabled until the box is ticked; a press darkens it a step.
+            next.style.color = agreed ? "#1b1b1b" : "#a0a0a0";
+            next.style.background = agreed ? (press > 0 ? `rgba(0,0,0,${0.09 * press})` : "#ffffff") : "#e8e8e8";
+            next.style.borderColor = agreed ? "#adadad" : "#d6d6d6";
+            desk.set({ open: 1, cursor: desk.cursorFor(stops, t, RUN_SECONDS) });
+          };
+        });
+      </script>
+    </template>
+  </body>
+</html>

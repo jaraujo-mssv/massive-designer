@@ -1,0 +1,7 @@
+[
+  { "from": "sparktray-campaign/public/voice/none/what-does-consent-look-like/take-91a15da5.mp3", "to": "assets/voice/take-91a15da5.mp3" },
+  { "from": "sparktray-campaign/public/music/calm-lo-fi.mp3", "to": "assets/music/calm-lo-fi.mp3" },
+  { "from": "sparktray-campaign/brand/assets/windows/wallpaper.jpg", "to": "assets/images/wallpaper.jpg" },
+  { "from": "sparktray-campaign/brand/assets/massive/installer-banner.png", "to": "assets/images/installer-banner.png" },
+  { "from": "sparktray-campaign/brand/assets/massive/logo-light.png", "to": "assets/images/massive-logo-light.png" }
+]

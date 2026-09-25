@@ -1,0 +1,259 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+        }
+        /* UninstallScreen (sparktray brand/ui/pc/screens.tsx): Windows' own Installed apps page. */
+        #root .win {
+          width: 1000px;
+          height: 620px;
+          background: #202020;
+          color: #ffffff;
+          display: flex;
+          flex-direction: column;
+          overflow: hidden;
+          border-radius: 8px;
+        }
+        #root .topbar {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          padding: 12px 16px;
+          flex-shrink: 0;
+        }
+        #root .find {
+          flex: 1;
+          max-width: 420px;
+          display: flex;
+          align-items: center;
+          gap: 9px;
+          padding: 7px 12px;
+          border-radius: 16px;
+          background: #2b2b2b;
+          border: 1px solid #383838;
+        }
+        #root .find span {
+          font-size: 12.5px;
+          color: #a0a0a0;
+        }
+        #root .page {
+          flex: 1;
+          padding: 10px 40px;
+          min-height: 0;
+        }
+        #root .crumb {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-size: 26px;
+          font-weight: 600;
+        }
+        #root .search {
+          margin-top: 22px;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 9px 14px;
+          border-radius: 5px;
+          background: #2b2b2b;
+          border: 1px solid #383838;
+          max-width: 470px;
+        }
+        #root .search span {
+          font-size: 13px;
+          color: #ffffff;
+        }
+        #root .count {
+          margin-top: 18px;
+          font-size: 13px;
+          color: #a0a0a0;
+        }
+        #root .rowwrap {
+          margin-top: 12px;
+          position: relative;
+        }
+        #root .approw {
+          display: flex;
+          align-items: center;
+          gap: 15px;
+          padding: 14px 18px;
+          border-radius: 6px;
+          background: #2b2b2b;
+          border: 1px solid #383838;
+        }
+        #root .appicon {
+          width: 36px;
+          height: 36px;
+          border-radius: 8px;
+          background: var(--s-accent);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+        }
+        #root .appname {
+          font-size: 14px;
+        }
+        #root .appmeta {
+          font-size: 12px;
+          color: #a0a0a0;
+          margin-top: 3px;
+        }
+        #root .appsize {
+          font-size: 13px;
+          color: #a0a0a0;
+        }
+        #root .dots {
+          width: 30px;
+          height: 30px;
+          border-radius: 5px;
+          background: transparent;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        #root .menu {
+          position: absolute;
+          right: 10px;
+          top: 58px;
+          width: 170px;
+          border-radius: 7px;
+          background: #2f2f2f;
+          border: 1px solid #383838;
+          box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
+          padding: 5px;
+          z-index: 5;
+          opacity: 0;
+        }
+        #root .item {
+          padding: 9px 12px;
+          font-size: 13px;
+          color: #ffffff;
+          border-radius: 4px;
+        }
+        #root .item.kill {
+          display: flex;
+          align-items: center;
+          gap: 9px;
+        }
+        #root .related {
+          margin-top: 34px;
+          font-size: 15px;
+          font-weight: 600;
+        }
+        #root .relrow {
+          margin-top: 10px;
+          display: flex;
+          align-items: center;
+          gap: 14px;
+          padding: 14px 18px;
+          border-radius: 6px;
+          background: #2b2b2b;
+          border: 1px solid #383838;
+        }
+        #root .relrow .label {
+          flex: 1;
+          font-size: 13.5px;
+        }
+      </style>
+      <div id="root" data-composition-id="wc-pc-uninstall" data-width="1920" data-height="1080" data-duration="9.083333">
+        <div class="pc-desktop" data-win-w="1000" data-win-h="620" data-fill="0.86">
+          <div class="pc-window">
+            <div class="win">
+              <div class="topbar">
+                <i data-icon="ArrowLeft" data-size="16" data-color="#a0a0a0" data-sw="2"></i>
+                <div class="find"><i data-icon="Search" data-size="13" data-color="#a0a0a0" data-sw="2"></i><span>Find a setting</span></div>
+                <div style="flex: 1"></div>
+                <i data-icon="Minimize2" data-size="13" data-color="#a0a0a0" data-sw="1.8"></i>
+                <i data-icon="X" data-size="13" data-color="#a0a0a0" data-sw="1.8"></i>
+              </div>
+              <div class="page">
+                <div class="crumb">
+                  <span style="color: #a0a0a0">Apps</span>
+                  <i data-icon="ChevronRight" data-size="19" data-color="#a0a0a0" data-sw="2.2"></i>
+                  <span>Installed apps</span>
+                </div>
+                <div class="search"><i data-icon="Search" data-size="14" data-color="#a0a0a0" data-sw="2"></i><span>video converter</span></div>
+                <div class="count">1 app found</div>
+                <div class="rowwrap">
+                  <div class="collapse">
+                    <div class="approw">
+                      <div class="appicon"><i data-icon="Film" data-size="20" data-color="#fff" data-sw="2"></i></div>
+                      <div style="flex: 1; min-width: 0">
+                        <div class="appname">Video Converter 1.0.4</div>
+                        <div class="appmeta">1.0.4 &nbsp;|&nbsp; 8/19/2026</div>
+                      </div>
+                      <div class="appsize">128 MB</div>
+                      <div class="dots"><i data-icon="MoreHorizontal" data-size="17" data-color="#ffffff" data-sw="2"></i></div>
+                    </div>
+                  </div>
+                  <div class="menu" data-layout-allow-overlap>
+                    <div class="item">Modify</div>
+                    <div class="item">Advanced options</div>
+                    <div class="item kill">Uninstall</div>
+                  </div>
+                </div>
+                <div class="related">Related settings</div>
+                <div class="relrow"><i data-icon="Download" data-size="17" data-color="#a0a0a0" data-sw="2"></i><div class="label">System components</div><i data-icon="ChevronRight" data-size="15" data-color="#a0a0a0" data-sw="2"></i></div>
+                <div class="relrow"><i data-icon="Download" data-size="17" data-color="#a0a0a0" data-sw="2"></i><div class="label">Storage</div><i data-icon="ChevronRight" data-size="15" data-color="#a0a0a0" data-sw="2"></i></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        ConsentKit.mount("wc-pc-uninstall", 545, (h) => {
+          const { ease, at, pulse, paceOf } = ConsentKit;
+          const desk = PcDesktop.build(h.$(".pc-desktop"), "wc-pc-uninstall");
+          // PcScene.tsx UNINSTALL: the overflow opens on "uninstall" (75.04 s), Uninstall is
+          // pressed on "Everything" and the row leaves on "goes".
+          const U = { dots: 0.249, kill: 0.449, gone: 0.513, collapse: 0.05, idle: [520, 500] };
+          const HOT = { dots: [926, 233], uninstall: [866, 349] };
+          const RUN_SECONDS = 9.08;
+          const APP_ROW_H = 66;
+          const pace = paceOf(RUN_SECONDS);
+          const stops = [
+            { t: 0, at: U.idle },
+            { t: U.dots, at: HOT.dots, click: true },
+            { t: U.kill, at: HOT.uninstall, click: true },
+          ];
+          const dots = h.$(".dots");
+          const menuEl = h.$(".menu");
+          const kill = h.$(".item.kill");
+          const count = h.$(".count");
+          const wrap = h.$(".rowwrap");
+          const collapse = h.$(".collapse");
+          return (t) => {
+            // Held through the press pulse so the item is seen going down.
+            const menu = t >= U.dots && !(t >= U.kill + pace.press);
+            const hot = t >= U.kill - pace.travel * 0.35;
+            const press = pulse(t, U.kill, pace.press);
+            const gone = ease(at(t, U.gone, U.gone + U.collapse));
+            dots.style.background = menu ? "#383838" : "transparent";
+            menuEl.style.opacity = menu ? 1 : 0;
+            kill.style.background = press > 0 ? "#4a4a4a" : hot ? "#383838" : "transparent";
+            count.textContent = gone >= 1 ? "0 apps found" : "1 app found";
+            wrap.style.marginTop = `${12 * (1 - gone)}px`;
+            if (gone > 0) {
+              collapse.style.height = `${APP_ROW_H * (1 - gone)}px`;
+              collapse.style.opacity = 1 - gone;
+              collapse.style.overflow = "hidden";
+            } else {
+              collapse.style.height = "";
+              collapse.style.opacity = "";
+              collapse.style.overflow = "";
+            }
+            desk.set({ open: 1, cursor: desk.cursorFor(stops, t, RUN_SECONDS) });
+          };
+        });
+      </script>
+    </template>
+  </body>
+</html>

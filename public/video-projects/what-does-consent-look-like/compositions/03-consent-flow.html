@@ -1,0 +1,149 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+        }
+      </style>
+      <div id="root" data-composition-id="wc-consent-flow" data-width="1920" data-height="1080" data-duration="20.55">
+        <div class="diagram-plate"><div class="grid-plate"></div></div>
+      </div>
+      <script>
+        /*
+         * ConsentCircuit (sparktray brand/ui/ConsentCircuit.tsx), beats 6-9 on one clock.
+         * Orange runs out along the row; green comes back over the top to the person who lent it.
+         * Node 02 reads NETWORK, not MASSIVE, on purpose (reviewed and kept in the source script).
+         */
+        ConsentKit.mount("wc-consent-flow", 1233, (h) => {
+          const { at, ease } = ConsentKit;
+          const { C, SANS, toD, el } = DiagramKit;
+          const LOOPS = 3;
+          const OPERATOR = "NETWORK";
+          const HUB_PHRASES = [
+            "Check airline pricing…",
+            "Check an ad in another country…",
+            "Help AI reach the internet…",
+            "Check search rankings by location…",
+            "Check a product’s description…",
+            "Check for counterfeit listings…",
+          ];
+          const PHRASE_FADE = 0.12;
+          const COL = { left: 150, mid: 450, right: 750 };
+          const ROW_Y = 300;
+          const R = { end: 38, hub: 46 };
+          const OUT_PATH = [
+            [COL.left, ROW_Y],
+            [COL.mid, ROW_Y],
+            [COL.right, ROW_Y],
+          ];
+          const ARCH = { from: [COL.right, ROW_Y - R.end], to: [COL.left, ROW_Y - R.end], ctrl: [COL.mid, 20] };
+          const archD = `M${ARCH.from[0]} ${ARCH.from[1]} Q${ARCH.ctrl[0]} ${ARCH.ctrl[1]} ${ARCH.to[0]} ${ARCH.to[1]}`;
+          const ARCH_PATH = Array.from({ length: 49 }, (_, i) => {
+            const u = i / 48;
+            const k = 1 - u;
+            return [
+              k * k * ARCH.from[0] + 2 * k * u * ARCH.ctrl[0] + u * u * ARCH.to[0],
+              k * k * ARCH.from[1] + 2 * k * u * ARCH.ctrl[1] + u * u * ARCH.to[1],
+            ];
+          });
+          const CONTENT = { x: 92, y: 141, w: 714, h: 273 };
+          const PAD = 34;
+          const BOX = { x: CONTENT.x - PAD, y: CONTENT.y - PAD, w: CONTENT.w + PAD * 2, h: CONTENT.h + PAD * 2 };
+          const ATOMS = [
+            { orbit: 22.4, deg: 206.6, rate: 1.0 },
+            { orbit: 25.0, deg: 323.1, rate: -0.7 },
+            { orbit: 22.8, deg: 52.1, rate: 1.35 },
+            { orbit: 21.9, deg: 133.2, rate: -1.1 },
+            { orbit: 26.3, deg: 171.3, rate: 0.55 },
+            { orbit: 26.7, deg: 13.0, rate: -0.85 },
+          ];
+          const person = '<circle cx="0" cy="-6" r="6"/><path d="M-10 12c0-5 4-9 10-9s10 4 10 9"/>';
+
+          const svg = DiagramKit.frame(h.root, BOX, "wc-circuit");
+          el("path", { d: toD(OUT_PATH), stroke: C.hairline, "stroke-width": 1.5, "stroke-dasharray": "3 6" }, svg);
+          el("path", { d: archD, fill: "none", stroke: C.greenStroke, "stroke-width": 1.5, "stroke-dasharray": "2 6" }, svg);
+          const out1 = DiagramKit.packet(svg, { path: OUT_PATH, radius: 5, color: C.accent, fade: true });
+          const out2 = DiagramKit.packet(svg, { path: OUT_PATH, radius: 5, color: C.accent, fade: true });
+          const back = DiagramKit.packet(svg, { path: ARCH_PATH, radius: 4, color: C.green, fade: false });
+
+          const user = DiagramKit.node(svg, svg, {
+            x: COL.left,
+            y: ROW_Y,
+            r: R.end,
+            glowR: 52,
+            glowOpacity: 0.4,
+            ringStroke: C.nodeStroke,
+            ringWidth: 1,
+            label: "01 · USER",
+            desc: "Uses a free app",
+            icon:
+              `<circle class="spinner" r="${R.end}" fill="none" stroke="${C.accentDeep}" stroke-width="1.2" stroke-dasharray="180 400"/>` +
+              `<g stroke="${C.accent}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none">${person}</g>`,
+          });
+          const spinner = user.querySelector(".spinner");
+
+          const hub = DiagramKit.node(svg, svg, {
+            x: COL.mid,
+            y: ROW_Y,
+            r: R.hub,
+            glowR: 60,
+            glowOpacity: 0.55,
+            ringStroke: C.accentDeep,
+            ringWidth: 1.5,
+            label: `02 · ${OPERATOR}`,
+            desc: "",
+            icon:
+              `<g stroke="${C.accentDeep}" stroke-width="1" opacity="0.4" fill="none"><circle cx="0" cy="0" r="30"/><circle cx="0" cy="0" r="18"/></g>` +
+              `<g class="atoms" fill="${C.accent}">${ATOMS.map(() => '<circle r="2"/>').join("")}</g>` +
+              `<circle cx="0" cy="0" r="4" fill="${C.cream}"/>` +
+              `<text class="phrase" x="0" y="${R.hub + 64}" text-anchor="middle" font-size="17" fill="${C.creamDim}" style="font-family:${SANS}"></text>`,
+          });
+          const atoms = [...hub.querySelectorAll(".atoms circle")];
+          const phrase = hub.querySelector(".phrase");
+
+          DiagramKit.node(svg, svg, {
+            x: COL.right,
+            y: ROW_Y,
+            r: R.end,
+            glowR: 52,
+            glowOpacity: 0.4,
+            ringStroke: C.greenStroke,
+            ringWidth: 1,
+            label: "03 · REWARD",
+            desc: "App stays free",
+            icon: `<g stroke="${C.green}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"><rect x="-13" y="-4" width="26" height="16" rx="1.5"/><path d="M-13 4 h26"/><path d="M0 -4 v16"/><path d="M-8 -4 c-3 -4 1 -9 4 -6 s4 6 4 6 c0 0 1 -9 4 -6 s3 6 0 6"/></g>`,
+          });
+
+          return (t) => {
+            const spin = t * 360 * LOOPS;
+            const lap = t * LOOPS;
+            const k = t * HUB_PHRASES.length;
+            const phraseIndex = Math.min(HUB_PHRASES.length - 1, Math.floor(k));
+            const u = k - phraseIndex;
+            const isLast = phraseIndex === HUB_PHRASES.length - 1;
+            // The last phrase never fades out: the run holds past the last word of beat 9.
+            const phraseOpacity = ease(at(u, 0, PHRASE_FADE)) * (isLast ? 1 : 1 - at(u, 1 - PHRASE_FADE, 1));
+
+            out1(lap);
+            out2(lap + 0.4);
+            back(lap * 0.83);
+            spinner.setAttribute("transform", `rotate(${spin})`);
+            ATOMS.forEach(({ orbit, deg, rate }, i) => {
+              const a = ((deg + spin * rate) * Math.PI) / 180;
+              atoms[i].setAttribute("cx", orbit * Math.cos(a));
+              atoms[i].setAttribute("cy", orbit * Math.sin(a));
+            });
+            phrase.textContent = HUB_PHRASES[phraseIndex];
+            phrase.setAttribute("opacity", phraseOpacity);
+          };
+        });
+      </script>
+    </template>
+  </body>
+</html>

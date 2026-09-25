@@ -1,6 +1,332 @@
 {
   "projects": [
     {
+      "id": "biztray-how-to-merge-pdf-files",
+      "title": "How to merge PDF files",
+      "group": "templates",
+      "kind": "template",
+      "brand": "biztray",
+      "status": "draft",
+      "source": "sparktray-campaign/content/biztray/scripts/guide-pdf-organizer-how-to-merge-pdf-files.md",
+      "compositionId": "biztray-how-to-merge-pdf-files",
+      "width": 1920,
+      "height": 1080,
+      "fps": 60,
+      "duration": 147.433333,
+      "path": "/video-projects/biztray-how-to-merge-pdf-files/index.html",
+      "storyboard": {
+        "globals": {
+          "extra": {
+            "duration": "147s"
+          },
+          "format": "1920x1080",
+          "message": "How to merge PDF files on Windows",
+          "arc": "Contrast → App opens → Pick the tool → Drop the input → The app reads it → Choose options → Run it → Job Queue running → Job done → Caveat → Endcard",
+          "audience": "YouTube searchers asking \"merge pdf\""
+        },
+        "warnings": [],
+        "frames": [
+          {
+            "index": 1,
+            "title": "Contrast backdrop",
+            "status": "animated",
+            "scene": "Two tiles, \"A web merger\" and \"On your machine\", lit one at a time, then the verdict chip \"A contract is a decision worth making on purpose\"",
+            "voiceover": "Four separate PDFs, and the form you are filling in accepts exactly one attachment. To merge PDF files the first search result wants you to upload all four to a server you have never heard of. For a contract or a payslip, that is a decision worth making on purpose rather than by default.",
+            "narrative": "0.00s – 22.13s, beats 1, 2, 3 (`bg-contrast`, backdrop declaration 1). One state per beat: the picture steps at each beat start, the loops run on the whole-shot clock.",
+            "src": "compositions/01-contrast.html",
+            "start": 0,
+            "duration": 22.13,
+            "poster": 21.63,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 2,
+            "title": "App opens",
+            "status": "animated",
+            "scene": "BizTray on the Windows desktop, PDF Organizer: app opens",
+            "voiceover": "BizTray is the small icon down in your system tray. Click it and the window opens.",
+            "narrative": "22.13s – 28.45s, beats 4 (`app-open`). One held shot: the cursor travels 0.42s to its target, dwells, clicks, and the pane settles.",
+            "src": "compositions/02-app-open.html",
+            "start": 22.133333,
+            "duration": 6.32,
+            "poster": 4.42,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 3,
+            "title": "Pick the tool",
+            "status": "animated",
+            "scene": "BizTray on the Windows desktop, PDF Organizer: pick the tool",
+            "voiceover": "Open PDF Organizer, the sixth one in the list of utilities on the left.",
+            "narrative": "28.45s – 34.40s, beats 5 (`app-pick`). One held shot: the cursor travels 0.42s to its target, dwells, clicks, and the pane settles.",
+            "src": "compositions/03-app-pick.html",
+            "start": 28.45,
+            "duration": 5.95,
+            "poster": 4.17,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 4,
+            "title": "Drop the input",
+            "status": "animated",
+            "scene": "BizTray on the Windows desktop, PDF Organizer: drop the input",
+            "voiceover": "Drag all four PDFs onto the drop zone in the middle of the window at once. The order you drop them in is the order they combine in, so drop them in the order you want.",
+            "narrative": "34.40s – 45.42s, beats 6, 7 (`app-input`). One held shot: the cursor travels 0.42s to its target, dwells, clicks, and the pane settles.",
+            "src": "compositions/04-app-input.html",
+            "start": 34.4,
+            "duration": 11.02,
+            "poster": 7.71,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 5,
+            "title": "The app reads it",
+            "status": "animated",
+            "scene": "BizTray on the Windows desktop, PDF Organizer: the app reads it",
+            "voiceover": "The drop zone becomes a page grid. Sixteen pages here, across the files it picked up. Every page is a thumbnail, numbered, so you can see straight away whether a file came in upside down.",
+            "narrative": "45.42s – 59.30s, beats 8, 9 (`app-read`). One held shot: the cursor travels 0.42s to its target, dwells, clicks, and the pane settles.",
+            "src": "compositions/05-app-read.html",
+            "start": 45.416667,
+            "duration": 13.88,
+            "poster": 9.72,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 6,
+            "title": "Choose options",
+            "status": "animated",
+            "scene": "BizTray on the Windows desktop, PDF Organizer: choose options",
+            "voiceover": "The grid is the control. Click a page to select it, ctrl for several, shift for a range. Drag a thumbnail to move it. That is how you fix an order you got wrong on the way in. If the last file should have been second, drag its block up and the numbering follows. Nothing has changed on disk yet. The grid is a plan, not an edit.",
+            "narrative": "59.30s – 84.37s, beats 10, 11, 12, 13 (`app-options`). One held shot: the cursor travels 0.42s to its target, dwells, clicks, and the pane settles.",
+            "src": "compositions/06-app-options.html",
+            "start": 59.3,
+            "duration": 25.07,
+            "poster": 17.55,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 7,
+            "title": "Run it",
+            "status": "animated",
+            "scene": "BizTray on the Windows desktop, PDF Organizer: run it",
+            "voiceover": "Hit the button at the bottom of the panel to write the merged file.",
+            "narrative": "84.37s – 88.65s, beats 14 (`app-run`). One held shot: the cursor travels 0.42s to its target, dwells, clicks, and the pane settles.",
+            "src": "compositions/07-app-run.html",
+            "start": 84.366667,
+            "duration": 4.28,
+            "poster": 3,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 8,
+            "title": "Job Queue running",
+            "status": "animated",
+            "scene": "BizTray on the Windows desktop, PDF Organizer: job queue running",
+            "voiceover": "Job Queue shows it working. Merging is fast because the pages are copied, not re-encoded.",
+            "narrative": "88.65s – 95.82s, beats 15 (`app-queue`). One held shot: the cursor travels 0.42s to its target, dwells, clicks, and the pane settles.",
+            "src": "compositions/08-app-queue.html",
+            "start": 88.65,
+            "duration": 7.17,
+            "poster": 5.02,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 9,
+            "title": "Job done",
+            "status": "animated",
+            "scene": "BizTray on the Windows desktop, PDF Organizer: job done",
+            "voiceover": "Done. One PDF containing all sixteen pages, written next to the originals. The four source files are untouched, so a merge you got wrong costs you nothing.",
+            "narrative": "95.82s – 109.53s, beats 16, 17 (`app-done`). One held shot: the cursor travels 0.42s to its target, dwells, clicks, and the pane settles.",
+            "src": "compositions/09-app-done.html",
+            "start": 95.816667,
+            "duration": 13.72,
+            "poster": 9.6,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 10,
+            "title": "Caveat backdrop",
+            "status": "animated",
+            "scene": "Claim \"Merges any number of PDFs into one, in the order you set\", a bar that hits a red stop, then the limit and its consequence and the workaround badge",
+            "voiceover": "Merging copies the pages as they are. It does NOT re-number anything. Which means if each of the four documents had its own printed page numbers, the merged file counts to four and starts again. PDF Tools adds a fresh set of page numbers across the whole document, which is the usual second step on a report.",
+            "narrative": "109.53s – 133.02s, beats 18, 19, 20 (`bg-caveat`, backdrop declaration 2). One state per beat: the picture steps at each beat start, the loops run on the whole-shot clock.",
+            "src": "compositions/10-caveat.html",
+            "start": 109.533333,
+            "duration": 23.48,
+            "poster": 22.98,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 11,
+            "title": "Endcard",
+            "status": "animated",
+            "scene": "BizTray endcard: app window on its Job Queue, tagline, wordmark, download button and claims",
+            "voiceover": "So that is four PDFs dropped in, the order fixed on the grid, and one merged document written out. All of it on your own machine, and nothing uploaded anywhere.",
+            "narrative": "133.02s – 147.43s, beats 21, 22 (`logo`). Eases in over the first half of the shot, then holds.\n\n---\n\nHow to merge PDF files on your own Windows PC, without uploading a contract to a server you have never heard of.\n\nThe first search result wants all four documents on its servers, free up to a limit and watermarked on the way out. None of that is necessary. When you combine pdf files the pages are copied as they are, so nothing is re-numbered: four documents that each started at page one now count to four and start again. Stamping a fresh sequence is the usual second step.",
+            "src": "compositions/11-logo.html",
+            "start": 133.016667,
+            "duration": 14.42,
+            "poster": 2,
+            "transitionIn": "cut"
+          }
+        ]
+      },
+      "script": "# SCRIPT — biztray-how-to-merge-pdf-files\n\n**Voice:** Mark (ElevenLabs, v3p1kjzUvro6S76qmYmH, eleven_v3)\n**Voice settings:** stability 0.55 · similarity 0.75 · style 0 · seed 20260806\n**Voice direction:** Plain, level and unhurried, one continuous take. A guide talking a viewer through a decision, not an ad: the concessions land as flatly as the claims.\n\nLocked: recorded as one take (`voice/biztray/guide-pdf-organizer-how-to-merge-pdf-files/take-e02d335f.mp3`, 146.24s, request dLmMbS0oBUm9qC6dsaG8). Times are the real cue points from `voice.json`, with no lead-in offset (the take starts at 0.00s).\n\n---\n\n## Line 1 — Four separate PDFs, and the… (Frame 1)\n\n**Time:** 0.00 – 6.37 s\n**Delivery:** Thoughtful, then level.\n\n    [thoughtful] Four separate PDFs, and the form you are filling in accepts exactly one attachment.\n\n## Line 2 — To merge PDF files the… (Frame 1)\n\n**Time:** 6.37 – 14.32 s\n**Delivery:** Level, carrying on from the line before.\n\n    To merge PDF files the first search result wants you to upload all four to a server you have never heard of.\n\n## Line 3 — For a contract or a… (Frame 1)\n\n**Time:** 14.32 – 22.13 s\n**Delivery:** Level, carrying on from the line before.\n\n    For a contract or a payslip, that is a decision worth making on purpose rather than by default.\n\n## Line 4 — BizTray is the small icon… (Frame 2)\n\n**Time:** 22.13 – 28.46 s\n**Delivery:** Level, carrying on from the line before.\n\n    BizTray is the small icon down in your system tray. Click it and the window opens.\n\n## Line 5 — Open PDF Organizer, the sixth… (Frame 3)\n\n**Time:** 28.46 – 34.40 s\n**Delivery:** Level, carrying on from the line before.\n\n    Open PDF Organizer, the sixth one in the list of utilities on the left.\n\n## Line 6 — Drag all four PDFs onto… (Frame 4)\n\n**Time:** 34.40 – 39.57 s\n**Delivery:** Level, carrying on from the line before.\n\n    Drag all four PDFs onto the drop zone in the middle of the window at once.\n\n## Line 7 — The order you drop them… (Frame 4)\n\n**Time:** 39.57 – 45.42 s\n**Delivery:** Level, carrying on from the line before.\n\n    The order you drop them in is the order they combine in, so drop them in the order you want.\n\n## Line 8 — The drop zone becomes a… (Frame 5)\n\n**Time:** 45.42 – 52.13 s\n**Delivery:** Level, carrying on from the line before.\n\n    The drop zone becomes a page grid. Sixteen pages here, across the files it picked up.\n\n## Line 9 — Every page is a thumbnail… (Frame 5)\n\n**Time:** 52.13 – 59.30 s\n**Delivery:** Level, carrying on from the line before.\n\n    Every page is a thumbnail, numbered, so you can see straight away whether a file came in upside down.\n\n## Line 10 — The grid is the control… (Frame 6)\n\n**Time:** 59.30 – 66.74 s\n**Delivery:** Thoughtful, then level.\n\n    [thoughtful] The grid is the control. Click a page to select it, ctrl for several, shift for a range.\n\n## Line 11 — Drag a thumbnail to move… (Frame 6)\n\n**Time:** 66.74 – 72.65 s\n**Delivery:** Level, carrying on from the line before.\n\n    Drag a thumbnail to move it. That is how you fix an order you got wrong on the way in.\n\n## Line 12 — If the last file should… (Frame 6)\n\n**Time:** 72.65 – 78.72 s\n**Delivery:** Level, carrying on from the line before.\n\n    If the last file should have been second, drag its block up and the numbering follows.\n\n## Line 13 — Nothing has changed on disk… (Frame 6)\n\n**Time:** 78.72 – 84.36 s\n**Delivery:** Level, carrying on from the line before.\n\n    Nothing has changed on disk yet. The grid is a plan, not an edit.\n\n## Line 14 — Hit the button at the… (Frame 7)\n\n**Time:** 84.36 – 88.64 s\n**Delivery:** Level, carrying on from the line before.\n\n    Hit the button at the bottom of the panel to write the merged file.\n\n## Line 15 — Job Queue shows it working… (Frame 8)\n\n**Time:** 88.64 – 95.82 s\n**Delivery:** Level, carrying on from the line before.\n\n    Job Queue shows it working. Merging is fast because the pages are copied, not re-encoded.\n\n## Line 16 — Done. One PDF containing all… (Frame 9)\n\n**Time:** 95.82 – 103.31 s\n**Delivery:** Short pause, then level.\n\n    [short pause] Done. One PDF containing all sixteen pages, written next to the originals.\n\n## Line 17 — The four source files are… (Frame 9)\n\n**Time:** 103.31 – 109.54 s\n**Delivery:** Level, carrying on from the line before.\n\n    The four source files are untouched, so a merge you got wrong costs you nothing.\n\n## Line 18 — Merging copies the pages as… (Frame 10)\n\n**Time:** 109.54 – 115.89 s\n**Delivery:** Exhales, then level.\n\n    [exhales] Merging copies the pages as they are. It does NOT re-number anything.\n\n## Line 19 — Which means if each of… (Frame 10)\n\n**Time:** 115.89 – 124.76 s\n**Delivery:** Level, carrying on from the line before.\n\n    Which means if each of the four documents had its own printed page numbers, the merged file counts to four and starts again.\n\n## Line 20 — PDF Tools adds a fresh… (Frame 10)\n\n**Time:** 124.76 – 133.02 s\n**Delivery:** Level, carrying on from the line before.\n\n    PDF Tools adds a fresh set of page numbers across the whole document, which is the usual second step on a report.\n\n## Line 21 — So that is four PDFs… (Frame 11)\n\n**Time:** 133.02 – 141.68 s\n**Delivery:** Short pause, then level.\n\n    [short pause] So that is four PDFs dropped in, the order fixed on the grid, and one merged document written out.\n\n## Line 22 — All of it on your… (Frame 11)\n\n**Time:** 141.68 – 146.24 s\n**Delivery:** Level, carrying on from the line before.\n\n    All of it on your own machine, and nothing uploaded anywhere.\n",
+      "media": [
+        "assets/voice/take-e02d335f.mp3"
+      ]
+    },
+    {
+      "id": "biztray-open-pptx-without-powerpoint",
+      "title": "How to open a PPTX file without PowerPoint",
+      "group": "templates",
+      "kind": "template",
+      "brand": "biztray",
+      "status": "draft",
+      "source": "sparktray-campaign/content/biztray/scripts/guide-office-to-pdf-how-to-open-a-pptx-file-without-powerpoint.md",
+      "compositionId": "biztray-open-pptx-without-powerpoint",
+      "width": 1920,
+      "height": 1080,
+      "fps": 60,
+      "duration": 149.766667,
+      "path": "/video-projects/biztray-open-pptx-without-powerpoint/index.html",
+      "storyboard": {
+        "globals": {
+          "extra": {
+            "duration": "150s"
+          },
+          "format": "1920x1080",
+          "message": "How to open a PPTX file without PowerPoint",
+          "arc": "Cold-open → Contrast → Mechanism → Drop the input → Choose options → Run it → Job done → Caveat → Endcard",
+          "audience": "YouTube searchers asking \"open pptx without powerpoint\""
+        },
+        "warnings": [],
+        "frames": [
+          {
+            "index": 1,
+            "title": "Cold-open backdrop",
+            "status": "animated",
+            "scene": "The .pptx card, and the advice that did not work struck through: \"Buy PowerPoint for six slides\", \"Install an office suite\"",
+            "voiceover": "A deck arrives as PPTX and there is no PowerPoint on the machine. Nine times out of ten you are not going to present it. You are going to read it once. To open a PPTX file without PowerPoint, that distinction is the whole answer.",
+            "narrative": "0.00s – 17.93s, beats 1, 2, 3 (`bg-scene`, backdrop declaration 1). One state per beat: the picture steps at each beat start, the loops run on the whole-shot clock.",
+            "src": "compositions/01-scene.html",
+            "start": 0,
+            "duration": 17.93,
+            "poster": 17.43,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 2,
+            "title": "Contrast backdrop",
+            "status": "animated",
+            "scene": "Two tiles, \"LibreOffice Impress\" and \"PowerPoint Online\", lit one at a time, then the verdict chip \"Presenting or editing? One of these two\"",
+            "voiceover": "If you do need to present or edit, LibreOffice Impress is free and offline, and PowerPoint Online is free with an account. Impress will move some animations and occasionally a font. Online renders perfectly and uploads the file.",
+            "narrative": "17.93s – 34.97s, beats 4, 5 (`bg-contrast`, backdrop declaration 2). One state per beat: the picture steps at each beat start, the loops run on the whole-shot clock.",
+            "src": "compositions/02-contrast.html",
+            "start": 17.933333,
+            "duration": 17.03,
+            "poster": 16.53,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 3,
+            "title": "Mechanism backdrop",
+            "status": "animated",
+            "scene": "Stations on a rail with packets running: A stack of pages → Opens anywhere → Nothing to edit",
+            "voiceover": "But for reading, a slide deck is a stack of pages. PDF is exactly that, and every machine opens one. It also cannot be accidentally edited, and it will look identical on the recipient's screen. For circulating a deck rather than working on it, PDF is genuinely better than the original.",
+            "narrative": "34.97s – 56.00s, beats 6, 7, 8 (`bg-mechanism`, backdrop declaration 3). One state per beat: the picture steps at each beat start, the loops run on the whole-shot clock.",
+            "src": "compositions/03-mechanism.html",
+            "start": 34.966667,
+            "duration": 21.03,
+            "poster": 20.53,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 4,
+            "title": "Drop the input",
+            "status": "animated",
+            "scene": "BizTray on the Windows desktop, Office to PDF: drop the input",
+            "voiceover": "Open Office to PDF, the first utility in the list on the left. Drop the deck onto the drop zone in the middle of the window. A folder of them works the same way.",
+            "narrative": "56.00s – 68.23s, beats 9, 10 (`app-input`). One held shot: the cursor travels 0.42s to its target, dwells, clicks, and the pane settles.",
+            "src": "compositions/04-app-input.html",
+            "start": 56,
+            "duration": 12.23,
+            "poster": 8.56,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 5,
+            "title": "Choose options",
+            "status": "animated",
+            "scene": "BizTray on the Windows desktop, Office to PDF: choose options",
+            "voiceover": "Under Output, One PDF each keeps the decks separate. Merge into one stacks several into a single document. Then Quality. Print embeds the images at full resolution. Screen compresses them, which matters on a deck full of photographs. Archive is the long term one. I take Print for anything being sent on, and Screen only when the file has to fit an email limit.",
+            "narrative": "68.23s – 96.12s, beats 11, 12, 13, 14 (`app-options`). One held shot: the cursor travels 0.42s to its target, dwells, clicks, and the pane settles.",
+            "src": "compositions/05-app-options.html",
+            "start": 68.233333,
+            "duration": 27.88,
+            "poster": 19.52,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 6,
+            "title": "Run it",
+            "status": "animated",
+            "scene": "BizTray on the Windows desktop, Office to PDF: run it",
+            "voiceover": "Hit Convert to PDF, the button at the bottom of the panel.",
+            "narrative": "96.12s – 100.50s, beats 15 (`app-run`). One held shot: the cursor travels 0.42s to its target, dwells, clicks, and the pane settles.",
+            "src": "compositions/06-app-run.html",
+            "start": 96.116667,
+            "duration": 4.38,
+            "poster": 3.07,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 7,
+            "title": "Job done",
+            "status": "animated",
+            "scene": "BizTray on the Windows desktop, Office to PDF: job done",
+            "voiceover": "Done. One page per slide, opening in the browser that is already on the machine.",
+            "narrative": "100.50s – 107.87s, beats 16 (`app-done`). One held shot: the cursor travels 0.42s to its target, dwells, clicks, and the pane settles.",
+            "src": "compositions/07-app-done.html",
+            "start": 100.5,
+            "duration": 7.37,
+            "poster": 5.16,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 8,
+            "title": "Caveat backdrop",
+            "status": "animated",
+            "scene": "Claim \"Turns any deck into a PDF every machine can open\", a bar that hits a red stop, then the limit and its consequence and the workaround badge",
+            "voiceover": "A PDF is a stack of pages, so everything that made it a presentation is gone. Which means animations, transitions, embedded video and the speaker notes do not come across. On a deck where the build order carried the argument, the PDF reads oddly. And you cannot edit it back into a deck. If somebody needs to change a slide, they need the PPTX and a real editor.",
+            "narrative": "107.87s – 136.82s, beats 17, 18, 19, 20 (`bg-caveat`, backdrop declaration 4). One state per beat: the picture steps at each beat start, the loops run on the whole-shot clock.",
+            "src": "compositions/08-caveat.html",
+            "start": 107.866667,
+            "duration": 28.95,
+            "poster": 28.45,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 9,
+            "title": "Endcard",
+            "status": "animated",
+            "scene": "BizTray endcard: app window on its Job Queue, tagline, wordmark, download button and claims",
+            "voiceover": "So it is Impress or PowerPoint Online to present it, and a PDF to read or circulate it. The conversion runs on your own machine, with nothing uploaded anywhere.",
+            "narrative": "136.82s – 149.77s, beats 21, 22 (`logo`). Eases in over the first half of the shot, then holds.\n\n---\n\nTo open a PPTX file without PowerPoint, decide first whether you are presenting the deck or reading it once.\n\nFor reading, a deck is a stack of pages, and converting powerpoint to pdf gives you something every machine opens and nobody edits by accident. For presenting or editing, LibreOffice Impress is free and offline. The catch with a PDF is that everything which made it a presentation is gone: animations, transitions, embedded video and the speaker notes.",
+            "src": "compositions/09-logo.html",
+            "start": 136.816667,
+            "duration": 12.95,
+            "poster": 2,
+            "transitionIn": "cut"
+          }
+        ]
+      },
+      "script": "# SCRIPT — biztray-open-pptx-without-powerpoint\n\n**Voice:** Mark (ElevenLabs, v3p1kjzUvro6S76qmYmH, eleven_v3)\n**Voice settings:** stability 0.55 · similarity 0.75 · style 0 · seed 20260806\n**Voice direction:** Plain, level and unhurried, one continuous take. A guide talking a viewer through a decision, not an ad: the concessions land as flatly as the claims.\n\nLocked: recorded as one take (`voice/biztray/guide-office-to-pdf-how-to-open-a-pptx-file-without-powerpoint/take-da762723.mp3`, 148.56s, request EY7WqtG6SuoAGMDKzyPD). Times are the real cue points from `voice.json`, with no lead-in offset (the take starts at 0.00s).\n\n---\n\n## Line 1 — A deck arrives as PPTX… (Frame 1)\n\n**Time:** 0.00 – 5.19 s\n**Delivery:** Thoughtful, then level.\n\n    [thoughtful] A deck arrives as PPTX and there is no PowerPoint on the machine.\n\n## Line 2 — Nine times out of ten… (Frame 1)\n\n**Time:** 5.19 – 11.21 s\n**Delivery:** Level, carrying on from the line before.\n\n    Nine times out of ten you are not going to present it. You are going to read it once.\n\n## Line 3 — To open a PPTX file… (Frame 1)\n\n**Time:** 11.21 – 17.94 s\n**Delivery:** Level, carrying on from the line before.\n\n    To open a PPTX file without PowerPoint, that distinction is the whole answer.\n\n## Line 4 — If you do need to… (Frame 2)\n\n**Time:** 17.94 – 27.47 s\n**Delivery:** Short pause, then level.\n\n    [short pause] If you do need to present or edit, LibreOffice Impress is free and offline, and PowerPoint Online is free with an account.\n\n## Line 5 — Impress will move some animations… (Frame 2)\n\n**Time:** 27.47 – 34.96 s\n**Delivery:** Level, carrying on from the line before.\n\n    Impress will move some animations and occasionally a font. Online renders perfectly and uploads the file.\n\n## Line 6 — But for reading, a slide… (Frame 3)\n\n**Time:** 34.96 – 43.78 s\n**Delivery:** Thoughtful, then level.\n\n    [thoughtful] But for reading, a slide deck is a stack of pages. PDF is exactly that, and every machine opens one.\n\n## Line 7 — It also cannot be accidentally… (Frame 3)\n\n**Time:** 43.78 – 49.28 s\n**Delivery:** Level, carrying on from the line before.\n\n    It also cannot be accidentally edited, and it will look identical on the recipient's screen.\n\n## Line 8 — For circulating a deck rather… (Frame 3)\n\n**Time:** 49.28 – 55.99 s\n**Delivery:** Level, carrying on from the line before.\n\n    For circulating a deck rather than working on it, PDF is genuinely better than the original.\n\n## Line 9 — Open Office to PDF, the… (Frame 4)\n\n**Time:** 55.99 – 61.48 s\n**Delivery:** Short pause, then level.\n\n    [short pause] Open Office to PDF, the first utility in the list on the left.\n\n## Line 10 — Drop the deck onto the… (Frame 4)\n\n**Time:** 61.48 – 68.24 s\n**Delivery:** Level, carrying on from the line before.\n\n    Drop the deck onto the drop zone in the middle of the window. A folder of them works the same way.\n\n## Line 11 — Under Output, One PDF each… (Frame 5)\n\n**Time:** 68.24 – 77.42 s\n**Delivery:** Thoughtful, then level.\n\n    [thoughtful] Under Output, One PDF each keeps the decks separate. Merge into one stacks several into a single document.\n\n## Line 12 — Then Quality. Print embeds the… (Frame 5)\n\n**Time:** 77.42 – 86.86 s\n**Delivery:** Level, carrying on from the line before.\n\n    Then Quality. Print embeds the images at full resolution. Screen compresses them, which matters on a deck full of photographs.\n\n## Line 13 — Archive is the long term… (Frame 5)\n\n**Time:** 86.86 – 89.58 s\n**Delivery:** Level, carrying on from the line before.\n\n    Archive is the long term one.\n\n## Line 14 — I take Print for anything… (Frame 5)\n\n**Time:** 89.58 – 96.11 s\n**Delivery:** Level, carrying on from the line before.\n\n    I take Print for anything being sent on, and Screen only when the file has to fit an email limit.\n\n## Line 15 — Hit Convert to PDF, the… (Frame 6)\n\n**Time:** 96.11 – 100.50 s\n**Delivery:** Level, carrying on from the line before.\n\n    Hit Convert to PDF, the button at the bottom of the panel.\n\n## Line 16 — Done. One page per slide… (Frame 7)\n\n**Time:** 100.50 – 107.86 s\n**Delivery:** Short pause, then level.\n\n    [short pause] Done. One page per slide, opening in the browser that is already on the machine.\n\n## Line 17 — A PDF is a stack… (Frame 8)\n\n**Time:** 107.86 – 114.63 s\n**Delivery:** Exhales, then level.\n\n    [exhales] A PDF is a stack of pages, so everything that made it a presentation is gone.\n\n## Line 18 — Which means animations, transitions, embedded… (Frame 8)\n\n**Time:** 114.63 – 121.88 s\n**Delivery:** Level, carrying on from the line before.\n\n    Which means animations, transitions, embedded video and the speaker notes do not come across.\n\n## Line 19 — On a deck where the… (Frame 8)\n\n**Time:** 121.88 – 127.30 s\n**Delivery:** Level, carrying on from the line before.\n\n    On a deck where the build order carried the argument, the PDF reads oddly.\n\n## Line 20 — And you cannot edit it… (Frame 8)\n\n**Time:** 127.30 – 136.81 s\n**Delivery:** Level, carrying on from the line before.\n\n    And you cannot edit it back into a deck. If somebody needs to change a slide, they need the PPTX and a real editor.\n\n## Line 21 — So it is Impress or… (Frame 9)\n\n**Time:** 136.81 – 143.87 s\n**Delivery:** Short pause, then level.\n\n    [short pause] So it is Impress or PowerPoint Online to present it, and a PDF to read or circulate it.\n\n## Line 22 — The conversion runs on your… (Frame 9)\n\n**Time:** 143.87 – 148.56 s\n**Delivery:** Level, carrying on from the line before.\n\n    The conversion runs on your own machine, with nothing uploaded anywhere.\n",
+      "media": [
+        "assets/voice/take-da762723.mp3"
+      ]
+    },
+    {
       "id": "launch-teaser",
       "title": "Massive Launch Teaser",
       "group": "massive",
@@ -243,6 +569,323 @@
       },
       "script": null,
       "media": []
+    },
+    {
+      "id": "sparktray-can-chatgpt-transcribe-audio",
+      "title": "Can ChatGPT transcribe audio?",
+      "group": "templates",
+      "kind": "template",
+      "brand": "sparktray",
+      "status": "draft",
+      "source": "sparktray-campaign/content/sparktray/scripts/guide-transcriber-can-chatgpt-transcribe-audio.md",
+      "compositionId": "sparktray-can-chatgpt-transcribe-audio",
+      "width": 1920,
+      "height": 1080,
+      "fps": 60,
+      "duration": 146.166667,
+      "path": "/video-projects/sparktray-can-chatgpt-transcribe-audio/index.html",
+      "storyboard": {
+        "globals": {
+          "extra": {
+            "duration": "146s"
+          },
+          "format": "1920x1080",
+          "message": "Can ChatGPT transcribe audio files",
+          "arc": "Mechanism → Steps → Contrast → Drop the input → Choose options → Run it → Job done → Caveat → Endcard",
+          "audience": "YouTube searchers asking \"can chatgpt transcribe audio\""
+        },
+        "warnings": [],
+        "frames": [
+          {
+            "index": 1,
+            "title": "Mechanism backdrop",
+            "status": "animated",
+            "scene": "Stations on a rail with packets running: Whisper → The chat window → Local",
+            "voiceover": "Can ChatGPT transcribe audio? Yes, and it is good at it, and there are three limits worth knowing first. The company that makes it also made Whisper, which is the model most transcription tools run. So this is not a question about accuracy. It is a question about file size, privacy and format.",
+            "narrative": "0.00s – 21.48s, beats 1, 2, 3 (`bg-mechanism`, backdrop declaration 1). One state per beat: the picture steps at each beat start, the loops run on the whole-shot clock.",
+            "src": "compositions/01-mechanism.html",
+            "start": 0,
+            "duration": 21.48,
+            "poster": 20.98,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 2,
+            "title": "Steps backdrop",
+            "status": "animated",
+            "scene": "Numbered chips ticking off one per beat: Upload cap, Prose out",
+            "voiceover": "First, the upload cap. There is a ceiling on the file you can attach, and an hour of uncompressed audio goes past it. Second, it hands you prose. You get the words, not a subtitle file with timings you can use in an editor.",
+            "narrative": "21.48s – 38.62s, beats 4, 5 (`bg-steps`, backdrop declaration 2). One state per beat: the picture steps at each beat start, the loops run on the whole-shot clock.",
+            "src": "compositions/02-steps.html",
+            "start": 21.483333,
+            "duration": 17.13,
+            "poster": 16.63,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 3,
+            "title": "Contrast backdrop",
+            "status": "animated",
+            "scene": "Two tiles, \"The chat window\" and \"Local\", lit one at a time, then the verdict chip \"It wins on everything AFTER the transcript\"",
+            "voiceover": "Third, the recording goes to a server. For a lecture that is nothing at all. For a client call, a medical conversation or an unpublished interview, that is a decision, and it should be a deliberate one. Where it genuinely wins is everything after the transcript. Ask it to summarise the call or pull the action items and it will, immediately, which no local tool here does.",
+            "narrative": "38.62s – 65.38s, beats 6, 7, 8, 9 (`bg-contrast`, backdrop declaration 3). One state per beat: the picture steps at each beat start, the loops run on the whole-shot clock.",
+            "src": "compositions/03-contrast.html",
+            "start": 38.616667,
+            "duration": 26.77,
+            "poster": 26.27,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 4,
+            "title": "Drop the input",
+            "status": "animated",
+            "scene": "SparkTray on the Windows desktop, Transcriber: drop the input",
+            "voiceover": "For the transcript itself, open Transcriber, the last utility on the left. Drop the recording onto the drop zone in the middle of the window. There is no size limit, because there is no upload.",
+            "narrative": "65.38s – 79.22s, beats 10, 11 (`app-input`). One held shot: the cursor travels 0.42s to its target, dwells, clicks, and the pane settles.",
+            "src": "compositions/04-app-input.html",
+            "start": 65.383333,
+            "duration": 13.83,
+            "poster": 9.68,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 5,
+            "title": "Choose options",
+            "status": "animated",
+            "scene": "SparkTray on the Windows desktop, Transcriber: choose options",
+            "voiceover": "Model. Tiny through Medium, and you choose rather than being given one. Under Output formats, SRT and VTT are the two you cannot get out of a chat window. That is the practical difference.",
+            "narrative": "79.22s – 94.67s, beats 12, 13 (`app-options`). One held shot: the cursor travels 0.42s to its target, dwells, clicks, and the pane settles.",
+            "src": "compositions/05-app-options.html",
+            "start": 79.216667,
+            "duration": 15.45,
+            "poster": 10.81,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 6,
+            "title": "Run it",
+            "status": "animated",
+            "scene": "SparkTray on the Windows desktop, Transcriber: run it",
+            "voiceover": "Hit Transcribe, the button at the bottom of the panel.",
+            "narrative": "94.67s – 99.12s, beats 14 (`app-run`). One held shot: the cursor travels 0.42s to its target, dwells, clicks, and the pane settles.",
+            "src": "compositions/06-app-run.html",
+            "start": 94.666667,
+            "duration": 4.45,
+            "poster": 3.11,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 7,
+            "title": "Job done",
+            "status": "animated",
+            "scene": "SparkTray on the Windows desktop, Transcriber: job done",
+            "voiceover": "Six hundred and twelve timestamped lines, as an SRT and as plain text.",
+            "narrative": "99.12s – 105.13s, beats 15 (`app-done`). One held shot: the cursor travels 0.42s to its target, dwells, clicks, and the pane settles.",
+            "src": "compositions/07-app-done.html",
+            "start": 99.116667,
+            "duration": 6.02,
+            "poster": 4.21,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 8,
+            "title": "Caveat backdrop",
+            "status": "animated",
+            "scene": "Claim \"Timestamped transcript, no cap, no upload\", a bar that hits a red stop, then the limit and its consequence and the workaround badge",
+            "voiceover": "This gives you a transcript and stops there. Which means no summary, no action items and no answering questions about what was said. If that is what you actually wanted, the chat window is the right tool. A reasonable middle: transcribe locally, then paste the text somewhere if you want it summarised. The audio stays on your machine and only the words travel.",
+            "narrative": "105.13s – 132.27s, beats 16, 17, 18, 19, 20 (`bg-caveat`, backdrop declaration 4). One state per beat: the picture steps at each beat start, the loops run on the whole-shot clock.",
+            "src": "compositions/08-caveat.html",
+            "start": 105.133333,
+            "duration": 27.13,
+            "poster": 26.63,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 9,
+            "title": "Endcard",
+            "status": "animated",
+            "scene": "SparkTray endcard: app window on its Job Queue, tagline, wordmark, download button and claims",
+            "voiceover": "So yes it can, with a size cap, prose output, and an upload. Locally you get timestamps and no cap, on your own machine, with nothing uploaded.",
+            "narrative": "132.27s – 146.17s, beats 21, 22 (`logo`). Eases in over the first half of the shot, then holds.\n\n---\n\nCan ChatGPT transcribe audio? Yes, and it is good at it. The same company made Whisper, which is the model most transcription tools run.\n\nSo this is not about accuracy. It is about the upload cap, the recording going to a server, and getting prose back instead of a subtitle file with timings. Where the chat window genuinely wins is everything after the transcript: ask it to summarise the call and it will, immediately. Locally you get audio to text with timestamps and no cap, and nothing after that.",
+            "src": "compositions/09-logo.html",
+            "start": 132.266667,
+            "duration": 13.9,
+            "poster": 2,
+            "transitionIn": "cut"
+          }
+        ]
+      },
+      "script": "# SCRIPT — sparktray-can-chatgpt-transcribe-audio\n\n**Voice:** Mark (ElevenLabs, v3p1kjzUvro6S76qmYmH, eleven_v3)\n**Voice settings:** stability 0.55 · similarity 0.75 · style 0 · seed 20260806\n**Voice direction:** Plain, level and unhurried, one continuous take. A guide talking a viewer through a decision, not an ad: the concessions land as flatly as the claims.\n\nLocked: recorded as one take (`voice/sparktray/guide-transcriber-can-chatgpt-transcribe-audio/take-63531328.mp3`, 144.96s, request S4Sd9i0rkAHEV8L8VMC0). Times are the real cue points from `voice.json`, with no lead-in offset (the take starts at 0.00s).\n\n---\n\n## Line 1 — Can ChatGPT transcribe audio? Yes… (Frame 1)\n\n**Time:** 0.00 – 8.17 s\n**Delivery:** Thoughtful, then level.\n\n    [thoughtful] Can ChatGPT transcribe audio? Yes, and it is good at it, and there are three limits worth knowing first.\n\n## Line 2 — The company that makes it… (Frame 1)\n\n**Time:** 8.17 – 14.13 s\n**Delivery:** Level, carrying on from the line before.\n\n    The company that makes it also made Whisper, which is the model most transcription tools run.\n\n## Line 3 — So this is not a… (Frame 1)\n\n**Time:** 14.13 – 21.48 s\n**Delivery:** Level, carrying on from the line before.\n\n    So this is not a question about accuracy. It is a question about file size, privacy and format.\n\n## Line 4 — First, the upload cap. There… (Frame 2)\n\n**Time:** 21.48 – 30.31 s\n**Delivery:** Short pause, then level.\n\n    [short pause] First, the upload cap. There is a ceiling on the file you can attach, and an hour of uncompressed audio goes past it.\n\n## Line 5 — Second, it hands you prose… (Frame 2)\n\n**Time:** 30.31 – 38.62 s\n**Delivery:** Level, carrying on from the line before.\n\n    Second, it hands you prose. You get the words, not a subtitle file with timings you can use in an editor.\n\n## Line 6 — Third, the recording goes to… (Frame 3)\n\n**Time:** 38.62 – 44.17 s\n**Delivery:** Thoughtful, then level.\n\n    [thoughtful] Third, the recording goes to a server. For a lecture that is nothing at all.\n\n## Line 7 — For a client call, a… (Frame 3)\n\n**Time:** 44.17 – 52.03 s\n**Delivery:** Level, carrying on from the line before.\n\n    For a client call, a medical conversation or an unpublished interview, that is a decision, and it should be a deliberate one.\n\n## Line 8 — Where it genuinely wins is… (Frame 3)\n\n**Time:** 52.03 – 56.71 s\n**Delivery:** Level, carrying on from the line before.\n\n    Where it genuinely wins is everything after the transcript.\n\n## Line 9 — Ask it to summarise the… (Frame 3)\n\n**Time:** 56.71 – 65.38 s\n**Delivery:** Level, carrying on from the line before.\n\n    Ask it to summarise the call or pull the action items and it will, immediately, which no local tool here does.\n\n## Line 10 — For the transcript itself, open… (Frame 4)\n\n**Time:** 65.38 – 71.59 s\n**Delivery:** Short pause, then level.\n\n    [short pause] For the transcript itself, open Transcriber, the last utility on the left.\n\n## Line 11 — Drop the recording onto the… (Frame 4)\n\n**Time:** 71.59 – 79.21 s\n**Delivery:** Level, carrying on from the line before.\n\n    Drop the recording onto the drop zone in the middle of the window. There is no size limit, because there is no upload.\n\n## Line 12 — Model. Tiny through Medium, and… (Frame 5)\n\n**Time:** 79.21 – 85.62 s\n**Delivery:** Thoughtful, then level.\n\n    [thoughtful] Model. Tiny through Medium, and you choose rather than being given one.\n\n## Line 13 — Under Output formats, SRT and… (Frame 5)\n\n**Time:** 85.62 – 94.67 s\n**Delivery:** Level, carrying on from the line before.\n\n    Under Output formats, SRT and VTT are the two you cannot get out of a chat window. That is the practical difference.\n\n## Line 14 — Hit Transcribe, the button at… (Frame 6)\n\n**Time:** 94.67 – 99.11 s\n**Delivery:** Level, carrying on from the line before.\n\n    Hit Transcribe, the button at the bottom of the panel.\n\n## Line 15 — Six hundred and twelve timestamped… (Frame 7)\n\n**Time:** 99.11 – 105.13 s\n**Delivery:** Short pause, then level.\n\n    [short pause] Six hundred and twelve timestamped lines, as an SRT and as plain text.\n\n## Line 16 — This gives you a transcript… (Frame 8)\n\n**Time:** 105.13 – 108.63 s\n**Delivery:** Exhales, then level.\n\n    [exhales] This gives you a transcript and stops there.\n\n## Line 17 — Which means no summary, no… (Frame 8)\n\n**Time:** 108.63 – 115.10 s\n**Delivery:** Level, carrying on from the line before.\n\n    Which means no summary, no action items and no answering questions about what was said.\n\n## Line 18 — If that is what you… (Frame 8)\n\n**Time:** 115.10 – 120.09 s\n**Delivery:** Level, carrying on from the line before.\n\n    If that is what you actually wanted, the chat window is the right tool.\n\n## Line 19 — A reasonable middle: transcribe locally… (Frame 8)\n\n**Time:** 120.09 – 127.45 s\n**Delivery:** Level, carrying on from the line before.\n\n    A reasonable middle: transcribe locally, then paste the text somewhere if you want it summarised.\n\n## Line 20 — The audio stays on your… (Frame 8)\n\n**Time:** 127.45 – 132.26 s\n**Delivery:** Level, carrying on from the line before.\n\n    The audio stays on your machine and only the words travel.\n\n## Line 21 — So yes it can, with… (Frame 9)\n\n**Time:** 132.26 – 138.60 s\n**Delivery:** Short pause, then level.\n\n    [short pause] So yes it can, with a size cap, prose output, and an upload.\n\n## Line 22 — Locally you get timestamps and… (Frame 9)\n\n**Time:** 138.60 – 144.96 s\n**Delivery:** Level, carrying on from the line before.\n\n    Locally you get timestamps and no cap, on your own machine, with nothing uploaded.\n",
+      "media": [
+        "assets/voice/take-63531328.mp3"
+      ]
+    },
+    {
+      "id": "what-does-consent-look-like",
+      "title": "What does consent look like?",
+      "group": "massive",
+      "kind": "native",
+      "brand": null,
+      "status": "draft",
+      "source": "sparktray-campaign/content/none/scripts/what-does-consent-look-like.md",
+      "compositionId": "what-does-consent-look-like",
+      "width": 1920,
+      "height": 1080,
+      "fps": 60,
+      "duration": 98.9,
+      "path": "/video-projects/what-does-consent-look-like/index.html",
+      "storyboard": {
+        "globals": {
+          "extra": {
+            "duration": "98.9s"
+          },
+          "format": "1920x1080",
+          "message": "Free software can be paid for honestly, and this is what agreeing to it looks like",
+          "arc": "Free app → What pays for it → The trade → The promise → Install, settings, uninstall → Recap → Settled → Sign-off",
+          "audience": "people landing on joinmassive.com who want to know what bandwidth-sharing consent should look like"
+        },
+        "warnings": [],
+        "frames": [
+          {
+            "index": 1,
+            "title": "The free utility",
+            "status": "animated",
+            "scene": "A pinned app is clicked on a Windows desktop and the \"Video Converter\" window opens mid-job",
+            "voiceover": "[thoughtful] You find a free utility for your PC. A converter, a cleanup tool, a small game. It does the job. It has no trial, no watermark, no account. And somewhere in the back of your mind, you think: what is paying for this?",
+            "narrative": "Opens on a bare desktop, because finding the app begins with launching it. The pointer clicks the pinned app on \"PC.\" (1.97 s) and the window grows up from the taskbar, then the pointer rests on the job table. The app stays generic on purpose: it stands in for any third-party utility.",
+            "src": "compositions/01-pc-app.html",
+            "start": 0,
+            "duration": 16.85,
+            "poster": 8,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 2,
+            "title": "What pays for it",
+            "status": "animated",
+            "scene": "YOU above four costs; data, ads and subscription in orange, then bandwidth arrives in green",
+            "voiceover": "Something always is. Your data, ads, or a subscription you forget to cancel. But there is one more cleaner way, that does not touch your data.",
+            "narrative": "One shot across two beats. The three costs arrive while beat 4 lists them; at the beat 5 boundary they recede and BANDWIDTH arrives in green, the only packet that comes back up the wire.",
+            "src": "compositions/02-funding-models.html",
+            "start": 16.85,
+            "duration": 10.85,
+            "poster": 9,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 3,
+            "title": "The trade",
+            "status": "animated",
+            "scene": "The consent circuit, USER to NETWORK to REWARD, with the green return arching back to the user",
+            "voiceover": "Companies pay to read public web pages from a home connection instead of a data center. And software can borrow a little of your internet connection while you are not using it. This is the trade. You spare a little bandwidth for the tool, and nothing to pay. [short pause] But this trade is only fair if you agree to it.",
+            "narrative": "Orange packets run out along the row, green comes back over the top. The hub cycles six real errands (\"Check airline pricing…\" through \"Check for counterfeit listings…\"). Node 02 reads NETWORK, not MASSIVE, by review.",
+            "src": "compositions/03-consent-flow.html",
+            "start": 27.7,
+            "duration": 20.55,
+            "poster": 6,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 4,
+            "title": "The promise",
+            "status": "animated",
+            "scene": "Four empty checkboxes arrive: up front, not pre-ticked, reachable, clean exit",
+            "voiceover": "So here is what agreeing should look like, step by step.",
+            "narrative": "Boxes stay empty: this is the promise the next six beats keep.",
+            "src": "compositions/04-steps-preview.html",
+            "start": 48.25,
+            "duration": 3.65,
+            "poster": 3,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 5,
+            "title": "At install",
+            "status": "animated",
+            "scene": "The installer's consent page with the Massive banner; the box starts empty, is ticked, then Next is pressed",
+            "voiceover": "You see it at install, on its own screen, before anything is running. Not buried in a licence agreement nobody reads. Its own screen, in plain words. Nothing is ticked for you. You reach out and choose it.",
+            "narrative": "The disclosure paragraph is shown, not narrated, and is verbatim from the source. The box ticks on \"You\" of \"You reach out\" (65.46 s), never under \"Nothing is ticked for you\". Next is disabled until then and is pressed on \"choose\".",
+            "src": "compositions/05-pc-install.html",
+            "start": 51.9,
+            "duration": 16.35,
+            "poster": 16,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 6,
+            "title": "A switch you can reach",
+            "status": "animated",
+            "scene": "The app's settings; the \"Share idle bandwidth\" switch goes off and converting becomes unavailable",
+            "voiceover": "[short pause] If you change your mind, you can switch the bandwidth on and off.",
+            "narrative": "The switch goes off on \"switch\". The copy then reads \"Off. Converting is unavailable.\": the honest consequence, not a claim that the tool keeps working.",
+            "src": "compositions/06-pc-settings.html",
+            "start": 68.25,
+            "duration": 4.53,
+            "poster": 4.4,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 7,
+            "title": "Clean exit",
+            "status": "animated",
+            "scene": "Windows' Installed apps page; the overflow menu opens, Uninstall is pressed, the row collapses to \"0 apps found\"",
+            "voiceover": "[thoughtful] And when you are done with it, you can uninstall the app. Everything goes with it. No leftover service, nothing running afterwards.",
+            "narrative": "Menu opens on \"uninstall\", Uninstall is pressed on \"Everything\", the row leaves on \"goes\".",
+            "src": "compositions/07-pc-uninstall.html",
+            "start": 72.783333,
+            "duration": 9.08,
+            "poster": 5,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 8,
+            "title": "The recap",
+            "status": "animated",
+            "scene": "The same four checkboxes, ticked in turn by the pointer",
+            "voiceover": "Told up front, nothing pre-ticked, a switch you can reach, and a clean uninstall.",
+            "narrative": "Each tick lands on the phrase that names it.",
+            "src": "compositions/08-steps-recap.html",
+            "start": 81.866667,
+            "duration": 6.83,
+            "poster": 6.5,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 9,
+            "title": "Settled",
+            "status": "animated",
+            "scene": "A green ring closes around the user, four ticks on it, and breathes",
+            "voiceover": "[short pause] Free software can be paid for honestly. This is what it looks like when it is.",
+            "narrative": "The sparsest frame in the film and no orange at all: the trade, done properly, settles.",
+            "src": "compositions/09-consent-settled.html",
+            "start": 88.7,
+            "duration": 7.7,
+            "poster": 7,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 10,
+            "title": "Sign-off",
+            "status": "animated",
+            "scene": "The Massive logo on the grid plate",
+            "voiceover": null,
+            "narrative": "Silent, after the last line, so the take is untouched. Fades up and holds; the film's 8-frame tail fade takes it out. No URL: the page this plays on is joinmassive.com.",
+            "src": "compositions/10-signoff.html",
+            "start": 96.4,
+            "duration": 2.5,
+            "poster": 2,
+            "transitionIn": "cut"
+          }
+        ]
+      },
+      "script": "# SCRIPT — what-does-consent-look-like\n\nLocked narration for \"What does consent look like?\", as recorded in one continuous take\n(`assets/voice/take-91a15da5.mp3`, 95.2 s, ElevenLabs request WhROc01bNKcVlDKzJmNw). Source:\n`sparktray-campaign/content/none/scripts/what-does-consent-look-like.md`. Times are the take's\nbeat cues (`sparktray-campaign/content/voice.json`); the take starts at 0 s in the film, so they\nare also film times. Do not re-record: the picture is timed to this performance.\n\n**Voice:** Mark (ElevenLabs, v3p1kjzUvro6S76qmYmH, eleven_v3)\n**Voice settings:** stability 0.55 · similarity 0.75 · style 0 · seed 20260806\n**Voice direction:** Calm, plain and unhurried, one person explaining a trade to another. No sell. The consent screen's disclosure is shown on screen, not narrated, so the spoken privacy line stays short.\n\n---\n\n## Line 1 — The free utility (Frame 1)\n\n**Time:** 0.00 – 6.64 s\n**Delivery:** Thoughtful, easing in.\n\n    [thoughtful] You find a free utility for your PC. A converter, a cleanup tool, a small game.\n\n## Line 2 — No catch in sight (Frame 1)\n\n**Time:** 6.64 – 11.77 s\n**Delivery:** Matter of fact, a small list.\n\n    It does the job. It has no trial, no watermark, no account.\n\n## Line 3 — The question (Frame 1)\n\n**Time:** 11.77 – 16.85 s\n**Delivery:** Quieter, the thought you half have.\n\n    And somewhere in the back of your mind, you think: what is paying for this?\n\n## Line 4 — The usual answers (Frame 2)\n\n**Time:** 16.85 – 23.41 s\n**Delivery:** Plain, a little dry on \"forget to cancel\".\n\n    Something always is. Your data, ads, or a subscription you forget to cancel.\n\n## Line 5 — One more way (Frame 2)\n\n**Time:** 23.41 – 27.70 s\n**Delivery:** A turn, not a pitch.\n\n    But there is one more cleaner way, that does not touch your data.\n\n## Line 6 — Who pays (Frame 3)\n\n**Time:** 27.70 – 33.28 s\n**Delivery:** Explanatory, even.\n\n    Companies pay to read public web pages from a home connection instead of a data center.\n\n## Line 7 — What is borrowed (Frame 3)\n\n**Time:** 33.28 – 38.09 s\n**Delivery:** Even, lands on \"not using it\".\n\n    And software can borrow a little of your internet connection while you are not using it.\n\n## Line 8 — The trade (Frame 3)\n\n**Time:** 38.09 – 43.92 s\n**Delivery:** Simple, settled.\n\n    This is the trade. You spare a little bandwidth for the tool, and nothing to pay.\n\n## Line 9 — The condition (Frame 3)\n\n**Time:** 43.92 – 48.25 s\n**Delivery:** A beat first, then firm on \"agree\".\n\n    [short pause] But this trade is only fair if you agree to it.\n\n## Line 10 — The promise (Frame 4)\n\n**Time:** 48.25 – 51.90 s\n**Delivery:** Brisk, sets up the list.\n\n    So here is what agreeing should look like, step by step.\n\n## Line 11 — Up front (Frame 5)\n\n**Time:** 51.90 – 57.25 s\n**Delivery:** Clear, each clause its own step.\n\n    You see it at install, on its own screen, before anything is running.\n\n## Line 12 — Its own screen (Frame 5)\n\n**Time:** 57.25 – 63.15 s\n**Delivery:** A little wry on \"nobody reads\", then plain.\n\n    Not buried in a licence agreement nobody reads. Its own screen, in plain words.\n\n## Line 13 — Not pre-ticked (Frame 5)\n\n**Time:** 63.15 – 68.25 s\n**Delivery:** Slow on \"Nothing is ticked for you\"; the box ticks on \"You\".\n\n    Nothing is ticked for you. You reach out and choose it.\n\n## Line 14 — Reachable (Frame 6)\n\n**Time:** 68.25 – 72.79 s\n**Delivery:** A beat first; the switch goes off on \"switch\".\n\n    [short pause] If you change your mind, you can switch the bandwidth on and off.\n\n## Line 15 — Clean exit (Frame 7)\n\n**Time:** 72.79 – 76.55 s\n**Delivery:** Thoughtful; the menu opens on \"uninstall\".\n\n    [thoughtful] And when you are done with it, you can uninstall the app.\n\n## Line 16 — Nothing left behind (Frame 7)\n\n**Time:** 76.55 – 81.87 s\n**Delivery:** Plain, final.\n\n    Everything goes with it. No leftover service, nothing running afterwards.\n\n## Line 17 — The recap (Frame 8)\n\n**Time:** 81.87 – 88.70 s\n**Delivery:** Four even beats, one per tick.\n\n    Told up front, nothing pre-ticked, a switch you can reach, and a clean uninstall.\n\n## Line 18 — The claim (Frame 9)\n\n**Time:** 88.70 – 92.43 s\n**Delivery:** A beat first, then quiet conviction.\n\n    [short pause] Free software can be paid for honestly.\n\n## Line 19 — The close (Frame 9)\n\n**Time:** 92.43 – 95.20 s\n**Delivery:** Soft, resolved.\n\n    This is what it looks like when it is.\n",
+      "media": [
+        "assets/images/installer-banner.png",
+        "assets/images/massive-logo-light.png",
+        "assets/images/wallpaper.jpg",
+        "assets/music/calm-lo-fi.mp3",
+        "assets/voice/take-91a15da5.mp3"
+      ]
     },
     {
       "id": "why-aeo-is-the-new-seo",

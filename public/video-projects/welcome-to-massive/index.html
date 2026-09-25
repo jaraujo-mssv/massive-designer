@@ -8,8 +8,8 @@
     {"id":"role","type":"string","label":"Role","default":"Community Lead"},
     {"id":"hobbies","type":"string","label":"Hobbies (one per line, up to 5)","default":"Playing football\nPlaying golf\nGardening"},
     {"id":"food","type":"string","label":"Favorite food","default":"Medium rare steak and rice"},
-    {"id":"fanOf","type":"string","label":"Huge fan of","default":"Liverpool FC"},
-    {"id":"photo","type":"string","label":"Photo (path in the project or URL)","default":"assets/template/franklin.jpg"}
+    {"id":"photo","type":"string","label":"Photo (path in the project or URL)","default":"assets/template/franklin.jpg"},
+    {"id":"sfx","type":"string","label":"Sound bed: assets/template/sfx-mix-N.mp3, N = number of hobbies (1-5)","default":"assets/template/sfx-mix-3.mp3"}
   ]'
 >
   <head>
@@ -53,39 +53,33 @@
       id="stage"
       data-composition-id="welcome-to-massive"
       data-start="0"
-      data-duration="12.5"
+      data-duration="15.5"
       data-fps="60"
       data-width="1920"
       data-height="1080"
     >
-      <div id="stage-bg" class="clip" data-start="0" data-duration="12.5" data-track-index="0"></div>
+      <div id="stage-bg" class="clip" data-start="0" data-duration="15.5" data-track-index="0"></div>
 
       <!-- Scenes: desktop sits under everything; each later beat layers on top. -->
       <div id="wm-desktop" class="clip scene" style="z-index: 1"
         data-composition-id="wm-desktop" data-composition-src="compositions/01-desktop.html"
-        data-start="0" data-duration="12.5" data-track-index="1" data-width="1920" data-height="1080"></div>
+        data-start="0" data-duration="15.5" data-track-index="1" data-width="1920" data-height="1080"></div>
       <div id="wm-notification" class="clip scene" style="z-index: 2"
         data-composition-id="wm-notification" data-composition-src="compositions/02-notification.html"
         data-start="2.3" data-duration="2.7" data-track-index="2" data-width="1920" data-height="1080"></div>
       <div id="wm-card" class="clip scene" style="z-index: 3"
         data-composition-id="wm-card" data-composition-src="compositions/03-card.html"
-        data-start="4.4" data-duration="8.1" data-track-index="3" data-width="1920" data-height="1080"></div>
+        data-start="4.4" data-duration="11.1" data-track-index="3" data-width="1920" data-height="1080"></div>
       <div id="wm-outro" class="clip scene" style="z-index: 4"
         data-composition-id="wm-outro" data-composition-src="compositions/04-outro.html"
-        data-start="11" data-duration="1.5" data-track-index="4" data-width="1920" data-height="1080"></div>
+        data-start="11" data-duration="4.5" data-track-index="4" data-width="1920" data-height="1080"></div>
 
-      <!-- UI sounds (Pixabay, see assets/template/sfx/CREDITS.md). One track per cue so overlaps don't collide. -->
-      <audio id="sfx-bounce-1" data-start="0.7" data-duration="0.72" data-track-index="10" data-volume="0.3" src="assets/template/sfx/pop.mp3"></audio>
-      <audio id="sfx-bounce-2" data-start="1.25" data-duration="0.72" data-track-index="11" data-volume="0.3" src="assets/template/sfx/pop.mp3"></audio>
-      <audio id="sfx-bounce-3" data-start="1.8" data-duration="0.72" data-track-index="12" data-volume="0.3" src="assets/template/sfx/pop.mp3"></audio>
-      <audio id="sfx-leap" data-start="2.3" data-duration="0.57" data-track-index="13" data-volume="0.35" src="assets/template/sfx/whoosh.mp3"></audio>
-      <audio id="sfx-notify" data-start="3.05" data-duration="2.46" data-track-index="14" data-volume="0.4" src="assets/template/sfx/notification.mp3"></audio>
-      <audio id="sfx-click" data-start="3.95" data-duration="0.37" data-track-index="15" data-volume="0.45" src="assets/template/sfx/click-soft.mp3"></audio>
-      <audio id="sfx-open" data-start="4.4" data-duration="0.57" data-track-index="16" data-volume="0.35" src="assets/template/sfx/whoosh-short.mp3"></audio>
-      <audio id="sfx-chip-1" data-start="6.25" data-duration="0.72" data-track-index="17" data-volume="0.25" src="assets/template/sfx/pop.mp3"></audio>
-      <audio id="sfx-chip-2" data-start="6.47" data-duration="0.72" data-track-index="18" data-volume="0.25" src="assets/template/sfx/pop.mp3"></audio>
-      <audio id="sfx-chip-3" data-start="6.69" data-duration="0.72" data-track-index="19" data-volume="0.25" src="assets/template/sfx/pop.mp3"></audio>
-      <audio id="sfx-outro" data-start="11" data-duration="1.5" data-track-index="20" data-volume="0.35" src="assets/template/sfx/chime.mp3"></audio>
+      <!-- UI sounds (Pixabay, see assets/template/sfx/CREDITS.md), pre-mixed into one bed that spans the whole
+           video: pop x3 0.7/1.25/1.8, slack-knock 3.05, click-soft 3.95, one ping per hobby chip at 6.25 + i*0.22
+           (each 2 semitones higher), sparkle 7.8 (XP bar fill), chime 11. sfx-mix-N.mp3 has N pings; the `sfx`
+           variable picks the one matching the hobby count. Separate short clips freeze Firefox previews: the runtime holds the
+           clock when a clip ends inside its window (Firefox drops readyState on ended). -->
+      <audio id="sfx-bed" data-start="0" data-duration="15.5" data-track-index="10" data-volume="1" data-var-src="sfx" src="assets/template/sfx-mix-3.mp3"></audio>
     </div>
     <script>
       const tl = gsap.timeline({ paused: true });

@@ -68,7 +68,7 @@ components:
     radius: "20px"
     padding: "32px 40px"
   logo:
-    file: "assets/brand/logo-white.svg (dark) · assets/brand/logo-positive-white.png (glow scenes)"
+    file: "assets/brand/logo-massive.svg (outro) · assets/brand/icon-massive-white.svg (menu bar) · assets/brand/logo-positive-white.png (glow scenes)"
     height: "68–72px on logo frames"
     description: "Logo opens and closes branded videos; outro pairs it with joinmassive.com in {typography.label}."
 ---

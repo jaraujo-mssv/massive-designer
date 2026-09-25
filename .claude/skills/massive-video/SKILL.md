@@ -57,6 +57,9 @@ Inside a project folder: `npx hyperframes check` must pass before handing off, a
    `--dry-run` first, show the user the character count, and record only after they approve. Then add
    `<audio src="assets/voice/take-….mp3" data-start data-duration data-track-index data-volume>` to
    `index.html`, and time each frame's host clip to the line cues in `voice.json`.
+   **Audio clips must not end inside their `data-duration` window.** In Firefox the runtime reads an
+   ended clip as buffering and freezes the preview clock. Keep each window within its file's length. For
+   short SFX, pre-mix them into one bed that spans the whole video (see the welcome template).
 6. **Build**: one sub-composition per storyboard frame (`<template>`-wrapped, root
    `data-composition-id` = host id = `window.__timelines` key). Link `lib/massive.css` and use its
    `m-*` classes and tokens. Asset paths are root-relative even inside `compositions/`
@@ -66,7 +69,7 @@ Inside a project folder: `npx hyperframes check` must pass before handing off, a
 
 ## Welcome video for a new hire (`welcome-to-massive` template)
 
-This is a 12.5 s video. A Slack icon bounces in the dock, becomes the notification "<name> has joined Massive!",
+This is a 15.5 s video. A Slack icon bounces in the dock, becomes the notification "<name> has joined Massive!",
 then opens a profile card styled like a character sheet. Every per-person value is a composition variable
 declared on `<html>` in `public/video-projects/welcome-to-massive/index.html`:
 
@@ -75,28 +78,32 @@ declared on `<html>` in `public/video-projects/welcome-to-massive/index.html`:
 | `firstName` | Franklin | Used in the notification and the outro |
 | `fullName` | Franklin Uche | Long names shrink, then wrap to two lines |
 | `location` | Lagos, Nigeria | City, Country |
-| `role` | Community Lead | Shown as the "CLASS" tag |
+| `role` | Community Lead | Shown as the "ROLE" tag |
 | `hobbies` | `Playing football\nPlaying golf\nGardening` | One per line (commas also work), max 5 chips |
 | `food` | Medium rare steak and rice | "Fuel" |
-| `fanOf` | Liverpool FC | "Huge fan of". Trim "I am a huge … fan" to the thing itself |
-| `photo` | `assets/template/franklin.jpg` | Path inside the project, or a URL. Square, ideally 400 px or more |
+| `photo` | `assets/template/franklin.jpg` | Path inside the project, or a URL. Square, ideally 720 px or more (shown at 356 px) |
+| `sfx` | `assets/template/sfx-mix-3.mp3` | Sound bed with one ping per hobby chip: `sfx-mix-N.mp3`, N = number of hobbies (1–5) |
 
 The committed defaults are Franklin Uche's, so they're public on the deployed site. Anyone else's details and
 photo stay local unless the user says otherwise.
 
 To render someone else, map the onboarding-form answers (name & last name, location, role, hobbies, favourite
-food, "something you are a huge fan of") to the variables. Skip the form's unlabeled "?" column. Write them to a
-local JSON file outside the repo (or under `output/`, which is gitignored). Put their photo somewhere the
-project can load it; files copied into `assets/template/` get committed, so use a URL or keep it uncommitted.
+food) to the variables. The form's "something you are a huge fan of" isn't used. Skip the form's unlabeled "?" column. Write them to a
+local JSON file outside the repo (or under `output/hires/`, which is gitignored), with `sfx` set to match their
+hobby count. Put their photo in the project's `assets/hires/`, which is gitignored (`assets/template/` gets committed).
+Crop non-square photos to a square around the face first.
 Then run:
 
 ```bash
 npm run video:render -- welcome-to-massive --variables-file output/hires/<first>.json --name welcome-<first>
 ```
 
-This writes `output/video/welcome-<first>.mp4`. In Studio (`npm run video:preview welcome-to-massive`) the
-same variables are editable in the variables panel. Sounds are the bundled Pixabay SFX in
-`assets/template/sfx/`; no music or voice.
+This writes `output/video/welcome-<first>.mp4`. Its first frame is a copy of the last one (`"posterFromEnd": true` in
+`meta.json`), so the file's thumbnail shows the finished card. In Studio (`npm run video:preview welcome-to-massive`) the
+same variables are editable in the variables panel. Sounds are the bundled Pixabay SFX plus Slack's knock in
+`assets/template/sfx/`, pre-mixed into `assets/template/sfx-mix-1…5.mp3` (16 s beds that differ only in the number
+of chip pings; cue times in the comment above the `<audio>` tag); no music or voice. To move a cue, re-mix all five
+beds with ffmpeg rather than adding clips.
 
 ## Porting a Remotion video (from ../remotion-playground)
 

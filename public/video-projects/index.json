@@ -732,12 +732,12 @@
       "width": 1920,
       "height": 1080,
       "fps": 60,
-      "duration": 12.5,
+      "duration": 15.5,
       "path": "/video-projects/welcome-to-massive/index.html",
       "storyboard": {
         "globals": {
           "extra": {
-            "duration": "12.5s"
+            "duration": "15.5s"
           },
           "format": "1920x1080",
           "message": "A new teammate joined Massive: meet them",
@@ -752,7 +752,7 @@
             "status": "animated",
             "scene": "macOS-style desktop; the Slack icon does the dock attention bounce three times",
             "voiceover": null,
-            "narrative": "Dark Massive wallpaper, menu bar and dock. Pops land on each bounce. The desktop stays underneath the whole video and dims when the card opens.",
+            "narrative": "Desk photo wallpaper (assets/template/wallpaper.jpg), menu bar and dock. Pops land on each bounce. The desktop stays underneath the whole video and dims when the card opens.",
             "src": "compositions/01-desktop.html",
             "start": 0,
             "duration": 2.3,
@@ -765,7 +765,7 @@
             "status": "animated",
             "scene": "The icon leaps out of the dock and lands in a banner: \"Franklin has joined Massive!\"",
             "voiceover": null,
-            "narrative": "The banner slides in from the right as the icon lands (notification sound). A pointer clicks it (soft click).",
+            "narrative": "The banner slides in from the right as the icon lands (Slack knock). A pointer clicks it (soft click).",
             "src": "compositions/02-notification.html",
             "start": 2.3,
             "duration": 2.1,
@@ -778,7 +778,7 @@
             "status": "animated",
             "scene": "The banner opens into a Slack profile window styled like a game character sheet",
             "voiceover": null,
-            "narrative": "Portrait with a LVL 1 · NEW HIRE badge, name, role as a class tag, location, then stats: Abilities (hobbies as chips, a pop each), Fuel (favourite food), Huge fan of, and an onboarding XP bar that fills to 100.",
+            "narrative": "Portrait with a NEW HIRE badge, name with a green \"Available\" dot, role tag, location, then stats: Abilities (hobbies as chips, a rising ping each), Fuel (favourite food), and an onboarding XP bar that fills to 100 (sparkle).",
             "src": "compositions/03-card.html",
             "start": 4.4,
             "duration": 8.1,
@@ -794,8 +794,8 @@
             "narrative": "Chime on entry.",
             "src": "compositions/04-outro.html",
             "start": 11,
-            "duration": 1.5,
-            "poster": 1.2,
+            "duration": 4.5,
+            "poster": 4.2,
             "transitionIn": "cut"
           }
         ]

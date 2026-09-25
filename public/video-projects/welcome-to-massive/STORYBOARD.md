@@ -1,6 +1,6 @@
 ---
 format: 1920x1080
-duration: 12.5s
+duration: 15.5s
 message: "A new teammate joined Massive: meet them"
 arc: Attention → Arrival → Introduction → Welcome
 audience: the Massive team in Slack
@@ -15,7 +15,7 @@ audience: the Massive team in Slack
 - status: animated
 - src: compositions/01-desktop.html
 
-Dark Massive wallpaper, menu bar and dock. Pops land on each bounce. The desktop stays underneath the whole video and dims when the card opens.
+Desk photo wallpaper (assets/template/wallpaper.jpg), menu bar and dock. Pops land on each bounce. The desktop stays underneath the whole video and dims when the card opens.
 
 ## Frame 2 — Notification
 
@@ -26,7 +26,7 @@ Dark Massive wallpaper, menu bar and dock. Pops land on each bounce. The desktop
 - status: animated
 - src: compositions/02-notification.html
 
-The banner slides in from the right as the icon lands (notification sound). A pointer clicks it (soft click).
+The banner slides in from the right as the icon lands (Slack knock). A pointer clicks it (soft click).
 
 ## Frame 3 — Character sheet
 
@@ -37,13 +37,13 @@ The banner slides in from the right as the icon lands (notification sound). A po
 - status: animated
 - src: compositions/03-card.html
 
-Portrait with a LVL 1 · NEW HIRE badge, name, role as a class tag, location, then stats: Abilities (hobbies as chips, a pop each), Fuel (favourite food), Huge fan of, and an onboarding XP bar that fills to 100.
+Portrait with a NEW HIRE badge, name with a green "Available" dot, role tag, location, then stats: Abilities (hobbies as chips, a rising ping each), Fuel (favourite food), and an onboarding XP bar that fills to 100 (sparkle).
 
 ## Frame 4 — Welcome
 
 - scene: Massive logo and "Welcome to the team, Franklin!" under the card
-- duration: 1.5s
-- poster: 1.2s
+- duration: 4.5s
+- poster: 4.2s
 - transition_in: cut
 - status: animated
 - src: compositions/04-outro.html

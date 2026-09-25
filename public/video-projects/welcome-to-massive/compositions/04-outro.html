@@ -17,17 +17,21 @@
           right: 0;
           top: 842px;
           display: flex;
-          align-items: center;
+          align-items: baseline;
           justify-content: center;
           gap: 28px;
         }
+        /* Wordmark caps fill the SVG's full height, so a cap-height image on the text baseline matches the
+           text (Outfit caps are 0.7em: 46px × 0.7). */
         #root .row img {
-          height: 34px;
+          height: 32px;
         }
         #root .sep {
-          width: 1px;
-          height: 40px;
-          background: rgba(250, 244, 236, 0.25);
+          align-self: center;
+          width: 3px;
+          height: 44px;
+          border-radius: 2px;
+          background: rgba(250, 244, 236, 0.55);
         }
         #root .hello {
           font-size: 46px;
@@ -40,9 +44,9 @@
           color: #ff8163;
         }
       </style>
-      <div id="root" data-composition-id="wm-outro" data-width="1920" data-height="1080" data-duration="1.5">
+      <div id="root" data-composition-id="wm-outro" data-width="1920" data-height="1080" data-duration="4.5">
         <div class="row">
-          <img class="logo" src="assets/brand/logo-white.svg" alt="Massive" />
+          <img class="logo" src="assets/brand/logo-massive.svg" alt="Massive" />
           <div class="sep"></div>
           <div class="hello">Welcome to the team, <span class="who" data-var-text="firstName">Franklin</span>!</div>
         </div>

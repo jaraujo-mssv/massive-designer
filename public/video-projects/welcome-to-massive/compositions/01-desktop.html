@@ -14,18 +14,7 @@
         #root .wallpaper {
           position: absolute;
           inset: -40px;
-          background:
-            radial-gradient(ellipse 60% 55% at 18% 105%, rgba(215, 73, 57, 0.42), transparent 70%),
-            radial-gradient(ellipse 45% 40% at 88% -5%, rgba(255, 129, 99, 0.22), transparent 70%),
-            radial-gradient(ellipse 70% 60% at 60% 60%, rgba(60, 30, 45, 0.55), transparent 75%),
-            linear-gradient(160deg, #0d0b12 0%, #120c11 55%, #0a0a0f 100%);
-        }
-        #root .wall-grid {
-          position: absolute;
-          inset: 0;
-          background-image: radial-gradient(circle, rgba(250, 244, 236, 0.35) 1px, transparent 1px);
-          background-size: 48px 48px;
-          opacity: 0.08;
+          background: #e9e7e4 url("assets/template/wallpaper.jpg") center / cover no-repeat;
         }
         /* Menu bar */
         #root .menubar {
@@ -45,7 +34,7 @@
           font-weight: 500;
         }
         #root .menubar img {
-          height: 13px;
+          height: 12px;
         }
         #root .menubar .app {
           font-weight: 700;
@@ -82,47 +71,33 @@
           width: 76px;
           height: 76px;
           flex-shrink: 0;
-          border-radius: 18px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: #fff;
-          box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 4px 10px rgba(0, 0, 0, 0.3);
         }
-        #root .tile svg {
-          width: 38px;
-          height: 38px;
-          fill: none;
-          stroke: currentColor;
-          stroke-width: 1.8;
-          stroke-linecap: round;
-          stroke-linejoin: round;
-        }
-        #root .tile.slack {
-          background: transparent;
-          box-shadow: none;
-        }
-        #root .tile.slack img {
+        #root .tile img {
           width: 76px;
           height: 76px;
           filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.35));
         }
-        #root .cal {
-          background: #f6f3ee;
-          color: #1c1b1f;
-          flex-direction: column;
-          gap: 0;
+        /* Calendar: the icon art with its date erased; the date is drawn here to match the menu bar. */
+        #root .cal span {
+          position: absolute;
+          left: 0;
+          right: 0;
+          text-align: center;
+          font-family: -apple-system, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+          line-height: 1;
         }
-        #root .cal .mon {
-          font-size: 13px;
-          font-weight: 700;
-          color: #b8321f;
-          letter-spacing: 0.06em;
+        #root .cal .wd {
+          top: 11px;
+          font-size: 17px;
+          font-weight: 500;
+          color: #f4463c;
         }
         #root .cal .day {
-          font-size: 36px;
+          top: 29px;
+          font-size: 42px;
           font-weight: 400;
-          line-height: 1;
+          letter-spacing: -0.02em;
+          color: #1d1d1f;
         }
         #root .running {
           position: absolute;
@@ -140,11 +115,11 @@
           pointer-events: none;
         }
       </style>
-      <div id="root" data-composition-id="wm-desktop" data-width="1920" data-height="1080" data-duration="12.5">
-        <div class="wallpaper" data-layout-allow-overflow><div class="wall-grid"></div></div>
+      <div id="root" data-composition-id="wm-desktop" data-width="1920" data-height="1080" data-duration="15.5">
+        <div class="wallpaper" data-layout-allow-overflow></div>
 
         <div class="menubar">
-          <img src="assets/brand/logo-white.svg" alt="Massive" />
+          <img src="assets/brand/icon-massive-white.svg" alt="Massive" />
           <span data-layout-allow-occlusion class="app">Slack</span>
           <span data-layout-allow-occlusion>File</span><span data-layout-allow-occlusion>Edit</span><span data-layout-allow-occlusion>View</span><span data-layout-allow-occlusion>Go</span><span data-layout-allow-occlusion>Window</span><span data-layout-allow-occlusion>Help</span>
           <div class="right">
@@ -154,13 +129,13 @@
         </div>
 
         <div class="dock">
-          <div class="tile" style="background: linear-gradient(160deg, #5aa7ff, #1f6fe0)"><svg viewBox="0 0 24 24"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z" /></svg></div>
-          <div class="tile" style="background: linear-gradient(160deg, #3ad1c3, #127a86)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /><path d="M2 12h20" /></svg></div>
-          <div class="tile" style="background: linear-gradient(160deg, #6ab8ff, #2b62d9)"><svg viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg></div>
-          <div class="tile cal"><span data-layout-allow-occlusion class="mon">SEP</span><span data-layout-allow-occlusion class="day">25</span></div>
-          <div class="tile slack"><img class="slack-icon" src="assets/template/slack.svg" alt="Slack" /></div>
-          <div class="tile" style="background: linear-gradient(160deg, #ffd96a, #f2b31d); color: #5a4300"><svg viewBox="0 0 24 24"><path d="M16 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8Z" /><path d="M15 3v4a2 2 0 0 0 2 2h4" /></svg></div>
-          <div class="tile" style="background: linear-gradient(160deg, #2c2c33, #111115)"><svg viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5" /><line x1="12" x2="20" y1="19" y2="19" /></svg></div>
+          <div class="tile"><img src="assets/template/dock/safari.png" alt="Safari" /></div>
+          <div class="tile"><img src="assets/template/dock/mail.png" alt="Mail" /></div>
+          <div class="tile"><img src="assets/template/dock/facetime.png" alt="FaceTime" /></div>
+          <div class="tile cal"><img src="assets/template/dock/calendar-blank.png" alt="Calendar" /><span data-layout-allow-occlusion class="wd">Thu</span><span data-layout-allow-occlusion class="day">25</span></div>
+          <div class="tile"><img class="slack-icon" src="assets/template/slack.svg" alt="Slack" /></div>
+          <div class="tile"><img src="assets/template/dock/notes.png" alt="Notes" /></div>
+          <div class="tile"><img src="assets/template/dock/app-store.png" alt="App Store" /></div>
         </div>
         <div class="running"></div>
 
@@ -176,7 +151,7 @@
           const tl = gsap.timeline({ paused: true });
 
           // Slow drift on the wallpaper for the whole video.
-          tl.fromTo(wallpaper, { scale: 1.05 }, { scale: 1, duration: 12.5, ease: "none" }, 0);
+          tl.fromTo(wallpaper, { scale: 1.05 }, { scale: 1, duration: 15.5, ease: "none" }, 0);
           // Dock slides up.
           tl.fromTo(dock, { y: 140 }, { y: 0, duration: 0.6, ease: "power3.out" }, 0.05);
 

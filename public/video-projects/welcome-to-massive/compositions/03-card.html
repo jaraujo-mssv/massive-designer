@@ -12,33 +12,42 @@
           font-family: Outfit, sans-serif;
           color: #faf4ec;
         }
-        /* Slack profile window × character sheet. Centred: 1120×620 at (400, 190). */
+        /* Slack profile window × character sheet. Centred: 1200×506 at (360, 247). */
         #root .card {
           position: absolute;
-          left: 400px;
-          top: 190px;
-          width: 1120px;
-          height: 620px;
+          left: 360px;
+          top: 247px;
+          width: 1200px;
+          height: 506px;
           border-radius: 20px;
           background: #1a1d21;
           border: 1px solid rgba(255, 255, 255, 0.1);
           box-shadow: 0 40px 120px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(215, 73, 57, 0.12);
           overflow: hidden;
         }
+        /* macOS title bar: traffic lights on the left, no title. */
         #root .chrome {
-          height: 58px;
+          height: 44px;
           display: flex;
           align-items: center;
-          padding: 0 24px;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-          font-size: 20px;
-          font-weight: 700;
+          gap: 9px;
+          padding: 0 18px;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.06);
         }
-        #root .chrome .actions {
-          margin-left: auto;
-          display: flex;
-          gap: 18px;
-          color: rgba(250, 244, 236, 0.55);
+        #root .chrome span {
+          width: 14px;
+          height: 14px;
+          border-radius: 50%;
+          box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.25);
+        }
+        #root .chrome .close {
+          background: #ff5f57;
+        }
+        #root .chrome .min {
+          background: #febc2e;
+        }
+        #root .chrome .max {
+          background: #28c840;
         }
         #root svg.ic {
           width: 22px;
@@ -51,12 +60,12 @@
         }
         #root .body {
           display: flex;
-          gap: 48px;
-          padding: 40px 48px;
+          gap: 40px;
+          padding: 40px;
         }
-        /* Left: portrait */
+        /* Left: portrait, as tall as the body (382px) with the ring and the badge's overhang. */
         #root .left {
-          width: 280px;
+          width: 356px;
           flex-shrink: 0;
           display: flex;
           flex-direction: column;
@@ -64,14 +73,14 @@
         }
         #root .portrait {
           position: relative;
-          width: 248px;
-          height: 248px;
+          width: 356px;
+          height: 356px;
         }
         /* Rotating gradient ring, clipped to a rounded frame around the photo. */
         #root .ring-frame {
           position: absolute;
           inset: -8px;
-          border-radius: 30px;
+          border-radius: 38px;
           overflow: hidden;
           box-shadow: 0 0 40px rgba(215, 73, 57, 0.35);
         }
@@ -86,34 +95,48 @@
         #root .photo {
           position: absolute;
           inset: 0;
-          width: 248px;
-          height: 248px;
+          width: 356px;
+          height: 356px;
           object-fit: cover;
-          border-radius: 24px;
+          border-radius: 32px;
           border: 4px solid #1a1d21;
         }
         #root .badge {
           position: absolute;
           left: 50%;
           bottom: -18px;
-          margin-left: -104px;
-          width: 208px;
+          margin-left: -80px;
+          width: 160px;
           text-align: center;
           padding: 8px 0;
           border-radius: 999px;
           background: #b8321f;
           font-family: "JetBrains Mono", monospace;
-          font-size: 15px;
+          font-size: 17px;
           font-weight: 700;
           letter-spacing: 0.08em;
           box-shadow: 0 8px 24px rgba(215, 73, 57, 0.45);
         }
-        #root .status {
-          margin-top: 42px;
+        /* Right: identity + stats */
+        #root .right {
+          flex: 1;
+          min-width: 0;
+        }
+        #root .name {
+          font-size: 64px;
+          font-weight: 900;
+          line-height: 1.2;
+          padding-bottom: 4px;
+          letter-spacing: -0.035em;
+          white-space: nowrap;
+        }
+        /* Slack presence: green dot + "Available". */
+        #root .presence {
           display: flex;
           align-items: center;
           gap: 10px;
-          font-size: 19px;
+          font-size: 20px;
+          font-weight: 500;
           color: rgba(250, 244, 236, 0.75);
         }
         #root .online {
@@ -123,25 +146,8 @@
           background: #2bac76;
           box-shadow: 0 0 0 4px rgba(43, 172, 118, 0.22);
         }
-        /* Right: identity + stats */
-        #root .right {
-          flex: 1;
-          min-width: 0;
-        }
-        #root .right .eyebrow {
-          color: #ff8163;
-        }
-        #root .name {
-          margin-top: 10px;
-          font-size: 64px;
-          font-weight: 900;
-          line-height: 1.2;
-          padding-bottom: 4px;
-          letter-spacing: -0.035em;
-          white-space: nowrap;
-        }
         #root .meta {
-          margin-top: 18px;
+          margin-top: 20px;
           display: flex;
           flex-wrap: wrap;
           align-items: center;
@@ -209,6 +215,12 @@
           background: rgba(215, 73, 57, 0.14);
           color: #ff8163;
         }
+        /* Phosphor icons, fill weight (phosphoricons.com, MIT). */
+        #root svg.ph {
+          width: 24px;
+          height: 24px;
+          fill: currentColor;
+        }
         #root .stat .v {
           font-size: 24px;
           font-weight: 500;
@@ -233,6 +245,14 @@
         }
         #root .chip.empty {
           display: none;
+        }
+        /* 4-5 hobbies: tighter chips so the row stays on one line in the fixed-height card. */
+        #root .chips.compact {
+          gap: 8px;
+        }
+        #root .chips.compact .chip {
+          padding: 6px 11px;
+          font-size: 17px;
         }
         #root .xp {
           margin-top: 18px;
@@ -269,32 +289,25 @@
           pointer-events: none;
         }
       </style>
-      <div id="root" data-composition-id="wm-card" data-width="1920" data-height="1080" data-duration="8.1">
+      <div id="root" data-composition-id="wm-card" data-width="1920" data-height="1080" data-duration="11.1">
         <div class="src" data-var-text="hobbies" data-layout-allow-overlap>Playing football
 Playing golf
 Gardening</div>
         <div class="card" data-layout-allow-occlusion>
-          <div class="chrome">
-            <span>Profile</span>
-            <span class="actions">
-              <svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1" /><circle cx="19" cy="12" r="1" /><circle cx="5" cy="12" r="1" /></svg>
-              <svg class="ic" viewBox="0 0 24 24"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
-            </span>
-          </div>
+          <div class="chrome"><span class="close"></span><span class="min"></span><span class="max"></span></div>
           <div class="body">
             <div class="left">
               <div class="portrait">
                 <div class="ring-frame"><div class="ring" data-layout-allow-overflow></div></div>
                 <img class="photo" data-var-src="photo" src="assets/template/franklin.jpg" alt="" />
-                <div class="badge">LVL 1 · NEW HIRE</div>
+                <div class="badge">NEW HIRE</div>
               </div>
-              <div class="status"><span class="online"></span>Active · Joined today</div>
             </div>
             <div class="right">
-              <div class="m-eyebrow eyebrow">New teammate</div>
               <div class="name" data-var-text="fullName">Franklin Uche</div>
+              <div class="presence"><span class="online"></span>Available</div>
               <div class="meta">
-                <span class="class-tag"><span class="k">CLASS</span><span data-var-text="role">Community Lead</span></span>
+                <span class="class-tag"><span class="k">ROLE</span><span data-var-text="role">Community Lead</span></span>
                 <span class="loc">
                   <svg class="ic" viewBox="0 0 24 24"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /><circle cx="12" cy="10" r="3" /></svg>
                   <span data-var-text="location">Lagos, Nigeria</span>
@@ -302,21 +315,16 @@ Gardening</div>
               </div>
               <div class="divider"></div>
               <div class="stat abilities">
-                <div class="tile"><svg class="ic" viewBox="0 0 24 24"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" /><path d="M20 3v4" /><path d="M22 5h-4" /><path d="M4 17v2" /><path d="M5 18H3" /></svg></div>
+                <div class="tile"><svg class="ph" viewBox="0 0 256 256"><path d="M208,144a15.78,15.78,0,0,1-10.42,14.94L146,178l-19,51.62a15.92,15.92,0,0,1-29.88,0L78,178l-51.62-19a15.92,15.92,0,0,1,0-29.88L78,110l19-51.62a15.92,15.92,0,0,1,29.88,0L146,110l51.62,19A15.78,15.78,0,0,1,208,144ZM152,48h16V64a8,8,0,0,0,16,0V48h16a8,8,0,0,0,0-16H184V16a8,8,0,0,0-16,0V32H152a8,8,0,0,0,0,16Zm88,32h-8V72a8,8,0,0,0-16,0v8h-8a8,8,0,0,0,0,16h8v8a8,8,0,0,0,16,0V96h8a8,8,0,0,0,0-16Z"/></svg></div>
                 <span class="k">ABILITIES</span>
                 <div class="chips">
                   <span class="chip"></span><span class="chip"></span><span class="chip"></span><span class="chip"></span><span class="chip"></span>
                 </div>
               </div>
               <div class="stat fuel">
-                <div class="tile"><svg class="ic" viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2" /><path d="M7 2v20" /><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7" /></svg></div>
+                <div class="tile"><svg class="ph" viewBox="0 0 256 256"><path d="M216,40V224a8,8,0,0,1-16,0V176H152a8,8,0,0,1-8-8,268.75,268.75,0,0,1,7.22-56.88c9.78-40.49,28.32-67.63,53.63-78.47A8,8,0,0,1,216,40Zm-96.11-1.31a8,8,0,1,0-15.78,2.63L111.89,88H88V40a8,8,0,0,0-16,0V88H48.11l7.78-46.68a8,8,0,1,0-15.78-2.63l-8,48A8.17,8.17,0,0,0,32,88a48.07,48.07,0,0,0,40,47.32V224a8,8,0,0,0,16,0V135.32A48.07,48.07,0,0,0,128,88a8.17,8.17,0,0,0-.11-1.31Z"/></svg></div>
                 <span class="k">FUEL</span>
                 <div class="v" data-var-text="food">Medium rare steak and rice</div>
-              </div>
-              <div class="stat fan">
-                <div class="tile"><svg class="ic" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" /></svg></div>
-                <span class="k">HUGE FAN OF</span>
-                <div class="v" data-var-text="fanOf">Liverpool FC</div>
               </div>
               <div class="xp">
                 <span class="k">ONBOARDING XP</span>
@@ -334,6 +342,7 @@ Gardening</div>
           const qa = (s) => [...root.querySelectorAll(s)];
           const src = q(".src");
           const chips = qa(".chip");
+          const chipRow = q(".chips");
           const num = q(".num");
           const name = q(".name");
 
@@ -350,10 +359,11 @@ Gardening</div>
               el.textContent = items[i] ?? "";
               el.classList.toggle("empty", !items[i]);
             });
+            chipRow.classList.toggle("compact", items.length >= 4);
           };
           syncHobbies();
 
-          // Long names shrink to fit the ~690px column by character count (Outfit 900
+          // Long names shrink to fit the ~724px column by character count (Outfit 900
           // averages ~0.56em per glyph), down to 36px; past that they wrap to two lines.
           // Estimated rather than measured: timeline callbacks must not read layout.
           let fittedFor = null;
@@ -362,10 +372,10 @@ Gardening</div>
             if (text === fittedFor) return;
             fittedFor = text;
             const est = (px) => text.length * 0.56 * px;
-            const size = Math.max(36, Math.min(64, Math.floor(690 / (text.length * 0.56))));
+            const size = Math.max(36, Math.min(64, Math.floor(724 / (text.length * 0.56))));
             name.style.fontSize = `${size}px`;
-            name.style.whiteSpace = est(size) > 690 ? "normal" : "nowrap";
-            name.style.lineHeight = est(size) > 690 ? "1.05" : "1.2";
+            name.style.whiteSpace = est(size) > 724 ? "normal" : "nowrap";
+            name.style.lineHeight = est(size) > 724 ? "1.05" : "1.2";
           };
           const sync = () => {
             syncHobbies();
@@ -373,23 +383,22 @@ Gardening</div>
           };
 
           const tl = gsap.timeline({ paused: true });
-          tl.to({}, { duration: 8.1, onUpdate: sync }, 0);
+          tl.to({}, { duration: 11.1, onUpdate: sync }, 0);
 
           // Open from the notification: the banner hands off from the top right.
           const card = q(".card");
-          tl.fromTo(card, { x: 652, y: -390, scale: 0.5 }, { x: 0, y: 0, scale: 1, duration: 0.6, ease: "back.out(1.15)" }, 0);
+          tl.fromTo(card, { x: 652, y: -440, scale: 0.5 }, { x: 0, y: 0, scale: 1, duration: 0.6, ease: "back.out(1.15)" }, 0);
           tl.fromTo(card, { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power1.out" }, 0);
 
           // Portrait.
           tl.fromTo(q(".portrait"), { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(1.6)" }, 0.7);
-          tl.fromTo(q(".ring"), { rotation: 0 }, { rotation: 180, duration: 7.4, ease: "none" }, 0.7);
+          tl.fromTo(q(".ring"), { rotation: 0 }, { rotation: 253, duration: 10.4, ease: "none" }, 0.7);
           tl.fromTo(q(".badge"), { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: "back.out(2)" }, 0.95);
-          tl.fromTo(q(".status"), { opacity: 0 }, { opacity: 1, duration: 0.3 }, 1.2);
 
           // Identity.
           const rise = (sel, t) => tl.fromTo(q(sel), { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: "power3.out" }, t);
-          rise(".eyebrow", 0.85);
           rise(".name", 1.0);
+          rise(".presence", 1.1);
           rise(".class-tag", 1.2);
           rise(".loc", 1.35);
           tl.fromTo(q(".divider"), { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power2.out" }, 1.5);
@@ -400,17 +409,16 @@ Gardening</div>
             tl.fromTo(el, { scale: 0.5, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: "back.out(2.2)" }, 1.85 + i * 0.22),
           );
           rise(".fuel", 2.9);
-          rise(".fan", 3.3);
 
           // XP bar fills and counts up.
-          rise(".xp", 3.7);
+          rise(".xp", 3.3);
           const xp = { v: 0 };
-          tl.fromTo(q(".fill"), { scaleX: 0 }, { scaleX: 1, duration: 1.2, ease: "power2.inOut" }, 3.8);
+          tl.fromTo(q(".fill"), { scaleX: 0 }, { scaleX: 1, duration: 1.2, ease: "power2.inOut" }, 3.4);
           tl.fromTo(
             xp,
             { v: 0 },
             { v: 100, duration: 1.2, ease: "power2.inOut", onUpdate: () => (num.textContent = String(Math.round(xp.v))) },
-            3.8,
+            3.4,
           );
 
           // Settle for the outro.

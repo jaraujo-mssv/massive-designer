@@ -1,0 +1,137 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+        }
+        /* The Slack icon leaving the dock: starts on the dock slot (centre 1048, 1014). */
+        #root .fly {
+          position: absolute;
+          left: 1010px;
+          top: 976px;
+          width: 76px;
+          height: 76px;
+          filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.45));
+        }
+        /* macOS-style banner, top right under the menu bar. */
+        #root .banner {
+          position: absolute;
+          left: 1332px;
+          top: 56px;
+          width: 560px;
+          display: flex;
+          gap: 16px;
+          padding: 18px 20px;
+          border-radius: 24px;
+          background: rgba(42, 40, 48, 0.78);
+          border: 1px solid rgba(255, 255, 255, 0.14);
+          backdrop-filter: blur(30px);
+          box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+          transform-origin: 50% 50%;
+          font-family: Outfit, sans-serif;
+        }
+        #root .banner .ico {
+          width: 56px;
+          height: 56px;
+          flex-shrink: 0;
+          background: url("assets/template/slack.svg") center / contain no-repeat;
+        }
+        #root .banner .txt {
+          flex: 1;
+          min-width: 0;
+        }
+        #root .banner .row {
+          display: flex;
+          justify-content: space-between;
+          font-size: 16px;
+          font-weight: 600;
+          color: rgba(250, 244, 236, 0.6);
+          text-transform: uppercase;
+          letter-spacing: 0.04em;
+        }
+        #root .banner .title {
+          margin-top: 4px;
+          font-size: 22px;
+          font-weight: 700;
+          color: #fff;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        #root .banner .body {
+          margin-top: 2px;
+          font-size: 18px;
+          color: rgba(250, 244, 236, 0.72);
+        }
+        #root .cursor {
+          position: absolute;
+          left: 1180px;
+          top: 420px;
+          width: 34px;
+          height: 34px;
+          filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.5));
+        }
+      </style>
+      <div id="root" data-composition-id="wm-notification" data-width="1920" data-height="1080" data-duration="2.7">
+        <div class="banner">
+          <div class="ico"></div>
+          <div class="txt">
+            <div class="row"><span>Slack</span><span>now</span></div>
+            <div class="title"><span data-var-text="firstName">Franklin</span> has joined Massive!</div>
+            <div class="body">Say hi to your new teammate in #general</div>
+          </div>
+        </div>
+        <img class="fly" src="assets/template/slack.svg" alt="" />
+        <svg class="cursor" viewBox="0 0 24 24">
+          <path d="M4 2.5 L4 20 L8.6 15.6 L11.6 22 L14.4 20.8 L11.5 14.5 L18 14.5 Z" fill="#111" stroke="#fff" stroke-width="1.4" stroke-linejoin="round" />
+        </svg>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="wm-notification"]');
+          const q = (s) => root.querySelector(s);
+          const fly = q(".fly");
+          const banner = q(".banner");
+          const bannerIcon = q(".banner .ico");
+          const cursor = q(".cursor");
+          const tl = gsap.timeline({ paused: true });
+
+          // Leap: dock slot (1048, 1014) → banner icon slot (1380, 102), 76px → 56px.
+          tl.fromTo(fly, { x: 0 }, { x: 332, duration: 0.8, ease: "power2.inOut" }, 0);
+          tl.fromTo(fly, { y: 0 }, { y: -912, duration: 0.8, ease: "power3.out" }, 0);
+          tl.fromTo(fly, { scale: 1 }, { scale: 1.4, duration: 0.32, ease: "power2.out" }, 0);
+          tl.to(fly, { scale: 56 / 76, duration: 0.48, ease: "power2.in" }, 0.32);
+          tl.fromTo(fly, { rotation: 0 }, { rotation: -12, duration: 0.4, ease: "sine.out" }, 0);
+          tl.to(fly, { rotation: 0, duration: 0.4, ease: "sine.in" }, 0.4);
+
+          // Banner slides in from the right edge and is in place when the icon lands.
+          tl.fromTo(banner, { x: 640, opacity: 0 }, { x: 0, opacity: 1, duration: 0.4, ease: "power3.out" }, 0.35);
+          tl.fromTo(bannerIcon, { opacity: 0 }, { opacity: 1, duration: 0.01 }, 0.8);
+          tl.to(fly, { opacity: 0, duration: 0.01 }, 0.8);
+          tl.fromTo(bannerIcon, { scale: 1.18 }, { scale: 1, duration: 0.3, ease: "back.out(2.4)", immediateRender: false }, 0.8);
+
+          // Pointer comes in and clicks the banner.
+          tl.fromTo(cursor, { opacity: 0 }, { opacity: 1, duration: 0.15 }, 1.0);
+          tl.fromTo(cursor, { x: 0, y: 0 }, { x: 380, y: -302, duration: 0.55, ease: "power2.inOut" }, 1.0);
+          tl.to(cursor, { scale: 0.85, duration: 0.08, ease: "power1.out" }, 1.65);
+          tl.to(cursor, { scale: 1, duration: 0.12, ease: "power1.out" }, 1.73);
+          tl.to(banner, { scale: 0.97, duration: 0.08, ease: "power1.out" }, 1.65);
+          tl.to(banner, { scale: 1, duration: 0.14, ease: "power1.out" }, 1.73);
+
+          // Open: the banner grows toward the centre and hands off to the profile card.
+          tl.to(banner, { x: -652, y: 390, scale: 2, opacity: 0, duration: 0.45, ease: "power2.in" }, 2.1);
+          tl.to(cursor, { opacity: 0, duration: 0.2 }, 2.1);
+
+          window.__timelines["wm-notification"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

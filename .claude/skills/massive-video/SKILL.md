@@ -64,6 +64,40 @@ Inside a project folder: `npx hyperframes check` must pass before handing off, a
 7. **Finish**: `npx hyperframes check` passes; snapshots inspected; `npm run video:index`; the user
    reviews it in the tab or Studio. Render only after they approve (`npm run video:render <id>`).
 
+## Welcome video for a new hire (`welcome-to-massive` template)
+
+This is a 12.5 s video. A Slack icon bounces in the dock, becomes the notification "<name> has joined Massive!",
+then opens a profile card styled like a character sheet. Every per-person value is a composition variable
+declared on `<html>` in `public/video-projects/welcome-to-massive/index.html`:
+
+| variable | example | notes |
+|---|---|---|
+| `firstName` | Franklin | Used in the notification and the outro |
+| `fullName` | Franklin Uche | Long names shrink, then wrap to two lines |
+| `location` | Lagos, Nigeria | City, Country |
+| `role` | Community Lead | Shown as the "CLASS" tag |
+| `hobbies` | `Playing football\nPlaying golf\nGardening` | One per line (commas also work), max 5 chips |
+| `food` | Medium rare steak and rice | "Fuel" |
+| `fanOf` | Liverpool FC | "Huge fan of". Trim "I am a huge … fan" to the thing itself |
+| `photo` | `assets/template/franklin.jpg` | Path inside the project, or a URL. Square, ideally 400 px or more |
+
+The committed defaults are Franklin Uche's, so they're public on the deployed site. Anyone else's details and
+photo stay local unless the user says otherwise.
+
+To render someone else, map the onboarding-form answers (name & last name, location, role, hobbies, favourite
+food, "something you are a huge fan of") to the variables. Skip the form's unlabeled "?" column. Write them to a
+local JSON file outside the repo (or under `output/`, which is gitignored). Put their photo somewhere the
+project can load it; files copied into `assets/template/` get committed, so use a URL or keep it uncommitted.
+Then run:
+
+```bash
+npm run video:render -- welcome-to-massive --variables-file output/hires/<first>.json --name welcome-<first>
+```
+
+This writes `output/video/welcome-<first>.mp4`. In Studio (`npm run video:preview welcome-to-massive`) the
+same variables are editable in the variables panel. Sounds are the bundled Pixabay SFX in
+`assets/template/sfx/`; no music or voice.
+
 ## Porting a Remotion video (from ../remotion-playground)
 
 Use `/remotion-to-hyperframes` with this repo's conventions. Existing ports are the reference:

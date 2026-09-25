@@ -11,6 +11,7 @@ export const VIEWS: { id: VideoView; label: string }[] = [
 export const BRAND_LABELS: Record<string, string> = {
   sparktray: "SparkTray",
   biztray: "BizTray",
+  massive: "Massive",
 };
 
 export const KIND_LABELS: Record<string, string> = {

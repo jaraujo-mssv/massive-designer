@@ -34,7 +34,7 @@ function hostStarts(html) {
   return starts;
 }
 
-/** Untracked media paths (assets/… outside assets/brand/) referenced by the project's HTML. */
+/** Untracked media paths (assets/… outside the tracked assets/brand/ and assets/template/) referenced by the project's HTML. */
 function mediaRefs(dir) {
   const files = [join(dir, 'index.html')];
   const comps = join(dir, 'compositions');
@@ -47,7 +47,7 @@ function mediaRefs(dir) {
   for (const file of files) {
     for (const m of readFileSync(file, 'utf8').matchAll(/["'(]((?:\.\.\/)?assets\/[^"')\s]+)/g)) {
       const path = m[1].replace(/^\.\.\//, '');
-      if (!path.startsWith('assets/brand/')) refs.add(path);
+      if (!/^assets\/(brand|template)\//.test(path)) refs.add(path);
     }
   }
   return [...refs].sort();

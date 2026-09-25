@@ -12,5 +12,6 @@ src/test.html
 # HyperFrames video projects: media stays local (npm run video:media), brand assets are tracked.
 public/video-projects/*/assets/*
 !public/video-projects/*/assets/brand/
+!public/video-projects/*/assets/template/
 public/video-projects/*/snapshots/
 .hyperframes/

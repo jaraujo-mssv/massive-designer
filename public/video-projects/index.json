@@ -721,6 +721,89 @@
       ]
     },
     {
+      "id": "welcome-to-massive",
+      "title": "Welcome to the team",
+      "group": "templates",
+      "kind": "template",
+      "brand": "massive",
+      "status": "draft",
+      "source": null,
+      "compositionId": "welcome-to-massive",
+      "width": 1920,
+      "height": 1080,
+      "fps": 60,
+      "duration": 12.5,
+      "path": "/video-projects/welcome-to-massive/index.html",
+      "storyboard": {
+        "globals": {
+          "extra": {
+            "duration": "12.5s"
+          },
+          "format": "1920x1080",
+          "message": "A new teammate joined Massive: meet them",
+          "arc": "Attention → Arrival → Introduction → Welcome",
+          "audience": "the Massive team in Slack"
+        },
+        "warnings": [],
+        "frames": [
+          {
+            "index": 1,
+            "title": "Desktop",
+            "status": "animated",
+            "scene": "macOS-style desktop; the Slack icon does the dock attention bounce three times",
+            "voiceover": null,
+            "narrative": "Dark Massive wallpaper, menu bar and dock. Pops land on each bounce. The desktop stays underneath the whole video and dims when the card opens.",
+            "src": "compositions/01-desktop.html",
+            "start": 0,
+            "duration": 2.3,
+            "poster": 1.2,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 2,
+            "title": "Notification",
+            "status": "animated",
+            "scene": "The icon leaps out of the dock and lands in a banner: \"Franklin has joined Massive!\"",
+            "voiceover": null,
+            "narrative": "The banner slides in from the right as the icon lands (notification sound). A pointer clicks it (soft click).",
+            "src": "compositions/02-notification.html",
+            "start": 2.3,
+            "duration": 2.1,
+            "poster": 1.5,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 3,
+            "title": "Character sheet",
+            "status": "animated",
+            "scene": "The banner opens into a Slack profile window styled like a game character sheet",
+            "voiceover": null,
+            "narrative": "Portrait with a LVL 1 · NEW HIRE badge, name, role as a class tag, location, then stats: Abilities (hobbies as chips, a pop each), Fuel (favourite food), Huge fan of, and an onboarding XP bar that fills to 100.",
+            "src": "compositions/03-card.html",
+            "start": 4.4,
+            "duration": 8.1,
+            "poster": 5.2,
+            "transitionIn": "crossfade"
+          },
+          {
+            "index": 4,
+            "title": "Welcome",
+            "status": "animated",
+            "scene": "Massive logo and \"Welcome to the team, Franklin!\" under the card",
+            "voiceover": null,
+            "narrative": "Chime on entry.",
+            "src": "compositions/04-outro.html",
+            "start": 11,
+            "duration": 1.5,
+            "poster": 1.2,
+            "transitionIn": "cut"
+          }
+        ]
+      },
+      "script": null,
+      "media": []
+    },
+    {
       "id": "what-does-consent-look-like",
       "title": "What does consent look like?",
       "group": "massive",

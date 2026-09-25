@@ -43,9 +43,13 @@ export const createPartnerBlock = (url: string): PartnerBlock => ({
 });
 
 export const normalizeTheme = (themeStr: string): Theme => {
-  const normalized = themeStr.toLowerCase().trim();
+  // The theme column is typed by hand into a spreadsheet, so spaces and
+  // underscores are treated as hyphens rather than silently falling back to light.
+  const normalized = themeStr.toLowerCase().trim().replace(/[\s_]+/g, '-');
   if (normalized === 'dark') return 'dark';
   if (normalized === 'pc-speaker') return 'pc-speaker';
+  if (normalized === 'dither-light') return 'dither-light';
+  if (normalized === 'dither-dark') return 'dither-dark';
   return 'light';
 };
 

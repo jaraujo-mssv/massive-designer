@@ -4,6 +4,7 @@ import { Header } from '@/shared/components/Header'
 import { LandingPage } from '@/shared/components/LandingPage'
 
 const CampaignDesignerApp = lazy(() => import('@/tools/campaign-designer/app/App'))
+const DitherApp = lazy(() => import('@/tools/dither/app/App'))
 const ImageUploadApp = lazy(() => import('@/tools/image-upload/app/App'))
 const MarketMapApp = lazy(() => import('@/tools/market-map/app/App'))
 const PartnershipPostApp = lazy(() => import('@/tools/partnership-post/app/App'))
@@ -44,6 +45,14 @@ export const router = createBrowserRouter([
     element: (
       <ToolLayout themeClass="tool-campaign-designer">
         <CampaignDesignerApp />
+      </ToolLayout>
+    ),
+  },
+  {
+    path: '/dither',
+    element: (
+      <ToolLayout themeClass="tool-dither">
+        <DitherApp />
       </ToolLayout>
     ),
   },

@@ -5,7 +5,7 @@ export type BaseHeadingLevel = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 type FontWeight = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
 export type HeadingLevel = BaseHeadingLevel | `${BaseHeadingLevel}-${FontWeight}`;
 export type ExportFormat = 'png' | 'jpg';
-export type Theme = 'light' | 'dark' | 'pc-speaker';
+export type Theme = 'light' | 'dark' | 'pc-speaker' | 'dither-light' | 'dither-dark';
 export type Template = 'linkedin' | 'twitter';
 
 export interface ProjectSettings {

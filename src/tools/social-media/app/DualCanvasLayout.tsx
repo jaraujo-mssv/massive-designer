@@ -1,6 +1,7 @@
 import React from 'react';
 import { Download, Loader2 } from 'lucide-react';
 import { ExportFormat, Theme, Template, ThemesConfig } from './types';
+import { isDitherTheme } from './constants/dither';
 
 interface DualCanvasLayoutProps {
   linkedinCanvasRef: React.RefObject<HTMLDivElement>;
@@ -23,6 +24,10 @@ export function DualCanvasLayout({
   theme,
   THEMES,
 }: DualCanvasLayoutProps) {
+  // The dither templates divide the canvas themselves and paint the background
+  // inside their own panel, so the wrappers here must not paint one underneath.
+  const dither = isDitherTheme(theme);
+
   return (
     <div
       className="flex-1 flex flex-row flex-wrap items-start justify-center p-8 overflow-auto gap-10"
@@ -45,7 +50,9 @@ export function DualCanvasLayout({
             style={{
               width: 1080,
               height: 1350,
-              backgroundImage: `url(${THEMES[theme].linkedin.backgroundImage})`,
+              backgroundImage: dither
+                ? undefined
+                : `url(${THEMES[theme].linkedin.backgroundImage})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               transform: 'scale(0.4)',
@@ -108,7 +115,7 @@ export function DualCanvasLayout({
             }}
           >
             {/* Background rotated 90° clockwise — only for light/dark themes */}
-            {theme !== 'pc-speaker' && (
+            {theme !== 'pc-speaker' && !dither && (
               <div
                 style={{
                   position: 'absolute',

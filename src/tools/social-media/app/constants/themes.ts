@@ -1,30 +1,39 @@
-import { ThemesConfig } from '../types';
+import { ThemeConfig, ThemesConfig } from '../types';
+
+const LIGHT: ThemeConfig = {
+  headingColor: '#1a1b2a',
+  paragraphColor: 'rgba(26, 27, 42, 0.7)',
+  linkedin: {
+    backgroundImage: 'https://raw.githubusercontent.com/jaraujo-mssv/post-gen/main/light.jpg',
+    logoImage: 'https://raw.githubusercontent.com/jaraujo-mssv/post-gen/main/logo-light.png',
+  },
+  twitter: {
+    backgroundImage: 'https://raw.githubusercontent.com/jaraujo-mssv/post-gen/main/light.jpg',
+    logoImage: 'https://raw.githubusercontent.com/jaraujo-mssv/post-gen/main/logo-light.png',
+  },
+};
+
+const DARK: ThemeConfig = {
+  headingColor: '#faf4ec',
+  paragraphColor: 'rgba(250, 244, 236, 0.75)',
+  linkedin: {
+    backgroundImage: 'https://raw.githubusercontent.com/jaraujo-mssv/post-gen/main/dark.jpg',
+    logoImage: 'https://raw.githubusercontent.com/jaraujo-mssv/post-gen/main/logo-dark.png',
+  },
+  twitter: {
+    backgroundImage: 'https://raw.githubusercontent.com/jaraujo-mssv/post-gen/main/dark.jpg',
+    logoImage: 'https://raw.githubusercontent.com/jaraujo-mssv/post-gen/main/logo-dark.png',
+  },
+};
 
 export const THEMES: ThemesConfig = {
-  light: {
-    headingColor: '#1a1b2a',
-    paragraphColor: 'rgba(26, 27, 42, 0.7)',
-    linkedin: {
-      backgroundImage: 'https://raw.githubusercontent.com/jaraujo-mssv/post-gen/main/light.jpg',
-      logoImage: 'https://raw.githubusercontent.com/jaraujo-mssv/post-gen/main/logo-light.png',
-    },
-    twitter: {
-      backgroundImage: 'https://raw.githubusercontent.com/jaraujo-mssv/post-gen/main/light.jpg',
-      logoImage: 'https://raw.githubusercontent.com/jaraujo-mssv/post-gen/main/logo-light.png',
-    },
-  },
-  dark: {
-    headingColor: '#faf4ec',
-    paragraphColor: 'rgba(250, 244, 236, 0.75)',
-    linkedin: {
-      backgroundImage: 'https://raw.githubusercontent.com/jaraujo-mssv/post-gen/main/dark.jpg',
-      logoImage: 'https://raw.githubusercontent.com/jaraujo-mssv/post-gen/main/logo-dark.png',
-    },
-    twitter: {
-      backgroundImage: 'https://raw.githubusercontent.com/jaraujo-mssv/post-gen/main/dark.jpg',
-      logoImage: 'https://raw.githubusercontent.com/jaraujo-mssv/post-gen/main/logo-dark.png',
-    },
-  },
+  light: LIGHT,
+  dark: DARK,
+  // The dither themes are the same brand surface — same fonts, colours,
+  // background images and logos — with a different layout and a dithered image.
+  // Derived rather than re-typed so a colour change lands on both at once.
+  'dither-light': LIGHT,
+  'dither-dark': DARK,
   'pc-speaker': {
     headingColor: '#FFFFFF',
     paragraphColor: '#FFFFFF',

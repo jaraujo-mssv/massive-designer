@@ -139,6 +139,56 @@ export const TWITTER_TEMPLATE_CONFIG: Record<Theme, ThemeConfig> = {
       },
     },
   },
+  // Panel left, dithered image right. `leftImageWidth` is the panel here, not
+  // the image — the image is full-bleed and sized by DITHER_GEOMETRY.
+  "dither-light": {
+    layout: {
+      padding: "80px",
+      leftImageWidth: "600px",
+      logoHeight: "64px",
+      partnerMaxHeight: "72px",
+      contentGap: "1.5rem",
+    },
+    textStyles: {
+      heading: {
+        lineHeight: "1.1",
+        fontFamily: "Outfit, sans-serif",
+        fontWeight: 900,
+        textAlign: "left",
+      },
+      paragraph: {
+        fontSize: "28px",
+        lineHeight: "1.2",
+        fontFamily: "Outfit, sans-serif",
+        fontWeight: 400,
+        textAlign: "left",
+      },
+    },
+  },
+  "dither-dark": {
+    layout: {
+      padding: "80px",
+      leftImageWidth: "600px",
+      logoHeight: "64px",
+      partnerMaxHeight: "72px",
+      contentGap: "1.5rem",
+    },
+    textStyles: {
+      heading: {
+        lineHeight: "1.1",
+        fontFamily: "Outfit, sans-serif",
+        fontWeight: 900,
+        textAlign: "left",
+      },
+      paragraph: {
+        fontSize: "28px",
+        lineHeight: "1.2",
+        fontFamily: "Outfit, sans-serif",
+        fontWeight: 400,
+        textAlign: "left",
+      },
+    },
+  },
 };
 
 // ==========================================
@@ -212,6 +262,53 @@ export const LINKEDIN_TEMPLATE_CONFIG: Record<Theme, ThemeConfig> = {
         fontFamily: "Outfit, sans-serif",
         fontWeight: 400,
         textAlign: "center",
+      },
+    },
+  },
+  // Dithered image band on top, panel below. Left-aligned, unlike light/dark.
+  "dither-light": {
+    layout: {
+      padding: "96px",
+      contentGap: "1.5rem",
+      logoHeight: "64px",
+      partnerMaxHeight: "72px",
+    },
+    textStyles: {
+      heading: {
+        lineHeight: "1.1",
+        fontFamily: "Outfit, sans-serif",
+        fontWeight: 900,
+        textAlign: "left",
+      },
+      paragraph: {
+        fontSize: "32px",
+        lineHeight: "1.2",
+        fontFamily: "Outfit, sans-serif",
+        fontWeight: 400,
+        textAlign: "left",
+      },
+    },
+  },
+  "dither-dark": {
+    layout: {
+      padding: "96px",
+      contentGap: "1.5rem",
+      logoHeight: "64px",
+      partnerMaxHeight: "72px",
+    },
+    textStyles: {
+      heading: {
+        lineHeight: "1.1",
+        fontFamily: "Outfit, sans-serif",
+        fontWeight: 900,
+        textAlign: "left",
+      },
+      paragraph: {
+        fontSize: "32px",
+        lineHeight: "1.2",
+        fontFamily: "Outfit, sans-serif",
+        fontWeight: 400,
+        textAlign: "left",
       },
     },
   },

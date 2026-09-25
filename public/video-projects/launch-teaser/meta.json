@@ -1,0 +1,8 @@
+{
+  "id": "launch-teaser",
+  "name": "Massive Launch Teaser",
+  "group": "massive",
+  "kind": "port",
+  "status": "draft",
+  "source": "remotion-playground/src/remotion/MassiveLaunchTeaser.tsx"
+}

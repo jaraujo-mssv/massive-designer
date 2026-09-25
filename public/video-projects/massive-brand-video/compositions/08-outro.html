@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+        }
+        #root .wrap {
+          justify-content: center;
+          align-items: center;
+        }
+        #root .dotgrid.dim {
+          opacity: 0.1;
+        }
+        #root .rays {
+          pointer-events: none;
+        }
+        #root .rays svg {
+          position: absolute;
+        }
+        #root .grad {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 50%;
+          background: linear-gradient(to top, #d7493944, transparent);
+        }
+        #root .col {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 32px;
+          z-index: 2;
+        }
+        #root .col img {
+          height: 72px;
+        }
+        #root .url {
+          color: rgba(250, 244, 236, 0.55);
+          font-size: 16px;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+        }
+      </style>
+      <div id="root" data-composition-id="bv-outro" data-width="1920" data-height="1080" data-duration="1.5">
+        <div class="af fill wrap">
+          <div class="af dotgrid dim"></div>
+          <div class="af rays"><svg class="rays-svg" width="1920" height="1080" viewBox="0 0 1920 1080"></svg></div>
+          <div class="grad"></div>
+          <div class="col">
+            <div data-si="4"><img src="assets/brand/logo-white.svg" alt="Massive" /></div>
+            <div class="url mono" data-up="16">joinmassive.com</div>
+          </div>
+        </div>
+      </div>
+      <script>
+        BrandScene.mount("bv-outro", 45, (h) => {
+          const { svg } = FrameKit;
+          const rays = h.$(".rays");
+          const grad = h.$(".grad");
+          const svgEl = h.$(".rays-svg");
+          const lines = Array.from({ length: 16 }, () =>
+            svg("line", { x1: 960, y1: 540, stroke: "#d74939", "stroke-width": 1.5 }, svgEl),
+          );
+          return (f) => {
+            const len = h.interpolate(f, [0, 12], [0, 700], h.CLAMP);
+            rays.style.opacity = h.interpolate(f, [0, 4, 28, 45], [0, 0.35, 0.15, 0], h.CLAMP);
+            grad.style.opacity = h.interpolate(f, [0, 18], [0, 0.55], h.CLAMP);
+            lines.forEach((el, i) => {
+              const a = (i / 16) * Math.PI * 2;
+              el.setAttribute("x2", 960 + Math.cos(a) * len);
+              el.setAttribute("y2", 540 + Math.sin(a) * len);
+            });
+          };
+        });
+      </script>
+    </template>
+  </body>
+</html>

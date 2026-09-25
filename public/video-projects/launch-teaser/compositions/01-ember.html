@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+        }
+        #root .fill {
+          background-color: #000;
+        }
+        #root .ember {
+          position: absolute;
+          bottom: -270px;
+          right: -96px;
+          width: 1248px;
+          height: 1248px;
+          border-radius: 50%;
+          background: radial-gradient(circle, #d7493966 0%, #d7493933 30%, #d7493911 55%, transparent 70%);
+          filter: blur(80px);
+          pointer-events: none;
+        }
+      </style>
+      <div id="root" data-composition-id="lt-ember" data-width="1920" data-height="1080" data-duration="3">
+        <div class="af fill"><div class="ember"></div></div>
+      </div>
+      <script>
+        (() => {
+          const { interpolate, CLAMP, drive } = FrameKit;
+          const root = document.querySelector('[data-composition-id="lt-ember"]');
+          const ember = root.querySelector(".ember");
+          const fIn = (f, delay = 0, dur = 8) => interpolate(Math.max(0, f - delay), [0, dur], [0, 1], CLAMP);
+          const fOut = (f, start, dur = 8) => 1 - interpolate(f, [start, start + dur], [0, 1], CLAMP);
+          const tl = gsap.timeline({ paused: true });
+          drive(tl, 30, 90, (f) => {
+            ember.style.opacity = fIn(f, 0, 20) * fOut(f, 70, 15);
+            ember.style.transform = `scale(${interpolate(f, [0, 40], [0.4, 1.0], CLAMP)})`;
+          });
+          window.__timelines["lt-ember"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

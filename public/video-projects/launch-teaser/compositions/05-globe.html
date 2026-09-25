@@ -1,0 +1,151 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+        }
+        #root .scene-fill {
+          background-color: #000;
+        }
+        #root svg {
+          position: absolute;
+          top: 0;
+          left: 0;
+        }
+        #root .logo-wrap {
+          justify-content: center;
+          align-items: center;
+        }
+        #root .logo {
+          height: 118.8px;
+          filter: drop-shadow(0 0 22px #d7493999);
+        }
+      </style>
+      <div id="root" data-composition-id="lt-globe" data-width="1920" data-height="1080" data-duration="1.066667">
+        <div class="af scene-fill">
+          <svg class="globe" width="1920" height="1080">
+            <defs>
+              <filter id="globeGlow" x="-30%" y="-30%" width="160%" height="160%">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+              <clipPath id="globeClip"><circle cx="960" cy="540" r="353.808" /></clipPath>
+            </defs>
+            <g class="grid"></g>
+            <g class="dots" clip-path="url(#globeClip)"></g>
+            <g class="pulses"></g>
+          </svg>
+          <div class="af logo-wrap"><img class="logo" src="assets/brand/logo-positive-white.png" alt="Massive" /></div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const { interpolate, CLAMP, drive, svg, attrs } = FrameKit;
+          const W = 1920;
+          const H = 1080;
+          const ORANGE = "#d74939";
+          const ORANGE_LIGHT = "#ff8163";
+          const cx = W * 0.5;
+          const cy = H * 0.5;
+          const r = Math.min(W, H) * 0.36;
+          const COUNTRY_COORDS = [
+            // Africa
+            [3.4,6.5],[31.2,30.1],[38.7,9.0],[32.6,0.3],[36.8,-1.3],[2.4,12.4],[15.3,4.4],
+            [18.6,4.4],[18.6,-4.3],[25.0,-29.0],[31.0,-26.3],[32.9,-13.2],[-17.3,14.7],
+            [45.3,11.6],[-0.2,5.6],[14.5,-22.6],[47.5,-18.9],[57.5,-20.2],[30.0,15.6],
+            [-13.7,9.5],[-15.6,11.9],[7.5,17.3],[22.9,4.4],[13.5,2.1],[33.8,-13.0],
+            [34.3,-19.0],[43.1,11.6],[28.3,3.8],[-1.7,12.4],[-7.5,3.9],[-4.0,5.3],
+            [10.7,3.9],[9.1,7.5],[2.1,6.4],[29.4,-3.4],[18.0,15.5],[38.9,15.3],
+            [-16.6,13.5],[25.9,10.3],[13.2,27.5],[6.9,36.8],[44.8,41.7],[35.0,33.0],
+            [32.5,15.5],[-8.8,8.5],[-15.2,11.9],[30.1,-22.5],[32.7,-25.9],
+            [14.0,-4.3],[18.7,4.0],[8.7,3.8],[25.5,-1.9],[43.0,-11.7],[40.5,-12.5],
+            // Europe
+            [2.4,48.9],[-0.1,51.5],[13.4,52.5],[4.9,52.4],[4.4,50.8],[10.8,59.9],
+            [18.1,59.3],[12.6,55.7],[25.0,60.2],[24.7,59.4],[56.3,24.8],[25.3,54.7],
+            [21.0,52.2],[17.1,48.1],[14.5,50.1],[16.4,48.2],[19.0,47.5],[23.3,42.7],
+            [26.1,44.4],[23.7,37.9],[12.5,41.9],[12.5,43.9],[14.5,35.9],[19.8,41.3],
+            [21.4,42.0],[20.5,43.9],[20.5,44.8],[-9.1,38.7],[-3.7,40.4],[-8.6,41.2],
+            [-8.0,53.9],[1.5,42.5],[0.5,39.5],[15.2,46.1],[14.5,46.1],[21.5,41.9],
+            [24.1,56.9],[9.5,47.2],[7.4,43.7],[15.6,38.1],[6.1,49.6],[6.2,46.9],
+            [14.4,50.1],[28.9,47.0],
+            // Americas
+            [-77.0,-12.1],[-68.2,-16.5],[-65.3,-25.3],[-58.2,-34.6],[-70.7,-33.5],
+            [-73.0,-36.8],[-76.5,-9.0],[-78.5,-0.2],[-57.0,4.9],[-63.2,10.5],
+            [-68.0,12.1],[-72.3,18.5],[-69.9,18.5],[-66.1,18.5],[-61.0,14.0],
+            [-61.4,15.3],[-61.7,17.1],[-62.7,17.3],[-60.0,15.4],[-62.0,16.7],
+            [-63.0,18.2],[-64.6,18.4],[-88.8,13.7],[-85.9,12.1],[-84.1,9.9],
+            [-87.2,14.1],[-90.5,14.6],[-79.5,8.9],[-58.1,6.8],[-38.5,-12.9],
+            [-47.6,-15.8],[-70.7,-29.9],[-106.7,35.1],[-77.0,38.9],[-79.4,43.7],
+            // Asia
+            [39.8,21.4],[44.4,33.3],[35.2,31.8],[35.6,33.9],[37.6,55.8],
+            [69.3,41.3],[74.6,42.9],[77.2,28.6],[72.8,21.0],[85.3,27.7],
+            [80.6,7.9],[96.2,16.9],[102.6,17.9],[104.9,11.6],[103.8,1.4],
+            [114.9,4.9],[120.6,15.0],[125.6,10.0],[121.0,14.6],[127.0,37.6],
+            [125.7,39.0],[139.7,35.7],[116.4,39.9],[121.5,25.0],[106.7,10.8],
+            [105.8,21.0],[91.4,27.5],[90.4,23.7],[43.8,15.4],[46.7,24.7],
+            [51.5,25.3],[57.6,23.6],[55.5,23.4],[54.4,24.5],[45.3,3.1],
+            [44.4,-11.7],[43.3,11.6],[66.0,33.7],[69.2,34.5],[63.5,38.6],
+            [59.6,37.9],[58.4,23.6],[68.8,38.6],[73.5,4.2],[51.2,35.7],
+            [67.0,36.7],[100.5,13.8],[95.9,16.9],[108.0,12.0],[115.0,5.0],
+            // Oceania
+            [149.1,-35.3],[174.8,-36.9],[178.4,-18.1],[130.8,-12.5],[166.5,-22.3],
+            [-171.9,-13.8],[169.9,-19.1],[158.2,6.9],[144.9,13.5],[134.6,7.4],
+            [171.4,7.1],[179.1,-8.5],
+          ];
+
+          const root = document.querySelector('[data-composition-id="lt-globe"]');
+          const fill = root.querySelector(".scene-fill");
+          const logo = root.querySelector(".logo");
+          const grid = root.querySelector("g.grid");
+          const dotsG = root.querySelector("g.dots");
+          const pulsesG = root.querySelector("g.pulses");
+          const fIn = (f, delay = 0, dur = 8) => interpolate(Math.max(0, f - delay), [0, dur], [0, 1], CLAMP);
+
+          [-60, -30, 0, 30, 60].forEach((lat) => {
+            const y = cy - (lat / 90) * r;
+            const hw = Math.sqrt(Math.max(0, r * r - (y - cy) * (y - cy)));
+            svg("line", { x1: cx - hw, y1: y, x2: cx + hw, y2: y, stroke: `${ORANGE}18`, "stroke-width": 0.8 }, grid);
+          });
+          [-120, -60, 0, 60, 120].forEach((lng) => {
+            const x = cx + (lng / 180) * r;
+            const hh = Math.sqrt(Math.max(0, r * r - (x - cx) * (x - cx)));
+            svg("line", { x1: x, y1: cy - hh, x2: x, y2: cy + hh, stroke: `${ORANGE}18`, "stroke-width": 0.8 }, grid);
+          });
+          svg("circle", { cx, cy, r, fill: "none", stroke: `${ORANGE}33`, "stroke-width": 1.5, filter: "url(#globeGlow)" }, grid);
+          const dots = COUNTRY_COORDS.map(([lng, lat]) =>
+            svg("circle", {
+              cx: cx + (lng / 180) * r * 0.88, cy: cy - (lat / 90) * r * 0.88, r: 3.5,
+              fill: ORANGE_LIGHT, opacity: 0.9, filter: "url(#globeGlow)",
+            }, dotsG),
+          );
+          const pulses = [0, 10, 20].map((offset) => ({
+            offset,
+            el: svg("circle", { cx, cy, fill: "none", stroke: ORANGE_LIGHT, "stroke-width": 1.5 }, pulsesG),
+          }));
+
+          const tl = gsap.timeline({ paused: true });
+          drive(tl, 30, 32, (f) => {
+            fill.style.opacity = fIn(f, 0, 10);
+            const count = Math.floor(interpolate(f, [5, 24], [0, COUNTRY_COORDS.length], CLAMP));
+            dots.forEach((el, i) => el.setAttribute("opacity", i < count ? 0.9 : 0));
+            pulses.forEach(({ offset, el }) => {
+              const t = interpolate(f - offset, [0, 28], [0, 1], CLAMP);
+              attrs(el, { r: r * 0.12 + t * r * 0.88, opacity: (1 - t) * 0.55 });
+            });
+            logo.style.opacity = fIn(f, 3, 8);
+          });
+          window.__timelines["lt-globe"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

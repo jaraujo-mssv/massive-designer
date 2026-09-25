@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+        }
+        #root .cam {
+          transform-origin: center center;
+        }
+        #root .dots {
+          background-image: radial-gradient(circle, #d7493944 1px, transparent 1px);
+          background-size: 96px 96px;
+          opacity: 0.06;
+        }
+        #root svg {
+          position: absolute;
+          top: 0;
+          left: 0;
+        }
+      </style>
+      <div id="root" data-composition-id="lt-network" data-width="1920" data-height="1080" data-duration="3.066667">
+        <div class="af cam">
+          <div class="af dots"></div>
+          <svg class="net" width="1920" height="1080">
+            <defs>
+              <filter id="netGlow" x="-30%" y="-30%" width="160%" height="160%">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+          </svg>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const { interpolate, CLAMP, drive, svg, attrs } = FrameKit;
+          const W = 1920;
+          const H = 1080;
+          const ORANGE = "#d74939";
+          const ORANGE_LIGHT = "#ff8163";
+          const NODES = [
+            { x: 0.5, y: 0.5 },
+            { x: 0.15, y: 0.2 }, { x: 0.28, y: 0.35 }, { x: 0.12, y: 0.55 }, { x: 0.22, y: 0.72 },
+            { x: 0.38, y: 0.18 }, { x: 0.55, y: 0.12 }, { x: 0.72, y: 0.22 }, { x: 0.85, y: 0.35 },
+            { x: 0.88, y: 0.55 }, { x: 0.78, y: 0.72 }, { x: 0.62, y: 0.82 }, { x: 0.4, y: 0.78 },
+            { x: 0.25, y: 0.58 }, { x: 0.68, y: 0.48 },
+          ];
+          const EDGES = [
+            [0, 1], [0, 3], [0, 7], [0, 9], [0, 11],
+            [1, 2], [2, 3], [3, 4], [4, 12],
+            [1, 5], [5, 6], [6, 7], [7, 8], [8, 9],
+            [9, 10], [10, 11], [11, 12],
+            [2, 13], [13, 4], [5, 14], [14, 8], [0, 14], [0, 5], [0, 13],
+          ];
+          const root = document.querySelector('[data-composition-id="lt-network"]');
+          const cam = root.querySelector(".cam");
+          const net = root.querySelector("svg.net");
+          const px = NODES.map((n) => ({ x: n.x * W, y: n.y * H }));
+          const fIn = (f, delay = 0, dur = 8) => interpolate(Math.max(0, f - delay), [0, dur], [0, 1], CLAMP);
+          const fOut = (f, start, dur = 8) => 1 - interpolate(f, [start, start + dur], [0, 1], CLAMP);
+
+          const lines = EDGES.map(([a, b]) => {
+            const len = Math.hypot(px[b].x - px[a].x, px[b].y - px[a].y);
+            const el = svg("line", {
+              x1: px[a].x, y1: px[a].y, x2: px[b].x, y2: px[b].y,
+              stroke: ORANGE_LIGHT, "stroke-width": 1.5, "stroke-dasharray": len, filter: "url(#netGlow)",
+            }, net);
+            return { el, len };
+          });
+          const nodes = px.map((n, i) => {
+            const r = i === 0 ? 8 : 5;
+            const g = svg("g", { filter: "url(#netGlow)" }, net);
+            const halo = svg("circle", { cx: n.x, cy: n.y, r: r * 2.2, fill: `${ORANGE}22` }, g);
+            const dot = svg("circle", { cx: n.x, cy: n.y, r, fill: ORANGE_LIGHT }, g);
+            return [halo, dot];
+          });
+
+          const tl = gsap.timeline({ paused: true });
+          drive(tl, 30, 92, (f) => {
+            cam.style.opacity = fOut(f, 82, 8);
+            cam.style.transform = `scale(${interpolate(f, [0, 90], [1.0, 1.18], CLAMP)})`;
+            const pulse = f > 60 ? interpolate(f % 8, [0, 4, 8], [0.55, 1.0, 0.55], CLAMP) : 1.0;
+            lines.forEach(({ el, len }, i) => {
+              const drawn = interpolate(f - (8 + i * 2.2), [0, 12], [0, 1], CLAMP);
+              attrs(el, { "stroke-dashoffset": len * (1 - drawn), opacity: drawn * 0.65 * pulse });
+            });
+            nodes.forEach(([halo, dot], i) => {
+              const op = fIn(f, 6 + i * 3, 6) * pulse;
+              halo.setAttribute("opacity", op);
+              dot.setAttribute("opacity", op);
+            });
+          });
+          window.__timelines["lt-network"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

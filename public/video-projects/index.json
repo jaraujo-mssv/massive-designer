@@ -1,0 +1,344 @@
+{
+  "projects": [
+    {
+      "id": "launch-teaser",
+      "title": "Massive Launch Teaser",
+      "group": "massive",
+      "kind": "port",
+      "brand": null,
+      "status": "draft",
+      "source": "remotion-playground/src/remotion/MassiveLaunchTeaser.tsx",
+      "compositionId": "launch-teaser",
+      "width": 1920,
+      "height": 1080,
+      "fps": 30,
+      "duration": 6,
+      "path": "/video-projects/launch-teaser/index.html",
+      "storyboard": {
+        "globals": {
+          "extra": {
+            "duration": "6s"
+          },
+          "format": "1920x1080",
+          "message": "Massive Web Render launches 05.05.26",
+          "arc": "Tension → Shatter → Reveal",
+          "audience": "developers following the Web Render launch"
+        },
+        "warnings": [],
+        "frames": [
+          {
+            "index": 1,
+            "title": "Ember",
+            "status": "animated",
+            "scene": "A red ember glow swells in the lower right of a black frame",
+            "voiceover": null,
+            "narrative": "Background layer for the whole first beat. Fades in over 20 frames, out from frame 70.",
+            "src": "compositions/01-ember.html",
+            "start": 0,
+            "duration": 3,
+            "poster": 1.5,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 2,
+            "title": "Network",
+            "status": "animated",
+            "scene": "A node graph draws itself edge by edge while the camera pushes in",
+            "voiceover": null,
+            "narrative": "Nodes pop in one by one, edges draw on with a glow, and after frame 60 the whole graph pulses.",
+            "src": "compositions/02-network.html",
+            "start": 0,
+            "duration": 3.07,
+            "poster": 1.5,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 3,
+            "title": "Terminal",
+            "status": "animated",
+            "scene": "A bash window types a curl call to the Render API and gets 200 OK",
+            "voiceover": null,
+            "narrative": "Sits on top of the network for the last 22 frames of beat 1.",
+            "src": "compositions/03-terminal.html",
+            "start": 2.266667,
+            "duration": 0.73,
+            "poster": 0.6,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 4,
+            "title": "Fortress",
+            "status": "animated",
+            "scene": "A cluster of glowing hexagons bobs, then shatters outward",
+            "voiceover": null,
+            "narrative": "The shatter lands at frame 28: hexes fly apart, 24 particles burst from the centre, and the core glow flares.",
+            "src": "compositions/04-fortress.html",
+            "start": 3,
+            "duration": 2,
+            "poster": 1.2,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 5,
+            "title": "Globe",
+            "status": "animated",
+            "scene": "A wireframe globe fills with country dots behind the Massive logo",
+            "voiceover": null,
+            "narrative": "Pulse rings radiate from the centre while dots fill in.",
+            "src": "compositions/05-globe.html",
+            "start": 4.933333,
+            "duration": 1.07,
+            "poster": 0.9,
+            "transitionIn": "crossfade"
+          },
+          {
+            "index": 6,
+            "title": "Date reveal",
+            "status": "animated",
+            "scene": "\"MASSIVE WEB RENDER 05.05.26\" types out with a blinking cursor",
+            "voiceover": null,
+            "narrative": "The black backing fades up over the globe as the text types.",
+            "src": "compositions/06-date-reveal.html",
+            "start": 5.266667,
+            "duration": 0.73,
+            "poster": 0.7,
+            "transitionIn": "crossfade"
+          }
+        ]
+      },
+      "script": null,
+      "media": []
+    },
+    {
+      "id": "massive-brand-video",
+      "title": "Massive Brand Video",
+      "group": "massive",
+      "kind": "port",
+      "brand": null,
+      "status": "draft",
+      "source": "remotion-playground/src/remotion/MassiveBrandVideo.tsx",
+      "compositionId": "massive-brand-video",
+      "width": 1920,
+      "height": 1080,
+      "fps": 30,
+      "duration": 25,
+      "path": "/video-projects/massive-brand-video/index.html",
+      "storyboard": {
+        "globals": {
+          "extra": {
+            "duration": "25s"
+          },
+          "format": "1920x1080",
+          "message": "Massive is real-time web access for AI",
+          "arc": "Logo → Problem → Product → Use cases → How to → Outro",
+          "audience": "AI builders evaluating web-access tools"
+        },
+        "warnings": [],
+        "frames": [
+          {
+            "index": 1,
+            "title": "Logo intro",
+            "status": "animated",
+            "scene": "Logo pops in over pulse rings and a spinning dashed ring",
+            "voiceover": null,
+            "narrative": "Tagline \"Real-time web access for AI\" rises in under a growing rule.",
+            "src": "compositions/01-logo-intro.html",
+            "start": 0,
+            "duration": 1.5,
+            "poster": 1,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 2,
+            "title": "Opening statement",
+            "status": "animated",
+            "scene": "Four lines wipe in: the internet was built for humans, we bridge the gap",
+            "voiceover": null,
+            "narrative": "\"The internet wasn't built / for machines. / It was built for humans. / We bridge the gap.\"",
+            "src": "compositions/02-opening.html",
+            "start": 1.5,
+            "duration": 4,
+            "poster": 3.5,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 3,
+            "title": "Product statement",
+            "status": "animated",
+            "scene": "Gradient \"Massive\" wordmark with a node graph top right",
+            "voiceover": null,
+            "narrative": "\"Massive is real-time web access for AI.\"",
+            "src": "compositions/03-product.html",
+            "start": 5.5,
+            "duration": 3,
+            "poster": 2,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 4,
+            "title": "CRM enrichment",
+            "status": "animated",
+            "scene": "Use case 01 with a contact-to-database icon and platform chips",
+            "voiceover": null,
+            "narrative": "",
+            "src": "compositions/04-crm.html",
+            "start": 8.5,
+            "duration": 4,
+            "poster": 3,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 5,
+            "title": "Search & GEO",
+            "status": "animated",
+            "scene": "Use case 02 with a radar-sweep magnifier",
+            "voiceover": null,
+            "narrative": "",
+            "src": "compositions/05-search.html",
+            "start": 12.5,
+            "duration": 4,
+            "poster": 3,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 6,
+            "title": "Portfolio management",
+            "status": "animated",
+            "scene": "Use case 03 with growing bars and a trend line",
+            "voiceover": null,
+            "narrative": "",
+            "src": "compositions/06-portfolio.html",
+            "start": 16.5,
+            "duration": 4,
+            "poster": 3,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 7,
+            "title": "How to use",
+            "status": "animated",
+            "scene": "Two step cards joined by an arrow: add skills, prompt your agent",
+            "voiceover": null,
+            "narrative": "",
+            "src": "compositions/07-how-to.html",
+            "start": 20.5,
+            "duration": 3,
+            "poster": 2.5,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 8,
+            "title": "Outro",
+            "status": "animated",
+            "scene": "Logo and joinmassive.com over a ray burst",
+            "voiceover": null,
+            "narrative": "",
+            "src": "compositions/08-outro.html",
+            "start": 23.5,
+            "duration": 1.5,
+            "poster": 1,
+            "transitionIn": "cut"
+          }
+        ]
+      },
+      "script": null,
+      "media": []
+    },
+    {
+      "id": "why-aeo-is-the-new-seo",
+      "title": "Why AEO Is the New SEO",
+      "group": "massive",
+      "kind": "port",
+      "brand": null,
+      "status": "draft",
+      "source": "remotion-playground/src/remotion/WhyAEOIsTheNewSEO.tsx",
+      "compositionId": "why-aeo-is-the-new-seo",
+      "width": 1080,
+      "height": 1080,
+      "fps": 60,
+      "duration": 18,
+      "path": "/video-projects/why-aeo-is-the-new-seo/index.html",
+      "storyboard": {
+        "globals": {
+          "extra": {
+            "duration": "18s"
+          },
+          "format": "1080x1080",
+          "message": "AI answers are replacing blue links; get cited or lose the click",
+          "arc": "Stat → Stat → Stat → Stat → CTA",
+          "audience": "marketers and SEO leads on LinkedIn"
+        },
+        "warnings": [],
+        "frames": [
+          {
+            "index": 1,
+            "title": "58% CTR drop",
+            "status": "animated",
+            "scene": "Giant \"58%\" scales in over a falling line chart",
+            "voiceover": null,
+            "narrative": "\"drop in top-page CTR when AI Overviews appear.\" staggers in word by word.",
+            "src": "compositions/slide-01.html",
+            "start": 0,
+            "duration": 4,
+            "poster": 2.5,
+            "transitionIn": "crossfade"
+          },
+          {
+            "index": 2,
+            "title": "+38% when cited",
+            "status": "animated",
+            "scene": "\"+38%\" over a bullseye",
+            "voiceover": null,
+            "narrative": "\"CTR rise for pages cited inside an AI Overview.\"",
+            "src": "compositions/slide-02.html",
+            "start": 3.5,
+            "duration": 4,
+            "poster": 2.5,
+            "transitionIn": "crossfade"
+          },
+          {
+            "index": 3,
+            "title": "1.13B referrals",
+            "status": "animated",
+            "scene": "\"1.13B\" over rising bars",
+            "voiceover": null,
+            "narrative": "\"AI-assistant referrals to top sites in June 2025 — +357% YoY.\"",
+            "src": "compositions/slide-03.html",
+            "start": 7,
+            "duration": 4,
+            "poster": 2.5,
+            "transitionIn": "crossfade"
+          },
+          {
+            "index": 4,
+            "title": "30–41% citation lift",
+            "status": "animated",
+            "scene": "\"30–41%\" over giant quote marks",
+            "voiceover": null,
+            "narrative": "\"citation lift from adding quotations, statistics & cited sources.\"",
+            "src": "compositions/slide-04.html",
+            "start": 10.5,
+            "duration": 4,
+            "poster": 2.5,
+            "transitionIn": "crossfade"
+          },
+          {
+            "index": 5,
+            "title": "Read the blog",
+            "status": "animated",
+            "scene": "Headline plus a dark pill CTA to joinmassive.com/blog",
+            "voiceover": null,
+            "narrative": "Slides overlap by 0.5s; each fades and un-blurs in over 24 frames.",
+            "src": "compositions/slide-05.html",
+            "start": 14,
+            "duration": 4,
+            "poster": 3,
+            "transitionIn": "crossfade"
+          }
+        ]
+      },
+      "script": null,
+      "media": []
+    }
+  ]
+}

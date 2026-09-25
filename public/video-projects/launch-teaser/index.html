@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Massive Launch Teaser</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="lib/frame-kit.js"></script>
+    <link rel="stylesheet" href="lib/frame-kit.css" />
+    <style>
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #000;
+      }
+      #stage {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+      }
+      #stage-bg {
+        position: absolute;
+        inset: 0;
+        background: #000;
+      }
+      /* Cinematic vignette above every scene. */
+      #vignette {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse at center, transparent 45%, rgba(0, 0, 0, 0.65) 100%);
+        pointer-events: none;
+        z-index: 100;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="stage"
+      data-composition-id="launch-teaser"
+      data-start="0"
+      data-duration="6"
+      data-fps="30"
+      data-width="1920"
+      data-height="1080"
+    >
+      <div id="stage-bg" class="clip" data-start="0" data-duration="6" data-track-index="0"></div>
+
+      <!-- Beat 1: tension build -->
+      <div id="lt-ember" class="clip scene" style="z-index: 1"
+        data-composition-id="lt-ember" data-composition-src="compositions/01-ember.html"
+        data-start="0" data-duration="3" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="lt-network" class="clip scene" style="z-index: 2"
+        data-composition-id="lt-network" data-composition-src="compositions/02-network.html"
+        data-start="0" data-duration="3.066667" data-track-index="2" data-width="1920" data-height="1080"></div>
+      <div id="lt-terminal" class="clip scene" style="z-index: 3"
+        data-composition-id="lt-terminal" data-composition-src="compositions/03-terminal.html"
+        data-start="2.266667" data-duration="0.733333" data-track-index="3" data-width="1920" data-height="1080"></div>
+
+      <!-- Beat 2: shatter -->
+      <div id="lt-fortress" class="clip scene" style="z-index: 4"
+        data-composition-id="lt-fortress" data-composition-src="compositions/04-fortress.html"
+        data-start="3" data-duration="2" data-track-index="1" data-width="1920" data-height="1080"></div>
+
+      <!-- Beat 3: logo + date reveal -->
+      <div id="lt-globe" class="clip scene" style="z-index: 5"
+        data-composition-id="lt-globe" data-composition-src="compositions/05-globe.html"
+        data-start="4.933333" data-duration="1.066667" data-track-index="2" data-width="1920" data-height="1080"></div>
+      <div id="lt-date" class="clip scene" style="z-index: 6"
+        data-composition-id="lt-date" data-composition-src="compositions/06-date-reveal.html"
+        data-start="5.266667" data-duration="0.733333" data-track-index="3" data-width="1920" data-height="1080"></div>
+
+      <div id="vignette" class="clip" data-layout-allow-occlusion data-start="0" data-duration="6" data-track-index="9"></div>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      window.__timelines["launch-teaser"] = tl;
+    </script>
+  </body>
+</html>

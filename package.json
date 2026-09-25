@@ -10,11 +10,17 @@
     "banners": "node scripts/banners/render.mjs",
     "banners:html": "node scripts/banners/html.mjs",
     "onepager": "node scripts/onepager/render.mjs",
-    "docs": "node scripts/docs/render.mjs"
+    "docs": "node scripts/docs/render.mjs",
+    "video:index": "node scripts/video/build-index.mjs",
+    "video:brand": "node scripts/video/sync-brand.mjs",
+    "video:media": "node scripts/video/sync-media.mjs",
+    "video:preview": "node scripts/video/preview.mjs",
+    "video:render": "node scripts/video/render.mjs"
   },
   "dependencies": {
     "@emotion/react": "11.14.0",
     "@emotion/styled": "11.14.1",
+    "@hyperframes/player": "0.8.77",
     "@mui/icons-material": "7.3.5",
     "@mui/material": "7.3.5",
     "@popperjs/core": "2.11.8",
@@ -76,10 +82,12 @@
     "vaul": "1.1.2"
   },
   "devDependencies": {
+    "@hyperframes/core": "0.8.77",
     "@tailwindcss/vite": "4.1.12",
     "@types/react": "^18.3.0",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "4.7.0",
+    "hyperframes": "0.8.77",
     "playwright": "^1.60.0",
     "tailwindcss": "4.1.12",
     "typescript": "^5.7.0",

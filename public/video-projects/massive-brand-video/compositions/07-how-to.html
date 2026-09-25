@@ -1,0 +1,120 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+        }
+        #root .wrap {
+          justify-content: center;
+          padding: 0 160px;
+        }
+        #root .col {
+          display: flex;
+          flex-direction: column;
+          gap: 44px;
+        }
+        #root .head {
+          color: #faf4ec;
+          font-size: 72px;
+          font-weight: 900;
+          line-height: 1;
+          letter-spacing: -0.04em;
+        }
+        #root .row {
+          display: flex;
+          align-items: center;
+          gap: 32px;
+        }
+        #root .card {
+          background-color: #1a1920;
+          border: 1px solid #d7493944;
+          border-radius: 20px;
+          padding: 32px 40px;
+          min-width: 340px;
+        }
+        #root .card-n {
+          color: #d74939;
+          font-size: 13px;
+          font-weight: 600;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          margin-bottom: 14px;
+        }
+        #root .card-title {
+          color: #faf4ec;
+          font-size: 34px;
+          font-weight: 700;
+          line-height: 1.2;
+          letter-spacing: -0.02em;
+        }
+        #root .card-sub {
+          color: rgba(250, 244, 236, 0.55);
+          font-size: 20px;
+          font-weight: 400;
+          margin-top: 8px;
+        }
+        #root .arrow {
+          flex-shrink: 0;
+          overflow: visible;
+        }
+        #root .note {
+          color: rgba(250, 244, 236, 0.55);
+          font-size: 26px;
+        }
+      </style>
+      <div id="root" data-composition-id="bv-how-to" data-width="1920" data-height="1080" data-duration="3">
+        <div class="af fill wrap">
+          <div class="af dotgrid"></div>
+          <div class="af brackets">
+            <div class="corner" style="top: 52px; left: 52px"><div class="bw" style="top: 0; left: 0"></div><div class="bh" style="top: 0; left: 0"></div></div>
+            <div class="corner" style="top: 52px; right: 52px"><div class="bw" style="top: 0; right: 0"></div><div class="bh" style="top: 0; right: 0"></div></div>
+            <div class="corner" style="bottom: 52px; left: 52px"><div class="bw" style="bottom: 0; left: 0"></div><div class="bh" style="bottom: 0; left: 0"></div></div>
+            <div class="corner" style="bottom: 52px; right: 52px"><div class="bw" style="bottom: 0; right: 0"></div><div class="bh" style="bottom: 0; right: 0"></div></div>
+          </div>
+          <div class="col">
+            <div class="head display" data-up="0">Get started in seconds</div>
+            <div class="row">
+              <div class="card" data-up="10">
+                <div class="card-n mono">01</div>
+                <div class="card-title display">Add skills to your agent</div>
+                <div class="card-sub mono">Upload zip or copy/paste</div>
+              </div>
+              <svg class="arrow" height="40">
+                <line class="shaft" x1="0" y1="20" y2="20" stroke="#d74939" stroke-width="3" />
+                <line class="tip tip-a" y1="9" y2="20" stroke="#d74939" stroke-width="3" />
+                <line class="tip tip-b" y1="31" y2="20" stroke="#d74939" stroke-width="3" />
+              </svg>
+              <div class="card" data-up="36">
+                <div class="card-n mono">02</div>
+                <div class="card-title display">Prompt your agent</div>
+                <div class="card-sub mono">"Use Massive skill to…"</div>
+              </div>
+            </div>
+            <div class="note display" data-up="54">Find the skills zip in your dashboard</div>
+          </div>
+        </div>
+      </div>
+      <script>
+        BrandScene.mount("bv-how-to", 90, (h) => {
+          const { attrs } = FrameKit;
+          const arrow = h.$(".arrow");
+          const shaft = h.$(".arrow .shaft");
+          const tips = h.$$(".arrow .tip");
+          return (f) => {
+            const w = h.interpolate(f, [24, 38], [0, 140], h.CLAMP);
+            arrow.setAttribute("width", w + 24);
+            arrow.style.opacity = h.fIn(f, 24, 8);
+            shaft.setAttribute("x2", w);
+            tips.forEach((t) => attrs(t, { x1: w - 14, x2: w, opacity: w > 100 ? 1 : 0 }));
+          };
+        });
+      </script>
+    </template>
+  </body>
+</html>

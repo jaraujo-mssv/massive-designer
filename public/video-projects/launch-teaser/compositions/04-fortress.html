@@ -1,0 +1,146 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+        }
+        #root .scene-fill {
+          background-color: #000;
+        }
+        #root .vig {
+          background: radial-gradient(ellipse at center, transparent 20%, rgba(0, 0, 0, 0.85) 100%);
+          pointer-events: none;
+        }
+        #root .glow {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          border-radius: 50%;
+          background: radial-gradient(circle, #d7493988 0%, #d7493933 40%, transparent 70%);
+          filter: blur(50px);
+          pointer-events: none;
+        }
+        #root svg {
+          position: absolute;
+          top: 0;
+          left: 0;
+        }
+      </style>
+      <div id="root" data-composition-id="lt-fortress" data-width="1920" data-height="1080" data-duration="2">
+        <div class="af scene-fill">
+          <div class="af vig"></div>
+          <div class="glow" data-layout-allow-overflow></div>
+          <svg class="fort" width="1920" height="1080">
+            <defs>
+              <filter id="fortGlow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+          </svg>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const { interpolate, CLAMP, drive, svg, attrs } = FrameKit;
+          const W = 1920;
+          const H = 1080;
+          const ORANGE = "#d74939";
+          const ORANGE_LIGHT = "#ff8163";
+          const SHATTER = 28;
+          const FORTRESS = [
+            { nx: 0.5, ny: 0.42, s: 0.18, vx: 0.0, vy: -0.6, vr: 120 },
+            { nx: 0.3, ny: 0.38, s: 0.13, vx: -0.55, vy: -0.38, vr: -90 },
+            { nx: 0.7, ny: 0.38, s: 0.13, vx: 0.55, vy: -0.38, vr: 90 },
+            { nx: 0.2, ny: 0.56, s: 0.11, vx: -0.65, vy: 0.12, vr: -60 },
+            { nx: 0.8, ny: 0.56, s: 0.11, vx: 0.65, vy: 0.12, vr: 60 },
+            { nx: 0.38, ny: 0.68, s: 0.09, vx: -0.45, vy: 0.6, vr: -45 },
+            { nx: 0.62, ny: 0.68, s: 0.09, vx: 0.45, vy: 0.6, vr: 45 },
+            { nx: 0.5, ny: 0.75, s: 0.08, vx: 0.1, vy: 0.7, vr: 180 },
+          ];
+          const hexPath = (r) => {
+            const pts = [];
+            for (let i = 0; i < 6; i++) {
+              const a = (Math.PI / 3) * i - Math.PI / 6;
+              pts.push(`${(r * Math.cos(a)).toFixed(1)},${(r * Math.sin(a)).toFixed(1)}`);
+            }
+            return `M${pts[0]} ${pts.slice(1).map((p) => `L${p}`).join(" ")} Z`;
+          };
+          const fIn = (f, delay = 0, dur = 8) => interpolate(Math.max(0, f - delay), [0, dur], [0, 1], CLAMP);
+          const fOut = (f, start, dur = 8) => 1 - interpolate(f, [start, start + dur], [0, 1], CLAMP);
+
+          const root = document.querySelector('[data-composition-id="lt-fortress"]');
+          const fill = root.querySelector(".scene-fill");
+          const glow = root.querySelector(".glow");
+          const fort = root.querySelector("svg.fort");
+          const hexes = FORTRESS.map((h) => {
+            const r = h.s * Math.min(W, H) * 0.5;
+            const g = svg("g", { filter: "url(#fortGlow)" }, fort);
+            svg("path", { d: hexPath(r), fill: `${ORANGE_LIGHT}12`, stroke: ORANGE_LIGHT, "stroke-width": 1.5 }, g);
+            svg("path", { d: hexPath(r * 0.68), fill: "none", stroke: `${ORANGE}55`, "stroke-width": 1 }, g);
+            return g;
+          });
+          const particles = Array.from({ length: 24 }, (_, i) =>
+            svg("rect", { fill: i % 2 === 0 ? ORANGE : ORANGE_LIGHT, filter: "url(#fortGlow)" }, fort),
+          );
+
+          const tl = gsap.timeline({ paused: true });
+          drive(tl, 30, 60, (f) => {
+            fill.style.opacity = fIn(f, 0, 10) * fOut(f, 50, 10);
+            const glowSize = f < SHATTER
+              ? interpolate(f, [0, SHATTER], [0.06, 0.22], CLAMP)
+              : interpolate(f - SHATTER, [0, 14], [0.3, 0.9], CLAMP);
+            const glowOp = f < SHATTER
+              ? interpolate(f, [0, SHATTER], [0.0, 0.55], CLAMP)
+              : interpolate(f - SHATTER, [0, 5, 14], [0.8, 1.0, 0.0], CLAMP);
+            const size = W * glowSize * 2;
+            glow.style.width = `${size}px`;
+            glow.style.height = `${size}px`;
+            glow.style.transform = "translate(-50%, -50%)";
+            glow.style.opacity = glowOp;
+
+            FORTRESS.forEach((h, i) => {
+              const cx = h.nx * W;
+              const cy = h.ny * H;
+              const bob = Math.sin(f * 0.09 + i * 0.9) * 7;
+              let tx = 0, ty = bob, rot = 0, op = 1;
+              if (f >= SHATTER) {
+                const t = interpolate(f - SHATTER, [0, 30], [0, 1], CLAMP);
+                const dist = Math.min(W, H) * 0.75;
+                tx = h.vx * t * dist;
+                ty = bob + h.vy * t * dist;
+                rot = h.vr * t;
+                op = 1 - t;
+              }
+              attrs(hexes[i], { transform: `translate(${cx + tx},${cy + ty}) rotate(${rot})`, opacity: op });
+            });
+
+            particles.forEach((el, i) => {
+              const angle = (i / 24) * Math.PI * 2;
+              const speed = 0.32 + (i % 4) * 0.14;
+              const t = interpolate(f - SHATTER, [0, 32], [0, 1], CLAMP);
+              const px = W * 0.5 + Math.cos(angle) * speed * t * W * 0.7;
+              const py = H * 0.5 + Math.sin(angle) * speed * t * H * 0.7;
+              const ps = 3 + (i % 4) * 2;
+              attrs(el, {
+                x: px - ps / 2, y: py - ps / 2, width: ps, height: ps,
+                opacity: interpolate(f - SHATTER, [0, 3, 28, 32], [0, 1, 0.8, 0], CLAMP),
+                transform: `rotate(45,${px},${py})`,
+              });
+            });
+          });
+          window.__timelines["lt-fortress"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

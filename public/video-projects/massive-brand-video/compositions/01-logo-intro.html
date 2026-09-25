@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+        }
+        #root .wrap {
+          justify-content: center;
+          align-items: center;
+        }
+        #root .ring {
+          position: absolute;
+          width: 200px;
+          height: 200px;
+          border-radius: 50%;
+          border: 2px solid #d74939;
+          pointer-events: none;
+        }
+        #root .spinner {
+          position: absolute;
+          width: 300px;
+          height: 300px;
+          pointer-events: none;
+        }
+        #root .spinner svg {
+          width: 100%;
+          height: 100%;
+        }
+        #root .logo {
+          position: absolute;
+          z-index: 2;
+        }
+        #root .logo img {
+          height: 68px;
+        }
+        #root .tag-col {
+          position: absolute;
+          top: 60%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 18px;
+        }
+        #root .tag-line {
+          height: 2px;
+          background-color: #d74939;
+        }
+        #root .tag {
+          color: rgba(250, 244, 236, 0.55);
+          font-size: 16px;
+          letter-spacing: 0.08em;
+          font-weight: 600;
+          text-transform: uppercase;
+        }
+      </style>
+      <div id="root" data-composition-id="bv-logo-intro" data-width="1920" data-height="1080" data-duration="1.5">
+        <div class="af fill wrap">
+          <div class="af dotgrid"></div>
+          <div class="ring"></div>
+          <div class="ring"></div>
+          <div class="ring"></div>
+          <div class="spinner">
+            <svg viewBox="0 0 300 300">
+              <circle cx="150" cy="150" r="138" fill="none" stroke="#d74939" stroke-width="2" stroke-dasharray="60 450" opacity="0.5" />
+              <circle cx="150" cy="150" r="138" fill="none" stroke="#ff8163" stroke-width="1" stroke-dasharray="20 490" opacity="0.3" transform="rotate(120, 150, 150)" />
+            </svg>
+          </div>
+          <div class="logo"><img src="assets/brand/logo-white.svg" alt="Massive" /></div>
+          <div class="tag-col">
+            <div class="tag-line"></div>
+            <div class="tag mono" data-up="14">Real-time web access for AI</div>
+          </div>
+        </div>
+      </div>
+      <script>
+        BrandScene.mount("bv-logo-intro", 45, (h) => {
+          const rings = h.$$(".ring");
+          const spinner = h.$(".spinner");
+          const logo = h.$(".logo");
+          const line = h.$(".tag-line");
+          return (f) => {
+            [0, 14, 28].forEach((offset, i) => {
+              const p = (f + offset) % 42;
+              rings[i].style.opacity = h.interpolate(p, [0, 42], [0.7, 0], h.CLAMP);
+              rings[i].style.transform = `scale(${h.interpolate(p, [0, 42], [0.3, 3], h.CLAMP)})`;
+            });
+            spinner.style.transform = `rotate(${f * 2}deg)`;
+            logo.style.opacity = h.fIn(f, 0, 6);
+            logo.style.transform = `scale(${h.interpolate(h.spr(f, 0, 20, 180), [0, 1], [0.8, 1])})`;
+            line.style.width = `${h.interpolate(f, [5, 18], [0, 260], h.CLAMP)}px`;
+          };
+        });
+      </script>
+    </template>
+  </body>
+</html>

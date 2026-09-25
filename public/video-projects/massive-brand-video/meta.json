@@ -1,0 +1,8 @@
+{
+  "id": "massive-brand-video",
+  "name": "Massive Brand Video",
+  "group": "massive",
+  "kind": "port",
+  "status": "draft",
+  "source": "remotion-playground/src/remotion/MassiveBrandVideo.tsx"
+}

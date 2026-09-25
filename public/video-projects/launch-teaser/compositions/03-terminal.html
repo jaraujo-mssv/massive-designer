@@ -1,0 +1,116 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+        }
+        #root .wrap {
+          justify-content: center;
+          align-items: center;
+        }
+        #root .win {
+          width: 998.4px;
+          height: 496.8px;
+          background-color: #0d0d0d;
+          border: 1px solid #d7493944;
+          border-radius: 10px;
+          overflow: hidden;
+          box-shadow: 0 0 60px #d7493922, inset 0 0 30px rgba(0, 0, 0, 0.5);
+          display: flex;
+          flex-direction: column;
+        }
+        #root .bar {
+          height: 32px;
+          background-color: #1a1a1a;
+          border-bottom: 1px solid #2a2a2a;
+          display: flex;
+          align-items: center;
+          padding-left: 12px;
+          gap: 6px;
+          flex-shrink: 0;
+        }
+        #root .light {
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+          opacity: 0.8;
+        }
+        #root .title {
+          color: rgba(255, 255, 255, 0.3);
+          font-family: "JetBrains Mono", monospace;
+          font-size: 13px;
+          margin-left: 8px;
+        }
+        #root .body {
+          flex: 1;
+          padding: 16px 20px;
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+          overflow: hidden;
+        }
+        #root .line {
+          font-family: "JetBrains Mono", monospace;
+          font-size: 24.96px;
+          line-height: 1.6;
+          color: rgba(0, 255, 65, 0.65);
+          white-space: pre;
+          font-weight: 400;
+          opacity: 0;
+        }
+        #root .line.ok {
+          text-shadow: 0 0 14px #00ff41;
+          font-weight: 700;
+        }
+        #root .line.result {
+          color: rgba(0, 255, 65, 0.8);
+        }
+      </style>
+      <div id="root" data-composition-id="lt-terminal" data-width="1920" data-height="1080" data-duration="0.733333">
+        <div class="af wrap">
+          <div class="win">
+            <div class="bar">
+              <div class="light" style="background-color: #d74939"></div>
+              <div class="light" style="background-color: #f0a500"></div>
+              <div class="light" style="background-color: #3fb950"></div>
+              <span class="title">render — bash</span>
+            </div>
+            <div class="body">
+              <div class="line">$ curl https://api.massive.com/render \</div>
+              <div class="line">    -H "Authorization: Bearer sk_massive_••••" \</div>
+              <div class="line">    -d '{"url":"https://target.com/page"}'</div>
+              <div class="line"></div>
+              <div class="line ok">HTTP/1.1 200 OK</div>
+              <div class="line result">{"status":"success","render_id":"rnd_9k2mx"}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const { interpolate, CLAMP, drive } = FrameKit;
+          const root = document.querySelector('[data-composition-id="lt-terminal"]');
+          const wrap = root.querySelector(".wrap");
+          const lines = [...root.querySelectorAll(".line")];
+          const ok = root.querySelector(".line.ok");
+          const fIn = (f, delay = 0, dur = 8) => interpolate(Math.max(0, f - delay), [0, dur], [0, 1], CLAMP);
+          const tl = gsap.timeline({ paused: true });
+          drive(tl, 30, 22, (f) => {
+            wrap.style.opacity = fIn(f, 0, 5);
+            // Line visibility is a discrete typewriter count, not a tween.
+            const count = Math.floor(interpolate(f, [2, 19], [0, lines.length], CLAMP));
+            lines.forEach((el, i) => (el.style.opacity = i < count ? 1 : 0));
+            ok.style.color = `rgba(0,255,65,${0.6 + fIn(f, 16, 4) * 0.4})`;
+          });
+          window.__timelines["lt-terminal"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

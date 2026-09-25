@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+        }
+        #root .wrap {
+          justify-content: center;
+          align-items: flex-start;
+          padding: 0 200px;
+        }
+        #root .bar {
+          position: absolute;
+          left: 116px;
+          top: 50%;
+          width: 4px;
+          background-color: #d74939;
+          border-radius: 2px;
+        }
+        #root .lines {
+          display: flex;
+          flex-direction: column;
+          gap: 18px;
+        }
+        #root .clipline {
+          overflow: hidden;
+        }
+        #root .clipline > div {
+          line-height: 1.05;
+          letter-spacing: -0.04em;
+        }
+      </style>
+      <div id="root" data-composition-id="bv-opening" data-width="1920" data-height="1080" data-duration="4">
+        <div class="af fill wrap">
+          <div class="af dotgrid"></div>
+          <div class="af brackets">
+            <div class="corner" style="top: 52px; left: 52px"><div class="bw" style="top: 0; left: 0"></div><div class="bh" style="top: 0; left: 0"></div></div>
+            <div class="corner" style="top: 52px; right: 52px"><div class="bw" style="top: 0; right: 0"></div><div class="bh" style="top: 0; right: 0"></div></div>
+            <div class="corner" style="bottom: 52px; left: 52px"><div class="bw" style="bottom: 0; left: 0"></div><div class="bh" style="bottom: 0; left: 0"></div></div>
+            <div class="corner" style="bottom: 52px; right: 52px"><div class="bw" style="bottom: 0; right: 0"></div><div class="bh" style="bottom: 0; right: 0"></div></div>
+          </div>
+          <div class="bar"></div>
+          <div class="lines">
+            <div class="clipline" style="margin-top: 0px"><div class="display" data-wp="0" style="color: #faf4ec; font-size: 80px; font-weight: 700">The internet wasn't built</div></div>
+            <div class="clipline" style="margin-top: 0px"><div class="display" data-wp="20" style="color: #d74939; font-size: 96px; font-weight: 900">for machines.</div></div>
+            <div class="clipline" style="margin-top: 14px"><div class="display" data-wp="46" style="color: #faf4ec; font-size: 80px; font-weight: 700">It was built for humans.</div></div>
+            <div class="clipline" style="margin-top: 0px"><div class="display" data-wp="70" style="color: #faf4ec; font-size: 80px; font-weight: 900">We bridge the gap.</div></div>
+          </div>
+        </div>
+      </div>
+      <script>
+        BrandScene.mount("bv-opening", 120, (h) => {
+          const bar = h.$(".bar");
+          return (f) => {
+            bar.style.transform = "translateY(-50%)";
+            bar.style.height = `${h.interpolate(f, [0, 20], [0, 380], h.CLAMP)}px`;
+          };
+        });
+      </script>
+    </template>
+  </body>
+</html>

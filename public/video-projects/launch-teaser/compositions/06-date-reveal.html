@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+        }
+        #root .wrap {
+          justify-content: center;
+          align-items: center;
+        }
+        #root .text {
+          display: flex;
+          align-items: center;
+          font-family: "JetBrains Mono", monospace;
+          font-size: 63.36px;
+          letter-spacing: 0.14em;
+          color: #ffffff;
+          text-shadow: 0 0 30px rgba(255, 255, 255, 0.35);
+        }
+        #root .typed {
+          white-space: pre;
+        }
+        #root .cursor {
+          color: #ff8163;
+        }
+      </style>
+      <div id="root" data-composition-id="lt-date" data-width="1920" data-height="1080" data-duration="0.733333">
+        <div class="af wrap">
+          <div class="text"><span class="typed"></span><span class="cursor">_</span></div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const { interpolate, CLAMP, drive } = FrameKit;
+          const REVEAL_TEXT = "MASSIVE WEB RENDER  05.05.26";
+          const root = document.querySelector('[data-composition-id="lt-date"]');
+          const wrap = root.querySelector(".wrap");
+          const typed = root.querySelector(".typed");
+          const cursor = root.querySelector(".cursor");
+          const tl = gsap.timeline({ paused: true });
+          drive(tl, 30, 22, (f) => {
+            const bgOp = interpolate(Math.max(0, f), [0, 8], [0, 1], CLAMP);
+            wrap.style.backgroundColor = `rgba(0,0,0,${bgOp})`;
+            const vis = Math.min(Math.floor(interpolate(f, [4, 20], [0, REVEAL_TEXT.length], CLAMP)), REVEAL_TEXT.length);
+            typed.textContent = REVEAL_TEXT.slice(0, vis);
+            cursor.style.opacity = f >= 20 ? interpolate(f % 10, [0, 5, 10], [0, 1, 0], CLAMP) : 1;
+          });
+          window.__timelines["lt-date"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

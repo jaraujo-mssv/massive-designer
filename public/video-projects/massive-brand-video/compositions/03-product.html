@@ -1,0 +1,124 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+        }
+        #root .wrap {
+          justify-content: center;
+          align-items: center;
+        }
+        #root .watermark {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          opacity: 0.06;
+          pointer-events: none;
+        }
+        #root .watermark img {
+          width: 900px;
+        }
+        #root .network {
+          position: absolute;
+          right: 100px;
+          top: 60px;
+        }
+        #root .network svg {
+          width: 420px;
+          height: 320px;
+          opacity: 0.65;
+        }
+        #root .copy {
+          text-align: center;
+          display: flex;
+          flex-direction: column;
+          gap: 14px;
+          align-items: center;
+          z-index: 2;
+        }
+        #root .brand {
+          font-size: 148px;
+          font-weight: 900;
+          line-height: 1;
+          letter-spacing: -0.04em;
+          background: linear-gradient(135deg, #d74939 0%, #ff8163 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          filter: drop-shadow(0 0 60px #d7493944);
+        }
+        #root .l2 {
+          color: #faf4ec;
+          font-size: 54px;
+          font-weight: 300;
+          letter-spacing: -0.02em;
+        }
+        #root .l3 {
+          color: #ff8163;
+          font-size: 70px;
+          font-weight: 800;
+          letter-spacing: -0.03em;
+        }
+      </style>
+      <div id="root" data-composition-id="bv-product" data-width="1920" data-height="1080" data-duration="3">
+        <div class="af fill wrap">
+          <div class="af dotgrid"></div>
+          <div class="watermark"><img src="assets/brand/logo-white.svg" alt="" /></div>
+          <div class="network"><svg class="net" viewBox="0 0 420 320"></svg></div>
+          <div class="copy">
+            <div class="brand display" data-si="0">Massive</div>
+            <div class="l2 display" data-up="10">is real-time web access</div>
+            <div class="l3 display" data-up="24">for AI.</div>
+          </div>
+        </div>
+      </div>
+      <script>
+        BrandScene.mount("bv-product", 90, (h) => {
+          const { svg, attrs } = FrameKit;
+          const nodes = [
+            { x: 90, y: 90, delay: 4 },
+            { x: 260, y: 50, delay: 10 },
+            { x: 360, y: 180, delay: 16 },
+            { x: 200, y: 270, delay: 8 },
+            { x: 50, y: 220, delay: 13 },
+          ];
+          const edges = [[0, 1], [1, 2], [2, 3], [3, 4], [4, 0], [0, 2]];
+          const net = h.$("svg.net");
+          const network = h.$(".network");
+          h.$(".watermark").style.transform = "translate(-50%, -50%)";
+          const lines = edges.map(([a]) =>
+            svg("line", { x1: nodes[a].x, y1: nodes[a].y, stroke: "#d74939", "stroke-width": 1.5, opacity: 0.5 }, net),
+          );
+          const dots = nodes.map((n) => {
+            const g = svg("g", {}, net);
+            return [
+              svg("circle", { cx: n.x, cy: n.y, fill: "#d74939", opacity: 0.12 }, g),
+              svg("circle", { cx: n.x, cy: n.y, fill: "#d74939" }, g),
+            ];
+          });
+          return (f) => {
+            network.style.opacity = h.interpolate(f, [8, 22], [0, 0.7], h.CLAMP);
+            edges.forEach(([a, b], i) => {
+              const prog = h.interpolate(Math.max(0, f - 6 - i * 3), [0, 14], [0, 1], h.CLAMP);
+              attrs(lines[i], {
+                x2: nodes[a].x + (nodes[b].x - nodes[a].x) * prog,
+                y2: nodes[a].y + (nodes[b].y - nodes[a].y) * prog,
+              });
+            });
+            nodes.forEach((n, i) => {
+              const r = h.interpolate(h.spr(f, n.delay, 20, 160), [0, 1], [0, 10]);
+              dots[i][0].setAttribute("r", Math.max(0, r * 2.5));
+              dots[i][1].setAttribute("r", Math.max(0, r));
+            });
+          };
+        });
+      </script>
+    </template>
+  </body>
+</html>

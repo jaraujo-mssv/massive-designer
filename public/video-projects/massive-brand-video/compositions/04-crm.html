@@ -1,0 +1,179 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+        }
+        #root .pill {
+          position: absolute;
+          top: 96px;
+          left: 100px;
+          z-index: 2;
+        }
+        #root .split {
+          display: flex;
+          width: 100%;
+          height: 100%;
+        }
+        #root .left {
+          width: 50%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          padding: 0 60px 0 100px;
+        }
+        #root .stack {
+          display: flex;
+          flex-direction: column;
+          gap: 30px;
+        }
+        #root .title {
+          color: #faf4ec;
+          font-size: 82px;
+          font-weight: 900;
+          line-height: 1;
+          letter-spacing: -0.04em;
+        }
+        #root .divider {
+          height: 2px;
+          background-color: #d74939;
+          opacity: 0.55;
+        }
+        #root .bullets {
+          display: flex;
+          flex-direction: column;
+          gap: 22px;
+        }
+        #root .bullet {
+          display: flex;
+          align-items: center;
+          gap: 20px;
+        }
+        #root .bullet .dot {
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          background-color: #d74939;
+          flex-shrink: 0;
+        }
+        #root .bullet .txt {
+          color: rgba(250, 244, 236, 0.55);
+          font-size: 36px;
+          font-weight: 400;
+          line-height: 1.3;
+        }
+        #root .right {
+          width: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        #root .chips {
+          position: absolute;
+          bottom: 96px;
+          left: 100px;
+          display: flex;
+          gap: 12px;
+        }
+        #root .chip {
+          background-color: #d7493922;
+          border: 1px solid #d7493955;
+          color: #faf4ec;
+          padding: 6px 18px;
+          border-radius: 20px;
+          font-size: 22px;
+          font-weight: 500;
+        }
+      </style>
+      <div id="root" data-composition-id="bv-crm" data-width="1920" data-height="1080" data-duration="4">
+        <div class="af fill">
+          <div class="af dotgrid"></div>
+          <div class="af brackets">
+            <div class="corner" style="top: 52px; left: 52px"><div class="bw" style="top: 0; left: 0"></div><div class="bh" style="top: 0; left: 0"></div></div>
+            <div class="corner" style="top: 52px; right: 52px"><div class="bw" style="top: 0; right: 0"></div><div class="bh" style="top: 0; right: 0"></div></div>
+            <div class="corner" style="bottom: 52px; left: 52px"><div class="bw" style="bottom: 0; left: 0"></div><div class="bh" style="bottom: 0; left: 0"></div></div>
+            <div class="corner" style="bottom: 52px; right: 52px"><div class="bw" style="bottom: 0; right: 0"></div><div class="bh" style="bottom: 0; right: 0"></div></div>
+          </div>
+          <div class="pill" data-up="0"><div class="eyebrow"><div class="rule"></div><div class="label">Use Case 01</div></div></div>
+          <div class="split">
+            <div class="left">
+              <div class="stack">
+                <div class="title display" data-up="8">CRM Enrichment</div>
+                <div class="divider"></div>
+                <div class="bullets">
+                  <div class="bullet" data-up="28"><div class="dot"></div><div class="txt display">Enrich contacts from company websites</div></div>
+                  <div class="bullet" data-up="40"><div class="dot"></div><div class="txt display">Pull from Google, Gemini, ChatGPT &amp; Copilot</div></div>
+                  <div class="bullet" data-up="52"><div class="dot"></div><div class="txt display">Export CSV and feed to your agent</div></div>
+                </div>
+              </div>
+            </div>
+            <div class="right">
+              <svg class="icon" viewBox="0 0 300 300" style="width: 760px; height: 760px">
+                <circle class="head" cx="88" cy="78" r="32" fill="none" stroke="#d74939" stroke-width="3" stroke-linecap="round" />
+                <path class="body" d="M22 185 Q88 140 154 185" fill="none" stroke="#d74939" stroke-width="3" stroke-dasharray="130" stroke-linecap="round" />
+                <g class="db">
+                  <ellipse cx="222" cy="148" rx="52" ry="14" fill="#d7493925" stroke="#d74939" stroke-width="2.5" />
+                  <line x1="170" y1="148" x2="170" y2="222" stroke="#d74939" stroke-width="2.5" />
+                  <line x1="274" y1="148" x2="274" y2="222" stroke="#d74939" stroke-width="2.5" />
+                  <ellipse cx="222" cy="222" rx="52" ry="14" fill="none" stroke="#d74939" stroke-width="2.5" />
+                  <ellipse cx="222" cy="182" rx="52" ry="14" fill="none" stroke="#d74939" stroke-width="1.5" opacity="0.4" />
+                </g>
+                <line class="conn" x1="152" y1="162" x2="170" y2="175" stroke="#ff8163" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="28" />
+                <circle class="pkt" r="4" fill="#ff8163" />
+              </svg>
+            </div>
+          </div>
+          <div class="chips">
+            <div class="chip display">Google</div>
+            <div class="chip display">Gemini</div>
+            <div class="chip display">ChatGPT</div>
+            <div class="chip display">Perplexity</div>
+            <div class="chip display">Copilot</div>
+          </div>
+        </div>
+      </div>
+      <script>
+        BrandScene.mount("bv-crm", 120, (h) => {
+          const { svg, attrs } = FrameKit;
+          const rule = h.$(".stack .divider");
+          const right = h.$(".right");
+          const chips = h.$$(".chip");
+          const CIRC = 2 * Math.PI * 32;
+          const head = h.$(".icon .head");
+          const body = h.$(".icon .body");
+          const db = h.$(".icon .db");
+          const conn = h.$(".icon .conn");
+          const pkt = h.$(".icon .pkt");
+          head.setAttribute("stroke-dasharray", CIRC);
+          const drawIcon = (f) => {
+            head.setAttribute("stroke-dashoffset", h.interpolate(f, [0, 18], [CIRC, 0], h.CLAMP));
+            body.setAttribute("stroke-dashoffset", h.interpolate(f, [10, 26], [120, 0], h.CLAMP));
+            db.setAttribute("opacity", h.fIn(f, 22, 10));
+            conn.setAttribute("stroke-dashoffset", h.interpolate(f, [34, 48], [100, 0], h.CLAMP));
+            attrs(pkt, {
+              cx: 152 + h.interpolate(f, [34, 48], [0, 18], h.CLAMP),
+              cy: 162 + h.interpolate(f, [34, 48], [0, 13], h.CLAMP),
+              opacity: h.fIn(f, 34, 6),
+            });
+          };
+          return (f) => {
+            rule.style.width = `${h.interpolate(f, [10, 30], [0, 720], h.CLAMP)}px`;
+            right.style.opacity = h.fIn(f, 4, 12);
+            chips.forEach((el, i) => {
+              const p = Math.max(0, f - 52 - i * 6);
+              el.style.opacity = h.interpolate(p, [0, 8], [0, 1], h.CLAMP);
+              el.style.transform = `translateY(${h.interpolate(p, [0, 8], [14, 0], h.CLAMP)}px)`;
+            });
+            drawIcon(f);
+          };
+        });
+      </script>
+    </template>
+  </body>
+</html>

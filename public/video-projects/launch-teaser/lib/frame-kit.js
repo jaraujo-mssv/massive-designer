@@ -9,6 +9,10 @@
  * copy in lib/ via `npm run video:brand` (the CLI only serves the project dir).
  */
 (function () {
+  // The CLI's runtime defines this before any script runs; <hyperframes-player>
+  // injects the runtime after the page loads, so compositions must not assume it.
+  window.__timelines = window.__timelines || {};
+
   const CLAMP = { extrapolateLeft: "clamp", extrapolateRight: "clamp" };
 
   /** Linear interpolation over piecewise ranges; extrapolation extends unless clamped. */

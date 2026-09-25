@@ -11,6 +11,7 @@ const MarketMapApp = lazy(() => import('@/tools/market-map/app/App'))
 const PartnershipPostApp = lazy(() => import('@/tools/partnership-post/app/App'))
 const SocialMediaApp = lazy(() => import('@/tools/social-media/app/App'))
 const TopListApp = lazy(() => import('@/tools/top-list/app/App'))
+const VideoApp = lazy(() => import('@/tools/video/app/App'))
 
 function ToolLayout({ children, themeClass }: { children: React.ReactNode; themeClass: string }) {
   return (
@@ -102,6 +103,14 @@ export const router = createBrowserRouter([
     element: (
       <ToolLayout themeClass="tool-top-list">
         <TopListApp />
+      </ToolLayout>
+    ),
+  },
+  {
+    path: '/video',
+    element: (
+      <ToolLayout themeClass="tool-video">
+        <VideoApp />
       </ToolLayout>
     ),
   },

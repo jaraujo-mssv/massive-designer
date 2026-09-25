@@ -1,0 +1,5 @@
+/* Video — <hyperframes-player> fills its box; the page supplies the frame. */
+.tool-video hyperframes-player {
+  display: block;
+  width: 100%;
+}

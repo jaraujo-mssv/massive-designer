@@ -5,5 +5,6 @@
   "kind": "template",
   "brand": "massive",
   "status": "draft",
-  "source": null
+  "source": null,
+  "posterFromEnd": true
 }

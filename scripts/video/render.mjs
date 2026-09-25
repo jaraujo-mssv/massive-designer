@@ -7,8 +7,11 @@
 //
 // Variable overrides render a template (e.g. welcome-to-massive) for someone else; --name
 // sets the output file (output/video/<name>.mp4) so the default render isn't overwritten.
+//
+// Projects with "posterFromEnd": true in meta.json get their last frame copied over frame 0, so
+// players and file browsers that thumbnail the first frame show the finished shot.
 import { spawnSync } from 'node:child_process';
-import { existsSync, mkdirSync } from 'node:fs';
+import { existsSync, mkdirSync, renameSync, rmSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { HF_VERSION, OUTPUT_DIR, PROJECTS_DIR, ROOT, listProjects, pickProjects, readJson } from './lib/projects.mjs';
 
@@ -39,6 +42,29 @@ if (Number(process.versions.node.split('.')[0]) < 22) {
 
 const run = (cmd, cmdArgs, cwd) => spawnSync(cmd, cmdArgs, { cwd, stdio: 'inherit' }).status === 0;
 
+// Overwrite frame 0 with the last frame. Same length and audio, so nothing shifts.
+function posterFromEnd(output) {
+  const last = output.replace(/\.mp4$/, '.last.png');
+  const tmp = output.replace(/\.mp4$/, '.poster.mp4');
+  const ok =
+    run('ffmpeg', ['-v', 'error', '-y', '-sseof', '-1', '-i', output, '-update', '1', last], ROOT) &&
+    run(
+      'ffmpeg',
+      [
+        '-v', 'error', '-y', '-i', output, '-i', last,
+        '-filter_complex', '[0:v][1:v]overlay=enable=eq(n\\,0),format=yuv420p[v]',
+        '-map', '[v]', '-map', '0:a?', '-c:a', 'copy',
+        '-c:v', 'libx264', '-crf', draft ? '23' : '16', '-preset', draft ? 'veryfast' : 'slow',
+        '-movflags', '+faststart', tmp,
+      ],
+      ROOT,
+    );
+  if (ok) renameSync(tmp, output);
+  rmSync(last, { force: true });
+  rmSync(tmp, { force: true });
+  return ok;
+}
+
 run('node', ['scripts/video/sync-brand.mjs', ...ids], ROOT);
 mkdirSync(OUTPUT_DIR, { recursive: true });
 
@@ -60,5 +86,9 @@ for (const id of pickProjects(ids)) {
     dir,
   );
   if (!ok) failed = true;
+  else if (readJson(join(dir, 'meta.json'), {}).posterFromEnd && !posterFromEnd(output)) {
+    console.error(`✗ ${id}: couldn't copy the last frame to the start.`);
+    failed = true;
+  }
 }
 process.exit(failed ? 1 : 0);

@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { Mic } from "lucide-react";
+import { Mic, Play } from "lucide-react";
 import { useOnScreen } from "../hooks/useOnScreen";
 import type { StoryboardFrame, VideoProject } from "../types";
 import { HfPlayer } from "./HfPlayer";
@@ -28,13 +28,17 @@ function FrameTile({
   const ref = useRef<HTMLDivElement>(null);
   const visible = useOnScreen(ref);
   const at = posterTime(frame, project.duration);
+  const thumbWidth = project.width > project.height ? 480 : project.width < project.height ? 240 : 320;
 
   return (
-    <div className="rounded-xl border border-border-subtle bg-surface overflow-hidden flex flex-col">
+    <div className="rounded-xl border border-border-subtle bg-surface overflow-hidden flex flex-col md:flex-row">
       <div
         ref={ref}
-        className="relative bg-black"
-        style={{ aspectRatio: `${project.width} / ${project.height}` }}
+        className="relative bg-black w-full md:w-[var(--thumb-w)] shrink-0 self-start"
+        style={{
+          aspectRatio: `${project.width} / ${project.height}`,
+          ["--thumb-w" as string]: `${thumbWidth}px`,
+        }}
       >
         {frame.status === "outline" ? (
           <div className="absolute inset-0 flex items-center justify-center text-xs text-text-dim font-mono">
@@ -53,7 +57,7 @@ function FrameTile({
           aria-label={`Preview from frame ${frame.index}`}
         />
       </div>
-      <div className="p-4 space-y-2 flex-1">
+      <div className="p-5 space-y-2 flex-1 min-w-0">
         <div className="flex items-center gap-2">
           <span className="text-xs font-mono text-text-dim">{String(frame.index).padStart(2, "0")}</span>
           <h3 className="text-sm text-text-primary font-semibold flex-1 truncate">{frame.title}</h3>
@@ -98,20 +102,26 @@ export function StoryboardPane({ project, onOpen }: { project: VideoProject; onO
 
   return (
     <div className="p-8 space-y-6">
-      {facts.length > 0 && (
-        <dl className="grid grid-cols-[max-content_1fr] gap-x-4 gap-y-1 text-sm max-w-3xl">
-          {facts.map(([k, v]) => (
-            <div key={k} className="contents">
-              <dt className="text-text-dim">{k}</dt>
-              <dd className="text-text-mid">{v}</dd>
-            </div>
-          ))}
-        </dl>
-      )}
-      <div
-        className="grid gap-4"
-        style={{ gridTemplateColumns: `repeat(auto-fill, minmax(${project.width > project.height ? 320 : 240}px, 1fr))` }}
-      >
+      <div className="flex items-start gap-6 max-w-6xl">
+        {facts.length > 0 && (
+          <dl className="grid grid-cols-[max-content_1fr] gap-x-4 gap-y-1 text-sm max-w-3xl flex-1">
+            {facts.map(([k, v]) => (
+              <div key={k} className="contents">
+                <dt className="text-text-dim">{k}</dt>
+                <dd className="text-text-mid">{v}</dd>
+              </div>
+            ))}
+          </dl>
+        )}
+        <button
+          onClick={() => onOpen(0)}
+          className="ml-auto shrink-0 flex items-center gap-2 rounded-lg border border-brand/30 bg-brand/10 px-3 py-1.5 text-xs font-mono text-brand-light hover:bg-brand/20 transition-colors"
+        >
+          <Play className="w-3.5 h-3.5" />
+          Preview full video
+        </button>
+      </div>
+      <div className="flex flex-col gap-4 max-w-6xl">
         {board.frames.map((f) => (
           <FrameTile key={f.index} project={project} frame={f} onOpen={onOpen} />
         ))}

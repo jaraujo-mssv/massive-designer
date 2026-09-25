@@ -15,7 +15,9 @@
     "video:brand": "node scripts/video/sync-brand.mjs",
     "video:media": "node scripts/video/sync-media.mjs",
     "video:preview": "node scripts/video/preview.mjs",
-    "video:render": "node scripts/video/render.mjs"
+    "video:render": "node scripts/video/render.mjs",
+    "video:new": "node scripts/video/new.mjs",
+    "video:voice": "node scripts/video/record-voice.mjs"
   },
   "dependencies": {
     "@emotion/react": "11.14.0",

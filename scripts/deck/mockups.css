@@ -1,0 +1,281 @@
+/* ==========================================================================
+   Static rebuilds of the /consent page mockups (massive-new-landing
+   src/components/consent). Sizes are the originals' own pixels; scale them
+   on the slide with `zoom` so they stay vector in the PDF.
+
+   The host app stays steel blue on purpose: it stands in for third-party
+   software, not Massive's. Only the operator console wears the site colours.
+   ========================================================================== */
+
+.m-win, .m-inst, .m-apps, .m-tm {
+  font-family: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+.m-ico { display: inline-flex; flex-shrink: 0; }
+.m-ico svg { width: 100%; height: 100%; }
+
+/* ---------- 1. Windows installer (light chrome) ---------- */
+.m-inst {
+  --bg: #f0f0f0; --panel: #fff; --fg: #1b1b1b; --mute: #3c3c3c; --line: #d6d6d6; --link: #2a52a8; --off: #a0a0a0;
+  --accent: #5A6B87;
+  width: 499px;
+  height: 391px;
+  background: var(--bg);
+  color: var(--fg);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.m-inst .tb { height: 30px; background: var(--panel); border-bottom: 1px solid var(--line); display: flex; align-items: center; padding: 0 4px 0 10px; font-size: 12px; }
+.m-inst .tb span { flex: 1; }
+.m-inst .tb .m-ico { width: 30px; height: 11px; color: var(--mute); }
+.m-inst .hd { background: var(--panel); border-bottom: 1px solid var(--line); padding: 10px 14px; display: flex; gap: 10px; }
+.m-inst .hd b { display: block; font-size: 13px; }
+.m-inst .hd small { display: block; font-size: 11px; color: var(--mute); margin-top: 3px; }
+.m-inst .hd .app { width: 26px; height: 26px; border-radius: 6px; background: var(--accent); color: #fff; display: flex; align-items: center; justify-content: center; margin-left: auto; flex-shrink: 0; }
+.m-inst .hd .app .m-ico { width: 15px; height: 15px; }
+.m-inst .bd { flex: 1; padding: 14px 18px; display: flex; flex-direction: column; min-height: 0; }
+.m-inst .banner { width: 100%; aspect-ratio: 1920 / 239; background: url(_assets/installer-banner.png) center / contain no-repeat; margin-bottom: 12px; flex-shrink: 0; }
+.m-inst .copy { font-size: 10.5px; line-height: 1.5; color: var(--mute); }
+.m-inst .agree { display: flex; align-items: center; gap: 8px; margin-top: 16px; font-size: 11px; }
+.m-inst .box { width: 13px; height: 13px; border: 1px solid #8a8a8a; background: var(--panel); border-radius: 2px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #fff; }
+.m-inst .box.on { background: var(--accent); border-color: var(--accent); }
+.m-inst .box .m-ico { width: 10px; height: 10px; }
+.m-inst .links { margin-top: 22px; font-size: 10.5px; color: var(--mute); }
+.m-inst .links div { display: flex; gap: 30px; margin-top: 5px; color: var(--link); }
+.m-inst .ft { border-top: 1px solid var(--line); padding: 8px 12px; display: flex; align-items: center; gap: 8px; }
+.m-inst .ft .ver { flex: 1; font-size: 10.5px; color: var(--off); }
+.m-inst .btn { min-width: 86px; padding: 5px 12px; font-size: 12px; background: var(--panel); border: 1px solid #adadad; border-radius: 3px; text-align: center; color: var(--fg); }
+.m-inst .btn.off { background: #e8e8e8; border-color: var(--line); color: var(--off); }
+.m-inst .btn.primary { border-color: #0067c0; box-shadow: inset 0 0 0 1px #0067c0; }
+
+/* Dark-pattern variants of the installer */
+.m-inst .eula {
+  flex: 1;
+  min-height: 0;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  padding: 8px 10px;
+  font-size: 8.5px;
+  line-height: 1.45;
+  color: #7a7a7a;
+  overflow: hidden;
+}
+.m-inst .eula p { font-size: 8.5px; line-height: 1.45; color: #7a7a7a; margin-bottom: 6px; }
+.m-inst .eula .buried { background: rgba(255, 129, 99, 0.18); outline: 1.5px solid #ff8163; color: #555; }
+.m-inst .done { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 10px; padding: 0 8px; }
+.m-inst .done b { font-size: 16px; }
+.m-inst .done p { font-size: 11px; line-height: 1.5; color: var(--mute); }
+.m-inst .done .agree { margin-top: 4px; }
+
+/* ---------- 2. The host app (Windows 11, dark) ---------- */
+.m-win {
+  --bg: #111117; --panel: #0a0a0f; --control: #16161d; --line: rgba(255,255,255,.08);
+  --fg: #ededf2; --mute: #bcbcca; --dim: rgba(237,242,242,.55); --ghost: rgba(237,242,242,.28);
+  --accent: #5A6B87; --accentText: #7C8DA8; --tint: rgb(90 107 135 / .16); --tintSoft: rgb(90 107 135 / .12); --ok: #00bb7f;
+  width: 1040px;
+  background: var(--bg);
+  color: var(--fg);
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.m-win .tb { height: 34px; background: var(--panel); display: flex; align-items: center; padding: 0 6px 0 12px; font-size: 12px; color: var(--mute); }
+.m-win .tb .appicon { width: 15px; height: 15px; border-radius: 4px; background: var(--accent); color: #fff; display: flex; align-items: center; justify-content: center; margin-right: 9px; }
+.m-win .tb .appicon .m-ico { width: 9px; height: 9px; }
+.m-win .tb span { flex: 1; }
+.m-win .tb .ctl { width: 34px; height: 26px; display: flex; align-items: center; justify-content: center; color: var(--dim); }
+.m-win .tb .ctl .m-ico { width: 12px; height: 12px; }
+.m-win .cmd { display: flex; align-items: center; gap: 4px; padding: 8px 12px; border-bottom: 1px solid var(--line); }
+.m-win .cmd .c { display: flex; align-items: center; gap: 8px; padding: 8px 13px; border-radius: 6px; font-size: 13px; color: var(--dim); }
+.m-win .cmd .c .m-ico { width: 16px; height: 16px; }
+.m-win .cmd .c.primary { background: var(--accent); color: #fff; }
+.m-win .cmd .c.active { background: var(--tint); color: var(--accentText); }
+.m-win .cmd .sep { width: 1px; height: 26px; background: var(--line); margin: 0 8px; }
+.m-win .content { padding: 22px 26px; }
+.m-win .pane { border-radius: 10px; border: 1px solid var(--line); background: var(--panel); padding: 20px; margin-bottom: 18px; }
+.m-win .pane:last-child { margin-bottom: 0; }
+.m-win .pane > b { font-size: 15px; font-weight: 600; }
+.m-win .pane > p { font-size: 12.5px; color: var(--dim); line-height: 1.5; margin-top: 6px; }
+.m-win .set { display: flex; align-items: center; margin-top: 20px; }
+.m-win .set > div:first-child { flex: 1; }
+.m-win .set .t { font-size: 14px; color: var(--fg); }
+.m-win .set .s { font-size: 12px; color: var(--ghost); margin-top: 3px; }
+.m-win .pill { display: inline-flex; align-items: center; gap: 7px; padding: 5px 11px; border-radius: 12px; background: rgba(255,255,255,.05); font-size: 12px; color: var(--ghost); }
+.m-win .pill i { width: 6px; height: 6px; border-radius: 50%; background: var(--ghost); }
+.m-win .pill.on { background: var(--tintSoft); color: var(--accentText); }
+.m-win .pill.on i { background: var(--ok); }
+.m-win .job { display: flex; align-items: center; gap: 13px; margin-top: 16px; padding: 13px; border-radius: 8px; border: 1px solid var(--line); background: var(--control); }
+.m-win .job .ji { width: 32px; height: 32px; border-radius: 7px; background: var(--tint); color: var(--accentText); display: flex; align-items: center; justify-content: center; }
+.m-win .job .ji .m-ico { width: 17px; height: 17px; }
+.m-win .job > div:nth-child(2) { flex: 1; }
+.m-win .job .t { font-size: 13.5px; }
+.m-win .job .s { font-size: 11.5px; color: var(--ghost); margin-top: 2px; }
+
+.m-toggle { width: 38px; height: 20px; border-radius: 10px; background: #3a3a44; position: relative; flex-shrink: 0; }
+.m-toggle::after { content: ''; position: absolute; top: 3px; left: 3px; width: 14px; height: 14px; border-radius: 50%; background: #fff; }
+.m-toggle.on { background: #5A6B87; }
+.m-toggle.on::after { left: 21px; }
+
+/* ---------- 3. Windows Settings > Installed apps ---------- */
+.m-apps {
+  --bg: #202020; --panel: #2b2b2b; --line: #383838; --fg: #fff; --mute: #a0a0a0;
+  width: 1000px;
+  background: var(--bg);
+  color: var(--fg);
+  border-radius: 8px;
+  overflow: hidden;
+  padding-bottom: 28px;
+}
+.m-apps .top { display: flex; align-items: center; gap: 16px; padding: 12px 16px; color: var(--mute); }
+.m-apps .top .m-ico { width: 16px; height: 16px; }
+.m-apps .find { flex: 1; max-width: 420px; display: flex; align-items: center; gap: 9px; padding: 7px 12px; border-radius: 16px; background: var(--panel); border: 1px solid var(--line); font-size: 12.5px; }
+.m-apps .find .m-ico { width: 13px; height: 13px; }
+.m-apps .top .grow { flex: 1; }
+.m-apps .top .ctl .m-ico { width: 13px; height: 13px; }
+.m-apps .main { padding: 10px 40px 0; }
+.m-apps .crumb { display: flex; align-items: center; gap: 8px; font-size: 26px; font-weight: 600; }
+.m-apps .crumb .dim { color: var(--mute); }
+.m-apps .crumb .m-ico { width: 19px; height: 19px; color: var(--mute); }
+.m-apps .search { margin-top: 22px; display: flex; align-items: center; gap: 10px; padding: 9px 14px; border-radius: 5px; background: var(--panel); border: 1px solid var(--line); max-width: 470px; font-size: 13px; }
+.m-apps .search .m-ico { width: 14px; height: 14px; color: var(--mute); }
+.m-apps .count { margin-top: 18px; font-size: 13px; color: var(--mute); }
+.m-apps .app { position: relative; margin-top: 12px; display: flex; align-items: center; gap: 15px; padding: 14px 18px; border-radius: 6px; background: var(--panel); border: 1px solid var(--line); }
+.m-apps .app .ai { width: 36px; height: 36px; border-radius: 8px; background: #5A6B87; color: #fff; display: flex; align-items: center; justify-content: center; }
+.m-apps .app .ai .m-ico { width: 20px; height: 20px; }
+.m-apps .app .nm { flex: 1; }
+.m-apps .app .nm div { font-size: 14px; }
+.m-apps .app .nm small { display: block; font-size: 12px; color: var(--mute); margin-top: 3px; }
+.m-apps .app .sz { font-size: 13px; color: var(--mute); }
+.m-apps .app .dots { width: 30px; height: 30px; border-radius: 5px; background: var(--line); display: flex; align-items: center; justify-content: center; }
+.m-apps .app .dots .m-ico { width: 17px; height: 17px; }
+.m-apps .menu { position: absolute; right: 10px; top: 58px; width: 170px; border-radius: 7px; background: #2f2f2f; border: 1px solid var(--line); box-shadow: 0 12px 28px rgba(0,0,0,.5); padding: 5px; z-index: 5; }
+.m-apps .menu div { padding: 9px 12px; font-size: 13px; border-radius: 4px; }
+.m-apps .menu .hot { background: var(--line); }
+.m-apps .menu .off { color: #5c5c5c; }
+.m-apps .rel { margin-top: 34px; font-size: 15px; font-weight: 600; }
+.m-apps .relrow { margin-top: 10px; display: flex; align-items: center; gap: 14px; padding: 14px 18px; border-radius: 6px; background: var(--panel); border: 1px solid var(--line); font-size: 13.5px; }
+.m-apps .relrow span { flex: 1; }
+.m-apps .relrow .m-ico { width: 16px; height: 16px; color: var(--mute); }
+.m-apps .empty { margin-top: 12px; padding: 26px 18px; border-radius: 6px; border: 1px dashed var(--line); font-size: 13px; color: var(--mute); text-align: center; }
+
+/* ---------- 4. Task Manager / Services (for the dark patterns) ---------- */
+.m-tm {
+  --bg: #1c1c1c; --panel: #262626; --line: #353535; --fg: #fff; --mute: #9d9d9d; --hot: rgba(255, 129, 99, 0.14);
+  width: 1000px;
+  background: var(--bg);
+  color: var(--fg);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.m-tm .tb { display: flex; align-items: center; gap: 10px; padding: 10px 16px; font-size: 12px; color: var(--mute); border-bottom: 1px solid var(--line); }
+.m-tm .tb b { color: var(--fg); font-weight: 400; flex: 1; }
+.m-tm .tb .m-ico { width: 13px; height: 13px; }
+.m-tm h4 { font-size: 20px; font-weight: 600; padding: 18px 20px 12px; }
+.m-tm table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.m-tm th { text-align: left; font-weight: 400; color: var(--mute); font-size: 12px; padding: 8px 20px; border-bottom: 1px solid var(--line); }
+.m-tm td { padding: 11px 20px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+.m-tm td.r, .m-tm th.r { text-align: right; }
+.m-tm tr.hot td { background: var(--hot); }
+.m-tm tr.hot td:first-child { box-shadow: inset 3px 0 0 #ff8163; }
+.m-tm .pi { display: inline-flex; align-items: center; gap: 10px; }
+.m-tm .pi i { width: 16px; height: 16px; border-radius: 3px; background: #4a4a4a; display: inline-block; }
+.m-tm .pi i.blue { background: #5A6B87; }
+.m-tm .bar { color: #ffcf5c; }
+
+/* ---------- 5. Android (Outcast) ---------- */
+.m-phone {
+  --cream: #f2ede4; --warm: #faf7f2; --dark: #2a2820; --mid: #5c5848; --light: #8c876e;
+  --sage: #7a9e7e; --sageDark: #4e6b52; --tint10: rgba(122,158,126,.1); --tintList: rgba(122,158,126,.25); --tintIcon: rgba(122,158,126,.2);
+  --toggleOff: #d4cfc4; --divider: rgba(0,0,0,.06); --cardBorder: rgba(0,0,0,.05);
+  width: 412px;
+  background: var(--cream);
+  color: var(--dark);
+  border-radius: 28px;
+  overflow: hidden;
+  font-family: Roboto, "Noto Sans", "Helvetica Neue", system-ui, sans-serif;
+  position: relative;
+}
+.m-phone .serif { font-family: "Noto Serif", "Source Serif 4", Georgia, serif; }
+.m-phone.install { height: 748px; padding: 48px 32px 0; }
+.m-phone .wm { font-size: 42px; line-height: 1.1; letter-spacing: -0.5px; }
+.m-phone .tagline { margin-top: 6px; font-size: 14px; letter-spacing: .08em; text-transform: uppercase; color: var(--light); }
+.m-phone .h { margin-top: 28px; font-size: 26px; line-height: 1.3; }
+.m-phone .p { margin-top: 12px; font-size: 15px; line-height: 1.55; color: var(--mid); }
+.m-phone .bul { margin-top: 16px; padding: 18px; border-radius: 14px; background: var(--tint10); border: 1px solid var(--tintList); }
+.m-phone .bul div { display: flex; gap: 10px; font-size: 13px; line-height: 1.4; color: var(--mid); }
+.m-phone .bul div + div { margin-top: 10px; }
+.m-phone .bul div::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--sage); flex-shrink: 0; margin-top: 5px; }
+.m-phone .legal { margin-top: 16px; font-size: 13px; line-height: 1.5; color: var(--light); }
+.m-phone .legal b { color: var(--dark); }
+.m-phone .legal u { color: var(--sageDark); }
+.m-phone .actions { position: absolute; left: 32px; right: 32px; bottom: 32px; }
+.m-phone .chk { display: flex; align-items: center; gap: 12px; height: 24px; font-size: 13.5px; color: var(--mid); }
+.m-phone .chk i { width: 18px; height: 18px; border-radius: 4px; border: 2px solid var(--light); }
+.m-phone .btns { display: flex; gap: 12px; margin-top: 16px; }
+.m-phone .btns div { flex: 1; height: 56px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 500; letter-spacing: .02em; }
+.m-phone .btns .sec { background: var(--warm); border: 1px solid var(--cardBorder); }
+.m-phone .btns .pri { background: var(--sageDark); color: #fff; opacity: .38; }
+
+.m-phone.settings { height: 396px; padding-top: 28px; }
+.m-phone .title { height: 44px; padding: 0 28px; font-size: 34px; line-height: 1.15; }
+.m-phone .lbl { padding: 0 28px 10px; font-size: 11px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--light); }
+.m-phone .grp { margin: 0 24px; border-radius: 16px; background: var(--warm); border: 1px solid var(--cardBorder); overflow: hidden; }
+.m-phone .srow { display: flex; align-items: center; padding: 16px; height: 66px; }
+.m-phone .srow .tile { width: 32px; height: 32px; border-radius: 9px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.m-phone .srow .tile svg { width: 18px; height: 18px; }
+.m-phone .srow .txt { flex: 1; margin: 0 14px; }
+.m-phone .srow .txt div { font-size: 14px; }
+.m-phone .srow .txt small { display: block; margin-top: 2px; font-size: 11px; color: var(--light); }
+.m-phone .srow .val { font-size: 14px; color: var(--mid); }
+.m-phone .div { height: 1px; background: var(--divider); margin-left: 62px; }
+.oc-switch { width: 44px; height: 26px; border-radius: 13px; background: #d4cfc4; position: relative; flex-shrink: 0; }
+.oc-switch::after { content: ''; position: absolute; top: 2px; left: 2px; width: 22px; height: 22px; border-radius: 50%; background: #fff; }
+.oc-switch.on { background: #7a9e7e; }
+.oc-switch.on::after { left: 20px; }
+
+.oc-icon { border-radius: 28%; background: #8a9e8b; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; }
+.oc-icon svg { width: 78%; height: 78%; }
+
+/* ---------- 6. Massive operator console (site colours) ---------- */
+.m-console {
+  width: 680px;
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font-display);
+  padding: 24px;
+  border: 1px solid var(--border);
+}
+.m-console .strip { height: 72px; display: flex; align-items: center; border: 1px solid var(--border); background: var(--surface-2); }
+.m-console .strip > div { flex: 1; padding: 0 22px; }
+.m-console .strip .sep { flex: none; width: 1px; height: 58%; background: var(--border); padding: 0; }
+.m-console .strip small { display: block; font-family: var(--font-mono); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--text-dim); }
+.m-console .strip b { display: block; margin-top: 8px; font-size: 26px; font-weight: 700; letter-spacing: -.02em; }
+.m-console .head { margin-top: 24px; height: 40px; display: flex; align-items: center; gap: 20px; border-bottom: 1px solid var(--border-hover); font-family: var(--font-mono); font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--text-dim); }
+.m-console .head .a, .m-console .r .a { flex: 1; min-width: 0; }
+.m-console .head .s, .m-console .r .s { width: 130px; }
+.m-console .head .x, .m-console .r .x { width: 60px; display: flex; justify-content: center; }
+.m-console .r { height: 80px; display: flex; align-items: center; gap: 20px; border-bottom: 1px solid var(--border); }
+.m-console .r:last-child { border-bottom: 0; }
+.m-console .r .a { display: flex; align-items: center; gap: 14px; }
+.m-console .r .a b { display: block; font-size: 14.5px; font-weight: 600; letter-spacing: -.01em; }
+.m-console .r .a small { display: block; margin-top: 3px; font-family: var(--font-mono); font-size: 11px; color: var(--text-dim); }
+.m-console .r .s { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--text-mid); }
+.m-console .r .s i { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+.m-console .r.off { opacity: .55; }
+.m-console .r.off .s { color: var(--text-dim); }
+.m-console .r.off .s i { background: var(--text-dim); }
+.site-switch { width: 38px; height: 20px; border-radius: 10px; background: var(--border-hover); position: relative; }
+.site-switch::after { content: ''; position: absolute; top: 3px; left: 3px; width: 14px; height: 14px; border-radius: 50%; background: var(--text-dim); }
+.site-switch.on { background: var(--red); }
+.site-switch.on::after { left: 21px; background: #fff; }
+
+/* ---------- 7. Abuse dashboard chart ---------- */
+.m-chart { border: 1px solid var(--border); background: var(--surface); padding: 36px 40px 28px; }
+.m-chart .sum { font-size: 22px; color: var(--text-mid); }
+.m-chart .sum strong { color: var(--text); }
+.m-chart .plot { position: relative; margin-top: 24px; height: 190px; padding-left: 72px; }
+.m-chart .y { position: absolute; left: 0; top: 0; bottom: 0; width: 60px; font-family: var(--font-mono); font-size: 14px; color: var(--text-dim); }
+.m-chart .y span { position: absolute; right: 0; transform: translateY(-50%); }
+.m-chart svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.m-chart .x { display: flex; justify-content: space-between; padding-left: 72px; margin-top: 14px; font-family: var(--font-mono); font-size: 14px; color: var(--text-dim); }

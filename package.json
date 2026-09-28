@@ -11,6 +11,7 @@
     "banners:html": "node scripts/banners/html.mjs",
     "onepager": "node scripts/onepager/render.mjs",
     "docs": "node scripts/docs/render.mjs",
+    "deck": "node scripts/deck/render.mjs",
     "video:index": "node scripts/video/build-index.mjs",
     "video:brand": "node scripts/video/sync-brand.mjs",
     "video:media": "node scripts/video/sync-media.mjs",

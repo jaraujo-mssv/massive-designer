@@ -1,0 +1,740 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1920">
+<title>How compliant residential proxy sourcing works — Massive</title>
+<link rel="stylesheet" href="deck.css">
+<link rel="stylesheet" href="mockups.css">
+</head>
+<body>
+
+<!-- ======================================================================
+     1 · Title
+     ====================================================================== -->
+<section class="slide title-slide" data-sec="" data-nofoot>
+  <img class="logo" src="_assets/logo.svg" alt="Massive">
+  <div>
+    <h1>How <span class="hl">compliant<br>residential proxy</span><br>sourcing works</h1>
+  </div>
+  <div class="meta">joinmassive.com · 2026</div>
+</section>
+
+<!-- ======================================================================
+     2 · Hook
+     ====================================================================== -->
+<section class="slide" data-sec="Why this matters" style="align-items:center; text-align:center">
+  <svg class="circuit" viewBox="58 107 782 341" style="width:1120px; height:auto; display:block" aria-hidden="true">
+      <defs>
+        <radialGradient id="glow"><stop offset="0" stop-color="#d74939" stop-opacity=".35"/><stop offset="1" stop-color="#d74939" stop-opacity="0"/></radialGradient>
+        <radialGradient id="glowG"><stop offset="0" stop-color="#8be9a1" stop-opacity=".22"/><stop offset="1" stop-color="#8be9a1" stop-opacity="0"/></radialGradient>
+      </defs>
+      <path d="M150 300 H750" stroke="rgba(255,129,99,.7)" stroke-width="3.6" stroke-dasharray="6 6"/>
+      <path d="M750 262 Q450 20 150 262" fill="none" stroke="rgba(139,233,161,.7)" stroke-width="3.6" stroke-dasharray="6 6"/>
+      <circle cx="285" cy="300" r="8" fill="#ff8163"/>
+      <circle cx="610" cy="300" r="8" fill="#ff8163" opacity=".7"/>
+      <circle cx="300" cy="171.25" r="7" fill="#8be9a1"/>
+      <!-- 01 user -->
+      <g transform="translate(150,300)">
+        <circle r="52" fill="url(#glow)" opacity=".6"/>
+        <circle r="38" fill="#0a0a0f" stroke="rgba(250,244,236,.3)" stroke-width="2.55"/>
+        <circle r="38" fill="none" stroke="#d74939" stroke-width="2.55" stroke-dasharray="180 400" transform="rotate(-120)"/>
+        <g stroke="#ff8163" stroke-width="3.15" stroke-linecap="round" fill="none"><circle cy="-6" r="6"/><path d="M-10 12c0-5 4-9 10-9s10 4 10 9"/></g>
+        <text y="76" text-anchor="middle" font-family="Outfit" font-size="15" letter-spacing="1.2" fill="#faf4ec">01 · USER</text>
+        <text y="102" text-anchor="middle" font-family="Outfit" font-size="17" fill="rgba(250,244,236,.72)">Uses a free app</text>
+      </g>
+      <!-- 02 network -->
+      <g transform="translate(450,300)">
+        <circle r="60" fill="url(#glow)" opacity=".8"/>
+        <circle r="46" fill="#0a0a0f" stroke="#d74939" stroke-width="3.15"/>
+        <g stroke="#d74939" stroke-width="2.1" opacity=".4" fill="none"><circle r="30"/><circle r="18"/></g>
+        <g fill="#ff8163"><circle cx="-16" cy="-8" r="3"/><circle cx="11" cy="14" r="3"/><circle cx="-18" cy="3" r="3"/><circle cx="24" cy="-18" r="3"/><circle cx="-20" cy="21" r="3"/><circle cx="29" cy="7" r="3"/><circle cx="4" cy="46" r="3"/><circle cx="-22" cy="-40" r="3"/><circle cx="25" cy="-39" r="3"/></g>
+        <circle r="4" fill="#faf4ec"/>
+        <text y="84" text-anchor="middle" font-family="Outfit" font-size="15" letter-spacing="1.2" fill="#faf4ec">02 · NETWORK</text>
+        <text y="110" text-anchor="middle" font-family="Outfit" font-size="17" fill="rgba(250,244,236,.72)">Checks prices, ads, search results…</text>
+      </g>
+      <!-- 03 reward -->
+      <g transform="translate(750,300)">
+        <circle r="52" fill="url(#glowG)"/>
+        <circle r="38" fill="#0a0a0f" stroke="rgba(139,233,161,.45)" stroke-width="2.55"/>
+        <circle r="38" fill="none" stroke="#8be9a1" stroke-width="2.55" stroke-dasharray="180 400" transform="rotate(60)"/>
+        <g stroke="#8be9a1" stroke-width="3.15" stroke-linecap="round" stroke-linejoin="round" fill="none"><rect x="-13" y="-4" width="26" height="16" rx="1.5"/><path d="M-13 4h26"/><path d="M0 -4v16"/><path d="M-8 -4c-3 -4 1 -9 4 -6s4 6 4 6c0 0 1 -9 4 -6s3 6 0 6"/></g>
+        <text y="76" text-anchor="middle" font-family="Outfit" font-size="15" letter-spacing="1.2" fill="#faf4ec">03 · REWARD</text>
+        <text y="102" text-anchor="middle" font-family="Outfit" font-size="17" fill="rgba(250,244,236,.72)">App stays free</text>
+      </g>
+    </svg>
+  <div class="quote" style="font-size:80px; max-width:1664px; margin-top:32px">Every residential IP is someone's home device.<br><span class="hl">The only question is whether they know.</span></div>
+  <p style="margin-top:24px; font-size:32px; max-width:1300px">When they know, it's a trade: they lend idle bandwidth and the app they use stays free. When they don't, it's a botnet with a sales team.</p>
+</section>
+
+<!-- ======================================================================
+     3 · Getting caught
+     ====================================================================== -->
+<section class="slide" data-sec="Why this matters">
+  <h2>The industry is <span class="hl">getting caught.</span></h2>
+  <div class="body grid-2" style="display:grid">
+    <div class="card bad">
+      <img class="card-banner" src="_assets/case-ipidea-reuters.png" alt="" style="object-position:left top; background:#fff">
+      <div class="k">Jan 28, 2026 · IPIDEA</div>
+      <h3>Google disrupts one of the world's largest residential proxy networks.</h3>
+      <div class="source" style="margin-top:auto">Reuters, Jan 28 2026</div>
+    </div>
+    <div class="card bad">
+      <img class="card-banner" src="_assets/case-netnut.png" alt="" style="object-position:center top">
+      <div class="k">Jul 2, 2026 · NetNut / Popa</div>
+      <h3>FBI seizes hundreds of NetNut domains, with Google and Lumen.</h3>
+      <div class="source" style="margin-top:auto">FBI · Google Cloud blog, Jul 2026 · Image: netnut.com</div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     4 · History
+     ====================================================================== -->
+<section class="slide" data-sec="How sourcing got here">
+  <h2>Sourcing grew up <span class="hl">without asking.</span></h2>
+  <div class="body grid-3" style="display:grid">
+    <div class="card bad">
+      <img class="card-banner era" src="_assets/era-hola.png" alt="">
+      <div class="k">Early days</div>
+      <h3>Botnets, P2P and "free" VPNs that turn every user into an exit.</h3>
+      <div class="source" style="margin-top:auto">Image: Proxyway, on Trend Micro's research</div>
+    </div>
+    <div class="card bad">
+      <img class="card-banner era" src="_assets/era-sdk.png" alt="" style="object-fit:contain; background:#fff">
+      <div class="k">The SDK era</div>
+      <h3>Apps paid per install. The developer sees the deal, the user never does.</h3>
+      <div class="source" style="margin-top:auto">Image: Google Threat Intelligence</div>
+    </div>
+    <div class="card good">
+      <img class="card-banner era" src="_assets/era-consent.png" alt="">
+      <div class="k">Now</div>
+      <h3>Consent people can see: opt-in, pause, uninstall.</h3>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     5 · Three dark patterns
+     ====================================================================== -->
+<section class="slide" data-sec="Three dark patterns">
+  <h2>Three ways to <span class="hl">skip consent.</span></h2>
+  <div class="body grid-3" style="display:grid">
+    <div class="card bad">
+      <img class="card-banner" src="_assets/dark-hijackers.png" alt="" style="height:320px; object-position:center top">
+      <h3>Hidden</h3>
+      <p>No visible consent, basically a trojan.</p>
+      <p class="caption">Toolbars bundled into other installs, never clearly asked for.</p>
+    </div>
+    <div class="card bad">
+      <img class="card-banner" src="_assets/dark-avast.png" alt="" style="height:320px; object-position:center">
+      <h3>Fake consent</h3>
+      <p>Buried or vague language, no way to pause.</p>
+      <p class="caption">Avast's installer, with an extra browser pre-ticked and the terms in one small line.</p>
+    </div>
+    <div class="card bad">
+      <img class="card-banner" src="_assets/dark-zango.jpg" alt="" style="height:320px; object-position:center bottom">
+      <h3>Hostage</h3>
+      <p>Consent shown, but runs as a system process with no uninstall.</p>
+      <p class="caption">Zango showed a license screen, then ran at every startup and left files behind that needed extra tools to remove.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     6 · Dark pattern: Hidden
+     ====================================================================== -->
+<section class="slide split" data-sec="Three dark patterns" data-hidden>
+  <div class="text">
+    <h2>Hidden.</h2>
+    <p class="lede">Setup never mentions it. The app installs, launches, and a background process starts carrying other people's traffic.</p>
+    <div class="spot">
+      <div class="k">How to spot it</div>
+      <ul class="ticks x">
+        <li>No mention of bandwidth, IP address or an operator at install</li>
+        <li>Steady network use while the app sits idle</li>
+        <li>The only disclosure, if any, is in a privacy policy</li>
+      </ul>
+    </div>
+    <figure class="shot-slot" style="margin-top:auto; height:170px">
+      <img src="_assets/dark-hidden.png" alt="" onerror="this.remove()">
+      Real screenshot goes here<br>_assets/dark-hidden.png
+    </figure>
+  </div>
+  <div class="visual">
+    <div class="frame" style="left:0; top:24px">
+      <div class="m-inst shadow" style="zoom:1.2">
+        <div class="tb"><span>Setup</span><i class="m-ico" data-i="x"></i></div>
+        <div class="hd"><div><b>Completing Setup</b><small>Video Converter is ready to use.</small></div><div class="app"><i class="m-ico" data-i="film"></i></div></div>
+        <div class="bd">
+          <div class="done">
+            <b>Installation complete</b>
+            <p>Video Converter 1.0.4 has been installed on your computer.<br>Click Finish to close Setup.</p>
+            <div class="agree"><div class="box on"><i class="m-ico" data-i="check"></i></div>Launch Video Converter</div>
+          </div>
+        </div>
+        <div class="ft"><div class="ver">Video Converter 1.0.4</div><div class="btn off">&lt; Back</div><div class="btn primary">Finish</div></div>
+      </div>
+      <div class="callout" style="left:36px; top:352px">No word on bandwidth or IP</div>
+    </div>
+    <div class="frame" style="right:0; top:420px">
+      <div class="m-tm shadow" style="zoom:.74">
+        <div class="tb"><b>Task Manager</b><i class="m-ico" data-i="minus"></i><i class="m-ico" data-i="x"></i></div>
+        <h4>Processes</h4>
+        <table>
+          <tr><th>Name</th><th>Status</th><th class="r">CPU</th><th class="r">Memory</th><th class="r">Network</th></tr>
+          <tr><td><span class="pi"><i class="blue"></i>Video Converter</span></td><td>Idle</td><td class="r">0%</td><td class="r">41.2 MB</td><td class="r">0 Mbps</td></tr>
+          <tr class="hot"><td><span class="pi"><i></i>Background Helper (32 bit)</span></td><td></td><td class="r">0.4%</td><td class="r">18.6 MB</td><td class="r bar">3.8 Mbps</td></tr>
+          <tr><td><span class="pi"><i></i>Windows Explorer</span></td><td></td><td class="r">0.2%</td><td class="r">96.0 MB</td><td class="r">0 Mbps</td></tr>
+          <tr><td><span class="pi"><i></i>Service Host: Network Service</span></td><td></td><td class="r">0%</td><td class="r">6.1 MB</td><td class="r">0.1 Mbps</td></tr>
+        </table>
+      </div>
+      <div class="callout" style="right:24px; top:-22px">Idle app, 3.8 Mbps going out</div>
+    </div>
+    <span class="tag red" style="position:absolute; left:0; top:-8px">Illustrative</span>
+  </div>
+</section>
+
+<!-- ======================================================================
+     7 · Dark pattern: Fake consent
+     ====================================================================== -->
+<section class="slide split" data-sec="Three dark patterns" data-hidden>
+  <div class="text">
+    <h2>Fake consent.</h2>
+    <p class="lede">The ask exists, but it's built to be missed: a clause deep in the license, a box already ticked, words like "network optimization." Once you're in, there's no switch.</p>
+    <div class="spot">
+      <div class="k">How to spot it</div>
+      <ul class="ticks x">
+        <li>The box is ticked before you touch it</li>
+        <li>The operator isn't named</li>
+        <li>Vague terms: "partner services," "optimization"</li>
+        <li>No setting to pause it</li>
+      </ul>
+    </div>
+    <figure class="shot-slot" style="margin-top:auto; height:170px">
+      <img src="_assets/dark-fake-consent.png" alt="" onerror="this.remove()">
+      Real screenshot goes here<br>_assets/dark-fake-consent.png
+    </figure>
+  </div>
+  <div class="visual">
+    <div class="frame" style="left:0; top:24px">
+      <div class="m-inst shadow" style="zoom:1.3">
+        <div class="tb"><span>Setup</span><i class="m-ico" data-i="x"></i></div>
+        <div class="hd"><div><b>License Agreement</b><small>Please read the following important information before continuing.</small></div><div class="app"><i class="m-ico" data-i="film"></i></div></div>
+        <div class="bd">
+          <div class="eula">
+            <p>END USER LICENSE AGREEMENT. PLEASE READ CAREFULLY. By installing, copying or otherwise using the Software, you agree to be bound by the terms of this Agreement…</p>
+            <p>9.3 Licensor may collect anonymous usage statistics to improve product quality and performance of the Software and related services.</p>
+            <p>9.4 <span class="buried">Licensee grants Licensor and its partners a non-exclusive right to use the idle resources of Licensee's device, including network bandwidth and IP address, for network optimization and partner services.</span></p>
+            <p>9.5 Licensor shall not be liable for any indirect, incidental or consequential damages arising out of the use of the Software…</p>
+          </div>
+          <div class="agree"><div class="box on"><i class="m-ico" data-i="check"></i></div>I accept the License Agreement and partner terms</div>
+        </div>
+        <div class="ft"><div class="ver">Video Converter 1.0.4</div><div class="btn">&lt; Back</div><div class="btn primary">Next &gt;</div></div>
+      </div>
+      <div class="callout" style="left:560px; top:250px">§9.4, page 9 of the license</div>
+      <div class="callout" style="left:540px; top:404px">Pre-ticked</div>
+    </div>
+    <div class="frame" style="right:0; bottom:0">
+      <div class="m-win shadow" style="zoom:.72">
+        <div class="tb"><div class="appicon"><i class="m-ico" data-i="film"></i></div><span>Video Converter</span><div class="ctl"><i class="m-ico" data-i="minus"></i></div><div class="ctl"><i class="m-ico" data-i="x"></i></div></div>
+        <div class="cmd">
+          <div class="c"><i class="m-ico" data-i="plus"></i>Add video</div><div class="c"><i class="m-ico" data-i="trash"></i>Remove</div><div class="sep"></div>
+          <div class="c primary"><i class="m-ico" data-i="play"></i>Convert</div><div class="c"><i class="m-ico" data-i="pause"></i>Pause</div><div class="sep"></div>
+          <div class="c active"><i class="m-ico" data-i="settings"></i>Settings</div>
+        </div>
+        <div class="content">
+          <div class="pane"><b>General</b>
+            <div class="set"><div><div class="t">Language</div><div class="s">English (United States)</div></div><div class="pill">English</div></div>
+            <div class="set"><div><div class="t">Partner services</div><div class="s">Managed by partner.</div></div><div class="pill on"><i></i>Enabled</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="callout" style="right:16px; top:-22px">No switch. "Managed by partner."</div>
+    </div>
+    <span class="tag red" style="position:absolute; left:0; top:-8px">Illustrative</span>
+  </div>
+</section>
+
+<!-- ======================================================================
+     8 · Dark pattern: Hostage
+     ====================================================================== -->
+<section class="slide split" data-sec="Three dark patterns" data-hidden>
+  <div class="text">
+    <h2>Hostage.</h2>
+    <p class="lede">The consent screen is real. What happens after isn't. The proxy installs as its own system service, and removing the app doesn't remove it.</p>
+    <div class="spot">
+      <div class="k">How to spot it</div>
+      <ul class="ticks x">
+        <li>A service running as Local System, set to start automatically</li>
+        <li>Uninstall greyed out, or it "succeeds" and the service stays</li>
+        <li>A separate uninstaller you have to go looking for</li>
+      </ul>
+    </div>
+    <figure class="shot-slot" style="margin-top:auto; height:170px">
+      <img src="_assets/dark-hostage.png" alt="" onerror="this.remove()">
+      Real screenshot goes here<br>_assets/dark-hostage.png
+    </figure>
+  </div>
+  <div class="visual">
+    <div class="frame" style="left:0; top:24px">
+      <div class="m-apps shadow" style="zoom:.82">
+        <div class="top"><i class="m-ico" data-i="arrowLeft"></i><div class="find"><i class="m-ico" data-i="search"></i>Find a setting</div><div class="grow"></div><span class="ctl"><i class="m-ico" data-i="minus"></i></span><span class="ctl"><i class="m-ico" data-i="x"></i></span></div>
+        <div class="main">
+          <div class="crumb"><span class="dim">Apps</span><i class="m-ico" data-i="chevronRight"></i><span>Installed apps</span></div>
+          <div class="search"><i class="m-ico" data-i="search"></i>video converter</div>
+          <div class="count">1 app found</div>
+          <div class="app">
+            <div class="ai"><i class="m-ico" data-i="film"></i></div>
+            <div class="nm"><div>Video Converter 1.0.4</div><small>1.0.4 &nbsp;|&nbsp; 8/19/2026</small></div>
+            <div class="sz">128 MB</div>
+            <div class="dots"><i class="m-ico" data-i="more"></i></div>
+            <div class="menu"><div>Modify</div><div>Advanced options</div><div class="off">Uninstall</div></div>
+          </div>
+          <div class="rel">Related settings</div>
+          <div class="relrow"><i class="m-ico" data-i="download"></i><span>System components</span><i class="m-ico" data-i="chevronRight"></i></div>
+        </div>
+      </div>
+      <div class="callout" style="left:560px; top:330px">Uninstall greyed out</div>
+    </div>
+    <div class="frame" style="right:0; bottom:0">
+      <div class="m-tm shadow" style="zoom:.86">
+        <div class="tb"><b>Services</b><i class="m-ico" data-i="minus"></i><i class="m-ico" data-i="x"></i></div>
+        <table>
+          <tr><th>Name</th><th>Status</th><th>Startup type</th><th>Log on as</th></tr>
+          <tr><td><span class="pi"><i></i>Print Spooler</span></td><td>Running</td><td>Automatic</td><td>Local System</td></tr>
+          <tr class="hot"><td><span class="pi"><i class="blue"></i>VC Network Helper</span></td><td>Running</td><td>Automatic</td><td>Local System</td></tr>
+          <tr><td><span class="pi"><i></i>Windows Update</span></td><td>Running</td><td>Manual (Trigger Start)</td><td>Local System</td></tr>
+          <tr><td><span class="pi"><i></i>WLAN AutoConfig</span></td><td>Running</td><td>Automatic</td><td>Local System</td></tr>
+        </table>
+      </div>
+      <div class="callout" style="right:24px; top:-22px">Runs as the system, starts on boot</div>
+    </div>
+    <span class="tag red" style="position:absolute; left:0; top:-8px">Illustrative</span>
+  </div>
+</section>
+
+<!-- ======================================================================
+     9 · Mirror
+     ====================================================================== -->
+<section class="slide" data-sec="What real consent looks like">
+  <h2>Each dark pattern has <span class="hl">a plain fix.</span></h2>
+  <div class="body" style="flex-direction:column; margin-top:48px">
+    <div class="mirror">
+      <div class="card bad"><div class="k">Hidden</div><p>Nothing at install. Traffic starts on first launch.</p></div>
+      <div class="arrow"><i data-i="arrowRight"></i></div>
+      <div class="card good"><div class="k">Clear opt-in</div><h3>Its own screen, in plain language.</h3><p>Operator named. Nothing pre-ticked.</p></div>
+
+      <div class="card bad"><div class="k">Fake consent</div><p>Buried, pre-ticked, vague. No way to pause.</p></div>
+      <div class="arrow"><i data-i="arrowRight"></i></div>
+      <div class="card good"><div class="k">Pause anytime</div><h3>A switch in the app's own settings.</h3><p>Off means off, immediately.</p></div>
+
+      <div class="card bad"><div class="k">Hostage</div><p>System service, no uninstall.</p></div>
+      <div class="arrow"><i data-i="arrowRight"></i></div>
+      <div class="card good"><div class="k">Uninstall anytime</div><h3>Removing the app removes the sharing.</h3><p>No leftover service.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     10 · Clear opt-in
+     ====================================================================== -->
+<section class="slide split" data-sec="What real consent looks like">
+  <div class="text">
+    <h2>Clear opt-in.</h2>
+    <p class="lede">The request gets its own screen at install. It names Massive and says what's used: idle bandwidth and the IP address.</p>
+    <div class="spot">
+      <ul class="ticks">
+        <li>Its own screen, not a clause</li>
+        <li>An empty box. Accept stays disabled until you tick it</li>
+        <li>Plain language, with links to the license and privacy policy</li>
+        <li>Decline gets equal weight</li>
+      </ul>
+    </div>
+  </div>
+  <div class="visual">
+    <div class="frame" style="left:0; top:170px">
+      <div class="m-inst shadow" style="zoom:1.02">
+        <div class="tb"><span>Setup</span><i class="m-ico" data-i="x"></i></div>
+        <div class="hd"><div><b>Terms of Service</b><small>Please review and accept the terms to continue installing.</small></div><div class="app"><i class="m-ico" data-i="film"></i></div></div>
+        <div class="bd">
+          <div class="banner"></div>
+          <div class="copy">To remove ads and get free content, please let Massive use a small amount of your device's free resources and IP address to download public web data. Your participation is optional, and you may opt out anytime. Pressing Accept indicates that you agree to the license and privacy policy. You can opt out at any time after opting in.</div>
+          <div class="agree"><div class="box"></div>I agree and want to continue</div>
+          <div class="links">Learn more:<div><span>FAQ</span><span>License</span><span>Privacy Policy</span></div></div>
+        </div>
+        <div class="ft"><div class="ver">Video Converter 1.0.4</div><div class="btn off">Next &gt;</div><div class="btn">Cancel</div></div>
+      </div>
+      <div class="ring green" style="left:12px; top:248px; width:24px; height:24px"></div>
+      <div class="callout green" style="left:0; top:420px">Empty until you tick it. Next stays disabled.</div>
+    </div>
+    <div class="frame" style="right:0; top:0">
+      <div class="m-phone install shadow" style="zoom:.84">
+        <div class="wm serif">Outcast</div>
+        <div class="tagline">Weather, honestly.</div>
+        <div class="h serif">Before we start</div>
+        <div class="p">To use Outcast, please let Massive use a small amount of your device's free resources and IP address to download public web data from the internet. This powers our community weather network.</div>
+        <div class="bul">
+          <div>A small amount of your unused bandwidth is shared via the Massive network</div>
+          <div>Your IP address may be used to access public websites</div>
+          <div>No personal information is collected except your IP address</div>
+          <div>You may opt out anytime from Settings</div>
+        </div>
+        <div class="legal">Pressing <b>Accept</b> indicates that you agree to <u>Massive's license</u> and <u>privacy policy</u>. See <u>Massive's FAQ</u> for details.</div>
+        <div class="actions">
+          <div class="chk"><i></i>I agree and want to continue</div>
+          <div class="btns"><div class="sec">Decline</div><div class="pri">Accept</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     11 · Pause anytime
+     ====================================================================== -->
+<section class="slide split" data-sec="What real consent looks like">
+  <div class="text">
+    <h2>Pause anytime.</h2>
+    <p class="lede">A switch in the app's own settings. Not an email to support, not a page on a website.</p>
+    <div class="spot">
+      <ul class="ticks">
+        <li>One tap, effective immediately</li>
+        <li>The app says plainly what changes when it's off</li>
+        <li>No re-enrollment on the next update</li>
+      </ul>
+    </div>
+  </div>
+  <div class="visual">
+    <div class="frame" style="left:0; top:64px">
+      <div class="m-win shadow" style="zoom:.8">
+        <div class="tb"><div class="appicon"><i class="m-ico" data-i="film"></i></div><span>Video Converter</span><div class="ctl"><i class="m-ico" data-i="minus"></i></div><div class="ctl"><i class="m-ico" data-i="x"></i></div></div>
+        <div class="cmd">
+          <div class="c"><i class="m-ico" data-i="plus"></i>Add video</div><div class="c"><i class="m-ico" data-i="trash"></i>Remove</div><div class="sep"></div>
+          <div class="c primary"><i class="m-ico" data-i="play"></i>Convert</div><div class="c"><i class="m-ico" data-i="square"></i>Stop</div><div class="c"><i class="m-ico" data-i="pause"></i>Pause</div><div class="sep"></div>
+          <div class="c"><i class="m-ico" data-i="wrench"></i>Tools</div><div class="c active"><i class="m-ico" data-i="settings"></i>Settings</div>
+        </div>
+        <div class="content">
+          <div class="pane"><b>Bandwidth exchange</b>
+            <p>Video Converter is free because it shares a portion of your idle bandwidth. Sharing is what pays for it, so it only runs while the exchange is on.</p>
+            <div class="set"><div><div class="t">Share idle bandwidth</div><div class="s">Off. Converting is unavailable.</div></div><div class="m-toggle"></div></div>
+            <div class="set" style="margin-top:18px"><div><div class="t">Exchange status</div><div class="s">Live, this is the engine's actual state.</div></div><div class="pill"><i></i>Paused</div></div>
+          </div>
+          <div class="pane"><b>Queue</b>
+            <p>What happens to jobs already in the list.</p>
+            <div class="job"><div class="ji"><i class="m-ico" data-i="film"></i></div><div><div class="t">day-break-s01e01.avi</div><div class="s">Paused with the exchange</div></div><div class="m-toggle"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="ring green" style="left:758px; top:150px; width:44px; height:30px"></div>
+      <div class="callout green" style="right:0; top:-44px">Off. Sharing stops now.</div>
+    </div>
+    <div class="frame" style="right:0; bottom:40px">
+      <div class="m-phone settings shadow" style="zoom:.95">
+        <div class="title serif">Settings</div>
+        <div style="margin-top:22px">
+          <div class="lbl">Network</div>
+          <div class="grp">
+            <div class="srow">
+              <div class="tile" style="background:var(--tintIcon)"><i data-i="wifi" style="color:#4e6b52"></i></div>
+              <div class="txt"><div>Pause contribution</div><small>Temporarily stop sharing bandwidth</small></div>
+              <div class="oc-switch on"></div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:28px">
+          <div class="lbl">Display</div>
+          <div class="grp">
+            <div class="srow"><div class="tile" style="background:rgba(196,148,58,.18)"><i data-i="sun" style="color:#c4943a"></i></div><div class="txt"><div>Temperature</div></div><div class="val">°C</div></div>
+            <div class="div"></div>
+            <div class="srow"><div class="tile" style="background:rgba(196,148,58,.18)"><i data-i="wind" style="color:#c4943a"></i></div><div class="txt"><div>Wind speed</div></div><div class="val">m/s</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     12 · Uninstall anytime
+     ====================================================================== -->
+<section class="slide split" data-sec="What real consent looks like">
+  <div class="text">
+    <h2>Uninstall anytime. <span class="hl">It actually leaves.</span></h2>
+    <p class="lede">Removing the app removes the SDK with it. No separate uninstaller, no service left running, nothing that comes back on reboot.</p>
+    <div class="spot">
+      <ul class="ticks">
+        <li>Uninstalled from the normal system list</li>
+        <li>No leftover service or scheduled task</li>
+        <li>The device leaves the network the moment it's gone</li>
+      </ul>
+    </div>
+  </div>
+  <div class="visual">
+    <div class="frame" style="left:0; top:40px">
+      <div class="m-apps shadow" style="zoom:.74">
+        <div class="top"><i class="m-ico" data-i="arrowLeft"></i><div class="find"><i class="m-ico" data-i="search"></i>Find a setting</div><div class="grow"></div><span class="ctl"><i class="m-ico" data-i="minus"></i></span><span class="ctl"><i class="m-ico" data-i="x"></i></span></div>
+        <div class="main">
+          <div class="crumb"><span class="dim">Apps</span><i class="m-ico" data-i="chevronRight"></i><span>Installed apps</span></div>
+          <div class="search"><i class="m-ico" data-i="search"></i>video converter</div>
+          <div class="count">1 app found</div>
+          <div class="app">
+            <div class="ai"><i class="m-ico" data-i="film"></i></div>
+            <div class="nm"><div>Video Converter 1.0.4</div><small>1.0.4 &nbsp;|&nbsp; 8/19/2026</small></div>
+            <div class="sz">128 MB</div>
+            <div class="dots"><i class="m-ico" data-i="more"></i></div>
+            <div class="menu"><div>Modify</div><div>Advanced options</div><div class="hot">Uninstall</div></div>
+          </div>
+          <div class="rel" style="margin-top:120px">Related settings</div>
+        </div>
+      </div>
+      <span class="tag" style="position:absolute; left:0; top:-48px">Before</span>
+    </div>
+    <div class="frame" style="right:0; bottom:40px">
+      <div class="m-apps shadow" style="zoom:.74">
+        <div class="top"><i class="m-ico" data-i="arrowLeft"></i><div class="find"><i class="m-ico" data-i="search"></i>Find a setting</div><div class="grow"></div><span class="ctl"><i class="m-ico" data-i="minus"></i></span><span class="ctl"><i class="m-ico" data-i="x"></i></span></div>
+        <div class="main">
+          <div class="crumb"><span class="dim">Apps</span><i class="m-ico" data-i="chevronRight"></i><span>Installed apps</span></div>
+          <div class="search"><i class="m-ico" data-i="search"></i>video converter</div>
+          <div class="count">0 apps found</div>
+          <div class="empty">We couldn't find anything to show here.</div>
+        </div>
+      </div>
+      <div class="callout green" style="right:24px; top:-22px">0 apps found. Nothing left running.</div>
+      <span class="tag green" style="position:absolute; left:0; top:-48px">After</span>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     13 · Enforcing on partners
+     ====================================================================== -->
+<section class="slide split" data-sec="Enforcing it on partners">
+  <div class="text" style="width:760px">
+    <h2>A switch on<br><span class="hl">our side, too.</span></h2>
+    <div class="rows" style="margin-top:48px">
+      <div class="row icon-row"><div class="icon big"><i data-i="searchCheck"></i></div><div><h3>Audit every app before launch</h3><p>We review each integration and approve the consent language word for word.</p></div></div>
+      <div class="row icon-row"><div class="icon big"><i data-i="activity"></i></div><div><h3>Monitor after launch</h3><p>We check that the flow users see is still the one we approved, and flag device and traffic anomalies.</p></div></div>
+      <div class="row icon-row"><div class="icon big"><i data-i="power"></i></div><div><h3>Terminate bad actors</h3><p>Every partner app reaches the network through our SDK. Any of them can be switched off from our side.</p></div></div>
+    </div>
+  </div>
+  <div class="visual" style="display:flex; align-items:center; justify-content:center">
+    <div style="position:relative">
+      <div class="m-console shadow" style="zoom:1.16">
+        <div class="strip"><div><small>Partner apps</small><b>3</b></div><div class="sep"></div><div><small>Suspended</small><b>1</b></div></div>
+        <div class="head"><div class="a">App</div><div class="s">Status</div><div class="x"></div></div>
+        <div class="r"><div class="a"><div class="oc-icon" data-oc style="width:36px;height:36px"></div><div><b>Outcast</b><small>Android</small></div></div><div class="s"><i></i>Active</div><div class="x"><div class="site-switch on"></div></div></div>
+        <div class="r"><div class="a"><i data-i="sparkTray"></i><div><b>Spark Tray</b><small>Windows</small></div></div><div class="s"><i></i>Active</div><div class="x"><div class="site-switch on"></div></div></div>
+        <div class="r off"><div class="a"><i data-i="bizTray"></i><div><b>BizTray</b><small>Windows</small></div></div><div class="s"><i></i>Suspended</div><div class="x"><div class="site-switch"></div></div></div>
+      </div>
+      <div class="callout" style="right:0; bottom:-58px">Switched off from our side. Traffic stops.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     14 · Buyer side: who gets in
+     ====================================================================== -->
+<section class="slide" data-sec="Controlling the buyer side">
+  <h2>Who gets to <span class="hl">send traffic.</span></h2>
+  <p class="lede">Consent on the device side means little if anyone can buy access anonymously.</p>
+  <div class="body" style="gap:32px; margin-top:44px">
+    <div class="col" style="flex:0 0 520px; gap:32px">
+      <div class="card">
+        <h3>Businesses, verified.</h3>
+        <p class="small">Individuals only with an ID check, a call with our team and an approved use case.</p>
+      </div>
+      <div class="card stat" style="padding:36px 44px">
+        <div class="v" style="font-size:96px">69%</div>
+        <div class="l">of new accounts rejected or blocked<br>Last 365 days</div>
+      </div>
+    </div>
+    <div class="col" style="gap:0">
+      <div class="rows">
+        <div class="row icon-row"><div class="icon big"><i data-i="idCard" style="font-size:40px"></i></div><div><h3>Veriff ID check</h3><p>Government ID and liveness check for the person opening the account.</p></div></div>
+        <div class="row icon-row"><div class="icon big"><i data-i="phone" style="font-size:40px"></i></div><div><h3>A call with a rep</h3><p>We talk through the use case before anything is switched on.</p></div></div>
+        <div class="row icon-row"><div class="icon big"><i data-i="building" style="font-size:40px"></i></div><div><h3>Proof of business</h3><p>Registration, domain and payment details that match the company.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     15 · Buyer side: what they do with it
+     ====================================================================== -->
+<section class="slide" data-sec="Controlling the buyer side">
+  <h2>Then watch what they <span class="hl">do with it.</span></h2>
+  <div class="body" style="gap:64px; margin-top:48px">
+    <div class="col" style="flex:0 0 660px">
+      <div class="rows">
+        <div class="row icon-row"><div class="icon big"><i data-i="ban"></i></div><div><h3>Universal blocklist</h3><p>One list for every customer.</p></div></div>
+        <div class="row icon-row"><div class="icon big"><i data-i="pauseCircle"></i></div><div><h3>Suspend first, investigate after</h3><p>Anything that looks like abuse is paused first.</p></div></div>
+        <div class="row icon-row"><div class="icon big"><i data-i="barChart"></i></div><div><h3>Published numbers</h3><p>Rates are public at <strong>joinmassive.com/abuse</strong>.</p></div></div>
+      </div>
+    </div>
+    <div class="col" style="gap:24px">
+      <div class="m-chart" style="padding:36px 40px 28px; flex:1; display:flex; flex-direction:column">
+        <div class="sum">Traffic refused for policy, last 7 days: <strong>0.108%</strong> blocked, <strong>99.892%</strong> passed.</div>
+        <div class="plot" style="flex:1; height:auto; margin-top:32px">
+          <div class="y"><span style="top:0%">0.14%</span><span style="top:20%">0.13%</span><span style="top:40%">0.12%</span><span style="top:60%">0.11%</span><span style="top:80%">0.10%</span><span style="top:100%">0.09%</span></div>
+          <svg viewBox="0 0 1000 300" preserveAspectRatio="none">
+            <defs><linearGradient id="area" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d74939" stop-opacity=".35"/><stop offset="1" stop-color="#d74939" stop-opacity="0"/></linearGradient></defs>
+            <g stroke="rgba(250,244,236,.08)" stroke-width="1" vector-effect="non-scaling-stroke"><path d="M0 0H1000M0 60H1000M0 120H1000M0 180H1000M0 240H1000M0 300H1000" vector-effect="non-scaling-stroke"/></g>
+            <path d="M 0 168.0 C 27.8 171.0, 111.1 165.0, 166.7 186.0 C 222.2 207.0, 277.8 290.0, 333.3 294.0 C 388.9 298.0, 444.4 218.5, 500.0 210.0 C 555.6 201.5, 611.1 272.0, 666.7 243.0 C 722.2 214.0, 777.8 39.5, 833.3 36.0 C 888.9 32.5, 972.2 191.0, 1000.0 222.0 L 1000 300 L 0 300 Z" fill="url(#area)"/>
+            <path d="M 0 168.0 C 27.8 171.0, 111.1 165.0, 166.7 186.0 C 222.2 207.0, 277.8 290.0, 333.3 294.0 C 388.9 298.0, 444.4 218.5, 500.0 210.0 C 555.6 201.5, 611.1 272.0, 666.7 243.0 C 722.2 214.0, 777.8 39.5, 833.3 36.0 C 888.9 32.5, 972.2 191.0, 1000.0 222.0" fill="none" stroke="#ff8163" stroke-width="3" vector-effect="non-scaling-stroke"/>
+          </svg>
+        </div>
+        <div class="x"><span>Sep 4</span><span>Sep 5</span><span>Sep 6</span><span>Sep 7</span><span>Sep 8</span><span>Sep 9</span><span>Sep 10</span></div>
+        <div class="source" style="margin-top:18px">Live figures from joinmassive.com/abuse, pulled Sep 28, 2026.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     16 · The cost
+     ====================================================================== -->
+<section class="slide" data-sec="The cost of doing it right">
+  <h2>We turn away <span class="hl">millions a year.</span></h2>
+  <div class="body" style="gap:56px; align-items:stretch">
+    <div class="col" style="flex:0 0 440px">
+      <div class="card stat" style="flex:1; justify-content:center"><div class="v" style="font-size:168px">69%</div><div class="l">Of new accounts rejected or blocked</div></div>
+    </div>
+    <div class="col" style="justify-content:center">
+      <h3 style="font-size:52px; line-height:1.1">Why is it still worth it?</h3>
+      <p style="font-size:32px; margin-top:28px">Competitors can't undo what they did to grow. Their networks are built on devices that never agreed, and every takedown shrinks them.</p>
+      <p style="font-size:32px; margin-top:24px"><strong>We never had to do any of that.</strong></p>
+      <div class="grid-2" style="display:grid; margin-top:48px">
+        <div class="card bad ghost" style="padding:32px"><div class="k">IPIDEA, Jan 2026</div><p class="small"><strong>~40% of its proxies</strong> gone in the weeks after Google's action.</p></div>
+        <div class="card bad ghost" style="padding:32px"><div class="k">Alarum / NetNut, Jul 2026</div><p class="small">Stock down <strong>67%</strong> in the week after the FBI seizure.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     17 · Standards + questions buyers should ask
+     ====================================================================== -->
+<section class="slide" data-sec="What the industry should adopt">
+  <h2>Standards <span class="hl">anyone can check.</span></h2>
+  <div class="body" style="gap:80px; margin-top:48px">
+    <div class="col">
+      <div class="colhead">Five standards</div>
+      <div class="rows compact">
+        <div class="row"><div class="n">01</div><div><h3>Affirmative opt-in</h3><p>Own screen, operator named, nothing pre-ticked.</p></div></div>
+        <div class="row"><div class="n">02</div><div><h3>One-step exit</h3><p>Pause and uninstall on the device, nothing left running.</p></div></div>
+        <div class="row"><div class="n">03</div><div><h3>Partner accountability</h3><p>Every SDK app reviewed, monitored, with a kill switch.</p></div></div>
+        <div class="row"><div class="n">04</div><div><h3>Buyer vetting before traffic</h3><p>Identity, use case, payment and sanctions checks.</p></div></div>
+        <div class="row"><div class="n">05</div><div><h3>Published abuse data</h3><p>Blocklist and rejection rates in public.</p></div></div>
+      </div>
+      <div class="source" style="margin-top:auto">Adapted from our Best Practices document, Jul 2026</div>
+    </div>
+    <div class="col">
+      <div class="colhead">Ask your proxy provider</div>
+      <ul class="ticks q compact">
+        <li>Can you show me the exact consent screen a device owner sees?</li>
+        <li>Is the box pre-ticked? Is your company named on it?</li>
+        <li>How does a user pause sharing, and how fast?</li>
+        <li>What's left on the device after uninstall?</li>
+        <li>Which apps carry your SDK, and who reviewed them?</li>
+        <li>Have you ever cut off a partner? How fast?</li>
+        <li>What do you check before a new customer sends traffic?</li>
+        <li>Do you publish rejection and abuse numbers?</li>
+      </ul>
+      <p style="margin-top:auto; font-size:34px; font-weight:600; color:var(--text)">If the answer is vague, <span class="hl">that's the answer.</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     18 · Close
+     ====================================================================== -->
+<section class="slide close" data-sec="" data-nofoot>
+  <div class="close-text">
+    <img class="logo" src="_assets/logo.svg" alt="Massive">
+    <div>
+      <div class="eyebrow">Thank you!</div>
+      <h1 style="font-size:112px">Consent you<br><span class="hl">can check.</span></h1>
+    </div>
+    <div class="meta">joinmassive.com</div>
+  </div>
+  <div class="close-links">
+    <div class="card link"><div class="icon"><i data-i="checkSquare"></i></div><div><div class="k">The four pillars</div><p><strong>joinmassive.com/consent</strong></p></div></div>
+    <div class="card link"><div class="icon"><i data-i="barChart"></i></div><div><div class="k">Live numbers</div><p><strong>joinmassive.com/abuse</strong></p></div></div>
+    <div class="card link"><div class="icon"><i data-i="ban"></i></div><div><div class="k">The blocklist</div><p><strong>joinmassive.com/blocked-destinations</strong></p></div></div>
+    <div class="card link"><div class="icon"><i data-i="fileText"></i></div><div><div class="k">The standard</div><p><strong>joinmassive.com/best-practices</strong></p></div></div>
+  </div>
+</section>
+
+<script>
+  // Lucide-style line icons, stamped into every <i data-i="…">.
+  const P = {
+    x: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+    minus: '<path d="M5 12h14"/>',
+    check: '<path d="M20 6 9 17l-5-5"/>',
+    film: '<rect width="18" height="18" x="3" y="3" rx="2"/><path d="M7 3v18"/><path d="M3 7.5h4"/><path d="M3 12h18"/><path d="M3 16.5h4"/><path d="M17 3v18"/><path d="M17 7.5h4"/><path d="M17 16.5h4"/>',
+    plus: '<path d="M5 12h14"/><path d="M12 5v14"/>',
+    trash: '<path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>',
+    play: '<polygon points="6 3 20 12 6 21 6 3"/>',
+    pause: '<rect x="14" y="4" width="4" height="16" rx="1"/><rect x="6" y="4" width="4" height="16" rx="1"/>',
+    square: '<rect width="18" height="18" x="3" y="3" rx="2"/>',
+    wrench: '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>',
+    settings: '<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>',
+    search: '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+    arrowLeft: '<path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>',
+    arrowRight: '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+    chevronRight: '<path d="m9 18 6-6-6-6"/>',
+    more: '<circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>',
+    download: '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/>',
+    eyeOff: '<path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" x2="22" y1="2" y2="22"/>',
+    fileText: '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>',
+    lock: '<rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+    idCard: '<rect width="20" height="16" x="2" y="4" rx="2"/><circle cx="9" cy="11" r="2.5"/><path d="M5 17c.6-1.8 2-2.8 4-2.8s3.4 1 4 2.8"/><path d="M15 9h4"/><path d="M15 13h3"/>',
+    phone: '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>',
+    building: '<rect width="16" height="20" x="4" y="2" rx="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M12 6h.01"/><path d="M12 10h.01"/><path d="M12 14h.01"/><path d="M16 10h.01"/><path d="M16 14h.01"/><path d="M8 10h.01"/><path d="M8 14h.01"/>',
+    wifi: '<path d="M12 20h.01"/><path d="M2 8.82a15 15 0 0 1 20 0"/><path d="M5 12.86a10 10 0 0 1 14 0"/><path d="M8.5 16.43a5 5 0 0 1 7 0"/>',
+    sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>',
+    searchCheck: '<path d="m8 11 2 2 4-4"/><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+    activity: '<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>',
+    power: '<path d="M12 2v10"/><path d="M18.4 6.6a9 9 0 1 1-12.77.04"/>',
+    checkSquare: '<rect width="18" height="18" x="3" y="3" rx="2"/><path d="m9 12 2 2 4-4"/>',
+    ban: '<circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/>',
+    pauseCircle: '<circle cx="12" cy="12" r="10"/><line x1="10" x2="10" y1="15" y2="9"/><line x1="14" x2="14" y1="15" y2="9"/>',
+    barChart: '<path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>',
+    wind: '<path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2"/><path d="M9.6 4.6A2 2 0 1 1 11 8H2"/><path d="M12.6 19.4A2 2 0 1 0 14 16H2"/>',
+  };
+  // Spark Tray's shipped mark (sparktray.io/icon.svg), as the landing console draws it.
+  const SPARK = '<svg width="36" height="36" viewBox="0 0 512 512" fill="none"><rect width="512" height="512" rx="116" fill="#4F43FF"/><path d="M245.584 79.855C248.959 69.8965 263.044 69.8965 266.42 79.8551L288.858 146.055C289.957 149.297 292.502 151.842 295.745 152.941L361.944 175.379C371.903 178.755 371.903 192.84 361.944 196.215L295.745 218.653C292.502 219.752 289.957 222.298 288.858 225.54L266.42 291.74C263.044 301.698 248.959 301.698 245.584 291.74L223.146 225.54C222.047 222.298 219.501 219.752 216.259 218.653L150.06 196.215C140.101 192.84 140.101 178.755 150.06 175.379L216.259 152.941C219.501 151.842 222.047 149.297 223.146 146.055L245.584 79.855Z" fill="white"/><path d="M316.704 284.369C315.105 276.094 323.007 269.247 330.748 272.579C373.14 290.827 408.705 321.489 408.705 356.236C408.705 393.248 378.787 425.622 334.12 443.299C328.768 445.417 325.618 451.107 327.026 456.688L340.881 511.563C322.784 511.862 302.68 511.866 280.274 511.866L276.166 469.121C275.167 458.732 266.438 450.802 256.001 450.802C245.564 450.802 236.836 458.732 235.837 469.121L231.728 511.867H231.618C211.479 511.867 193.194 511.866 176.552 511.653L185.907 456.07C186.806 450.728 183.665 445.56 178.619 443.588C133.545 425.976 103.297 393.451 103.297 356.236C103.297 321.491 138.859 290.831 181.247 272.582C188.988 269.25 196.89 276.096 195.292 284.371L187.991 322.175C187.35 325.497 188.273 328.93 190.494 331.482L218.201 363.316C220.29 365.717 223.316 367.096 226.498 367.096H285.506C288.688 367.096 291.715 365.717 293.804 363.316L321.508 331.482C323.729 328.93 324.652 325.496 324.01 322.174L316.704 284.369Z" fill="white"/></svg>';
+
+  // BizTray's shipped mark (biztray.io/icon.svg), as the landing console draws it.
+  const BIZ = '<svg width="36" height="36" viewBox="0 0 512 512" fill="none"><rect width="512" height="512" rx="116" fill="#EB5943"/><path fill-rule="evenodd" clip-rule="evenodd" d="M347.216 322.476C363.375 322.476 377.434 333.539 381.234 349.245L419.084 505.676C386.042 511.866 341.617 511.867 279.618 511.867H231.618C170.077 511.867 125.851 511.867 92.8857 505.813L130.77 349.245C134.57 333.539 148.629 322.476 164.788 322.476H347.216ZM159.706 468.538C153.631 468.538 148.706 473.463 148.706 479.538V482.177C148.706 488.252 153.631 493.177 159.706 493.177H352.306C358.381 493.177 363.306 488.252 363.306 482.177V479.538C363.306 473.463 358.381 468.538 352.306 468.538H159.706ZM173.734 419.899C167.659 419.899 162.734 424.824 162.734 430.899V433.538C162.734 439.613 167.659 444.538 173.734 444.538H338.277C344.352 444.538 349.277 439.613 349.277 433.538V430.899C349.277 424.824 344.352 419.899 338.277 419.899H173.734ZM179.874 371.261C173.799 371.261 168.874 376.186 168.874 382.261V384.899C168.874 390.974 173.799 395.899 179.874 395.899H332.131C338.206 395.899 343.131 390.974 343.131 384.899V382.261C343.131 376.186 338.206 371.261 332.131 371.261H179.874Z" fill="white"/><path d="M245.584 79.855C248.959 69.8965 263.044 69.8965 266.42 79.8551L288.858 146.055C289.957 149.297 292.502 151.842 295.745 152.941L361.944 175.379C371.903 178.755 371.903 192.84 361.944 196.215L295.745 218.653C292.502 219.752 289.957 222.298 288.858 225.54L266.42 291.74C263.044 301.698 248.959 301.698 245.584 291.74L223.146 225.54C222.047 222.298 219.501 219.752 216.259 218.653L150.06 196.215C140.101 192.84 140.101 178.755 150.06 175.379L216.259 152.941C219.501 151.842 222.047 149.297 223.146 146.055L245.584 79.855Z" fill="white"/></svg>';
+  document.querySelectorAll('[data-i]').forEach((el) => {
+    if (el.dataset.i === 'sparkTray') { el.outerHTML = SPARK; return; }
+    if (el.dataset.i === 'bizTray') { el.outerHTML = BIZ; return; }
+    const w = el.closest('.m-ico') ? '100%' : '1em';
+    el.innerHTML = `<svg viewBox="0 0 24 24" width="${w}" height="${w}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${P[el.dataset.i] || ''}</svg>`;
+    if (!el.closest('.m-ico')) { el.style.display = 'inline-flex'; el.style.fontSize = el.style.fontSize || '28px'; }
+  });
+
+  // Outcast's launcher mark: a sage plate, a pale sun with eight rays, a cloud.
+  document.querySelectorAll('[data-oc]').forEach((el) => {
+    const rays = Array.from({ length: 8 }, (_, i) => {
+      const a = (i * Math.PI) / 4, c = Math.cos(a), s = Math.sin(a);
+      return `<line x1="${15.5 + c * 4.6}" y1="${9 + s * 4.6}" x2="${15.5 + c * 6.6}" y2="${9 + s * 6.6}"/>`;
+    }).join('');
+    el.innerHTML = `<svg viewBox="0 0 24 24"><g stroke="#e8d9b0" stroke-width="1.5" stroke-linecap="round">${rays}</g><circle cx="15.5" cy="9" r="3.9" fill="#e8d9b0"/><path d="M7.3 19.5h9.3a3.6 3.6 0 0 0 .35-7.2 5.4 5.4 0 0 0-10.2-1.1 3.65 3.65 0 0 0 .55 8.3Z" fill="#f5efe0"/></svg>`;
+  });
+
+  // Footer: logo, section, page number.
+  // Hidden slides stay in the source but are skipped in numbering and output.
+  const slides = [...document.querySelectorAll('.slide:not([data-hidden])')];
+  slides.forEach((s, i) => {
+    if (s.hasAttribute('data-nofoot')) return;
+    const f = document.createElement('div');
+    f.className = 'foot';
+    f.innerHTML = `<img src="_assets/logo.svg" alt=""><span class="sec"></span><span class="num">${String(i + 1).padStart(2, '0')} / ${slides.length}</span>`;
+    s.appendChild(f);
+  });
+</script>
+</body>
+</html>

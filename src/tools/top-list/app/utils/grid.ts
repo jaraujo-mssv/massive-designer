@@ -1,4 +1,4 @@
-import type { Rect } from './squarify';
+import type { Rect } from '@/shared/canvas/squarify';
 
 /**
  * Equal tiles in a near-square grid: ceil(√n) columns (2×2, 3×3, 4×4…) and as

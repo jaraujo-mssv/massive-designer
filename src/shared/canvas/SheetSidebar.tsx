@@ -1,33 +1,49 @@
 import { useState } from "react";
 import { Download, ExternalLink, Link, Loader2, Upload, X } from "lucide-react";
 import { toast } from "sonner";
-import { DesignPanel } from "@/shared/canvas/DesignPanel";
-import type { CanvasThemeId } from "@/shared/canvas/themes";
-import { EXAMPLES, SIZES, TopListSizeId } from "../constants";
-import type { Layout, SkippedRow } from "../utils/parseSheet";
+import { DesignPanel, SizeOption } from "./DesignPanel";
+import type { SkippedRow } from "./sheetText";
+import type { CanvasThemeId } from "./themes";
+
+export interface Example {
+  label: string;
+  /** Short note shown under the name (layout, size of the sheet…). */
+  hint: string;
+  url: string;
+}
 
 export interface DataSummary {
-  layout: Layout;
+  /** Number of items loaded; 0 means the last load found nothing usable. */
   count: number;
+  /** First line of the Data section, e.g. "10 companies · Grid". */
+  headline: string;
+  /** Extra tool-specific notes, one paragraph each. */
+  notes?: string[];
   skipped: SkippedRow[];
   duplicateNames: string[];
 }
 
-interface SidebarProps {
-  size: TopListSizeId;
-  onSizeChange: (size: TopListSizeId) => void;
+interface SheetSidebarProps<Size extends string> {
+  toolName: string;
+  sizes: SizeOption<Size>[];
+  size: Size;
+  onSizeChange: (size: Size) => void;
   theme: CanvasThemeId;
   onThemeChange: (theme: CanvasThemeId) => void;
   showPresentedBy: boolean;
   onShowPresentedByChange: (show: boolean) => void;
   summary: DataSummary | null;
-  atMinimum: number;
+  /** Explains the sheet's columns under the Import buttons. */
+  columnsHint: React.ReactNode;
+  examples: Example[];
   /** `delimiter` is undefined when it should be detected (.csv files). */
   onLoadText: (text: string, delimiter: string | undefined, source: string) => void;
   /** Fetches a Google Sheet (URL or ID) and loads it; `source` names it in the toast. */
   onLoadSheet: (urlOrId: string, source?: string) => void;
-  /** Clears the loaded list so another can be imported. */
+  /** Clears the loaded sheet so another can be imported. */
   onUnload: () => void;
+  /** Label for the unload button, e.g. "Unload map". */
+  unloadLabel?: string;
   onExportJpg: () => void;
   isExporting: boolean;
 }
@@ -37,7 +53,13 @@ const buttonClass =
 const inputClass =
   "w-full px-3 py-2 border border-border-subtle rounded-lg text-sm bg-surface text-text-primary placeholder:text-text-dim focus:outline-none focus:border-brand";
 
-export function Sidebar({
+/**
+ * Sidebar of the sheet-driven canvas tools: Design panel, data summary, Import
+ * and Examples (only while nothing is loaded), Unload list, and Export.
+ */
+export function SheetSidebar<Size extends string>({
+  toolName,
+  sizes,
   size,
   onSizeChange,
   theme,
@@ -45,17 +67,19 @@ export function Sidebar({
   showPresentedBy,
   onShowPresentedByChange,
   summary,
-  atMinimum,
+  columnsHint,
+  examples,
   onLoadText,
   onLoadSheet,
   onUnload,
+  unloadLabel = "Unload list",
   onExportJpg,
   isExporting,
-}: SidebarProps) {
+}: SheetSidebarProps<Size>) {
   const [showUrlDialog, setShowUrlDialog] = useState(false);
-  // A failed load (no companies) still shows its summary, but keeps Import open.
-  const isLoaded = (summary?.count ?? 0) > 0;
   const [urlInput, setUrlInput] = useState("");
+  // A failed load (nothing usable) still shows its summary, but keeps Import open.
+  const isLoaded = (summary?.count ?? 0) > 0;
 
   const handleFile = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -84,12 +108,12 @@ export function Sidebar({
   return (
     <div className="w-96 shrink-0 flex flex-col bg-surface border-r border-border-subtle">
       <div className="flex items-center px-4 py-3 border-b border-border-subtle shrink-0">
-        <span className="text-xs font-semibold text-text-dim uppercase tracking-widest font-mono">Top List</span>
+        <span className="text-xs font-semibold text-text-dim uppercase tracking-widest font-mono">{toolName}</span>
       </div>
 
       <div className="flex-1 overflow-y-auto min-h-0">
         <DesignPanel
-          sizes={SIZES}
+          sizes={sizes}
           size={size}
           onSizeChange={onSizeChange}
           theme={theme}
@@ -101,15 +125,8 @@ export function Sidebar({
         {summary && (
           <div className="p-4 space-y-2 border-b border-border-subtle text-xs text-text-dim">
             <h3 className="font-semibold uppercase tracking-widest">Data</h3>
-            <p className="text-sm text-text-primary">
-              {summary.count} companies ·{" "}
-              {summary.layout === "bento" ? "Bento, sized by value" : "Grid, equal tiles in rank order"}
-            </p>
-            {atMinimum > 0 && (
-              <p>
-                {atMinimum} shown at minimum size, so they are larger than their value (not to scale).
-              </p>
-            )}
+            <p className="text-sm text-text-primary">{summary.headline}</p>
+            {summary.notes?.map((note) => <p key={note}>{note}</p>)}
             {summary.duplicateNames.length > 0 && (
               <p>Listed more than once: {summary.duplicateNames.join(", ")}</p>
             )}
@@ -128,62 +145,58 @@ export function Sidebar({
             {isLoaded && (
               <button onClick={onUnload} className={`${buttonClass} mt-3`}>
                 <X className="w-4 h-4" />
-                Unload list
+                {unloadLabel}
               </button>
             )}
           </div>
         )}
 
-        {/* Import and examples only while nothing is loaded; Unload list brings them back. */}
+        {/* Import and examples only while nothing is loaded; unloading brings them back. */}
         {!isLoaded && (
-        <div className="p-4 space-y-2">
-          <h3 className="text-xs font-semibold text-text-dim uppercase tracking-widest mb-3">Import</h3>
-          <label className={`${buttonClass} cursor-pointer`}>
-            <Upload className="w-4 h-4" />
-            Import CSV / TSV
-            <input type="file" accept=".csv,.tsv" onChange={handleFile} className="hidden" />
-          </label>
-          <button onClick={() => setShowUrlDialog(true)} className={buttonClass}>
-            <Link className="w-4 h-4" />
-            Import from Google Sheets
-          </button>
-          <p className="text-xs text-text-dim pt-1">
-            Columns: <span className="font-mono">name</span>, <span className="font-mono">logo</span>, and
-            optionally <span className="font-mono">position</span>. Add a <span className="font-mono">value</span>{" "}
-            column (4.2T, 91.5B, ~$361M) to switch to the Bento layout, sized by value.
-          </p>
+          <div className="p-4 space-y-2">
+            <h3 className="text-xs font-semibold text-text-dim uppercase tracking-widest mb-3">Import</h3>
+            <label className={`${buttonClass} cursor-pointer`}>
+              <Upload className="w-4 h-4" />
+              Import CSV / TSV
+              <input type="file" accept=".csv,.tsv" onChange={handleFile} className="hidden" />
+            </label>
+            <button onClick={() => setShowUrlDialog(true)} className={buttonClass}>
+              <Link className="w-4 h-4" />
+              Import from Google Sheets
+            </button>
+            <p className="text-xs text-text-dim pt-1">{columnsHint}</p>
 
-          <h3 className="text-xs font-semibold text-text-dim uppercase tracking-widest pt-4 mb-2">Examples</h3>
-          <div className="space-y-1.5">
-            {EXAMPLES.map((ex) => (
-              <div
-                key={ex.url}
-                className="flex items-center gap-2 px-3 py-2 bg-surface-2 border border-border-subtle rounded-lg"
-              >
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm text-text-primary truncate">{ex.label}</p>
-                  <p className="text-[11px] text-text-dim">{ex.hint}</p>
+            <h3 className="text-xs font-semibold text-text-dim uppercase tracking-widest pt-4 mb-2">Examples</h3>
+            <div className="space-y-1.5">
+              {examples.map((ex) => (
+                <div
+                  key={ex.url}
+                  className="flex items-center gap-2 px-3 py-2 bg-surface-2 border border-border-subtle rounded-lg"
+                >
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm text-text-primary truncate">{ex.label}</p>
+                    <p className="text-[11px] text-text-dim">{ex.hint}</p>
+                  </div>
+                  <button
+                    onClick={() => onLoadSheet(ex.url, ex.label)}
+                    className="px-2.5 py-1 text-xs font-medium bg-brand text-white rounded-md hover:opacity-90 transition-opacity"
+                  >
+                    Load
+                  </button>
+                  <a
+                    href={ex.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="Open the spreadsheet"
+                    className="flex items-center gap-1 px-2.5 py-1 text-xs text-text-dim border border-border-subtle rounded-md hover:text-text-primary hover:border-brand transition-colors"
+                  >
+                    Open
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
                 </div>
-                <button
-                  onClick={() => onLoadSheet(ex.url, ex.label)}
-                  className="px-2.5 py-1 text-xs font-medium bg-brand text-white rounded-md hover:opacity-90 transition-opacity"
-                >
-                  Load
-                </button>
-                <a
-                  href={ex.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  title="Open the spreadsheet"
-                  className="flex items-center gap-1 px-2.5 py-1 text-xs text-text-dim border border-border-subtle rounded-md hover:text-text-primary hover:border-brand transition-colors"
-                >
-                  Open
-                  <ExternalLink className="w-3 h-3" />
-                </a>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
         )}
       </div>
 
@@ -191,7 +204,7 @@ export function Sidebar({
         <h3 className="text-xs font-semibold text-text-dim uppercase tracking-widest mb-3">Export</h3>
         <button
           onClick={onExportJpg}
-          disabled={isExporting || !summary?.count}
+          disabled={isExporting || !isLoaded}
           className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-brand text-white rounded-lg hover:opacity-90 font-medium disabled:opacity-50 text-sm transition-opacity"
         >
           {isExporting ? <Loader2 size={16} className="animate-spin" /> : <Download size={16} />}

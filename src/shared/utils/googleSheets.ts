@@ -31,7 +31,10 @@ export function convertToGoogleSheetsTsvUrl(url: string): string {
 
     if (match && match[1]) {
       const spreadsheetId = match[1];
-      return `https://docs.google.com/spreadsheets/d/${spreadsheetId}/export?format=tsv`;
+      // Keep the tab the link points at ("?gid=123" or "#gid=123"); without it
+      // the export is always the sheet's first tab.
+      const gid = url.match(/[?#&]gid=(\d+)/)?.[1];
+      return `https://docs.google.com/spreadsheets/d/${spreadsheetId}/export?format=tsv${gid ? `&gid=${gid}` : ''}`;
     }
 
     // If not a Google Sheets URL, return original

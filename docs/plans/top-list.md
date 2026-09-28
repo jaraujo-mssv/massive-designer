@@ -133,21 +133,20 @@ There's no edit mode or drag and drop: the spreadsheet is the source of truth. T
 
 ```
 src/tools/top-list/app/
-  App.tsx                 state, import, export, canvas frame
-  constants.ts            sizes, per-size presets, example sheets
+  App.tsx                 state, loading, unload, export
+  constants.ts            per-size presets, example sheets
   components/
     TileCanvas.tsx        picks the layout, places and renders the tiles
-    Tile.tsx              logo, name pill, value or rank, shade overlay
-    Sidebar.tsx           Design panel, data summary, import/examples/export
+    Tile.tsx              logo, name pill, value or rank, logo wash
   utils/
-    parseSheet.ts         header aliases, metadata rows, layout switch, ordering
-    squarify.ts           treemap layout (pure)
+    parseSheet.ts         header aliases, layout switch, ordering
     minArea.ts            proportional areas with a minimum tile size (pure)
     grid.ts               equal-tile grid with a stretched last row (pure)
     value.ts              parses "4.2T" / "$1,200" → number; formats back to compact form
     tiers.ts              tile size → logo size, font sizes, what fits
-    measureText.ts        canvas-based text fitting
 ```
+
+Shared with Market Map, in `src/shared/canvas/`: `CanvasFrame` (canvas, header, empty state), `SheetSidebar` (the whole sidebar), `useSheetLoader` (`?e=`, loading, unload), `sheetText` (metadata rows, header aliases), `sizes`, `squarify`, `measureText`, `DesignPanel`, `PresentedBy`, `exportJpg` and `themes`. See [market-map.md](market-map.md).
 
 Also: the route in `src/router/index.tsx` (plus the `/bento-map` redirect) and the nav link in `Header.tsx`.
 

@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import type { Layout, ListItem } from "../utils/parseSheet";
 import { gridRects } from "../utils/grid";
 import { allocateAreas } from "../utils/minArea";
-import { insetAndSnap, squarify } from "../utils/squarify";
+import { insetAndSnap, squarify } from "@/shared/canvas/squarify";
 import { formatValue } from "../utils/value";
 import { Tile } from "./Tile";
 

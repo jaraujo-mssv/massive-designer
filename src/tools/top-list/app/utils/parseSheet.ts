@@ -1,4 +1,4 @@
-import Papa from 'papaparse';
+import { readSheetTable, SkippedRow } from '@/shared/canvas/sheetText';
 import { dominantSymbol, parseValue } from './value';
 
 /**
@@ -17,12 +17,6 @@ export interface ListItem {
   value?: number;
   /** The sheet marked the value as an estimate ("~$361M"). */
   approximate: boolean;
-}
-
-export interface SkippedRow {
-  /** 1-based row number as seen in the spreadsheet, header included. */
-  row: number;
-  reason: string;
 }
 
 export interface ParsedSheet {
@@ -52,14 +46,9 @@ const HEADER_ALIASES: Record<string, Column> = {
   market_cap: 'value',
 };
 
-type Row = Partial<Record<Column, string>>;
-
 /**
- * Parses a Top List sheet.
- *
- * Only `__TITLE__` and `__DATE__` are read from the metadata rows. Every other
- * `__` row (`__COLUMNS__`, `__SETTING__…`) is dropped wherever it appears:
- * sizing is always automatic, whatever the sheet says.
+ * Parses a Top List sheet. Metadata rows are handled by `readSheetTable`: only
+ * the title and date are read, and sizing rows are ignored.
  *
  * Columns (aliases allowed): name and logo, plus optional position and value.
  * - With a value column that has at least one valid value, the layout is
@@ -67,45 +56,11 @@ type Row = Partial<Record<Column, string>>;
  *   are skipped.
  * - Otherwise it's `grid`: ordered by position when given, else by row order,
  *   then ranked 1..N.
- *
- * `delimiter` is omitted for .csv files so Papa can detect it; Google Sheets
- * exports and .tsv files pass "\t".
  */
 export function parseSheet(text: string, delimiter?: string): ParsedSheet {
-  const lines = text.replace(/\r\n?/g, '\n').split('\n');
-  let title: string | undefined;
-  let date: string | undefined;
+  const { title, date, fields, rows } = readSheetTable<Column>(text, HEADER_ALIASES, delimiter);
 
-  // Keep each data line's sheet row number so skipped-row messages stay accurate.
-  const data: { line: string; row: number }[] = [];
-  lines.forEach((line, i) => {
-    if (!line.startsWith('__')) {
-      data.push({ line, row: i + 1 });
-      return;
-    }
-    const sep = delimiter ?? (line.includes('\t') ? '\t' : ',');
-    const [key, ...rest] = line.split(sep);
-    // Sheets pad metadata rows with empty cells ("Title\t\t"); drop those, then quotes.
-    const value = rest.join(sep).replace(/[\t,\s]+$/, '').trim().replace(/^"(.*)"$/, '$1');
-    if (key === '__TITLE__' && value) title = value;
-    if (key === '__DATE__' && value) date = value;
-  });
-  while (data.length > 0 && !data[0].line.trim()) data.shift();
-  const headerRow = data[0]?.row ?? 1;
-
-  const result = Papa.parse<Row>(data.map((d) => d.line).join('\n'), {
-    header: true,
-    skipEmptyLines: false,
-    delimiter,
-    transformHeader: (h) => HEADER_ALIASES[h.trim().toLowerCase()] ?? h.trim().toLowerCase(),
-  });
-
-  // Papa's data rows follow the header one-for-one because empty lines are kept.
-  const rows = result.data
-    .map((row, i) => ({ row, rowNumber: data[i + 1]?.row ?? headerRow + i + 1 }))
-    .filter(({ row }) => Object.values(row).some((v) => v?.trim()));
-
-  const hasValueColumn = result.meta.fields?.includes('value') ?? false;
+  const hasValueColumn = fields.includes('value');
   const layout: Layout =
     hasValueColumn && rows.some(({ row }) => row.name?.trim() && parseValue(row.value)) ? 'bento' : 'grid';
 

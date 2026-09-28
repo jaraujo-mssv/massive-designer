@@ -1,4 +1,4 @@
-import { fitText, textWidth, wrapTwoLines } from './measureText';
+import { fitText, textWidth, wrapTwoLines } from '@/shared/canvas/measureText';
 
 const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v));
 

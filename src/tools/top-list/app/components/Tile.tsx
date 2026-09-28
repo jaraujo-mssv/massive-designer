@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { Rect } from "../utils/squarify";
+import type { Rect } from "@/shared/canvas/squarify";
 import { NAME_WEIGHT, VALUE_WEIGHT, tileContent } from "../utils/tiers";
 
 /** How strongly the blurred logo colours the tile. */

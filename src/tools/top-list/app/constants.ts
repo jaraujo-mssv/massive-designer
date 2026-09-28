@@ -1,58 +1,22 @@
-import type { SizeOption } from '@/shared/canvas/DesignPanel';
+import type { FrameSpacing } from '@/shared/canvas/CanvasFrame';
+import { CANVAS_SIZES, CanvasSizeId, DEFAULT_CANVAS_SIZE, FRAME_SPACING, TILE_GAP } from '@/shared/canvas/sizes';
+import type { Example } from '@/shared/canvas/SheetSidebar';
 
-export type TopListSizeId = 'vertical' | 'square' | 'horizontal';
+export type TopListSizeId = CanvasSizeId;
+export const SIZES = CANVAS_SIZES;
+export const DEFAULT_SIZE = DEFAULT_CANVAS_SIZE;
 
-export const SIZES: SizeOption<TopListSizeId>[] = [
-  { id: 'vertical', label: 'Vertical', width: 1080, height: 1350 },
-  { id: 'square', label: 'Square', width: 1080, height: 1080 },
-  { id: 'horizontal', label: 'Horizontal', width: 1920, height: 1080 },
-];
-
-export const DEFAULT_SIZE: TopListSizeId = 'vertical';
-
-export interface SizePreset {
-  sitePadding: number;
-  headerBottomPadding: number;
-  titleFontSize: number;
-  subtitleFontSize: number;
+export interface SizePreset extends FrameSpacing {
   /** Bento only: smallest tile side, so every tile keeps room for its logo and text. */
   minTileSide: number;
   tileGap: number;
 }
 
 export const PRESETS: Record<TopListSizeId, SizePreset> = {
-  vertical: {
-    sitePadding: 56,
-    headerBottomPadding: 28,
-    titleFontSize: 44,
-    subtitleFontSize: 32,
-    minTileSide: 180,
-    tileGap: 12,
-  },
-  square: {
-    sitePadding: 56,
-    headerBottomPadding: 28,
-    titleFontSize: 44,
-    subtitleFontSize: 32,
-    minTileSide: 180,
-    tileGap: 12,
-  },
-  horizontal: {
-    sitePadding: 56,
-    headerBottomPadding: 28,
-    titleFontSize: 44,
-    subtitleFontSize: 32,
-    minTileSide: 190,
-    tileGap: 12,
-  },
+  vertical: { ...FRAME_SPACING.vertical, minTileSide: 180, tileGap: TILE_GAP },
+  square: { ...FRAME_SPACING.square, minTileSide: 180, tileGap: TILE_GAP },
+  horizontal: { ...FRAME_SPACING.horizontal, minTileSide: 190, tileGap: TILE_GAP },
 };
-
-export interface Example {
-  label: string;
-  /** Which layout the sheet produces, shown next to its name. */
-  hint: string;
-  url: string;
-}
 
 /**
  * Example sheets listed under Import, each with Load and Open. The top lists

@@ -25,7 +25,7 @@ export default function App() {
   const [title, setTitle] = useState(DEFAULT_TITLE);
   const [date, setDate] = useState(DEFAULT_DATE);
   const [size, setSize] = useState<TopListSizeId>(DEFAULT_SIZE);
-  const [theme, setTheme] = useState<CanvasThemeId>("dark");
+  const [theme, setTheme] = useState<CanvasThemeId>("light");
   const [showPresentedBy, setShowPresentedBy] = useState(true);
   const [summary, setSummary] = useState<LoadedSummary | null>(null);
   const [atMinimum, setAtMinimum] = useState(0);

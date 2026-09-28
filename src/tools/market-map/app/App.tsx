@@ -24,7 +24,7 @@ export default function App() {
   const [title, setTitle] = useState(DEFAULT_TITLE);
   const [date, setDate] = useState(DEFAULT_DATE);
   const [size, setSize] = useState<CanvasSizeId>(DEFAULT_CANVAS_SIZE);
-  const [theme, setTheme] = useState<CanvasThemeId>("dark");
+  const [theme, setTheme] = useState<CanvasThemeId>("light");
   const [showPresentedBy, setShowPresentedBy] = useState(true);
   const [summary, setSummary] = useState<LoadedSummary | null>(null);
   const [overflow, setOverflow] = useState(false);

@@ -11,7 +11,7 @@
   --canvas-border-12: rgba(26, 27, 42, 0.12);
   --canvas-border-15: rgba(26, 27, 42, 0.15);
   --canvas-tint-08: rgba(26, 27, 42, 0.08);
-  --canvas-export-bg-image: url(/bg-light.jpg);
+  --canvas-export-bg-image: url(/canvas-bg-light.jpg);
   --canvas-export-bg-size: cover;
 }
 

@@ -671,7 +671,7 @@ export default function App() {
 
       // Pre-fetch the background image (CSS background-image, not an <img> tag)
       // so domToJpeg doesn't get a blank canvas for it.
-      const bgSrc = settings.canvasTheme === 'light' ? '/bg-light.jpg' : '/bg.jpg';
+      const bgSrc = settings.canvasTheme === 'light' ? '/canvas-bg-light.jpg' : '/bg.jpg';
       let bgDataUrl = '';
       try {
         const bgBlob = await fetch(bgSrc).then(r => r.blob());

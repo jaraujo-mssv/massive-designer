@@ -16,7 +16,7 @@ export type CanvasThemeId = 'dark' | 'light';
 
 export const CANVAS_THEMES: CanvasTheme[] = [
   { id: 'dark', label: 'Dark', exportBg: '/bg.jpg' },
-  { id: 'light', label: 'Light', exportBg: '/bg-light.jpg' },
+  { id: 'light', label: 'Light', exportBg: '/canvas-bg-light.jpg' },
 ];
 
 export function getCanvasTheme(id: CanvasThemeId): CanvasTheme {

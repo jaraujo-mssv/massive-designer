@@ -42,16 +42,16 @@ Rules:
 `utils/layout.ts`, `utils/pills.ts`: pure functions, re-run when the data, canvas size or fonts change.
 
 1. **Pill geometry at font size `f`:** logo `1.4f` square, padding `0.35f` vertical and `0.6f` horizontal, `0.45f` between logo and name, 1 px border. The gap between pills is `0.45f` in both directions. Widths are measured with canvas `measureText` (Outfit, regular 400 weight), so there are no DOM passes.
-2. **Tile weights:** each category's pill boxes plus 15% slack for ragged rows, in a roughly square block. The block is never narrower than the widest pill or about half the category name, which can wrap to two lines. Header and padding are added on top.
+2. **Tile weights:** each category's pill boxes plus 15% slack for ragged rows, in a roughly square block. The block is never narrower than the widest pill or a third of the category name, which can wrap to three lines. Header and padding are added on top.
 3. **Tiles:** a squarified treemap of the weights over the canvas, with the same 12 px gaps and flush outer edges as Top List's Bento.
-4. **Fit and correct:** the pills are flowed into each tile. A tile that's too narrow for its widest pill or header, or too short for its rows, has its weight raised by what it's short, and the layout runs again (up to 12 rounds).
+4. **Fit and correct, both ways:** the pills are flowed into each tile. A tile that's too narrow for its widest pill or name, or too short for its rows, has its weight raised by what it's short. A tile whose content fills less than 75% of its height gives space back, shrinking towards 90% full. The layout runs again, up to 20 rounds, and keeps the fitting arrangement whose emptiest tile is fullest.
 5. **Pill size:** a binary search finds the largest `f` between 11 and 24 px that fits. If nothing fits at 11 px, the map is drawn anyway and the sidebar says so, suggesting Horizontal.
 
-Inside a tile, the category name (regular 400 weight, `1.15f`, up to two lines, in the brand orange-red `--canvas-red`) is centred at the top. Each pill row is centred below it, and the block of rows is centred in the height left over.
+Inside a tile, the category name (regular 400 weight, `1.15f`, up to three balanced lines, in the brand orange-red `--canvas-red`) is centred at the top. Each pill row is centred below it, and the block of rows is centred in the height left over.
 
 In testing, all four examples fit at all three sizes with no clipping, at pill sizes from 12.9 px (AI Agents, 88 companies, Square) to 24 px (YC, Vertical and Horizontal).
 
-**Known limit:** the correction step only grows tiles that are short on room; it never shrinks tiles with spare room. A category with a long name and few companies can end up with a roomier tile than it needs (for example, "Supporting Infrastructure" on AI Agents, Vertical).
+**Why names wrap to three lines:** the treemap keeps tiles close to square. A long category name with few companies ("Supporting Infrastructure (Proxies & Browser Networks)", 3 companies) needs a wide name but little height. With names limited to two lines, its square tile came out about twice as tall as its content (58% full on AI Agents, Vertical). Allowing three balanced lines (`wrapLines` in `src/shared/canvas/measureText.ts`) lets it shrink to a compact tile, now about 75% full or more. Across the four examples, the emptiest tile is now 63–81% full. Tiles on maps that reach the 24 px pill cap (YC) keep spare room by design.
 
 ## Style
 

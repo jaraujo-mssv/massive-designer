@@ -63,3 +63,55 @@ export function wrapTwoLines(
   }
   return best;
 }
+
+/** Greedy word wrap at `maxWidth`; null if a single word is wider than that. */
+function greedyLines(words: string[], maxWidth: number, fontSize: number, fontWeight: number): string[] | null {
+  const lines: string[] = [];
+  let line = '';
+  for (const word of words) {
+    if (textWidth(word, fontSize, fontWeight) > maxWidth) return null;
+    const candidate = line ? `${line} ${word}` : word;
+    if (line && textWidth(candidate, fontSize, fontWeight) > maxWidth) {
+      lines.push(line);
+      line = word;
+    } else {
+      line = candidate;
+    }
+  }
+  if (line) lines.push(line);
+  return lines;
+}
+
+/**
+ * Wraps `text` at word breaks into as few lines as fit in `maxWidth` (at most
+ * `maxLines`), then balances them: the lines are made as even as possible
+ * without adding a line. Returns null when it can't fit in `maxLines`.
+ */
+export function wrapLines(
+  text: string,
+  maxWidth: number,
+  fontSize: number,
+  fontWeight: number,
+  maxLines: number,
+): string[] | null {
+  const words = text.split(/\s+/).filter(Boolean);
+  const loose = greedyLines(words, maxWidth, fontSize, fontWeight);
+  if (!loose || loose.length > maxLines) return null;
+  if (loose.length === 1) return loose;
+
+  // Narrow the width as far as possible while keeping the same number of lines.
+  let lo = Math.max(...words.map((w) => textWidth(w, fontSize, fontWeight)));
+  let hi = maxWidth;
+  let best = loose;
+  for (let i = 0; i < 12; i++) {
+    const mid = (lo + hi) / 2;
+    const lines = greedyLines(words, mid, fontSize, fontWeight);
+    if (lines && lines.length === loose.length) {
+      best = lines;
+      hi = mid;
+    } else {
+      lo = mid;
+    }
+  }
+  return best;
+}

@@ -1,4 +1,4 @@
-import { textWidth, wrapTwoLines } from '@/shared/canvas/measureText';
+import { textWidth, wrapLines } from '@/shared/canvas/measureText';
 import { insetAndSnap, Rect, squarify } from '@/shared/canvas/squarify';
 import type { Category, Company } from './parseSheet';
 import { flowPills, pillMetrics, PillMetrics, pillWidth } from './pills';
@@ -10,6 +10,11 @@ export const MAX_FONT = 24;
 export const HEADER_WEIGHT = 400;
 const TILE_BORDER = 2;
 const LINE_HEIGHT = 1.2;
+/**
+ * Long category names wrap onto up to this many lines. Three lets a long name
+ * with few companies have a compact, near-square tile instead of a wide one.
+ */
+const MAX_HEADER_LINES = 3;
 
 export interface PlacedPill {
   company: Company;
@@ -49,16 +54,22 @@ function sizes(f: number) {
 }
 
 /** Rounds of re-weighting before a font size is given up on. */
-const MAX_ROUNDS = 12;
+const MAX_ROUNDS = 20;
+/** A tile whose content fills less of its height than this gives space back. */
+const ROOMY_FILL = 0.75;
+/** How full a roomy tile is shrunk towards. */
+const TARGET_FILL = 0.9;
 
 /**
  * Tries one pill font size: sizes each category's tile by its content, lays
  * the tiles out as a treemap, and flows the pills into them.
  *
- * The first weights are only estimates, so when a tile comes out too small for
- * its header and pills, its weight is raised by what it's short and the layout
- * runs again (up to MAX_ROUNDS). Returns null when it still doesn't fit, unless
- * `force`, which returns the last layout anyway.
+ * The first weights are only estimates, so the layout is corrected in rounds
+ * (up to MAX_ROUNDS): a tile too small for its header and pills has its weight
+ * raised by what it's short, and a tile its content leaves mostly empty (under
+ * ROOMY_FILL of its height) gives space back. Returns the fitting layout whose
+ * emptiest tile is fullest, or null when no round fits, unless `force`, which
+ * returns the last layout anyway.
  */
 function attempt(categories: Category[], box: { w: number; h: number }, gap: number, f: number, force = false) {
   const { metrics, headerSize, padding, headerGap } = sizes(f);
@@ -67,11 +78,11 @@ function attempt(categories: Category[], box: { w: number; h: number }, gap: num
 
   // First estimate of the tile area each category needs: its pill boxes (with
   // slack for ragged rows) in a roughly square block, but never narrower than
-  // its widest pill or half its header, which can wrap to two lines.
+  // its widest pill or a third of its header, which can wrap to three lines.
   const measured: Measured[] = categories.map((category) => {
     const widths = category.companies.map((c) => pillWidth(c.name, metrics));
     const pillArea = widths.reduce((sum, w) => sum + (w + metrics.gapX) * (metrics.height + metrics.gapY), 0) * 1.15;
-    const minInnerW = Math.max(...widths, textWidth(category.name, headerSize, HEADER_WEIGHT) * 0.55);
+    const minInnerW = Math.max(...widths, textWidth(category.name, headerSize, HEADER_WEIGHT) / MAX_HEADER_LINES);
     const innerW = Math.max(Math.sqrt(pillArea), minInnerW);
     const innerH = pillArea / innerW + headerLineH + headerGap;
     return { category, widths, weight: (innerW + chrome) * (innerH + chrome) };
@@ -82,6 +93,7 @@ function attempt(categories: Category[], box: { w: number; h: number }, gap: num
   const bounds = { x: -gap / 2, y: -gap / 2, w: box.w + gap, h: box.h + gap };
 
   let tiles: PlacedTile[] = [];
+  let best: { tiles: PlacedTile[]; minFill: number } | null = null;
   for (let round = 0; round < MAX_ROUNDS; round++) {
     const order = [...measured].sort((a, b) => b.weight - a.weight);
     const totalWeight = order.reduce((sum, m) => sum + m.weight, 0);
@@ -90,6 +102,8 @@ function attempt(categories: Category[], box: { w: number; h: number }, gap: num
 
     tiles = [];
     let allFit = true;
+    let anyRoomy = false;
+    let minFill = Infinity;
     order.forEach((m, i) => {
       const { category, widths } = m;
       const rect = rects[i];
@@ -97,8 +111,8 @@ function attempt(categories: Category[], box: { w: number; h: number }, gap: num
       const innerH = rect.h - chrome;
 
       const headerW = textWidth(category.name, headerSize, HEADER_WEIGHT);
-      const wrapped = headerW <= innerW ? null : wrapTwoLines(category.name, innerW, headerSize, HEADER_WEIGHT);
-      const headerFits = headerW <= innerW || wrapped !== null;
+      const wrapped = wrapLines(category.name, innerW, headerSize, HEADER_WEIGHT, MAX_HEADER_LINES);
+      const headerFits = wrapped !== null;
       const headerLines = wrapped ?? [category.name];
       const headerH = headerLines.length * headerLineH + headerGap;
       const flow = flowPills(widths, innerW, metrics);
@@ -106,12 +120,20 @@ function attempt(categories: Category[], box: { w: number; h: number }, gap: num
       if (!flow.fits || !headerFits) {
         // Too narrow for its widest pill or its header: grow in both directions.
         allFit = false;
-        const needW = Math.max(...widths, headerFits ? 0 : headerW * 0.6);
+        const needW = Math.max(...widths, headerFits ? 0 : headerW / MAX_HEADER_LINES);
         m.weight *= Math.max(1.1, ((needW + chrome) / Math.max(1, rect.w)) ** 2);
       } else if (headerH + flow.height > innerH) {
         // Wide enough but too short: grow by the missing height.
         allFit = false;
         m.weight *= Math.max(1.05, (headerH + flow.height + chrome) / Math.max(1, rect.h));
+      } else {
+        // Fits. If its content leaves it mostly empty, give some space back.
+        const fill = (headerH + flow.height) / Math.max(1, innerH);
+        minFill = Math.min(minFill, fill);
+        if (fill < ROOMY_FILL) {
+          anyRoomy = true;
+          m.weight *= Math.max(0.6, fill / TARGET_FILL);
+        }
       }
 
       // Pills sit under the header, each row centred, the block centred in the height left over.
@@ -130,8 +152,12 @@ function attempt(categories: Category[], box: { w: number; h: number }, gap: num
         })),
       });
     });
-    if (allFit) return { metrics, tiles };
+    if (allFit) {
+      if (!best || minFill > best.minFill) best = { tiles, minFill };
+      if (!anyRoomy) break;
+    }
   }
+  if (best) return { metrics, tiles: best.tiles };
   return force ? { metrics, tiles } : null;
 }
 

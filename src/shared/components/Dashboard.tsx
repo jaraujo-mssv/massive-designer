@@ -1,5 +1,4 @@
 import { useState, useEffect, useMemo } from 'react'
-import { useNavigate } from 'react-router'
 import {
   ExternalLink,
   FileSpreadsheet,
@@ -260,7 +259,6 @@ function Td({ children, style }: { children?: React.ReactNode; style?: React.CSS
 // ─── Sheet table ────────────────────────────────────────────────────────────
 
 function SheetTable({ sheetName, tool }: { sheetName: string; tool: string }) {
-  const navigate = useNavigate()
   const [state, setState] = useState<
     | { status: 'loading' }
     | { status: 'error'; message: string }
@@ -412,11 +410,12 @@ function SheetTable({ sheetName, tool }: { sheetName: string; tool: string }) {
                   )}
                   {nameCol && (
                     <Td>
-                      <button
-                        onClick={() => navigate(editorUrl)}
+                      <a
+                        href={editorUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         title="Open in editor"
                         style={{
-                          background: 'none', border: 'none', padding: 0, cursor: 'pointer',
                           color: 'var(--text)', fontWeight: 500, fontSize: 'inherit',
                           fontFamily: 'inherit', textAlign: 'left',
                           textDecoration: 'none',
@@ -426,14 +425,14 @@ function SheetTable({ sheetName, tool }: { sheetName: string; tool: string }) {
                         onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'var(--text)'; (e.currentTarget as HTMLElement).style.textDecoration = 'none' }}
                       >
                         {name || '—'}
-                      </button>
+                      </a>
                     </Td>
                   )}
                   <Td style={{ textAlign: 'right' }}>
                     <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
                       <IconBtn href={linearUrl || undefined} icon={ExternalLink} label="Linear" title="Open Linear task" disabled={!linearUrl} />
                       <IconBtn href={sheetUrl || undefined} icon={FileSpreadsheet} label="Sheet" title="Open spreadsheet" disabled={!sheetUrl} />
-                      <IconBtn onClick={() => navigate(editorUrl)} icon={PenLine} label="Open" title="Open in editor" />
+                      <IconBtn href={editorUrl} icon={PenLine} label="Open" title="Open in editor" />
                     </div>
                   </Td>
                 </tr>

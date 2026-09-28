@@ -6,5 +6,9 @@
   "brand": "massive",
   "status": "draft",
   "source": null,
-  "posterFromEnd": true
+  "posterFromEnd": true,
+  "variants": {
+    "dir": "output/hires",
+    "renderName": "welcome-{id}"
+  }
 }

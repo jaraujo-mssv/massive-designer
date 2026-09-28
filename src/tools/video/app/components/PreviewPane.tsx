@@ -6,12 +6,14 @@ import { HfPlayer, HfPlayerHandle } from "./HfPlayer";
 
 interface PreviewPaneProps {
   project: VideoProject;
+  /** Composition URL: the project, or a person's version of it (`?variant=`). */
+  src: string;
   media: MediaStatus | undefined;
   /** Start playback here (set when opening from a storyboard frame). */
   startAt: number | null;
 }
 
-export function PreviewPane({ project, media, startAt }: PreviewPaneProps) {
+export function PreviewPane({ project, src, media, startAt }: PreviewPaneProps) {
   const player = useRef<HfPlayerHandle>(null);
 
   useEffect(() => {
@@ -35,8 +37,8 @@ export function PreviewPane({ project, media, startAt }: PreviewPaneProps) {
       <div className="w-full rounded-xl overflow-hidden border border-border-subtle bg-black" style={{ maxWidth: portrait ? 420 : 1100 }}>
         <HfPlayer
           ref={player}
-          key={project.id}
-          src={project.path}
+          key={src}
+          src={src}
           width={project.width}
           height={project.height}
           controls

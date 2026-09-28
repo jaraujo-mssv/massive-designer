@@ -1,0 +1,121 @@
+/*
+ * massive.css — Massive house style for HyperFrames compositions (see _brand/frame.md).
+ * Link it from a project's index.html: <link rel="stylesheet" href="lib/massive.css" />
+ * Fonts: load Outfit (100..900) and JetBrains Mono (400;600;700) from Google Fonts.
+ */
+:root {
+  --m-bg: #0a0a0f;
+  --m-surface: #121117;
+  --m-card: #1a1920;
+  --m-red: #d74939;
+  --m-red-light: #ff8163;
+  --m-cream: #faf4ec;
+  --m-cream-mid: rgba(250, 244, 236, 0.75);
+  --m-cream-dim: rgba(250, 244, 236, 0.55);
+  --m-border: rgba(250, 244, 236, 0.08);
+  --m-paper: #f1ead8;
+  --m-ink: #171615;
+  --m-paper-red: #d54635;
+  --m-paper-red-light: #f3a07a;
+  --m-sans: Outfit, sans-serif;
+  --m-mono: "JetBrains Mono", monospace;
+}
+
+.m-ground {
+  position: absolute;
+  inset: 0;
+  background-color: var(--m-bg);
+  color: var(--m-cream);
+  font-family: var(--m-sans);
+}
+.m-ground.paper {
+  background-color: var(--m-paper);
+  color: var(--m-ink);
+}
+
+.m-dotgrid {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(96, 118, 145, 0.7) 1.5px, transparent 1.5px);
+  background-size: 72px 72px;
+  opacity: 0.18;
+  pointer-events: none;
+}
+.m-linegrid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(23, 22, 21, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(23, 22, 21, 0.045) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+
+.m-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--m-mono);
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--m-red);
+}
+.m-eyebrow::before {
+  content: "";
+  width: 24px;
+  height: 1px;
+  background-color: var(--m-red);
+  flex-shrink: 0;
+}
+
+.m-display {
+  font-size: 148px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+.m-h1 {
+  font-size: 96px;
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+}
+.m-h2 {
+  font-size: 80px;
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+}
+.m-lead {
+  font-size: 36px;
+  line-height: 1.3;
+  color: var(--m-cream-dim);
+}
+.m-label {
+  font-family: var(--m-mono);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--m-cream-dim);
+}
+.m-accent {
+  color: var(--m-red);
+}
+
+.m-wordmark {
+  background: linear-gradient(135deg, var(--m-red) 0%, var(--m-red-light) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 60px rgba(215, 73, 57, 0.27));
+}
+
+.m-card {
+  background-color: var(--m-card);
+  border: 1px solid rgba(215, 73, 57, 0.27);
+  border-radius: 20px;
+  padding: 32px 40px;
+}

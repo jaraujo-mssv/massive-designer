@@ -1,0 +1,347 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+          font-family: Outfit, sans-serif;
+          color: #faf4ec;
+        }
+        /* The `holiday` variable picks one copy block and one motif; the other stays hidden. */
+        [data-holiday="rosh-hashanah"] .only-hanukkah,
+        [data-holiday="hanukkah"] .only-rh {
+          display: none;
+        }
+        /* Greeting card in the Slack window. Centred: 1200×506 at (360, 247). */
+        #root .card {
+          position: absolute;
+          left: 360px;
+          top: 247px;
+          width: 1200px;
+          height: 506px;
+          border-radius: 20px;
+          background: #1a1d21;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          box-shadow: 0 40px 120px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(215, 73, 57, 0.12);
+          overflow: hidden;
+        }
+        /* macOS title bar: traffic lights on the left, no title. */
+        #root .chrome {
+          height: 44px;
+          display: flex;
+          align-items: center;
+          gap: 9px;
+          padding: 0 18px;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        #root .chrome span {
+          width: 14px;
+          height: 14px;
+          border-radius: 50%;
+          box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.25);
+        }
+        #root .chrome .close {
+          background: #ff5f57;
+        }
+        #root .chrome .min {
+          background: #febc2e;
+        }
+        #root .chrome .max {
+          background: #28c840;
+        }
+        #root .body {
+          display: flex;
+          gap: 56px;
+          padding: 40px;
+        }
+        /* Left: the motif panel, 440×382, with a warm glow that rises as the motif completes. */
+        #root .panel {
+          position: relative;
+          width: 440px;
+          height: 382px;
+          flex-shrink: 0;
+          border-radius: 24px;
+          background: #121117;
+          border: 1px solid rgba(215, 73, 57, 0.27);
+          overflow: hidden;
+        }
+        #root .panel .warm {
+          position: absolute;
+          inset: 0;
+          background: radial-gradient(circle at 50% 40%, rgba(215, 73, 57, 0.32), rgba(215, 73, 57, 0) 70%);
+          opacity: 0;
+        }
+        #root .panel svg {
+          position: absolute;
+          inset: 0;
+          width: 440px;
+          height: 382px;
+          overflow: visible;
+        }
+        #root .line {
+          fill: none;
+          stroke: #faf4ec;
+          stroke-width: 3;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+        }
+        /* Right: the greeting. */
+        #root .right {
+          flex: 1;
+          min-width: 0;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        }
+        #root .eyebrow {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          font-family: "JetBrains Mono", monospace;
+          font-size: 15px;
+          font-weight: 600;
+          letter-spacing: 0.08em;
+          color: #ff8163;
+        }
+        #root .eyebrow::before {
+          content: "";
+          width: 24px;
+          height: 1px;
+          background: #d74939;
+        }
+        #root .headline {
+          margin-top: 18px;
+          font-size: 80px;
+          font-weight: 900;
+          line-height: 0.98;
+          letter-spacing: -0.04em;
+          padding-bottom: 6px;
+        }
+        #root .english {
+          margin-top: 14px;
+          font-size: 40px;
+          font-weight: 300;
+          letter-spacing: -0.02em;
+          color: #ff8163;
+        }
+        #root .wish {
+          margin-top: 22px;
+          font-size: 26px;
+          line-height: 1.4;
+          text-wrap: balance;
+          color: rgba(250, 244, 236, 0.75);
+        }
+        #root .src {
+          position: absolute;
+          left: 0;
+          top: 0;
+          opacity: 0;
+          pointer-events: none;
+        }
+      </style>
+      <div id="root" data-holiday="hanukkah" data-composition-id="hg-card" data-width="1920" data-height="1080" data-duration="11.1">
+        <div class="src" data-var-text="holiday" data-layout-allow-overlap>hanukkah</div>
+        <div class="card" data-layout-allow-occlusion>
+          <div class="chrome"><span class="close"></span><span class="min"></span><span class="max"></span></div>
+          <div class="body">
+            <div class="panel">
+              <div class="warm"></div>
+
+              <!-- Hanukkah: a hanukkiah with a raised centre shamash and eight candles. -->
+              <svg class="only-hanukkah motif-hanukkah" viewBox="0 0 440 382" data-layout-allow-overflow>
+                <defs>
+                  <linearGradient id="hg-flame" x1="0" y1="1" x2="0" y2="0">
+                    <stop offset="0" stop-color="#d74939" />
+                    <stop offset="0.55" stop-color="#ff8163" />
+                    <stop offset="1" stop-color="#ffd2bf" />
+                  </linearGradient>
+                  <radialGradient id="hg-halo">
+                    <stop offset="0" stop-color="#ff8163" stop-opacity="0.55" />
+                    <stop offset="1" stop-color="#ff8163" stop-opacity="0" />
+                  </radialGradient>
+                </defs>
+                <g class="menorah">
+                  <path class="line" d="M156 344 H284 M176 344 L196 322 H244 L264 344" />
+                  <path class="line" d="M220 322 V214" />
+                  <path class="line" d="M30 206 H410" stroke-width="6" />
+                  <path class="line" d="M220 206 V162" />
+                </g>
+                <g class="candles"></g>
+              </svg>
+
+              <!-- Rosh Hashanah: an apple, a honey dipper that drips twice, and a cut pomegranate. -->
+              <svg class="only-rh motif-rh" viewBox="0 0 440 382" data-layout-allow-overflow>
+                <defs>
+                  <radialGradient id="hg-apple" cx="0.35" cy="0.3" r="0.9">
+                    <stop offset="0" stop-color="#ff8163" />
+                    <stop offset="0.6" stop-color="#d74939" />
+                    <stop offset="1" stop-color="#9e2c1f" />
+                  </radialGradient>
+                </defs>
+                <g transform="translate(150 250)"><g class="apple">
+                  <path d="M0,-62 C24,-86 84,-80 84,-14 C84,48 46,86 18,84 C8,83 4,78 0,78 C-4,78 -8,83 -18,84 C-46,86 -84,48 -84,-14 C-84,-80 -24,-86 0,-62 Z" fill="url(#hg-apple)" />
+                  <ellipse cx="-42" cy="-26" rx="12" ry="22" fill="#faf4ec" opacity="0.22" transform="rotate(24 -42 -26)" />
+                  <path class="line" d="M0,-62 C0,-78 4,-90 12,-100" />
+                  <path class="line" d="M8,-88 C22,-106 46,-106 56,-96 C42,-80 22,-78 8,-88 Z" />
+                </g></g>
+                <g class="drops">
+                  <ellipse class="drop" cx="0" cy="0" rx="6" ry="8" fill="#ff8163" />
+                  <ellipse class="drop" cx="0" cy="0" rx="6" ry="8" fill="#ff8163" />
+                </g>
+                <g transform="translate(186 96)"><g class="dipper">
+                  <path class="line" d="M14,-10 L118,-78" stroke-width="7" />
+                  <ellipse cx="0" cy="0" rx="24" ry="17" fill="#ff8163" transform="rotate(-33)" />
+                  <path class="line" d="M-14,-12 L-6,14 M-4,-16 L4,12 M6,-18 L14,8" stroke="#121117" stroke-width="3" />
+                </g></g>
+                <g transform="translate(338 282)"><g class="pomegranate">
+                  <circle r="66" fill="rgba(215, 73, 57, 0.14)" class="line" />
+                  <path class="line" d="M-16,-64 L-12,-82 L-5,-70 L0,-86 L5,-70 L12,-82 L16,-64" />
+                  <circle r="50" fill="none" stroke="rgba(250, 244, 236, 0.22)" stroke-width="1.5" stroke-dasharray="4 6" />
+                  <g class="seeds"></g>
+                </g></g>
+              </svg>
+            </div>
+            <div class="right">
+              <div class="eyebrow"><span class="only-hanukkah">HANUKKAH · FESTIVAL OF LIGHTS</span><span class="only-rh">ROSH HASHANAH · JEWISH NEW YEAR</span></div>
+              <div class="headline"><span class="only-hanukkah">Chag Urim Sameach</span><span class="only-rh">Shana Tova</span></div>
+              <div class="english"><span class="only-hanukkah">Happy Hanukkah</span><span class="only-rh">Happy New Year</span></div>
+              <div class="wish"><span class="only-hanukkah">Wishing you and your family eight bright nights.</span><span class="only-rh">Wishing you a sweet new year.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="hg-card"]');
+          const q = (s) => root.querySelector(s);
+          const qa = (s) => [...root.querySelectorAll(s)];
+          const src = q(".src");
+          // `root` is the host clip; the inlined #root carries data-holiday too. Keep both in step.
+          const setHoliday = (v) => {
+            for (const el of [root, ...root.querySelectorAll("[data-holiday]")]) if (el.dataset.holiday !== v) el.dataset.holiday = v;
+          };
+          const NS = "http://www.w3.org/2000/svg";
+          const svgEl = (tag, attrs, parent) => {
+            const el = document.createElementNS(NS, tag);
+            for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+            parent.appendChild(el);
+            return el;
+          };
+
+          // Eight beats shared by every motif, on the sound bed's pings (6.4 + i*0.3 in the video).
+          const BEATS = Array.from({ length: 8 }, (_, i) => 2.0 + i * 0.3);
+          const LEAD = 1.4; // shamash / honey (sparkle at 5.8)
+
+          // Hanukkah: nine slots 44px apart; the shamash (slot 4) sits higher. Candles light left to right.
+          const candleLayer = q(".candles");
+          const flames = [];
+          for (let slot = 0; slot < 9; slot++) {
+            const x = 44 + slot * 44;
+            const shamash = slot === 4;
+            const base = shamash ? 162 : 206;
+            const top = base - 8 - 58;
+            const g = svgEl("g", { class: "candle" }, candleLayer);
+            svgEl("rect", { x: x - 13, y: base - 8, width: 26, height: 8, rx: 3, fill: "#faf4ec", opacity: 0.9 }, g);
+            svgEl("rect", { x: x - 7, y: top, width: 14, height: 58, rx: 3, fill: "#faf4ec", opacity: 0.78 }, g);
+            const f = svgEl("g", { transform: `translate(${x} ${top - 2})` }, candleLayer);
+            const halo = svgEl("circle", { cx: 0, cy: -14, r: 36, fill: "url(#hg-halo)", opacity: 0 }, f);
+            const flame = svgEl("g", {}, f);
+            svgEl("path", { d: "M0,-30 C9,-15 11,-6 11,1 A11,11 0 0 1 -11,1 C-11,-6 -9,-15 0,-30 Z", fill: "url(#hg-flame)" }, flame);
+            svgEl("path", { d: "M0,-14 C4,-7 5,-3 5,1 A5,5 0 0 1 -5,1 C-5,-3 -4,-7 0,-14 Z", fill: "#fff4ec", opacity: 0.85 }, flame);
+            flame.setAttribute("transform", "scale(0)");
+            const order = slot < 4 ? slot : slot - 1;
+            flames.push({ flame, halo, at: shamash ? LEAD : BEATS[order], seed: slot * 1.7 });
+          }
+
+          // Rosh Hashanah: eight seeds inside the cut pomegranate, popping in on the beats.
+          const seedLayer = q(".seeds");
+          const SEEDS = [[-24, -26], [0, -32], [24, -26], [-34, 0], [-11, -4], [12, -2], [34, 2], [0, 26]];
+          const seeds = SEEDS.map(([x, y], i) => {
+            const g = svgEl("g", { transform: `translate(${x} ${y}) scale(0)` }, seedLayer);
+            svgEl("ellipse", { rx: 8, ry: 11, fill: "#ff8163", transform: `rotate(${(i * 47) % 60 - 30})` }, g);
+            svgEl("ellipse", { cx: -2.5, cy: -4, rx: 2.5, ry: 3.5, fill: "#fff4ec", opacity: 0.7 }, g);
+            return { g, x, y, at: BEATS[i] };
+          });
+          // Honey drops: from the dipper's tip (186, 112) onto the apple's top (160, 180).
+          const drops = qa(".drop");
+          const DRIPS = [LEAD, LEAD + 0.34];
+
+          // All beat-driven motion is placed in closed form from the timeline's time, so any seek
+          // lands on the same frame (flame flicker is sines of time, never random).
+          const clamp = (v) => Math.min(1, Math.max(0, v));
+          const backOut = (p, s = 2) => 1 + (s + 1) * (p - 1) ** 3 + s * (p - 1) ** 2;
+          const place = (t) => {
+            for (const f of flames) {
+              const p = clamp((t - f.at) / 0.35);
+              if (p === 0) {
+                f.flame.setAttribute("transform", "scale(0)");
+                f.halo.setAttribute("opacity", "0");
+                continue;
+              }
+              const k = backOut(p, 2.6);
+              const sy = k * (1 + 0.07 * Math.sin(t * 11 + f.seed) + 0.03 * Math.sin(t * 23 + f.seed * 2));
+              const sx = k * (1 - 0.04 * Math.sin(t * 13 + f.seed * 3));
+              const r = 3 * Math.sin(t * 6 + f.seed);
+              f.flame.setAttribute("transform", `rotate(${r.toFixed(2)}) scale(${sx.toFixed(3)} ${sy.toFixed(3)})`);
+              f.halo.setAttribute("opacity", (clamp(p * 2) * (0.85 + 0.15 * Math.sin(t * 9 + f.seed))).toFixed(3));
+            }
+            for (const s of seeds) {
+              const k = backOut(clamp((t - s.at) / 0.3), 2.4);
+              s.g.setAttribute("transform", `translate(${s.x} ${s.y}) scale(${k.toFixed(3)})`);
+            }
+            drops.forEach((d, i) => {
+              const p = clamp((t - DRIPS[i]) / 0.42);
+              const fall = p * p;
+              d.setAttribute("cx", (178 - 18 * fall).toFixed(1));
+              d.setAttribute("cy", (116 + 64 * fall).toFixed(1));
+              d.setAttribute("opacity", p === 0 || p === 1 ? "0" : "1");
+            });
+          };
+
+          const tl = gsap.timeline({ paused: true });
+          tl.to(
+            {},
+            {
+              duration: 11.1,
+              onUpdate: () => {
+                setHoliday(src.textContent.trim());
+                place(tl.time());
+              },
+            },
+            0,
+          );
+
+          // Open from the notification: the banner hands off from the top right.
+          const card = q(".card");
+          tl.fromTo(card, { x: 652, y: -440, scale: 0.5 }, { x: 0, y: 0, scale: 1, duration: 0.6, ease: "back.out(1.15)" }, 0);
+          tl.fromTo(card, { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power1.out" }, 0);
+
+          // Motifs build in; both run, only the chosen one is shown.
+          tl.fromTo(q(".menorah"), { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "power3.out" }, 0.55);
+          tl.fromTo(q(".candles"), { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, 0.8);
+          tl.fromTo(q(".apple"), { scale: 0.6, opacity: 0, transformOrigin: "50% 50%" }, { scale: 1, opacity: 1, duration: 0.55, ease: "back.out(1.8)" }, 0.6);
+          tl.fromTo(q(".dipper"), { x: 80, y: -60, rotation: 30, opacity: 0, transformOrigin: "50% 50%" }, { x: 0, y: 0, rotation: 0, opacity: 1, duration: 0.6, ease: "power3.out" }, 0.8);
+          tl.fromTo(q(".pomegranate"), { scale: 0.6, opacity: 0, transformOrigin: "50% 50%" }, { scale: 1, opacity: 1, duration: 0.55, ease: "back.out(1.8)" }, 1.1);
+          tl.fromTo(q(".warm"), { opacity: 0 }, { opacity: 1, duration: 1.2, ease: "power2.out" }, BEATS[7]);
+
+          // Greeting.
+          const rise = (sel, t) => tl.fromTo(q(sel), { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, t);
+          rise(".eyebrow", 0.7);
+          rise(".headline", 0.85);
+          rise(".english", 1.05);
+          rise(".wish", 1.25);
+
+          // Settle for the outro.
+          tl.to(card, { y: -24, duration: 0.6, ease: "power2.inOut" }, 6.6);
+
+          window.__timelines["hg-card"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

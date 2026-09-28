@@ -1,6 +1,89 @@
 {
   "projects": [
     {
+      "id": "birthday",
+      "title": "Happy birthday",
+      "group": "templates",
+      "kind": "template",
+      "brand": "massive",
+      "status": "draft",
+      "source": null,
+      "compositionId": "birthday",
+      "width": 1920,
+      "height": 1080,
+      "fps": 60,
+      "duration": 15.5,
+      "path": "/video-projects/birthday/index.html",
+      "storyboard": {
+        "globals": {
+          "extra": {
+            "duration": "15.5s"
+          },
+          "format": "1920x1080",
+          "message": "It's a teammate's birthday: celebrate them",
+          "arc": "Attention → Arrival → Level up → Celebration",
+          "audience": "the Massive team in Slack"
+        },
+        "warnings": [],
+        "frames": [
+          {
+            "index": 1,
+            "title": "Desktop",
+            "status": "animated",
+            "scene": "macOS-style desktop; the Slack icon does the dock attention bounce three times",
+            "voiceover": null,
+            "narrative": "Same desktop as the welcome template. It stays underneath the whole video and dims when the card opens.",
+            "src": "compositions/01-desktop.html",
+            "start": 0,
+            "duration": 2.3,
+            "poster": 1.2,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 2,
+            "title": "Notification",
+            "status": "animated",
+            "scene": "The icon leaps out of the dock and lands in a banner: \"It's Franklin's birthday!\"",
+            "voiceover": null,
+            "narrative": "The banner slides in from the right as the icon lands (Slack knock). A pointer clicks it (soft click).",
+            "src": "compositions/02-notification.html",
+            "start": 2.3,
+            "duration": 2.1,
+            "poster": 1.5,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 3,
+            "title": "Level up",
+            "status": "animated",
+            "scene": "The banner opens into the character-sheet profile; the birthday XP bar fills and LEVEL UP! slams in with confetti",
+            "voiceover": null,
+            "narrative": "Portrait with a BIRTHDAY badge, name, a cake-slice \"Celebrating today\" status, role tag and location. Stats: Quest (\"Eat cake. Make a wish.\"), then a BIRTHDAY XP bar that fills to MAX (sparkle). At the fill the bar flashes, LEVEL UP! stamps over the card with a glow and shockwave, the card shakes, the ring spins up and seeded confetti bursts (pop + rising four-ping arpeggio). Rewards chips follow, one ping each: +1 Wisdom, +1 Cake, +100 Good vibes.",
+            "src": "compositions/03-card.html",
+            "start": 4.4,
+            "duration": 8.1,
+            "poster": 5.4,
+            "transitionIn": "crossfade"
+          },
+          {
+            "index": 4,
+            "title": "Celebrate",
+            "status": "animated",
+            "scene": "Massive logo and \"Happy birthday, Franklin!\" under the card while the confetti falls",
+            "voiceover": null,
+            "narrative": "Chime on entry.",
+            "src": "compositions/04-outro.html",
+            "start": 11,
+            "duration": 4.5,
+            "poster": 4.2,
+            "transitionIn": "cut"
+          }
+        ]
+      },
+      "script": null,
+      "media": []
+    },
+    {
       "id": "biztray-how-to-merge-pdf-files",
       "title": "How to merge PDF files",
       "group": "templates",
@@ -325,6 +408,89 @@
       "media": [
         "assets/voice/take-da762723.mp3"
       ]
+    },
+    {
+      "id": "holiday-greetings",
+      "title": "Holiday greetings",
+      "group": "templates",
+      "kind": "template",
+      "brand": "massive",
+      "status": "draft",
+      "source": null,
+      "compositionId": "holiday-greetings",
+      "width": 1920,
+      "height": 1080,
+      "fps": 60,
+      "duration": 15.5,
+      "path": "/video-projects/holiday-greetings/index.html",
+      "storyboard": {
+        "globals": {
+          "extra": {
+            "duration": "15.5s"
+          },
+          "format": "1920x1080",
+          "message": "A new teammate joined Massive: meet them",
+          "arc": "Attention → Arrival → Introduction → Welcome",
+          "audience": "the Massive team in Slack"
+        },
+        "warnings": [],
+        "frames": [
+          {
+            "index": 1,
+            "title": "Desktop",
+            "status": "animated",
+            "scene": "macOS-style desktop; the Slack icon does the dock attention bounce three times",
+            "voiceover": null,
+            "narrative": "Desk photo wallpaper (assets/template/wallpaper.jpg), menu bar and dock. Pops land on each bounce. The desktop stays underneath the whole video and dims when the card opens.",
+            "src": "compositions/01-desktop.html",
+            "start": 0,
+            "duration": 2.3,
+            "poster": 1.2,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 2,
+            "title": "Notification",
+            "status": "animated",
+            "scene": "The icon leaps out of the dock and lands in a banner: \"Franklin has joined Massive!\"",
+            "voiceover": null,
+            "narrative": "The banner slides in from the right as the icon lands (Slack knock). A pointer clicks it (soft click).",
+            "src": "compositions/02-notification.html",
+            "start": 2.3,
+            "duration": 2.1,
+            "poster": 1.5,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 3,
+            "title": "Character sheet",
+            "status": "animated",
+            "scene": "The banner opens into a Slack profile window styled like a game character sheet",
+            "voiceover": null,
+            "narrative": "Portrait with a NEW HIRE badge, name with a green \"Available\" dot, role tag, location, then stats: Abilities (hobbies as chips, a rising ping each), Fuel (favourite food), and an onboarding XP bar that fills to 100 (sparkle).",
+            "src": "compositions/03-card.html",
+            "start": 4.4,
+            "duration": 8.1,
+            "poster": 5.2,
+            "transitionIn": "crossfade"
+          },
+          {
+            "index": 4,
+            "title": "Welcome",
+            "status": "animated",
+            "scene": "Massive logo and \"Welcome to the team, Franklin!\" under the card",
+            "voiceover": null,
+            "narrative": "Chime on entry.",
+            "src": "compositions/04-outro.html",
+            "start": 11,
+            "duration": 4.5,
+            "poster": 4.2,
+            "transitionIn": "cut"
+          }
+        ]
+      },
+      "script": null,
+      "media": []
     },
     {
       "id": "launch-teaser",
@@ -1060,6 +1226,89 @@
             "duration": 4,
             "poster": 3,
             "transitionIn": "crossfade"
+          }
+        ]
+      },
+      "script": null,
+      "media": []
+    },
+    {
+      "id": "work-anniversary",
+      "title": "Work anniversary",
+      "group": "templates",
+      "kind": "template",
+      "brand": "massive",
+      "status": "draft",
+      "source": null,
+      "compositionId": "work-anniversary",
+      "width": 1920,
+      "height": 1080,
+      "fps": 60,
+      "duration": 15.5,
+      "path": "/video-projects/work-anniversary/index.html",
+      "storyboard": {
+        "globals": {
+          "extra": {
+            "duration": "15.5s"
+          },
+          "format": "1920x1080",
+          "message": "A teammate hit another year at Massive: celebrate the milestone",
+          "arc": "Attention → Arrival → Achievement → Celebration",
+          "audience": "the Massive team in Slack"
+        },
+        "warnings": [],
+        "frames": [
+          {
+            "index": 1,
+            "title": "Desktop",
+            "status": "animated",
+            "scene": "macOS-style desktop; the Slack icon does the dock attention bounce three times",
+            "voiceover": null,
+            "narrative": "Same desktop as the welcome template. It stays underneath the whole video and dims when the card opens.",
+            "src": "compositions/01-desktop.html",
+            "start": 0,
+            "duration": 2.3,
+            "poster": 1.2,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 2,
+            "title": "Notification",
+            "status": "animated",
+            "scene": "The icon leaps out of the dock and lands in a banner: \"Franklin is celebrating 3 years at Massive!\"",
+            "voiceover": null,
+            "narrative": "\"1 year\" reads singular. The banner slides in from the right as the icon lands (Slack knock). A pointer clicks it (soft click).",
+            "src": "compositions/02-notification.html",
+            "start": 2.3,
+            "duration": 2.1,
+            "poster": 1.5,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 3,
+            "title": "Achievement",
+            "status": "animated",
+            "scene": "The banner opens into the character-sheet profile; the tenure counts up, the year pips light and an \"Achievement unlocked\" toast drops in",
+            "voiceover": null,
+            "narrative": "Portrait with an ANNIVERSARY badge, name, \"Available\", role tag. Stats: Time at Massive counts up to the years value (pop as it lands), then one numbered pip per year (up to 10; past 10 the last reads \"10+\") lights left to right inside one 1.2 s window (sparkle). An \"Achievement unlocked · 3 years at Massive\" toast drops in above the card (three-ping arpeggio).",
+            "src": "compositions/03-card.html",
+            "start": 4.4,
+            "duration": 8.1,
+            "poster": 5.4,
+            "transitionIn": "crossfade"
+          },
+          {
+            "index": 4,
+            "title": "Celebrate",
+            "status": "animated",
+            "scene": "Massive logo and \"Happy work anniversary, Franklin!\" under the card",
+            "voiceover": null,
+            "narrative": "Chime on entry.",
+            "src": "compositions/04-outro.html",
+            "start": 11,
+            "duration": 4.5,
+            "poster": 4.2,
+            "transitionIn": "cut"
           }
         ]
       },

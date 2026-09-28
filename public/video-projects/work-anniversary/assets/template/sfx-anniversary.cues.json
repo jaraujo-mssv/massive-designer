@@ -1,0 +1,17 @@
+{
+  "duration": 16,
+  "cues": [
+    { "file": "sfx/pop.mp3", "at": 0.7, "gain": 0.29 },
+    { "file": "sfx/pop.mp3", "at": 1.25, "gain": 0.29 },
+    { "file": "sfx/pop.mp3", "at": 1.8, "gain": 0.29 },
+    { "file": "sfx/slack-knock.mp3", "at": 3.05, "trim": 0.28, "gain": 0.29 },
+    { "file": "sfx/click-soft.mp3", "at": 3.95, "gain": 0.45 },
+    { "file": "sfx/pop.mp3", "at": 7.0, "gain": 0.34 },
+    { "file": "sfx/sparkle.mp3", "at": 7.3, "gain": 0.22 },
+    { "file": "sfx/ping.mp3", "at": 9.0, "gain": 0.3 },
+    { "file": "sfx/ping.mp3", "at": 9.09, "semitones": 4, "gain": 0.3 },
+    { "file": "sfx/ping.mp3", "at": 9.18, "semitones": 7, "gain": 0.32 },
+    { "file": "sfx/sparkle.mp3", "at": 9.18, "gain": 0.14 },
+    { "file": "sfx/chime.mp3", "at": 11, "gain": 0.36 }
+  ]
+}

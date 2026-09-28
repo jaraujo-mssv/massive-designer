@@ -1,0 +1,86 @@
+<!doctype html>
+<html
+  lang="en"
+  data-composition-variables='[
+    {"id":"firstName","type":"string","label":"First name","default":"Franklin","placeholder":"Used in the notification and outro"},
+    {"id":"fullName","type":"string","label":"Name & last name","default":"Franklin Uche"},
+    {"id":"location","type":"string","label":"Location (City, Country)","default":"Lagos, Nigeria"},
+    {"id":"role","type":"string","label":"Role","default":"Community Lead"},
+    {"id":"photo","type":"string","label":"Photo (path in the project or URL)","default":"assets/template/franklin.jpg"}
+  ]'
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Happy birthday</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=JetBrains+Mono:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="lib/frame-kit.js"></script>
+    <link rel="stylesheet" href="lib/frame-kit.css" />
+    <link rel="stylesheet" href="lib/massive.css" />
+    <style>
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #0a0a0f;
+      }
+      #stage {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        font-family: Outfit, sans-serif;
+      }
+      #stage-bg {
+        position: absolute;
+        inset: 0;
+        background: #0a0a0f;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="stage"
+      data-composition-id="birthday"
+      data-start="0"
+      data-duration="15.5"
+      data-fps="60"
+      data-width="1920"
+      data-height="1080"
+    >
+      <div id="stage-bg" class="clip" data-start="0" data-duration="15.5" data-track-index="0"></div>
+
+      <!-- Scenes: desktop sits under everything; each later beat layers on top. -->
+      <div id="bd-desktop" class="clip scene" style="z-index: 1"
+        data-composition-id="bd-desktop" data-composition-src="compositions/01-desktop.html"
+        data-start="0" data-duration="15.5" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="bd-notification" class="clip scene" style="z-index: 2"
+        data-composition-id="bd-notification" data-composition-src="compositions/02-notification.html"
+        data-start="2.3" data-duration="2.7" data-track-index="2" data-width="1920" data-height="1080"></div>
+      <div id="bd-card" class="clip scene" style="z-index: 3"
+        data-composition-id="bd-card" data-composition-src="compositions/03-card.html"
+        data-start="4.4" data-duration="11.1" data-track-index="3" data-width="1920" data-height="1080"></div>
+      <div id="bd-outro" class="clip scene" style="z-index: 4"
+        data-composition-id="bd-outro" data-composition-src="compositions/04-outro.html"
+        data-start="11" data-duration="4.5" data-track-index="4" data-width="1920" data-height="1080"></div>
+
+      <!-- UI sounds (Pixabay, see assets/template/sfx/CREDITS.md), pre-mixed into one bed that spans the whole
+           video: pop x3 0.7/1.25/1.8, slack-knock 3.05, click-soft 3.95, sparkle 6.4 (XP bar fill), level-up
+           7.5 (pop + a rising four-ping arpeggio), one ping per reward chip at 8.4 + i*0.25, chime 11. Separate
+           short clips freeze Firefox previews: the runtime holds the clock when a clip ends inside its window
+           (Firefox drops readyState on ended). -->
+      <audio id="sfx-bed" data-start="0" data-duration="15.5" data-track-index="10" data-volume="1" src="assets/template/sfx-birthday.mp3"></audio>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      window.__timelines["birthday"] = tl;
+    </script>
+  </body>
+</html>

@@ -1,6 +1,7 @@
 import type { VideoView } from "./types";
 
 export const INDEX_URL = "/video-projects/index.json";
+export const VARIANTS_URL = "/api/video/variants";
 
 export const VIEWS: { id: VideoView; label: string }[] = [
   { id: "script", label: "Script" },

@@ -1,0 +1,556 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+          font-family: Outfit, sans-serif;
+          color: #faf4ec;
+        }
+        /* Slack profile window × character sheet. Centred: 1200×506 at (360, 247). */
+        #root .card {
+          position: absolute;
+          left: 360px;
+          top: 247px;
+          width: 1200px;
+          height: 506px;
+          border-radius: 20px;
+          background: #1a1d21;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          box-shadow: 0 40px 120px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(215, 73, 57, 0.12);
+          overflow: hidden;
+        }
+        /* macOS title bar: traffic lights on the left, no title. */
+        #root .chrome {
+          height: 44px;
+          display: flex;
+          align-items: center;
+          gap: 9px;
+          padding: 0 18px;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        #root .chrome span {
+          width: 14px;
+          height: 14px;
+          border-radius: 50%;
+          box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.25);
+        }
+        #root .chrome .close {
+          background: #ff5f57;
+        }
+        #root .chrome .min {
+          background: #febc2e;
+        }
+        #root .chrome .max {
+          background: #28c840;
+        }
+        /* Lucide icons (lucide.dev, ISC). */
+        #root svg.ic {
+          width: 22px;
+          height: 22px;
+          fill: none;
+          stroke: currentColor;
+          stroke-width: 2;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+        }
+        #root .body {
+          display: flex;
+          gap: 40px;
+          padding: 40px;
+        }
+        /* Left: portrait, as tall as the body (382px) with the ring and the badge's overhang. */
+        #root .left {
+          width: 356px;
+          flex-shrink: 0;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        #root .portrait {
+          position: relative;
+          width: 356px;
+          height: 356px;
+        }
+        /* Rotating gradient ring, clipped to a rounded frame around the photo. */
+        #root .ring-frame {
+          position: absolute;
+          inset: -8px;
+          border-radius: 38px;
+          overflow: hidden;
+          box-shadow: 0 0 40px rgba(215, 73, 57, 0.35);
+        }
+        #root .ring {
+          position: absolute;
+          left: -50%;
+          top: -50%;
+          width: 200%;
+          height: 200%;
+          background: conic-gradient(from 0deg, #d74939, #ff8163, rgba(215, 73, 57, 0.1), #d74939);
+        }
+        #root .photo {
+          position: absolute;
+          inset: 0;
+          width: 356px;
+          height: 356px;
+          object-fit: cover;
+          border-radius: 32px;
+          border: 4px solid #1a1d21;
+        }
+        #root .badge {
+          position: absolute;
+          left: 50%;
+          bottom: -18px;
+          margin-left: -80px;
+          width: 160px;
+          text-align: center;
+          padding: 8px 0;
+          border-radius: 999px;
+          background: #b8321f;
+          font-family: "JetBrains Mono", monospace;
+          font-size: 17px;
+          font-weight: 700;
+          letter-spacing: 0.08em;
+          box-shadow: 0 8px 24px rgba(215, 73, 57, 0.45);
+        }
+        /* Right: identity + stats */
+        #root .right {
+          flex: 1;
+          min-width: 0;
+        }
+        #root .name {
+          font-size: 64px;
+          font-weight: 900;
+          line-height: 1.2;
+          padding-bottom: 4px;
+          letter-spacing: -0.035em;
+          white-space: nowrap;
+        }
+        /* Status line: a cake slice where the welcome card has the green "Available" dot. */
+        #root .presence {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          font-size: 20px;
+          font-weight: 500;
+          color: rgba(250, 244, 236, 0.75);
+        }
+        #root .presence svg.ic {
+          width: 20px;
+          height: 20px;
+          color: #ff8163;
+        }
+        #root .meta {
+          margin-top: 20px;
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          gap: 12px 22px;
+          font-size: 21px;
+        }
+        #root .class-tag {
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          padding: 6px 14px 6px 8px;
+          border-radius: 10px;
+          background: rgba(215, 73, 57, 0.14);
+          border: 1px solid rgba(215, 73, 57, 0.45);
+          color: #ff8163;
+          font-weight: 600;
+          white-space: nowrap;
+        }
+        #root .k {
+          font-family: "JetBrains Mono", monospace;
+          font-size: 13px;
+          font-weight: 700;
+          letter-spacing: 0.1em;
+          color: rgba(250, 244, 236, 0.5);
+        }
+        #root .class-tag .k {
+          padding: 3px 7px;
+          border-radius: 6px;
+          background: #b8321f;
+          color: #fff;
+        }
+        #root .loc {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          min-width: 0;
+          max-width: 100%;
+          color: rgba(250, 244, 236, 0.75);
+          white-space: nowrap;
+        }
+        #root .loc span {
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        #root .divider {
+          margin: 26px 0 22px;
+          height: 1px;
+          background: rgba(255, 255, 255, 0.1);
+          transform-origin: left center;
+        }
+        #root .stat {
+          display: grid;
+          grid-template-columns: 44px 138px 1fr;
+          align-items: center;
+          gap: 14px;
+          min-height: 58px;
+        }
+        #root .stat .tile {
+          width: 44px;
+          height: 44px;
+          border-radius: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: rgba(215, 73, 57, 0.14);
+          color: #ff8163;
+        }
+        #root .stat .v {
+          font-size: 24px;
+          font-weight: 500;
+          color: #faf4ec;
+          white-space: nowrap;
+        }
+        #root .chips {
+          display: flex;
+          gap: 10px;
+        }
+        #root .chip {
+          padding: 7px 14px;
+          border-radius: 999px;
+          background: rgba(215, 73, 57, 0.14);
+          border: 1px solid rgba(215, 73, 57, 0.45);
+          color: #ff8163;
+          font-size: 20px;
+          font-weight: 600;
+          white-space: nowrap;
+        }
+        #root .xp {
+          grid-template-columns: 44px 138px 1fr 64px;
+        }
+        #root .track {
+          position: relative;
+          height: 12px;
+          border-radius: 999px;
+          background: rgba(255, 255, 255, 0.08);
+          overflow: hidden;
+        }
+        #root .fill {
+          height: 100%;
+          border-radius: 999px;
+          background: linear-gradient(90deg, #d74939, #ff8163);
+          transform-origin: left center;
+        }
+        #root .flash {
+          position: absolute;
+          inset: 0;
+          background: #faf4ec;
+          opacity: 0;
+        }
+        #root .num {
+          font-family: "JetBrains Mono", monospace;
+          font-size: 18px;
+          font-weight: 700;
+          color: #ff8163;
+          text-align: right;
+        }
+        /* LEVEL UP: glow, shockwave ring and the stamp, centred on the card. No number, ever: the
+           template must not disclose anyone's age. */
+        #root .lvl {
+          position: absolute;
+          left: 360px;
+          top: 247px;
+          width: 1200px;
+          height: 506px;
+          pointer-events: none;
+        }
+        #root .glow {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          width: 1100px;
+          height: 1100px;
+          margin: -550px 0 0 -550px;
+          border-radius: 50%;
+          background: radial-gradient(circle, rgba(215, 73, 57, 0.55) 0%, rgba(215, 73, 57, 0.18) 38%, rgba(215, 73, 57, 0) 68%);
+          opacity: 0;
+        }
+        #root .wave {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          width: 240px;
+          height: 240px;
+          margin: -120px 0 0 -120px;
+          border-radius: 50%;
+          border: 6px solid #ff8163;
+          opacity: 0;
+        }
+        #root .stamp {
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 50%;
+          margin-top: -100px;
+          height: 200px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          opacity: 0;
+        }
+        #root .stamp span {
+          font-size: 176px;
+          font-weight: 900;
+          line-height: 1;
+          letter-spacing: -0.045em;
+          white-space: nowrap;
+          padding: 0 24px 12px;
+          background: linear-gradient(135deg, #d74939, #ff8163);
+          -webkit-background-clip: text;
+          background-clip: text;
+          color: transparent;
+          filter: drop-shadow(0 0 60px rgba(215, 73, 57, 0.45)) drop-shadow(0 12px 0 #0a0a0f);
+          transform: rotate(-4deg);
+        }
+        /* Confetti: pieces are placed by the script from a seeded PRNG. */
+        #root .confetti {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          pointer-events: none;
+        }
+        #root .confetti i {
+          position: absolute;
+          left: 0;
+          top: 0;
+          display: block;
+          opacity: 0;
+        }
+        #root .src {
+          position: absolute;
+          left: 0;
+          top: 0;
+          opacity: 0;
+          white-space: pre;
+          pointer-events: none;
+        }
+      </style>
+      <div id="root" data-composition-id="bd-card" data-width="1920" data-height="1080" data-duration="11.1">
+        <div class="card" data-layout-allow-occlusion>
+          <div class="chrome"><span class="close"></span><span class="min"></span><span class="max"></span></div>
+          <div class="body">
+            <div class="left">
+              <div class="portrait">
+                <div class="ring-frame"><div class="ring" data-layout-allow-overflow></div></div>
+                <img class="photo" data-var-src="photo" src="assets/template/franklin.jpg" alt="" />
+                <div class="badge">BIRTHDAY</div>
+              </div>
+            </div>
+            <div class="right">
+              <div class="name" data-var-text="fullName">Franklin Uche</div>
+              <div class="presence">
+                <svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="7" r="2" /><path d="M7.2 7.9 3 11v9c0 .6.4 1 1 1h16c.6 0 1-.4 1-1v-9c0-2-3-6-7-8l-3.6 2.6" /><path d="M16 13H3" /><path d="M16 17H3" /></svg>
+                Celebrating today
+              </div>
+              <div class="meta">
+                <span class="class-tag"><span class="k">ROLE</span><span data-var-text="role">Community Lead</span></span>
+                <span class="loc">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /><circle cx="12" cy="10" r="3" /></svg>
+                  <span data-var-text="location">Lagos, Nigeria</span>
+                </span>
+              </div>
+              <div class="divider"></div>
+              <div class="stat quest">
+                <div class="tile"><svg class="ic" viewBox="0 0 24 24"><path d="M5.8 11.3 2 22l10.7-3.79" /><path d="M4 3h.01" /><path d="M22 8h.01" /><path d="M15 2h.01" /><path d="M22 20h.01" /><path d="m22 2-2.24.75a2.9 2.9 0 0 0-1.96 3.12c.1.86-.57 1.63-1.45 1.63h-.38c-.86 0-1.6.6-1.76 1.44L14 10" /><path d="m22 13-.82-.33c-.86-.34-1.82.2-1.98 1.11c-.11.7-.72 1.22-1.43 1.22H17" /><path d="m11 2 .33.82c.34.86-.2 1.82-1.11 1.98C9.52 4.9 9 5.52 9 6.23V7" /><path d="M11 13c1.93 1.93 2.83 4.17 2 5-.83.83-3.07-.07-5-2-1.93-1.93-2.83-4.17-2-5 .83-.83 3.07.07 5 2Z" /></svg></div>
+                <span class="k">QUEST</span>
+                <div class="v">Eat cake. Make a wish.</div>
+              </div>
+              <div class="stat xp">
+                <div class="tile"><svg class="ic" viewBox="0 0 24 24"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" /><path d="M20 3v4" /><path d="M22 5h-4" /><path d="M4 17v2" /><path d="M5 18H3" /></svg></div>
+                <span class="k">BIRTHDAY XP</span>
+                <div class="track"><div class="fill"></div><div class="flash"></div></div>
+                <span class="num">0</span>
+              </div>
+              <div class="stat rewards">
+                <div class="tile"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4" rx="1" /><path d="M12 8v13" /><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7" /><path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5" /></svg></div>
+                <span class="k">REWARDS</span>
+                <div class="chips"><span class="chip">+1 Wisdom</span><span class="chip">+1 Cake</span><span class="chip">+100 Good vibes</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="lvl" data-layout-allow-overflow data-layout-allow-occlusion>
+          <div class="glow" data-layout-allow-overflow></div>
+          <div class="wave"></div>
+          <div class="stamp"><span>LEVEL UP!</span></div>
+        </div>
+        <div class="confetti" data-layout-allow-overlap data-layout-allow-occlusion data-layout-allow-overflow></div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="bd-card"]');
+          const q = (s) => root.querySelector(s);
+          const qa = (s) => [...root.querySelectorAll(s)];
+          const num = q(".num");
+          const name = q(".name");
+
+          // Long names shrink to fit the ~724px column by character count (Outfit 900
+          // averages ~0.56em per glyph), down to 36px; past that they wrap to two lines.
+          // Estimated rather than measured: timeline callbacks must not read layout.
+          let fittedFor = null;
+          const fitName = () => {
+            const text = name.textContent.trim();
+            if (text === fittedFor) return;
+            fittedFor = text;
+            const est = (px) => text.length * 0.56 * px;
+            const size = Math.max(36, Math.min(64, Math.floor(724 / (text.length * 0.56))));
+            name.style.fontSize = `${size}px`;
+            name.style.whiteSpace = est(size) > 724 ? "normal" : "nowrap";
+            name.style.lineHeight = est(size) > 724 ? "1.05" : "1.2";
+          };
+
+          // Confetti: a seeded burst from the stamp, placed in closed form from the burst's local
+          // time so any seek lands on the same frame.
+          const LVL = 3.1; // level-up moment, card-local seconds
+          const FALL = 5.2;
+          const layer = q(".confetti");
+          let seed = 20260928;
+          const rand = () => {
+            seed = (seed + 0x6d2b79f5) | 0;
+            let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+            t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+            return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+          };
+          const COLORS = ["#d74939", "#ff8163", "#faf4ec", "#f1ead8", "#b8321f"];
+          const pieces = Array.from({ length: 110 }, () => {
+            const el = document.createElement("i");
+            const kind = rand();
+            const w = kind < 0.2 ? 12 : kind < 0.6 ? 10 : 6;
+            const h = kind < 0.2 ? 12 : kind < 0.6 ? 16 : 22;
+            el.style.width = `${w}px`;
+            el.style.height = `${h}px`;
+            el.style.borderRadius = kind < 0.2 ? "50%" : "2px";
+            el.style.background = COLORS[Math.floor(rand() * COLORS.length)];
+            layer.appendChild(el);
+            const angle = -Math.PI / 2 + (rand() - 0.5) * Math.PI * 1.25;
+            const speed = 900 + rand() * 1500;
+            return {
+              el,
+              x0: 960 + (rand() - 0.5) * 360,
+              y0: 500 + (rand() - 0.5) * 80,
+              vx: Math.cos(angle) * speed,
+              vy: Math.sin(angle) * speed,
+              r0: rand() * 360,
+              vr: (rand() - 0.5) * 900,
+              flip: 2 + rand() * 5,
+              delay: rand() * 0.12,
+            };
+          });
+          const DRAG = 2.2;
+          const G = 900;
+          const placeConfetti = (t) => {
+            for (const p of pieces) {
+              const s = t - LVL - p.delay;
+              if (s <= 0 || s > FALL) {
+                p.el.style.opacity = "0";
+                continue;
+              }
+              // Velocity decays with drag; gravity pulls toward a slow terminal fall.
+              const k = (1 - Math.exp(-DRAG * s)) / DRAG;
+              const x = p.x0 + p.vx * k + Math.sin(s * p.flip) * 18;
+              const y = p.y0 + p.vy * k + (G / DRAG) * (s - k);
+              const r = p.r0 + p.vr * s;
+              const sy = Math.cos(s * p.flip * 2);
+              p.el.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) rotate(${r.toFixed(1)}deg) scaleY(${sy.toFixed(3)})`;
+              p.el.style.opacity = String(Math.min(1, s / 0.06, (FALL - s) / 0.8));
+            }
+          };
+
+          const tl = gsap.timeline({ paused: true });
+          tl.to(
+            {},
+            {
+              duration: 11.1,
+              onUpdate: () => {
+                fitName();
+                placeConfetti(tl.time());
+              },
+            },
+            0,
+          );
+
+          // Open from the notification: the banner hands off from the top right.
+          const card = q(".card");
+          tl.fromTo(card, { x: 652, y: -440, scale: 0.5 }, { x: 0, y: 0, scale: 1, duration: 0.6, ease: "back.out(1.15)" }, 0);
+          tl.fromTo(card, { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power1.out" }, 0);
+
+          // Portrait. The ring idles, spins up at the level-up, then settles back to idle.
+          tl.fromTo(q(".portrait"), { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(1.6)" }, 0.7);
+          const ring = q(".ring");
+          tl.fromTo(ring, { rotation: 0 }, { rotation: 58, duration: LVL - 0.7, ease: "none" }, 0.7);
+          tl.to(ring, { rotation: 418, duration: 1.2, ease: "power2.out" }, LVL);
+          tl.to(ring, { rotation: 581, duration: 11.1 - LVL - 1.2, ease: "none" }, LVL + 1.2);
+          tl.fromTo(q(".badge"), { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: "back.out(2)" }, 0.95);
+
+          // Identity.
+          const rise = (sel, t) => tl.fromTo(q(sel), { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: "power3.out" }, t);
+          rise(".name", 1.0);
+          rise(".presence", 1.1);
+          rise(".class-tag", 1.2);
+          rise(".loc", 1.35);
+          tl.fromTo(q(".divider"), { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power2.out" }, 1.5);
+
+          // Quest, then the XP bar fills and counts up; at 100 it reads MAX.
+          rise(".quest", 1.7);
+          rise(".xp", 1.9);
+          const xp = { v: 0 };
+          tl.fromTo(q(".fill"), { scaleX: 0 }, { scaleX: 1, duration: LVL - 2.0, ease: "power2.inOut" }, 2.0);
+          tl.fromTo(
+            xp,
+            { v: 0 },
+            {
+              v: 100,
+              duration: LVL - 2.0,
+              ease: "power2.inOut",
+              onUpdate: () => (num.textContent = xp.v >= 100 ? "MAX" : String(Math.round(xp.v))),
+            },
+            2.0,
+          );
+
+          // LEVEL UP: the bar flashes, the stamp slams in over a glow and a shockwave, the card
+          // shakes, confetti bursts (placeConfetti), then the stamp lifts away.
+          tl.fromTo(q(".flash"), { opacity: 0 }, { opacity: 0.9, duration: 0.08, ease: "none" }, LVL);
+          tl.to(q(".flash"), { opacity: 0, duration: 0.5, ease: "power2.out" }, LVL + 0.08);
+          tl.fromTo(q(".glow"), { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.35, ease: "power2.out" }, LVL);
+          tl.to(q(".glow"), { opacity: 0, duration: 0.6, ease: "power2.in" }, LVL + 0.8);
+          tl.fromTo(q(".wave"), { opacity: 1, scale: 0.3 }, { opacity: 0, scale: 5, duration: 0.8, ease: "power2.out", immediateRender: false }, LVL);
+          const stamp = q(".stamp");
+          tl.fromTo(stamp, { opacity: 0, scale: 2.4 }, { opacity: 1, scale: 1, duration: 0.28, ease: "back.out(1.4)" }, LVL);
+          tl.to(stamp, { scale: 1.06, duration: 0.6, ease: "sine.inOut" }, LVL + 0.28);
+          tl.to(stamp, { y: -70, scale: 0.7, opacity: 0, duration: 0.4, ease: "power2.in" }, LVL + 0.9);
+          [10, -9, 7, -5, 3, 0].forEach((x, i) => tl.to(card, { x, duration: 0.04, ease: "none" }, LVL + 0.02 + i * 0.04));
+
+          // Rewards, one ping each (8.4 + i*0.25 in the sound bed).
+          rise(".rewards", 3.75);
+          qa(".chip").forEach((el, i) =>
+            tl.fromTo(el, { scale: 0.5, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: "back.out(2.2)" }, 4.0 + i * 0.25),
+          );
+
+          // Settle for the outro.
+          tl.to(card, { y: -24, duration: 0.6, ease: "power2.inOut" }, 6.6);
+
+          window.__timelines["bd-card"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

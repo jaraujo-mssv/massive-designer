@@ -18,10 +18,12 @@ function posterTime(frame: StoryboardFrame, total: number): number {
 
 function FrameTile({
   project,
+  src,
   frame,
   onOpen,
 }: {
   project: VideoProject;
+  src: string;
   frame: StoryboardFrame;
   onOpen: (seconds: number) => void;
 }) {
@@ -47,7 +49,7 @@ function FrameTile({
         ) : (
           visible && (
             <div className="absolute inset-0 pointer-events-none">
-              <HfPlayer src={project.path} width={project.width} height={project.height} muted at={at} />
+              <HfPlayer key={src} src={src} width={project.width} height={project.height} muted at={at} />
             </div>
           )
         )}
@@ -82,7 +84,16 @@ function FrameTile({
   );
 }
 
-export function StoryboardPane({ project, onOpen }: { project: VideoProject; onOpen: (seconds: number) => void }) {
+export function StoryboardPane({
+  project,
+  src,
+  onOpen,
+}: {
+  project: VideoProject;
+  /** Composition URL: the project, or a person's version of it (`?variant=`). */
+  src: string;
+  onOpen: (seconds: number) => void;
+}) {
   const board = project.storyboard;
   if (!board) {
     return (
@@ -123,7 +134,7 @@ export function StoryboardPane({ project, onOpen }: { project: VideoProject; onO
       </div>
       <div className="flex flex-col gap-4 max-w-6xl">
         {board.frames.map((f) => (
-          <FrameTile key={f.index} project={project} frame={f} onOpen={onOpen} />
+          <FrameTile key={f.index} project={project} src={src} frame={f} onOpen={onOpen} />
         ))}
       </div>
       {board.warnings.length > 0 && (

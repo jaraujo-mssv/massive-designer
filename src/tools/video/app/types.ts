@@ -50,6 +50,19 @@ export interface VideoProject {
   media: string[];
 }
 
+/** One person's version of a template: its composition variables, from a local JSON file (dev server only). */
+export interface VideoVariant {
+  id: string;
+  projectId: string;
+  title: string;
+  subtitle: string | null;
+  variables: Record<string, unknown>;
+  /** e.g. output/hires/maria.json */
+  file: string;
+  /** Output name for `video:render --name`. */
+  renderName: string;
+}
+
 export type VideoView = "script" | "storyboard" | "preview";
 
 type HfPlayerAttributes = DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement> & {

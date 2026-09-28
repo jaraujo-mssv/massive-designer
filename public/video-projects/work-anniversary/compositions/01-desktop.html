@@ -1,0 +1,183 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+        }
+        #root .wallpaper {
+          position: absolute;
+          inset: -40px;
+          background: #e9e7e4 url("assets/template/wallpaper.jpg") center / cover no-repeat;
+        }
+        /* Menu bar */
+        #root .menubar {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 36px;
+          display: flex;
+          align-items: center;
+          gap: 26px;
+          padding: 0 20px;
+          background: rgba(10, 10, 15, 0.45);
+          backdrop-filter: blur(24px);
+          color: rgba(250, 244, 236, 0.92);
+          font-size: 15px;
+          font-weight: 500;
+        }
+        #root .menubar img {
+          height: 12px;
+        }
+        #root .menubar .app {
+          font-weight: 700;
+        }
+        #root .menubar .right {
+          margin-left: auto;
+          display: flex;
+          align-items: center;
+          gap: 18px;
+          font-variant-numeric: tabular-nums;
+        }
+        #root .menubar svg {
+          width: 17px;
+          height: 17px;
+        }
+        /* Dock */
+        #root .dock {
+          position: absolute;
+          left: 648px;
+          bottom: 18px;
+          width: 624px;
+          height: 96px;
+          padding: 10px;
+          display: flex;
+          gap: 12px;
+          border-radius: 28px;
+          background: rgba(255, 255, 255, 0.1);
+          border: 1px solid rgba(255, 255, 255, 0.18);
+          backdrop-filter: blur(30px);
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+        }
+        #root .tile {
+          position: relative;
+          width: 76px;
+          height: 76px;
+          flex-shrink: 0;
+        }
+        #root .tile img {
+          width: 76px;
+          height: 76px;
+          filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.35));
+        }
+        /* Calendar: the icon art with its date erased; the date is drawn here to match the menu bar. */
+        #root .cal span {
+          position: absolute;
+          left: 0;
+          right: 0;
+          text-align: center;
+          font-family: -apple-system, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+          line-height: 1;
+        }
+        #root .cal .wd {
+          top: 11px;
+          font-size: 17px;
+          font-weight: 500;
+          color: #f4463c;
+        }
+        #root .cal .day {
+          top: 29px;
+          font-size: 42px;
+          font-weight: 400;
+          letter-spacing: -0.02em;
+          color: #1d1d1f;
+        }
+        #root .running {
+          position: absolute;
+          left: 1044px;
+          bottom: 10px;
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: rgba(250, 244, 236, 0.85);
+        }
+        #root .dim {
+          position: absolute;
+          inset: 0;
+          background: rgba(6, 6, 10, 1);
+          pointer-events: none;
+        }
+      </style>
+      <div id="root" data-composition-id="wa-desktop" data-width="1920" data-height="1080" data-duration="15.5">
+        <div class="wallpaper" data-layout-allow-overflow></div>
+
+        <div class="menubar">
+          <img src="assets/brand/icon-massive-white.svg" alt="Massive" />
+          <span data-layout-allow-occlusion class="app">Slack</span>
+          <span data-layout-allow-occlusion>File</span><span data-layout-allow-occlusion>Edit</span><span data-layout-allow-occlusion>View</span><span data-layout-allow-occlusion>Go</span><span data-layout-allow-occlusion>Window</span><span data-layout-allow-occlusion>Help</span>
+          <div class="right">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0" /><path d="M1.42 9a16 16 0 0 1 21.16 0" /><path d="M8.53 16.11a6 6 0 0 1 6.95 0" /><line x1="12" x2="12.01" y1="20" y2="20" /></svg>
+            <span data-layout-allow-occlusion>Thu Sep 25</span><span data-layout-allow-occlusion>9:41 AM</span>
+          </div>
+        </div>
+
+        <div class="dock">
+          <div class="tile"><img src="assets/template/dock/safari.png" alt="Safari" /></div>
+          <div class="tile"><img src="assets/template/dock/mail.png" alt="Mail" /></div>
+          <div class="tile"><img src="assets/template/dock/facetime.png" alt="FaceTime" /></div>
+          <div class="tile cal"><img src="assets/template/dock/calendar-blank.png" alt="Calendar" /><span data-layout-allow-occlusion data-layout-allow-overlap class="wd">Thu</span><span data-layout-allow-occlusion data-layout-allow-overlap class="day">25</span></div>
+          <div class="tile"><img class="slack-icon" src="assets/template/slack.svg" alt="Slack" /></div>
+          <div class="tile"><img src="assets/template/dock/notes.png" alt="Notes" /></div>
+          <div class="tile"><img src="assets/template/dock/app-store.png" alt="App Store" /></div>
+        </div>
+        <div class="running"></div>
+
+        <div class="dim" data-layout-allow-occlusion></div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="wa-desktop"]');
+          const q = (s) => root.querySelector(s);
+          const wallpaper = q(".wallpaper");
+          const dock = q(".dock");
+          const icon = q(".slack-icon");
+          const tl = gsap.timeline({ paused: true });
+
+          // Slow drift on the wallpaper for the whole video.
+          tl.fromTo(wallpaper, { scale: 1.05 }, { scale: 1, duration: 15.5, ease: "none" }, 0);
+          // Dock slides up.
+          tl.fromTo(dock, { y: 140 }, { y: 0, duration: 0.6, ease: "power3.out" }, 0.05);
+
+          // macOS attention bounce: three hops, squash on each landing.
+          [0.7, 1.25, 1.8].forEach((t) => {
+            tl.to(icon, { y: -46, duration: 0.24, ease: "power2.out" }, t);
+            tl.to(icon, { y: 0, duration: 0.22, ease: "power2.in" }, t + 0.24);
+            tl.fromTo(
+              icon,
+              { scaleX: 1.12, scaleY: 0.84 },
+              { scaleX: 1, scaleY: 1, duration: 0.16, ease: "power1.out", immediateRender: false },
+              t + 0.46,
+            );
+          });
+          tl.fromTo(q(".running"), { opacity: 0 }, { opacity: 1, duration: 0.2 }, 0.7);
+
+          // The icon leaves the dock: 02-notification flies a copy from here.
+          tl.to(icon, { opacity: 0, duration: 0.01 }, 2.3);
+          tl.to(icon, { opacity: 1, duration: 0.3 }, 4.6);
+
+          // Dim the desktop as the profile card opens.
+          tl.fromTo(q(".dim"), { opacity: 0 }, { opacity: 0.62, duration: 0.5, ease: "power2.out" }, 4.4);
+
+          window.__timelines["wa-desktop"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

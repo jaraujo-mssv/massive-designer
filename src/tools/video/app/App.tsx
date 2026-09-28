@@ -9,6 +9,7 @@ import { StoryboardPane } from "./components/StoryboardPane";
 import { VIEWS } from "./constants";
 import { useMediaStatus } from "./hooks/useMediaStatus";
 import { useVideoIndex } from "./hooks/useVideoIndex";
+import { useVideoVariants } from "./hooks/useVideoVariants";
 import type { VideoProject, VideoView } from "./types";
 
 const EMPTY: VideoProject[] = [];
@@ -17,22 +18,28 @@ export default function App() {
   const index = useVideoIndex();
   const projects = index.status === "ready" ? index.projects : EMPTY;
   const media = useMediaStatus(projects);
+  const variants = useVideoVariants();
   const [params, setParams] = useSearchParams();
   const [startAt, setStartAt] = useState<number | null>(null);
 
   const view = (VIEWS.some((v) => v.id === params.get("view")) ? params.get("view") : "preview") as VideoView;
   const project = projects.find((p) => p.id === params.get("v")) ?? projects[0] ?? null;
+  const variant = (project && variants[project.id]?.find((x) => x.id === params.get("variant"))) || null;
+  // A person's version is the template served with their variables injected (dev server only).
+  const playerSrc = project ? (variant ? `${project.path}?variant=${encodeURIComponent(variant.id)}` : project.path) : "";
 
-  const update = (next: { v?: string; view?: VideoView }) => {
+  const update = (next: { v?: string; variant?: string | null; view?: VideoView }) => {
     const p = new URLSearchParams(params);
     if (next.v) p.set("v", next.v);
+    if (next.variant) p.set("variant", next.variant);
+    else if (next.variant === null) p.delete("variant");
     if (next.view) p.set("view", next.view);
     setParams(p, { replace: true });
   };
 
-  const select = (id: string) => {
+  const select = (id: string, variantId: string | null = null) => {
     setStartAt(null);
-    update({ v: id });
+    update({ v: id, variant: variantId });
   };
 
   const openAt = (seconds: number) => {
@@ -44,14 +51,23 @@ export default function App() {
     <>
       <Toaster position="top-center" richColors />
       <div className="flex h-full overflow-hidden bg-bg">
-        <Library projects={projects} selectedId={project?.id ?? null} media={media} onSelect={select} />
+        <Library
+          projects={projects}
+          variants={variants}
+          selectedId={project?.id ?? null}
+          selectedVariant={variant?.id ?? null}
+          media={media}
+          onSelect={select}
+        />
 
         <div className="flex-1 min-w-0 flex flex-col">
           {project && (
             <div className="flex items-center gap-4 px-6 py-3 border-b border-border-subtle shrink-0">
               <div className="min-w-0 flex-1">
-                <h1 className="text-sm text-text-primary font-semibold truncate">{project.title}</h1>
-                <p className="text-[11px] text-text-dim font-mono truncate">{project.id}</p>
+                <h1 className="text-sm text-text-primary font-semibold truncate">{variant ? variant.title : project.title}</h1>
+                <p className="text-[11px] text-text-dim font-mono truncate">
+                  {variant ? `${project.title} · ${variant.file}` : project.id}
+                </p>
               </div>
               <div className="flex rounded-lg border border-border-subtle bg-surface p-0.5">
                 {VIEWS.map((v) => (
@@ -66,7 +82,7 @@ export default function App() {
                   </button>
                 ))}
               </div>
-              <RenderCommand id={project.id} />
+              <RenderCommand id={project.id} variant={variant} />
             </div>
           )}
 
@@ -82,9 +98,9 @@ export default function App() {
               <p className="p-8 text-sm text-text-dim">No video projects yet.</p>
             )}
             {project && view === "script" && <ScriptPane project={project} />}
-            {project && view === "storyboard" && <StoryboardPane project={project} onOpen={openAt} />}
+            {project && view === "storyboard" && <StoryboardPane project={project} src={playerSrc} onOpen={openAt} />}
             {project && view === "preview" && (
-              <PreviewPane project={project} media={media[project.id]} startAt={startAt} />
+              <PreviewPane project={project} src={playerSrc} media={media[project.id]} startAt={startAt} />
             )}
           </div>
         </div>

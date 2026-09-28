@@ -32,6 +32,7 @@ Remotion's company license rules it out.
 | `npm run video:preview <id>` | HyperFrames Studio for editing + storyboard review |
 | `npm run video:index` | Rebuild `index.json` for the tab |
 | `npm run video:render <id> [--draft]` | Render to `output/video/<id>.mp4` |
+| `npm run video:sfx <id> [sheet]` | Mix a template's `assets/template/*.cues.json` into its one-file sound bed |
 
 Inside a project folder: `npx hyperframes check` must pass before handing off, and
 `npx hyperframes snapshot --at <t1>,<t2>` gives frames to inspect.
@@ -104,6 +105,41 @@ same variables are editable in the variables panel. Sounds are the bundled Pixab
 `assets/template/sfx/`, pre-mixed into `assets/template/sfx-mix-1…5.mp3` (16 s beds that differ only in the number
 of chip pings; cue times in the comment above the `<audio>` tag); no music or voice. To move a cue, re-mix all five
 beds with ffmpeg rather than adding clips.
+
+## Birthday, work anniversary and holiday templates
+
+Three more templates in the welcome video's series. Each is its own project, copied from `welcome-to-massive`: the
+same desktop, dock bounce and Slack notification, with a different card and outro. They keep the welcome video's timing
+(notification 2.3 s, card 4.4 s, outro 11 s, 15.5 s total), `posterFromEnd` and the Franklin defaults. Each has **one
+fixed sound bed**, `assets/template/sfx-<name>.mp3`, mixed from the bundled SFX with `npm run video:sfx <id>` using the
+cue sheet next to it (`sfx-<name>.cues.json`). The number of sound cues never depends on a variable, so there's no
+`sfx` variable. Render them like the welcome video, e.g.
+`npm run video:render -- birthday --variables-file output/hires/<first>.json --name birthday-<first>`.
+
+**`birthday`**: "It's <name>'s birthday!", then a BIRTHDAY XP bar fills and **LEVEL UP!** slams in with seeded confetti,
+followed by fixed reward chips. Variables: `firstName`, `fullName`, `role`, `location`, `photo` (as in the welcome video).
+**Never add an age**: no level number, no birth year or date variable, no countable candles. "LEVEL UP!" stands alone.
+
+**`work-anniversary`**: "<name> is celebrating N years at Massive!" ("1 year" is singular), then a count-up, one numbered
+pip per year and an "Achievement unlocked" toast. Variables: `firstName`, `fullName`, `role`, `photo`, and `years`
+(number, 1–20). The row shows up to 10 pips, plus a dashed pip for next year; above 10 the last pip reads "10+". The pips
+share one 1.2 s window, so the bed fits any value.
+
+**`holiday-greetings`**: a company-wide greeting with no person variables. `holiday` is an `enum`: `hanukkah` (default)
+or `rosh-hashanah`. It switches the notification, card copy, motif and outro. The copy is transliterated only, with no
+Hebrew script, because Outfit has no Hebrew glyphs. Hanukkah shows a hanukkiah where the shamash lights and then eight
+candles light left to right. Rosh Hashanah shows an apple, a honey dipper that drips twice and eight pomegranate seeds.
+Both motifs put their eight beats on the same cues (6.4 + i·0.3 s), so one bed serves both. To add a holiday:
+1. Add an enum option.
+2. Add `.only-<x>` copy spans in all three compositions.
+3. Add CSS to hide them for the other holidays.
+4. Add an SVG motif on the same eight beats.
+
+Each composition's script sets `data-holiday` on its host clip and on the inlined `#root` (`setHoliday`). The CSS keys
+off `[data-holiday="…"]`.
+
+To preview a non-default value with `npx hyperframes snapshot`, which takes no variables, copy the project to a
+scratch folder and change the variable's `default` there.
 
 ## Porting a Remotion video (from ../remotion-playground)
 

@@ -1,19 +1,19 @@
 import { useState, useEffect, useMemo } from 'react'
 import {
-  ExternalLink,
-  FileSpreadsheet,
-  LayoutGrid,
-  Share2,
+  ArrowSquareOut,
+  Table,
+  SquaresFour,
+  ShareNetwork,
   Trophy,
-  PenLine,
-  Loader2,
-  RefreshCw,
-  AlertTriangle,
-  Search,
-  ChevronUp,
-  ChevronDown,
-  ChevronsUpDown,
-} from 'lucide-react'
+  PencilSimple,
+  CircleNotch,
+  ArrowClockwise,
+  Warning,
+  MagnifyingGlass,
+  CaretUp,
+  CaretDown,
+  CaretUpDown,
+} from '@phosphor-icons/react'
 
 // ─── Config ────────────────────────────────────────────────────────────────
 
@@ -26,9 +26,9 @@ function sheetCsvUrl(sheetName: string) {
 
 // Tabs for deprecated tools are hidden; drop the flag to bring one back.
 const ALL_TABS = [
-  { label: 'Market Maps',        sheetName: 'Market Maps',        tool: '/market-map',   icon: LayoutGrid, accent: '#8b5cf6' },
+  { label: 'Market Maps',        sheetName: 'Market Maps',        tool: '/market-map',   icon: SquaresFour, accent: '#8b5cf6' },
   { label: 'Top Lists',          sheetName: 'Top Lists',          tool: '/top-list',     icon: Trophy,     accent: '#f59e0b' },
-  { label: 'Social Media Posts', sheetName: 'Social Media Posts', tool: '/social-media', icon: Share2,     accent: '#3b82f6', deprecated: true },
+  { label: 'Social Media Posts', sheetName: 'Social Media Posts', tool: '/social-media', icon: ShareNetwork,     accent: '#3b82f6', deprecated: true },
 ]
 const TABS = ALL_TABS.filter((t) => !t.deprecated)
 
@@ -185,7 +185,7 @@ function IconBtn({
         onMouseEnter={e => Object.assign((e.currentTarget as HTMLElement).style, hov)}
         onMouseLeave={e => Object.assign((e.currentTarget as HTMLElement).style, base)}
       >
-        <Icon size={12} />{label && <span>{label}</span>}
+        <Icon weight="fill" size={12} />{label && <span>{label}</span>}
       </a>
     )
   }
@@ -194,7 +194,7 @@ function IconBtn({
       onMouseEnter={e => !disabled && Object.assign((e.currentTarget as HTMLElement).style, hov)}
       onMouseLeave={e => !disabled && Object.assign((e.currentTarget as HTMLElement).style, base)}
     >
-      <Icon size={12} />{label && <span>{label}</span>}
+      <Icon weight="fill" size={12} />{label && <span>{label}</span>}
     </button>
   )
 }
@@ -212,7 +212,7 @@ function SortableTh({
   style?: React.CSSProperties
 }) {
   const isActive = currentKey === sortKey
-  const Icon = isActive ? (currentDir === 'asc' ? ChevronUp : ChevronDown) : ChevronsUpDown
+  const Icon = isActive ? (currentDir === 'asc' ? CaretUp : CaretDown) : CaretUpDown
   return (
     <th
       onClick={() => onSort(sortKey)}
@@ -233,7 +233,7 @@ function SortableTh({
     >
       <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
         {children}
-        <Icon size={10} style={{ opacity: isActive ? 1 : 0.4 }} />
+        <Icon weight="fill" size={10} style={{ opacity: isActive ? 1 : 0.4 }} />
       </span>
     </th>
   )
@@ -311,7 +311,7 @@ function SheetTable({ sheetName, tool }: { sheetName: string; tool: string }) {
   if (state.status === 'loading') {
     return (
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '2rem', color: 'var(--text-dim)', fontSize: '0.85rem' }}>
-        <Loader2 size={14} style={{ animation: 'spin 1s linear infinite' }} />
+        <CircleNotch weight="fill" size={14} style={{ animation: 'spin 1s linear infinite' }} />
         Fetching spreadsheet data…
       </div>
     )
@@ -320,10 +320,10 @@ function SheetTable({ sheetName, tool }: { sheetName: string; tool: string }) {
   if (state.status === 'error') {
     return (
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '2rem', color: '#f87171', fontSize: '0.85rem' }}>
-        <AlertTriangle size={14} />
+        <Warning weight="fill" size={14} />
         <span>Could not load sheet "{sheetName}": {state.message}</span>
         <button onClick={load} style={{ marginLeft: '0.5rem', display: 'inline-flex', alignItems: 'center', gap: '0.25rem', color: 'var(--text-dim)', background: 'none', border: 'none', cursor: 'pointer', fontSize: '0.8rem', padding: 0 }}>
-          <RefreshCw size={11} /> Retry
+          <ArrowClockwise weight="fill" size={11} /> Retry
         </button>
       </div>
     )
@@ -338,7 +338,7 @@ function SheetTable({ sheetName, tool }: { sheetName: string; tool: string }) {
       {/* Search bar */}
       <div style={{ padding: '0.75rem 1rem', borderBottom: '1px solid var(--border-subtle)' }}>
         <div style={{ position: 'relative', maxWidth: 320 }}>
-          <Search size={13} style={{ position: 'absolute', left: '0.65rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-dim)', pointerEvents: 'none' }} />
+          <MagnifyingGlass weight="fill" size={13} style={{ position: 'absolute', left: '0.65rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-dim)', pointerEvents: 'none' }} />
           <input
             value={search}
             onChange={e => setSearch(e.target.value)}
@@ -430,9 +430,9 @@ function SheetTable({ sheetName, tool }: { sheetName: string; tool: string }) {
                   )}
                   <Td style={{ textAlign: 'right' }}>
                     <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
-                      <IconBtn href={linearUrl || undefined} icon={ExternalLink} label="Linear" title="Open Linear task" disabled={!linearUrl} />
-                      <IconBtn href={sheetUrl || undefined} icon={FileSpreadsheet} label="Sheet" title="Open spreadsheet" disabled={!sheetUrl} />
-                      <IconBtn href={editorUrl} icon={PenLine} label="Open" title="Open in editor" />
+                      <IconBtn href={linearUrl || undefined} icon={ArrowSquareOut} label="Linear" title="Open Linear task" disabled={!linearUrl} />
+                      <IconBtn href={sheetUrl || undefined} icon={Table} label="Sheet" title="Open spreadsheet" disabled={!sheetUrl} />
+                      <IconBtn href={editorUrl} icon={PencilSimple} label="Open" title="Open in editor" />
                     </div>
                   </Td>
                 </tr>
@@ -494,9 +494,9 @@ export function Dashboard() {
             onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.backgroundColor = 'var(--surface-2)'; el.style.borderColor = 'var(--border-hover-color)' }}
             onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.backgroundColor = 'var(--surface)'; el.style.borderColor = 'var(--border-subtle)' }}
           >
-            <FileSpreadsheet size={13} />
+            <Table weight="fill" size={13} />
             Master Spreadsheet
-            <ExternalLink size={11} style={{ color: 'var(--text-dim)' }} />
+            <ArrowSquareOut weight="fill" size={11} style={{ color: 'var(--text-dim)' }} />
           </a>
         </div>
 
@@ -522,7 +522,7 @@ export function Dashboard() {
                 onMouseEnter={e => { if (!isActive) (e.currentTarget as HTMLElement).style.color = 'var(--text-mid)' }}
                 onMouseLeave={e => { if (!isActive) (e.currentTarget as HTMLElement).style.color = 'var(--text-dim)' }}
               >
-                <TIcon size={13} style={{ color: isActive ? t.accent : 'currentColor' }} />
+                <TIcon weight="fill" size={13} style={{ color: isActive ? t.accent : 'currentColor' }} />
                 {t.label}
               </button>
             )

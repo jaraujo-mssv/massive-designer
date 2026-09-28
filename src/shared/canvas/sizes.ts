@@ -1,3 +1,4 @@
+import { DeviceMobile, Monitor, Square } from '@phosphor-icons/react';
 import type { FrameSpacing } from './CanvasFrame';
 import type { SizeOption } from './DesignPanel';
 
@@ -5,9 +6,9 @@ export type CanvasSizeId = 'vertical' | 'square' | 'horizontal';
 
 /** Canvas sizes offered by the sheet-driven tools. */
 export const CANVAS_SIZES: SizeOption<CanvasSizeId>[] = [
-  { id: 'vertical', label: 'Vertical', width: 1080, height: 1350 },
-  { id: 'square', label: 'Square', width: 1080, height: 1080 },
-  { id: 'horizontal', label: 'Horizontal', width: 1920, height: 1080 },
+  { id: 'vertical', label: 'Vertical', width: 1080, height: 1350, icon: DeviceMobile },
+  { id: 'square', label: 'Square', width: 1080, height: 1080, icon: Square },
+  { id: 'horizontal', label: 'Horizontal', width: 1920, height: 1080, icon: Monitor },
 ];
 
 export const DEFAULT_CANVAS_SIZE: CanvasSizeId = 'vertical';

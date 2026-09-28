@@ -1,3 +1,5 @@
+import { Moon, Sun, type Icon } from '@phosphor-icons/react';
+
 /**
  * Canvas themes shared by the canvas tools.
  *
@@ -9,14 +11,15 @@
 export interface CanvasTheme {
   id: CanvasThemeId;
   label: string;
+  icon?: Icon;
   exportBg?: string;
 }
 
 export type CanvasThemeId = 'dark' | 'light';
 
 export const CANVAS_THEMES: CanvasTheme[] = [
-  { id: 'dark', label: 'Dark', exportBg: '/bg.jpg' },
-  { id: 'light', label: 'Light', exportBg: '/canvas-bg-light.jpg' },
+  { id: 'dark', label: 'Dark', icon: Moon, exportBg: '/bg.jpg' },
+  { id: 'light', label: 'Light', icon: Sun, exportBg: '/canvas-bg-light.jpg' },
 ];
 
 export function getCanvasTheme(id: CanvasThemeId): CanvasTheme {

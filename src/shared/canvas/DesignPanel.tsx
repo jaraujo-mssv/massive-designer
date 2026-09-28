@@ -1,3 +1,4 @@
+import type { Icon } from "@phosphor-icons/react";
 import { Label } from "@/shared/components/ui/label";
 import { Switch } from "@/shared/components/ui/switch";
 import { CANVAS_THEMES, CanvasThemeId } from "./themes";
@@ -7,6 +8,7 @@ export interface SizeOption<T extends string> {
   label: string;
   width: number;
   height: number;
+  icon?: Icon;
 }
 
 interface DesignPanelProps<T extends string> {
@@ -25,7 +27,7 @@ function Segmented<V extends string>({
   value,
   onChange,
 }: {
-  options: { id: V; label: string; hint?: string }[];
+  options: { id: V; label: string; hint?: string; icon?: Icon }[];
   value: V;
   onChange: (value: V) => void;
 }) {
@@ -39,7 +41,10 @@ function Segmented<V extends string>({
             value === o.id ? "bg-brand text-white" : "text-text-dim hover:text-text-primary"
           }`}
         >
-          {o.label}
+          <span className="flex items-center gap-1.5">
+            {o.icon && <o.icon size={14} weight="fill" />}
+            {o.label}
+          </span>
           {o.hint && <span className="text-[10px] font-mono opacity-70">{o.hint}</span>}
         </button>
       ))}
@@ -63,7 +68,7 @@ export function DesignPanel<T extends string>({
       <div className="space-y-2">
         <Label className="text-xs font-medium text-text-dim uppercase tracking-wide">Size</Label>
         <Segmented
-          options={sizes.map((s) => ({ id: s.id, label: s.label, hint: `${s.width}×${s.height}` }))}
+          options={sizes.map((s) => ({ ...s, hint: `${s.width}×${s.height}` }))}
           value={size}
           onChange={onSizeChange}
         />

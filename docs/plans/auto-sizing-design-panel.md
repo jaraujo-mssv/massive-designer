@@ -1,7 +1,7 @@
 # Plan: automatic sizing with one design panel
 
 **Tools:** Market Map, Top List
-**Status:** Top List is done: it was merged with Bento Map, and its sizing is always automatic (see [top-list.md](top-list.md)). Market Map is still planned; the open questions below apply to it.
+**Status:** Done for both tools, though not as planned here: sizing is always automatic with no spreadsheet switch, and both tools were rebuilt around tiles. See [top-list.md](top-list.md) and [market-map.md](market-map.md). The open questions below are kept for history.
 
 ## Problem
 

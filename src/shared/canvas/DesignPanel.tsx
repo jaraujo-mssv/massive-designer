@@ -60,8 +60,6 @@ export function DesignPanel<T extends string>({
 }: DesignPanelProps<T>) {
   return (
     <div className="p-4 space-y-4 border-b border-border-subtle">
-      <h3 className="text-xs font-semibold text-text-dim uppercase tracking-widest">Design</h3>
-
       <div className="space-y-2">
         <Label className="text-xs font-medium text-text-dim uppercase tracking-wide">Size</Label>
         <Segmented

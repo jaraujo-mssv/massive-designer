@@ -1,9 +1,8 @@
-import { createBrowserRouter } from 'react-router'
+import { createBrowserRouter, Navigate, useLocation } from 'react-router'
 import { lazy, Suspense } from 'react'
 import { Header } from '@/shared/components/Header'
 import { LandingPage } from '@/shared/components/LandingPage'
 
-const BentoMapApp = lazy(() => import('@/tools/bento-map/app/App'))
 const CampaignDesignerApp = lazy(() => import('@/tools/campaign-designer/app/App'))
 const DitherApp = lazy(() => import('@/tools/dither/app/App'))
 const ImageUploadApp = lazy(() => import('@/tools/image-upload/app/App'))
@@ -12,6 +11,11 @@ const PartnershipPostApp = lazy(() => import('@/tools/partnership-post/app/App')
 const SocialMediaApp = lazy(() => import('@/tools/social-media/app/App'))
 const TopListApp = lazy(() => import('@/tools/top-list/app/App'))
 const VideoApp = lazy(() => import('@/tools/video/app/App'))
+
+function RedirectToTopList() {
+  const { search } = useLocation()
+  return <Navigate to={`/top-list${search}`} replace />
+}
 
 function ToolLayout({ children, themeClass }: { children: React.ReactNode; themeClass: string }) {
   return (
@@ -44,11 +48,8 @@ export const router = createBrowserRouter([
   },
   {
     path: '/bento-map',
-    element: (
-      <ToolLayout themeClass="tool-bento-map">
-        <BentoMapApp />
-      </ToolLayout>
-    ),
+    // Bento Map was merged into Top List; keep old links (and their ?e=) working.
+    element: <RedirectToTopList />,
   },
   {
     path: '/campaign-designer',

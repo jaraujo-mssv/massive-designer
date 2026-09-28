@@ -1,7 +1,7 @@
 # Plan: automatic sizing with one design panel
 
 **Tools:** Market Map, Top List
-**Status:** Planned. Open questions below need answers before implementation starts.
+**Status:** Top List is done: it was merged with Bento Map, and its sizing is always automatic (see [top-list.md](top-list.md)). Market Map is still planned; the open questions below apply to it.
 
 ## Problem
 
@@ -57,7 +57,7 @@ Light and dark are currently hard-coded in a few places. For example, the export
 
 ## Code structure
 
-- **New `src/shared/canvas/`** (also used by Bento Map, see [bento-map.md](bento-map.md)):
+- **New `src/shared/canvas/`** (built with Bento Map, now used by Top List, see [top-list.md](top-list.md)):
   - `sizes.ts`: the size presets
   - `themes.ts`: the theme list
   - `DesignPanel.tsx`: the panel UI

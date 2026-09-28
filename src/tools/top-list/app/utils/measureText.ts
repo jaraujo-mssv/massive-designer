@@ -37,3 +37,29 @@ export function fitText(
   }
   return lo >= minChars ? `${text.slice(0, lo).trimEnd()}…` : null;
 }
+
+/**
+ * Splits `text` into two lines at the word break that balances them best, so
+ * a long name reads in full instead of being cut. Returns null when there's no
+ * word break, or no break that makes both lines fit in `maxWidth`.
+ */
+export function wrapTwoLines(
+  text: string,
+  maxWidth: number,
+  fontSize: number,
+  fontWeight: number,
+): [string, string] | null {
+  const words = text.split(/\s+/).filter(Boolean);
+  let best: [string, string] | null = null;
+  let bestWidest = Infinity;
+  for (let i = 1; i < words.length; i++) {
+    const first = words.slice(0, i).join(' ');
+    const second = words.slice(i).join(' ');
+    const widest = Math.max(textWidth(first, fontSize, fontWeight), textWidth(second, fontSize, fontWeight));
+    if (widest <= maxWidth && widest < bestWidest) {
+      best = [first, second];
+      bestWidest = widest;
+    }
+  }
+  return best;
+}

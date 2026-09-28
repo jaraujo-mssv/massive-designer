@@ -1,20 +1,21 @@
 import { useState } from "react";
-import { Download, ExternalLink, FileSpreadsheet, Link, Loader2, Upload } from "lucide-react";
+import { Download, ExternalLink, Link, Loader2, Upload, X } from "lucide-react";
 import { toast } from "sonner";
 import { DesignPanel } from "@/shared/canvas/DesignPanel";
 import type { CanvasThemeId } from "@/shared/canvas/themes";
-import { BENTO_SIZES, BentoSizeId, TEMPLATE_SHEET_URL } from "../constants";
-import type { SkippedRow } from "../utils/parseSheet";
+import { EXAMPLES, SIZES, TopListSizeId } from "../constants";
+import type { Layout, SkippedRow } from "../utils/parseSheet";
 
 export interface DataSummary {
+  layout: Layout;
   count: number;
   skipped: SkippedRow[];
   duplicateNames: string[];
 }
 
 interface SidebarProps {
-  size: BentoSizeId;
-  onSizeChange: (size: BentoSizeId) => void;
+  size: TopListSizeId;
+  onSizeChange: (size: TopListSizeId) => void;
   theme: CanvasThemeId;
   onThemeChange: (theme: CanvasThemeId) => void;
   showPresentedBy: boolean;
@@ -23,9 +24,10 @@ interface SidebarProps {
   atMinimum: number;
   /** `delimiter` is undefined when it should be detected (.csv files). */
   onLoadText: (text: string, delimiter: string | undefined, source: string) => void;
-  /** Fetches a Google Sheet (URL or ID) and loads it. */
-  onLoadSheet: (urlOrId: string) => void;
-  onLoadTemplate: () => void;
+  /** Fetches a Google Sheet (URL or ID) and loads it; `source` names it in the toast. */
+  onLoadSheet: (urlOrId: string, source?: string) => void;
+  /** Clears the loaded list so another can be imported. */
+  onUnload: () => void;
   onExportJpg: () => void;
   isExporting: boolean;
 }
@@ -46,11 +48,13 @@ export function Sidebar({
   atMinimum,
   onLoadText,
   onLoadSheet,
-  onLoadTemplate,
+  onUnload,
   onExportJpg,
   isExporting,
 }: SidebarProps) {
   const [showUrlDialog, setShowUrlDialog] = useState(false);
+  // A failed load (no companies) still shows its summary, but keeps Import open.
+  const isLoaded = (summary?.count ?? 0) > 0;
   const [urlInput, setUrlInput] = useState("");
 
   const handleFile = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -80,12 +84,12 @@ export function Sidebar({
   return (
     <div className="w-96 shrink-0 flex flex-col bg-surface border-r border-border-subtle">
       <div className="flex items-center px-4 py-3 border-b border-border-subtle shrink-0">
-        <span className="text-xs font-semibold text-text-dim uppercase tracking-widest font-mono">Bento Map</span>
+        <span className="text-xs font-semibold text-text-dim uppercase tracking-widest font-mono">Top List</span>
       </div>
 
       <div className="flex-1 overflow-y-auto min-h-0">
         <DesignPanel
-          sizes={BENTO_SIZES}
+          sizes={SIZES}
           size={size}
           onSizeChange={onSizeChange}
           theme={theme}
@@ -97,7 +101,10 @@ export function Sidebar({
         {summary && (
           <div className="p-4 space-y-2 border-b border-border-subtle text-xs text-text-dim">
             <h3 className="font-semibold uppercase tracking-widest">Data</h3>
-            <p className="text-sm text-text-primary">{summary.count} companies</p>
+            <p className="text-sm text-text-primary">
+              {summary.count} companies ·{" "}
+              {summary.layout === "bento" ? "Bento, sized by value" : "Grid, equal tiles in rank order"}
+            </p>
             {atMinimum > 0 && (
               <p>
                 {atMinimum} shown at minimum size, so they are larger than their value (not to scale).
@@ -118,9 +125,17 @@ export function Sidebar({
                 </ul>
               </div>
             )}
+            {isLoaded && (
+              <button onClick={onUnload} className={`${buttonClass} mt-3`}>
+                <X className="w-4 h-4" />
+                Unload list
+              </button>
+            )}
           </div>
         )}
 
+        {/* Import and examples only while nothing is loaded; Unload list brings them back. */}
+        {!isLoaded && (
         <div className="p-4 space-y-2">
           <h3 className="text-xs font-semibold text-text-dim uppercase tracking-widest mb-3">Import</h3>
           <label className={`${buttonClass} cursor-pointer`}>
@@ -132,20 +147,44 @@ export function Sidebar({
             <Link className="w-4 h-4" />
             Import from Google Sheets
           </button>
-          <button onClick={onLoadTemplate} className={buttonClass}>
-            <FileSpreadsheet className="w-4 h-4" />
-            Load template
-          </button>
-          <a href={TEMPLATE_SHEET_URL} target="_blank" rel="noopener noreferrer" className={buttonClass}>
-            <ExternalLink className="w-4 h-4" />
-            Open template spreadsheet
-          </a>
           <p className="text-xs text-text-dim pt-1">
-            Columns: <span className="font-mono">name</span>, <span className="font-mono">logo</span>,{" "}
-            <span className="font-mono">value</span>. Values can be plain numbers or shorthand like 4.2T, 91.5B,
-            850M. Start with ~ for an estimate (~$361M).
+            Columns: <span className="font-mono">name</span>, <span className="font-mono">logo</span>, and
+            optionally <span className="font-mono">position</span>. Add a <span className="font-mono">value</span>{" "}
+            column (4.2T, 91.5B, ~$361M) to switch to the Bento layout, sized by value.
           </p>
+
+          <h3 className="text-xs font-semibold text-text-dim uppercase tracking-widest pt-4 mb-2">Examples</h3>
+          <div className="space-y-1.5">
+            {EXAMPLES.map((ex) => (
+              <div
+                key={ex.url}
+                className="flex items-center gap-2 px-3 py-2 bg-surface-2 border border-border-subtle rounded-lg"
+              >
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm text-text-primary truncate">{ex.label}</p>
+                  <p className="text-[11px] text-text-dim">{ex.hint}</p>
+                </div>
+                <button
+                  onClick={() => onLoadSheet(ex.url, ex.label)}
+                  className="px-2.5 py-1 text-xs font-medium bg-brand text-white rounded-md hover:opacity-90 transition-opacity"
+                >
+                  Load
+                </button>
+                <a
+                  href={ex.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Open the spreadsheet"
+                  className="flex items-center gap-1 px-2.5 py-1 text-xs text-text-dim border border-border-subtle rounded-md hover:text-text-primary hover:border-brand transition-colors"
+                >
+                  Open
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              </div>
+            ))}
+          </div>
         </div>
+        )}
       </div>
 
       <div className="border-t border-border-subtle p-4 shrink-0 space-y-2">

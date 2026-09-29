@@ -49,10 +49,11 @@ export function Tile({ rect, name, logoUrl, value, rank, sizing = rect }: TilePr
         fontFamily: "Outfit, sans-serif",
       }}
     >
-      {/* Logo wash: the tile's own logo, covering the tile, heavily blurred and faded,
-          so the tile takes on the logo's colours. Blur fades out at an image's edges,
-          so the image overhangs the tile by twice the blur and the overflow is clipped.
-          The logo and text below are position: relative so they paint above it. */}
+      {/* Logo wash: the tile's own logo as a square centred on the tile, as big as the
+          tile's longer side, heavily blurred and faded, so the tile takes on the colours
+          at the logo's centre. Blur fades out at an image's edges, so the image overhangs
+          by twice the blur and the tile clips it. The logo and text below are
+          position: relative so they paint above it. */}
       {!logoFailed && (
         <img
           aria-hidden
@@ -60,11 +61,13 @@ export function Tile({ rect, name, logoUrl, value, rank, sizing = rect }: TilePr
           src={logoUrl}
           style={{
             position: "absolute",
-            top: -washBlur * 2,
-            left: -washBlur * 2,
-            width: `calc(100% + ${washBlur * 4}px)`,
-            height: `calc(100% + ${washBlur * 4}px)`,
+            left: "50%",
+            top: "50%",
+            width: Math.max(rect.w, rect.h) + washBlur * 4,
+            height: Math.max(rect.w, rect.h) + washBlur * 4,
+            transform: "translate(-50%, -50%)",
             objectFit: "cover",
+            objectPosition: "center",
             filter: `blur(${washBlur}px) saturate(1.4)`,
             opacity: LOGO_WASH_OPACITY,
             pointerEvents: "none",

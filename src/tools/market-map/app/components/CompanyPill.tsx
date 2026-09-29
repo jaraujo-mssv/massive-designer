@@ -2,6 +2,9 @@ import { useState } from "react";
 import type { PillMetrics } from "../utils/pills";
 import { PILL_WEIGHT } from "../utils/pills";
 
+/** How strongly the blurred logo colours the pill (as in Top List's tiles). */
+const LOGO_WASH_OPACITY = 0.25;
+
 interface CompanyPillProps {
   name: string;
   logoUrl: string;
@@ -11,9 +14,11 @@ interface CompanyPillProps {
   metrics: PillMetrics;
 }
 
-/** A company as a pill: logo then name, in the theme's pill colours. */
+/** A company as a pill: logo then name, tinted by a blurred copy of its logo. */
 export function CompanyPill({ name, logoUrl, x, y, width, metrics: m }: CompanyPillProps) {
   const [logoFailed, setLogoFailed] = useState(!logoUrl);
+  // Blur scales with the pill, so small pills still get a smooth wash, not a smudged logo.
+  const washBlur = Math.max(8, m.height * 0.5);
 
   return (
     <div
@@ -40,9 +45,34 @@ export function CompanyPill({ name, logoUrl, x, y, width, metrics: m }: CompanyP
         overflow: "hidden",
       }}
     >
+      {/* Logo wash: the logo as a square centred on the pill, as wide as the pill,
+          heavily blurred and faded. Blur fades out at an image's edges, so the image
+          overhangs by twice the blur and the pill clips it. The logo and name below
+          are position: relative so they paint above it. */}
+      {!logoFailed && (
+        <img
+          aria-hidden
+          alt=""
+          src={logoUrl}
+          style={{
+            position: "absolute",
+            left: "50%",
+            top: "50%",
+            width: width + washBlur * 4,
+            height: width + washBlur * 4,
+            transform: "translate(-50%, -50%)",
+            objectFit: "cover",
+            objectPosition: "center",
+            filter: `blur(${washBlur}px) saturate(1.4)`,
+            opacity: LOGO_WASH_OPACITY,
+            pointerEvents: "none",
+          }}
+        />
+      )}
       {logoFailed ? (
         <span
           style={{
+            position: "relative",
             width: m.logo,
             height: m.logo,
             flexShrink: 0,
@@ -61,10 +91,10 @@ export function CompanyPill({ name, logoUrl, x, y, width, metrics: m }: CompanyP
           src={logoUrl}
           alt={name}
           onError={() => setLogoFailed(true)}
-          style={{ width: m.logo, height: m.logo, objectFit: "contain", flexShrink: 0, borderRadius: 4 }}
+          style={{ position: "relative", width: m.logo, height: m.logo, objectFit: "contain", flexShrink: 0, borderRadius: 4 }}
         />
       )}
-      <span>{name}</span>
+      <span style={{ position: "relative" }}>{name}</span>
     </div>
   );
 }

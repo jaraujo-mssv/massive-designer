@@ -7,9 +7,9 @@ interface CategoryTileProps {
   metrics: PillMetrics;
 }
 
-/** A category: its name centred at the top and its companies as pills below. */
+/** A category: its name as a pill on the first row and its companies as pills below. */
 export function CategoryTile({ tile, metrics }: CategoryTileProps) {
-  const { rect, padding, headerLines, headerSize, pills } = tile;
+  const { rect, header, pills } = tile;
   return (
     <div
       style={{
@@ -19,27 +19,39 @@ export function CategoryTile({ tile, metrics }: CategoryTileProps) {
         width: rect.w,
         height: rect.h,
         boxSizing: "border-box",
-        border: "2px dashed var(--canvas-border-15)",
+        border: "2px solid var(--canvas-border-strong)",
         borderRadius: 6,
         overflow: "hidden",
         fontFamily: "Outfit, sans-serif",
       }}
     >
+      {/* The category pill inverts the theme (dark on Light, light on Dark), so it's the
+          strongest thing in the tile. */}
       <div
         style={{
           position: "absolute",
-          top: padding,
-          left: padding,
-          right: padding,
-          fontSize: headerSize,
+          left: header.x,
+          top: header.y,
+          width: header.w,
+          height: header.h,
+          boxSizing: "border-box",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          padding: `${header.padY}px ${header.padX}px`,
+          // A wrapped name gets a rounded box; a full capsule would clip its corners.
+          borderRadius: header.lines.length > 1 ? header.fontSize * 0.8 : 999,
+          backgroundColor: "var(--canvas-text)",
+          border: "1px solid var(--canvas-text)",
+          color: "var(--canvas-card-bg)",
+          fontSize: header.fontSize,
           fontWeight: HEADER_WEIGHT,
           lineHeight: 1.2,
-          color: "var(--canvas-red)",
           textAlign: "center",
           whiteSpace: "nowrap",
         }}
       >
-        {headerLines.map((line, i) => (
+        {header.lines.map((line, i) => (
           <div key={i}>{line}</div>
         ))}
       </div>

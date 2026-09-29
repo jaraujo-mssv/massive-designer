@@ -10,6 +10,7 @@
   --canvas-border: rgba(26, 27, 42, 0.1);
   --canvas-border-12: rgba(26, 27, 42, 0.12);
   --canvas-border-15: rgba(26, 27, 42, 0.15);
+  --canvas-border-strong: rgba(26, 27, 42, 0.35);
   --canvas-tint-08: rgba(26, 27, 42, 0.08);
   --canvas-export-bg-image: url(/canvas-bg-light.jpg);
   --canvas-export-bg-size: cover;
@@ -27,6 +28,7 @@
   --canvas-border: rgba(255, 255, 255, 0.08);
   --canvas-border-12: rgba(255, 255, 255, 0.12);
   --canvas-border-15: #3d3a45;
+  --canvas-border-strong: #57535f;
   --canvas-tint-08: rgba(255, 255, 255, 0.08);
   --canvas-export-bg-image: url(/bg.jpg);
   --canvas-export-bg-size: cover;

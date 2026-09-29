@@ -31,7 +31,7 @@ export default function App() {
   const [isExporting, setIsExporting] = useState(false);
 
   const canvasRef = useRef<HTMLDivElement>(null);
-  const { width: canvasW, height: canvasH } = CANVAS_SIZES.find((s) => s.id === size)!;
+  const { width: canvasW, height: canvasH, label: sizeLabel } = CANVAS_SIZES.find((s) => s.id === size)!;
 
   const loadText = useCallback((text: string, delimiter: string | undefined, source: string) => {
     const sheet = parseSheet(text, delimiter);
@@ -80,7 +80,8 @@ export default function App() {
         width: canvasW,
         height: canvasH,
         backgroundSrc: getCanvasTheme(theme).exportBg,
-        fileName: `${htmlToText(title)} - ${htmlToText(date)}`,
+        // e.g. "AI Agents - Sep 2026 - Light - Vertical"
+        fileName: `${htmlToText(title)} - ${htmlToText(date)} - ${getCanvasTheme(theme).label} - ${sizeLabel}`,
       });
       toast.success("JPG exported successfully");
     } catch (err) {

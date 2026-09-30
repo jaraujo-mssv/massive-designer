@@ -12,28 +12,56 @@ export interface ParsedValue {
   symbol?: string;
   /** Marked as an estimate in the sheet ("~$361M", "≈90M"). */
   approximate: boolean;
+  /**
+   * The sheet's own text, for values a rewritten number would misstate: open-ended
+   * ("$7B+") and ranges ("$50-100M"). Undefined for plain values.
+   */
+  label?: string;
 }
+
+const NUMBER = '(\\d*\\.?\\d+)([kmbt])?';
 
 /**
  * Reads a valuation as typed into a spreadsheet: a plain number
  * ("3650000000000", "$3,650,000,000,000") or shorthand ("4.2T", "91.5 B",
  * "€850M"), optionally marked as an estimate with a leading "~" or "≈".
- * Returns null when it isn't a positive number.
+ * Also open-ended ("$7B+", read as 7B) and ranges ("$50-100M", "50M–100M", read
+ * as the midpoint, with a unit on either end applying to both); those keep their
+ * text as `label`. Returns null when it isn't a positive number.
  */
 export function parseValue(raw: string | undefined): ParsedValue | null {
   if (!raw) return null;
-  let text = raw.trim();
+  const original = raw.trim();
+  let text = original;
   const approximate = /^[~≈]/.test(text);
   text = text.replace(/^[~≈]\s*/, '');
   const symbol = CURRENCY_SYMBOLS.find((s) => text.includes(s));
   for (const s of CURRENCY_SYMBOLS) text = text.split(s).join('');
   text = text.replace(/[,\s]/g, '');
 
-  const match = text.match(/^(\d*\.?\d+)([kmbt])?$/i);
-  if (!match) return null;
-  const value = parseFloat(match[1]) * (match[2] ? MULTIPLIERS[match[2].toLowerCase()] : 1);
+  const openEnded = text.endsWith('+');
+  if (openEnded) text = text.slice(0, -1);
+
+  const amount = (digits: string, unit: string | undefined) =>
+    parseFloat(digits) * (unit ? MULTIPLIERS[unit.toLowerCase()] : 1);
+
+  let value: number;
+  let label: string | undefined;
+  const range = text.match(new RegExp(`^${NUMBER}[-–—]${NUMBER}$`, 'i'));
+  const single = text.match(new RegExp(`^${NUMBER}$`, 'i'));
+  if (range) {
+    // "50-100M": the unit on either end applies to both.
+    const unit = range[2] ?? range[4];
+    value = (amount(range[1], range[2] ?? unit) + amount(range[3], range[4] ?? unit)) / 2;
+    label = original;
+  } else if (single) {
+    value = amount(single[1], single[2]);
+    if (openEnded) label = original;
+  } else {
+    return null;
+  }
   if (!Number.isFinite(value) || value <= 0) return null;
-  return { value, symbol, approximate };
+  return { value, symbol, approximate, label };
 }
 
 /**

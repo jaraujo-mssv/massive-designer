@@ -35,7 +35,7 @@ A **Bento** sheet, which is any sheet with a value column:
 | `name` | yes | `company` | Shown in a pill when there's room. |
 | `logo` | yes | `logo url`, `logo_url` | A direct image URL (PNG, SVG, JPG) or a `data:` URL. Square logos look best. A missing or broken logo shows the name's first letter. |
 | `position` | no | `rank` | Grid order. Without it, the sheet's row order is used. Ranks are renumbered 1..N. |
-| `value` | no | `valuation`, `market cap` | **Switches the layout to Bento.** A plain number or shorthand: `4.2T`, `91.5B`, `850M`, `12K`. `$`, `,` and spaces are ignored. A leading `~` or `≈` marks an estimate and is kept on the tile (`~$361M`). |
+| `value` | no | `valuation`, `market cap` | **Switches the layout to Bento when every company has a readable value.** A plain number or shorthand (`4.2T`, `91.5B`, `850M`, `12K`; `$`, `,` and spaces ignored), a leading `~`/`≈` for an estimate, a trailing `+` (`$7B+`, read as 7B), or a range (`$50-100M`, read as the midpoint). Open-ended values and ranges are shown as written. |
 
 Other columns (`url`, `category`…) are ignored. Optional metadata rows follow the same convention as the other tools:
 
@@ -46,7 +46,7 @@ __DATE__	September 2026
 
 Rules:
 
-- **Layout switch:** Bento when the value column exists and at least one row has a valid value. In Bento, rows without a valid value are skipped and listed.
+- **Layout switch:** Bento only when the value column exists and every company has a readable value. Otherwise it's the grid, and any value is shown under the company's name as written (for example `$7B+`, `$50-100M`), or nothing when the cell is empty. Before, one readable value was enough for Bento, and every row without one was dropped: "Top Stripe Acquisitions" showed 2 of its 11 companies.
 - **Order:** Bento tiles are sorted by value, largest first. Grid tiles follow `position`, then row order.
 - **Ignored metadata:** any other `__` row (`__COLUMNS__`, `__SETTING__…`), wherever it appears. Real top lists carry 25–36 of these; they no longer do anything.
 - **Skipped rows:** a missing name, and in Bento a value that can't be read or is zero or less. The sidebar lists each one with its row number.
@@ -82,7 +82,7 @@ Enlarged tiles are no longer to scale, so the sidebar says how many there are. T
 
 - **Short last row:** when the last row isn't full, its tiles stretch to fill it. 10 companies read 4 + 4 + 2, with the bottom two tiles twice as wide.
 - **Same content size everywhere:** every tile's logo and text are sized from a regular full-row tile, so the stretched bottom tiles don't look bigger than rank 1. Names still get the stretched tile's full width to fit in.
-- **Rank:** a regular-weight number in `--canvas-text-70` in the top-left corner, sized `clamp(short side × 0.09, 14, 36)`. The centred content keeps that height clear above and below it.
+- **Rank:** a brand-red circle (`--canvas-red`) with the number in white and no outline, in the tile's top-left corner (at the tile's padding). Its diameter is `clamp(short side × 0.13, 20, 44)`; two-digit ranks use slightly smaller text. The centred content keeps the badge's height clear above and below.
 - **Shared with Bento:** grid rects go through the same `insetAndSnap` as the treemap, with the same 12 px gap, and outer tiles are flush with the edges.
 
 ## Responsive tiles
@@ -90,6 +90,10 @@ Enlarged tiles are no longer to scale, so the sidebar says how many there are. T
 Each tile picks how much to show based on **its own pixel size**, not the canvas size. That's what keeps the design working at both canvas sizes and for any number of companies.
 
 Every tile aims to show **logo, name and value**: stacked, or side by side on wide tiles.
+
+**Descriptions:** a name written like "Paystack · Payments across Africa (2020)" is split (`utils/splitName.ts`). "Paystack" goes in the name pill, and the rest goes under it in smaller regular type (`--canvas-text-70`, `max(11, name size × 0.75)`), on up to two balanced lines, then one shortened with "…".
+- **Separators,** tried in this order: ` · `, ` | `, ` — `, ` – `; then ` - ` and ` / ` (spaced only, so "Zeta-Labs" and "A/B Labs" stay whole); then `, `, only when what follows is at least two words and isn't a company suffix, so "Prescience, Inc." stays whole.
+- **The description only uses room left over** once the name is placed. It never makes the name smaller, and it's the first thing dropped.
 
 - On small tiles the logo shrinks first, to make room for the two text lines.
 - Text is only given up when the logo would fall below 32 px: the name first, then the value.
@@ -110,9 +114,9 @@ Every tile aims to show **logo, name and value**: stacked, or side by side on wi
 - **Sizes:** **Vertical 1080 × 1350** (default), **Square 1080 × 1080** and **Horizontal 1920 × 1080**.
 - **Frame:** the title and subtitle header at the top and "Presented by" in the corner, same as Market Map. The treemap fills the rest of the canvas.
 - **Themes:** the shared theme list in `src/shared/canvas/themes.ts`: Dark and Light for now. The two placeholder themes from [auto-sizing-design-panel.md](auto-sizing-design-panel.md) are added there, and Top List picks them up automatically.
-  - Tiles use `--canvas-card-bg` with a 2 px `--canvas-border-15` outline, and the gaps show `--canvas-bg`.
+  - Tiles use `--canvas-card-bg` with no outline, only a 2 px `--canvas-border-15` stroke along the bottom, and the gaps show `--canvas-bg`.
   - **Logo wash (experimental):** behind the content, each tile shows its own logo scaled to cover the tile, blurred (18% of the tile's short side, 24–80 px), colour-boosted (`saturate(1.4)`) and at 25% opacity (`LOGO_WASH_OPACITY` in `Tile.tsx`), so the tile takes on the logo's colours and neighbouring tiles differ in shade. (It replaced an earlier 0–7% overlay whose strength came from the company name.) The blurred image overhangs the tile by twice the blur and is clipped, so the tint reaches the edges. It survives the JPG export.
-  - The name sits in a pill that follows the theme: `--canvas-card-bg-2` fill, `--canvas-text` text and a `--canvas-border-15` outline (a dark pill with light text on Dark, a light pill with dark text on Light). Its padding scales with the name's font size, and names are fitted to the width left inside the pill. The value is plain text in `--canvas-text-70` below it.
+  - The name sits in a pill that follows the theme: `--canvas-card-bg-2` fill and `--canvas-text` text, with no outline (a dark pill with light text on Dark, a light pill with dark text on Light). Its padding scales with the name's font size, and names are fitted to the width left inside the pill. The value is plain text in `--canvas-text-70` below it.
 - **Logo contrast:** a dark logo on the Dark theme can disappear. Not built yet: logos sit directly on the tile, as in Top List. If it becomes a problem, add a per-theme logo chip.
 
 ## Sidebar

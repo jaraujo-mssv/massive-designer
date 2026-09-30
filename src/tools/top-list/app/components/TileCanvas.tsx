@@ -87,8 +87,14 @@ export function TileCanvas({ layout, items, symbol, minTileSide, tileGap, onMini
           rect={rect}
           sizing={sizing}
           name={item.name}
+          description={item.description}
           logoUrl={item.logoUrl}
-          value={item.value !== undefined ? formatValue(item.value, symbol, item.approximate) : null}
+          value={
+            // As written when the sheet's text matters (grid labels, "$7B+", ranges);
+            // otherwise the Bento value, formatted.
+            item.valueLabel ??
+            (item.value !== undefined ? formatValue(item.value, symbol, item.approximate) : null)
+          }
           rank={layout === "grid" ? item.rank : undefined}
         />
       ))}

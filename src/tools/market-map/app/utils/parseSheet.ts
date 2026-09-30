@@ -4,6 +4,8 @@ export interface Company {
   id: string;
   name: string;
   logoUrl: string;
+  /** A "+N more" pill standing in for companies hidden to fit (see layout.ts). */
+  more?: boolean;
 }
 
 export interface Category {

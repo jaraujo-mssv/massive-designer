@@ -27,4 +27,9 @@ export const EXAMPLES: Example[] = [
     hint: '4 categories · 1 to 23 companies each',
     url: 'https://docs.google.com/spreadsheets/d/1k7W24PG0ymjH3TQFZoHfVn_IzZ5-_EPTAkjgC54FZq0/edit',
   },
+  {
+    label: 'YC Summer 2026',
+    hint: '13 categories · 234 companies',
+    url: 'https://docs.google.com/spreadsheets/d/19PN8sjZEkJ5IBb17eW39x6wDXLKOEUiS7I2up4J5bl0/edit?usp=sharing',
+  },
 ];

@@ -1,7 +1,10 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { Warning } from "@phosphor-icons/react";
+import { isChromium } from "@/shared/utils/browser";
 import { Download, ExternalLink, Link, Loader2, Upload, X } from "lucide-react";
 import { toast } from "sonner";
 import { DesignPanel, SizeOption } from "./DesignPanel";
+import type { ExportProgress } from "./exportJpg";
 import type { SkippedRow } from "./sheetText";
 import type { CanvasThemeId } from "./themes";
 
@@ -46,12 +49,42 @@ interface SheetSidebarProps<Size extends string> {
   unloadLabel?: string;
   onExportJpg: () => void;
   isExporting: boolean;
+  /** Where the running export is; shown on the button with a progress bar. */
+  exportProgress?: ExportProgress | null;
+  /** Tool-specific warnings (use SidebarWarning), shown right above Download. */
+  warnings?: React.ReactNode;
 }
 
 const buttonClass =
   "w-full flex items-center gap-2 px-4 py-2.5 bg-surface-2 border border-border-subtle text-text-primary rounded-lg hover:border-brand hover:text-brand-light text-sm transition-colors";
 const inputClass =
   "w-full px-3 py-2 border border-border-subtle rounded-lg text-sm bg-surface text-text-primary placeholder:text-text-dim focus:outline-none focus:border-brand";
+
+/** An amber callout for the Export area; `children` can add a toggle or details. */
+export function SidebarWarning({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="flex gap-2 p-3 rounded-lg border border-amber-500/30 bg-amber-500/10 text-xs text-amber-200 leading-relaxed">
+      <Warning size={16} weight="fill" className="shrink-0 mt-px text-amber-400" />
+      <div className="min-w-0 flex-1 space-y-2">{children}</div>
+    </div>
+  );
+}
+
+function exportLabel(p: ExportProgress | null | undefined): string {
+  if (!p) return "Exporting...";
+  if (p.step === "logos") return `Preparing logos ${p.done} / ${p.total}`;
+  return "Rendering image...";
+}
+
+/**
+ * Overall export progress, 0..1. Converting logos is most of the wait on a cold
+ * cache, so it takes the first 70% of the bar and rendering the rest.
+ */
+function exportFraction(p: ExportProgress | null | undefined): number {
+  if (!p || p.total === 0) return 0;
+  const part = Math.min(1, p.done / p.total);
+  return p.step === "logos" ? part * 0.7 : 0.7 + part * 0.3;
+}
 
 /**
  * Sidebar of the sheet-driven canvas tools: Design panel, data summary, Import
@@ -75,7 +108,10 @@ export function SheetSidebar<Size extends string>({
   unloadLabel = "Unload list",
   onExportJpg,
   isExporting,
+  exportProgress,
+  warnings,
 }: SheetSidebarProps<Size>) {
+  const chromium = useMemo(() => isChromium(), []);
   const [showUrlDialog, setShowUrlDialog] = useState(false);
   const [urlInput, setUrlInput] = useState("");
   // A failed load (nothing usable) still shows its summary, but keeps Import open.
@@ -202,14 +238,37 @@ export function SheetSidebar<Size extends string>({
 
       <div className="border-t border-border-subtle p-4 shrink-0 space-y-2">
         <h3 className="text-xs font-semibold text-text-dim uppercase tracking-widest mb-3">Export</h3>
+        {warnings}
+        {!chromium && (
+          <SidebarWarning>
+            For the most accurate export, use a Chrome-based browser (Chrome, Edge, Brave, Arc). Safari and
+            Firefox can render logos and effects differently.
+          </SidebarWarning>
+        )}
         <button
           onClick={onExportJpg}
           disabled={isExporting || !isLoaded}
-          className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-brand text-white rounded-lg hover:opacity-90 font-medium disabled:opacity-50 text-sm transition-opacity"
+          className={`w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-brand text-white rounded-lg hover:opacity-90 font-medium text-sm transition-opacity ${
+            isExporting ? "cursor-wait" : "disabled:opacity-50"
+          }`}
         >
           {isExporting ? <Loader2 size={16} className="animate-spin" /> : <Download size={16} />}
-          {isExporting ? "Exporting..." : "Download JPG"}
+          {isExporting ? exportLabel(exportProgress) : "Download JPG"}
         </button>
+        {isExporting && (
+          <div
+            className="h-1.5 rounded-full bg-surface-2 overflow-hidden"
+            role="progressbar"
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-valuenow={Math.round(exportFraction(exportProgress) * 100)}
+          >
+            <div
+              className="h-full bg-brand transition-[width] duration-200"
+              style={{ width: `${Math.max(3, exportFraction(exportProgress) * 100)}%` }}
+            />
+          </div>
+        )}
       </div>
 
       {showUrlDialog && (

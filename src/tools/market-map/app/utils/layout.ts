@@ -3,9 +3,14 @@ import { insetAndSnap, Rect, squarify } from '@/shared/canvas/squarify';
 import type { Category, Company } from './parseSheet';
 import { flowPills, pillMetrics, PillMetrics, pillWidth } from './pills';
 
-/** Pill font size range, in canvas pixels. */
-export const MIN_FONT = 11;
+/** Pill font sizes, in canvas pixels. Below MIN_READABLE pills are hard to read. */
+export const MIN_READABLE = 11;
 export const MAX_FONT = 24;
+/** Where shrinking starts halving instead of searching; it never gives up. */
+const SHRINK_FLOOR = 4;
+
+/** How a map that doesn't fit at MIN_READABLE is made to fit. */
+export type FitMode = 'shrink' | 'hide';
 
 export const HEADER_WEIGHT = 500;
 const TILE_BORDER = 2;
@@ -46,11 +51,18 @@ export interface PlacedTile {
   pills: PlacedPill[];
 }
 
+export interface HiddenGroup {
+  category: string;
+  names: string[];
+}
+
 export interface MapLayout {
   metrics: PillMetrics;
   tiles: PlacedTile[];
-  /** True when nothing fits even at MIN_FONT, so pills may be clipped. */
-  overflow: boolean;
+  /** False when pills had to shrink below MIN_READABLE to fit. */
+  readable: boolean;
+  /** Companies left out to fit ('hide' mode), by category. */
+  hidden: HiddenGroup[];
 }
 
 interface Measured {
@@ -82,10 +94,9 @@ const TARGET_FILL = 0.9;
  * (up to MAX_ROUNDS): a tile too small for its header and pills has its weight
  * raised by what it's short, and a tile its content leaves mostly empty (under
  * ROOMY_FILL of its height) gives space back. Returns the fitting layout whose
- * emptiest tile is fullest, or null when no round fits, unless `force`, which
- * returns the last layout anyway.
+ * emptiest tile is fullest, or null when no round fits.
  */
-function attempt(categories: Category[], box: { w: number; h: number }, gap: number, f: number, force = false) {
+function attempt(categories: Category[], box: { w: number; h: number }, gap: number, f: number) {
   const { metrics, headerSize, padding, headerPadX, headerPadY } = sizes(f);
   const chrome = padding * 2 + TILE_BORDER * 2;
   const headerLineH = headerSize * LINE_HEIGHT;
@@ -97,7 +108,7 @@ function attempt(categories: Category[], box: { w: number; h: number }, gap: num
   // slack for ragged rows) in a roughly square block, but never narrower than
   // its widest pill or its category pill, whose name can wrap to three lines.
   const measured: Measured[] = categories.map((category) => {
-    const widths = category.companies.map((c) => pillWidth(c.name, metrics));
+    const widths = category.companies.map((c) => pillWidth(c.name, metrics, !c.more));
     const pillArea = widths.reduce((sum, w) => sum + (w + metrics.gapX) * (metrics.height + metrics.gapY), 0) * 1.15;
     const minInnerW = Math.max(...widths, textWidth(category.name, headerSize, HEADER_WEIGHT) / MAX_HEADER_LINES + headerPillX);
     const innerW = Math.max(Math.sqrt(pillArea), minInnerW);
@@ -187,24 +198,17 @@ function attempt(categories: Category[], box: { w: number; h: number }, gap: num
       if (!anyRoomy) break;
     }
   }
-  if (best) return { metrics, tiles: best.tiles };
-  return force ? { metrics, tiles } : null;
+  return best ? { metrics, tiles: best.tiles } : null;
 }
 
-/**
- * Lays out a market map in `box`: one tile per category, sized by its content,
- * with company pills flowing inside. Uses the largest pill font size (between
- * MIN_FONT and MAX_FONT) at which every tile holds its header and pills.
- */
-export function layoutMap(categories: Category[], box: { w: number; h: number }, gap: number): MapLayout | null {
-  if (categories.length === 0 || box.w <= 0 || box.h <= 0) return null;
+type Box = { w: number; h: number };
+type Fitted = NonNullable<ReturnType<typeof attempt>>;
 
-  const atMax = attempt(categories, box, gap, MAX_FONT);
-  if (atMax) return { ...atMax, overflow: false };
-
-  let lo = MIN_FONT;
-  let hi = MAX_FONT;
-  let best: ReturnType<typeof attempt> = null;
+/** The largest pill size in [lo, hi] at which everything fits, or null. */
+function largestFitting(categories: Category[], box: Box, gap: number, lo: number, hi: number): Fitted | null {
+  const atHi = attempt(categories, box, gap, hi);
+  if (atHi) return atHi;
+  let best: Fitted | null = null;
   for (let i = 0; i < 14 && hi - lo > 0.05; i++) {
     const mid = (lo + hi) / 2;
     const result = attempt(categories, box, gap, mid);
@@ -215,8 +219,83 @@ export function layoutMap(categories: Category[], box: { w: number; h: number },
       hi = mid;
     }
   }
-  if (best) return { ...best, overflow: false };
+  return best ?? attempt(categories, box, gap, lo);
+}
 
-  // Nothing fits even at the smallest size: draw it anyway and say so.
-  return { ...attempt(categories, box, gap, MIN_FONT, true)!, overflow: true };
+/**
+ * Hides `k` companies: one at a time, the last company of whichever category
+ * has the most left (ties: the first in sheet order). Every category keeps at
+ * least one company, and each trimmed category ends with a "+N more" pill.
+ */
+export function trimCategories(categories: Category[], k: number): { categories: Category[]; hidden: HiddenGroup[] } {
+  const kept = categories.map((c) => [...c.companies]);
+  const removed = categories.map(() => [] as Company[]);
+  for (let i = 0; i < k; i++) {
+    let pick = -1;
+    kept.forEach((list, j) => {
+      if (list.length > 1 && (pick === -1 || list.length > kept[pick].length)) pick = j;
+    });
+    if (pick === -1) break;
+    removed[pick].unshift(kept[pick].pop()!);
+  }
+  return {
+    categories: categories.map((c, j) =>
+      removed[j].length === 0
+        ? c
+        : {
+            ...c,
+            companies: [
+              ...kept[j],
+              { id: `more-${c.id}`, name: `+${removed[j].length} more`, logoUrl: '', more: true },
+            ],
+          },
+    ),
+    hidden: categories
+      .map((c, j) => ({ category: c.name, names: removed[j].map((co) => co.name) }))
+      .filter((g) => g.names.length > 0),
+  };
+}
+
+/**
+ * Lays out a market map in `box`: one tile per category, sized by its content,
+ * with company pills flowing inside, at the largest pill size (up to MAX_FONT)
+ * where every tile holds its header and pills. Pills are never cut off:
+ *
+ * - If even MIN_READABLE doesn't fit, `shrink` keeps every company and goes
+ *   below it (`readable: false`), and `hide` stays at MIN_READABLE and leaves
+ *   out as few companies as it takes (see `trimCategories`).
+ */
+export function layoutMap(categories: Category[], box: Box, gap: number, fitMode: FitMode = 'shrink'): MapLayout | null {
+  if (categories.length === 0 || box.w <= 0 || box.h <= 0) return null;
+
+  const readable = largestFitting(categories, box, gap, MIN_READABLE, MAX_FONT);
+  if (readable) return { ...readable, readable: true, hidden: [] };
+
+  if (fitMode === 'hide') {
+    // Fewest hidden companies that fit, by binary search, then step up in case
+    // the search overshot (hiding more doesn't always help by exactly one pill).
+    const total = categories.reduce((n, c) => n + c.companies.length, 0);
+    const maxHide = total - categories.length;
+    let lo = 1;
+    let hi = maxHide;
+    while (lo < hi) {
+      const mid = Math.floor((lo + hi) / 2);
+      if (attempt(trimCategories(categories, mid).categories, box, gap, MIN_READABLE)) hi = mid;
+      else lo = mid + 1;
+    }
+    for (let k = lo; k <= maxHide; k++) {
+      const trimmed = trimCategories(categories, k);
+      const fitted = attempt(trimmed.categories, box, gap, MIN_READABLE);
+      if (fitted) return { ...fitted, readable: true, hidden: trimmed.hidden };
+    }
+    // Even one company per category doesn't fit readably: shrink instead.
+  }
+
+  const shrunk = largestFitting(categories, box, gap, SHRINK_FLOOR, MIN_READABLE);
+  if (shrunk) return { ...shrunk, readable: false, hidden: [] };
+  for (let f = SHRINK_FLOOR / 2; f > 0.25; f /= 2) {
+    const tiny = attempt(categories, box, gap, f);
+    if (tiny) return { ...tiny, readable: false, hidden: [] };
+  }
+  return null;
 }

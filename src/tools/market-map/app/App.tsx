@@ -1,14 +1,17 @@
 import { useCallback, useRef, useState } from "react";
 import { Toaster, toast } from "sonner";
 import { CanvasFrame } from "@/shared/canvas/CanvasFrame";
-import { exportCanvasJpg } from "@/shared/canvas/exportJpg";
+import { ExportProgress, exportCanvasJpg } from "@/shared/canvas/exportJpg";
 import { DataSummary, SheetSidebar } from "@/shared/canvas/SheetSidebar";
 import { escapeHtml, htmlToText } from "@/shared/canvas/sheetText";
 import { CANVAS_SIZES, CanvasSizeId, DEFAULT_CANVAS_SIZE, FRAME_SPACING, TILE_GAP } from "@/shared/canvas/sizes";
 import { CanvasThemeId, getCanvasTheme } from "@/shared/canvas/themes";
 import { clearSheetParam, useSheetLoader } from "@/shared/canvas/useSheetLoader";
-import { MapCanvas } from "./components/MapCanvas";
+import { warmImageCache } from "@/shared/utils/imageDataUrl";
+import { FitWarning } from "./components/FitWarning";
+import { FitInfo, MapCanvas } from "./components/MapCanvas";
 import { EXAMPLES } from "./constants";
+import type { FitMode } from "./utils/layout";
 import { Category, parseSheet } from "./utils/parseSheet";
 
 const EXPORT_AREA_ID = "market-map-export-area";
@@ -27,8 +30,11 @@ export default function App() {
   const [theme, setTheme] = useState<CanvasThemeId>("light");
   const [showPresentedBy, setShowPresentedBy] = useState(true);
   const [summary, setSummary] = useState<LoadedSummary | null>(null);
-  const [overflow, setOverflow] = useState(false);
+  // How a map too big for readable pills is made to fit; kept across loads.
+  const [fitMode, setFitMode] = useState<FitMode>("shrink");
+  const [fit, setFit] = useState<FitInfo | null>(null);
   const [isExporting, setIsExporting] = useState(false);
+  const [exportProgress, setExportProgress] = useState<ExportProgress | null>(null);
 
   const canvasRef = useRef<HTMLDivElement>(null);
   const { width: canvasW, height: canvasH, label: sizeLabel } = CANVAS_SIZES.find((s) => s.id === size)!;
@@ -42,6 +48,8 @@ export default function App() {
       return;
     }
     setCategories(sheet.categories);
+    // Start converting logos now, so Download JPG doesn't have to wait for them.
+    warmImageCache(sheet.categories.flatMap((c) => c.companies.map((co) => co.logoUrl)));
     // Sheet text goes into a contentEditable as HTML, so escape it first.
     if (sheet.title) setTitle(`<b>${escapeHtml(sheet.title)}</b>`);
     if (sheet.date) setDate(`<b>${escapeHtml(sheet.date)}</b>`);
@@ -65,7 +73,7 @@ export default function App() {
   const unloadMap = () => {
     setCategories([]);
     setSummary(null);
-    setOverflow(false);
+    setFit(null);
     setTitle(DEFAULT_TITLE);
     setDate(DEFAULT_DATE);
     clearSheetParam();
@@ -82,6 +90,7 @@ export default function App() {
         backgroundSrc: getCanvasTheme(theme).exportBg,
         // e.g. "AI Agents - Sep 2026 - Light - Vertical"
         fileName: `${htmlToText(title)} - ${htmlToText(date)} - ${getCanvasTheme(theme).label} - ${sizeLabel}`,
+        onProgress: setExportProgress,
       });
       toast.success("JPG exported successfully");
     } catch (err) {
@@ -89,15 +98,13 @@ export default function App() {
       toast.error("Failed to export JPG");
     } finally {
       setIsExporting(false);
+      setExportProgress(null);
     }
   };
 
   const sidebarSummary: DataSummary | null = summary && {
     ...summary,
     headline: `${summary.categoryCount} categories · ${summary.count} companies`,
-    notes: overflow
-      ? ["Too many companies to fit, even at the smallest pill size. Some may be cut off; try Horizontal."]
-      : undefined,
   };
 
   return (
@@ -128,6 +135,18 @@ export default function App() {
           unloadLabel="Unload map"
           onExportJpg={handleExportJpg}
           isExporting={isExporting}
+          exportProgress={exportProgress}
+          warnings={
+            fit &&
+            categories.length > 0 && (
+              <FitWarning
+                fit={fit}
+                fitMode={fitMode}
+                onFitModeChange={setFitMode}
+                companyCount={summary?.count ?? 0}
+              />
+            )
+          }
         />
 
         <CanvasFrame
@@ -146,7 +165,7 @@ export default function App() {
           empty={categories.length === 0}
           onLoadExample={loadFirstExample}
         >
-          <MapCanvas categories={categories} tileGap={TILE_GAP} onOverflowChange={setOverflow} />
+          <MapCanvas categories={categories} tileGap={TILE_GAP} fitMode={fitMode} onFitChange={setFit} />
         </CanvasFrame>
       </div>
     </>

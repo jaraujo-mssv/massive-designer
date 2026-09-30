@@ -25,15 +25,17 @@ export function pillMetrics(f: number): PillMetrics {
     padX: f * 0.6,
     padY,
     innerGap: f * 0.45,
-    // Logo height plus padding plus a 1px border top and bottom.
-    height: logo + padY * 2 + 2,
+    // Logo height plus padding (pills have no border).
+    height: logo + padY * 2,
     gapX: f * 0.45,
     gapY: f * 0.45,
   };
 }
 
-export function pillWidth(name: string, m: PillMetrics): number {
-  return Math.ceil(m.padX * 2 + m.logo + m.innerGap + textWidth(name, m.fontSize, PILL_WEIGHT) + 2);
+/** Pill width for `name`; `withLogo = false` for text-only pills ("+N more"). */
+export function pillWidth(name: string, m: PillMetrics, withLogo = true): number {
+  const logo = withLogo ? m.logo + m.innerGap : 0;
+  return Math.ceil(m.padX * 2 + logo + textWidth(name, m.fontSize, PILL_WEIGHT));
 }
 
 export interface FlowResult {

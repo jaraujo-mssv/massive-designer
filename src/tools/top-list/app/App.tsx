@@ -1,11 +1,12 @@
 import { useCallback, useRef, useState } from "react";
 import { Toaster, toast } from "sonner";
 import { CanvasFrame } from "@/shared/canvas/CanvasFrame";
-import { exportCanvasJpg } from "@/shared/canvas/exportJpg";
+import { ExportProgress, exportCanvasJpg } from "@/shared/canvas/exportJpg";
 import { DataSummary, SheetSidebar } from "@/shared/canvas/SheetSidebar";
 import { escapeHtml, htmlToText } from "@/shared/canvas/sheetText";
 import { CanvasThemeId, getCanvasTheme } from "@/shared/canvas/themes";
 import { clearSheetParam, useSheetLoader } from "@/shared/canvas/useSheetLoader";
+import { warmImageCache } from "@/shared/utils/imageDataUrl";
 import { TileCanvas } from "./components/TileCanvas";
 import { DEFAULT_SIZE, EXAMPLES, PRESETS, SIZES, TopListSizeId } from "./constants";
 import { Layout, ListItem, parseSheet } from "./utils/parseSheet";
@@ -30,6 +31,7 @@ export default function App() {
   const [summary, setSummary] = useState<LoadedSummary | null>(null);
   const [atMinimum, setAtMinimum] = useState(0);
   const [isExporting, setIsExporting] = useState(false);
+  const [exportProgress, setExportProgress] = useState<ExportProgress | null>(null);
 
   const canvasRef = useRef<HTMLDivElement>(null);
   const { width: canvasW, height: canvasH, label: sizeLabel } = SIZES.find((s) => s.id === size)!;
@@ -44,6 +46,8 @@ export default function App() {
       return;
     }
     setItems(sheet.items);
+    // Start converting logos now, so Download JPG doesn't have to wait for them.
+    warmImageCache(sheet.items.map((i) => i.logoUrl));
     setLayout(sheet.layout);
     setSymbol(sheet.symbol);
     // Sheet text goes into a contentEditable as HTML, so escape it first.
@@ -85,6 +89,7 @@ export default function App() {
         backgroundSrc: getCanvasTheme(theme).exportBg,
         // e.g. "AI Agents - Sep 2026 - Light - Vertical"
         fileName: `${htmlToText(title)} - ${htmlToText(date)} - ${getCanvasTheme(theme).label} - ${sizeLabel}`,
+        onProgress: setExportProgress,
       });
       toast.success("JPG exported successfully");
     } catch (err) {
@@ -92,6 +97,7 @@ export default function App() {
       toast.error("Failed to export JPG");
     } finally {
       setIsExporting(false);
+      setExportProgress(null);
     }
   };
 
@@ -133,6 +139,7 @@ export default function App() {
           onUnload={unloadList}
           onExportJpg={handleExportJpg}
           isExporting={isExporting}
+          exportProgress={exportProgress}
         />
 
         <CanvasFrame

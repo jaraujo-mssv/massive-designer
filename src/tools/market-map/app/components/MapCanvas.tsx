@@ -1,17 +1,27 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { Category } from "../utils/parseSheet";
-import { layoutMap } from "../utils/layout";
+import { FitMode, HiddenGroup, layoutMap } from "../utils/layout";
 import { CategoryTile } from "./CategoryTile";
+
+/** How the map was made to fit, for the warning above Export. */
+export interface FitInfo {
+  /** Pill font size used, in canvas pixels. */
+  fontSize: number;
+  /** False when pills had to shrink below the readable size. */
+  readable: boolean;
+  /** Companies left out to fit ('hide' mode). */
+  hidden: HiddenGroup[];
+}
 
 interface MapCanvasProps {
   categories: Category[];
   tileGap: number;
-  /** Reports when the map doesn't fit even at the smallest pill size. */
-  onOverflowChange?: (overflow: boolean) => void;
+  fitMode: FitMode;
+  onFitChange?: (fit: FitInfo | null) => void;
 }
 
 /** Measures the available box and draws the category tiles from `layoutMap`. */
-export function MapCanvas({ categories, tileGap, onOverflowChange }: MapCanvasProps) {
+export function MapCanvas({ categories, tileGap, fitMode, onFitChange }: MapCanvasProps) {
   const boxRef = useRef<HTMLDivElement>(null);
   const [box, setBox] = useState({ w: 0, h: 0 });
   const [fontsVersion, setFontsVersion] = useState(0);
@@ -41,15 +51,17 @@ export function MapCanvas({ categories, tileGap, onOverflowChange }: MapCanvasPr
   }, []);
 
   const layout = useMemo(
-    () => layoutMap(categories, box, tileGap),
+    () => layoutMap(categories, box, tileGap, fitMode),
     // fontsVersion re-runs the measuring after the font loads.
-    [categories, box.w, box.h, tileGap, fontsVersion],
+    [categories, box.w, box.h, tileGap, fitMode, fontsVersion],
   );
 
-  const overflow = layout?.overflow ?? false;
+  // Reported once per new layout (layout is memoised, so this doesn't loop).
   useEffect(() => {
-    onOverflowChange?.(overflow);
-  }, [overflow, onOverflowChange]);
+    onFitChange?.(
+      layout ? { fontSize: layout.metrics.fontSize, readable: layout.readable, hidden: layout.hidden } : null,
+    );
+  }, [layout, onFitChange]);
 
   return (
     <div ref={boxRef} style={{ position: "relative", width: "100%", height: "100%" }}>

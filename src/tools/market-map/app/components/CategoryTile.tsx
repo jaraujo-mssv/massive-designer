@@ -25,8 +25,8 @@ export function CategoryTile({ tile, metrics }: CategoryTileProps) {
         fontFamily: "Outfit, sans-serif",
       }}
     >
-      {/* The category pill inverts the theme (dark on Light, light on Dark), so it's the
-          strongest thing in the tile. */}
+      {/* The category pill inverts the theme (dark on Light, light on Dark), but in
+          softened tones (--canvas-category-*) rather than full ink and cream. */}
       <div
         style={{
           position: "absolute",
@@ -41,9 +41,9 @@ export function CategoryTile({ tile, metrics }: CategoryTileProps) {
           padding: `${header.padY}px ${header.padX}px`,
           // A wrapped name gets a rounded box; a full capsule would clip its corners.
           borderRadius: header.lines.length > 1 ? header.fontSize * 0.8 : 999,
-          backgroundColor: "var(--canvas-text)",
-          border: "1px solid var(--canvas-text)",
-          color: "var(--canvas-card-bg)",
+          backgroundColor: "var(--canvas-category-bg)",
+          border: "1px solid var(--canvas-category-bg)",
+          color: "var(--canvas-category-text)",
           fontSize: header.fontSize,
           fontWeight: HEADER_WEIGHT,
           lineHeight: 1.2,
@@ -64,6 +64,7 @@ export function CategoryTile({ tile, metrics }: CategoryTileProps) {
           y={p.y}
           width={p.w}
           metrics={metrics}
+          more={p.company.more}
         />
       ))}
     </div>

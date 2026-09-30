@@ -41,13 +41,18 @@ Rules:
 
 `utils/layout.ts`, `utils/pills.ts`: pure functions, re-run when the data, canvas size or fonts change.
 
-1. **Pill geometry at font size `f`:** logo `1.4f` square, padding `0.35f` vertical and `0.6f` horizontal, `0.45f` between logo and name, 1 px border. The gap between pills is `0.45f` in both directions. Widths are measured with canvas `measureText` (Outfit, regular 400 weight), so there are no DOM passes.
+1. **Pill geometry at font size `f`:** logo `1.4f` square, padding `0.35f` vertical and `0.6f` horizontal, `0.45f` between logo and name, no border. The gap between pills is `0.45f` in both directions. Widths are measured with canvas `measureText` (Outfit, regular 400 weight), so there are no DOM passes.
 2. **Tile weights:** each category's pill boxes plus 15% slack for ragged rows, in a roughly square block. The block is never narrower than the widest pill or a third of the category name, which can wrap to three lines. Header and padding are added on top.
 3. **Tiles:** a squarified treemap of the weights over the canvas, with the same 12 px gaps and flush outer edges as Top List's Bento.
 4. **Fit and correct, both ways:** the pills are flowed into each tile. A tile that's too narrow for its widest pill or name, or too short for its rows, has its weight raised by what it's short. A tile whose content fills less than 75% of its height gives space back, shrinking towards 90% full. The layout runs again, up to 20 rounds, and keeps the fitting arrangement whose emptiest tile is fullest.
-5. **Pill size:** a binary search finds the largest `f` between 11 and 24 px that fits. If nothing fits at 11 px, the map is drawn anyway and the sidebar says so, suggesting Horizontal.
+5. **Pill size:** a binary search finds the largest `f` between 11 px (`MIN_READABLE`) and 24 px that fits.
+6. **When 11 px doesn't fit, pills are never cut off.** One of two fit modes applies, chosen with a toggle in the warning above Export:
+   - **Shrink pills (default):** every company stays, and the pills go below 11 px, searching down to 4 px, then halving if ever needed. The warning gives the pill size and says it may be hard to read.
+   - **Hide companies:** pills stay at 11 px and as few companies as possible are left out (a binary search on the count). Companies are taken one at a time, from the end of whichever category has the most left (ties: first in sheet order), and every category keeps at least one. Each trimmed category ends with a text-only "+N more" pill, which counts toward the fit. The warning says how many are hidden, and "Show hidden companies" lists them by category.
 
-Inside a tile, the category name (regular 400 weight, `1.15f`, up to three balanced lines, in the brand orange-red `--canvas-red`) is centred at the top. Each pill row is centred below it, and the block of rows is centred in the height left over.
+   On the 234-company YC Summer 2026 map: Shrink gives 10.7 px on Vertical and 9.0 px on Square; Hide leaves out 15 (Vertical) or 96 (Square). Horizontal fits all 234 at 13.1 px, so no warning.
+
+Inside a tile, the category name sits in a pill centred at the top (`1.1f`, up to three balanced lines). The pill uses softened inverted tones, `--canvas-category-bg` / `--canvas-category-text`: warm charcoal `#5b544d` with cream text on Light, soft stone `#b9b1a6` with dark text on Dark. Each pill row is centred below it, and the block of rows is centred in the height left over.
 
 In testing, all four examples fit at all three sizes with no clipping, at pill sizes from 12.9 px (AI Agents, 88 companies, Square) to 24 px (YC, Vertical and Horizontal).
 
@@ -56,11 +61,21 @@ In testing, all four examples fit at all three sizes with no clipping, at pill s
 ## Style
 
 - **Tiles:** no fill, so the canvas background shows through, and a 2 px dashed `--canvas-border-15` outline with a 6 px radius.
-- **Pills:** each pill has its own fill, in Top List's name-pill style: `--canvas-card-bg-2` fill, `--canvas-border-15` outline, `--canvas-text`, fully rounded.
+- **Pills:** each pill has its own `--canvas-pill-bg` fill: a warm off-white (`#f6f0e8`) on Light, a dark `#221f27` on Dark. No outline; text `--canvas-text`, fully rounded, with a blurred wash of the company's logo on top.
+
+## Export speed and progress
+
+Shared with Top List (`src/shared/canvas/exportJpg.ts`, `src/shared/utils/imageDataUrl.ts`).
+
+- **Logos load directly when their host allows it.** Hosts that send CORS headers (logo.dev does) load straight from the browser, in parallel over HTTP/2. The first image from a host finds out whether it allows this, and the rest follow; hosts that don't (e.g. Google's favicon service) go through the image proxy. Before, every logo went through the proxy, where the browser opens only about 6 connections to the dev server at a time.
+- **Logos are prepared in the background.** When a sheet loads, `warmImageCache` starts converting its logos, so Download JPG usually finds them ready. Conversions are cached for the session and never requested twice at once.
+- **Progress on the Download button:** "Preparing logos 190 / 233", then "Rendering image…", with a progress bar (logos take the first 70%, rendering the rest, using modern-screenshot's `progress` callback).
+
+Measured on a 234-company map (YC Summer 2026, Vertical): about 4.5 s with no feedback before; now 2.4 s when Download is clicked right after loading, and 1.3 s once the logos are ready. 6 of 233 logos still go through the proxy.
 
 ## Sidebar
 
-The shared `SheetSidebar` (see Top List): Design panel; Data ("N categories · M companies", skipped rows, duplicates, overflow note); Import and Examples while nothing is loaded; **Unload map**; Download JPG.
+The shared `SheetSidebar` (see Top List): Design panel; Data ("N categories · M companies", skipped rows, duplicates); Import and Examples while nothing is loaded; **Unload map**; Download JPG.
 
 Examples (`constants.ts`, from the Master Spreadsheet's Market Maps tab):
 
@@ -72,6 +87,13 @@ Examples (`constants.ts`, from the Master Spreadsheet's Market Maps tab):
 ## Removed from the old Market Map
 
 Edit mode (drag and drop, add company, edit logo, subcompany editor), all sliders, Auto Fit / Auto Gaps / Auto-Adjust Columns, TSV export, the `?f=` embed mode with responsive `&r=1`, Generate Embed Code, stroke colours, subcompanies and category logos. `?e=<sheet>` still loads a sheet, which is how the dashboard's "Open" works.
+
+## Warnings above Export
+
+Shown in the Export area, right above Download JPG (`warnings` on `SheetSidebar`, drawn with `SidebarWarning`):
+
+- **Fit warning** (Market Map, `components/FitWarning.tsx`): only when the map doesn't fit at 11 px. It has the Shrink / Hide toggle and, in Hide mode, the list of hidden companies.
+- **Browser warning** (both tools, built into `SheetSidebar`): when the browser isn't Chromium-based (`isChromium()` in `src/shared/utils/browser.ts`). It says to use Chrome, Edge, Brave or Arc, because the export relies on SVG `foreignObject` rendering, which Safari and Firefox draw differently. Chrome on iOS runs on WebKit, so it counts as not Chromium.
 
 ## Files
 

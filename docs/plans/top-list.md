@@ -33,7 +33,7 @@ A **Bento** sheet, which is any sheet with a value column:
 | Column | Required | Also accepted as | Notes |
 |---|---|---|---|
 | `name` | yes | `company` | Shown in a pill when there's room. |
-| `logo` | yes | `logo url`, `logo_url` | A direct image URL (PNG, SVG, JPG) or a `data:` URL. Square logos look best. A missing or broken logo shows the name's first letter. |
+| `logo` | yes | `logo url`, `logo_url` | A direct image URL (PNG, SVG, JPG) or a `data:` URL ([Logo Encoder](logo-encoder.md) makes one from any image). Square logos look best. A missing or broken logo shows the name's first letter. |
 | `position` | no | `rank` | Grid order. Without it, the sheet's row order is used. Ranks are renumbered 1..N. |
 | `value` | no | `valuation`, `market cap` | **Switches the layout to Bento when every company has a readable value.** A plain number or shorthand (`4.2T`, `91.5B`, `850M`, `12K`; `$`, `,` and spaces ignored), a leading `~`/`≈` for an estimate, a trailing `+` (`$7B+`, read as 7B), or a range (`$50-100M`, read as the midpoint). Open-ended values and ranges are shown as written. |
 

@@ -26,7 +26,7 @@ One row per company. Headers aren't case-sensitive.
 |---|---|---|
 | `category` | `section` | Groups companies into tiles. Categories keep the order they first appear in, then are laid out largest first. |
 | `company` | `name` | Shown in the pill. |
-| `logo` | `logo url`, `logo_url` | A direct image URL or a `data:` URL. A missing or broken logo shows the name's first letter. |
+| `logo` | `logo url`, `logo_url` | A direct image URL or a `data:` URL ([Logo Encoder](logo-encoder.md) makes one from any image). A missing or broken logo shows the name's first letter. |
 
 Optional `__TITLE__` and `__DATE__` rows set the title and subtitle, as in the other tools.
 
@@ -75,7 +75,7 @@ Measured on a 234-company map (YC Summer 2026, Vertical): about 4.5 s with no fe
 
 ## Sidebar
 
-The shared `SheetSidebar` (see Top List): Design panel; Data ("N categories · M companies", skipped rows, duplicates); Import and Examples while nothing is loaded; **Unload map**; Download JPG.
+The shared `SheetSidebar` (see Top List): Design panel; Data ("N categories · M companies", skipped rows, duplicates); Import and Examples while nothing is loaded; **Unload map**; Download JPG. On phones the sections open in a drawer and Download sits in a bottom bar (see [mobile-layout.md](mobile-layout.md)).
 
 Examples (`constants.ts`, from the Master Spreadsheet's Market Maps tab):
 
@@ -93,7 +93,8 @@ Edit mode (drag and drop, add company, edit logo, subcompany editor), all slider
 Shown in the Export area, right above Download JPG (`warnings` on `SheetSidebar`, drawn with `SidebarWarning`):
 
 - **Fit warning** (Market Map, `components/FitWarning.tsx`): only when the map doesn't fit at 11 px. It has the Shrink / Hide toggle and, in Hide mode, the list of hidden companies.
-- **Browser warning** (both tools, built into `SheetSidebar`): when the browser isn't Chromium-based (`isChromium()` in `src/shared/utils/browser.ts`). It says to use Chrome, Edge, Brave or Arc, because the export relies on SVG `foreignObject` rendering, which Safari and Firefox draw differently. Chrome on iOS runs on WebKit, so it counts as not Chromium.
+- **Logo.dev warning** (both tools, built into `SheetSidebar`): when the sheet has more than 100 distinct logos from `img.logo.dev` (`countLogoDevUrls` in `src/shared/utils/logoDev.ts`). Logo.dev serves 100 logos per minute, so past that some may not load. Each tool passes its logo URLs as `logoUrls`.
+- **Browser warning** (both tools, built into `SheetSidebar`): when the browser isn't Chromium-based (`isChromium()` in `src/shared/utils/browser.ts`). It says to use Chrome, Edge, Brave or Arc, because the export relies on SVG `foreignObject` rendering, which Safari and Firefox draw differently. Chrome on iOS runs on WebKit, so it counts as not Chromium. On iPhone and iPad, where no browser is Chromium, it says to export the final file from Chrome on a computer instead (`isIOS()`).
 
 ## Files
 
@@ -112,7 +113,7 @@ src/tools/market-map/app/
 
 src/shared/canvas/        shared with Top List
   CanvasFrame.tsx         canvas fitted to the viewport, header, empty state
-  SheetSidebar.tsx        the whole sidebar, including Import, Examples, Unload, Export
+  SheetSidebar.tsx        the whole sidebar, including Import, Examples, Unload, Export; wraps the canvas (SidebarLayout)
   useSheetLoader.ts       loadSheet, ?e= on open, clearSheetParam
   sheetText.ts            readSheetTable (metadata rows, aliases), escapeHtml, htmlToText
   sizes.ts                the three sizes, header spacing, tile gap

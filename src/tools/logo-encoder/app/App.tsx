@@ -1,627 +1,543 @@
-import React, { useState, useRef, useCallback, useEffect } from 'react';
-import ReactCrop, { Crop, PixelCrop } from 'react-image-crop';
-import 'react-image-crop/dist/ReactCrop.css';
-import { Button } from '@/shared/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
-import { Input } from '@/shared/components/ui/input';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { centerCrop, makeAspectCrop, PercentCrop } from 'react-image-crop';
+import { ClipboardText, Copy, Check, DownloadSimple, ImageSquare, Link as LinkIcon, UploadSimple, X } from '@phosphor-icons/react';
+import { Toaster, toast } from 'sonner';
+import { Segmented } from '@/shared/canvas/DesignPanel';
+import {
+  SidebarColumn,
+  SidebarLayout,
+  SidebarWarning,
+  sidebarButtonClass,
+  sidebarHeadingClass,
+  sidebarInputClass,
+} from '@/shared/components/SidebarLayout';
 import { Label } from '@/shared/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/components/ui/select';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/components/ui/tabs';
-import { Textarea } from '@/shared/components/ui/textarea';
-import { Toaster } from '@/shared/components/ui/sonner';
-import { Upload, Copy, Download, Check, X } from 'lucide-react';
-import { toast } from 'sonner';
+import { Switch } from '@/shared/components/ui/switch';
+import { useIsMobile } from '@/shared/components/ui/use-mobile';
+import { loadAsDataUrl } from '@/shared/utils/imageDataUrl';
+import { saveFile } from '@/shared/utils/saveFile';
+import { ResultPreview, Stage } from './components/Stage';
+import {
+  copyText,
+  CropArea,
+  encodeSquare,
+  nameFromUrl,
+  naturalSize,
+  SHEETS_CELL_LIMIT,
+  sourceSide,
+  SquareMode,
+} from './utils/encode';
 
-interface SizePreset {
-  label: string;
-  width: number;
-  height: number;
+interface Source {
+  /** A data URL, so the canvas is never tainted. */
+  src: string;
+  name: string;
+  img: HTMLImageElement;
 }
 
-const SIZE_PRESETS: SizePreset[] = [
-  { label: '32x32', width: 32, height: 32 },
-  { label: '64x64', width: 64, height: 64 },
-  { label: '128x128', width: 128, height: 128 },
-  { label: '256x256', width: 256, height: 256 },
-  { label: '512x512', width: 512, height: 512 },
+type SizeChoice = '32' | '64' | '128' | '256' | '512' | 'custom';
+const SIZE_OPTIONS: { id: SizeChoice; label: string }[] = [
+  { id: '32', label: '32' },
+  { id: '64', label: '64' },
+  { id: '128', label: '128' },
+  { id: '256', label: '256' },
+  { id: '512', label: '512' },
+  { id: 'custom', label: 'Custom' },
 ];
+const MODE_OPTIONS: { id: SquareMode; label: string }[] = [
+  { id: 'crop', label: 'Crop' },
+  { id: 'fit', label: 'Fit' },
+];
+const MAX_SIDE = 1024;
+/** Wait this long after the last change before encoding again. */
+const ENCODE_DELAY_MS = 150;
 
+const isMac = typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigator.platform);
+
+/** The largest square, centred, as a percent crop. */
+function centredSquare(width: number, height: number): PercentCrop {
+  return centerCrop(makeAspectCrop({ unit: '%', width: 100 }, 1, width, height), width, height);
+}
+
+function loadImage(src: string): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = () => reject(new Error('Could not read the image'));
+    img.src = src;
+  });
+}
+
+function readFile(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(file);
+  });
+}
+
+/**
+ * Logo Encoder: turns an image into a square PNG data URL (base64), for the
+ * `logo` column of Top List and Market Map sheets. The output updates live as
+ * the crop, mode or size changes.
+ */
 export default function App() {
-  const [imgSrc, setImgSrc] = useState<string>('');
-  const [crop, setCrop] = useState<Crop>();
-  const [completedCrop, setCompletedCrop] = useState<PixelCrop>();
-  const [outputBase64, setOutputBase64] = useState<string>('');
-  const [selectedPreset, setSelectedPreset] = useState<string>('128x128');
-  const [customWidth, setCustomWidth] = useState<string>('300');
-  const [customHeight, setCustomHeight] = useState<string>('300');
-  const [maintainAspect, setMaintainAspect] = useState<boolean>(true);
-  const [lockCenter, setLockCenter] = useState<boolean>(false);
-  const [sizeMode, setSizeMode] = useState<'preset' | 'custom'>('preset');
+  const isMobile = useIsMobile();
+  const [source, setSource] = useState<Source | null>(null);
+  const [mode, setMode] = useState<SquareMode>('crop');
+  const [lockCenter, setLockCenter] = useState(false);
+  const [crop, setCrop] = useState<PercentCrop>();
+  const [area, setArea] = useState<CropArea | null>(null);
+  const [sizeChoice, setSizeChoice] = useState<SizeChoice>('128');
+  const [customSide, setCustomSide] = useState('300');
+  const [output, setOutput] = useState('');
   const [copied, setCopied] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
-  const imgRef = useRef<HTMLImageElement>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [showUrlDialog, setShowUrlDialog] = useState(false);
+  const [urlInput, setUrlInput] = useState('');
+  const [loadingUrl, setLoadingUrl] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const processImageFile = (file: File) => {
-    if (!file.type.startsWith('image/')) {
-      toast.error('Please upload an image file');
-      return;
-    }
+  const side = useMemo(() => {
+    if (sizeChoice !== 'custom') return Number(sizeChoice);
+    const n = Math.round(Number(customSide));
+    return Number.isFinite(n) && n >= 1 ? Math.min(n, MAX_SIDE) : 128;
+  }, [sizeChoice, customSide]);
 
-    const reader = new FileReader();
-    reader.addEventListener('load', () => {
-      setImgSrc(reader.result?.toString() || '');
-      setOutputBase64('');
-    });
-    reader.readAsDataURL(file);
-  };
+  const natural = source ? naturalSize(source.img) : null;
 
-  const onSelectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      processImageFile(e.target.files[0]);
-    }
-  };
-
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsDragging(true);
-  };
-
-  const handleDragLeave = (e: React.DragEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsDragging(false);
-  };
-
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsDragging(false);
-
-    const files = e.dataTransfer.files;
-    if (files && files.length > 0) {
-      processImageFile(files[0]);
-    }
-  };
-
-  const onImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
-    const { width, height } = e.currentTarget;
-    const crop: Crop = {
-      unit: '%',
-      x: 0,
-      y: 0,
-      width: 100,
-      height: 100,
-    };
-    setCrop(crop);
-    
-    // Auto-generate base64 with default settings
-    setTimeout(() => {
-      generateBase64WithoutCrop();
-    }, 100);
-  };
-
-  const generateBase64WithoutCrop = () => {
-    if (!imgRef.current) {
-      return;
-    }
-
-    const image = imgRef.current;
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-
-    if (!ctx) {
-      toast.error('Failed to create canvas context');
-      return;
-    }
-
-    // Get target dimensions
-    let targetWidth: number;
-    let targetHeight: number;
-
-    if (sizeMode === 'preset') {
-      const preset = SIZE_PRESETS.find(p => p.label === selectedPreset);
-      targetWidth = preset?.width || 128;
-      targetHeight = preset?.height || 128;
-    } else {
-      targetWidth = parseInt(customWidth) || 300;
-      targetHeight = parseInt(customHeight) || 300;
-    }
-
-    canvas.width = targetWidth;
-    canvas.height = targetHeight;
-
-    ctx.imageSmoothingQuality = 'high';
-
-    // Use the entire image
-    ctx.drawImage(
-      image,
-      0,
-      0,
-      image.naturalWidth,
-      image.naturalHeight,
-      0,
-      0,
-      targetWidth,
-      targetHeight
-    );
-
-    const base64 = canvas.toDataURL('image/png');
-    setOutputBase64(base64);
-    toast.success('Base64 generated successfully!');
-  };
-
-  const generateBase64 = useCallback(() => {
-    if (!imgRef.current) {
-      toast.error('Please select an image');
-      return;
-    }
-
-    // If no crop is set, use the whole image
-    if (!completedCrop) {
-      generateBase64WithoutCrop();
-      return;
-    }
-
-    const image = imgRef.current;
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-
-    if (!ctx) {
-      toast.error('Failed to create canvas context');
-      return;
-    }
-
-    const scaleX = image.naturalWidth / image.width;
-    const scaleY = image.naturalHeight / image.height;
-
-    // Get target dimensions
-    let targetWidth: number;
-    let targetHeight: number;
-
-    if (sizeMode === 'preset') {
-      const preset = SIZE_PRESETS.find(p => p.label === selectedPreset);
-      targetWidth = preset?.width || 128;
-      targetHeight = preset?.height || 128;
-    } else {
-      targetWidth = parseInt(customWidth) || 300;
-      targetHeight = parseInt(customHeight) || 300;
-    }
-
-    canvas.width = targetWidth;
-    canvas.height = targetHeight;
-
-    // Calculate source dimensions from crop
-    const sourceX = completedCrop.x * scaleX;
-    const sourceY = completedCrop.y * scaleY;
-    const sourceWidth = completedCrop.width * scaleX;
-    const sourceHeight = completedCrop.height * scaleY;
-
-    ctx.imageSmoothingQuality = 'high';
-
-    ctx.drawImage(
-      image,
-      sourceX,
-      sourceY,
-      sourceWidth,
-      sourceHeight,
-      0,
-      0,
-      targetWidth,
-      targetHeight
-    );
-
-    const base64 = canvas.toDataURL('image/png');
-    setOutputBase64(base64);
-    toast.success('Base64 generated successfully!');
-  }, [completedCrop, sizeMode, selectedPreset, customWidth, customHeight]);
-
-  const copyToClipboard = () => {
-    // Fallback method for environments where Clipboard API is blocked
-    const textArea = document.createElement('textarea');
-    textArea.value = outputBase64;
-    textArea.style.position = 'fixed';
-    textArea.style.left = '-999999px';
-    textArea.style.top = '-999999px';
-    document.body.appendChild(textArea);
-    textArea.focus();
-    textArea.select();
-    
+  const openSource = useCallback(async (src: string, name: string) => {
     try {
-      // Try the modern API first
-      if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(outputBase64).then(() => {
-          setCopied(true);
-          toast.success('Copied to clipboard!');
-          setTimeout(() => setCopied(false), 2000);
-        }).catch(() => {
-          // Fallback to execCommand
-          const successful = document.execCommand('copy');
-          if (successful) {
-            setCopied(true);
-            toast.success('Copied to clipboard!');
-            setTimeout(() => setCopied(false), 2000);
-          } else {
-            toast.error('Failed to copy. Please copy manually.');
-          }
-        });
-      } else {
-        // Use execCommand fallback
-        const successful = document.execCommand('copy');
-        if (successful) {
-          setCopied(true);
-          toast.success('Copied to clipboard!');
-          setTimeout(() => setCopied(false), 2000);
-        } else {
-          toast.error('Failed to copy. Please copy manually.');
-        }
-      }
-    } catch (err) {
-      console.error('Failed to copy:', err);
-      toast.error('Failed to copy. Please copy manually.');
-    } finally {
-      document.body.removeChild(textArea);
+      const img = await loadImage(src);
+      const { width, height } = naturalSize(img);
+      const square = centredSquare(width, height);
+      setSource({ src, name, img });
+      setCrop(square);
+      setArea(square);
+      setOutput('');
+      setDrawerOpen(false);
+    } catch {
+      toast.error("That file couldn't be read as an image.");
     }
-  };
-
-  const downloadImage = () => {
-    const link = document.createElement('a');
-    link.download = `converted-${Date.now()}.png`;
-    link.href = outputBase64;
-    link.click();
-    toast.success('Image downloaded!');
-  };
-
-  const resetAll = () => {
-    setImgSrc('');
-    setCrop(undefined);
-    setCompletedCrop(undefined);
-    setOutputBase64('');
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-    }
-  };
-
-  // Handle paste event
-  useEffect(() => {
-    const handlePaste = (e: ClipboardEvent) => {
-      const items = e.clipboardData?.items;
-      if (!items) return;
-
-      for (let i = 0; i < items.length; i++) {
-        if (items[i].type.indexOf('image') !== -1) {
-          const blob = items[i].getAsFile();
-          if (blob) {
-            processImageFile(blob);
-            toast.success('Image pasted successfully!');
-          }
-          break;
-        }
-      }
-    };
-
-    document.addEventListener('paste', handlePaste);
-    return () => {
-      document.removeEventListener('paste', handlePaste);
-    };
   }, []);
+
+  const openFile = useCallback(
+    async (file: File) => {
+      if (!file.type.startsWith('image/')) {
+        toast.error('Please choose an image file.');
+        return;
+      }
+      openSource(await readFile(file), file.name.replace(/\.[^.]+$/, '') || 'Pasted image');
+    },
+    [openSource],
+  );
+
+  // Encodes once changes settle, so dragging the crop doesn't encode every frame.
+  useEffect(() => {
+    if (!source) return;
+    const id = setTimeout(() => setOutput(encodeSquare(source.img, mode, area, side)), ENCODE_DELAY_MS);
+    return () => clearTimeout(id);
+  }, [source, mode, area, side]);
+
+  // ⌘V / Ctrl+V anywhere on the page.
+  useEffect(() => {
+    const onPaste = (e: ClipboardEvent) => {
+      const item = Array.from(e.clipboardData?.items ?? []).find((i) => i.type.startsWith('image/'));
+      const file = item?.getAsFile();
+      if (file) openFile(file);
+    };
+    document.addEventListener('paste', onPaste);
+    return () => document.removeEventListener('paste', onPaste);
+  }, [openFile]);
+
+  /** The Paste button, for phones (no keyboard) and anyone who prefers clicking. */
+  const pasteFromClipboard = async () => {
+    try {
+      const items = await navigator.clipboard.read();
+      for (const item of items) {
+        const type = item.types.find((t) => t.startsWith('image/'));
+        if (type) {
+          const blob = await item.getType(type);
+          openFile(new File([blob], 'Pasted image', { type }));
+          return;
+        }
+      }
+      toast.error('There is no image in the clipboard.');
+    } catch {
+      toast.error(`Couldn't read the clipboard here. Try ${isMac ? '⌘V' : 'Ctrl+V'} instead.`);
+    }
+  };
+
+  const importUrl = async () => {
+    const url = urlInput.trim();
+    if (!url) return;
+    setLoadingUrl(true);
+    // Directly when the host allows it, else through the image proxy; either way a data URL.
+    const dataUrl = await loadAsDataUrl(url);
+    setLoadingUrl(false);
+    if (!dataUrl.startsWith('data:')) {
+      toast.error("Couldn't load that image. Check that the link opens the image itself.");
+      return;
+    }
+    setShowUrlDialog(false);
+    setUrlInput('');
+    openSource(dataUrl, nameFromUrl(url));
+  };
+
+  const clearImage = () => {
+    setSource(null);
+    setCrop(undefined);
+    setArea(null);
+    setOutput('');
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  };
+
+  const changeCrop = (next: PercentCrop) =>
+    setCrop(lockCenter ? { ...next, x: (100 - next.width) / 2, y: (100 - next.height) / 2 } : next);
+  const completeCrop = (next: PercentCrop) =>
+    setArea(lockCenter ? { ...next, x: (100 - next.width) / 2, y: (100 - next.height) / 2 } : next);
+
+  const toggleLockCenter = (on: boolean) => {
+    setLockCenter(on);
+    if (on && crop) {
+      const centred = { ...crop, x: (100 - crop.width) / 2, y: (100 - crop.height) / 2 };
+      setCrop(centred);
+      setArea(centred);
+    }
+  };
+
+  const copyOutput = async () => {
+    if (!output) return;
+    if (await copyText(output)) {
+      setCopied(true);
+      toast.success('Data URL copied. Paste it into the logo column.');
+      setTimeout(() => setCopied(false), 2000);
+    } else {
+      toast.error('Copying failed. Select the data URL under Output and copy it by hand.');
+    }
+  };
+
+  const downloadPng = async () => {
+    if (!output || !source) return;
+    const blob = await fetch(output).then((r) => r.blob());
+    await saveFile(blob, `${source.name} - ${side}x${side}.png`.replace(/[^a-z0-9\s\-_.]/gi, '_'));
+  };
+
+  const tooLong = output.length > SHEETS_CELL_LIMIT;
+  const upscaledFrom = source ? Math.round(sourceSide(source.img, mode, area)) : 0;
+  const upscaled = source !== null && upscaledFrom < side;
+
+  const warnings = (
+    <>
+      {tooLong && (
+        <SidebarWarning>
+          {output.length.toLocaleString()} characters is too long for a Google Sheets cell (
+          {SHEETS_CELL_LIMIT.toLocaleString()} max). Try a smaller size.
+        </SidebarWarning>
+      )}
+      {upscaled && (
+        <SidebarWarning>
+          Upscaled from {upscaledFrom} × {upscaledFrom} px, so it may look soft. Use a bigger image or a smaller size.
+        </SidebarWarning>
+      )}
+    </>
+  );
+
+  const sourceSection = (
+    <div className="p-4 space-y-2 border-b border-border-subtle">
+      <h3 className={`${sidebarHeadingClass} mb-3`}>Source</h3>
+      {source && natural ? (
+        <>
+          <p className="text-sm text-text-primary truncate">{source.name}</p>
+          <p className="text-xs text-text-dim">
+            {natural.width} × {natural.height} px
+          </p>
+          <button onClick={clearImage} className={`${sidebarButtonClass} mt-3`}>
+            <X size={16} />
+            Clear image
+          </button>
+        </>
+      ) : (
+        <>
+          <button onClick={() => fileInputRef.current?.click()} className={sidebarButtonClass}>
+            <UploadSimple size={16} />
+            Upload image
+          </button>
+          <button onClick={pasteFromClipboard} className={sidebarButtonClass}>
+            <ClipboardText size={16} />
+            Paste image
+          </button>
+          <button
+            onClick={() => {
+              setDrawerOpen(false);
+              setShowUrlDialog(true);
+            }}
+            className={sidebarButtonClass}
+          >
+            <LinkIcon size={16} />
+            Import from URL
+          </button>
+          {!isMobile && (
+            <p className="text-xs text-text-dim pt-1">
+              Or drop an image anywhere, or paste one with {isMac ? '⌘V' : 'Ctrl+V'}.
+            </p>
+          )}
+        </>
+      )}
+    </div>
+  );
+
+  const settingsSections = (
+    <>
+      <div className="p-4 space-y-3 border-b border-border-subtle">
+        <h3 className={sidebarHeadingClass}>Square</h3>
+        <Segmented options={MODE_OPTIONS} value={mode} onChange={setMode} />
+        {mode === 'crop' ? (
+          <>
+            <p className="text-xs text-text-dim">Drag the box on the image to choose the square.</p>
+            <div className="flex items-center justify-between">
+              <Label htmlFor="lock-center" className="text-sm text-text-primary">
+                Lock to center
+              </Label>
+              <Switch id="lock-center" checked={lockCenter} onCheckedChange={toggleLockCenter} />
+            </div>
+          </>
+        ) : (
+          <p className="text-xs text-text-dim">The whole image, centred, with transparent padding.</p>
+        )}
+      </div>
+
+      <div className="p-4 space-y-3 border-b border-border-subtle">
+        <h3 className={sidebarHeadingClass}>Size</h3>
+        <Segmented options={SIZE_OPTIONS} value={sizeChoice} onChange={setSizeChoice} />
+        {sizeChoice === 'custom' && (
+          <label className="flex items-center gap-2 text-sm text-text-dim">
+            Side
+            <input
+              type="number"
+              min={1}
+              max={MAX_SIDE}
+              value={customSide}
+              onChange={(e) => setCustomSide(e.target.value)}
+              className={`${sidebarInputClass} w-28`}
+            />
+            px
+          </label>
+        )}
+      </div>
+
+      {output && (
+        <div className="p-4 space-y-2">
+          <h3 className={sidebarHeadingClass}>Output</h3>
+          <p className="text-sm text-text-primary">
+            {side} × {side} PNG · {output.length.toLocaleString()} characters
+          </p>
+          <details className="text-xs text-text-dim">
+            <summary className="cursor-pointer">Show data URL</summary>
+            <textarea
+              readOnly
+              value={output}
+              onFocus={(e) => e.currentTarget.select()}
+              className={`${sidebarInputClass} mt-2 h-28 font-mono text-[11px] resize-none`}
+            />
+          </details>
+          {isMobile && (
+            <button onClick={downloadPng} className={`${sidebarButtonClass} mt-2`}>
+              <DownloadSimple size={16} />
+              Download PNG
+            </button>
+          )}
+        </div>
+      )}
+    </>
+  );
+
+  const copyButton = (
+    <button
+      onClick={copyOutput}
+      disabled={!output}
+      className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-brand text-white rounded-lg hover:opacity-90 font-medium text-sm transition-opacity disabled:opacity-50"
+    >
+      {copied ? <Check size={16} weight="bold" /> : <Copy size={16} />}
+      {copied ? 'Copied' : 'Copy data URL'}
+    </button>
+  );
+
+  const desktopFooter = (
+    <>
+      <h3 className={`${sidebarHeadingClass} mb-3`}>Export</h3>
+      {warnings}
+      {copyButton}
+      <button onClick={downloadPng} disabled={!output} className={`${sidebarButtonClass} justify-center disabled:opacity-50`}>
+        <DownloadSimple size={16} />
+        Download PNG
+      </button>
+    </>
+  );
+
+  const emptyState = (
+    <div className="flex-1 flex items-center justify-center p-4 md:p-8">
+      <div className="w-full max-w-md flex flex-col items-center gap-4 rounded-xl border-2 border-dashed border-border-subtle p-8 text-center">
+        <ImageSquare size={40} weight="fill" className="text-text-dim" />
+        <div>
+          <p className="text-text-primary font-medium">{isMobile ? 'Choose an image' : 'Drop an image here'}</p>
+          <p className="text-xs text-text-dim mt-1">It becomes a square PNG data URL for a sheet's logo column.</p>
+        </div>
+        <div className="flex flex-wrap justify-center gap-2">
+          <button
+            onClick={() => fileInputRef.current?.click()}
+            className="flex items-center gap-2 px-3 py-2 bg-brand text-white rounded-lg text-sm font-medium hover:opacity-90"
+          >
+            <UploadSimple size={16} />
+            Upload
+          </button>
+          <button
+            onClick={pasteFromClipboard}
+            className="flex items-center gap-2 px-3 py-2 bg-surface-2 border border-border-subtle text-text-primary rounded-lg text-sm hover:border-brand"
+          >
+            <ClipboardText size={16} />
+            Paste
+          </button>
+          <button
+            onClick={() => setShowUrlDialog(true)}
+            className="flex items-center gap-2 px-3 py-2 bg-surface-2 border border-border-subtle text-text-primary rounded-lg text-sm hover:border-brand"
+          >
+            <LinkIcon size={16} />
+            From URL
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <div
-      className="h-full overflow-y-auto bg-bg p-4 md:p-8"
-      onDragOver={handleDragOver}
-      onDragLeave={handleDragLeave}
-      onDrop={handleDrop}
+      className="h-full relative"
+      onDragOver={(e) => {
+        e.preventDefault();
+        setIsDragging(true);
+      }}
+      onDragLeave={(e) => {
+        if (e.currentTarget === e.target) setIsDragging(false);
+      }}
+      onDrop={(e) => {
+        e.preventDefault();
+        setIsDragging(false);
+        const file = e.dataTransfer.files?.[0];
+        if (file) openFile(file);
+      }}
     >
-      <Toaster />
-      
-      {/* Full-screen drag overlay */}
+      <Toaster position="top-center" richColors />
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={(e) => {
+          const file = e.target.files?.[0];
+          if (file) openFile(file);
+        }}
+      />
+
+      <SidebarLayout
+        sidebar={
+          <SidebarColumn toolName="Logo Encoder" footer={desktopFooter}>
+            {sourceSection}
+            {settingsSections}
+          </SidebarColumn>
+        }
+        drawerTitle="Logo Encoder"
+        drawerContent={
+          <>
+            <div className="p-4 space-y-2 border-b border-border-subtle empty:hidden">{warnings}</div>
+            {sourceSection}
+            {settingsSections}
+          </>
+        }
+        drawerOpen={drawerOpen}
+        onDrawerOpenChange={setDrawerOpen}
+        attention={tooLong || upscaled}
+        barAction={copyButton}
+      >
+        <div
+          className="flex-1 min-h-0 min-w-0 flex flex-col"
+          style={{
+            backgroundImage: `
+              linear-gradient(rgba(250, 244, 236, 0.04) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(250, 244, 236, 0.04) 1px, transparent 1px)
+            `,
+            backgroundSize: '24px 24px',
+            backgroundColor: '#13121a',
+          }}
+        >
+          {source && natural ? (
+            <>
+              <div className="relative flex-1 min-h-0 m-4 md:m-8">
+                <Stage
+                  src={source.src}
+                  natural={natural}
+                  mode={mode}
+                  crop={crop}
+                  onCropChange={changeCrop}
+                  onCropComplete={completeCrop}
+                />
+              </div>
+              <div className="shrink-0 border-t border-border-subtle bg-surface/60 px-4 py-3">
+                <ResultPreview dataUrl={output} side={side} />
+              </div>
+            </>
+          ) : (
+            emptyState
+          )}
+        </div>
+      </SidebarLayout>
+
       {isDragging && (
-        <div className="fixed inset-0 z-50 bg-brand/10 backdrop-blur-sm flex items-center justify-center">
-          <div className="bg-surface rounded-lg shadow-2xl p-12 border-4 border-dashed border-brand">
-            <Upload className="w-24 h-24 mx-auto mb-4 text-brand" />
-            <p className="text-2xl font-semibold text-text-primary">Drop image here</p>
-          </div>
+        <div className="absolute inset-0 z-40 flex items-center justify-center bg-bg/80 border-2 border-dashed border-brand pointer-events-none">
+          <p className="text-lg font-medium text-text-primary">Drop image here</p>
         </div>
       )}
 
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl mb-2 text-text-primary">Image Converter</h1>
-          <p className="text-text-dim">Upload, crop, resize, and convert images to base64 format</p>
-          <p className="text-sm text-text-dim mt-2">
-            Drag and drop anywhere • Press <kbd className="px-2 py-1 bg-surface-2 border border-border-subtle rounded text-xs font-mono text-text-primary">Ctrl+V</kbd> to paste
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Left Panel - Upload and Crop */}
-          <div className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>1. Upload Image</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div
-                    className="border-2 border-dashed border-border-subtle rounded-lg p-8 text-center hover:border-brand transition-colors cursor-pointer"
-                    onClick={() => fileInputRef.current?.click()}
-                  >
-                    <Upload className="w-12 h-12 mx-auto mb-4 text-text-dim" />
-                    <p className="text-sm text-text-dim mb-2">
-                      Click to upload or drag and drop anywhere
-                    </p>
-                    <p className="text-xs text-text-dim">
-                      PNG, JPG, GIF, WebP supported
-                    </p>
-                  </div>
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="image/*"
-                    onChange={onSelectFile}
-                    className="hidden"
-                  />
-                  {imgSrc && (
-                    <Button onClick={resetAll} variant="outline" className="w-full">
-                      Clear Image
-                    </Button>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-
-            {imgSrc && (
-              <Card>
-                <CardHeader>
-                  <CardTitle>2. Crop Image (Optional)</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <ReactCrop
-                      crop={crop}
-                      onChange={(c) => {
-                        const img = imgRef.current;
-                        if (lockCenter && img) {
-                          setCrop({ ...c, x: (img.width - c.width) / 2, y: (img.height - c.height) / 2 });
-                        } else {
-                          setCrop(c);
-                        }
-                      }}
-                      onComplete={(c) => setCompletedCrop(c)}
-                      aspect={maintainAspect ? 1 : undefined}
-                    >
-                      <img
-                        ref={imgRef}
-                        alt="Crop preview"
-                        src={imgSrc}
-                        onLoad={onImageLoad}
-                        className="max-w-full h-auto"
-                      />
-                    </ReactCrop>
-                    <div className="flex flex-col gap-2">
-                      <div className="flex items-center space-x-2">
-                        <input
-                          type="checkbox"
-                          id="aspect"
-                          checked={maintainAspect}
-                          onChange={(e) => setMaintainAspect(e.target.checked)}
-                          className="rounded"
-                        />
-                        <Label htmlFor="aspect" className="cursor-pointer">
-                          Maintain square aspect ratio
-                        </Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <input
-                          type="checkbox"
-                          id="lockCenter"
-                          checked={lockCenter}
-                          onChange={(e) => setLockCenter(e.target.checked)}
-                          className="rounded"
-                        />
-                        <Label htmlFor="lockCenter" className="cursor-pointer">
-                          Lock to center
-                        </Label>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            )}
-          </div>
-
-          {/* Right Panel - Size Settings and Output */}
-          <div className="space-y-6">
-            {imgSrc && (
-              <>
-                <Card>
-                  <CardHeader>
-                    <CardTitle>3. Select Output Size</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <Tabs value={sizeMode} onValueChange={(v) => setSizeMode(v as 'preset' | 'custom')}>
-                      <TabsList className="grid w-full grid-cols-2">
-                        <TabsTrigger value="preset">Preset Sizes</TabsTrigger>
-                        <TabsTrigger value="custom">Custom Size</TabsTrigger>
-                      </TabsList>
-                      <TabsContent value="preset" className="space-y-4">
-                        <div className="space-y-2">
-                          <Label>Choose Size</Label>
-                          <Select value={selectedPreset} onValueChange={setSelectedPreset}>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select size" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {SIZE_PRESETS.map((preset) => (
-                                <SelectItem key={preset.label} value={preset.label}>
-                                  {preset.label}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        </div>
-                      </TabsContent>
-                      <TabsContent value="custom" className="space-y-4">
-                        <div className="grid grid-cols-2 gap-4">
-                          <div className="space-y-2">
-                            <Label htmlFor="width">Width (px)</Label>
-                            <Input
-                              id="width"
-                              type="number"
-                              value={customWidth}
-                              onChange={(e) => setCustomWidth(e.target.value)}
-                              min="1"
-                              max="4096"
-                            />
-                          </div>
-                          <div className="space-y-2">
-                            <Label htmlFor="height">Height (px)</Label>
-                            <Input
-                              id="height"
-                              type="number"
-                              value={customHeight}
-                              onChange={(e) => setCustomHeight(e.target.value)}
-                              min="1"
-                              max="4096"
-                            />
-                          </div>
-                        </div>
-                      </TabsContent>
-                    </Tabs>
-                    <Button
-                      onClick={generateBase64}
-                      className="w-full mt-4"
-                    >
-                      Regenerate Base64
-                    </Button>
-                  </CardContent>
-                </Card>
-
-                {outputBase64 && (
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>4. Base64 Output</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-4">
-                        <div className="border border-border-subtle rounded-lg p-4 bg-surface-2">
-                          <img
-                            src={outputBase64}
-                            alt="Converted preview"
-                            className="max-w-full h-auto mx-auto border-2 border-border-subtle rounded"
-                            style={{
-                              imageRendering: 'pixelated',
-                              maxHeight: '300px'
-                            }}
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <Label>Base64 String</Label>
-                          <Textarea
-                            value={outputBase64}
-                            readOnly
-                            className="font-mono text-xs h-32 resize-none"
-                          />
-                          <div className="text-xs text-text-dim">
-                            Length: {outputBase64.length} characters
-                          </div>
-                        </div>
-                        <div className="grid grid-cols-2 gap-2">
-                          <Button
-                            onClick={copyToClipboard}
-                            variant="outline"
-                            className="w-full"
-                          >
-                            {copied ? (
-                              <>
-                                <Check className="w-4 h-4 mr-2" />
-                                Copied!
-                              </>
-                            ) : (
-                              <>
-                                <Copy className="w-4 h-4 mr-2" />
-                                Copy Base64
-                              </>
-                            )}
-                          </Button>
-                          <Button
-                            onClick={downloadImage}
-                            variant="outline"
-                            className="w-full"
-                          >
-                            <Download className="w-4 h-4 mr-2" />
-                            Download Image
-                          </Button>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                )}
-              </>
-            )}
-
-            {!imgSrc && (
-              <Card className="border-dashed">
-                <CardContent className="pt-6">
-                  <div className="text-center text-text-dim py-12">
-                    <Upload className="w-16 h-16 mx-auto mb-4 opacity-50" />
-                    <p>Drag and drop anywhere or click upload</p>
-                  </div>
-                </CardContent>
-              </Card>
-            )}
-          </div>
-        </div>
-
-        {/* Instructions */}
-        <Card className="mt-6">
-          <CardHeader>
-            <CardTitle>How to Use</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm">
-              <div className="space-y-2">
-                <div className="w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center mb-2">
-                  1
-                </div>
-                <h3 className="font-semibold">Upload</h3>
-                <p className="text-slate-600">
-                  Drag and drop anywhere on the screen or click the upload area
-                </p>
-              </div>
-              <div className="space-y-2">
-                <div className="w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center mb-2">
-                  2
-                </div>
-                <h3 className="font-semibold">Auto-Convert</h3>
-                <p className="text-slate-600">
-                  Base64 is automatically generated with default settings (128x128)
-                </p>
-              </div>
-              <div className="space-y-2">
-                <div className="w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center mb-2">
-                  3
-                </div>
-                <h3 className="font-semibold">Customize (Optional)</h3>
-                <p className="text-slate-600">
-                  Adjust crop, choose different size, and regenerate as needed
-                </p>
-              </div>
-              <div className="space-y-2">
-                <div className="w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center mb-2">
-                  4
-                </div>
-                <h3 className="font-semibold">Export</h3>
-                <p className="text-slate-600">
-                  Copy base64 to clipboard or download the converted image
-                </p>
-              </div>
+      {showUrlDialog && (
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50" onClick={() => setShowUrlDialog(false)}>
+          <div
+            className="bg-surface border border-border-subtle rounded-xl shadow-2xl p-6 w-full max-w-md mx-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 className="text-base font-semibold text-text-primary mb-4">Import from URL</h3>
+            <input
+              type="url"
+              value={urlInput}
+              onChange={(e) => setUrlInput(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && importUrl()}
+              placeholder="https://img.logo.dev/stripe.com?token=…"
+              className={`${sidebarInputClass} mb-2`}
+              autoFocus
+            />
+            <p className="text-xs text-text-dim mb-4">A link to the image itself (PNG, JPG, SVG, WebP).</p>
+            <div className="flex gap-2 justify-end">
+              <button
+                onClick={() => {
+                  setShowUrlDialog(false);
+                  setUrlInput('');
+                }}
+                className="px-4 py-2 text-sm text-text-dim hover:text-text-primary rounded-lg transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={importUrl}
+                disabled={loadingUrl}
+                className="px-4 py-2 bg-brand text-white text-sm rounded-lg hover:opacity-90 font-medium transition-opacity disabled:opacity-50"
+              >
+                {loadingUrl ? 'Loading…' : 'Import'}
+              </button>
             </div>
-          </CardContent>
-        </Card>
-      </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

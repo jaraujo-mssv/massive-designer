@@ -7,3 +7,13 @@
 @import './theme-video.css';
 @import './theme-image-upload.css';
 @import './theme-social-media.css';
+
+/* Phones: form text at 16px, or iOS Safari zooms in when a field is focused.
+   !important so it also beats inline styles and text-sm. */
+@media (max-width: 767px) {
+  input,
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+}

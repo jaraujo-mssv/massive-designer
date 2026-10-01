@@ -1,7 +1,8 @@
-import { forwardRef, useEffect, useRef, useState } from "react";
+import { forwardRef, useRef } from "react";
 import { RichTextEditor } from "@/shared/components/RichTextEditor";
 import { PresentedBy } from "./PresentedBy";
 import { CanvasThemeId, canvasThemeClass } from "./themes";
+import { useFitScale } from "./useFitScale";
 
 export interface FrameSpacing {
   sitePadding: number;
@@ -55,20 +56,7 @@ export const CanvasFrame = forwardRef<HTMLDivElement, CanvasFrameProps>(function
   ref,
 ) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [containerDims, setContainerDims] = useState({ w: 0, h: 0 });
-
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-    const ro = new ResizeObserver(([entry]) => {
-      const { width: w, height: h } = entry.contentRect;
-      setContainerDims({ w, h });
-    });
-    ro.observe(container);
-    return () => ro.disconnect();
-  }, []);
-
-  const scale = containerDims.w > 0 ? Math.min(containerDims.w / width, containerDims.h / height) * 0.95 : 0.5;
+  const scale = useFitScale(containerRef, width, height);
   const titleStyle = { fontFamily: "Outfit, sans-serif", lineHeight: 1.1, fontWeight: 900 } as const;
 
   return (

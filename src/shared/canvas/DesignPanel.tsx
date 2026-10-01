@@ -22,7 +22,8 @@ interface DesignPanelProps<T extends string> {
   children?: React.ReactNode;
 }
 
-function Segmented<V extends string>({
+/** A row of mutually exclusive buttons (Size, Theme…). */
+export function Segmented<V extends string>({
   options,
   value,
   onChange,

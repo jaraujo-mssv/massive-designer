@@ -1,4 +1,4 @@
-import { SidebarWarning } from "@/shared/canvas/SheetSidebar";
+import { SidebarWarning } from "@/shared/components/SidebarLayout";
 import { FitMode, MIN_READABLE } from "../utils/layout";
 import type { FitInfo } from "./MapCanvas";
 

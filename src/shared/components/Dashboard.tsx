@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react'
+import { useIsMobile } from '@/shared/components/ui/use-mobile'
 import {
   ArrowSquareOut,
   Table,
@@ -160,14 +161,16 @@ function compareRows(
 // ─── Icon button ────────────────────────────────────────────────────────────
 
 function IconBtn({
-  href, onClick, icon: Icon, label, title, disabled,
+  href, onClick, icon: Icon, label, title, disabled, large,
 }: {
   href?: string; onClick?: () => void; icon: React.ElementType
   label?: string; title?: string; disabled?: boolean
+  /** Phones: a bigger touch target. */
+  large?: boolean
 }) {
   const base: React.CSSProperties = {
     display: 'inline-flex', alignItems: 'center', gap: '0.3rem',
-    padding: label ? '0.28rem 0.65rem' : '0.35rem',
+    padding: large ? '0.5rem 0.8rem' : label ? '0.28rem 0.65rem' : '0.35rem',
     borderRadius: '6px', border: '1px solid var(--border-subtle)',
     backgroundColor: 'transparent',
     color: disabled ? 'var(--text-dim)' : 'var(--text-mid)',
@@ -267,6 +270,7 @@ function SheetTable({ sheetName, tool }: { sheetName: string; tool: string }) {
   const [search, setSearch] = useState('')
   const [sortKey, setSortKey] = useState<SortKey | null>(null)
   const [sortDir, setSortDir] = useState<SortDir>('asc')
+  const isMobile = useIsMobile()
 
   function load() {
     setState({ status: 'loading' })
@@ -361,86 +365,183 @@ function SheetTable({ sheetName, tool }: { sheetName: string; tool: string }) {
         </div>
       </div>
 
-      <div style={{ overflowX: 'auto' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem' }}>
-          <thead>
-            <tr style={{ borderBottom: '1px solid var(--border-subtle)' }}>
-              {statusCol && (
-                <SortableTh sortKey="status" currentKey={sortKey} currentDir={sortDir} onSort={handleSort}>Status</SortableTh>
-              )}
-              {dateCol && (
-                <SortableTh sortKey="date" currentKey={sortKey} currentDir={sortDir} onSort={handleSort}>Date</SortableTh>
-              )}
-              {nameCol && (
-                <SortableTh sortKey="name" currentKey={sortKey} currentDir={sortDir} onSort={handleSort} style={{ width: '99%' }}>Name</SortableTh>
-              )}
-              <Th style={{ textAlign: 'right' }}>Actions</Th>
-            </tr>
-          </thead>
-          <tbody>
-            {visible.length === 0 ? (
-              <tr>
-                <td colSpan={4} style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-dim)', fontSize: '0.85rem' }}>
-                  No results for "{search}"
-                </td>
+      {isMobile ? (
+        <MobileList
+          rows={visible}
+          search={search}
+          tool={tool}
+          cols={{ nameCol, dateCol, statusCol, linearCol, spreadsheetCol }}
+          sortKey={sortKey}
+          sortDir={sortDir}
+          onSortChange={(key, dir) => { setSortKey(key); setSortDir(dir) }}
+        />
+      ) : (
+        <div style={{ overflowX: 'auto' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem' }}>
+            <thead>
+              <tr style={{ borderBottom: '1px solid var(--border-subtle)' }}>
+                {statusCol && (
+                  <SortableTh sortKey="status" currentKey={sortKey} currentDir={sortDir} onSort={handleSort}>Status</SortableTh>
+                )}
+                {dateCol && (
+                  <SortableTh sortKey="date" currentKey={sortKey} currentDir={sortDir} onSort={handleSort}>Date</SortableTh>
+                )}
+                {nameCol && (
+                  <SortableTh sortKey="name" currentKey={sortKey} currentDir={sortDir} onSort={handleSort} style={{ width: '99%' }}>Name</SortableTh>
+                )}
+                <Th style={{ textAlign: 'right' }}>Actions</Th>
               </tr>
-            ) : visible.map((row, i) => {
-              const name       = nameCol        ? row[nameCol]        : ''
-              const linearUrl  = linearCol      ? row[linearCol]      : ''
-              const sheetUrl   = spreadsheetCol ? row[spreadsheetCol] : ''
-              // ?e= carries the item's spreadsheet URL; fall back to name
-              const editorUrl  = `${tool}?e=${encodeURIComponent(sheetUrl || name || String(i + 1))}`
-
-              return (
-                <tr
-                  key={i}
-                  style={{ borderBottom: '1px solid var(--border-subtle)', transition: 'background-color 0.12s' }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--surface-2)' }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent' }}
-                >
-                  {statusCol && (
-                    <Td style={{ whiteSpace: 'nowrap' }}>
-                      <StatusPill value={row[statusCol]} />
-                    </Td>
-                  )}
-                  {dateCol && (
-                    <Td style={{ color: 'var(--text-dim)', whiteSpace: 'nowrap', fontFamily: "'JetBrains Mono', monospace", fontSize: '0.72rem' }}>
-                      {row[dateCol] || '—'}
-                    </Td>
-                  )}
-                  {nameCol && (
-                    <Td>
-                      <a
-                        href={editorUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        title="Open in editor"
-                        style={{
-                          color: 'var(--text)', fontWeight: 500, fontSize: 'inherit',
-                          fontFamily: 'inherit', textAlign: 'left',
-                          textDecoration: 'none',
-                          transition: 'color 0.15s',
-                        }}
-                        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--text-mid)'; (e.currentTarget as HTMLElement).style.textDecoration = 'underline' }}
-                        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'var(--text)'; (e.currentTarget as HTMLElement).style.textDecoration = 'none' }}
-                      >
-                        {name || '—'}
-                      </a>
-                    </Td>
-                  )}
-                  <Td style={{ textAlign: 'right' }}>
-                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
-                      <IconBtn href={linearUrl || undefined} icon={ArrowSquareOut} label="Linear" title="Open Linear task" disabled={!linearUrl} />
-                      <IconBtn href={sheetUrl || undefined} icon={Table} label="Sheet" title="Open spreadsheet" disabled={!sheetUrl} />
-                      <IconBtn href={editorUrl} icon={PencilSimple} label="Open" title="Open in editor" />
-                    </div>
-                  </Td>
+            </thead>
+            <tbody>
+              {visible.length === 0 ? (
+                <tr>
+                  <td colSpan={4} style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-dim)', fontSize: '0.85rem' }}>
+                    No results for "{search}"
+                  </td>
                 </tr>
-              )
-            })}
-          </tbody>
-        </table>
+              ) : visible.map((row, i) => {
+                const name       = nameCol        ? row[nameCol]        : ''
+                const linearUrl  = linearCol      ? row[linearCol]      : ''
+                const sheetUrl   = spreadsheetCol ? row[spreadsheetCol] : ''
+                // ?e= carries the item's spreadsheet URL; fall back to name
+                const editorUrl  = `${tool}?e=${encodeURIComponent(sheetUrl || name || String(i + 1))}`
+
+                return (
+                  <tr
+                    key={i}
+                    style={{ borderBottom: '1px solid var(--border-subtle)', transition: 'background-color 0.12s' }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--surface-2)' }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent' }}
+                  >
+                    {statusCol && (
+                      <Td style={{ whiteSpace: 'nowrap' }}>
+                        <StatusPill value={row[statusCol]} />
+                      </Td>
+                    )}
+                    {dateCol && (
+                      <Td style={{ color: 'var(--text-dim)', whiteSpace: 'nowrap', fontFamily: "'JetBrains Mono', monospace", fontSize: '0.72rem' }}>
+                        {row[dateCol] || '—'}
+                      </Td>
+                    )}
+                    {nameCol && (
+                      <Td>
+                        <a
+                          href={editorUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          title="Open in editor"
+                          style={{
+                            color: 'var(--text)', fontWeight: 500, fontSize: 'inherit',
+                            fontFamily: 'inherit', textAlign: 'left',
+                            textDecoration: 'none',
+                            transition: 'color 0.15s',
+                          }}
+                          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--text-mid)'; (e.currentTarget as HTMLElement).style.textDecoration = 'underline' }}
+                          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'var(--text)'; (e.currentTarget as HTMLElement).style.textDecoration = 'none' }}
+                        >
+                          {name || '—'}
+                        </a>
+                      </Td>
+                    )}
+                    <Td style={{ textAlign: 'right' }}>
+                      <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
+                        <IconBtn href={linearUrl || undefined} icon={ArrowSquareOut} label="Linear" title="Open Linear task" disabled={!linearUrl} />
+                        <IconBtn href={sheetUrl || undefined} icon={Table} label="Sheet" title="Open spreadsheet" disabled={!sheetUrl} />
+                        <IconBtn href={editorUrl} icon={PencilSimple} label="Open" title="Open in editor" />
+                      </div>
+                    </Td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  )
+}
+
+// ─── Phone list ─────────────────────────────────────────────────────────────
+
+const SORT_OPTIONS: { label: string; key: SortKey | null; dir: SortDir }[] = [
+  { label: 'Sheet order', key: null, dir: 'asc' },
+  { label: 'Name, A–Z', key: 'name', dir: 'asc' },
+  { label: 'Name, Z–A', key: 'name', dir: 'desc' },
+  { label: 'Date, newest first', key: 'date', dir: 'desc' },
+  { label: 'Date, oldest first', key: 'date', dir: 'asc' },
+  { label: 'Status', key: 'status', dir: 'asc' },
+]
+
+/**
+ * Phones: one card per row (status and date, then the name, then the links)
+ * instead of the table, whose columns would squeeze the name to nothing. A
+ * select stands in for the sortable headers.
+ */
+function MobileList({
+  rows, search, tool, cols, sortKey, sortDir, onSortChange,
+}: {
+  rows: Row[]
+  search: string
+  tool: string
+  cols: { nameCol?: string; dateCol?: string; statusCol?: string; linearCol?: string; spreadsheetCol?: string }
+  sortKey: SortKey | null
+  sortDir: SortDir
+  onSortChange: (key: SortKey | null, dir: SortDir) => void
+}) {
+  const selected = SORT_OPTIONS.findIndex(o => o.key === sortKey && (o.key === null || o.dir === sortDir))
+  return (
+    <div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.6rem 1rem', borderBottom: '1px solid var(--border-subtle)' }}>
+        <label htmlFor="dashboard-sort" style={{ fontSize: '0.7rem', letterSpacing: '0.06em', textTransform: 'uppercase', fontFamily: "'JetBrains Mono', monospace", color: 'var(--text-dim)' }}>
+          Sort
+        </label>
+        <select
+          id="dashboard-sort"
+          value={Math.max(0, selected)}
+          onChange={e => { const o = SORT_OPTIONS[Number(e.target.value)]; onSortChange(o.key, o.dir) }}
+          style={{ flex: 1, padding: '0.35rem 0.5rem', borderRadius: '7px', border: '1px solid var(--border-subtle)', backgroundColor: 'var(--surface-2)', color: 'var(--text)', fontFamily: 'inherit' }}
+        >
+          {SORT_OPTIONS.map((o, i) => <option key={o.label} value={i}>{o.label}</option>)}
+        </select>
       </div>
+
+      {rows.length === 0 ? (
+        <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-dim)', fontSize: '0.85rem' }}>
+          No results for "{search}"
+        </div>
+      ) : rows.map((row, i) => {
+        const name      = cols.nameCol        ? row[cols.nameCol]        : ''
+        const linearUrl = cols.linearCol      ? row[cols.linearCol]      : ''
+        const sheetUrl  = cols.spreadsheetCol ? row[cols.spreadsheetCol] : ''
+        const editorUrl = `${tool}?e=${encodeURIComponent(sheetUrl || name || String(i + 1))}`
+        return (
+          <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: '0.55rem', padding: '0.9rem 1rem', borderBottom: '1px solid var(--border-subtle)' }}>
+            {(cols.statusCol || cols.dateCol) && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                {cols.statusCol && <StatusPill value={row[cols.statusCol]} />}
+                {cols.dateCol && (
+                  <span style={{ color: 'var(--text-dim)', fontFamily: "'JetBrains Mono', monospace", fontSize: '0.72rem' }}>
+                    {row[cols.dateCol] || '—'}
+                  </span>
+                )}
+              </div>
+            )}
+            <a
+              href={editorUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: 'var(--text)', fontWeight: 500, fontSize: '0.95rem', textDecoration: 'none' }}
+            >
+              {name || '—'}
+            </a>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
+              <IconBtn large href={linearUrl || undefined} icon={ArrowSquareOut} label="Linear" title="Open Linear task" disabled={!linearUrl} />
+              <IconBtn large href={sheetUrl || undefined} icon={Table} label="Sheet" title="Open spreadsheet" disabled={!sheetUrl} />
+              <IconBtn large href={editorUrl} icon={PencilSimple} label="Open" title="Open in editor" />
+            </div>
+          </div>
+        )
+      })}
     </div>
   )
 }
@@ -452,7 +553,7 @@ export function Dashboard() {
   const tab = TABS[activeTab]
 
   return (
-    <div style={{ backgroundColor: 'var(--bg)', color: 'var(--text)', minHeight: '100vh' }}>
+    <div style={{ backgroundColor: 'var(--bg)', color: 'var(--text)' }}>
       {/* Subtle grid */}
       <div style={{
         position: 'fixed', inset: 0,
@@ -462,12 +563,12 @@ export function Dashboard() {
       {/* Red top glow */}
       <div style={{
         position: 'fixed', top: 0, left: '50%', transform: 'translateX(-50%)',
-        width: '700px', height: '300px',
+        width: 'min(700px, 100vw)', height: '300px',
         background: 'radial-gradient(ellipse 60% 50% at 50% 0%, var(--red-glow), transparent)',
         pointerEvents: 'none', zIndex: 0,
       }} />
 
-      <div style={{ position: 'relative', zIndex: 1, maxWidth: '1100px', margin: '0 auto', padding: '0 2rem' }}>
+      <div className="px-4 md:px-8" style={{ position: 'relative', zIndex: 1, maxWidth: '1100px', margin: '0 auto' }}>
 
         {/* Welcome bar */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '2rem 0 1.5rem', gap: '1rem', flexWrap: 'wrap' }}>

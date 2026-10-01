@@ -54,7 +54,7 @@ function App() {
   };
 
   return (
-    <div className="flex h-screen bg-bg">
+    <div className="flex h-full bg-bg">
       <Toolbar
         activeTab={activeTab}
         setActiveTab={setActiveTab}

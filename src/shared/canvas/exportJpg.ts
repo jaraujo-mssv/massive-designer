@@ -1,5 +1,6 @@
 import { domToJpeg } from 'modern-screenshot';
 import { preloadImagesToDataUrls } from '@/shared/utils/imageDataUrl';
+import { saveFile } from '@/shared/utils/saveFile';
 
 /** Where an export is: converting logos, then rendering the image. */
 export interface ExportProgress {
@@ -30,7 +31,7 @@ async function blobUrlToDataUrl(src: string): Promise<string> {
 }
 
 /**
- * Renders a canvas element to a 2x JPG and downloads it. The element needs an
+ * Renders a canvas element to a 2x JPG and saves it (see saveFile). The element needs an
  * `id` so its clone can be told apart from its children's.
  *
  * Every <img> is converted to a data URL first (directly or through the image proxy), and
@@ -78,8 +79,6 @@ export async function exportCanvasJpg(element: HTMLElement, opts: ExportJpgOptio
     },
   });
 
-  const link = document.createElement('a');
-  link.download = `${opts.fileName}.jpg`.replace(/[^a-z0-9\s\-_.]/gi, '_');
-  link.href = dataUrl;
-  link.click();
+  const blob = await fetch(dataUrl).then((r) => r.blob());
+  await saveFile(blob, `${opts.fileName}.jpg`.replace(/[^a-z0-9\s\-_.]/gi, '_'));
 }

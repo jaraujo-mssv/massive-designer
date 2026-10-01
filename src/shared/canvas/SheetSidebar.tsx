@@ -1,6 +1,15 @@
-import { useMemo, useState } from "react";
-import { Warning } from "@phosphor-icons/react";
-import { isChromium } from "@/shared/utils/browser";
+import { useEffect, useMemo, useState } from "react";
+import { DownloadSimple, Table } from "@phosphor-icons/react";
+import {
+  SidebarColumn,
+  SidebarLayout,
+  SidebarWarning,
+  sidebarButtonClass,
+  sidebarHeadingClass,
+  sidebarInputClass,
+} from "@/shared/components/SidebarLayout";
+import { isChromium, isIOS } from "@/shared/utils/browser";
+import { countLogoDevUrls, LOGO_DEV_PER_MINUTE } from "@/shared/utils/logoDev";
 import { Download, ExternalLink, Link, Loader2, Upload, X } from "lucide-react";
 import { toast } from "sonner";
 import { DesignPanel, SizeOption } from "./DesignPanel";
@@ -51,23 +60,15 @@ interface SheetSidebarProps<Size extends string> {
   isExporting: boolean;
   /** Where the running export is; shown on the button with a progress bar. */
   exportProgress?: ExportProgress | null;
-  /** Tool-specific warnings (use SidebarWarning), shown right above Download. */
+  /**
+   * Tool-specific warnings (use SidebarWarning), shown right above Download.
+   * Pass nothing when there's no warning: on phones it also puts a dot on Edit.
+   */
   warnings?: React.ReactNode;
-}
-
-const buttonClass =
-  "w-full flex items-center gap-2 px-4 py-2.5 bg-surface-2 border border-border-subtle text-text-primary rounded-lg hover:border-brand hover:text-brand-light text-sm transition-colors";
-const inputClass =
-  "w-full px-3 py-2 border border-border-subtle rounded-lg text-sm bg-surface text-text-primary placeholder:text-text-dim focus:outline-none focus:border-brand";
-
-/** An amber callout for the Export area; `children` can add a toggle or details. */
-export function SidebarWarning({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="flex gap-2 p-3 rounded-lg border border-amber-500/30 bg-amber-500/10 text-xs text-amber-200 leading-relaxed">
-      <Warning size={16} weight="fill" className="shrink-0 mt-px text-amber-400" />
-      <div className="min-w-0 flex-1 space-y-2">{children}</div>
-    </div>
-  );
+  /** The loaded sheet's logo URLs, to warn when they pass Logo.dev's rate limit. */
+  logoUrls?: string[];
+  /** The canvas. */
+  children: React.ReactNode;
 }
 
 function exportLabel(p: ExportProgress | null | undefined): string {
@@ -87,8 +88,11 @@ function exportFraction(p: ExportProgress | null | undefined): number {
 }
 
 /**
- * Sidebar of the sheet-driven canvas tools: Design panel, data summary, Import
- * and Examples (only while nothing is loaded), Unload list, and Export.
+ * Sidebar of the sheet-driven canvas tools, laid out around the canvas
+ * (`children`) by SidebarLayout: Design panel, data summary, Import and
+ * Examples (only while nothing is loaded), Unload list, and Export.
+ *
+ * On phones the sections move into a drawer, and Download into the bottom bar.
  */
 export function SheetSidebar<Size extends string>({
   toolName,
@@ -110,12 +114,22 @@ export function SheetSidebar<Size extends string>({
   isExporting,
   exportProgress,
   warnings,
+  logoUrls,
+  children,
 }: SheetSidebarProps<Size>) {
   const chromium = useMemo(() => isChromium(), []);
+  const ios = useMemo(() => isIOS(), []);
+  const logoDevCount = useMemo(() => countLogoDevUrls(logoUrls ?? []), [logoUrls]);
   const [showUrlDialog, setShowUrlDialog] = useState(false);
   const [urlInput, setUrlInput] = useState("");
+  const [drawerOpen, setDrawerOpen] = useState(false);
   // A failed load (nothing usable) still shows its summary, but keeps Import open.
   const isLoaded = (summary?.count ?? 0) > 0;
+
+  // Phones: close the drawer once a sheet loads, to show the result.
+  useEffect(() => {
+    if (isLoaded) setDrawerOpen(false);
+  }, [isLoaded]);
 
   const handleFile = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -130,6 +144,11 @@ export function SheetSidebar<Size extends string>({
     reader.readAsText(file);
   };
 
+  const openUrlDialog = () => {
+    setDrawerOpen(false);
+    setShowUrlDialog(true);
+  };
+
   const handleUrlImport = () => {
     const url = urlInput.trim();
     if (!url) {
@@ -141,135 +160,195 @@ export function SheetSidebar<Size extends string>({
     onLoadSheet(url);
   };
 
-  return (
-    <div className="w-96 shrink-0 flex flex-col bg-surface border-r border-border-subtle">
-      <div className="flex items-center px-4 py-3 border-b border-border-subtle shrink-0">
-        <span className="text-xs font-semibold text-text-dim uppercase tracking-widest font-mono">{toolName}</span>
-      </div>
+  const logoDevOver = logoDevCount > LOGO_DEV_PER_MINUTE;
+  const warningList = (
+    <>
+      {warnings}
+      {logoDevOver && (
+        <SidebarWarning>
+          This sheet has {logoDevCount} logos from Logo.dev, which allows {LOGO_DEV_PER_MINUTE} logos per minute,
+          so not all of them may be displayed. Check the preview before exporting.
+        </SidebarWarning>
+      )}
+      {!chromium && (
+        <SidebarWarning>
+          {ios
+            ? "On iPhone and iPad, logos and effects can render differently. For the final file, export from Chrome on a computer."
+            : "For the most accurate export, use a Chrome-based browser (Chrome, Edge, Brave, Arc). Safari and Firefox can render logos and effects differently."}
+        </SidebarWarning>
+      )}
+    </>
+  );
 
-      <div className="flex-1 overflow-y-auto min-h-0">
-        <DesignPanel
-          sizes={sizes}
-          size={size}
-          onSizeChange={onSizeChange}
-          theme={theme}
-          onThemeChange={onThemeChange}
-          showPresentedBy={showPresentedBy}
-          onShowPresentedByChange={onShowPresentedByChange}
-        />
+  const sections = (
+    <>
+      <DesignPanel
+        sizes={sizes}
+        size={size}
+        onSizeChange={onSizeChange}
+        theme={theme}
+        onThemeChange={onThemeChange}
+        showPresentedBy={showPresentedBy}
+        onShowPresentedByChange={onShowPresentedByChange}
+      />
 
-        {summary && (
-          <div className="p-4 space-y-2 border-b border-border-subtle text-xs text-text-dim">
-            <h3 className="font-semibold uppercase tracking-widest">Data</h3>
-            <p className="text-sm text-text-primary">{summary.headline}</p>
-            {summary.notes?.map((note) => <p key={note}>{note}</p>)}
-            {summary.duplicateNames.length > 0 && (
-              <p>Listed more than once: {summary.duplicateNames.join(", ")}</p>
-            )}
-            {summary.skipped.length > 0 && (
-              <div>
-                <p>{summary.skipped.length} rows skipped:</p>
-                <ul className="mt-1 space-y-0.5 list-disc pl-4">
-                  {summary.skipped.map((s) => (
-                    <li key={s.row}>
-                      Row {s.row}: {s.reason}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            {isLoaded && (
-              <button onClick={onUnload} className={`${buttonClass} mt-3`}>
-                <X className="w-4 h-4" />
-                {unloadLabel}
-              </button>
-            )}
-          </div>
-        )}
-
-        {/* Import and examples only while nothing is loaded; unloading brings them back. */}
-        {!isLoaded && (
-          <div className="p-4 space-y-2">
-            <h3 className="text-xs font-semibold text-text-dim uppercase tracking-widest mb-3">Import</h3>
-            <label className={`${buttonClass} cursor-pointer`}>
-              <Upload className="w-4 h-4" />
-              Import CSV / TSV
-              <input type="file" accept=".csv,.tsv" onChange={handleFile} className="hidden" />
-            </label>
-            <button onClick={() => setShowUrlDialog(true)} className={buttonClass}>
-              <Link className="w-4 h-4" />
-              Import from Google Sheets
-            </button>
-            <p className="text-xs text-text-dim pt-1">{columnsHint}</p>
-
-            <h3 className="text-xs font-semibold text-text-dim uppercase tracking-widest pt-4 mb-2">Examples</h3>
-            <div className="space-y-1.5">
-              {examples.map((ex) => (
-                <div
-                  key={ex.url}
-                  className="flex items-center gap-2 px-3 py-2 bg-surface-2 border border-border-subtle rounded-lg"
-                >
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm text-text-primary truncate">{ex.label}</p>
-                    <p className="text-[11px] text-text-dim">{ex.hint}</p>
-                  </div>
-                  <button
-                    onClick={() => onLoadSheet(ex.url, ex.label)}
-                    className="px-2.5 py-1 text-xs font-medium bg-brand text-white rounded-md hover:opacity-90 transition-opacity"
-                  >
-                    Load
-                  </button>
-                  <a
-                    href={ex.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    title="Open the spreadsheet"
-                    className="flex items-center gap-1 px-2.5 py-1 text-xs text-text-dim border border-border-subtle rounded-md hover:text-text-primary hover:border-brand transition-colors"
-                  >
-                    Open
-                    <ExternalLink className="w-3 h-3" />
-                  </a>
-                </div>
-              ))}
+      {summary && (
+        <div className="p-4 space-y-2 border-b border-border-subtle text-xs text-text-dim">
+          <h3 className={sidebarHeadingClass}>Data</h3>
+          <p className="text-sm text-text-primary">{summary.headline}</p>
+          {summary.notes?.map((note) => <p key={note}>{note}</p>)}
+          {summary.duplicateNames.length > 0 && <p>Listed more than once: {summary.duplicateNames.join(", ")}</p>}
+          {summary.skipped.length > 0 && (
+            <div>
+              <p>{summary.skipped.length} rows skipped:</p>
+              <ul className="mt-1 space-y-0.5 list-disc pl-4">
+                {summary.skipped.map((s) => (
+                  <li key={s.row}>
+                    Row {s.row}: {s.reason}
+                  </li>
+                ))}
+              </ul>
             </div>
-          </div>
-        )}
-      </div>
+          )}
+          {isLoaded && (
+            <button onClick={onUnload} className={`${sidebarButtonClass} mt-3`}>
+              <X className="w-4 h-4" />
+              {unloadLabel}
+            </button>
+          )}
+        </div>
+      )}
 
-      <div className="border-t border-border-subtle p-4 shrink-0 space-y-2">
-        <h3 className="text-xs font-semibold text-text-dim uppercase tracking-widest mb-3">Export</h3>
-        {warnings}
-        {!chromium && (
-          <SidebarWarning>
-            For the most accurate export, use a Chrome-based browser (Chrome, Edge, Brave, Arc). Safari and
-            Firefox can render logos and effects differently.
-          </SidebarWarning>
-        )}
-        <button
-          onClick={onExportJpg}
-          disabled={isExporting || !isLoaded}
-          className={`w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-brand text-white rounded-lg hover:opacity-90 font-medium text-sm transition-opacity ${
-            isExporting ? "cursor-wait" : "disabled:opacity-50"
-          }`}
-        >
-          {isExporting ? <Loader2 size={16} className="animate-spin" /> : <Download size={16} />}
-          {isExporting ? exportLabel(exportProgress) : "Download JPG"}
-        </button>
-        {isExporting && (
-          <div
-            className="h-1.5 rounded-full bg-surface-2 overflow-hidden"
-            role="progressbar"
-            aria-valuemin={0}
-            aria-valuemax={100}
-            aria-valuenow={Math.round(exportFraction(exportProgress) * 100)}
-          >
-            <div
-              className="h-full bg-brand transition-[width] duration-200"
-              style={{ width: `${Math.max(3, exportFraction(exportProgress) * 100)}%` }}
-            />
+      {/* Import and examples only while nothing is loaded; unloading brings them back. */}
+      {!isLoaded && (
+        <div className="p-4 space-y-2">
+          <h3 className={`${sidebarHeadingClass} mb-3`}>Import</h3>
+          <label className={`${sidebarButtonClass} cursor-pointer`}>
+            <Upload className="w-4 h-4" />
+            Import CSV / TSV
+            <input type="file" accept=".csv,.tsv" onChange={handleFile} className="hidden" />
+          </label>
+          <button onClick={openUrlDialog} className={sidebarButtonClass}>
+            <Link className="w-4 h-4" />
+            Import from Google Sheets
+          </button>
+          <p className="text-xs text-text-dim pt-1">{columnsHint}</p>
+
+          <h3 className={`${sidebarHeadingClass} pt-4 mb-2`}>Examples</h3>
+          <div className="space-y-1.5">
+            {examples.map((ex) => (
+              <div
+                key={ex.url}
+                className="flex items-center gap-2 px-3 py-2 bg-surface-2 border border-border-subtle rounded-lg"
+              >
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm text-text-primary truncate">{ex.label}</p>
+                  <p className="text-[11px] text-text-dim">{ex.hint}</p>
+                </div>
+                <button
+                  onClick={() => onLoadSheet(ex.url, ex.label)}
+                  className="px-2.5 py-1 text-xs font-medium bg-brand text-white rounded-md hover:opacity-90 transition-opacity"
+                >
+                  Load
+                </button>
+                <a
+                  href={ex.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Open the spreadsheet"
+                  className="flex items-center gap-1 px-2.5 py-1 text-xs text-text-dim border border-border-subtle rounded-md hover:text-text-primary hover:border-brand transition-colors"
+                >
+                  Open
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              </div>
+            ))}
           </div>
-        )}
-      </div>
+        </div>
+      )}
+    </>
+  );
+
+  const fraction = exportFraction(exportProgress);
+
+  const desktopExport = (
+    <>
+      <h3 className={`${sidebarHeadingClass} mb-3`}>Export</h3>
+      {warningList}
+      <button
+        onClick={onExportJpg}
+        disabled={isExporting || !isLoaded}
+        className={`w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-brand text-white rounded-lg hover:opacity-90 font-medium text-sm transition-opacity ${
+          isExporting ? "cursor-wait" : "disabled:opacity-50"
+        }`}
+      >
+        {isExporting ? <Loader2 size={16} className="animate-spin" /> : <Download size={16} />}
+        {isExporting ? exportLabel(exportProgress) : "Download JPG"}
+      </button>
+      {isExporting && (
+        <div
+          className="h-1.5 rounded-full bg-surface-2 overflow-hidden"
+          role="progressbar"
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={Math.round(fraction * 100)}
+        >
+          <div
+            className="h-full bg-brand transition-[width] duration-200"
+            style={{ width: `${Math.max(3, fraction * 100)}%` }}
+          />
+        </div>
+      )}
+    </>
+  );
+
+  // Phones: the progress fills the button itself, there's no room for a separate bar.
+  const mobileDownload = (
+    <button
+      onClick={onExportJpg}
+      disabled={isExporting || !isLoaded}
+      className={`relative w-full overflow-hidden flex items-center justify-center gap-2 px-4 py-2.5 bg-brand text-white rounded-lg font-medium text-sm ${
+        isExporting ? "cursor-wait" : "disabled:opacity-50"
+      }`}
+    >
+      {isExporting && (
+        <span
+          aria-hidden
+          className="absolute inset-y-0 left-0 bg-white/20 transition-[width] duration-200"
+          style={{ width: `${Math.max(3, fraction * 100)}%` }}
+        />
+      )}
+      <span className="relative flex items-center gap-2 min-w-0">
+        {isExporting ? <Loader2 size={16} className="animate-spin shrink-0" /> : <DownloadSimple size={16} weight="bold" />}
+        <span className="truncate">{isExporting ? exportLabel(exportProgress) : "Download JPG"}</span>
+      </span>
+    </button>
+  );
+
+  return (
+    <>
+      <SidebarLayout
+        sidebar={
+          <SidebarColumn toolName={toolName} footer={desktopExport}>
+            {sections}
+          </SidebarColumn>
+        }
+        drawerTitle={toolName}
+        drawerContent={
+          <>
+            <div className="p-4 space-y-2 border-b border-border-subtle empty:hidden">{warningList}</div>
+            {sections}
+          </>
+        }
+        drawerOpen={drawerOpen}
+        onDrawerOpenChange={setDrawerOpen}
+        editLabel={isLoaded ? "Edit" : "Import"}
+        editIcon={isLoaded ? undefined : Table}
+        attention={Boolean(warnings) || logoDevOver}
+        barAction={mobileDownload}
+      >
+        {children}
+      </SidebarLayout>
 
       {showUrlDialog && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50" onClick={() => setShowUrlDialog(false)}>
@@ -284,7 +363,7 @@ export function SheetSidebar<Size extends string>({
               onChange={(e) => setUrlInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleUrlImport()}
               placeholder="Paste a Google Sheets URL or ID"
-              className={`${inputClass} mb-2`}
+              className={`${sidebarInputClass} mb-2`}
               autoFocus
             />
             <p className="text-xs text-text-dim mb-4">The sheet must be shared as "Anyone with the link can view".</p>
@@ -308,6 +387,6 @@ export function SheetSidebar<Size extends string>({
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }

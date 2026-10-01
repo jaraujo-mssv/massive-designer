@@ -17,3 +17,13 @@ export function isChromium(): boolean {
   const ua = navigator.userAgent;
   return /(Chrome|Chromium|Edg)\//.test(ua) && !/(Firefox|FxiOS)\//.test(ua);
 }
+
+/**
+ * True on iPhone and iPad, where every browser (Chrome included) runs on
+ * WebKit, so "use Chrome" can't be followed. iPadOS reports itself as a Mac,
+ * so a Mac with a touch screen counts too.
+ */
+export function isIOS(): boolean {
+  if (typeof navigator === 'undefined') return false;
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+}

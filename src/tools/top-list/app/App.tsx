@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { Toaster, toast } from "sonner";
 import { CanvasFrame } from "@/shared/canvas/CanvasFrame";
 import { ExportProgress, exportCanvasJpg } from "@/shared/canvas/exportJpg";
@@ -36,6 +36,7 @@ export default function App() {
   const canvasRef = useRef<HTMLDivElement>(null);
   const { width: canvasW, height: canvasH, label: sizeLabel } = SIZES.find((s) => s.id === size)!;
   const preset = PRESETS[size];
+  const logoUrls = useMemo(() => items.map((i) => i.logoUrl), [items]);
 
   const loadText = useCallback((text: string, delimiter: string | undefined, source: string) => {
     const sheet = parseSheet(text, delimiter);
@@ -115,33 +116,32 @@ export default function App() {
   return (
     <>
       <Toaster position="top-center" richColors />
-      <div className="flex h-full overflow-hidden bg-bg">
-        <SheetSidebar
-          toolName="Top List"
-          sizes={SIZES}
-          size={size}
-          onSizeChange={setSize}
-          theme={theme}
-          onThemeChange={setTheme}
-          showPresentedBy={showPresentedBy}
-          onShowPresentedByChange={setShowPresentedBy}
-          summary={sidebarSummary}
-          columnsHint={
-            <>
-              Columns: <span className="font-mono">name</span>, <span className="font-mono">logo</span>, and
-              optionally <span className="font-mono">position</span>. Add a <span className="font-mono">value</span>{" "}
-              column (4.2T, 91.5B, ~$361M) to switch to the Bento layout, sized by value.
-            </>
-          }
-          examples={EXAMPLES}
-          onLoadText={loadText}
-          onLoadSheet={loadSheet}
-          onUnload={unloadList}
-          onExportJpg={handleExportJpg}
-          isExporting={isExporting}
-          exportProgress={exportProgress}
-        />
-
+      <SheetSidebar
+        toolName="Top List"
+        sizes={SIZES}
+        size={size}
+        onSizeChange={setSize}
+        theme={theme}
+        onThemeChange={setTheme}
+        showPresentedBy={showPresentedBy}
+        onShowPresentedByChange={setShowPresentedBy}
+        summary={sidebarSummary}
+        columnsHint={
+          <>
+            Columns: <span className="font-mono">name</span>, <span className="font-mono">logo</span>, and
+            optionally <span className="font-mono">position</span>. Add a <span className="font-mono">value</span>{" "}
+            column (4.2T, 91.5B, ~$361M) to switch to the Bento layout, sized by value.
+          </>
+        }
+        examples={EXAMPLES}
+        onLoadText={loadText}
+        onLoadSheet={loadSheet}
+        onUnload={unloadList}
+        onExportJpg={handleExportJpg}
+        isExporting={isExporting}
+        exportProgress={exportProgress}
+        logoUrls={logoUrls}
+      >
         <CanvasFrame
           ref={canvasRef}
           exportId={EXPORT_AREA_ID}
@@ -167,7 +167,7 @@ export default function App() {
             onMinimumCountChange={setAtMinimum}
           />
         </CanvasFrame>
-      </div>
+      </SheetSidebar>
     </>
   );
 }

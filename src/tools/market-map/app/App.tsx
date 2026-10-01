@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { Toaster, toast } from "sonner";
 import { CanvasFrame } from "@/shared/canvas/CanvasFrame";
 import { ExportProgress, exportCanvasJpg } from "@/shared/canvas/exportJpg";
@@ -38,6 +38,7 @@ export default function App() {
 
   const canvasRef = useRef<HTMLDivElement>(null);
   const { width: canvasW, height: canvasH, label: sizeLabel } = CANVAS_SIZES.find((s) => s.id === size)!;
+  const logoUrls = useMemo(() => categories.flatMap((c) => c.companies.map((co) => co.logoUrl)), [categories]);
 
   const loadText = useCallback((text: string, delimiter: string | undefined, source: string) => {
     const sheet = parseSheet(text, delimiter);
@@ -110,45 +111,45 @@ export default function App() {
   return (
     <>
       <Toaster position="top-center" richColors />
-      <div className="flex h-full overflow-hidden bg-bg">
-        <SheetSidebar
-          toolName="Market Map"
-          sizes={CANVAS_SIZES}
-          size={size}
-          onSizeChange={setSize}
-          theme={theme}
-          onThemeChange={setTheme}
-          showPresentedBy={showPresentedBy}
-          onShowPresentedByChange={setShowPresentedBy}
-          summary={sidebarSummary}
-          columnsHint={
-            <>
-              Columns: <span className="font-mono">category</span>, <span className="font-mono">company</span>,{" "}
-              <span className="font-mono">logo</span>. One row per company; each category becomes a tile, sized to
-              fit its companies.
-            </>
-          }
-          examples={EXAMPLES}
-          onLoadText={loadText}
-          onLoadSheet={loadSheet}
-          onUnload={unloadMap}
-          unloadLabel="Unload map"
-          onExportJpg={handleExportJpg}
-          isExporting={isExporting}
-          exportProgress={exportProgress}
-          warnings={
-            fit &&
-            categories.length > 0 && (
-              <FitWarning
-                fit={fit}
-                fitMode={fitMode}
-                onFitModeChange={setFitMode}
-                companyCount={summary?.count ?? 0}
-              />
-            )
-          }
-        />
-
+      <SheetSidebar
+        toolName="Market Map"
+        sizes={CANVAS_SIZES}
+        size={size}
+        onSizeChange={setSize}
+        theme={theme}
+        onThemeChange={setTheme}
+        showPresentedBy={showPresentedBy}
+        onShowPresentedByChange={setShowPresentedBy}
+        summary={sidebarSummary}
+        columnsHint={
+          <>
+            Columns: <span className="font-mono">category</span>, <span className="font-mono">company</span>,{" "}
+            <span className="font-mono">logo</span>. One row per company; each category becomes a tile, sized to
+            fit its companies.
+          </>
+        }
+        examples={EXAMPLES}
+        onLoadText={loadText}
+        onLoadSheet={loadSheet}
+        onUnload={unloadMap}
+        unloadLabel="Unload map"
+        onExportJpg={handleExportJpg}
+        isExporting={isExporting}
+        exportProgress={exportProgress}
+        logoUrls={logoUrls}
+        warnings={
+          fit &&
+          categories.length > 0 &&
+          (!fit.readable || fit.hidden.length > 0) && (
+            <FitWarning
+              fit={fit}
+              fitMode={fitMode}
+              onFitModeChange={setFitMode}
+              companyCount={summary?.count ?? 0}
+            />
+          )
+        }
+      >
         <CanvasFrame
           ref={canvasRef}
           exportId={EXPORT_AREA_ID}
@@ -167,7 +168,7 @@ export default function App() {
         >
           <MapCanvas categories={categories} tileGap={TILE_GAP} fitMode={fitMode} onFitChange={setFit} />
         </CanvasFrame>
-      </div>
+      </SheetSidebar>
     </>
   );
 }

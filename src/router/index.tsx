@@ -19,7 +19,7 @@ function RedirectToTopList() {
 
 function ToolLayout({ children, themeClass }: { children: React.ReactNode; themeClass: string }) {
   return (
-    <div className="flex flex-col h-screen overflow-hidden">
+    <div className="flex flex-col h-dvh overflow-hidden">
       <Header />
       <div className={`${themeClass} flex-1 min-h-0`}>
         <Suspense

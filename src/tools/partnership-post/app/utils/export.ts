@@ -1,4 +1,5 @@
 import { domToBlob } from 'modern-screenshot';
+import { saveFile } from '@/shared/utils/saveFile';
 
 export type ExportFormat = 'jpg' | 'png';
 
@@ -42,10 +43,5 @@ export const exportCanvas = async (
 
   const filename = `Partnership Post - ${baseName} - ${templateName}.${format}`;
 
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = filename;
-  link.click();
-  URL.revokeObjectURL(url);
+  await saveFile(blob, filename);
 };

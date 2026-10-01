@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { useSearchParams } from "react-router";
+import { FilmStrip } from "@phosphor-icons/react";
 import { Toaster } from "sonner";
+import { SidebarLayout } from "@/shared/components/SidebarLayout";
+import { useIsMobile } from "@/shared/components/ui/use-mobile";
 import { Library } from "./components/Library";
 import { PreviewPane } from "./components/PreviewPane";
 import { RenderCommand } from "./components/RenderCommand";
@@ -21,6 +24,8 @@ export default function App() {
   const variants = useVideoVariants();
   const [params, setParams] = useSearchParams();
   const [startAt, setStartAt] = useState<number | null>(null);
+  const [libraryOpen, setLibraryOpen] = useState(false);
+  const isMobile = useIsMobile();
 
   const view = (VIEWS.some((v) => v.id === params.get("view")) ? params.get("view") : "preview") as VideoView;
   const project = projects.find((p) => p.id === params.get("v")) ?? projects[0] ?? null;
@@ -47,55 +52,82 @@ export default function App() {
     update({ view: "preview" });
   };
 
+  const libraryProps = {
+    projects,
+    variants,
+    selectedId: project?.id ?? null,
+    selectedVariant: variant?.id ?? null,
+    media,
+  };
+
+  const viewSwitch = (
+    <div className="flex rounded-lg border border-border-subtle bg-surface p-0.5">
+      {VIEWS.map((v) => (
+        <button
+          key={v.id}
+          onClick={() => update({ view: v.id })}
+          className={`flex-1 px-3 py-1 rounded-md text-xs font-mono transition-colors ${
+            view === v.id ? "bg-surface-2 text-brand-light" : "text-text-dim hover:text-text-primary"
+          } ${isMobile ? "py-2" : ""}`}
+        >
+          {v.label}
+        </button>
+      ))}
+    </div>
+  );
+
+  // Phones are a viewer: the Library opens as a drawer, the view switch sits in
+  // the bottom bar, and the render command (which needs a local checkout) is hidden.
   return (
     <>
       <Toaster position="top-center" richColors />
-      <div className="flex h-full overflow-hidden bg-bg">
-        <Library
-          projects={projects}
-          variants={variants}
-          selectedId={project?.id ?? null}
-          selectedVariant={variant?.id ?? null}
-          media={media}
-          onSelect={select}
-        />
-
-        <div className="flex-1 min-w-0 flex flex-col">
+      <SidebarLayout
+        sidebar={<Library {...libraryProps} onSelect={select} />}
+        drawerTitle="Library"
+        drawerContent={
+          <Library
+            {...libraryProps}
+            inDrawer
+            onSelect={(id, variantId) => {
+              select(id, variantId);
+              setLibraryOpen(false);
+            }}
+          />
+        }
+        drawerOpen={libraryOpen}
+        onDrawerOpenChange={setLibraryOpen}
+        editLabel="Library"
+        editIcon={FilmStrip}
+        barAction={project ? viewSwitch : undefined}
+      >
+        <div className="flex-1 min-w-0 min-h-0 flex flex-col">
           {project && (
-            <div className="flex items-center gap-4 px-6 py-3 border-b border-border-subtle shrink-0">
+            <div className="flex items-center gap-4 px-4 md:px-6 py-3 border-b border-border-subtle shrink-0">
               <div className="min-w-0 flex-1">
                 <h1 className="text-sm text-text-primary font-semibold truncate">{variant ? variant.title : project.title}</h1>
                 <p className="text-[11px] text-text-dim font-mono truncate">
                   {variant ? `${project.title} · ${variant.file}` : project.id}
                 </p>
               </div>
-              <div className="flex rounded-lg border border-border-subtle bg-surface p-0.5">
-                {VIEWS.map((v) => (
-                  <button
-                    key={v.id}
-                    onClick={() => update({ view: v.id })}
-                    className={`px-3 py-1 rounded-md text-xs font-mono transition-colors ${
-                      view === v.id ? "bg-surface-2 text-brand-light" : "text-text-dim hover:text-text-primary"
-                    }`}
-                  >
-                    {v.label}
-                  </button>
-                ))}
-              </div>
-              <RenderCommand id={project.id} variant={variant} />
+              {!isMobile && (
+                <>
+                  {viewSwitch}
+                  <RenderCommand id={project.id} variant={variant} />
+                </>
+              )}
             </div>
           )}
 
           <div className="flex-1 min-h-0 overflow-y-auto">
-            {index.status === "loading" && <p className="p-8 text-sm text-text-dim">Loading videos…</p>}
+            {index.status === "loading" && <p className="p-4 md:p-8 text-sm text-text-dim">Loading videos…</p>}
             {index.status === "error" && (
-              <p className="p-8 text-sm text-text-dim">
+              <p className="p-4 md:p-8 text-sm text-text-dim">
                 Couldn't load the video index ({index.error}). Run{" "}
                 <span className="font-mono text-text-primary">npm run video:index</span>.
               </p>
             )}
             {index.status === "ready" && !project && (
-              <p className="p-8 text-sm text-text-dim">No video projects yet.</p>
+              <p className="p-4 md:p-8 text-sm text-text-dim">No video projects yet.</p>
             )}
             {project && view === "script" && <ScriptPane project={project} />}
             {project && view === "storyboard" && <StoryboardPane project={project} src={playerSrc} onOpen={openAt} />}
@@ -104,7 +136,7 @@ export default function App() {
             )}
           </div>
         </div>
-      </div>
+      </SidebarLayout>
     </>
   );
 }

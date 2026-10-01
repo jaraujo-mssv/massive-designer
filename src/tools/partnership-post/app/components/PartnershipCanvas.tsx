@@ -7,6 +7,8 @@ interface PartnershipCanvasProps {
   imageUrl: string;
   template: TemplateConfig;
   onImageLoad?: () => void;
+  /** Preview scale of the 1200 × 675 canvas; the export is always full size. */
+  scale?: number;
 }
 
 interface LockupProps {
@@ -74,7 +76,7 @@ function Lockup({ mode, imageUrl, onImageLoad, slotWidth, slotHeight, timesSize,
   );
 }
 
-export function PartnershipCanvas({ canvasRef, imageUrl, template, onImageLoad }: PartnershipCanvasProps) {
+export function PartnershipCanvas({ canvasRef, imageUrl, template, onImageLoad, scale = 0.5 }: PartnershipCanvasProps) {
   const composition = template.framed ? (
     <MacWindow>
       <Lockup mode={template.mode} imageUrl={imageUrl} onImageLoad={onImageLoad} slotWidth={360} slotHeight={300} timesSize={88} />
@@ -84,7 +86,7 @@ export function PartnershipCanvas({ canvasRef, imageUrl, template, onImageLoad }
   );
 
   return (
-    <div style={{ width: 1200 * 0.5, height: 675 * 0.5 }}>
+    <div style={{ width: 1200 * scale, height: 675 * scale, flexShrink: 0 }}>
       <div
         ref={canvasRef}
         className={`canvas-${template.mode} shadow-2xl relative overflow-hidden`}
@@ -95,7 +97,7 @@ export function PartnershipCanvas({ canvasRef, imageUrl, template, onImageLoad }
           backgroundImage: `url(${template.background})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          transform: 'scale(0.5)',
+          transform: `scale(${scale})`,
           transformOrigin: 'top left',
         }}
       >

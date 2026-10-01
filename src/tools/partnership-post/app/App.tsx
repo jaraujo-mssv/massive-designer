@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 import { useSearchParams } from 'react-router';
-import { Sidebar } from './components/Sidebar';
+import { SidebarLayout } from '@/shared/components/SidebarLayout';
+import { useFitScale } from '@/shared/canvas/useFitScale';
+import { ExportButtons, PostSettings, Sidebar } from './components/Sidebar';
 import { PartnershipCanvas } from './components/PartnershipCanvas';
 import { exportCanvas, fileNameFromUrl, ExportFormat } from './utils/export';
 import { TEMPLATES, TemplateId, resolveTemplate } from './constants/templates';
@@ -9,11 +11,16 @@ function App() {
   const [searchParams] = useSearchParams();
 
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const [imageUrl, setImageUrl] = useState('');
   const [exporting, setExporting] = useState(false);
   const [template, setTemplate] = useState<TemplateId>(resolveTemplate(searchParams));
 
   const canvasRef = useRef<HTMLDivElement>(null);
+  const previewRef = useRef<HTMLDivElement>(null);
+  // Fits the preview and its heading (about 100px at full size) to the area,
+  // but never above the half size it has always had.
+  const scale = Math.min(0.5, useFitScale(previewRef, 1200, 775));
 
   const autoDownload = searchParams.get('jpg') === '1';
   const didAutoDownload = useRef(false);
@@ -52,21 +59,28 @@ function App() {
     return () => clearTimeout(id);
   }, [autoDownload, imageUrl]);
 
-  return (
-    <div className="flex h-screen bg-bg">
-      <Sidebar
-        sidebarOpen={sidebarOpen}
-        setSidebarOpen={setSidebarOpen}
-        imageUrl={imageUrl}
-        setImageUrl={setImageUrl}
-        template={template}
-        setTemplate={setTemplate}
-        exporting={exporting}
-        onExport={handleExport}
-      />
+  const settings = { imageUrl, setImageUrl, template, setTemplate };
 
+  return (
+    <SidebarLayout
+      sidebar={
+        <Sidebar
+          sidebarOpen={sidebarOpen}
+          setSidebarOpen={setSidebarOpen}
+          {...settings}
+          exporting={exporting}
+          onExport={handleExport}
+        />
+      }
+      drawerTitle="Partnership Post"
+      drawerContent={<PostSettings {...settings} />}
+      drawerOpen={drawerOpen}
+      onDrawerOpenChange={setDrawerOpen}
+      barAction={<ExportButtons exporting={exporting} onExport={handleExport} />}
+    >
       <div
-        className="flex-1 flex flex-col items-center justify-center p-8 overflow-auto gap-4"
+        ref={previewRef}
+        className="flex-1 min-h-0 flex flex-col items-center justify-center p-4 md:p-8 gap-4 overflow-hidden"
         style={{
           backgroundImage: `
             linear-gradient(rgba(250, 244, 236, 0.04) 1px, transparent 1px),
@@ -77,9 +91,15 @@ function App() {
         }}
       >
         <h3 className="text-lg font-semibold text-text-primary">X/Twitter (1200x675)</h3>
-        <PartnershipCanvas canvasRef={canvasRef} imageUrl={imageUrl} template={TEMPLATES[template]} onImageLoad={triggerAutoDownload} />
+        <PartnershipCanvas
+          canvasRef={canvasRef}
+          imageUrl={imageUrl}
+          template={TEMPLATES[template]}
+          onImageLoad={triggerAutoDownload}
+          scale={scale}
+        />
       </div>
-    </div>
+    </SidebarLayout>
   );
 }
 

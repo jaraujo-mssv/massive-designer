@@ -97,7 +97,7 @@ export function StoryboardPane({
   const board = project.storyboard;
   if (!board) {
     return (
-      <div className="max-w-3xl mx-auto p-8 text-sm text-text-dim">
+      <div className="max-w-3xl mx-auto p-4 md:p-8 text-sm text-text-dim">
         No STORYBOARD.md yet. Plan the frames with Claude Code (<span className="font-mono">/massive-video</span>).
       </div>
     );
@@ -112,8 +112,8 @@ export function StoryboardPane({
   ].filter((f): f is [string, string] => !!f[1]);
 
   return (
-    <div className="p-8 space-y-6">
-      <div className="flex items-start gap-6 max-w-6xl">
+    <div className="p-4 md:p-8 space-y-6">
+      <div className="flex flex-wrap items-start gap-4 md:gap-6 max-w-6xl">
         {facts.length > 0 && (
           <dl className="grid grid-cols-[max-content_1fr] gap-x-4 gap-y-1 text-sm max-w-3xl flex-1">
             {facts.map(([k, v]) => (

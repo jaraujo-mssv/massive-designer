@@ -23,7 +23,7 @@ export function PreviewPane({ project, src, media, startAt }: PreviewPaneProps) 
   const portrait = project.height > project.width;
 
   return (
-    <div className="p-8 flex flex-col items-center gap-4">
+    <div className="p-4 md:p-8 flex flex-col items-center gap-4">
       {media === "missing" && (
         <div className="w-full max-w-4xl flex gap-3 rounded-xl border border-amber-400/30 bg-amber-400/5 p-4 text-sm text-text-mid">
           <AlertTriangle className="w-4 h-4 mt-0.5 shrink-0 text-amber-300" />

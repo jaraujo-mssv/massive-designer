@@ -11,6 +11,8 @@ interface LibraryProps {
   selectedVariant: string | null;
   media: Record<string, MediaStatus>;
   onSelect: (id: string, variant?: string | null) => void;
+  /** Phones: drawn inside the drawer, full width, without its own column frame. */
+  inDrawer?: boolean;
 }
 
 type Filter = "all" | "massive" | "templates" | "team";
@@ -84,7 +86,7 @@ function filterEntries(
 
 const fmtDuration = (s: number) => (s >= 60 ? `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, "0")}` : `${Math.round(s * 10) / 10}s`);
 
-export function Library({ projects, variants, selectedId, selectedVariant, media, onSelect }: LibraryProps) {
+export function Library({ projects, variants, selectedId, selectedVariant, media, onSelect, inDrawer = false }: LibraryProps) {
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<Filter>("all");
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
@@ -131,7 +133,7 @@ export function Library({ projects, variants, selectedId, selectedVariant, media
   const isOpen = (id: string) => expanded.has(id) || !!query.trim() || filter === "team";
 
   return (
-    <div className="w-80 shrink-0 flex flex-col bg-surface border-r border-border-subtle">
+    <div className={inDrawer ? "flex flex-col" : "w-80 shrink-0 flex flex-col bg-surface border-r border-border-subtle"}>
       <div className="px-3 pt-3 pb-2 border-b border-border-subtle shrink-0 space-y-2">
         <div className="flex items-center justify-between px-1">
           <span className="text-xs font-semibold text-text-dim uppercase tracking-widest font-mono">Video</span>

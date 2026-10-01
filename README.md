@@ -13,8 +13,8 @@ Design social media graphics with customizable layouts and typography.
 ### Top List Generator
 Build ranked list visuals for reports and presentations.
 
-### Image Upload & Conversion
-Upload and convert images for use across other tools.
+### Logo Encoder
+Turns an image into a square PNG data URL (base64), ready for the `logo` column of Top List and Market Map sheets.
 
 ## Getting Started
 

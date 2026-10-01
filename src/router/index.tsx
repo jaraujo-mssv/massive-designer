@@ -5,16 +5,17 @@ import { LandingPage } from '@/shared/components/LandingPage'
 
 const CampaignDesignerApp = lazy(() => import('@/tools/campaign-designer/app/App'))
 const DitherApp = lazy(() => import('@/tools/dither/app/App'))
-const ImageUploadApp = lazy(() => import('@/tools/image-upload/app/App'))
+const LogoEncoderApp = lazy(() => import('@/tools/logo-encoder/app/App'))
 const MarketMapApp = lazy(() => import('@/tools/market-map/app/App'))
 const PartnershipPostApp = lazy(() => import('@/tools/partnership-post/app/App'))
 const SocialMediaApp = lazy(() => import('@/tools/social-media/app/App'))
 const TopListApp = lazy(() => import('@/tools/top-list/app/App'))
 const VideoApp = lazy(() => import('@/tools/video/app/App'))
 
-function RedirectToTopList() {
+/** Sends a renamed or merged tool's old links on, keeping their query (?e= …). */
+function RedirectTo({ path }: { path: string }) {
   const { search } = useLocation()
-  return <Navigate to={`/top-list${search}`} replace />
+  return <Navigate to={`${path}${search}`} replace />
 }
 
 function ToolLayout({ children, themeClass }: { children: React.ReactNode; themeClass: string }) {
@@ -49,7 +50,7 @@ export const router = createBrowserRouter([
   {
     path: '/bento-map',
     // Bento Map was merged into Top List; keep old links (and their ?e=) working.
-    element: <RedirectToTopList />,
+    element: <RedirectTo path="/top-list" />,
   },
   {
     path: '/campaign-designer',
@@ -69,9 +70,14 @@ export const router = createBrowserRouter([
   },
   {
     path: '/image-upload',
+    // Image Converter was renamed Logo Encoder.
+    element: <RedirectTo path="/logo-encoder" />,
+  },
+  {
+    path: '/logo-encoder',
     element: (
-      <ToolLayout themeClass="tool-image-upload">
-        <ImageUploadApp />
+      <ToolLayout themeClass="tool-logo-encoder">
+        <LogoEncoderApp />
       </ToolLayout>
     ),
   },

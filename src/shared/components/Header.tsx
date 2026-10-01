@@ -22,7 +22,7 @@ const tools: { label: string; route: string; icon: Icon; group: string; deprecat
   { label: 'Top List', route: '/top-list', icon: Trophy, group: 'canvas' },
   { label: 'Partnership Post', route: '/partnership-post', icon: Handshake, group: 'other' },
   { label: 'Video', route: '/video', icon: VideoCamera, group: 'other' },
-  { label: 'Image Converter', route: '/image-upload', icon: ImageSquare, group: 'other' },
+  { label: 'Logo Encoder', route: '/logo-encoder', icon: ImageSquare, group: 'other' },
   { label: 'Social Media', route: '/social-media', icon: ShareNetwork, group: 'other', deprecated: true },
   { label: 'Campaign Designer', route: '/campaign-designer', icon: Megaphone, group: 'other', deprecated: true },
   { label: 'Dither', route: '/dither', icon: DotsNine, group: 'other', deprecated: true },

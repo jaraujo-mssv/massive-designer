@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { Check, Copy } from "@phosphor-icons/react";
+import { Check, Copy, Warning } from "@phosphor-icons/react";
 import { toast } from "sonner";
 import type { Campaign, ChecklistItem, PhotosDoc } from "../types";
 import { progress } from "../utils/checklist";
 import { section } from "../utils/parseDoc";
-import { refUrl } from "../content";
+import { photoUrl, refUrl } from "../content";
 import { copyImage } from "../utils/copyImage";
-import { OWNER, photoPrompt, promptOf, refLabel, refsFor } from "../utils/photoPrompt";
+import { citiesIn, imageOf, OWNER, photoPrompt, promptOf, refLabel, refsFor } from "../utils/photoPrompt";
 import { CheckItem, Checklist, ProgressBar } from "./Checklist";
 import { Markdown } from "./Markdown";
 
@@ -31,6 +31,17 @@ function CopyPrompt({ text }: { text: string }) {
       {copied ? "Copied" : "Copy prompt"}
     </button>
   );
+}
+
+/**
+ * A reference button's label. The photo's own legend's images go by what they
+ * show ("Face"); anyone else by name, plus what it shows when they bring more
+ * than one image ("Jason, face").
+ */
+function buttonLabel(r: { file: string; who: string | null }, all: { who: string | null }[], title?: string) {
+  if (!r.who || r.who === title) return refLabel(r.file);
+  const several = all.filter((x) => x.who === r.who).length > 1;
+  return several ? `${r.who.split(" ")[0]}, ${refLabel(r.file).toLowerCase()}` : r.who;
 }
 
 /** One reference image; clicking copies the image itself, to paste into the image tool. */
@@ -73,14 +84,40 @@ function PhotoCard({ doc, campaign, item, title }: { doc: PhotosDoc; campaign: C
   const [open, setOpen] = useState(false);
   const prompt = promptOf(item);
   const refs = refsFor(item, campaign);
+  const cities = citiesIn(item);
+  const image = imageOf(item);
   return (
     <div className="flex flex-col rounded-xl border border-border-subtle bg-surface p-2">
-      {title && <p className="px-2 pt-1 font-mono text-[11px] uppercase tracking-wider text-brand-light">{title}</p>}
+      {image && (
+        <a href={photoUrl(campaign.id, image)} target="_blank" rel="noreferrer" title={`Open ${image}`} className="mb-1 block overflow-hidden rounded-lg">
+          <img
+            src={photoUrl(campaign.id, image)}
+            alt={item.label.replace(OWNER, "")}
+            loading="lazy"
+            className="aspect-[3/2] w-full bg-surface-2 object-cover transition-transform duration-300 hover:scale-[1.02]"
+          />
+        </a>
+      )}
+      {(title || cities.length === 1) && (
+        <div className="flex items-center gap-2 px-2 pt-1">
+          {title && <p className="font-mono text-[11px] uppercase tracking-wider text-brand-light">{title}</p>}
+          <span className="flex-1" />
+          {cities.length === 1 && (
+            <span className="rounded-full border border-border-subtle px-1.5 py-px font-mono text-[10px] text-text-dim">{cities[0]}</span>
+          )}
+        </div>
+      )}
       <CheckItem doc={doc} item={item}>
         {item.label.replace(OWNER, "")}
       </CheckItem>
       {prompt && (
         <div className="mt-auto space-y-2 px-2 pb-1 pt-1">
+          {cities.length > 1 && (
+            <p className="flex items-start gap-1.5 rounded-md border border-amber-500/30 bg-amber-500/10 px-2 py-1 text-[11px] text-amber-200">
+              <Warning size={12} weight="fill" className="mt-px shrink-0 text-amber-400" />
+              Mixes {cities.join(" and ")}. Keep one city per photo.
+            </p>
+          )}
           <button
             onClick={() => setOpen((o) => !o)}
             title={open ? "Show less" : "Show the whole prompt"}
@@ -97,8 +134,7 @@ function PhotoCard({ doc, campaign, item, title }: { doc: PhotosDoc; campaign: C
                 <CopyRef
                   key={r.file}
                   url={refUrl(campaign.id, r.file)}
-                  // Another legend in this legend's photo, or anyone in a group shot, goes by name.
-                  label={r.who && r.who !== title ? r.who : refLabel(r.file)}
+                  label={buttonLabel(r, refs, title)}
                   title={`${r.file}, ${r.use}`}
                 />
               ))}

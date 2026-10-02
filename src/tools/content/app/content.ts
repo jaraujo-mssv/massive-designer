@@ -7,7 +7,7 @@
  */
 
 import { KIND } from "./constants";
-import type { BriefDoc, Campaign, ContentDoc, LegendDoc } from "./types";
+import type { BriefDoc, Campaign, ContentDoc, LegendDoc, PersonDoc } from "./types";
 import { parseDoc } from "./utils/parseDoc";
 
 const FILES = import.meta.glob("/content/**/*.md", { query: "?raw", import: "default", eager: true }) as Record<
@@ -33,6 +33,7 @@ function load(): Campaign[] {
       title: brief?.title ?? id,
       brief,
       legends: docs.filter((d): d is LegendDoc => d.kind === "legend"),
+      people: docs.filter((d): d is PersonDoc => d.kind === "person"),
       docs,
     };
   });
@@ -46,3 +47,5 @@ export const findCampaign = (id: string | null) => CAMPAIGNS.find((c) => c.id ==
 
 /** A reference image's URL: they live in `public/content/<campaign>/refs/`. */
 export const refUrl = (campaign: string, file: string) => `/content/${campaign}/refs/${file}`;
+/** A finished photo's URL: they live in `public/content/<campaign>/photos/`. */
+export const photoUrl = (campaign: string, file: string) => `/content/${campaign}/photos/${file}`;

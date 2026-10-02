@@ -17,10 +17,11 @@ It organizes and previews campaign content before anything is shot: scripts, leg
 
 | Kind | Fields |
 |---|---|
-| all | `title`, `kind` (`brief`, `script`, `legend`, `photos`, `page`), `status` (`draft`, `review`, `locked`, `done`, `blocked`, `archived`), optional `week` (rollout week) |
+| all | `title`, `kind` (`brief`, `script`, `legend`, `person`, `photos`, `page`), `status` (`draft`, `review`, `locked`, `done`, `blocked`, `archived`), optional `week` (rollout week) |
 | brief | `tagline`, `signoff`, `url`, `goal`, used by every end card and the overview |
 | script | `legends: [washington]`, `standards`, `format: vertical \| landscape`, `target` (seconds), `endCard` |
 | legend | `short` (the name used in scripts), `look` (fixed appearance for video and image generation), `refs` (reference images), `role`, `trait`, `nod`, `standards`, `slides`, `earnedBy`, `trustBy`, `quote`, `endCard`, `link` |
+| person | `short` (the name prompts use), `role`, `look`, `refs`. A real person who appears alongside the legends, like Massive's CEO; a photo includes them, with their description and reference images, whenever its prompt names them |
 | page | `url` |
 
 Unknown kinds, statuses or formats don't break the tab. They show as amber warnings on the doc and on the overview.
@@ -39,7 +40,7 @@ Unknown kinds, statuses or formats don't break the tab. They show as amber warni
   - A shot whose visual starts with "End card" draws the end card.
 - **Cast and sets:** a script's `## Cast` and `## Sets` list supporting characters and locations as `### Name` plus a paragraph: one fixed description, reused for every shot. Legends take theirs from `look:` in their own doc.
 - **Look and feel:** the brief's `## Look and feel` is the style every shot shares.
-- **Photos:** in the photos doc, `- [ ] **Washington:** …` under a `## Setting` heading puts a card in the legend × setting grid; items with no name are group shots. An indented `Prompt: …` line under an item is its image prompt. `## Photo style` is the style every photo shares. **Copy prompt** puts together the scene, the descriptions of the legends in it, the photo style, the format, and the reference images to attach with what each one is for. The photo's own legend gets all their images; anyone else in frame gets their portrait only, plus the official Massive logo (one for light surfaces, one for dark) when the prompt mentions it. Under the prompt, one button per reference image (Portrait, Face, Full body, Logo light or dark, or another legend's name) copies that image itself to the clipboard as a PNG, to paste into the image tool.
+- **Photos:** in the photos doc, `- [ ] **Washington:** …` under a `## Setting` heading puts a card in the legend × setting grid; items with no name are group shots. An indented `Prompt: …` line under an item is its image prompt, and an indented `Image: file.jpg` line is the finished photo, a file in `public/content/<campaign>/photos/`, shown at the top of its card. `## Photo style` is the style every photo shares. **Copy prompt** puts together the scene, the descriptions of the legends in it, the photo style, the format, and the reference images to attach with what each one is for. The photo's own legend gets all their images; anyone else in frame gets their portrait only, plus the official Massive logo (one for light surfaces, one for dark) when the prompt mentions it. Branding is opt-in: only a scene that places the Massive logo (a backdrop, a banner, the reception wall, the billboard) is branded and gets the logo images; every other prompt is told outright to show no Massive logo or name anywhere. The copied prompt also states its location: the one city it names (Prague or San Francisco, found from the city and its landmarks), or no identifiable city for indoor shots. A card tags its city, and warns if a prompt names both. Under the prompt, one button per reference image (Portrait, Face, Full body, Logo light or dark, or another legend's name) copies that image itself to the clipboard as a PNG, to paste into the image tool.
 - **Reference images:** a legend's `refs:` lists images in `public/content/<campaign>/refs/`, each as `{ file, use }`. The first one is the portrait on their card. "Copy for Flow" lists them for the video too.
 - **Landing page blocks:** `<!-- block: hero | film | legends | quotes | toy | cost -->` in a landing page section draws that block live. `legends` and `quotes` read from the legend docs, and `toy` is the working pre-ticked-box gag.
 
@@ -63,6 +64,7 @@ Make a folder under `content/` with a `brief.md` (its `title` names the campaign
 ```
 content/<campaign>/            the markdown
 public/content/<campaign>/refs/  reference images (legends, official Massive logo on light and dark)
+public/content/<campaign>/photos/  finished photos
 src/tools/content/app/
   App.tsx                      URL state (?doc, ?c, ?view), sidebar layout
   content.ts                   import.meta.glob → campaigns
@@ -82,7 +84,7 @@ src/tools/content/app/
     AnimaticBoard.tsx          frames, export, full-screen viewer
     frames.tsx                 ShotFrame, EndCardFrame (artwork, real px)
     FrameBox.tsx               true-size frame scaled for display
-    LegendCard.tsx, LegendView.tsx, PhotoGrid.tsx
+    LegendCard.tsx, LegendView.tsx, PersonView.tsx, PhotoGrid.tsx
     PagePreview.tsx, ConsentToy.tsx
     Checklist.tsx, Markdown.tsx, pills.tsx
 vite.config.ts                 contentWritePlugin (dev only)

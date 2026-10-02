@@ -36,6 +36,12 @@ function splitSections(body: string[]): { intro: string; sections: DocSection[] 
   return { intro: intro.join("\n").trim(), sections };
 }
 
+/** `refs:` frontmatter: `[{ file, use }]`, dropping entries without a file. */
+const refsOf = (v: unknown) =>
+  (Array.isArray(v) ? v : [])
+    .map((r: { file?: unknown; use?: unknown }) => ({ file: str(r?.file), use: str(r?.use) ?? "" }))
+    .filter((r): r is { file: string; use: string } => r.file !== null);
+
 export const section = (doc: { sections: DocSection[] }, heading: string) =>
   doc.sections.find((s) => s.heading.toLowerCase() === heading.toLowerCase()) ?? null;
 
@@ -109,9 +115,7 @@ export function parseDoc(path: string, raw: string, legendNames: Record<string, 
         kind,
         short: str(data.short) ?? base.title,
         look: str(data.look),
-        refs: (Array.isArray(data.refs) ? data.refs : [])
-          .map((r: { file?: unknown; use?: unknown }) => ({ file: str(r?.file), use: str(r?.use) ?? "" }))
-          .filter((r): r is { file: string; use: string } => r.file !== null),
+        refs: refsOf(data.refs),
         role: str(data.role),
         trait: str(data.trait),
         nod: str(data.nod),
@@ -123,6 +127,8 @@ export function parseDoc(path: string, raw: string, legendNames: Record<string, 
         endCard: str(data.endCard),
         link: str(data.link),
       };
+    case "person":
+      return { ...base, kind, short: str(data.short) ?? base.title, role: str(data.role), look: str(data.look), refs: refsOf(data.refs) };
     case "brief":
       return { ...base, kind, tagline: str(data.tagline), signoff: str(data.signoff), url: str(data.url), goal: str(data.goal) };
     case "page":

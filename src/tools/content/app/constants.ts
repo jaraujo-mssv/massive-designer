@@ -1,4 +1,4 @@
-import { Browser, Camera, Crown, FilmSlate, Notebook, type Icon } from "@phosphor-icons/react";
+import { Browser, Camera, Crown, FilmSlate, Notebook, User, type Icon } from "@phosphor-icons/react";
 import type { DocKind, DocStatus, ScriptFormat } from "./types";
 
 /**
@@ -23,8 +23,9 @@ export const KIND: Record<DocKind, { label: string; plural: string; Icon: Icon; 
   brief: { label: "Brief", plural: "Briefs", Icon: Notebook, className: "text-text-mid", rank: 0 },
   script: { label: "Script", plural: "Scripts", Icon: FilmSlate, className: "text-violet-400", rank: 1 },
   legend: { label: "Legend", plural: "Legends", Icon: Crown, className: "text-amber-300", rank: 2 },
-  photos: { label: "Photos", plural: "Photos", Icon: Camera, className: "text-sky-400", rank: 3 },
-  page: { label: "Page", plural: "Pages", Icon: Browser, className: "text-emerald-400", rank: 4 },
+  person: { label: "Person", plural: "People", Icon: User, className: "text-rose-300", rank: 3 },
+  photos: { label: "Photos", plural: "Photos", Icon: Camera, className: "text-sky-400", rank: 4 },
+  page: { label: "Page", plural: "Pages", Icon: Browser, className: "text-emerald-400", rank: 5 },
 };
 
 export const KIND_IDS = Object.keys(KIND) as DocKind[];

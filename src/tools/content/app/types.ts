@@ -1,4 +1,4 @@
-export type DocKind = "brief" | "script" | "legend" | "photos" | "page";
+export type DocKind = "brief" | "script" | "legend" | "person" | "photos" | "page";
 export type DocStatus = "draft" | "review" | "locked" | "done" | "blocked" | "archived";
 export type ScriptFormat = "vertical" | "landscape";
 
@@ -124,6 +124,16 @@ export interface LegendDoc extends BaseDoc {
   link: string | null;
 }
 
+/** A real person who appears alongside the legends, e.g. Massive's CEO in the backstage photos. */
+export interface PersonDoc extends BaseDoc {
+  kind: "person";
+  /** The name prompts use; a photo includes them when its prompt mentions it. */
+  short: string;
+  role: string | null;
+  look: string | null;
+  refs: { file: string; use: string }[];
+}
+
 export interface PhotosDoc extends BaseDoc {
   kind: "photos";
 }
@@ -133,12 +143,13 @@ export interface PageDoc extends BaseDoc {
   url: string | null;
 }
 
-export type ContentDoc = BriefDoc | ScriptDoc | LegendDoc | PhotosDoc | PageDoc;
+export type ContentDoc = BriefDoc | ScriptDoc | LegendDoc | PersonDoc | PhotosDoc | PageDoc;
 
 export interface Campaign {
   id: string;
   title: string;
   brief: BriefDoc | null;
   legends: LegendDoc[];
+  people: PersonDoc[];
   docs: ContentDoc[];
 }

@@ -33,6 +33,7 @@
 | Market Map, Top List | Canvas fills the screen. The drawer has warnings, Size, Theme, Data, Import, Examples. The bar has **Download JPG**, with the export progress filling the button. The drawer closes when a sheet loads. |
 | Partnership Post | Preview fitted to the width. The drawer has the image URL and template. The bar has JPG and PNG. |
 | Video | A viewer: the Library opens as the drawer and closes when you pick a video. The Script / Storyboard / Preview switch sits in the bar. The render command is hidden, since it needs a local checkout. |
+| Content | The doc fills the screen. The list (search, filters, docs) opens as the **Library** drawer and closes when you pick a doc. A script's Script / Animatic switch sits in the bar. Frames shrink to fit; Export all is hidden, so each frame goes to the share sheet one at a time. |
 | Logo Encoder | Image and result fill the screen. The drawer has Source, Square, Size and Output. The bar has **Copy data URL**. |
 
 ## Exports on phones

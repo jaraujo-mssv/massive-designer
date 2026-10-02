@@ -84,6 +84,85 @@ function videoVariantsPlugin() {
   };
 }
 
+/**
+ * Write-back for the Content tab (dev server only, so the deployed site stays read-only).
+ * Both edit a markdown file under content/ in place; Vite then hot-reloads the tab from it.
+ *   POST /api/content/checklist { path, line, source, checked } → ticks or unticks one `- [ ]` line
+ *   POST /api/content/status    { path, status }                → sets `status:` in the frontmatter
+ */
+function contentWritePlugin() {
+  const contentDir = path.resolve(__dirname, 'content');
+  const STATUSES = ['draft', 'review', 'locked', 'done', 'blocked', 'archived'];
+
+  const readBody = (req: Connect.IncomingMessage) =>
+    new Promise<Record<string, unknown>>((resolve, reject) => {
+      let data = '';
+      req.on('data', (chunk) => (data += chunk));
+      req.on('end', () => {
+        try {
+          resolve(JSON.parse(data || '{}'));
+        } catch (err) {
+          reject(err);
+        }
+      });
+      req.on('error', reject);
+    });
+
+  /** The file, only if it's a .md inside content/. */
+  const resolveDoc = (rel: unknown) => {
+    if (typeof rel !== 'string' || !rel.endsWith('.md')) return null;
+    const abs = path.resolve(__dirname, rel);
+    return abs.startsWith(contentDir + path.sep) && fs.existsSync(abs) ? abs : null;
+  };
+
+  const handler: Connect.NextHandleFunction = async (req, res, next) => {
+    const url = new URL(req.url ?? '/', 'http://localhost');
+    if (!url.pathname.startsWith('/api/content/')) return next();
+    const fail = (status: number, message: string) => {
+      res.statusCode = status;
+      res.end(message);
+    };
+    if (req.method !== 'POST') return fail(405, 'POST only');
+
+    let body: Record<string, unknown>;
+    try {
+      body = await readBody(req);
+    } catch {
+      return fail(400, 'Body is not JSON');
+    }
+    const file = resolveDoc(body.path);
+    if (!file) return fail(400, 'Not a markdown file under content/');
+    const text = fs.readFileSync(file, 'utf8');
+    const eol = text.includes('\r\n') ? '\r\n' : '\n';
+    const lines = text.split(eol);
+
+    if (url.pathname === '/api/content/checklist') {
+      const i = Number(body.line) - 1;
+      // The line must still be the one that was clicked, or the file changed underneath.
+      if (!Number.isInteger(i) || lines[i] !== body.source) return fail(409, 'The file changed; try again');
+      lines[i] = lines[i].replace(/\[( |x|X)\]/, body.checked ? '[x]' : '[ ]');
+    } else if (url.pathname === '/api/content/status') {
+      if (!STATUSES.includes(body.status as string)) return fail(400, 'Unknown status');
+      const end = lines[0] === '---' ? lines.indexOf('---', 1) : -1;
+      if (end < 0) return fail(400, 'No frontmatter');
+      const at = lines.slice(1, end).findIndex((l) => /^status:/.test(l));
+      if (at >= 0) lines[at + 1] = `status: ${body.status}`;
+      else lines.splice(end, 0, `status: ${body.status}`);
+    } else {
+      return fail(404, 'Unknown route');
+    }
+
+    fs.writeFileSync(file, lines.join(eol));
+    res.setHeader('Content-Type', 'application/json');
+    res.end('{"ok":true}');
+  };
+
+  return {
+    name: 'content-write',
+    configureServer(server) { server.middlewares.use(handler); },
+  };
+}
+
 function imageProxyPlugin() {
   const handler: Connect.NextHandleFunction = async (req, res, next) => {
     if (!req.url?.startsWith('/api/image-proxy')) return next();
@@ -112,7 +191,7 @@ function imageProxyPlugin() {
 }
 
 export default defineConfig({
-  plugins: [react(), tailwindcss(), imageProxyPlugin(), videoVariantsPlugin()],
+  plugins: [react(), tailwindcss(), imageProxyPlugin(), videoVariantsPlugin(), contentWritePlugin()],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

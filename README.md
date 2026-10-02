@@ -13,6 +13,9 @@ Design social media graphics with customizable layouts and typography.
 ### Top List Generator
 Build ranked list visuals for reports and presentations.
 
+### Content
+Organizes and previews campaign content (scripts, animatic frames, legend cards, photo shotlists, landing page wireframes) from markdown under `content/`. On the dev server, checklists and status write back to the files. See `docs/plans/content.md`.
+
 ### Logo Encoder
 Turns an image into a square PNG data URL (base64), ready for the `logo` column of Top List and Market Map sheets.
 

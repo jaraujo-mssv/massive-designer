@@ -94,7 +94,7 @@ Launch the film and landing page together, then one reel a week to keep sending 
 
 ## Guardrails
 
-- No other companies, real living people, or their logos anywhere in the campaign.
+- No other companies, real living people, or their logos anywhere in the campaign. Massive's own team is the exception: Jason Grad, Massive's CEO, appears in the backstage photos.
 - Talk about networks built without consent in general terms only, never about a specific provider.
 - Keep the looks original: Hercules and Cleopatra nothing like any film or cartoon version.
 - Washington: no props that look like a dollar bill; US rules limit currency look-alikes.

@@ -12,6 +12,7 @@ import { Markdown } from "./Markdown";
 import { PagePreview } from "./PagePreview";
 import { PersonView } from "./PersonView";
 import { PhotoGrid } from "./PhotoGrid";
+import { PlaceView } from "./PlaceView";
 import { Chip, KindIcon, StatusControl } from "./pills";
 import { ScriptView } from "./ScriptView";
 
@@ -127,6 +128,7 @@ export function DocPane({
       {doc.kind === "script" && view === "animatic" && <AnimaticBoard doc={doc} brief={campaign.brief} />}
       {doc.kind === "legend" && <LegendView doc={doc} campaign={campaign} onOpen={onOpen} />}
       {doc.kind === "person" && <PersonView doc={doc} campaign={campaign} onOpen={onOpen} />}
+      {doc.kind === "place" && <PlaceView doc={doc} campaign={campaign} onOpen={onOpen} />}
       {doc.kind === "photos" && <PhotoGrid doc={doc} campaign={campaign} />}
       {doc.kind === "page" && <PagePreview doc={doc} campaign={campaign} />}
       {doc.kind === "brief" && <BriefView doc={doc} />}

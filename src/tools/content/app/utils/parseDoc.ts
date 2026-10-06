@@ -116,6 +116,7 @@ export function parseDoc(path: string, raw: string, legendNames: Record<string, 
         short: str(data.short) ?? base.title,
         look: str(data.look),
         refs: refsOf(data.refs),
+        then: str(data.then),
         role: str(data.role),
         trait: str(data.trait),
         nod: str(data.nod),
@@ -129,6 +130,17 @@ export function parseDoc(path: string, raw: string, legendNames: Record<string, 
       };
     case "person":
       return { ...base, kind, short: str(data.short) ?? base.title, role: str(data.role), look: str(data.look), refs: refsOf(data.refs) };
+    case "place":
+      return {
+        ...base,
+        kind,
+        short: str(data.short) ?? base.title,
+        match: strs(data.match),
+        look: str(data.look),
+        shot: str(data.shot),
+        aspect: str(data.aspect),
+        refs: refsOf(data.refs),
+      };
     case "brief":
       return { ...base, kind, tagline: str(data.tagline), signoff: str(data.signoff), url: str(data.url), goal: str(data.goal) };
     case "page":

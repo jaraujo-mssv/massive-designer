@@ -1,13 +1,14 @@
 import { User } from "@phosphor-icons/react";
 import { refUrl } from "../content";
-import type { Campaign, PersonDoc, PhotosDoc } from "../types";
-import { promptOf } from "../utils/photoPrompt";
+import type { Campaign, PersonDoc } from "../types";
+import { photoDocsOf, promptOf } from "../utils/photoPrompt";
 import { Markdown } from "./Markdown";
 
 /** A real person in the campaign: who they are, how they're described to image models, and where they appear. */
 export function PersonView({ doc, campaign, onOpen }: { doc: PersonDoc; campaign: Campaign; onOpen: (key: string) => void }) {
-  const photos = campaign.docs.find((d): d is PhotosDoc => d.kind === "photos");
-  const appears = photos?.checklist.filter((i) => promptOf(i)?.includes(doc.short)) ?? [];
+  const photoDocs = photoDocsOf(campaign);
+  const photos = photoDocs[0];
+  const appears = photoDocs.flatMap((p) => p.checklist.filter((i) => promptOf(i)?.includes(doc.short)).map((item) => ({ key: `${p.key}:${item.line}`, item })));
   const portrait = doc.refs[0]?.file;
 
   return (
@@ -63,8 +64,8 @@ export function PersonView({ doc, campaign, onOpen }: { doc: PersonDoc; campaign
               </button>
             </div>
             <ul className="space-y-1 rounded-xl border border-border-subtle bg-surface p-3">
-              {appears.map((i) => (
-                <li key={i.line} className="text-sm text-text-mid">
+              {appears.map(({ key, item: i }) => (
+                <li key={key} className="text-sm text-text-mid">
                   <span className="font-mono text-[11px] uppercase tracking-wider text-text-dim">{i.section}</span> ·{" "}
                   {i.label.replace(/^\*\*([^*]+):\*\*\s*/, "$1: ")}
                 </li>

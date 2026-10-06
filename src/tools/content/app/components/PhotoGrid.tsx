@@ -6,11 +6,11 @@ import { progress } from "../utils/checklist";
 import { section } from "../utils/parseDoc";
 import { photoUrl, refUrl } from "../content";
 import { copyImage } from "../utils/copyImage";
-import { citiesIn, imageOf, OWNER, photoPrompt, promptOf, refLabel, refsFor } from "../utils/photoPrompt";
+import { aspectOf, citiesIn, imageOf, OWNER, photoPrompt, promptOf, refLabel, refsFor } from "../utils/photoPrompt";
 import { CheckItem, Checklist, ProgressBar } from "./Checklist";
 import { Markdown } from "./Markdown";
 
-function CopyPrompt({ text }: { text: string }) {
+export function CopyPrompt({ text, title }: { text: string; title?: string }) {
   const [copied, setCopied] = useState(false);
   const copy = async () => {
     try {
@@ -24,7 +24,7 @@ function CopyPrompt({ text }: { text: string }) {
   return (
     <button
       onClick={copy}
-      title="Copy the full prompt: scene, character descriptions, photo style and the reference images to attach"
+      title={title ?? "Copy the full prompt: scene, character descriptions, photo style and the reference images to attach"}
       className="flex shrink-0 items-center gap-1 rounded-md border border-border-subtle px-2 py-1 font-mono text-[11px] text-text-mid transition-colors hover:border-brand hover:text-brand-light"
     >
       {copied ? <Check size={11} weight="bold" /> : <Copy size={11} />}
@@ -94,7 +94,7 @@ function PhotoCard({ doc, campaign, item, title }: { doc: PhotosDoc; campaign: C
             src={photoUrl(campaign.id, image)}
             alt={item.label.replace(OWNER, "")}
             loading="lazy"
-            className="aspect-[3/2] w-full bg-surface-2 object-cover transition-transform duration-300 hover:scale-[1.02]"
+            className={`${aspectOf(item) === "3:4" ? "aspect-[3/4]" : "aspect-[3/2]"} w-full bg-surface-2 object-cover transition-transform duration-300 hover:scale-[1.02]`}
           />
         </a>
       )}

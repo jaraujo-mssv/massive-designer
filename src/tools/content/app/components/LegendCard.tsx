@@ -3,7 +3,7 @@ import type { LegendDoc } from "../types";
 import { refUrl } from "../content";
 
 /**
- * The legend's card as the landing page shows it: portrait, name, modern role,
+ * The legend's card as the landing page shows it: portrait, name, ambassador title, former title,
  * how they earned their fame, the standard it matches and the quote.
  */
 export function LegendCard({ legend, compact = false }: { legend: LegendDoc; compact?: boolean }) {
@@ -29,6 +29,7 @@ export function LegendCard({ legend, compact = false }: { legend: LegendDoc; com
         </div>
         <h3 className={compact ? "text-base" : "text-xl"}>{legend.title}</h3>
         {legend.role && <p className="text-xs text-text-dim">{legend.role}</p>}
+        {legend.then && <p className="-mt-1 text-xs text-text-dim/70">Formerly {legend.then}</p>}
         {!compact && legend.earnedBy && (
           <p className="text-sm leading-relaxed text-text-mid">
             <span className="text-text-dim">Earned it by </span>

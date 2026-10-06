@@ -7,7 +7,7 @@
  */
 
 import { KIND } from "./constants";
-import type { BriefDoc, Campaign, ContentDoc, LegendDoc, PersonDoc } from "./types";
+import type { BriefDoc, Campaign, ContentDoc, LegendDoc, PersonDoc, PlaceDoc } from "./types";
 import { parseDoc } from "./utils/parseDoc";
 
 const FILES = import.meta.glob("/content/**/*.md", { query: "?raw", import: "default", eager: true }) as Record<
@@ -34,6 +34,7 @@ function load(): Campaign[] {
       brief,
       legends: docs.filter((d): d is LegendDoc => d.kind === "legend"),
       people: docs.filter((d): d is PersonDoc => d.kind === "person"),
+      places: docs.filter((d): d is PlaceDoc => d.kind === "place"),
       docs,
     };
   });

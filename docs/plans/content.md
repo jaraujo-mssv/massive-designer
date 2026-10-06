@@ -20,8 +20,9 @@ It organizes and previews campaign content before anything is shot: scripts, leg
 | all | `title`, `kind` (`brief`, `script`, `legend`, `person`, `photos`, `page`), `status` (`draft`, `review`, `locked`, `done`, `blocked`, `archived`), optional `week` (rollout week) |
 | brief | `tagline`, `signoff`, `url`, `goal`, used by every end card and the overview |
 | script | `legends: [washington]`, `standards`, `format: vertical \| landscape`, `target` (seconds), `endCard` |
-| legend | `short` (the name used in scripts), `look` (fixed appearance for video and image generation), `refs` (reference images), `role`, `trait`, `nod`, `standards`, `slides`, `earnedBy`, `trustBy`, `quote`, `endCard`, `link` |
+| legend | `short` (the name used in scripts), `look` (fixed appearance for video and image generation), `refs` (reference images), `then` (title in history), `role` (ambassador title), `trait`, `nod`, `standards`, `slides`, `earnedBy`, `trustBy`, `quote`, `endCard`, `link` |
 | person | `short` (the name prompts use), `role`, `look`, `refs`. A real person who appears alongside the legends, like Massive's CEO; a photo includes them, with their description and reference images, whenever its prompt names them |
+| place | `short` (its button name), `match` (phrases that put a photo there), `look`, `shot`, `aspect`, `refs`. A place the photos keep coming back to, like the press room or the office. Its first ref is an empty shot of it, attached to every photo whose prompt contains one of its `match` phrases (the longest wins), so the room looks the same from photo to photo |
 | page | `url` |
 
 Unknown kinds, statuses or formats don't break the tab. They show as amber warnings on the doc and on the overview.
@@ -40,7 +41,7 @@ Unknown kinds, statuses or formats don't break the tab. They show as amber warni
   - A shot whose visual starts with "End card" draws the end card.
 - **Cast and sets:** a script's `## Cast` and `## Sets` list supporting characters and locations as `### Name` plus a paragraph: one fixed description, reused for every shot. Legends take theirs from `look:` in their own doc.
 - **Look and feel:** the brief's `## Look and feel` is the style every shot shares.
-- **Photos:** in the photos doc, `- [ ] **Washington:** …` under a `## Setting` heading puts a card in the legend × setting grid; items with no name are group shots. An indented `Prompt: …` line under an item is its image prompt, and an indented `Image: file.jpg` line is the finished photo, a file in `public/content/<campaign>/photos/`, shown at the top of its card. `## Photo style` is the style every photo shares. **Copy prompt** puts together the scene, the descriptions of the legends in it, the photo style, the format, and the reference images to attach with what each one is for. The photo's own legend gets all their images; anyone else in frame gets their portrait only, plus the official Massive logo (one for light surfaces, one for dark) when the prompt mentions it. Branding is opt-in: only a scene that places the Massive logo (a backdrop, a banner, the reception wall, the billboard) is branded and gets the logo images; every other prompt is told outright to show no Massive logo or name anywhere. The copied prompt also states its location: the one city it names (Prague or San Francisco, found from the city and its landmarks), or no identifiable city for indoor shots. A card tags its city, and warns if a prompt names both. Under the prompt, one button per reference image (Portrait, Face, Full body, Logo light or dark, or another legend's name) copies that image itself to the clipboard as a PNG, to paste into the image tool.
+- **Photos:** in the photos doc, `- [ ] **Washington:** …` under a `## Setting` heading puts a card in the legend × setting grid; items with no name are group shots. An indented `Prompt: …` line under an item is its image prompt, and an indented `Image: file.jpg` line is the finished photo, a file in `public/content/<campaign>/photos/`, shown at the top of its card. A campaign can have more than one photos doc, each with its own style: `photos.md` holds the candid backstage photos, `portraits.md` posed production portraits. `## Photo style` is the style every photo in that doc shares; a paragraph that opens `Indoors:` goes only into indoor photos, and one that opens `Outdoors:` only into photos set in a city. **Copy prompt** puts together the scene, the descriptions of everyone in it, the photo style, the format, and the reference images to attach with what each one is for. The images are numbered in the order they're attached, and each character's description names theirs ("Michael Jordan (image 4)"), so a model can tell whose face is whose. The scene wins over the style: a prompt that asks for a 135mm, deep focus or a posed photo gets it. Images follow Gemini 3 Pro Image's limits, at most 5 of people and 14 in all: everyone in frame gets their first (their portrait), then the photo's own character gets the rest of theirs, then the others get more in cast order; the official Massive logo (one for light surfaces, one for dark) comes after when the prompt mentions it. Branding is opt-in: only a scene that places the Massive logo (a backdrop, a banner, the reception wall, the billboard) is branded and gets the logo images, and only one that says "Massive icon" (a lapel pin) gets the icon on its own (`massive-icon.png`, the mountain mark cropped from the logo); every other prompt is told outright to show no Massive logo or name anywhere. Every prompt rules out other companies' brands, including on balls, hoops, sports gear, cars and devices. The copied prompt also states its location: the one city it names (Prague or San Francisco, found from the city and its landmarks), shown as itself, or no identifiable city for indoor shots. A card tags its city, and warns if a prompt names both. Under the prompt, one button per reference image (Portrait, Face, Full body, Logo light or dark, or another legend's name) copies that image itself to the clipboard as a PNG, to paste into the image tool.
 - **Reference images:** a legend's `refs:` lists images in `public/content/<campaign>/refs/`, each as `{ file, use }`. The first one is the portrait on their card. "Copy for Flow" lists them for the video too.
 - **Landing page blocks:** `<!-- block: hero | film | legends | quotes | toy | cost -->` in a landing page section draws that block live. `legends` and `quotes` read from the legend docs, and `toy` is the working pre-ticked-box gag.
 
@@ -55,6 +56,26 @@ Unknown kinds, statuses or formats don't break the tab. They show as amber warni
 - **Landing page:** a wireframe of every section at desktop or phone width, with live blocks.
 - **Brief:** the brief as written, with its checklist.
 
+## Generating photos
+
+`npm run content:photos -- <campaign>` generates the campaign's photos with Google's Nano Banana models (Gemini image), using the pipeline from fortuna-app. It sends each photo the same prompt and reference images that **Copy prompt** builds, because it loads `photoPrompt.ts` and `content.ts` through Vite instead of keeping a copy.
+
+- **Places first:** `npm run content:photos -- <campaign> --places` makes each place's reference image (an empty shot, sharp front to back, from its `shot` angle) and saves it as the place's first ref in `refs/`, skipping places that already have one. A photo set in a place whose image is missing is skipped until it exists. A place image can also be any image you drop in under that file name.
+- **Which doc:** `photos.md` unless `--doc=<id>` names another, like `--doc=portraits`.
+- **What it generates:** every photos item with a `Prompt:` and no `Image:`. `--force` redoes items that already have one, keeping the same file name. `--who="Michael Jordan"` limits the run to photos that person is in, and `--only=arrival-michael-jordan,group-selfie-rock` to the named photos. `--limit=N` caps the count.
+- **Free checks:** `--print` shows each prompt, and `--dry-run` shows each request with the images shortened. Neither needs a key.
+- **A real run:** prints the count, the model and the cost estimate, then asks before spending. `--yes` skips the question.
+- **Model and size:** the default model is `pro` (`gemini-3-pro-image`, about $0.14 an image), which holds likeness best across many reference images. `--model=flash` (about $0.04) and `--model=lite` are cheaper. Size is `2K` unless `--size=1K` or `--size=4K` is passed. Up to 3 photos generate at once (`--concurrency`).
+- **Aspect ratio:** `3:2`, or `3:4` when the prompt says vertical.
+- **Output:**
+  - The photo is saved to `public/content/<campaign>/photos/<setting>-<owner>.jpg`. The setting is the first word of the `##` heading that isn't a filler word, so "With the crew" becomes `crew` and "Around the city" becomes `city`. The owner comes from `**Name:**`. A group shot takes two words from its label, for example `group-selfie-rock`.
+  - The request goes to the model with each reference image right after a label giving its number and whose it is ("Image 4: Michael Jordan, face"), matching the numbers in the prompt. A photo with a reference file missing is skipped, since the numbers would no longer match.
+  - The prompt sent, with those labels, is saved to `content/<campaign>/prompts/<name>.txt`.
+  - The item gains an `Image:` line and is ticked, so the Content tab shows the photo straight away.
+- **Refusals:** a prompt the model refuses is listed at the end, with a command to retry just those photos.
+- **Key:** `GOOGLE_AI_API_KEY` (or `GEMINI_API_KEY`), from the environment or from a `.env` file at the repo root. `.env` is gitignored; see `.env.example`.
+- **Single images:** `scripts/content/lib/nanobanana.mjs` also runs on its own, for example `--prompt-file p.txt --ref face.jpg --aspect 3:2 --out x.jpg`.
+
 ## Adding a campaign
 
 Make a folder under `content/` with a `brief.md` (its `title` names the campaign) and docs of the kinds above. With more than one campaign, a picker appears above the list.
@@ -63,7 +84,7 @@ Make a folder under `content/` with a `brief.md` (its `title` names the campaign
 
 ```
 content/<campaign>/            the markdown
-public/content/<campaign>/refs/  reference images (legends, official Massive logo on light and dark)
+public/content/<campaign>/refs/  reference images (legends, people, places, official Massive logo on light and dark)
 public/content/<campaign>/photos/  finished photos
 src/tools/content/app/
   App.tsx                      URL state (?doc, ?c, ?view), sidebar layout
@@ -84,8 +105,10 @@ src/tools/content/app/
     AnimaticBoard.tsx          frames, export, full-screen viewer
     frames.tsx                 ShotFrame, EndCardFrame (artwork, real px)
     FrameBox.tsx               true-size frame scaled for display
-    LegendCard.tsx, LegendView.tsx, PersonView.tsx, PhotoGrid.tsx
+    LegendCard.tsx, LegendView.tsx, PersonView.tsx, PlaceView.tsx, PhotoGrid.tsx
     PagePreview.tsx, ConsentToy.tsx
     Checklist.tsx, Markdown.tsx, pills.tsx
 vite.config.ts                 contentWritePlugin (dev only)
+scripts/content/photos.mjs     npm run content:photos: batch photo generation
+scripts/content/lib/nanobanana.mjs  Gemini image API (Nano Banana), ported from fortuna-app
 ```

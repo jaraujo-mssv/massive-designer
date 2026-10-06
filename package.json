@@ -19,7 +19,8 @@
     "video:render": "node scripts/video/render.mjs",
     "video:new": "node scripts/video/new.mjs",
     "video:voice": "node scripts/video/record-voice.mjs",
-    "video:sfx": "node scripts/video/mix-sfx.mjs"
+    "video:sfx": "node scripts/video/mix-sfx.mjs",
+    "content:photos": "node scripts/content/photos.mjs"
   },
   "dependencies": {
     "@emotion/react": "11.14.0",

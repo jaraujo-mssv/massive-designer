@@ -35,7 +35,8 @@ export function LegendView({ doc, campaign, onOpen }: { doc: LegendDoc; campaign
       <div className="min-w-0 space-y-6">
         <dl className="rounded-xl border border-border-subtle bg-surface px-4 md:px-5">
           {doc.look ? <Field label="Look">{doc.look}</Field> : <Field label="Look"><span className="text-amber-300">No description yet</span></Field>}
-          {doc.role && <Field label="Modern role">{doc.role}</Field>}
+          {doc.then && <Field label="Then">{doc.then}</Field>}
+          {doc.role && <Field label="Ambassador title">{doc.role}</Field>}
           {doc.trait && <Field label="Trait brought back">{doc.trait}</Field>}
           {doc.nod && <Field label="Period nod">{doc.nod}</Field>}
           {doc.earnedBy && <Field label="Earned fame by">{doc.earnedBy}</Field>}

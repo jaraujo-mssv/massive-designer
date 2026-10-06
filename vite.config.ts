@@ -205,6 +205,14 @@ export default defineConfig({
           'vendor-dnd': ['react-dnd', 'react-dnd-html5-backend'],
           'vendor-export': ['html2canvas', 'dom-to-image-more', 'modern-screenshot'],
         },
+        // The Content tab's lazy chunk, which carries the campaign markdown, gets a fixed
+        // name prefix so middleware.ts can put it behind the deployed site's password.
+        // Only the name changes, not how code is split, so other tools never load it.
+        // Keep the prefix in sync with the middleware's matcher.
+        chunkFileNames: (chunk) =>
+          chunk.moduleIds.some((id) => id.includes('/src/tools/content/') || /\/content\/.+\.md\?raw$/.test(id))
+            ? 'assets/protected-content-[hash].js'
+            : 'assets/[name]-[hash].js',
       },
     },
   },

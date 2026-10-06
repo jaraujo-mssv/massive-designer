@@ -1,0 +1,11 @@
+A location reference photo for a photo shoot, with nobody in it. A hotel-style function room set up for a press conference. Across the far end, a low black stage holds a long white panel table with four black chairs, four table microphones and four white name cards, and a clear acrylic podium at the left end of the stage. Behind the table, a white step-and-repeat backdrop printed in a tight, even grid with the Massive logo, an orange mountain mark beside the MASSIVE wordmark, with black drapes on either side. Dark charcoal walls, a dark ceiling with small recessed lights, and tall floor-to-ceiling windows with sheer grey curtains along the right wall. Rows of black chairs face the stage with an aisle down the middle, a large round white softbox on a stand lights the stage from the front right, and camera tripods stand along the right aisle. Seen from the back of the room, facing the stage.
+
+Wide establishing shot from standing eye level, 24mm, deep focus so every surface is sharp from front to back, soft even light, true-to-life colours, photorealistic. Completely empty: no people, no hands, no reflections of people. The Massive logo appears only where described, matching the attached logo images exactly. No other text, logos, brand names or readable signs beyond what's described; all furniture, gear and devices are plain and unmarked. Format: landscape 3:2 photo.
+
+Reference images, in the order attached:
+Image 1, Massive logo, light: the Massive logo for light surfaces such as a white backdrop or banner
+Image 2, Massive logo, dark: the Massive logo for dark surfaces such as charcoal walls
+
+[Image 1: Massive logo, light: massive-logo-light-bg.png]
+
+[Image 2: Massive logo, dark: massive-logo-dark-bg.png]

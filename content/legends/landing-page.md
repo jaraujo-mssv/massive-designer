@@ -35,7 +35,7 @@ Full video embed.
 
 <!-- block: legends -->
 
-Four cards. Each shows portrait, name, modern role, how they earned their fame, the standard it matches, their reel, and a link to the real page behind it.
+Four cards. Each shows portrait, name, then and ambassador titles, how they earned their fame, the standard it matches, their reel, and a link to the real page behind it.
 
 ## Quotes
 

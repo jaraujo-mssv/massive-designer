@@ -65,12 +65,12 @@ Where it shows up:
 
 Modern day setting, one legendary trait carried over. No togas, no ruins, no museum look. Shoot it like a real celebrity ambassador campaign: clean studio light, phones, laptops, offices, in Massive's dark and coral palette. Each character keeps one small period detail as a nod.
 
-| Legend | Modern role | Legendary trait brought back | Period nod |
-| --- | --- | --- | --- |
-| George Washington | Head of product, signs off every consent screen | Signed the Constitution first, then waited for 9 of 13 states to ratify it | Silver hair tied back, a framed copy of the Constitution behind his desk |
-| Hercules | Owner of a no-shortcuts strength gym | Superhuman strength, the 12 labors | Lion pattern on his hoodie, training log titled "Labors" |
-| Julius Caesar | CEO in a glass office, runs the partner program | Betrayed by his closest partners ("Et tu, Brute?") | Laurel wreath framed on the wall like an award |
-| Cleopatra | Head of trust and safety, runs the door | Snuck into Caesar's palace rolled up in a rug | Signature eyeliner, a rolled rug leaning in her office corner |
+| Legend | Then | Ambassador title | Legendary trait brought back | Period nod |
+| --- | --- | --- | --- | --- |
+| George Washington | First President of the United States | Ambassador of Opt-In | Signed the Constitution first, then waited for 9 of 13 states to ratify it | Silver hair tied back, a framed copy of the Constitution behind his desk |
+| Hercules | Hero of the Twelve Labors | Ambassador of the Clean Exit | Superhuman strength, the 12 labors | Lion pattern on his hoodie, training log titled "Labors" |
+| Julius Caesar | Dictator of Rome | Ambassador of Partner Accountability | Betrayed by his closest partners ("Et tu, Brute?") | Laurel wreath framed on the wall like an award |
+| Cleopatra | Queen of Egypt | Ambassador of Buyer Vetting | Snuck into Caesar's palace rolled up in a rug | Signature eyeliner, a rolled rug leaning in her office corner |
 
 ## Look and feel
 

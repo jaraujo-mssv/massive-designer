@@ -3,7 +3,8 @@ title: Julius Caesar
 kind: legend
 status: draft
 short: Caesar
-role: CEO in a glass office, runs the partner program
+then: Dictator of Rome
+role: Ambassador of Partner Accountability
 trait: Betrayed by his closest partners ("Et tu, Brute?")
 nod: Laurel wreath framed on the wall like an award
 look: "Julius Caesar in 2026: a lean man in his late fifties with a sharp, lined face, strong nose and watchful grey eyes. Short curly salt-and-pepper hair. Navy three-piece suit, white shirt, navy tie with a small medallion pattern, a gold laurel-wreath pin on the lapel, a white pocket square, a gold signet ring and a steel watch."

@@ -10,7 +10,9 @@ Modeled on a real celebrity ambassador's visit day: arriving with the leadership
 
 ## Photo style
 
-Candid documentary photography of a celebrity ambassador's visit day, like a high-end press kit shot by an editorial photographer. Full-frame camera, 35mm to 85mm lenses at wide apertures: shallow depth of field, often framed past out-of-focus foreground elements such as a shoulder, the back of a head, a microphone or a camera rig. Natural available light mixed with soft practical light, true-to-life skin tones, a slightly warm and gently desaturated grade with soft contrast and fine grain. Real moments, never poses: laughing mid-sentence, glancing off camera, people around them reacting. Slightly imperfect reportage framing. Indoor spaces are dark charcoal interiors with warm coral accents and light oak floors. Outdoors, the place is exactly the one the scene names, shown as itself: its real streets, light and landmarks, and nothing from anywhere else. Indoors, no city is identifiable. Photorealistic: the legends are real people in a real place. No other company's brand ever appears: no logos, brand names or readable storefront signs.
+Candid documentary photography of a celebrity ambassador's visit day, like a high-end press kit shot by an editorial photographer. Full-frame camera, 35mm to 85mm lenses at wide apertures: shallow depth of field, often framed past out-of-focus foreground elements such as a shoulder, the back of a head, a microphone or a camera rig. Natural available light mixed with soft practical light, true-to-life skin tones, a slightly warm and gently desaturated grade with soft contrast and fine grain. Real moments, never poses: laughing mid-sentence, glancing off camera, people around them reacting. Slightly imperfect reportage framing. Photorealistic: the legends are real people in a real place.
+
+Indoors: dark charcoal interiors with warm coral accents and light oak floors.
 
 ## Arrival at Massive
 

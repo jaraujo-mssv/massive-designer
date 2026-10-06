@@ -3,7 +3,8 @@ title: Hercules
 kind: legend
 status: draft
 short: Hercules
-role: Owner of a no-shortcuts strength gym
+then: Hero of the Twelve Labors
+role: Ambassador of the Clean Exit
 trait: Superhuman strength, the 12 labors
 nod: Lion pattern on his hoodie, training log titled "Labors"
 look: "Hercules in 2026: a heavily muscled man in his mid-thirties who always wears a red, gold and blue luchador mask. Over the mask sits a lion's head worn as a hood, its jaws open above his brow, the pelt hanging down his back like a cape and fixed with gold lion-head clasps at the shoulders. Red sequined wrestling singlet with gold trim, blue side panels and HERCULES on the waistband; red-and-blue wrist cuffs, red knee pads with a gold lion emblem, red-and-blue shin guards, barefoot."

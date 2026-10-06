@@ -3,7 +3,8 @@ title: George Washington
 kind: legend
 status: draft
 short: Washington
-role: Head of product, signs off every consent screen
+then: First President of the United States
+role: Ambassador of Opt-In
 trait: Signed the Constitution first, then waited for 9 of 13 states to ratify it
 nod: Silver hair tied back, a framed copy of the Constitution behind his desk
 look: "George Washington in 2026: a lean man in his early sixties with a long face, strong nose and calm, stern grey-blue eyes. Silver-grey hair brushed back with volume over the ears and tied in a low ponytail with a black ribbon. Charcoal two-piece suit, white shirt, navy-and-burgundy striped tie, a small flag pin on the lapel, a gold wedding band; often holding his reading glasses."

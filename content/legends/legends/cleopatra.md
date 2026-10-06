@@ -3,7 +3,8 @@ title: Cleopatra
 kind: legend
 status: draft
 short: Cleopatra
-role: Head of trust and safety, runs the door
+then: Queen of Egypt
+role: Ambassador of Buyer Vetting
 trait: Snuck into Caesar's palace rolled up in a rug
 nod: Signature eyeliner, a rolled rug leaning in her office corner
 look: "Cleopatra in 2026: a woman in her late thirties with warm olive skin, strong dark brows and sharp black winged eyeliner. Sleek black chin-length bob with a thin braid threaded with gold on one side, small gold hoop earrings. Navy double-breasted blazer with gold buttons over a pleated gold-and-teal silk blouse, a gold collar necklace with teal enamel plates, a gold watch, navy trousers and black heels; always carrying a dark tablet folio."

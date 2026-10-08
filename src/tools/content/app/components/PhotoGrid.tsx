@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Check, Copy, Warning } from "@phosphor-icons/react";
+import { Check, Copy, ImageSquare, Warning } from "@phosphor-icons/react";
 import { toast } from "sonner";
 import type { Campaign, ChecklistItem, PhotosDoc } from "../types";
 import { progress } from "../utils/checklist";
@@ -8,7 +8,9 @@ import { photoUrl, refUrl } from "../content";
 import { copyImage } from "../utils/copyImage";
 import { aspectOf, citiesIn, imageOf, OWNER, photoPrompt, promptOf, refLabel, refsFor } from "../utils/photoPrompt";
 import { CheckItem, Checklist, ProgressBar } from "./Checklist";
+import { ImageButton } from "./Lightbox";
 import { Markdown } from "./Markdown";
+import { RefImages } from "./RefImages";
 
 export function CopyPrompt({ text, title }: { text: string; title?: string }) {
   const [copied, setCopied] = useState(false);
@@ -86,17 +88,31 @@ function PhotoCard({ doc, campaign, item, title }: { doc: PhotosDoc; campaign: C
   const refs = refsFor(item, campaign);
   const cities = citiesIn(item);
   const image = imageOf(item);
+  // A photo with no prompt (the trash) has no planned shape, so it shows as it came out.
+  const aspect = !prompt && image ? "" : aspectOf(item) === "3:4" ? "aspect-[3/4]" : "aspect-[3/2]";
   return (
     <div className="flex flex-col rounded-xl border border-border-subtle bg-surface p-2">
-      {image && (
-        <a href={photoUrl(campaign.id, image)} target="_blank" rel="noreferrer" title={`Open ${image}`} className="mb-1 block overflow-hidden rounded-lg">
+      {image ? (
+        <ImageButton
+          src={photoUrl(campaign.id, image)}
+          alt={item.label.replace(OWNER, "")}
+          caption={image}
+          title={`Open ${image}`}
+          className="mb-1 overflow-hidden rounded-lg"
+        >
           <img
             src={photoUrl(campaign.id, image)}
             alt={item.label.replace(OWNER, "")}
             loading="lazy"
-            className={`${aspectOf(item) === "3:4" ? "aspect-[3/4]" : "aspect-[3/2]"} w-full bg-surface-2 object-cover transition-transform duration-300 hover:scale-[1.02]`}
+            className={`${aspect} w-full bg-surface-2 object-cover transition-transform duration-300 hover:scale-[1.02]`}
           />
-        </a>
+        </ImageButton>
+      ) : (
+        // The photo's frame, the size it will be, until there's one to show.
+        <div className={`${aspect} mb-1 flex w-full flex-col items-center justify-center gap-2 rounded-lg bg-surface-2 text-text-dim/60`}>
+          <ImageSquare size={32} weight="thin" />
+          <span className="font-mono text-[11px]">No photo yet</span>
+        </div>
       )}
       {(title || cities.length === 1) && (
         <div className="flex items-center gap-2 px-2 pt-1">
@@ -203,6 +219,8 @@ export function PhotoGrid({ doc, campaign }: { doc: PhotosDoc; campaign: Campaig
       })}
 
       <Checklist doc={doc} items={production} />
+
+      <RefImages campaign={campaign.id} refs={doc.refs} />
     </div>
   );
 }

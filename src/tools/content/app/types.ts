@@ -159,6 +159,8 @@ export interface PlaceDoc extends BaseDoc {
 
 export interface PhotosDoc extends BaseDoc {
   kind: "photos";
+  /** Reference images shown under the photos, such as the merch the photos dress people in. */
+  refs: { file: string; use: string }[];
 }
 
 export interface PageDoc extends BaseDoc {

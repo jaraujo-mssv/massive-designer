@@ -146,6 +146,6 @@ export function parseDoc(path: string, raw: string, legendNames: Record<string, 
     case "page":
       return { ...base, kind, url: str(data.url) };
     case "photos":
-      return { ...base, kind };
+      return { ...base, kind, refs: refsOf(data.refs) };
   }
 }

@@ -30,15 +30,48 @@ export const aspectOf = (item: ChecklistItem) => (/\bvertical\b/i.test(promptOf(
 
 /**
  * The official brand images: the wordmark logo, one version per background, for
- * a scene that places the logo (the backdrop, a banner, the reception wall), and
- * the icon on its own for one that places the Massive icon (a lapel pin). Each
- * goes only to a prompt that matches it; every other photo is told to show none.
+ * a scene that places the logo (the backdrop, a banner, the reception wall), the
+ * icon on its own for one that places the Massive icon (a lapel pin), and the
+ * "It's Massive" merch tops (T-shirt, tank top, racerback) for one that dresses
+ * someone in one. Each goes only to a prompt that matches it; every other photo is
+ * told to show none. `mark` is what the branding line calls it, and `note` anything
+ * that line adds.
  */
 const WORDMARK = /Massive logo|banner printed with the Massive/i;
+const PRINT = "\"IT'S MASSIVE\" in bold black italic capitals made of halftone dots over the orange halftone mountain";
+const merchNote = (top: string) =>
+  `Where the scene dresses someone in the Massive ${top}, it replaces the top their description gives them, and fits them as the scene says.`;
 export const LOGOS = [
-  { file: "massive-logo-light-bg.png", label: "Logo, light", use: "the Massive logo for light surfaces such as a white backdrop or banner", who: null, match: WORDMARK },
-  { file: "massive-logo-dark-bg.png", label: "Logo, dark", use: "the Massive logo for dark surfaces such as charcoal walls", who: null, match: WORDMARK },
-  { file: "massive-icon.png", label: "Icon", use: "the Massive icon, the orange mountain mark on its own, for the lapel pin", who: null, match: /Massive icon/i },
+  { file: "massive-logo-light-bg.png", label: "Logo, light", mark: "logo", use: "the Massive logo for light surfaces such as a white backdrop or banner", who: null, match: WORDMARK },
+  { file: "massive-logo-dark-bg.png", label: "Logo, dark", mark: "logo", use: "the Massive logo for dark surfaces such as charcoal walls", who: null, match: WORDMARK },
+  { file: "massive-icon.png", label: "Icon", mark: "icon", use: "the Massive icon, the orange mountain mark on its own, for the lapel pin", who: null, match: /Massive icon/i },
+  {
+    file: "massive-tee.jpg",
+    label: "T-shirt",
+    mark: "T-shirt",
+    use: `the It's Massive merch T-shirt: match its off-white cotton, crew neck, and the print exactly, ${PRINT}; ignore the hanger, the wall and its loose, flat fit`,
+    note: merchNote("T-shirt"),
+    who: null,
+    match: /Massive T-shirt/i,
+  },
+  {
+    file: "massive-tank.jpg",
+    label: "Tank top",
+    mark: "tank top",
+    use: `the It's Massive merch tank top: match its off-white cotton, sleeveless cut with deep armholes, crew neck, and the print exactly, ${PRINT}; ignore the hanger, the wall and its loose, flat fit`,
+    note: merchNote("tank top"),
+    who: null,
+    match: /Massive tank top/i,
+  },
+  {
+    file: "massive-racerback.jpg",
+    label: "Racerback",
+    mark: "racerback tank",
+    use: `the It's Massive merch racerback tank: match its white cotton, scoop neck, racerback straps, and the print exactly, ${PRINT}; ignore the hanger, the wall and its loose, flat fit`,
+    note: merchNote("racerback tank"),
+    who: null,
+    match: /Massive racerback/i,
+  },
 ];
 /** The brand images a piece of text calls for. */
 export const logosFor = (text: string | null) => LOGOS.filter((l) => l.match.test(text ?? ""));
@@ -228,11 +261,16 @@ function build(item: ChecklistItem, doc: PhotosDoc, campaign: Campaign, withFile
   // Opt-in: a photo whose scene doesn't place the logo is told outright to carry none,
   // or models put it on walls, screens and T-shirts.
   const brand = logosFor(prompt);
-  // The icon on its own (a lapel pin) or the full logo (a backdrop), whichever the scene places.
-  const mark = brand.some((l) => l.match === WORDMARK) ? "logo" : "icon";
+  // Whatever the scene places: the full logo (a backdrop), the icon (a lapel pin), the merch T-shirt.
+  const marks = [...new Set(brand.map((l) => l.mark))];
+  const notes = brand.flatMap((l) => ("note" in l ? [l.note] : []));
   const branding =
     brand.length > 0
-      ? `Branding: the Massive ${mark} appears only where the scene places it, matching the attached ${mark} image${brand.length > 1 ? "s" : ""} exactly, and nowhere else. ${NO_OTHER_BRANDS}`
+      ? [
+          `Branding: ${marks.map((m) => `the Massive ${m}`).join(" and ")} ${marks.length > 1 ? "appear" : "appears"} only where the scene places ${marks.length > 1 ? "them" : "it"}, matching the attached ${marks.join(" and ")} image${brand.length > 1 ? "s" : ""} exactly, and nowhere else.`,
+          ...notes,
+          NO_OTHER_BRANDS,
+        ].join(" ")
       : `Branding: no Massive logo or name anywhere in this photo, including walls, screens and clothing. ${NO_OTHER_BRANDS}`;
   const people = refs.some((r) => r.kind === "person");
 
@@ -260,7 +298,7 @@ function build(item: ChecklistItem, doc: PhotosDoc, campaign: Campaign, withFile
     refs.length > 0 &&
       [
         people &&
-          "Use the images of people only for who each person is: face, head, build, skin and hair. Don't copy their clothes, poses, backgrounds or lighting; clothes come from the descriptions above.",
+          `Use the images of people only for who each person is: face, head, build, skin and hair. Don't copy their clothes, poses, backgrounds or lighting; clothes come from ${notes.length ? "the scene first, then" : ""} the descriptions above.`.replace("  ", " "),
         `Reference images, in the order attached:\n${refs.map((r) => `Image ${r.n}, ${r.label}${withFiles ? ` [${r.file}]` : ""}: ${r.use}`).join("\n")}`,
       ]
         .filter(Boolean)

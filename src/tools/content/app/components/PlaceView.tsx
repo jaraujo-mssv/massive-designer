@@ -2,6 +2,7 @@ import { MapPin } from "@phosphor-icons/react";
 import { refUrl } from "../content";
 import type { Campaign, PlaceDoc } from "../types";
 import { photoDocsOf, placeAspect, placeIn, placePrompt } from "../utils/photoPrompt";
+import { ImageButton } from "./Lightbox";
 import { Markdown } from "./Markdown";
 import { CopyPrompt } from "./PhotoGrid";
 
@@ -19,14 +20,14 @@ export function PlaceView({ doc, campaign, onOpen }: { doc: PlaceDoc; campaign: 
     <div className="space-y-6">
       <div className="overflow-hidden rounded-2xl border border-border-subtle bg-surface">
         {image ? (
-          <a href={refUrl(doc.campaign, image)} target="_blank" rel="noreferrer" title={`Open ${image}`}>
+          <ImageButton src={refUrl(doc.campaign, image)} alt={doc.title} caption={image} title={`Open ${image}`}>
             <img
               src={refUrl(doc.campaign, image)}
               alt={doc.title}
               style={{ aspectRatio: aspect }}
               className="max-h-[32rem] w-full bg-surface-2 object-contain"
             />
-          </a>
+          </ImageButton>
         ) : (
           <div style={{ aspectRatio: aspect }} className="flex max-h-[32rem] w-full flex-col items-center justify-center gap-2 bg-surface-2 text-text-dim/60">
             <MapPin size={40} weight="thin" />

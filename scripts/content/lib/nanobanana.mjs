@@ -7,10 +7,11 @@
 // Auth: GOOGLE_AI_API_KEY (or GEMINI_API_KEY), from the environment or the repo-root .env.
 // Ported from fortuna-app (scripts/art/lib/nanobanana.mjs): exported as generateImage()
 // for scripts/content/photos.mjs, which throws instead of exiting, and no --png/sharp.
-import { existsSync, readFileSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { ImageError, loadEnv } from './env.mjs';
 
 export const MODELS = {
   'nano-banana-pro': 'gemini-3-pro-image', // Nano Banana Pro: best likeness across many refs (default)
@@ -35,44 +36,21 @@ const API_BASE = 'https://generativelanguage.googleapis.com/v1beta';
 /** Aspect ratios imageConfig accepts. Anything else is snapped to the nearest. */
 const ASPECTS = ['1:1', '1:4', '4:1', '1:8', '8:1', '2:3', '3:2', '3:4', '4:3', '4:5', '5:4', '9:16', '16:9', '21:9'];
 export const SIZES = ['512', '1K', '2K', '4K'];
+/** The sizes a model takes: the same for every Gemini model here. */
+export const sizesFor = () => SIZES;
 const MIME_BY_EXT = { '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.webp': 'image/webp', '.gif': 'image/gif' };
 
-/** `api`: the request failed. `blocked`: no image came back, usually a refusal. */
-export class ImageError extends Error {
-  constructor(kind, message, notes = '') {
-    super(message);
-    this.kind = kind;
-    this.notes = notes;
-  }
-}
+export { ImageError };
+export const KEY_NAME = 'GOOGLE_AI_API_KEY';
 
 const warn = (msg) => console.error(`[nanobanana] warning: ${msg}`);
 
 /** Masks Google API keys in anything printed. */
 export const redact = (s) => String(s).replace(/AIza[0-9A-Za-z_-]{20,}/g, 'AIza…');
 
-/** Minimal .env parser: KEY=VALUE, `#` comments, optional quotes. No interpolation. */
-function parseEnvFile(text) {
-  const out = {};
-  for (const raw of text.split(/\r?\n/)) {
-    const line = raw.trim();
-    if (!line || line.startsWith('#')) continue;
-    const eq = line.indexOf('=');
-    if (eq < 1) continue;
-    const key = line.slice(0, eq).trim().replace(/^export\s+/, '');
-    let value = line.slice(eq + 1).trim();
-    if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) value = value.slice(1, -1);
-    out[key] = value;
-  }
-  return out;
-}
-
 /** The API key: a real environment variable wins over the repo-root .env. Null when neither has one. */
 export function apiKey() {
-  const file = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../../.env');
-  if (existsSync(file)) {
-    for (const [k, v] of Object.entries(parseEnvFile(readFileSync(file, 'utf8')))) if (!process.env[k]) process.env[k] = v;
-  }
+  loadEnv();
   return process.env.GOOGLE_AI_API_KEY || process.env.GEMINI_API_KEY || null;
 }
 

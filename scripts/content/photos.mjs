@@ -1,7 +1,10 @@
-// Generate a campaign's backstage photos with Nano Banana (Gemini image).
+// Generate a campaign's backstage photos through ElevenLabs (GPT Image 2 by default),
+// or straight from Google's Nano Banana (Gemini image) with --provider=google.
 //
 //   npm run content:photos -- <campaign> [--who="Michael Jordan"] [--only=arrival-michael-jordan,group-selfie-rock]
-//     [--print] [--dry-run] [--force] [--model=pro|flash|lite] [--size=1K|2K|4K] [--concurrency=3] [--limit=N] [--yes]
+//     [--print] [--dry-run] [--force] [--size=1K|2K] [--concurrency=3] [--limit=N] [--yes]
+//     [--model=gpt-image|gemini-pro|gemini-flash|seedream|seedream-lite]
+//   npm run content:photos -- <campaign> --provider=google [--model=pro|flash|lite] [--size=1K|2K|4K] …
 //   npm run content:photos -- <campaign> --doc=portraits …
 //   npm run content:photos -- <campaign> --places [--only=place-press-room] …
 //
@@ -18,14 +21,17 @@
 // every photo set there then gets attached. Make those first.
 //
 // --print shows the prompts, --dry-run the requests; both are free and need no key.
-// A real run prints the count and cost first and asks. Key: GOOGLE_AI_API_KEY in .env.
+// A real run prints the count and cost first and asks. Key: ELEVENLABS_API_KEY in .env
+// (GOOGLE_AI_API_KEY with --provider=google). Seedream has no 3:2 preset, so landscape
+// photos come out 4:3 from it.
 // Ported from fortuna-app (scripts/art/generate.mjs).
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { createInterface } from 'node:readline/promises';
 import { fileURLToPath } from 'node:url';
 import { createServer } from 'vite';
-import { ImageError, PRICE, SIZES, apiKey, buildRequest, generateImage, modelId, redact, redactRequest } from './lib/nanobanana.mjs';
+import * as elevenlabs from './lib/elevenlabs-image.mjs';
+import * as google from './lib/nanobanana.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const die = (msg) => {
@@ -44,9 +50,20 @@ for (const arg of process.argv.slice(2)) {
 }
 const campaignId = positional[0];
 if (!campaignId) die('usage: npm run content:photos -- <campaign> [--doc=id] [--who=Name] [--only=a,b] [--print] [--dry-run] [--force] [--yes]');
-const model = modelId(flags.model ?? 'pro');
+const PROVIDERS = { elevenlabs, google };
+const provider = flags.provider ?? 'elevenlabs';
+const lib = PROVIDERS[provider];
+if (!lib) die(`--provider must be one of ${Object.keys(PROVIDERS).join(' ')}`);
+const { ImageError, redact, redactRequest } = lib;
+const model = lib.modelId(typeof flags.model === 'string' ? flags.model : undefined);
 const size = flags.size ?? '2K';
-if (!SIZES.includes(size)) die(`--size must be one of ${SIZES.join(' ')}`);
+let sizes;
+try {
+  sizes = lib.sizesFor(model);
+} catch (e) {
+  die(e.message);
+}
+if (!sizes.includes(size)) die(`--size must be one of ${sizes.join(' ')} for ${model}`);
 const concurrency = Math.max(1, Number(flags.concurrency ?? 3));
 const only = typeof flags.only === 'string' ? new Set(flags.only.split(',').map((s) => s.trim())) : null;
 
@@ -172,19 +189,26 @@ if (flags.print) {
 }
 if (flags['dry-run']) {
   for (const j of jobs) {
-    const body = redactRequest(await buildRequest({ prompt: j.prompt, refs: j.refs, aspect: j.aspect, size }));
-    console.log(JSON.stringify({ name: j.name, model, body }, null, 2));
+    let body;
+    try {
+      body = redactRequest(await lib.buildRequest({ prompt: j.prompt, refs: j.refs, aspect: j.aspect, size, model }));
+    } catch (e) {
+      console.log(`[photos] ✗ ${j.name}: ${e.message}`);
+      continue;
+    }
+    console.log(JSON.stringify({ name: j.name, provider, model, body }, null, 2));
   }
   process.exit(0);
 }
 
 // --- A real run ---------------------------------------------------------------
 
-const key = apiKey();
-if (!key) die('no API key: set GOOGLE_AI_API_KEY in the environment or in .env at the repo root (see .env.example)');
+const key = lib.apiKey();
+if (!key) die(`no API key: set ${lib.KEY_NAME} in the environment or in .env at the repo root (see .env.example)`);
 
-const cost = (jobs.length * (PRICE[model] ?? 0)).toFixed(2);
-console.log(`[photos] ${jobs.length} ${flags.places ? 'place image' : 'photo'}(s) in ${campaignId} with ${model} at ${size}, about $${cost}:`);
+const price = lib.PRICE[model];
+const cost = price === undefined ? 'cost unknown (ElevenLabs bills in plan credits)' : `about $${(jobs.length * price).toFixed(2)}`;
+console.log(`[photos] ${jobs.length} ${flags.places ? 'place image' : 'photo'}(s) in ${campaignId} with ${model} at ${size}, ${cost}:`);
 for (const j of jobs) console.log(`  ${j.name}`);
 if (!flags.yes) {
   if (!process.stdin.isTTY) die('not a terminal: pass --yes to confirm');
@@ -223,7 +247,7 @@ async function worker() {
     const j = jobs[next++];
     writeFileSync(path.join(promptsDir, `${j.name}.txt`), `${transcript(j)}\n`);
     try {
-      const { file, bytes, notes } = await generateImage({
+      const { file, bytes, notes } = await lib.generateImage({
         prompt: j.prompt,
         refs: j.refs,
         model,
@@ -249,5 +273,5 @@ await Promise.all(Array.from({ length: Math.min(concurrency, jobs.length) }, wor
 console.log(`\n[photos] ${results.done.length} done, ${results.blocked.length} refused, ${results.failed.length} failed`);
 if (results.blocked.length) console.log(`  refused (reword the prompt, or note it in the brief): ${results.blocked.join(', ')}`);
 const retry = [...results.blocked, ...results.failed];
-if (retry.length) console.log(`  retry: npm run content:photos -- ${campaignId}${flags.places ? ' --places' : ''}${typeof flags.doc === 'string' ? ` --doc=${flags.doc}` : ''} --only=${retry.join(',')}${flags.force ? ' --force' : ''}`);
+if (retry.length) console.log(`  retry: npm run content:photos -- ${campaignId}${provider !== 'elevenlabs' ? ` --provider=${provider}` : ''}${typeof flags.model === 'string' ? ` --model=${flags.model}` : ''}${flags.places ? ' --places' : ''}${typeof flags.doc === 'string' ? ` --doc=${flags.doc}` : ''} --only=${retry.join(',')}${flags.force ? ' --force' : ''}`);
 process.exit(retry.length ? 1 : 0);

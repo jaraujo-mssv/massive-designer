@@ -2,6 +2,7 @@ import { User } from "@phosphor-icons/react";
 import { refUrl } from "../content";
 import type { Campaign, PersonDoc } from "../types";
 import { photoDocsOf, promptOf } from "../utils/photoPrompt";
+import { RefImages } from "./RefImages";
 import { Markdown } from "./Markdown";
 
 /** A real person in the campaign: who they are, how they're described to image models, and where they appear. */
@@ -35,24 +36,7 @@ export function PersonView({ doc, campaign, onOpen }: { doc: PersonDoc; campaign
           <p className="text-sm leading-relaxed text-text-mid">{doc.look ?? <span className="text-amber-300">No description yet</span>}</p>
         </section>
 
-        {doc.refs.length > 0 && (
-          <section>
-            <h3 className="mb-2 text-xs font-semibold uppercase tracking-widest text-text-dim">Reference images</h3>
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-              {doc.refs.map((r) => (
-                <a key={r.file} href={refUrl(doc.campaign, r.file)} target="_blank" rel="noreferrer" className="group block">
-                  <img
-                    src={refUrl(doc.campaign, r.file)}
-                    alt={r.use}
-                    className="aspect-square w-full rounded-lg border border-border-subtle bg-surface-2 object-cover object-top transition group-hover:border-brand"
-                  />
-                  <span className="mt-1 block font-mono text-[10px] text-text-dim">{r.file}</span>
-                  <span className="block text-xs text-text-mid">{r.use}</span>
-                </a>
-              ))}
-            </div>
-          </section>
-        )}
+        <RefImages campaign={doc.campaign} refs={doc.refs} />
 
         {photos && appears.length > 0 && (
           <section>

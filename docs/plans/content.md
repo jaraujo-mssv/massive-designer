@@ -76,15 +76,6 @@ Unknown kinds, statuses or formats don't break the tab. They show as amber warni
 - **Key:** `GOOGLE_AI_API_KEY` (or `GEMINI_API_KEY`), from the environment or from a `.env` file at the repo root. `.env` is gitignored; see `.env.example`.
 - **Single images:** `scripts/content/lib/nanobanana.mjs` also runs on its own, for example `--prompt-file p.txt --ref face.jpg --aspect 3:2 --out x.jpg`.
 
-## Password
-
-The deployed Content tab is behind a password: the browser's own password box (HTTP Basic auth), with one shared password in `CONTENT_PASSWORD`, set in the Vercel project's env vars for Production and Preview. Any username works. Locally (`npm run dev`, `npm run preview`) it's open.
-
-- `middleware.ts` (Vercel Routing Middleware) guards the page (`/content`), its images (`/content/<campaign>/…`) and the JS chunk that carries the markdown. The campaigns are baked into the build, so hiding the tab alone wouldn't keep them private.
-- `vite.config.ts` puts the Content tab and its markdown in `assets/protected-content-<hash>.js`; the middleware matcher names that prefix, so the two have to stay in sync.
-- The Content link in the nav loads the page for real in production, so the browser asks for the password before the tab loads.
-- A deploy without `CONTENT_PASSWORD` answers 503 on those paths rather than serving them.
-
 ## Adding a campaign
 
 Make a folder under `content/` with a `brief.md` (its `title` names the campaign) and docs of the kinds above. With more than one campaign, a picker appears above the list.
@@ -117,8 +108,7 @@ src/tools/content/app/
     LegendCard.tsx, LegendView.tsx, PersonView.tsx, PlaceView.tsx, PhotoGrid.tsx
     PagePreview.tsx, ConsentToy.tsx
     Checklist.tsx, Markdown.tsx, pills.tsx
-vite.config.ts                 contentWritePlugin (dev only), the protected-content chunk
-middleware.ts                  the deployed site's password for the tab (Vercel)
+vite.config.ts                 contentWritePlugin (dev only)
 scripts/content/photos.mjs     npm run content:photos: batch photo generation
 scripts/content/lib/nanobanana.mjs  Gemini image API (Nano Banana), ported from fortuna-app
 ```

@@ -17,15 +17,13 @@ import {
 
 // Order is the nav order. `group` splits the nav with a divider: the
 // sheet-driven canvas tools first, then the rest. Deprecated tools stay
-// routable by direct URL but are hidden from the nav. A `passworded` tool sits behind
-// the deployed site's password (middleware.ts), so its link loads the page for real:
-// that request is what makes the browser ask for the password.
-const tools: { label: string; route: string; icon: Icon; group: string; deprecated?: boolean; passworded?: boolean }[] = [
+// routable by direct URL but are hidden from the nav.
+const tools: { label: string; route: string; icon: Icon; group: string; deprecated?: boolean }[] = [
   { label: 'Market Map', route: '/market-map', icon: SquaresFour, group: 'canvas' },
   { label: 'Top List', route: '/top-list', icon: Trophy, group: 'canvas' },
   { label: 'Partnership Post', route: '/partnership-post', icon: Handshake, group: 'other' },
   { label: 'Video', route: '/video', icon: VideoCamera, group: 'other' },
-  { label: 'Content', route: '/content', icon: Notebook, group: 'other', passworded: true },
+  { label: 'Content', route: '/content', icon: Notebook, group: 'other' },
   { label: 'Logo Encoder', route: '/logo-encoder', icon: ImageSquare, group: 'other' },
   { label: 'Social Media', route: '/social-media', icon: ShareNetwork, group: 'other', deprecated: true },
   { label: 'Campaign Designer', route: '/campaign-designer', icon: Megaphone, group: 'other', deprecated: true },
@@ -34,15 +32,11 @@ const tools: { label: string; route: string; icon: Icon; group: string; deprecat
 
 const visibleTools = tools.filter((t) => !t.deprecated)
 
-/** Full page loads for passworded tools, only where the password exists: the deployed build. */
-const reloads = (t: { passworded?: boolean }) => import.meta.env.PROD && !!t.passworded
-
-function NavLink({ to, label, icon: ToolIcon, reloadDocument }: { to: string; label: string; icon: Icon; reloadDocument?: boolean }) {
+function NavLink({ to, label, icon: ToolIcon }: { to: string; label: string; icon: Icon }) {
   const match = useMatch(to)
   return (
     <Link
       to={to}
-      reloadDocument={reloadDocument}
       style={{
         fontFamily: "'JetBrains Mono', monospace",
         fontSize: '0.78rem',
@@ -121,7 +115,6 @@ function MobileNav() {
                   )}
                   <Link
                     to={t.route}
-                    reloadDocument={reloads(t)}
                     onClick={() => setOpen(false)}
                     className={`flex items-center gap-3 px-3 py-3 rounded-lg font-mono text-sm ${
                       active ? 'text-brand-light bg-brand/10 font-semibold' : 'text-text-mid hover:bg-surface-2'
@@ -192,7 +185,7 @@ export function Header() {
                 style={{ width: '1px', height: '18px', margin: '0 0.5rem', backgroundColor: 'var(--border-subtle)' }}
               />
             )}
-            <NavLink to={t.route} label={t.label} icon={t.icon} reloadDocument={reloads(t)} />
+            <NavLink to={t.route} label={t.label} icon={t.icon} />
           </Fragment>
         ))}
       </nav>

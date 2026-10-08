@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1280, height=560" />
+    <title>Consent Circuit Loop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=JetBrains+Mono:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="lib/frame-kit.js"></script>
+    <link rel="stylesheet" href="lib/frame-kit.css" />
+    <link rel="stylesheet" href="lib/massive.css" />
+    <style>
+      html,
+      body {
+        width: 1280px;
+        height: 560px;
+        overflow: hidden;
+        background: transparent;
+      }
+      #stage {
+        position: relative;
+        width: 1280px;
+        height: 560px;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- A seamless 4 s loop of the User → Network → Reward circuit from slide 02 of
+         scripts/deck/consent-sourcing-v2.html, on a transparent background.
+         Export: npx hyperframes render --format png-sequence --output <dir>, then
+         encode the RGBA frames with ffmpeg to a GIF (1-bit alpha) or animated WebP. -->
+    <div id="stage" data-composition-id="consent-circuit-loop" data-start="0" data-duration="4" data-fps="30" data-width="1280" data-height="560">
+      <div id="ccl-circuit" class="clip scene"
+        data-composition-id="ccl-circuit" data-composition-src="compositions/circuit.html"
+        data-start="0" data-duration="4" data-track-index="0" data-width="1280" data-height="560"></div>
+    </div>
+    <script>
+      window.__timelines["consent-circuit-loop"] = gsap.timeline({ paused: true });
+    </script>
+  </body>
+</html>

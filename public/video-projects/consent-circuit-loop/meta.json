@@ -1,0 +1,8 @@
+{
+  "id": "consent-circuit-loop",
+  "name": "Consent Circuit Loop",
+  "group": "massive",
+  "kind": "native",
+  "status": "draft",
+  "source": "scripts/deck/consent-sourcing-v2.html (slide 02)"
+}

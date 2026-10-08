@@ -410,6 +410,50 @@
       ]
     },
     {
+      "id": "consent-circuit-loop",
+      "title": "Consent Circuit Loop",
+      "group": "massive",
+      "kind": "native",
+      "brand": null,
+      "status": "draft",
+      "source": "scripts/deck/consent-sourcing-v2.html (slide 02)",
+      "compositionId": "consent-circuit-loop",
+      "width": 1280,
+      "height": 560,
+      "fps": 30,
+      "duration": 4,
+      "path": "/video-projects/consent-circuit-loop/index.html",
+      "storyboard": {
+        "globals": {
+          "extra": {
+            "duration": "4s"
+          },
+          "format": "1280x560",
+          "message": "Consented bandwidth flows from the user to the network, and the reward flows back.",
+          "arc": "One seamless loop of the circuit diagram from slide 02 of the consent-sourcing deck.",
+          "audience": "Readers of the consent-sourcing deck and posts; exported as a looping GIF."
+        },
+        "warnings": [],
+        "frames": [
+          {
+            "index": 1,
+            "title": "Circuit loop",
+            "status": "built",
+            "scene": "The User → Network → Reward diagram. Bandwidth packets travel the red line and ripple the network as they pass; the reward node glows on arrival; green reward packets ride the arc back and light up the user. Rings spin once per loop.",
+            "voiceover": "none",
+            "narrative": "",
+            "src": "compositions/circuit.html",
+            "start": 0,
+            "duration": 4,
+            "poster": null,
+            "transitionIn": null
+          }
+        ]
+      },
+      "script": null,
+      "media": []
+    },
+    {
       "id": "holiday-greetings",
       "title": "Holiday greetings",
       "group": "templates",

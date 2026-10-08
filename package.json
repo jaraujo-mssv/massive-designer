@@ -12,6 +12,7 @@
     "onepager": "node scripts/onepager/render.mjs",
     "docs": "node scripts/docs/render.mjs",
     "deck": "node scripts/deck/render.mjs",
+    "deck:pptx": "node scripts/deck/pptx.mjs",
     "video:index": "node scripts/video/build-index.mjs",
     "video:brand": "node scripts/video/sync-brand.mjs",
     "video:media": "node scripts/video/sync-media.mjs",
@@ -98,6 +99,7 @@
     "@vitejs/plugin-react": "4.7.0",
     "hyperframes": "0.8.77",
     "playwright": "^1.60.0",
+    "pptxgenjs": "^4.0.1",
     "tailwindcss": "4.1.12",
     "typescript": "^5.7.0",
     "vite": "6.3.5"

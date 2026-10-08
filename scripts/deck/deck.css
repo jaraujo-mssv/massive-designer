@@ -436,6 +436,23 @@ strong { color: var(--text); font-weight: 600; }
 .card.link { flex-direction: row; align-items: center; gap: 28px; padding: 28px 32px; }
 .card.link p { font-size: 26px; margin-top: 6px; white-space: nowrap; }
 
+/* One screenshot filling the right side of a split slide, framed like a bad card */
+.split .visual.shot { display: flex; align-items: center; justify-content: center; }
+.shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+  object-fit: contain;
+}
+.shot img, img.shot-mini {
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--red);
+}
+
+/* A second, smaller screenshot in the text column */
+img.shot-mini { display: block; width: 100%; height: auto; }
+
 /* Small note under a card's text, explaining its image */
 .caption { margin-top: auto; font-size: 20px; line-height: 1.45; color: var(--text-dim); }
 

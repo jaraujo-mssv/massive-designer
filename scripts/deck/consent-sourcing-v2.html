@@ -72,18 +72,24 @@
      ====================================================================== -->
 <section class="slide" data-sec="Why this matters">
   <h2>Networks built without consent<br><span class="hl">are being shut down.</span></h2>
-  <div class="body grid-2" style="display:grid">
+  <div class="body grid-3" style="display:grid">
     <div class="card bad">
-      <img class="card-banner" src="_assets/case-ipidea-reuters.png" alt="" style="object-position:left top; background:#fff">
+      <img class="card-banner era" src="_assets/case-ipidea-gti.png" alt="Google Threat Intelligence: the IPIDEA proxy network and the brands it controls" style="height:260px; object-position:left top; background:#fff">
       <div class="k">Jan 28, 2026 · IPIDEA</div>
-      <h3>Google disrupts one of the world's largest residential proxy networks.</h3>
-      <div class="source" style="margin-top:auto">Reuters, Jan 28 2026</div>
+      <h3 style="font-size:36px">Google disrupts one of the world's largest residential proxy networks.</h3>
+      <div class="source" style="margin-top:auto">GTIG · Google Cloud blog, Jan 2026</div>
     </div>
     <div class="card bad">
-      <img class="card-banner" src="_assets/case-netnut.png" alt="" style="object-position:center top">
+      <img class="card-banner era" src="_assets/case-netnut.png" alt="" style="height:260px; object-position:center top">
       <div class="k">Jul 2, 2026 · NetNut / Popa</div>
-      <h3>FBI seizes hundreds of NetNut domains, with Google and Lumen.</h3>
+      <h3 style="font-size:36px">FBI seizes hundreds of NetNut domains, with Google and Lumen.</h3>
       <div class="source" style="margin-top:auto">FBI · Google Cloud blog, Jul 2026 · Image: netnut.com</div>
+    </div>
+    <div class="card bad">
+      <img class="card-banner era" src="_assets/case-ipweb.png" alt="IPWeb Platform Business Adjustment Notice" style="height:260px; object-position:center top; background:#fff">
+      <div class="k">Oct 3, 2026 · IPWeb</div>
+      <h3 style="font-size:36px">IPWeb discontinues its dynamic IP services, citing regulatory requirements.</h3>
+      <div class="source" style="margin-top:auto">IPWeb platform notice, Oct 2026 · ipweb.cc</div>
     </div>
   </div>
 </section>
@@ -95,16 +101,16 @@
   <h2>How residential IPs <span class="hl">have been sourced.</span></h2>
   <div class="body grid-3" style="display:grid">
     <div class="card bad">
-      <img class="card-banner era" src="_assets/era-hola.png" alt="">
+      <img class="card-banner era" src="_assets/era-hola-thn.png" alt="The Hacker News: Hola, a popular free VPN used as a giant botnet" style="object-position:center top">
       <div class="k">Early days</div>
       <h3>Botnets, P2P apps and free VPNs routed traffic through users' devices.</h3>
-      <div class="source" style="margin-top:auto">Image: Proxyway, on Trend Micro's research</div>
+      <div class="source" style="margin-top:auto">Image: The Hacker News, May 2015</div>
     </div>
     <div class="card bad">
-      <img class="card-banner era" src="_assets/era-sdk.png" alt="" style="object-fit:contain; background:#fff">
+      <img class="card-banner era" src="_assets/era-sdk-helpnet.png" alt="Help Net Security: apps secretly turning devices into proxy network nodes removed from Google Play" style="object-position:center top; background:#fff">
       <div class="k">The SDK era</div>
       <h3>Apps were paid per install to embed proxy SDKs, often without telling users.</h3>
-      <div class="source" style="margin-top:auto">Image: Google Threat Intelligence</div>
+      <div class="source" style="margin-top:auto">Image: Help Net Security, Mar 2024</div>
     </div>
     <div class="card good">
       <img class="card-banner era" src="_assets/era-consent.png" alt="">
@@ -115,29 +121,51 @@
 </section>
 
 <!-- ======================================================================
-     5 · Three dark patterns
+     5 · Dark pattern 1: Hidden
      ====================================================================== -->
-<section class="slide" data-sec="Three dark patterns">
-  <h2>Three common consent <span class="hl">dark patterns.</span></h2>
-  <div class="body grid-3" style="display:grid">
-    <div class="card bad">
-      <img class="card-banner" src="_assets/dark-hijackers.png" alt="" style="height:320px; object-position:center top">
-      <h3>Hidden</h3>
-      <p>No visible consent, basically a trojan.</p>
-      <p class="caption">Toolbars bundled into other installs, never clearly asked for.</p>
+<section class="slide split" data-sec="Three dark patterns">
+  <div class="text" style="width:600px">
+    <div class="eyebrow">Dark pattern 1 of 3</div>
+    <h2>Hidden.</h2>
+    <p class="lede">No visible consent, basically a trojan.</p>
+    <p class="caption">Toolbars bundled into other installs, never clearly asked for.</p>
+  </div>
+  <div class="visual shot">
+    <img src="_assets/dark-hidden-toolbars.png" alt="Internet Explorer buried under bundled toolbars">
+  </div>
+</section>
+
+<!-- ======================================================================
+     5b · Dark pattern 2: Fake consent
+     ====================================================================== -->
+<section class="slide split" data-sec="Three dark patterns">
+  <div class="text" style="width:600px">
+    <div class="eyebrow">Dark pattern 2 of 3</div>
+    <h2>Fake consent.</h2>
+    <p class="lede">Every box comes pre-ticked, counting on people to click Next without reading. Not noticing becomes a yes, and there's no way to pause it later.</p>
+    <p class="caption">Java's installer, with the Ask toolbar, search engine and home page changes all pre-ticked, and the terms in one small line.</p>
+  </div>
+  <div class="visual shot">
+    <img src="_assets/dark-fake-java.png" alt="Java installer offering the Ask toolbar, every box pre-ticked" style="width:720px">
+  </div>
+</section>
+
+<!-- ======================================================================
+     5c · Dark pattern 3: Hostage
+     ====================================================================== -->
+<section class="slide split" data-sec="Three dark patterns">
+  <div class="text" style="width:600px">
+    <div class="eyebrow">Dark pattern 3 of 3</div>
+    <h2>Hostage.</h2>
+    <p class="lede">Consent shown, but runs as a system process with no uninstall.</p>
+    <div class="spot">
+      <div class="k">Help sites had to explain how to remove it</div>
+      <img class="shot-mini" src="_assets/dark-hostage-removal.png" alt="A help site's Zango removal instructions">
     </div>
-    <div class="card bad">
-      <img class="card-banner" src="_assets/dark-avast.png" alt="" style="height:320px; object-position:center">
-      <h3>Fake consent</h3>
-      <p>Buried or vague language, no way to pause.</p>
-      <p class="caption">Avast's installer, with an extra browser pre-ticked and the terms in one small line.</p>
-    </div>
-    <div class="card bad">
-      <img class="card-banner" src="_assets/dark-zango.jpg" alt="" style="height:320px; object-position:center bottom">
-      <h3>Hostage</h3>
-      <p>Consent shown, but runs as a system process with no uninstall.</p>
-      <p class="caption">Zango showed a license screen, then ran at every startup and left files behind that needed extra tools to remove.</p>
-    </div>
+    <p class="caption">Zango showed a license screen, then ran at every startup and left files behind. Help sites like PC Hell published step-by-step guides so people could get rid of it.</p>
+  </div>
+  <div class="visual shot">
+    <img src="_assets/dark-zango.jpg" alt="Zango license screen">
   </div>
 </section>
 

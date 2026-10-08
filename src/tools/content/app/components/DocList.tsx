@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { MagnifyingGlass, SquaresFour, X } from "@phosphor-icons/react";
+import { ChatCircleText, MagnifyingGlass, X } from "@phosphor-icons/react";
 import { sidebarHeadingClass } from "@/shared/components/SidebarLayout";
 import { KIND, KIND_IDS, STATUS, STATUS_IDS } from "../constants";
 import type { Campaign, ContentDoc, DocKind, DocStatus } from "../types";
@@ -22,7 +22,7 @@ export function DocList({
 }: {
   campaign: Campaign;
   campaigns: Campaign[];
-  /** The open doc, or null on the campaign overview. */
+  /** The open doc, or null on the campaign's posts. */
   selectedKey: string | null;
   onSelect: (key: string | null) => void;
   onCampaign: (id: string) => void;
@@ -57,7 +57,8 @@ export function DocList({
     });
   }, [campaign, query, kind, legend, status]);
 
-  const kinds = KIND_IDS.filter((k) => campaign.docs.some((d) => d.kind === k));
+  // Posts are the page the tab opens on, reached from the button at the top, not a group.
+  const kinds = KIND_IDS.filter((k) => k !== "posts" && campaign.docs.some((d) => d.kind === k));
   const filtered = query || kind !== "all" || legend !== "all" || status !== "all";
   const reset = () => {
     setQuery("");
@@ -144,8 +145,8 @@ export function DocList({
             selectedKey === null ? "border-brand/30 bg-surface-2" : "border-transparent hover:bg-surface-2"
           }`}
         >
-          <SquaresFour size={14} weight="fill" className={selectedKey === null ? "text-brand-light" : "text-text-dim"} />
-          <span className="text-sm text-text-primary">Overview</span>
+          <ChatCircleText size={14} weight="fill" className={selectedKey === null ? "text-brand-light" : "text-text-dim"} />
+          <span className="text-sm text-text-primary">Social posts</span>
         </button>
 
         {docs.length === 0 && (

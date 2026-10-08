@@ -4,16 +4,16 @@ import { Notebook } from "@phosphor-icons/react";
 import { Toaster } from "sonner";
 import { SidebarLayout } from "@/shared/components/SidebarLayout";
 import { useIsMobile } from "@/shared/components/ui/use-mobile";
-import { CampaignOverview } from "./components/CampaignOverview";
 import { DocList } from "./components/DocList";
 import { DocPane } from "./components/DocPane";
+import { PostsPage } from "./components/PostsPage";
 import { SCRIPT_VIEWS, type ScriptView } from "./constants";
 import { CAMPAIGNS, findCampaign, findDoc } from "./content";
 
 /**
  * Campaign content (scripts, legends, photo shotlists, landing pages) from the
  * markdown under content/. URL: `?doc=<campaign>/<id>&view=script|animatic`,
- * or `?c=<campaign>` for a campaign's overview.
+ * or `?c=<campaign>` for a campaign's social posts, the page it opens on.
  */
 export default function App() {
   const [params, setParams] = useSearchParams();
@@ -21,8 +21,12 @@ export default function App() {
   const isMobile = useIsMobile();
   const main = useRef<HTMLDivElement>(null);
 
-  const doc = findDoc(params.get("doc"));
-  const campaign = (doc && findCampaign(doc.campaign)) ?? findCampaign(params.get("c")) ?? CAMPAIGNS[0] ?? null;
+  // The posts doc is the landing page, so a link to it opens that.
+  const found = findDoc(params.get("doc"));
+  const doc = found?.kind === "posts" ? null : found;
+  const campaignOfLink = found?.kind === "posts" ? found.campaign : null;
+  const campaign =
+    (doc && findCampaign(doc.campaign)) ?? findCampaign(campaignOfLink ?? params.get("c")) ?? CAMPAIGNS[0] ?? null;
   const view: ScriptView = params.get("view") === "animatic" ? "animatic" : "script";
 
   // Merge, never replace, so picking a doc keeps ?view=.
@@ -105,7 +109,7 @@ export default function App() {
           {doc ? (
             <DocPane doc={doc} campaign={campaign} view={view} viewSwitch={isMobile ? null : viewSwitch} onOpen={open} />
           ) : (
-            <CampaignOverview campaign={campaign} onOpen={open} />
+            <PostsPage campaign={campaign} />
           )}
         </div>
       </SidebarLayout>

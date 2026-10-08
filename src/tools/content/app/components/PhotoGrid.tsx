@@ -12,7 +12,7 @@ import { ImageButton } from "./Lightbox";
 import { Markdown } from "./Markdown";
 import { RefImages } from "./RefImages";
 
-export function CopyPrompt({ text, title }: { text: string; title?: string }) {
+export function CopyPrompt({ text, title, label = "Copy prompt" }: { text: string; title?: string; label?: string }) {
   const [copied, setCopied] = useState(false);
   const copy = async () => {
     try {
@@ -30,7 +30,7 @@ export function CopyPrompt({ text, title }: { text: string; title?: string }) {
       className="flex shrink-0 items-center gap-1 rounded-md border border-border-subtle px-2 py-1 font-mono text-[11px] text-text-mid transition-colors hover:border-brand hover:text-brand-light"
     >
       {copied ? <Check size={11} weight="bold" /> : <Copy size={11} />}
-      {copied ? "Copied" : "Copy prompt"}
+      {copied ? "Copied" : label}
     </button>
   );
 }

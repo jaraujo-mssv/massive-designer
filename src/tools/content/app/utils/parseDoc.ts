@@ -1,6 +1,6 @@
 import { parse as parseYaml } from "yaml";
 import { KIND_IDS, STATUS_IDS } from "../constants";
-import type { ContentDoc, DocKind, DocSection, DocStatus } from "../types";
+import type { ContentDoc, DocKind, DocSection, DocStatus, Post } from "../types";
 import { parseChecklist } from "./checklist";
 import { parseEntries, parseShots } from "./shots";
 
@@ -41,6 +41,21 @@ const refsOf = (v: unknown) =>
   (Array.isArray(v) ? v : [])
     .map((r: { file?: unknown; use?: unknown }) => ({ file: str(r?.file), use: str(r?.use) ?? "" }))
     .filter((r): r is { file: string; use: string } => r.file !== null);
+
+/**
+ * A posts doc's posts: one per `##` section. An `Images: a.jpg, b.jpg` line names
+ * its photos; everything else is the copy, line breaks kept.
+ */
+function parsePosts(sections: DocSection[], warnings: string[]): Post[] {
+  return sections.map((s) => {
+    const lines = s.body.split("\n");
+    const imagesLine = lines.find((l) => /^images:/i.test(l.trim()));
+    const images = imagesLine ? imagesLine.trim().replace(/^images:/i, "").split(",").map((f) => f.trim()).filter(Boolean) : [];
+    if (!images.length) warnings.push(`Post "${s.heading}" has no Images: line.`);
+    const text = lines.filter((l) => l !== imagesLine).join("\n").trim();
+    return { title: s.heading, text, images };
+  });
+}
 
 export const section = (doc: { sections: DocSection[] }, heading: string) =>
   doc.sections.find((s) => s.heading.toLowerCase() === heading.toLowerCase()) ?? null;
@@ -147,5 +162,7 @@ export function parseDoc(path: string, raw: string, legendNames: Record<string, 
       return { ...base, kind, url: str(data.url) };
     case "photos":
       return { ...base, kind, refs: refsOf(data.refs) };
+    case "posts":
+      return { ...base, kind, posts: parsePosts(sections, warnings) };
   }
 }

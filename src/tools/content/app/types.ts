@@ -1,4 +1,4 @@
-export type DocKind = "brief" | "script" | "legend" | "person" | "place" | "photos" | "page";
+export type DocKind = "brief" | "script" | "legend" | "person" | "place" | "photos" | "page" | "posts";
 export type DocStatus = "draft" | "review" | "locked" | "done" | "blocked" | "archived";
 export type ScriptFormat = "vertical" | "landscape";
 
@@ -168,7 +168,22 @@ export interface PageDoc extends BaseDoc {
   url: string | null;
 }
 
-export type ContentDoc = BriefDoc | ScriptDoc | LegendDoc | PersonDoc | PlaceDoc | PhotosDoc | PageDoc;
+/** One social post: its copy as written, line breaks and all, and the photos that go with it. */
+export interface Post {
+  /** The `##` heading, a name for the post; it isn't part of the copy. */
+  title: string;
+  text: string;
+  /** Photo files, in `public/content/<campaign>/photos/`, in the order they're shown. */
+  images: string[];
+}
+
+/** The campaign's social posts, the first thing the tab shows for it. */
+export interface PostsDoc extends BaseDoc {
+  kind: "posts";
+  posts: Post[];
+}
+
+export type ContentDoc = BriefDoc | ScriptDoc | LegendDoc | PersonDoc | PlaceDoc | PhotosDoc | PageDoc | PostsDoc;
 
 export interface Campaign {
   id: string;
@@ -177,5 +192,7 @@ export interface Campaign {
   legends: LegendDoc[];
   people: PersonDoc[];
   places: PlaceDoc[];
+  /** The posts doc, shown when no other doc is open. */
+  posts: PostsDoc | null;
   docs: ContentDoc[];
 }

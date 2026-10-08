@@ -1,4 +1,4 @@
-import { Browser, Camera, Crown, FilmSlate, MapPin, Notebook, User, type Icon } from "@phosphor-icons/react";
+import { Browser, Camera, ChatCircleText, Crown, FilmSlate, MapPin, Notebook, User, type Icon } from "@phosphor-icons/react";
 import type { DocKind, DocStatus, ScriptFormat } from "./types";
 
 /**
@@ -27,6 +27,8 @@ export const KIND: Record<DocKind, { label: string; plural: string; Icon: Icon; 
   place: { label: "Place", plural: "Places", Icon: MapPin, className: "text-teal-300", rank: 4 },
   photos: { label: "Photos", plural: "Photos", Icon: Camera, className: "text-sky-400", rank: 5 },
   page: { label: "Page", plural: "Pages", Icon: Browser, className: "text-emerald-400", rank: 6 },
+  // Not listed with the others: it's the page the tab opens on.
+  posts: { label: "Posts", plural: "Posts", Icon: ChatCircleText, className: "text-brand-light", rank: 7 },
 };
 
 export const KIND_IDS = Object.keys(KIND) as DocKind[];

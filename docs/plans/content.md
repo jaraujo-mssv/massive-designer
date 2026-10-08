@@ -17,19 +17,20 @@ It organizes and previews campaign content before anything is shot: scripts, leg
 
 | Kind | Fields |
 |---|---|
-| all | `title`, `kind` (`brief`, `script`, `legend`, `person`, `photos`, `page`), `status` (`draft`, `review`, `locked`, `done`, `blocked`, `archived`), optional `week` (rollout week) |
-| brief | `tagline`, `signoff`, `url`, `goal`, used by every end card and the overview |
+| all | `title`, `kind` (`brief`, `script`, `legend`, `person`, `place`, `photos`, `page`, `posts`), `status` (`draft`, `review`, `locked`, `done`, `blocked`, `archived`), optional `week` (rollout week) |
+| brief | `tagline`, `signoff`, `url`, `goal`, used by every end card |
 | script | `legends: [washington]`, `standards`, `format: vertical \| landscape`, `target` (seconds), `endCard` |
 | legend | `short` (the name used in scripts), `look` (fixed appearance for video and image generation), `refs` (reference images), `then` (title in history), `role` (ambassador title), `trait`, `nod`, `standards`, `slides`, `earnedBy`, `trustBy`, `quote`, `endCard`, `link` |
 | person | `short` (the name prompts use), `role`, `look`, `refs`. A real person who appears alongside the legends, like Massive's CEO; a photo includes them, with their description and reference images, whenever its prompt names them |
 | place | `short` (its button name), `match` (phrases that put a photo there), `look`, `shot`, `aspect`, `refs`. A place the photos keep coming back to, like the press room or the office. Its first ref is an empty shot of it, attached to every photo whose prompt contains one of its `match` phrases (the longest wins), so the room looks the same from photo to photo |
 | page | `url` |
+| posts | nothing extra; see **Posts** below |
 
-Unknown kinds, statuses or formats don't break the tab. They show as amber warnings on the doc and on the overview.
+Unknown kinds, statuses or formats don't break the tab. They show as amber warnings on the doc.
 
 ### Body conventions
 
-- **Checklists:** any `- [ ]` / `- [x]` line is a checklist item. Progress shows in the list, the overview and the doc. `## Checklist` holds a doc's production checklist.
+- **Checklists:** any `- [ ]` / `- [x]` line is a checklist item. Progress shows in the list and the doc. `## Checklist` holds a doc's production checklist.
 - **Shots:** a script's `## Shots` holds one block per shot, headed `### Shot 1 · 6s`, where `6s` is the planned length. Each block is a list of fields:
   - `- **Visual:**` is what the outline describes.
   - `- **Camera:**` is framing, angle and movement, with where the move starts and ends.
@@ -43,11 +44,12 @@ Unknown kinds, statuses or formats don't break the tab. They show as amber warni
 - **Look and feel:** the brief's `## Look and feel` is the style every shot shares.
 - **Photos:** in the photos doc, `- [ ] **Washington:** …` under a `## Setting` heading puts a card in the legend × setting grid; items with no name are group shots. An indented `Prompt: …` line under an item is its image prompt, and an indented `Image: file.jpg` line is the finished photo, a file in `public/content/<campaign>/photos/`, shown at the top of its card. A campaign can have more than one photos doc, each with its own style: `photos.md` holds the candid backstage photos, `portraits.md` posed production portraits. `## Photo style` is the style every photo in that doc shares; a paragraph that opens `Indoors:` goes only into indoor photos, and one that opens `Outdoors:` only into photos set in a city. **Copy prompt** puts together the scene, the descriptions of everyone in it, the photo style, the format, and the reference images to attach with what each one is for. The images are numbered in the order they're attached, and each character's description names theirs ("Michael Jordan (image 4)"), so a model can tell whose face is whose. The scene wins over the style: a prompt that asks for a 135mm, deep focus or a posed photo gets it. Images follow Gemini 3 Pro Image's limits, at most 5 of people and 14 in all: everyone in frame gets their first (their portrait), then the photo's own character gets the rest of theirs, then the others get more in cast order; the official Massive logo (one for light surfaces, one for dark) comes after when the prompt mentions it. Branding is opt-in: only a scene that places the Massive logo (a backdrop, a banner, the reception wall, the billboard) is branded and gets the logo images, only one that says "Massive icon" (a lapel pin) gets the icon on its own (`massive-icon.png`, the mountain mark cropped from the logo), and only one that says "Massive T-shirt", "Massive tank top" or "Massive racerback" gets that "It's Massive" merch top (`massive-tee.jpg`, `massive-tank.jpg`, `massive-racerback.jpg`), which replaces the top in the wearer's description; every other prompt is told outright to show no Massive logo or name anywhere. Every prompt rules out other companies' brands, including on balls, hoops, sports gear, cars and devices. The copied prompt also states its location: the one city it names (Prague or San Francisco, found from the city and its landmarks), shown as itself, or no identifiable city for indoor shots. A card tags its city, and warns if a prompt names both. Under the prompt, one button per reference image (Portrait, Face, Full body, Logo light or dark, or another legend's name) copies that image itself to the clipboard as a PNG, to paste into the image tool.
 - **Reference images:** a legend's `refs:` lists images in `public/content/<campaign>/refs/`, each as `{ file, use }`. The first one is the portrait on their card. "Copy for Flow" lists them for the video too.
+- **Posts:** `posts.md` (`kind: posts`) holds the campaign's social posts, one per `##` section. The heading names the post and isn't part of the copy. An `Images: a.jpg, b.jpg` line lists its photos, files in `public/content/<campaign>/photos/`, in the order shown; everything else is the copy, line breaks kept as written.
 - **Landing page blocks:** `<!-- block: hero | film | legends | quotes | toy | cost -->` in a landing page section draws that block live. `legends` and `quotes` read from the legend docs, and `toy` is the working pre-ticked-box gag.
 
 ## Using it
 
-- **Overview** (no doc selected): tagline and goal, checklist progress, status counts, the rollout by week, open questions from the brief, and any file warnings.
+- **Social posts** (no doc selected, the page a campaign opens on): each post as it would sit in a feed, the copy with its line breaks and its photos (one large and two small for three), with **Copy text**. Photos open in the lightbox. A campaign without a `posts.md` says how to add one.
 - **Script:** has two views.
   - **Script** shows the cast and sets, every shot with its camera, action, screen, sound and lines, the total of the planned lengths against the target, the end card and the checklist. **Copy for Flow** copies the whole script as one plain-text brief to paste into ElevenLabs Flow: format and length, look and feel, cast and sets, every shot, and the end card copy.
   - **Animatic** shows each shot as a true-size frame (1080×1920 or 1920×1080) with burned-in captions, ending on the end card. Click a frame or **Full screen** to step through with ←/→. Export one PNG or all of them.
@@ -100,7 +102,7 @@ src/tools/content/app/
   components/
     DocList.tsx                search, kind/legend/status filters, grouped list
     DocPane.tsx                header, warnings, the reader for each kind
-    CampaignOverview.tsx       overview
+    PostsPage.tsx              social posts, the landing page
     ScriptView.tsx             cast, sets and shots
     AnimaticBoard.tsx          frames, export, full-screen viewer
     frames.tsx                 ShotFrame, EndCardFrame (artwork, real px)

@@ -21,6 +21,9 @@
     "video:new": "node scripts/video/new.mjs",
     "video:voice": "node scripts/video/record-voice.mjs",
     "video:sfx": "node scripts/video/mix-sfx.mjs",
+    "image:index": "node scripts/image/build-index.mjs",
+    "image:new": "node scripts/image/new.mjs",
+    "image:render": "node scripts/image/render.mjs",
     "content:photos": "node scripts/content/photos.mjs"
   },
   "dependencies": {

@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1350" />
+    <title>Jason 15K: LinkedIn profile</title>
+    <link rel="stylesheet" href="../_brand/massive.css" />
+    <!-- The Milestone card's structure (jason-15k-milestone: portrait, name, the milestone)
+         laid out as LinkedIn's own UI: the top bar, the profile card with Jason's cover, and a Highlights card
+         with the milestone that fills the rest of the frame. -->
+    <style>
+      #canvas {
+        width: 1080px;
+        height: 1350px;
+        --li-bg: #f4f2ee;
+        --li-card: #ffffff;
+        --li-border: #e0dfdc;
+        --li-text: rgba(0, 0, 0, 0.9);
+        --li-mid: rgba(0, 0, 0, 0.6);
+        --li-blue: #0a66c2;
+        --li-sans: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        background: var(--li-bg);
+        color: var(--li-text);
+        font-family: var(--li-sans);
+      }
+
+      /* ---- LinkedIn's top bar ---- */
+      .nav {
+        height: 76px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 0 24px;
+        background: var(--li-card);
+        border-bottom: 1px solid var(--li-border);
+      }
+      .nav .logo {
+        width: 48px;
+        height: 48px;
+      }
+      .nav .search {
+        width: 360px;
+        height: 46px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 0 18px;
+        border-radius: 999px;
+        border: 1px solid #8c8c8c;
+        color: var(--li-mid);
+        font-size: 20px;
+      }
+      .nav .search svg {
+        width: 22px;
+        height: 22px;
+      }
+      .page {
+        height: calc(1350px - 76px);
+        display: flex;
+        flex-direction: column;
+        padding: 44px 52px 52px;
+      }
+      .li-card {
+        position: relative;
+        background: var(--li-card);
+        border: 1px solid var(--li-border);
+        border-radius: 12px;
+        overflow: hidden;
+      }
+      .li-card + .li-card {
+        margin-top: 24px;
+      }
+
+      /* ---- Profile card ---- */
+      .cover {
+        display: block;
+        width: 100%;
+        height: 244px;
+        object-fit: cover;
+        background: #0c0c11;
+      }
+      .avatar {
+        position: absolute;
+        left: 34px;
+        top: 100px;
+        width: 220px;
+        height: 220px;
+      }
+      .avatar .ring {
+        position: absolute;
+        inset: -6px;
+        border-radius: 50%;
+        background: conic-gradient(from 200deg, #d74939, #ff8163, rgba(215, 73, 57, 0.15), #d74939);
+        box-shadow: 0 0 36px rgba(215, 73, 57, 0.4);
+      }
+      .avatar .photo {
+        position: absolute;
+        inset: 0;
+        width: 220px;
+        height: 220px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 6px solid #fff;
+        background: #fff;
+      }
+      .head {
+        padding: 92px 32px 34px;
+      }
+      .name-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        white-space: nowrap;
+      }
+      .name {
+        font-size: 46px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        line-height: 1.15;
+      }
+      .name-row svg {
+        width: 32px;
+        height: 32px;
+        color: var(--li-mid);
+      }
+      .degree {
+        font-size: 24px;
+        color: var(--li-mid);
+      }
+      .headline {
+        margin-top: 8px;
+        font-size: 24px;
+        line-height: 1.3;
+        white-space: nowrap;
+      }
+      .followers {
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 23px;
+        font-weight: 600;
+        color: var(--li-mid);
+        white-space: nowrap;
+      }
+      .followers .n {
+        color: var(--li-text);
+      }
+      /* ---- Highlights: the current milestone, then past ones struck through, filling the rest of the frame ---- */
+      .highlights {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding: 30px 36px 40px;
+      }
+      h2 {
+        font-size: 32px;
+        font-weight: 600;
+      }
+      .hl {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 22px;
+      }
+      .hl .top {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+      }
+      .hl > * + * {
+        padding-top: 22px;
+        border-top: 1px solid var(--li-border);
+      }
+      /* Earlier milestones: smaller, greyed out and struck through, below the current one. */
+      .hl .past {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        opacity: 0.45;
+      }
+      .hl .past .mark {
+        width: 84px;
+        height: 84px;
+        border-radius: 12px;
+        background: #6b6b6b;
+      }
+      .hl .past .mark img {
+        width: 58px;
+        filter: grayscale(1) brightness(1.6);
+      }
+      .hl .past .t {
+        font-size: 34px;
+        font-weight: 500;
+        color: var(--li-mid);
+        text-decoration: line-through;
+        text-decoration-thickness: 3px;
+      }
+      .hl .mark {
+        width: 148px;
+        height: 148px;
+        flex-shrink: 0;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #0a0a0f;
+      }
+      .hl .mark img {
+        width: 102px;
+      }
+      .hl .t {
+        font-size: 46px;
+        font-weight: 600;
+        line-height: 1.2;
+      }
+      .hl .s {
+        margin-top: 10px;
+        font-size: 30px;
+        line-height: 1.35;
+        text-wrap: balance;
+        color: var(--li-mid);
+      }
+      .confetti {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas">
+      <!-- Icons: Lucide (lucide.dev, ISC) and simple filled glyphs in LinkedIn's style. -->
+      <div class="nav">
+        <img class="logo" src="../_brand/linkedin.svg" alt="LinkedIn" />
+        <div class="search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
+          Search
+        </div>
+      </div>
+
+      <div class="page">
+        <div class="li-card">
+          <img class="cover" data-field-src="cover" src="assets/banner.png" alt="" />
+          <div class="avatar">
+            <div class="ring"></div>
+            <img class="photo" data-field-src="photo" src="assets/jason.jpg" alt="" />
+          </div>
+          <div class="head">
+            <div>
+              <div class="name-row">
+                <span class="name" data-field="name">Jason Grad</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" /><path d="m9 12 2 2 4-4" /></svg>
+                <span class="degree">· 1st</span>
+              </div>
+              <div class="headline" data-field="headline">Real-time web access for your favorite AIs and agents</div>
+              <div class="followers">
+                <span><span class="n" data-field="count">15,000</span> <span data-field="metric">followers</span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="li-card highlights">
+          <h2>Highlights</h2>
+          <div class="hl">
+            <div class="top">
+              <div class="mark"><img src="../_brand/icon-massive.svg" alt="" /></div>
+              <div>
+                <div class="t" data-field="hlTitle">15,000 followers on LinkedIn</div>
+                <div class="s" data-field="hlSub">A milestone, and a thank‑you to everyone following along.</div>
+              </div>
+            </div>
+            <div class="past">
+              <div class="mark"><img src="../_brand/icon-massive.svg" alt="" /></div>
+              <div class="t" data-field="past2">10,000 followers on LinkedIn</div>
+            </div>
+            <div class="past">
+              <div class="mark"><img src="../_brand/icon-massive.svg" alt="" /></div>
+              <div class="t" data-field="past1">5,000 followers on LinkedIn</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="confetti" data-field-show="confetti"></div>
+    </div>
+
+    <script src="../_lib/confetti.js"></script>
+    <script>
+      // The milestone burst from the photo.
+      massiveConfetti(document.querySelector(".confetti"), { mode: "burst", count: 220, at: 1.35, x: 260, y: 360 });
+    </script>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

@@ -1,0 +1,396 @@
+{
+  "projects": [
+    {
+      "id": "jason-15k-grid",
+      "title": "Jason 15K: Grid",
+      "description": "Still of the Jason 15K Grid video: the count, a big thank-you and the sign-off row on the Market Map dark background.",
+      "group": "massive",
+      "series": "Jason 15K",
+      "status": "draft",
+      "tags": [
+        "jason",
+        "linkedin",
+        "milestone",
+        "followers"
+      ],
+      "source": "video-projects/jason-15k-grid",
+      "width": 1080,
+      "height": 1350,
+      "fields": [
+        {
+          "id": "eyebrow",
+          "label": "Eyebrow",
+          "type": "text",
+          "default": "LinkedIn milestone"
+        },
+        {
+          "id": "count",
+          "label": "Count",
+          "type": "text",
+          "default": "15,000"
+        },
+        {
+          "id": "metric",
+          "label": "Metric",
+          "type": "text",
+          "default": "followers"
+        },
+        {
+          "id": "headline",
+          "label": "Headline",
+          "type": "text",
+          "default": "Thank you."
+        },
+        {
+          "id": "subline",
+          "label": "Subline",
+          "type": "text",
+          "default": "for following along."
+        },
+        {
+          "id": "photo",
+          "label": "Photo",
+          "type": "image",
+          "default": "assets/jason.jpg"
+        },
+        {
+          "id": "name",
+          "label": "Name",
+          "type": "text",
+          "default": "Jason Grad"
+        },
+        {
+          "id": "role",
+          "label": "Role",
+          "type": "text",
+          "default": "Co-founder & CEO, Massive"
+        },
+        {
+          "id": "confetti",
+          "label": "Confetti",
+          "type": "toggle",
+          "default": true
+        }
+      ],
+      "path": "/image-projects/jason-15k-grid/index.html",
+      "thumb": "/image-projects/jason-15k-grid/thumb.jpg"
+    },
+    {
+      "id": "jason-15k-linkedin",
+      "title": "Jason 15K: LinkedIn profile",
+      "description": "The Milestone card's structure as LinkedIn's own UI: Jason's profile with his cover, and Highlights with 15K on top and the 10K and 5K milestones struck through below.",
+      "group": "massive",
+      "series": "Jason 15K",
+      "status": "draft",
+      "tags": [
+        "jason",
+        "linkedin",
+        "milestone",
+        "followers",
+        "profile",
+        "card"
+      ],
+      "source": "image-projects/jason-15k-milestone",
+      "width": 1080,
+      "height": 1350,
+      "fields": [
+        {
+          "id": "photo",
+          "label": "Photo",
+          "type": "image",
+          "default": "assets/jason.jpg"
+        },
+        {
+          "id": "cover",
+          "label": "Cover",
+          "type": "image",
+          "default": "assets/banner.png"
+        },
+        {
+          "id": "name",
+          "label": "Name",
+          "type": "text",
+          "default": "Jason Grad"
+        },
+        {
+          "id": "headline",
+          "label": "Headline",
+          "type": "text",
+          "default": "Real-time web access for your favorite AIs and agents"
+        },
+        {
+          "id": "count",
+          "label": "Count",
+          "type": "text",
+          "default": "15,000"
+        },
+        {
+          "id": "metric",
+          "label": "Metric",
+          "type": "text",
+          "default": "followers"
+        },
+        {
+          "id": "hlTitle",
+          "label": "Highlight",
+          "type": "text",
+          "default": "15,000 followers on LinkedIn"
+        },
+        {
+          "id": "hlSub",
+          "label": "Highlight detail",
+          "type": "text",
+          "default": "A milestone, and a thank‑you to everyone following along."
+        },
+        {
+          "id": "past2",
+          "label": "Past highlight 1",
+          "type": "text",
+          "default": "10,000 followers on LinkedIn"
+        },
+        {
+          "id": "past1",
+          "label": "Past highlight 2",
+          "type": "text",
+          "default": "5,000 followers on LinkedIn"
+        },
+        {
+          "id": "confetti",
+          "label": "Confetti",
+          "type": "toggle",
+          "default": true
+        }
+      ],
+      "path": "/image-projects/jason-15k-linkedin/index.html",
+      "thumb": "/image-projects/jason-15k-linkedin/thumb.jpg"
+    },
+    {
+      "id": "jason-15k-milestone",
+      "title": "Jason 15K: Milestone card",
+      "description": "Still of the Jason 15K Milestone video: the character-sheet profile card over the dimmed desktop, with the thank-you below.",
+      "group": "massive",
+      "series": "Jason 15K",
+      "status": "draft",
+      "tags": [
+        "jason",
+        "linkedin",
+        "milestone",
+        "followers",
+        "card"
+      ],
+      "source": "video-projects/jason-15k-milestone",
+      "width": 1080,
+      "height": 1350,
+      "fields": [
+        {
+          "id": "photo",
+          "label": "Photo",
+          "type": "image",
+          "default": "assets/jason.jpg"
+        },
+        {
+          "id": "badge",
+          "label": "Badge",
+          "type": "text",
+          "default": "Milestone"
+        },
+        {
+          "id": "name",
+          "label": "Name",
+          "type": "text",
+          "default": "Jason Grad"
+        },
+        {
+          "id": "emoji",
+          "label": "Status emoji",
+          "type": "text",
+          "default": "🎉"
+        },
+        {
+          "id": "status",
+          "label": "Status",
+          "type": "text",
+          "default": "Celebrating a milestone"
+        },
+        {
+          "id": "role",
+          "label": "Role",
+          "type": "text",
+          "default": "Co-founder & CEO"
+        },
+        {
+          "id": "metric",
+          "label": "Metric",
+          "type": "text",
+          "default": "FOLLOWERS"
+        },
+        {
+          "id": "count",
+          "label": "Count",
+          "type": "text",
+          "default": "15,000"
+        },
+        {
+          "id": "chip1",
+          "label": "Reward 1",
+          "type": "text",
+          "default": "+15K Network"
+        },
+        {
+          "id": "chip2",
+          "label": "Reward 2",
+          "type": "text",
+          "default": "+1 Milestone"
+        },
+        {
+          "id": "chip3",
+          "label": "Reward 3",
+          "type": "text",
+          "default": "+∞ Thank yous"
+        },
+        {
+          "id": "outro",
+          "label": "Thank-you line",
+          "type": "text",
+          "default": "Thank you for"
+        },
+        {
+          "id": "short",
+          "label": "Short count",
+          "type": "text",
+          "default": "15K"
+        },
+        {
+          "id": "confetti",
+          "label": "Confetti",
+          "type": "toggle",
+          "default": true
+        }
+      ],
+      "path": "/image-projects/jason-15k-milestone/index.html",
+      "thumb": "/image-projects/jason-15k-milestone/thumb.jpg"
+    },
+    {
+      "id": "jason-15k-network",
+      "title": "Jason 15K: Every dot a follower",
+      "description": "Still of the Jason 15K network video: a dotted red 15K, \"Followers on\" with the LinkedIn mark, the thank-you and a small sign-off card on a choice of backgrounds: Market Map dark, world map, network map or globe.",
+      "group": "massive",
+      "series": "Jason 15K",
+      "status": "draft",
+      "tags": [
+        "jason",
+        "linkedin",
+        "milestone",
+        "followers",
+        "dots"
+      ],
+      "source": "video-projects/jason-15k-network",
+      "width": 1080,
+      "height": 1350,
+      "fields": [
+        {
+          "id": "bg",
+          "label": "Background",
+          "type": "select",
+          "default": "market",
+          "options": [
+            {
+              "value": "market",
+              "label": "Market Map dark"
+            },
+            {
+              "value": "world",
+              "label": "World map"
+            },
+            {
+              "value": "network",
+              "label": "Network map"
+            },
+            {
+              "value": "globe",
+              "label": "Globe"
+            }
+          ]
+        },
+        {
+          "id": "short",
+          "label": "Dotted number",
+          "type": "text",
+          "default": "15K"
+        },
+        {
+          "id": "line1",
+          "label": "Line 1",
+          "type": "text",
+          "default": "Followers on"
+        },
+        {
+          "id": "line2",
+          "label": "Line 2",
+          "type": "text",
+          "default": "Thank you."
+        },
+        {
+          "id": "photo",
+          "label": "Photo",
+          "type": "image",
+          "default": "assets/jason.jpg"
+        },
+        {
+          "id": "name",
+          "label": "Name",
+          "type": "text",
+          "default": "Jason Grad"
+        },
+        {
+          "id": "role",
+          "label": "Role",
+          "type": "text",
+          "default": "Co-founder & CEO, Massive"
+        }
+      ],
+      "path": "/image-projects/jason-15k-network/index.html",
+      "thumb": "/image-projects/jason-15k-network/thumb.jpg"
+    },
+    {
+      "id": "jason-15k-very-nice",
+      "title": "Jason 15K: Very nice",
+      "description": "Meme for Jason's 15K: the thumbs-up photo with \"15,000 followers / very nice!\" in white Anton with a thick black outline.",
+      "group": "massive",
+      "series": "Jason 15K",
+      "status": "draft",
+      "tags": [
+        "jason",
+        "linkedin",
+        "milestone",
+        "followers",
+        "meme"
+      ],
+      "source": null,
+      "width": 1080,
+      "height": 1350,
+      "fields": [
+        {
+          "id": "top",
+          "label": "Top text",
+          "type": "text",
+          "default": "15,000 followers"
+        },
+        {
+          "id": "bottom",
+          "label": "Bottom text",
+          "type": "text",
+          "default": "very nice!"
+        },
+        {
+          "id": "photo",
+          "label": "Photo",
+          "type": "image",
+          "default": "assets/very-nice.jpg"
+        }
+      ],
+      "path": "/image-projects/jason-15k-very-nice/index.html",
+      "thumb": "/image-projects/jason-15k-very-nice/thumb.jpg"
+    }
+  ]
+}

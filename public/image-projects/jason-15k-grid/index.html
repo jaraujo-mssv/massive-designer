@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1350" />
+    <title>Jason 15K: Grid</title>
+    <link rel="stylesheet" href="../_brand/massive.css" />
+    <!-- The final frame of public/video-projects/jason-15k-grid, held still, with the confetti frozen mid-burst. -->
+    <style>
+      #canvas {
+        width: 1080px;
+        height: 1350px;
+      }
+      .confetti {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        pointer-events: none;
+      }
+      /* Corner brackets: 44px arms, 3px thick, 52px from each corner. */
+      .br {
+        position: absolute;
+        width: 44px;
+        height: 44px;
+        border: 0 solid var(--m-red);
+      }
+      .br.tl {
+        left: 52px;
+        top: 52px;
+        border-top-width: 3px;
+        border-left-width: 3px;
+      }
+      .br.tr {
+        right: 52px;
+        top: 52px;
+        border-top-width: 3px;
+        border-right-width: 3px;
+      }
+      .br.bl {
+        left: 52px;
+        bottom: 52px;
+        border-bottom-width: 3px;
+        border-left-width: 3px;
+      }
+      .br.brr {
+        right: 52px;
+        bottom: 52px;
+        border-bottom-width: 3px;
+        border-right-width: 3px;
+      }
+      .eyebrow {
+        position: absolute;
+        left: 80px;
+        top: 128px;
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        font-family: var(--m-mono);
+        font-size: 22px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--m-cream-mid);
+      }
+      .eyebrow img {
+        width: 44px;
+        height: 44px;
+      }
+      /* The stat at the video's resting state: stepped back and up for the thank-you. */
+      .stat {
+        position: absolute;
+        left: 80px;
+        top: 340px;
+        width: 920px;
+        transform-origin: left top;
+        transform: translateY(-125px) scale(0.52);
+      }
+      .num {
+        font-size: 280px;
+        font-weight: 900;
+        line-height: 0.86;
+        letter-spacing: -0.05em;
+        font-variant-numeric: tabular-nums;
+        white-space: nowrap;
+        padding-bottom: 10px;
+      }
+      .word {
+        margin-top: 44px;
+        font-size: 120px;
+        font-weight: 700;
+        line-height: 1.05;
+        letter-spacing: -0.04em;
+        color: var(--m-red-light);
+        white-space: nowrap;
+        padding-bottom: 8px;
+      }
+      .thanks {
+        position: absolute;
+        left: 80px;
+        top: 540px;
+        font-size: 156px;
+        font-weight: 900;
+        line-height: 1.05;
+        letter-spacing: -0.045em;
+        white-space: nowrap;
+        padding-bottom: 12px;
+      }
+      .sub {
+        position: absolute;
+        left: 84px;
+        top: 728px;
+        font-size: 58px;
+        font-weight: 300;
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+        color: var(--m-cream-mid);
+        white-space: nowrap;
+      }
+      .rule-foot {
+        position: absolute;
+        left: 80px;
+        top: 1060px;
+        width: 920px;
+        height: 1px;
+        background: rgba(250, 244, 236, 0.16);
+      }
+      .who {
+        position: absolute;
+        left: 80px;
+        top: 1110px;
+        display: flex;
+        align-items: center;
+        gap: 30px;
+      }
+      .who .photo {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 5px solid var(--m-bg);
+        box-shadow: 0 0 0 3px var(--m-red), 0 0 40px rgba(215, 73, 57, 0.35);
+      }
+      .who .name {
+        font-size: 54px;
+        font-weight: 800;
+        line-height: 1.1;
+        letter-spacing: -0.03em;
+        white-space: nowrap;
+      }
+      .who .role {
+        margin-top: 6px;
+        font-family: var(--m-mono);
+        font-size: 20px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--m-cream-dim);
+        white-space: nowrap;
+      }
+      .logo {
+        position: absolute;
+        right: 80px;
+        top: 1160px;
+        height: 40px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas">
+      <img class="m-bg-dark" src="../_brand/bg-dark.jpg" alt="" />
+      <div class="confetti" data-field-show="confetti"></div>
+      <div class="br tl"></div>
+      <div class="br tr"></div>
+      <div class="br bl"></div>
+      <div class="br brr"></div>
+
+      <div class="eyebrow">
+        <img src="../_brand/linkedin.svg" alt="LinkedIn" />
+        <span data-field="eyebrow">LinkedIn milestone</span>
+      </div>
+
+      <div class="stat">
+        <div class="num" data-field="count">15,000</div>
+        <div class="word" data-field="metric">followers</div>
+      </div>
+
+      <div class="thanks" data-field="headline">Thank you.</div>
+      <div class="sub" data-field="subline">for following along.</div>
+
+      <div class="rule-foot"></div>
+      <div class="who">
+        <img class="photo" data-field-src="photo" src="assets/jason.jpg" alt="" />
+        <div>
+          <div class="name" data-field="name">Jason Grad</div>
+          <div class="role" data-field="role">Co-founder &amp; CEO, Massive</div>
+        </div>
+      </div>
+      <img class="logo" src="../_brand/icon-massive.svg" alt="Massive" />
+    </div>
+
+    <script src="../_lib/confetti.js"></script>
+    <script>
+      // The video fires two cannons from the bottom corners, which bunch up over the type when held still.
+      // The still bursts from the open space right of the count instead, 0.9 s in.
+      massiveConfetti(document.querySelector(".confetti"), { mode: "burst", count: 150, at: 0.9, x: 780, y: 330 });
+    </script>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

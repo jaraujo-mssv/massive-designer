@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1350" />
+    <title>Jason 15K: Every dot a follower</title>
+    <link rel="stylesheet" href="../_brand/massive.css" />
+    <!-- The final frame of public/video-projects/jason-15k-network, held still. The video's dots come from
+         precomputed targets (js/points.js); here the short count is drawn in Outfit 900 and sampled on the same
+         hex grid on every edit, so the number can change. The background field swaps what sits behind it. -->
+    <style>
+      #canvas {
+        width: 1080px;
+        height: 1350px;
+      }
+      #dots {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1080px;
+        height: 1350px;
+      }
+      .people,
+      .thanks {
+        position: absolute;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-size: 76px;
+        font-weight: 900;
+        line-height: 1.1;
+        letter-spacing: -0.04em;
+        white-space: nowrap;
+      }
+      .people {
+        top: 670px;
+      }
+      .thanks {
+        top: 762px;
+        color: var(--m-red-light);
+      }
+      /* Line 1 carries the LinkedIn mark after its text: "Followers on [in]". */
+      .people {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+      }
+      .people img {
+        width: 62px;
+        height: 62px;
+        margin-top: 4px;
+      }
+      /* Backgrounds, picked by the background field (#canvas[data-bg]). Only the chosen layer shows. */
+      .bg {
+        display: none;
+        position: absolute;
+        pointer-events: none;
+      }
+      #canvas[data-bg="market"] .bg-market,
+      #canvas[data-bg="world"] .bg-world,
+      #canvas[data-bg="world"] .bg-glow,
+      #canvas[data-bg="network"] .bg-network,
+      #canvas[data-bg="network"] .bg-glow,
+      #canvas[data-bg="globe"] .bg-globe,
+      #canvas[data-bg="globe"] .bg-shade {
+        display: block;
+      }
+      /* The Market Map's red glow, for the map backgrounds that have none of their own. */
+      .bg-glow {
+        inset: 0;
+        background: radial-gradient(ellipse 75% 28% at 50% 100%, rgba(215, 73, 57, 0.26), rgba(215, 73, 57, 0) 70%);
+      }
+      /* World map: the landing's /about-us land fill, drawn by the script. */
+      .bg-world {
+        left: 0;
+        top: 0;
+        width: 1080px;
+        height: 1350px;
+      }
+      /* Network map: the old joinmassive.com map with nodes and arcs, edges baked to transparent. */
+      .bg-network {
+        left: -210px;
+        top: 130px;
+        width: 1500px;
+        height: 658px;
+        opacity: 0.6;
+      }
+      /* Globe: Earth at night, darkened so the dots and type sit on it. */
+      .bg-globe {
+        left: -135px;
+        top: 0;
+        width: 1350px;
+        height: 1350px;
+      }
+      .bg-shade {
+        inset: 0;
+        background: linear-gradient(180deg, rgba(10, 10, 15, 0.78) 0%, rgba(10, 10, 15, 0.62) 55%, rgba(10, 10, 15, 0.3) 100%);
+      }
+      /* Sign-off: a small card, avatar on the left. */
+      .who {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 962px;
+        display: flex;
+        justify-content: center;
+      }
+      .who .card {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+        padding: 18px 34px 18px 18px;
+        border-radius: 26px;
+        background: rgba(26, 25, 32, 0.9);
+        border: 1px solid rgba(250, 244, 236, 0.1);
+      }
+      .who .photo {
+        width: 96px;
+        height: 96px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid #1a1920;
+        box-shadow: 0 0 0 3px var(--m-red);
+      }
+      .who .name {
+        font-size: 40px;
+        font-weight: 800;
+        line-height: 1.1;
+        letter-spacing: -0.03em;
+        white-space: nowrap;
+      }
+      .who .role {
+        margin-top: 4px;
+        font-size: 24px;
+        font-weight: 400;
+        color: var(--m-cream-dim);
+        white-space: nowrap;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas" data-bg="market">
+      <img class="bg bg-market m-bg-dark" src="../_brand/bg-dark.jpg" alt="" />
+      <canvas class="bg bg-world" id="world" width="2160" height="2700"></canvas>
+      <img class="bg bg-network" src="../_brand/bg-network-map.webp" alt="" />
+      <img class="bg bg-globe" src="../_brand/bg-globe.jpg" alt="" />
+      <div class="bg bg-shade"></div>
+      <div class="bg bg-glow"></div>
+      <canvas id="dots" width="2160" height="2700"></canvas>
+
+      <div class="people"><span data-field="line1">Followers on</span><img src="../_brand/linkedin-in.png" alt="LinkedIn" /></div>
+      <div class="thanks" data-field="line2">Thank you.</div>
+
+      <div class="who">
+        <div class="card">
+          <img class="photo" data-field-src="photo" src="assets/jason.jpg" alt="" />
+          <div>
+            <div class="name" data-field="name">Jason Grad</div>
+            <div class="role" data-field="role">Co-founder &amp; CEO, Massive</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../_lib/world-paths.js"></script>
+    <script>
+      // The dotted number: the video's "15K" box (x 120–960, y 258–619), hex grid step 10.43,
+      // dot radius step × 0.4, red-light on the left to red on the right.
+      const BOX = { x0: 120, x1: 960, y0: 258, y1: 619 };
+      const W = 1080;
+      const H = 1350;
+      const STEP = 10.43;
+      const R = STEP * 0.4;
+      const RL = [255, 129, 99];
+      const RED = [215, 73, 57];
+
+      // Sample `text` in Outfit 900 on an offscreen canvas, fitted to the box, and return dot centres.
+      function dotsFor(text) {
+        const off = document.createElement("canvas");
+        off.width = W;
+        off.height = H;
+        const c = off.getContext("2d", { willReadFrequently: true });
+        const boxW = BOX.x1 - BOX.x0;
+        const boxH = BOX.y1 - BOX.y0;
+        c.textBaseline = "alphabetic";
+        // Size the glyphs so the ink fills the box's height, then shrink to its width if needed.
+        let size = 400;
+        c.font = `900 ${size}px Outfit`;
+        let m = c.measureText(text);
+        let inkH = m.actualBoundingBoxAscent + m.actualBoundingBoxDescent;
+        size = (size * boxH) / inkH;
+        c.font = `900 ${size}px Outfit`;
+        m = c.measureText(text);
+        let inkW = m.actualBoundingBoxLeft + m.actualBoundingBoxRight;
+        if (inkW > boxW) {
+          size = (size * boxW) / inkW;
+          c.font = `900 ${size}px Outfit`;
+          m = c.measureText(text);
+          inkW = m.actualBoundingBoxLeft + m.actualBoundingBoxRight;
+        }
+        inkH = m.actualBoundingBoxAscent + m.actualBoundingBoxDescent;
+        // Centre the ink in the box.
+        const x = BOX.x0 + (boxW - inkW) / 2 + m.actualBoundingBoxLeft;
+        const y = BOX.y0 + (boxH - inkH) / 2 + m.actualBoundingBoxAscent;
+        c.fillStyle = "#000";
+        c.fillText(text, x, y);
+        const data = c.getImageData(0, 0, W, H).data;
+
+        const out = [];
+        const rowH = STEP * Math.sin(Math.PI / 3);
+        for (let row = 0, py = BOX.y0 - STEP; py <= BOX.y1 + STEP; row++, py += rowH) {
+          for (let px = BOX.x0 - STEP + (row % 2 ? STEP / 2 : 0); px <= BOX.x1 + STEP; px += STEP) {
+            const ix = Math.round(px);
+            const iy = Math.round(py);
+            if (ix < 0 || iy < 0 || ix >= W || iy >= H) continue;
+            if (data[(iy * W + ix) * 4 + 3] > 127) out.push([px, py]);
+          }
+        }
+        return out;
+      }
+
+      // World map background: every country in the landing's land fill, 1240px wide (bleeding off both
+      // edges), centred on the number and the lines under it.
+      let worldDrawn = false;
+      function drawWorld() {
+        const ctx = document.getElementById("world").getContext("2d");
+        const k = 1240 / WORLD_MAP.w;
+        ctx.setTransform(2 * k, 0, 0, 2 * k, 2 * (540 - 620), 2 * (470 - (WORLD_MAP.h * k) / 2));
+        ctx.fillStyle = "rgba(250, 244, 236, 0.07)";
+        for (const [, d] of WORLD_PATHS) ctx.fill(new Path2D(d));
+        worldDrawn = true;
+      }
+
+      let drawn = null;
+      window.onFields = async (values) => {
+        const bg = ["market", "world", "network", "globe"].includes(values.bg) ? values.bg : "market";
+        document.getElementById("canvas").dataset.bg = bg;
+        if (bg === "world" && !worldDrawn) drawWorld();
+
+        const text = String(values.short ?? "15K");
+        if (text === drawn) return;
+        await document.fonts.load(`900 100px Outfit`, text);
+        const ctx = document.getElementById("dots").getContext("2d");
+        ctx.setTransform(2, 0, 0, 2, 0, 0);
+        ctx.clearRect(0, 0, W, H);
+        for (const [x, y] of dotsFor(text)) {
+          const t = Math.max(0, Math.min(1, (x - BOX.x0) / (BOX.x1 - BOX.x0)));
+          const rgb = RL.map((v, i) => Math.round(v + (RED[i] - v) * t));
+          ctx.fillStyle = `rgb(${rgb.join(",")})`;
+          ctx.beginPath();
+          ctx.arc(x, y, R, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        drawn = text;
+      };
+    </script>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

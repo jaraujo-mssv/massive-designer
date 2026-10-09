@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1350" />
+    <title>Jason 15K: Milestone card</title>
+    <link rel="stylesheet" href="../_brand/massive.css" />
+    <!-- The final frame of public/video-projects/jason-15k-milestone (desktop, card and outro layered), held still,
+         with the achievement confetti frozen mid-burst. backdrop-filter is left out: it doesn't come through the export. -->
+    <style>
+      #canvas {
+        width: 1080px;
+        height: 1350px;
+      }
+
+      /* ---- Desktop (01-desktop), dimmed under the card ---- */
+      .wallpaper {
+        position: absolute;
+        inset: -40px;
+        background: #e9e7e4 url("assets/wallpaper.jpg") center / cover no-repeat;
+      }
+      .menubar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        gap: 34px;
+        padding: 0 28px;
+        background: rgba(10, 10, 15, 0.45);
+        color: rgba(250, 244, 236, 0.92);
+        font-size: 21px;
+        font-weight: 500;
+      }
+      .menubar img {
+        height: 17px;
+      }
+      .menubar .app {
+        font-weight: 700;
+      }
+      .menubar .right {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        gap: 25px;
+        font-variant-numeric: tabular-nums;
+      }
+      .menubar svg {
+        width: 24px;
+        height: 24px;
+      }
+      .dock {
+        position: absolute;
+        left: 106px;
+        bottom: 24px;
+        width: 868px;
+        height: 134px;
+        padding: 14px;
+        display: flex;
+        gap: 16px;
+        border-radius: 38px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+      }
+      .tile {
+        position: relative;
+        width: 106px;
+        height: 106px;
+        flex-shrink: 0;
+      }
+      .tile img {
+        width: 106px;
+        height: 106px;
+        filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.35));
+      }
+      .tile img.li-icon {
+        padding: 7px;
+      }
+      .cal span {
+        position: absolute;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-family: -apple-system, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+        line-height: 1;
+      }
+      .cal .wd {
+        top: 15px;
+        font-size: 24px;
+        font-weight: 500;
+        color: #f4463c;
+      }
+      .cal .day {
+        top: 41px;
+        font-size: 59px;
+        font-weight: 400;
+        letter-spacing: -0.02em;
+        color: #1d1d1f;
+      }
+      .running {
+        position: absolute;
+        left: 657px;
+        bottom: 12px;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: rgba(250, 244, 236, 0.85);
+      }
+      .dim {
+        position: absolute;
+        inset: 0;
+        background: rgba(6, 6, 10, 0.62);
+      }
+
+      /* ---- Card (03-card) at its final position ---- */
+      .card {
+        position: absolute;
+        left: 150px;
+        top: 70px;
+        width: 780px;
+        border-radius: 24px;
+        background: rgba(26, 29, 33, 0.87);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 40px 120px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(215, 73, 57, 0.12);
+        overflow: hidden;
+      }
+      .chrome {
+        height: 44px;
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        padding: 0 18px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      }
+      .chrome span {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.25);
+      }
+      .chrome .close {
+        background: #ff5f57;
+      }
+      .chrome .min {
+        background: #febc2e;
+      }
+      .chrome .max {
+        background: #28c840;
+      }
+      /* Lucide icons (lucide.dev, ISC). */
+      svg.ic {
+        width: 24px;
+        height: 24px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 52px 40px 48px;
+      }
+      .portrait {
+        position: relative;
+        width: 300px;
+        height: 300px;
+      }
+      /* Gradient ring, clipped to a rounded frame around the photo; held where the video's spin ends. */
+      .ring-frame {
+        position: absolute;
+        inset: -8px;
+        border-radius: 38px;
+        overflow: hidden;
+        box-shadow: 0 0 40px rgba(215, 73, 57, 0.35);
+      }
+      .ring {
+        position: absolute;
+        left: -50%;
+        top: -50%;
+        width: 200%;
+        height: 200%;
+        background: conic-gradient(from 0deg, #d74939, #ff8163, rgba(215, 73, 57, 0.1), #d74939);
+        transform: rotate(530deg);
+      }
+      .photo {
+        position: absolute;
+        inset: 0;
+        width: 300px;
+        height: 300px;
+        object-fit: cover;
+        border-radius: 32px;
+        border: 4px solid #1a1d21;
+      }
+      .badge {
+        position: absolute;
+        left: 50%;
+        bottom: -20px;
+        margin-left: -100px;
+        width: 200px;
+        text-align: center;
+        padding: 9px 0;
+        border-radius: 999px;
+        background: var(--m-red-deep);
+        font-family: var(--m-mono);
+        font-size: 19px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        box-shadow: 0 8px 24px rgba(215, 73, 57, 0.45);
+      }
+      .name {
+        margin-top: 48px;
+        font-size: 76px;
+        font-weight: 900;
+        line-height: 1.15;
+        padding-bottom: 4px;
+        letter-spacing: -0.035em;
+        white-space: nowrap;
+      }
+      .presence {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 24px;
+        font-weight: 500;
+        color: var(--m-cream-mid);
+      }
+      /* The system's color emoji (Apple Color Emoji on a Mac). */
+      .presence .emoji {
+        font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+        font-size: 26px;
+        line-height: 1;
+      }
+      .meta {
+        margin-top: 22px;
+        display: flex;
+        align-items: center;
+        gap: 26px;
+        font-size: 24px;
+      }
+      /* Role pill: the small Massive mark where the video has its ROLE label, then the role. */
+      .org {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 7px 16px 7px 13px;
+        border-radius: 10px;
+        background: rgba(215, 73, 57, 0.14);
+        border: 1px solid rgba(215, 73, 57, 0.45);
+        color: var(--m-red-light);
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .org img {
+        height: 15px;
+      }
+      .k {
+        font-family: var(--m-mono);
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        color: rgba(250, 244, 236, 0.5);
+      }
+      .divider {
+        align-self: stretch;
+        margin: 34px 0 26px;
+        height: 1px;
+        background: rgba(255, 255, 255, 0.1);
+      }
+      .stat {
+        align-self: stretch;
+        display: grid;
+        grid-template-columns: 50px 128px 1fr;
+        align-items: center;
+        gap: 14px;
+        min-height: 64px;
+      }
+      .stat + .stat {
+        margin-top: 12px;
+      }
+      .stat .tile {
+        width: 50px;
+        height: 50px;
+        border-radius: 13px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(215, 73, 57, 0.14);
+        color: var(--m-red-light);
+      }
+      .chips {
+        display: flex;
+        gap: 8px;
+      }
+      .chip {
+        padding: 7px 13px;
+        border-radius: 999px;
+        background: rgba(215, 73, 57, 0.14);
+        border: 1px solid rgba(215, 73, 57, 0.45);
+        color: var(--m-red-light);
+        font-size: 21px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .xp {
+        grid-template-columns: 50px 128px 1fr 92px;
+      }
+      .track {
+        position: relative;
+        height: 14px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.08);
+        overflow: hidden;
+      }
+      .fill {
+        height: 100%;
+        border-radius: 999px;
+        background: linear-gradient(90deg, var(--m-red), var(--m-red-light));
+      }
+      .num {
+        font-family: var(--m-mono);
+        font-size: 21px;
+        font-weight: 700;
+        color: var(--m-red-light);
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+        white-space: nowrap;
+      }
+
+      /* ---- Outro (04-outro) ---- */
+      .hello {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 1040px;
+        text-align: center;
+        font-size: 58px;
+        font-weight: 800;
+        line-height: 1.1;
+        letter-spacing: -0.03em;
+        white-space: nowrap;
+      }
+      .hello .who {
+        color: var(--m-red-light);
+      }
+      .confetti {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas">
+      <div class="wallpaper"></div>
+      <div class="menubar">
+        <img src="../_brand/icon-massive-white.svg" alt="Massive" />
+        <span class="app">LinkedIn</span>
+        <span>File</span><span>Edit</span><span>View</span><span>Window</span><span>Help</span>
+        <div class="right">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0" /><path d="M1.42 9a16 16 0 0 1 21.16 0" /><path d="M8.53 16.11a6 6 0 0 1 6.95 0" /><line x1="12" x2="12.01" y1="20" y2="20" /></svg>
+          <span>Thu Oct 8</span><span>9:41 AM</span>
+        </div>
+      </div>
+      <div class="dock">
+        <div class="tile"><img src="assets/dock/safari.png" alt="Safari" /></div>
+        <div class="tile"><img src="assets/dock/mail.png" alt="Mail" /></div>
+        <div class="tile"><img src="assets/dock/facetime.png" alt="FaceTime" /></div>
+        <div class="tile cal"><img src="assets/dock/calendar-blank.png" alt="Calendar" /><span class="wd">Thu</span><span class="day">8</span></div>
+        <div class="tile"><img class="li-icon" src="../_brand/linkedin.svg" alt="LinkedIn" /></div>
+        <div class="tile"><img src="assets/dock/notes.png" alt="Notes" /></div>
+        <div class="tile"><img src="assets/dock/app-store.png" alt="App Store" /></div>
+      </div>
+      <div class="running"></div>
+      <div class="dim"></div>
+
+      <div class="card">
+        <div class="chrome"><span class="close"></span><span class="min"></span><span class="max"></span></div>
+        <div class="body">
+          <div class="portrait">
+            <div class="ring-frame"><div class="ring"></div></div>
+            <img class="photo" data-field-src="photo" src="assets/jason.jpg" alt="" />
+            <div class="badge" data-field="badge">Milestone</div>
+          </div>
+          <div class="name" data-field="name">Jason Grad</div>
+          <div class="presence">
+            <span class="emoji" data-field="emoji">🎉</span>
+            <span data-field="status">Celebrating a milestone</span>
+          </div>
+          <div class="meta">
+            <span class="org"><img src="../_brand/icon-massive.svg" alt="Massive" /><span data-field="role">Co-founder &amp; CEO</span></span>
+          </div>
+          <div class="divider"></div>
+          <div class="stat xp">
+            <div class="tile"><svg class="ic" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg></div>
+            <span class="k" data-field="metric">FOLLOWERS</span>
+            <div class="track"><div class="fill"></div></div>
+            <span class="num" data-field="count">15,000</span>
+          </div>
+          <div class="stat rewards">
+            <div class="tile"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4" rx="1" /><path d="M12 8v13" /><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7" /><path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5" /></svg></div>
+            <span class="k">REWARDS</span>
+            <div class="chips">
+              <span class="chip" data-field="chip1">+15K Network</span>
+              <span class="chip" data-field="chip2">+1 Milestone</span>
+              <span class="chip" data-field="chip3">+∞ Thank yous</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hello"><span data-field="outro">Thank you for</span> <span class="who" data-field="short">15K</span>!</div>
+
+      <div class="confetti" data-field-show="confetti"></div>
+    </div>
+
+    <script src="../_lib/confetti.js"></script>
+    <script>
+      // The achievement burst from behind the portrait, frozen 1.3 s in.
+      massiveConfetti(document.querySelector(".confetti"), { mode: "burst", count: 120, at: 1.3, x: 540, y: 300 });
+    </script>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

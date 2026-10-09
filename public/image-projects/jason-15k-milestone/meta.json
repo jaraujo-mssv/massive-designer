@@ -1,0 +1,104 @@
+{
+  "id": "jason-15k-milestone",
+  "title": "Jason 15K: Milestone card",
+  "description": "Still of the Jason 15K Milestone video: the character-sheet profile card over the dimmed desktop, with the thank-you below.",
+  "group": "massive",
+  "series": "Jason 15K",
+  "status": "draft",
+  "tags": [
+    "jason",
+    "linkedin",
+    "milestone",
+    "followers",
+    "card"
+  ],
+  "source": "video-projects/jason-15k-milestone",
+  "width": 1080,
+  "height": 1350,
+  "fields": [
+    {
+      "id": "photo",
+      "label": "Photo",
+      "type": "image",
+      "default": "assets/jason.jpg"
+    },
+    {
+      "id": "badge",
+      "label": "Badge",
+      "type": "text",
+      "default": "Milestone"
+    },
+    {
+      "id": "name",
+      "label": "Name",
+      "type": "text",
+      "default": "Jason Grad"
+    },
+    {
+      "id": "emoji",
+      "label": "Status emoji",
+      "type": "text",
+      "default": "🎉"
+    },
+    {
+      "id": "status",
+      "label": "Status",
+      "type": "text",
+      "default": "Celebrating a milestone"
+    },
+    {
+      "id": "role",
+      "label": "Role",
+      "type": "text",
+      "default": "Co-founder & CEO"
+    },
+    {
+      "id": "metric",
+      "label": "Metric",
+      "type": "text",
+      "default": "FOLLOWERS"
+    },
+    {
+      "id": "count",
+      "label": "Count",
+      "type": "text",
+      "default": "15,000"
+    },
+    {
+      "id": "chip1",
+      "label": "Reward 1",
+      "type": "text",
+      "default": "+15K Network"
+    },
+    {
+      "id": "chip2",
+      "label": "Reward 2",
+      "type": "text",
+      "default": "+1 Milestone"
+    },
+    {
+      "id": "chip3",
+      "label": "Reward 3",
+      "type": "text",
+      "default": "+∞ Thank yous"
+    },
+    {
+      "id": "outro",
+      "label": "Thank-you line",
+      "type": "text",
+      "default": "Thank you for"
+    },
+    {
+      "id": "short",
+      "label": "Short count",
+      "type": "text",
+      "default": "15K"
+    },
+    {
+      "id": "confetti",
+      "label": "Confetti",
+      "type": "toggle",
+      "default": true
+    }
+  ]
+}

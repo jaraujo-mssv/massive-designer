@@ -1,0 +1,87 @@
+{
+  "id": "jason-15k-linkedin",
+  "title": "Jason 15K: LinkedIn profile",
+  "description": "The Milestone card's structure as LinkedIn's own UI: Jason's profile with his cover, and Highlights with 15K on top and the 10K and 5K milestones struck through below.",
+  "group": "massive",
+  "series": "Jason 15K",
+  "status": "draft",
+  "tags": [
+    "jason",
+    "linkedin",
+    "milestone",
+    "followers",
+    "profile",
+    "card"
+  ],
+  "source": "image-projects/jason-15k-milestone",
+  "width": 1080,
+  "height": 1350,
+  "fields": [
+    {
+      "id": "photo",
+      "label": "Photo",
+      "type": "image",
+      "default": "assets/jason.jpg"
+    },
+    {
+      "id": "cover",
+      "label": "Cover",
+      "type": "image",
+      "default": "assets/banner.png"
+    },
+    {
+      "id": "name",
+      "label": "Name",
+      "type": "text",
+      "default": "Jason Grad"
+    },
+    {
+      "id": "headline",
+      "label": "Headline",
+      "type": "text",
+      "default": "Real-time web access for your favorite AIs and agents"
+    },
+    {
+      "id": "count",
+      "label": "Count",
+      "type": "text",
+      "default": "15,000"
+    },
+    {
+      "id": "metric",
+      "label": "Metric",
+      "type": "text",
+      "default": "followers"
+    },
+    {
+      "id": "hlTitle",
+      "label": "Highlight",
+      "type": "text",
+      "default": "15,000 followers on LinkedIn"
+    },
+    {
+      "id": "hlSub",
+      "label": "Highlight detail",
+      "type": "text",
+      "default": "A milestone, and a thank‑you to everyone following along."
+    },
+    {
+      "id": "past2",
+      "label": "Past highlight 1",
+      "type": "text",
+      "default": "10,000 followers on LinkedIn"
+    },
+    {
+      "id": "past1",
+      "label": "Past highlight 2",
+      "type": "text",
+      "default": "5,000 followers on LinkedIn"
+    },
+    {
+      "id": "confetti",
+      "label": "Confetti",
+      "type": "toggle",
+      "default": true
+    }
+  ]
+}

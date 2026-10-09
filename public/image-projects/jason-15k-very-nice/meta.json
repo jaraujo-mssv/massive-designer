@@ -1,0 +1,17 @@
+{
+  "id": "jason-15k-very-nice",
+  "title": "Jason 15K: Very nice",
+  "description": "Meme for Jason's 15K: the thumbs-up photo with \"15,000 followers / very nice!\" in white Anton with a thick black outline.",
+  "group": "massive",
+  "series": "Jason 15K",
+  "status": "draft",
+  "tags": ["jason", "linkedin", "milestone", "followers", "meme"],
+  "source": null,
+  "width": 1080,
+  "height": 1350,
+  "fields": [
+    { "id": "top", "label": "Top text", "type": "text", "default": "15,000 followers" },
+    { "id": "bottom", "label": "Bottom text", "type": "text", "default": "very nice!" },
+    { "id": "photo", "label": "Photo", "type": "image", "default": "assets/very-nice.jpg" }
+  ]
+}

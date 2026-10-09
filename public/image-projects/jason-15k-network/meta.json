@@ -1,0 +1,21 @@
+{
+  "id": "jason-15k-network",
+  "title": "Jason 15K: Every dot a follower",
+  "description": "Still of the Jason 15K network video: a dotted red 15K, \"Followers on\" with the LinkedIn mark, the thank-you and a small sign-off card on a choice of backgrounds: Market Map dark, world map, network map or globe.",
+  "group": "massive",
+  "series": "Jason 15K",
+  "status": "draft",
+  "tags": ["jason", "linkedin", "milestone", "followers", "dots"],
+  "source": "video-projects/jason-15k-network",
+  "width": 1080,
+  "height": 1350,
+  "fields": [
+    { "id": "bg", "label": "Background", "type": "select", "default": "market", "options": [{ "value": "market", "label": "Market Map dark" }, { "value": "world", "label": "World map" }, { "value": "network", "label": "Network map" }, { "value": "globe", "label": "Globe" }] },
+    { "id": "short", "label": "Dotted number", "type": "text", "default": "15K" },
+    { "id": "line1", "label": "Line 1", "type": "text", "default": "Followers on" },
+    { "id": "line2", "label": "Line 2", "type": "text", "default": "Thank you." },
+    { "id": "photo", "label": "Photo", "type": "image", "default": "assets/jason.jpg" },
+    { "id": "name", "label": "Name", "type": "text", "default": "Jason Grad" },
+    { "id": "role", "label": "Role", "type": "text", "default": "Co-founder & CEO, Massive" }
+  ]
+}

@@ -1,0 +1,70 @@
+/*
+ * massive.css: Massive house style for image projects (see .claude/skills/massive-image/SKILL.md).
+ * Link it from a project's index.html: <link rel="stylesheet" href="../_brand/massive.css" />
+ * Same tokens as the video house style (public/video-projects/_brand/lib/massive.css).
+ */
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=JetBrains+Mono:wght@400;600;700&display=swap");
+
+:root {
+  --m-bg: #0a0a0f;
+  --m-surface: #121117;
+  --m-card: #1a1920;
+  --m-red: #d74939;
+  --m-red-deep: #b8321f;
+  --m-red-light: #ff8163;
+  --m-cream: #faf4ec;
+  --m-cream-mid: rgba(250, 244, 236, 0.75);
+  --m-cream-dim: rgba(250, 244, 236, 0.55);
+  --m-border: rgba(250, 244, 236, 0.08);
+  --m-paper: #f1ead8;
+  --m-ink: #171615;
+  --m-sans: Outfit, sans-serif;
+  --m-mono: "JetBrains Mono", monospace;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background: var(--m-bg);
+  overflow: hidden;
+}
+
+/* The image. Its size is set by the page (and matches meta.json). */
+#canvas {
+  position: relative;
+  overflow: hidden;
+  background: var(--m-bg);
+  color: var(--m-cream);
+  font-family: var(--m-sans);
+}
+
+/* The Market Map's dark canvas (public/bg.jpg): near-black, a faint large grid and a red glow at the bottom.
+   Use as <img class="m-bg-dark" src="../_brand/bg-dark.jpg" alt="" /> as the canvas's first child; an <img>
+   rather than a CSS background so both exports pick it up like the logos. */
+.m-bg-dark {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 100%;
+  pointer-events: none;
+}
+
+[data-field-show].is-hidden {
+  display: none !important;
+}
+
+.m-dotgrid {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(96, 118, 145, 0.7) 1.5px, transparent 1.5px);
+  background-size: 72px 72px;
+  opacity: 0.18;
+  pointer-events: none;
+}

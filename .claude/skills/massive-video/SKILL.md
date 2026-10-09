@@ -20,13 +20,16 @@ Remotion's company license rules it out.
   and `assets/brand/`. `npm run video:brand` copies `lib/` + `assets/brand/` into every project, because the
   CLI only serves a project's own folder. Edit the master, then sync; never edit a project's `lib/` copy.
 - `meta.json`: `{ id, name, group: "massive" | "templates", kind: "native" | "port" | "template", brand, status, source }`.
+  **Every video sets `"posterFromEnd": true`**: the render copies the last frame over frame 0, so the file's
+  thumbnail (LinkedIn, Slack) shows the finished end screen. `video:new` writes it; add it to any project that lacks it
+  before rendering.
 - `public/video-projects/index.json`: the tab's catalogue. **Regenerate with `npm run video:index` after any change.**
 
 ## Commands (Node 22+: run `nvm use` first; the repo's `.nvmrc` pins 24)
 
 | Command | Does |
 |---|---|
-| `npm run video:new <id> "<Title>" [--format=landscape\|square\|vertical]` | Scaffold a Massive project |
+| `npm run video:new <id> "<Title>" [--format=landscape\|square\|portrait\|vertical]` | Scaffold a Massive project |
 | `npm run video:voice <id> [--dry-run]` | Record SCRIPT.md with ElevenLabs (one take, word timings → `voice.json`) |
 | `npm run video:media [id]` | Copy media listed in `media.json` from `../remotion-playground` / `../sparktray-campaign` |
 | `npm run video:preview <id>` | HyperFrames Studio for editing + storyboard review |

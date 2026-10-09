@@ -1,6 +1,6 @@
 // Scaffold a new Massive HyperFrames project in public/video-projects/<id>.
 //
-//   node scripts/video/new.mjs <id> "<title>" [--format=landscape|square|vertical]
+//   node scripts/video/new.mjs <id> "<title>" [--format=landscape|square|portrait|vertical]
 //
 // Writes hyperframes.json, meta.json, frame.md (the Massive house style), an
 // index.html host with the house fonts and CSS, a STORYBOARD.md stub and an empty
@@ -10,13 +10,13 @@ import { copyFileSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { BRAND_DIR, PROJECTS_DIR, ROOT } from './lib/projects.mjs';
 
-const FORMATS = { landscape: [1920, 1080], square: [1080, 1080], vertical: [1080, 1920] };
+const FORMATS = { landscape: [1920, 1080], square: [1080, 1080], portrait: [1080, 1350], vertical: [1080, 1920] };
 
 const args = process.argv.slice(2);
 const [id, title] = args.filter((a) => !a.startsWith('--'));
 const format = args.find((a) => a.startsWith('--format='))?.split('=')[1] ?? 'landscape';
 if (!id || !title || !/^[a-z0-9][a-z0-9-]*$/.test(id) || !FORMATS[format]) {
-  console.error('Usage: npm run video:new <kebab-id> "<Title>" [--format=landscape|square|vertical]');
+  console.error('Usage: npm run video:new <kebab-id> "<Title>" [--format=landscape|square|portrait|vertical]');
   process.exit(1);
 }
 const dir = join(PROJECTS_DIR, id);
@@ -42,7 +42,7 @@ writeFileSync(
 );
 writeFileSync(
   join(dir, 'meta.json'),
-  `${JSON.stringify({ id, name: title, group: 'massive', kind: 'native', status: 'draft', source: null }, null, 2)}\n`,
+  `${JSON.stringify({ id, name: title, group: 'massive', kind: 'native', status: 'draft', source: null, posterFromEnd: true }, null, 2)}\n`,
 );
 writeFileSync(join(dir, 'media.json'), '[]\n');
 copyFileSync(join(BRAND_DIR, 'frame.md'), join(dir, 'frame.md'));

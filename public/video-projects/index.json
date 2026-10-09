@@ -537,6 +537,177 @@
       "media": []
     },
     {
+      "id": "jason-15k-grid",
+      "title": "Jason 15K: Grid",
+      "group": "massive",
+      "kind": "native",
+      "brand": null,
+      "status": "draft",
+      "source": null,
+      "compositionId": "jason-15k-grid",
+      "width": 1080,
+      "height": 1350,
+      "fps": 60,
+      "duration": 11,
+      "path": "/video-projects/jason-15k-grid/index.html",
+      "storyboard": {
+        "globals": {
+          "extra": {
+            "duration": "11s"
+          },
+          "format": "1080x1350",
+          "message": "15,000 LinkedIn followers for Jason Grad: a thank-you",
+          "arc": "Count → Burst → Thank you → Sign-off",
+          "audience": "LinkedIn feed, posted by Jason from his own account"
+        },
+        "warnings": [],
+        "frames": [
+          {
+            "index": 1,
+            "title": "Celebrate",
+            "status": "animated",
+            "scene": "Grid draws in, \"15,000 followers\" counts up, confetti cannons fire, then \"Thank you. for following along.\" and Jason's sign-off row",
+            "voiceover": null,
+            "narrative": "0–0.8 s: 90px line grid draws in, red corner brackets grow, LinkedIn eyebrow. 0.8–3.2 s: \"15,000\" counts up with \"followers\" wiping in beneath (rising pings). 3.2 s: the number pops red-light, a glow blooms and two seeded confetti cannons fire from the bottom corners (pop + arpeggio + sparkle). 4.2–5.2 s: the stat steps back and up; \"Thank you.\" wipes in (chime), \"for following along.\" rises. 6.3 s on: rule, round photo, \"Jason Grad · CEO, Massive\" and the Massive mark.",
+            "src": "compositions/01-celebrate.html",
+            "start": 0,
+            "duration": 11,
+            "poster": 8.5,
+            "transitionIn": "cut"
+          }
+        ]
+      },
+      "script": null,
+      "media": []
+    },
+    {
+      "id": "jason-15k-milestone",
+      "title": "Jason 15K: Milestone card",
+      "group": "massive",
+      "kind": "native",
+      "brand": null,
+      "status": "draft",
+      "source": null,
+      "compositionId": "jason-15k-milestone",
+      "width": 1080,
+      "height": 1350,
+      "fps": 60,
+      "duration": 15.5,
+      "path": "/video-projects/jason-15k-milestone/index.html",
+      "storyboard": {
+        "globals": {
+          "extra": {
+            "duration": "15.5s"
+          },
+          "format": "1080x1350",
+          "message": "Jason Grad, Massive's CEO, reached 15,000 LinkedIn followers: celebrate it in the house series style",
+          "arc": "Attention → Arrival → Achievement → Thank you",
+          "audience": "LinkedIn feed, posted by Jason from his own account"
+        },
+        "warnings": [],
+        "frames": [
+          {
+            "index": 1,
+            "title": "Desktop",
+            "status": "animated",
+            "scene": "macOS-style desktop; the LinkedIn icon does the dock attention bounce three times",
+            "voiceover": null,
+            "narrative": "The series desktop cropped to 4:5. It stays underneath the whole video and dims when the card opens.",
+            "src": "compositions/01-desktop.html",
+            "start": 0,
+            "duration": 2.3,
+            "poster": 1.2,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 2,
+            "title": "Notification",
+            "status": "animated",
+            "scene": "The icon leaps out of the dock and lands in a banner: \"You just hit 15,000 followers!\"",
+            "voiceover": null,
+            "narrative": "The banner slides in from the right as the icon lands (knock). A pointer clicks it (soft click).",
+            "src": "compositions/02-notification.html",
+            "start": 2.3,
+            "duration": 2.1,
+            "poster": 1.5,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 3,
+            "title": "Achievement",
+            "status": "animated",
+            "scene": "The banner opens into a stacked character-sheet profile; the FOLLOWERS bar fills to 15,000 and ACHIEVEMENT UNLOCKED · 15K slams in with confetti",
+            "voiceover": null,
+            "narrative": "Portrait with a MILESTONE badge, name, a party-popper \"Celebrating a milestone\" status and ROLE · CEO. The FOLLOWERS bar fills while the count runs to 15,000 (sparkle). At the fill the bar flashes, the stamp hits with a glow and shockwave, the card shakes, the ring spins up and seeded confetti bursts (pop + rising four-ping arpeggio). Rewards chips follow, one ping each: +15K Network, +1 Milestone, +∞ Thank yous.",
+            "src": "compositions/03-card.html",
+            "start": 4.4,
+            "duration": 6.2,
+            "poster": 5.4,
+            "transitionIn": "crossfade"
+          },
+          {
+            "index": 4,
+            "title": "Thank you",
+            "status": "animated",
+            "scene": "\"Thank you for 15K!\" and the Massive logo under the card while the confetti falls",
+            "voiceover": null,
+            "narrative": "Chime on entry.",
+            "src": "compositions/04-outro.html",
+            "start": 10.6,
+            "duration": 4.9,
+            "poster": 2.6,
+            "transitionIn": "cut"
+          }
+        ]
+      },
+      "script": null,
+      "media": []
+    },
+    {
+      "id": "jason-15k-network",
+      "title": "Jason 15K: Every dot a follower",
+      "group": "massive",
+      "kind": "native",
+      "brand": null,
+      "status": "draft",
+      "source": null,
+      "compositionId": "jason-15k-network",
+      "width": 1080,
+      "height": 1350,
+      "fps": 60,
+      "duration": 12,
+      "path": "/video-projects/jason-15k-network/index.html",
+      "storyboard": {
+        "globals": {
+          "extra": {
+            "duration": "12s"
+          },
+          "format": "1080x1350",
+          "message": "Every dot is a follower: 15,000 people form Jason's portrait, then 15K",
+          "arc": "Field → Portrait → Burst → 15K → Thank you",
+          "audience": "LinkedIn feed, posted by Jason from his own account"
+        },
+        "warnings": [],
+        "frames": [
+          {
+            "index": 1,
+            "title": "Every dot a follower",
+            "status": "animated",
+            "scene": "A drifting dot field streams into a halftone portrait of Jason while the follower count climbs; the portrait bursts and re-forms as \"15K\"; \"15K Followers. Thank you.\"",
+            "voiceover": null,
+            "narrative": "0–1.6 s: dim dots drift over the dot grid; LinkedIn mark and FOLLOWERS 0 in the header (sparkle at 1.6). 1.6–5.2 s: dots stream in face-first and settle into the cream halftone; the count reaches 15,000 as the last one lands (soft rising pings). 5.0 s: \"Jason Grad / CEO, Massive\" rises under the portrait. 6.4 s: the portrait bursts outward in red-light (pop + sparkle) and the dots stream into a red \"15K\" (arpeggio at 7.6). 8.0 s on: \"Followers\" under the \"15K\", then a bold \"Thank you.\" (chime) and the Massive logo.",
+            "src": "compositions/01-network.html",
+            "start": 0,
+            "duration": 12,
+            "poster": 9.5,
+            "transitionIn": "cut"
+          }
+        ]
+      },
+      "script": null,
+      "media": []
+    },
+    {
       "id": "launch-teaser",
       "title": "Massive Launch Teaser",
       "group": "massive",

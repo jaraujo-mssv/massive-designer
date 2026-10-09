@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1350" />
+    <title>Jason 15K: Milestone card</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=JetBrains+Mono:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="lib/frame-kit.js"></script>
+    <link rel="stylesheet" href="lib/frame-kit.css" />
+    <link rel="stylesheet" href="lib/massive.css" />
+    <style>
+      html,
+      body {
+        width: 1080px;
+        height: 1350px;
+        overflow: hidden;
+        background: #0a0a0f;
+      }
+      #stage {
+        position: relative;
+        width: 1080px;
+        height: 1350px;
+        overflow: hidden;
+        font-family: Outfit, sans-serif;
+      }
+      #stage-bg {
+        position: absolute;
+        inset: 0;
+        background: #0a0a0f;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="jason-15k-milestone" data-start="0" data-duration="15.5" data-fps="60" data-width="1080" data-height="1350">
+      <div id="stage-bg" class="clip" data-start="0" data-duration="15.5" data-track-index="0"></div>
+
+      <!-- Scenes: desktop sits under everything; each later beat layers on top. -->
+      <div id="jm-desktop" class="clip scene" style="z-index: 1"
+        data-composition-id="jm-desktop" data-composition-src="compositions/01-desktop.html"
+        data-start="0" data-duration="15.5" data-track-index="1" data-width="1080" data-height="1350"></div>
+      <div id="jm-notification" class="clip scene" style="z-index: 2"
+        data-composition-id="jm-notification" data-composition-src="compositions/02-notification.html"
+        data-start="2.3" data-duration="2.7" data-track-index="2" data-width="1080" data-height="1350"></div>
+      <div id="jm-card" class="clip scene" style="z-index: 3"
+        data-composition-id="jm-card" data-composition-src="compositions/03-card.html"
+        data-start="4.4" data-duration="11.1" data-track-index="3" data-width="1080" data-height="1350"></div>
+      <div id="jm-outro" class="clip scene" style="z-index: 4"
+        data-composition-id="jm-outro" data-composition-src="compositions/04-outro.html"
+        data-start="10.6" data-duration="4.9" data-track-index="4" data-width="1080" data-height="1350"></div>
+
+      <!-- UI sounds (Pixabay, see assets/template/sfx/CREDITS.md), pre-mixed into one bed from
+           assets/template/sfx-15k.cues.json: pop x3 0.7/1.25/1.8, slack-knock 3.05, click-soft 3.95, sparkle 6.3
+           (followers bar fill), achievement 7.9 (pop + a rising four-ping arpeggio), one ping per reward chip at
+           8.65 + i*0.25, chime 10.9. -->
+      <audio id="sfx-bed" data-start="0" data-duration="15.5" data-track-index="10" data-volume="1" src="assets/template/sfx-15k.mp3"></audio>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      window.__timelines["jason-15k-milestone"] = tl;
+    </script>
+  </body>
+</html>

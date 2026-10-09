@@ -1,0 +1,19 @@
+{
+  "duration": 12.5,
+  "cues": [
+    { "file": "sfx/sparkle.mp3", "at": 1.6, "gain": 0.16 },
+    { "file": "sfx/ping.mp3", "at": 2.2, "gain": 0.12 },
+    { "file": "sfx/ping.mp3", "at": 2.8, "semitones": 2, "gain": 0.13 },
+    { "file": "sfx/ping.mp3", "at": 3.4, "semitones": 4, "gain": 0.14 },
+    { "file": "sfx/ping.mp3", "at": 4.0, "semitones": 5, "gain": 0.15 },
+    { "file": "sfx/ping.mp3", "at": 4.6, "semitones": 7, "gain": 0.16 },
+    { "file": "sfx/ping.mp3", "at": 5.2, "semitones": 12, "gain": 0.24 },
+    { "file": "sfx/pop.mp3", "at": 6.4, "gain": 0.4 },
+    { "file": "sfx/sparkle.mp3", "at": 6.45, "gain": 0.2 },
+    { "file": "sfx/ping.mp3", "at": 7.6, "gain": 0.3 },
+    { "file": "sfx/ping.mp3", "at": 7.7, "semitones": 4, "gain": 0.3 },
+    { "file": "sfx/ping.mp3", "at": 7.8, "semitones": 7, "gain": 0.3 },
+    { "file": "sfx/ping.mp3", "at": 7.9, "semitones": 12, "gain": 0.34 },
+    { "file": "sfx/chime.mp3", "at": 8.5, "gain": 0.34 }
+  ]
+}

@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+          font-family: Outfit, sans-serif;
+        }
+        #root .hello {
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 1000px;
+          text-align: center;
+          font-size: 58px;
+          font-weight: 800;
+          line-height: 1.1;
+          letter-spacing: -0.03em;
+          color: #faf4ec;
+          white-space: nowrap;
+        }
+        #root .hello .who {
+          color: #ff8163;
+        }
+        /* Full-width row so the logo centres without a transform (GSAP owns the transform). */
+        #root .logo-row {
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 1095px;
+          display: flex;
+          justify-content: center;
+        }
+        #root .logo-row img {
+          height: 30px;
+        }
+      </style>
+      <div id="root" data-composition-id="jm-outro" data-width="1080" data-height="1350" data-duration="4.9">
+        <div class="hello">Thank you for <span class="who">15K</span>!</div>
+        <div class="logo-row"><img src="assets/brand/logo-massive.svg" alt="Massive" /></div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="jm-outro"]');
+          const q = (s) => root.querySelector(s);
+          const tl = gsap.timeline({ paused: true });
+          tl.fromTo(q(".hello"), { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, 0.3);
+          tl.fromTo(q(".logo-row"), { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: "power3.out" }, 0.5);
+          window.__timelines["jm-outro"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

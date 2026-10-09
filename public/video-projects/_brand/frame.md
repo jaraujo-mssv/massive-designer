@@ -6,7 +6,7 @@ description: >
   (src/styles/theme-base.css) and the ported brand videos. Dark register by default:
   near-black ground, cream type, one red accent. The cream register is for editorial
   carousels (the AEO set). Outfit carries every text role; JetBrains Mono is chrome only.
-unit: the frame — 1920×1080 primary; 1080×1080 and 1080×1920 documented
+unit: the frame — 1920×1080 primary; 1080×1080, 1080×1350 and 1080×1920 documented
 principle: one accent · type does the work · every number comes from the script
 colors:
   bg: "#0a0a0f"
@@ -92,7 +92,7 @@ URLs, labels, terminal output), always uppercase and tracked when it's a label.
 
 ## The Frame
 
-- **Primary:** 1920×1080. **Square:** 1080×1080 (LinkedIn carousels, 80px padding). **Vertical:** 1080×1920.
+- **Primary:** 1920×1080. **Square:** 1080×1080 (LinkedIn carousels, 80px padding). **Portrait:** 1080×1350 (LinkedIn feed, 80px sides). **Vertical:** 1080×1920.
 - **Safe area:** 100px sides, 96px top/bottom on 16:9.
 - **Density:** one statement per frame; bullets capped at three; declarative frames stay at least half empty.
 

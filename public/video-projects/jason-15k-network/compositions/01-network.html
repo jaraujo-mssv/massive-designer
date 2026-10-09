@@ -1,0 +1,283 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          font-family: Outfit, sans-serif;
+          color: #faf4ec;
+        }
+        #root .dots-bg {
+          position: absolute;
+          inset: 0;
+          background-image: radial-gradient(circle, rgba(96, 118, 145, 0.7) 1.5px, transparent 1.5px);
+          background-size: 72px 72px;
+          opacity: 0.14;
+        }
+        #root canvas {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 1080px;
+          height: 1350px;
+        }
+        /* Header: the LinkedIn mark on the left, the running follower count on the right. */
+        #root .head {
+          position: absolute;
+          left: 80px;
+          right: 80px;
+          top: 84px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+        #root .brand {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          font-family: "JetBrains Mono", monospace;
+          font-size: 22px;
+          font-weight: 600;
+          letter-spacing: 0.08em;
+          color: rgba(250, 244, 236, 0.75);
+        }
+        #root .brand img {
+          width: 44px;
+          height: 44px;
+        }
+        #root .counter {
+          display: flex;
+          align-items: baseline;
+          gap: 16px;
+          font-family: "JetBrains Mono", monospace;
+          white-space: nowrap;
+        }
+        #root .counter .k {
+          font-size: 18px;
+          font-weight: 600;
+          letter-spacing: 0.1em;
+          color: rgba(250, 244, 236, 0.55);
+        }
+        #root .counter .v {
+          width: 128px;
+          text-align: right;
+          font-size: 34px;
+          font-weight: 700;
+          color: #ff8163;
+          font-variant-numeric: tabular-nums;
+        }
+        #root .who {
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 950px;
+          text-align: center;
+        }
+        #root .who .name {
+          font-size: 64px;
+          font-weight: 800;
+          line-height: 1.1;
+          letter-spacing: -0.03em;
+          white-space: nowrap;
+        }
+        #root .who .role {
+          margin-top: 10px;
+          font-family: "JetBrains Mono", monospace;
+          font-size: 22px;
+          font-weight: 600;
+          letter-spacing: 0.1em;
+          color: rgba(250, 244, 236, 0.55);
+          white-space: nowrap;
+        }
+        /* End copy, under the "15K" the dots form (glyphs span y 255–620). */
+        #root .people {
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 670px;
+          text-align: center;
+          font-size: 76px;
+          font-weight: 900;
+          line-height: 1.1;
+          letter-spacing: -0.04em;
+          white-space: nowrap;
+        }
+        #root .thanks {
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 762px;
+          text-align: center;
+          font-size: 76px;
+          font-weight: 900;
+          line-height: 1.1;
+          letter-spacing: -0.04em;
+          color: #ff8163;
+          white-space: nowrap;
+        }
+        /* Full-width row so the logo centres without a transform (GSAP owns the transform). */
+        #root .logo-row {
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 1214px;
+          display: flex;
+          justify-content: center;
+        }
+        #root .logo-row img {
+          height: 30px;
+        }
+      </style>
+      <div id="root" data-composition-id="jn-network" data-width="1080" data-height="1350" data-duration="12">
+        <div class="dots-bg"></div>
+        <canvas width="1080" height="1350" data-layout-allow-occlusion></canvas>
+
+        <div class="head">
+          <div class="brand"><img src="assets/template/linkedin.svg" alt="LinkedIn" /><span>LINKEDIN</span></div>
+          <div class="counter"><span class="k">FOLLOWERS</span><span class="v">0</span></div>
+        </div>
+
+        <div class="who">
+          <div class="name">Jason Grad</div>
+          <div class="role">CEO, MASSIVE</div>
+        </div>
+
+        <div class="people">Followers</div>
+        <div class="thanks">Thank you.</div>
+        <div class="logo-row"><img src="assets/brand/logo-massive.svg" alt="Massive" /></div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="jn-network"]');
+          const q = (s) => root.querySelector(s);
+          const DUR = 10;
+
+          // Targets from js/points.js (precomputed from assets/template/jason.jpg and Outfit 900).
+          const P = window.__jnPoints;
+          const N = P.portrait.length / 3;
+          const TEXT_R = P.step * 0.4;
+
+          // Beats, composition seconds.
+          const GATHER = 1.6; // dots start streaming into the portrait
+          const BURST = 6.4; // portrait bursts outward
+          const REFORM = 6.8; // dots stream into "15K"
+
+          let seed = 20261008;
+          const rand = () => {
+            seed = (seed + 0x6d2b79f5) | 0;
+            let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+            t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+            return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+          };
+          const CX = 540;
+          const CY = 560;
+          const dots = Array.from({ length: N }, (_, i) => {
+            const px = P.portrait[i * 3];
+            const py = P.portrait[i * 3 + 1];
+            const pr = P.portrait[i * 3 + 2] / 10;
+            const tx = P.text[i * 2];
+            const ty = P.text[i * 2 + 1];
+            const dist = Math.hypot(px - CX, py - CY);
+            const ang = Math.atan2(py - CY, px - CX) + (rand() - 0.5) * 0.6;
+            return {
+              sx: 40 + rand() * 1000,
+              sy: 40 + rand() * 1270,
+              ph1: rand() * Math.PI * 2,
+              ph2: rand() * Math.PI * 2,
+              px,
+              py,
+              pr,
+              tx,
+              ty,
+              // The face forms first, then the edges.
+              d1: GATHER + 1.5 * Math.min(1, dist / 520) + rand() * 0.5,
+              bx: Math.cos(ang) * (70 + rand() * 170),
+              by: Math.sin(ang) * (70 + rand() * 170),
+              d2: REFORM + rand() * 0.35,
+              fieldA: 0.35 + rand() * 0.4,
+              // "15K" runs red-light on the left to red on the right.
+              tc: Math.max(0, Math.min(1, (tx - 120) / 840)),
+            };
+          });
+
+          const clamp = (v) => (v < 0 ? 0 : v > 1 ? 1 : v);
+          const inOut = (u) => (u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2);
+          const out = (u) => 1 - Math.pow(1 - u, 3);
+          const mix = (a, b, u) => a + (b - a) * u;
+          const FIELD = [120, 140, 168];
+          const CREAM = [250, 244, 236];
+          const RL = [255, 129, 99];
+          const RED = [215, 73, 57];
+
+          const ctx = q("canvas").getContext("2d");
+          const v = q(".counter .v");
+          const fmt = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+          const draw = (t) => {
+            ctx.clearRect(0, 0, 1080, 1350);
+            const fadeIn = clamp(t / 0.8);
+            let landed = 0;
+            for (const d of dots) {
+              // Field: a slow drift around the start position.
+              const fx = d.sx + Math.sin(t * 0.7 + d.ph1) * 16;
+              const fy = d.sy + Math.cos(t * 0.55 + d.ph2) * 16;
+              const g = inOut(clamp((t - d.d1) / 1.6));
+              landed += g;
+              let x = mix(fx, d.px, g);
+              let y = mix(fy, d.py, g);
+              let r = mix(1.7, d.pr * (1 + 0.05 * Math.sin(t * 3 + d.px * 0.03) * g), g);
+              let c = [mix(FIELD[0], CREAM[0], g), mix(FIELD[1], CREAM[1], g), mix(FIELD[2], CREAM[2], g)];
+              let a = mix(d.fieldA * fadeIn, 1, g);
+              if (t > BURST) {
+                const b = out(clamp((t - BURST) / 0.6));
+                const h = inOut(clamp((t - d.d2) / 1.0));
+                const bx = d.px + d.bx * b;
+                const by = d.py + d.by * b;
+                x = mix(bx, d.tx, h);
+                y = mix(by, d.ty, h);
+                r = mix(mix(d.pr, 2.4, b), TEXT_R, h);
+                const tc = [mix(RL[0], RED[0], d.tc), mix(RL[1], RED[1], d.tc), mix(RL[2], RED[2], d.tc)];
+                const bc = [mix(CREAM[0], RL[0], b), mix(CREAM[1], RL[1], b), mix(CREAM[2], RL[2], b)];
+                c = [mix(bc[0], tc[0], h), mix(bc[1], tc[1], h), mix(bc[2], tc[2], h)];
+                a = 1;
+              }
+              ctx.globalAlpha = a;
+              ctx.fillStyle = `rgb(${c[0] | 0},${c[1] | 0},${c[2] | 0})`;
+              ctx.beginPath();
+              ctx.arc(x, y, r, 0, Math.PI * 2);
+              ctx.fill();
+            }
+            ctx.globalAlpha = 1;
+            // The count is the share of dots that have landed in the portrait.
+            v.textContent = fmt(Math.round((landed / N) * 15000));
+          };
+
+          const tl = gsap.timeline({ paused: true });
+          tl.to({}, { duration: DUR, onUpdate: () => draw(tl.time()) }, 0);
+
+          // Header. The count itself is drawn by draw(): it reaches 15,000 as the last portrait dot lands.
+          tl.fromTo(q(".brand"), { y: -16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, 0.2);
+          tl.fromTo(q(".counter"), { y: -16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, 0.35);
+          tl.fromTo(v, { scale: 1 }, { scale: 1.25, duration: 0.12, ease: "power2.out", transformOrigin: "right center" }, 5.2);
+          tl.to(v, { scale: 1, duration: 0.4, ease: "back.out(2)" }, 5.32);
+
+          // Name under the portrait once it's formed.
+          tl.fromTo(q(".who .name"), { y: 28, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, 5.0);
+          tl.fromTo(q(".who .role"), { y: 28, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, 5.12);
+          // The name steps down as "15K" forms, then the thank-you lines rise in.
+          tl.to(q(".who"), { y: 40, opacity: 0.7, duration: 0.6, ease: "power2.inOut" }, BURST);
+          tl.fromTo(q(".people"), { y: 36, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, 8.0);
+          tl.fromTo(q(".thanks"), { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.55, ease: "power2.inOut" }, 8.45);
+          tl.fromTo(q(".logo-row"), { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: "power3.out" }, 8.8);
+
+          window.__timelines["jn-network"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

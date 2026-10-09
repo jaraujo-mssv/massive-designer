@@ -1,0 +1,489 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+          font-family: Outfit, sans-serif;
+          color: #faf4ec;
+        }
+        /* Profile window × character sheet, stacked for 4:5. 920 wide at (80, 150). */
+        #root .card {
+          position: absolute;
+          left: 80px;
+          top: 150px;
+          width: 920px;
+          border-radius: 24px;
+          background: #1a1d21;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          box-shadow: 0 40px 120px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(215, 73, 57, 0.12);
+          overflow: hidden;
+        }
+        /* macOS title bar: traffic lights on the left, no title. */
+        #root .chrome {
+          height: 44px;
+          display: flex;
+          align-items: center;
+          gap: 9px;
+          padding: 0 18px;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        #root .chrome span {
+          width: 14px;
+          height: 14px;
+          border-radius: 50%;
+          box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.25);
+        }
+        #root .chrome .close {
+          background: #ff5f57;
+        }
+        #root .chrome .min {
+          background: #febc2e;
+        }
+        #root .chrome .max {
+          background: #28c840;
+        }
+        /* Lucide icons (lucide.dev, ISC). */
+        #root svg.ic {
+          width: 24px;
+          height: 24px;
+          fill: none;
+          stroke: currentColor;
+          stroke-width: 2;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+        }
+        #root .body {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding: 52px 52px 48px;
+        }
+        #root .portrait {
+          position: relative;
+          width: 300px;
+          height: 300px;
+        }
+        /* Rotating gradient ring, clipped to a rounded frame around the photo. */
+        #root .ring-frame {
+          position: absolute;
+          inset: -8px;
+          border-radius: 38px;
+          overflow: hidden;
+          box-shadow: 0 0 40px rgba(215, 73, 57, 0.35);
+        }
+        #root .ring {
+          position: absolute;
+          left: -50%;
+          top: -50%;
+          width: 200%;
+          height: 200%;
+          background: conic-gradient(from 0deg, #d74939, #ff8163, rgba(215, 73, 57, 0.1), #d74939);
+        }
+        #root .photo {
+          position: absolute;
+          inset: 0;
+          width: 300px;
+          height: 300px;
+          object-fit: cover;
+          border-radius: 32px;
+          border: 4px solid #1a1d21;
+        }
+        #root .badge {
+          position: absolute;
+          left: 50%;
+          bottom: -20px;
+          margin-left: -100px;
+          width: 200px;
+          text-align: center;
+          padding: 9px 0;
+          border-radius: 999px;
+          background: #b8321f;
+          font-family: "JetBrains Mono", monospace;
+          font-size: 19px;
+          font-weight: 700;
+          letter-spacing: 0.08em;
+          box-shadow: 0 8px 24px rgba(215, 73, 57, 0.45);
+        }
+        #root .name {
+          margin-top: 48px;
+          font-size: 76px;
+          font-weight: 900;
+          line-height: 1.15;
+          padding-bottom: 4px;
+          letter-spacing: -0.035em;
+          white-space: nowrap;
+        }
+        /* Status line: a party popper where the welcome card has the green "Available" dot. */
+        #root .presence {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          font-size: 24px;
+          font-weight: 500;
+          color: rgba(250, 244, 236, 0.75);
+        }
+        #root .presence svg.ic {
+          color: #ff8163;
+        }
+        #root .meta {
+          margin-top: 22px;
+          display: flex;
+          align-items: center;
+          gap: 26px;
+          font-size: 24px;
+        }
+        #root .class-tag {
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          padding: 7px 16px 7px 9px;
+          border-radius: 10px;
+          background: rgba(215, 73, 57, 0.14);
+          border: 1px solid rgba(215, 73, 57, 0.45);
+          color: #ff8163;
+          font-weight: 600;
+          white-space: nowrap;
+        }
+        #root .k {
+          font-family: "JetBrains Mono", monospace;
+          font-size: 15px;
+          font-weight: 700;
+          letter-spacing: 0.1em;
+          color: rgba(250, 244, 236, 0.5);
+        }
+        #root .class-tag .k {
+          padding: 3px 7px;
+          border-radius: 6px;
+          background: #b8321f;
+          color: #fff;
+        }
+        #root .divider {
+          align-self: stretch;
+          margin: 34px 0 26px;
+          height: 1px;
+          background: rgba(255, 255, 255, 0.1);
+          transform-origin: left center;
+        }
+        #root .stat {
+          align-self: stretch;
+          display: grid;
+          grid-template-columns: 50px 156px 1fr;
+          align-items: center;
+          gap: 16px;
+          min-height: 64px;
+        }
+        #root .stat + .stat {
+          margin-top: 12px;
+        }
+        #root .stat .tile {
+          width: 50px;
+          height: 50px;
+          border-radius: 13px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: rgba(215, 73, 57, 0.14);
+          color: #ff8163;
+        }
+        #root .chips {
+          display: flex;
+          gap: 10px;
+        }
+        #root .chip {
+          padding: 8px 15px;
+          border-radius: 999px;
+          background: rgba(215, 73, 57, 0.14);
+          border: 1px solid rgba(215, 73, 57, 0.45);
+          color: #ff8163;
+          font-size: 21px;
+          font-weight: 600;
+          white-space: nowrap;
+        }
+        #root .xp {
+          grid-template-columns: 50px 156px 1fr 104px;
+        }
+        #root .track {
+          position: relative;
+          height: 14px;
+          border-radius: 999px;
+          background: rgba(255, 255, 255, 0.08);
+          overflow: hidden;
+        }
+        #root .fill {
+          height: 100%;
+          border-radius: 999px;
+          background: linear-gradient(90deg, #d74939, #ff8163);
+          transform-origin: left center;
+        }
+        #root .flash {
+          position: absolute;
+          inset: 0;
+          background: #faf4ec;
+          opacity: 0;
+        }
+        #root .num {
+          font-family: "JetBrains Mono", monospace;
+          font-size: 21px;
+          font-weight: 700;
+          color: #ff8163;
+          text-align: right;
+          font-variant-numeric: tabular-nums;
+        }
+        /* Achievement: glow, shockwave ring and the stamp, centred over the portrait and name. */
+        #root .lvl {
+          position: absolute;
+          left: 80px;
+          top: 300px;
+          width: 920px;
+          height: 520px;
+          pointer-events: none;
+        }
+        #root .glow {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          width: 1000px;
+          height: 1000px;
+          margin: -500px 0 0 -500px;
+          border-radius: 50%;
+          background: radial-gradient(circle, rgba(215, 73, 57, 0.55) 0%, rgba(215, 73, 57, 0.18) 38%, rgba(215, 73, 57, 0) 68%);
+          opacity: 0;
+        }
+        #root .wave {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          width: 240px;
+          height: 240px;
+          margin: -120px 0 0 -120px;
+          border-radius: 50%;
+          border: 6px solid #ff8163;
+          opacity: 0;
+        }
+        #root .stamp {
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 50%;
+          margin-top: -190px;
+          height: 380px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 4px;
+          opacity: 0;
+          transform: rotate(-4deg);
+        }
+        #root .stamp .pill {
+          padding: 10px 22px;
+          border-radius: 999px;
+          background: #b8321f;
+          font-family: "JetBrains Mono", monospace;
+          font-size: 26px;
+          font-weight: 700;
+          letter-spacing: 0.1em;
+          color: #fff;
+          white-space: nowrap;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        #root .stamp .big {
+          font-size: 280px;
+          font-weight: 900;
+          line-height: 1;
+          letter-spacing: -0.05em;
+          white-space: nowrap;
+          padding: 0 28px 16px;
+          background: linear-gradient(135deg, #d74939, #ff8163);
+          -webkit-background-clip: text;
+          background-clip: text;
+          color: transparent;
+          filter: drop-shadow(0 0 60px rgba(215, 73, 57, 0.45)) drop-shadow(0 12px 0 #0a0a0f);
+        }
+        /* Confetti: pieces are placed by the script from a seeded PRNG. */
+        #root .confetti {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          pointer-events: none;
+        }
+        #root .confetti i {
+          position: absolute;
+          left: 0;
+          top: 0;
+          display: block;
+          opacity: 0;
+        }
+      </style>
+      <div id="root" data-composition-id="jm-card" data-width="1080" data-height="1350" data-duration="11.1">
+        <div class="card" data-layout-allow-occlusion>
+          <div class="chrome"><span class="close"></span><span class="min"></span><span class="max"></span></div>
+          <div class="body">
+            <div class="portrait">
+              <div class="ring-frame"><div class="ring" data-layout-allow-overflow></div></div>
+              <img class="photo" src="assets/template/jason.jpg" alt="Jason Grad" />
+              <div class="badge">MILESTONE</div>
+            </div>
+            <div class="name">Jason Grad</div>
+            <div class="presence">
+              <svg class="ic" viewBox="0 0 24 24"><path d="M5.8 11.3 2 22l10.7-3.79" /><path d="M4 3h.01" /><path d="M22 8h.01" /><path d="M15 2h.01" /><path d="M22 20h.01" /><path d="m22 2-2.24.75a2.9 2.9 0 0 0-1.96 3.12c.1.86-.57 1.63-1.45 1.63h-.38c-.86 0-1.6.6-1.76 1.44L14 10" /><path d="m22 13-.82-.33c-.86-.34-1.82.2-1.98 1.11c-.11.7-.72 1.22-1.43 1.22H17" /><path d="m11 2 .33.82c.34.86-.2 1.82-1.11 1.98C9.52 4.9 9 5.52 9 6.23V7" /><path d="M11 13c1.93 1.93 2.83 4.17 2 5-.83.83-3.07-.07-5-2-1.93-1.93-2.83-4.17-2-5 .83-.83 3.07.07 5 2Z" /></svg>
+              Celebrating a milestone
+            </div>
+            <div class="meta">
+              <span class="class-tag"><span class="k">ROLE</span><span>CEO</span></span>
+            </div>
+            <div class="divider"></div>
+            <div class="stat xp">
+              <div class="tile"><svg class="ic" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg></div>
+              <span class="k">FOLLOWERS</span>
+              <div class="track"><div class="fill"></div><div class="flash"></div></div>
+              <span class="num">0</span>
+            </div>
+            <div class="stat rewards">
+              <div class="tile"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4" rx="1" /><path d="M12 8v13" /><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7" /><path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5" /></svg></div>
+              <span class="k">REWARDS</span>
+              <div class="chips"><span class="chip">+15K Network</span><span class="chip">+1 Milestone</span><span class="chip">+&infin; Thank yous</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="lvl" data-layout-allow-overflow data-layout-allow-occlusion>
+          <div class="glow" data-layout-allow-overflow></div>
+          <div class="wave"></div>
+          <div class="stamp"><span class="pill">ACHIEVEMENT UNLOCKED</span><span class="big">15K</span></div>
+        </div>
+        <div class="confetti" data-layout-allow-overlap data-layout-allow-occlusion data-layout-allow-overflow></div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="jm-card"]');
+          const q = (s) => root.querySelector(s);
+          const qa = (s) => [...root.querySelectorAll(s)];
+          const num = q(".num");
+          const DUR = 9.1;
+
+          // Confetti: a seeded burst from the stamp, placed in closed form from the burst's local
+          // time so any seek lands on the same frame.
+          const LVL = 3.5; // achievement moment, card-local seconds
+          const FALL = 5.2;
+          const layer = q(".confetti");
+          let seed = 20261008;
+          const rand = () => {
+            seed = (seed + 0x6d2b79f5) | 0;
+            let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+            t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+            return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+          };
+          const COLORS = ["#d74939", "#ff8163", "#faf4ec", "#f1ead8", "#b8321f"];
+          const pieces = Array.from({ length: 120 }, () => {
+            const el = document.createElement("i");
+            const kind = rand();
+            const w = kind < 0.2 ? 12 : kind < 0.6 ? 10 : 6;
+            const h = kind < 0.2 ? 12 : kind < 0.6 ? 16 : 22;
+            el.style.width = `${w}px`;
+            el.style.height = `${h}px`;
+            el.style.borderRadius = kind < 0.2 ? "50%" : "2px";
+            el.style.background = COLORS[Math.floor(rand() * COLORS.length)];
+            layer.appendChild(el);
+            const angle = -Math.PI / 2 + (rand() - 0.5) * Math.PI * 1.3;
+            const speed = 900 + rand() * 1500;
+            return {
+              el,
+              x0: 540 + (rand() - 0.5) * 300,
+              y0: 560 + (rand() - 0.5) * 80,
+              vx: Math.cos(angle) * speed,
+              vy: Math.sin(angle) * speed,
+              r0: rand() * 360,
+              vr: (rand() - 0.5) * 900,
+              flip: 2 + rand() * 5,
+              delay: rand() * 0.12,
+            };
+          });
+          const DRAG = 2.2;
+          const G = 900;
+          const placeConfetti = (t) => {
+            for (const p of pieces) {
+              const s = t - LVL - p.delay;
+              if (s <= 0 || s > FALL) {
+                p.el.style.opacity = "0";
+                continue;
+              }
+              // Velocity decays with drag; gravity pulls toward a slow terminal fall.
+              const k = (1 - Math.exp(-DRAG * s)) / DRAG;
+              const x = p.x0 + p.vx * k + Math.sin(s * p.flip) * 18;
+              const y = p.y0 + p.vy * k + (G / DRAG) * (s - k);
+              const r = p.r0 + p.vr * s;
+              const sy = Math.cos(s * p.flip * 2);
+              p.el.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) rotate(${r.toFixed(1)}deg) scaleY(${sy.toFixed(3)})`;
+              p.el.style.opacity = String(Math.min(1, s / 0.06, (FALL - s) / 0.8));
+            }
+          };
+
+          const tl = gsap.timeline({ paused: true });
+          tl.to({}, { duration: DUR, onUpdate: () => placeConfetti(tl.time()) }, 0);
+
+          // Open from the notification: the banner hands off from the top right.
+          const card = q(".card");
+          tl.fromTo(card, { x: 124, y: -444, scale: 0.5 }, { x: 0, y: 0, scale: 1, duration: 0.6, ease: "back.out(1.15)" }, 0);
+          tl.fromTo(card, { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power1.out" }, 0);
+
+          // Portrait. The ring idles, spins up at the achievement, then settles back to idle.
+          tl.fromTo(q(".portrait"), { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(1.6)" }, 0.7);
+          const ring = q(".ring");
+          tl.fromTo(ring, { rotation: 0 }, { rotation: 64, duration: LVL - 0.7, ease: "none" }, 0.7);
+          tl.to(ring, { rotation: 424, duration: 1.2, ease: "power2.out" }, LVL);
+          tl.to(ring, { rotation: 530, duration: DUR - LVL - 1.2, ease: "none" }, LVL + 1.2);
+          tl.fromTo(q(".badge"), { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: "back.out(2)" }, 0.95);
+
+          // Identity.
+          const rise = (sel, t) => tl.fromTo(q(sel), { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: "power3.out" }, t);
+          rise(".name", 1.0);
+          rise(".presence", 1.1);
+          rise(".class-tag", 1.2);
+          tl.fromTo(q(".divider"), { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power2.out" }, 1.5);
+
+          // Followers: the bar fills while the count runs to 15,000.
+          rise(".xp", 1.7);
+          const fmt = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+          const count = { v: 0 };
+          tl.fromTo(q(".fill"), { scaleX: 0 }, { scaleX: 1, duration: LVL - 1.9, ease: "power2.inOut" }, 1.9);
+          tl.fromTo(
+            count,
+            { v: 0 },
+            { v: 15000, duration: LVL - 1.9, ease: "power2.inOut", onUpdate: () => (num.textContent = fmt(Math.round(count.v))) },
+            1.9,
+          );
+
+          // Achievement: the bar flashes, the stamp slams in over a glow and a shockwave, the card
+          // shakes, confetti bursts (placeConfetti), then the stamp lifts away.
+          tl.fromTo(q(".flash"), { opacity: 0 }, { opacity: 0.9, duration: 0.08, ease: "none" }, LVL);
+          tl.to(q(".flash"), { opacity: 0, duration: 0.5, ease: "power2.out" }, LVL + 0.08);
+          tl.fromTo(q(".glow"), { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.35, ease: "power2.out" }, LVL);
+          tl.to(q(".glow"), { opacity: 0, duration: 0.6, ease: "power2.in" }, LVL + 0.9);
+          tl.fromTo(q(".wave"), { opacity: 1, scale: 0.3 }, { opacity: 0, scale: 5, duration: 0.8, ease: "power2.out", immediateRender: false }, LVL);
+          const stamp = q(".stamp");
+          tl.fromTo(stamp, { opacity: 0, scale: 2.4 }, { opacity: 1, scale: 1, duration: 0.28, ease: "back.out(1.4)" }, LVL);
+          tl.to(stamp, { scale: 1.06, duration: 0.7, ease: "sine.inOut" }, LVL + 0.28);
+          tl.to(stamp, { y: -70, scale: 0.7, opacity: 0, duration: 0.4, ease: "power2.in" }, LVL + 1.0);
+          [10, -9, 7, -5, 3, 0].forEach((x, i) => tl.to(card, { x, duration: 0.04, ease: "none" }, LVL + 0.02 + i * 0.04));
+
+          // Rewards, one ping each (8.65 + i*0.25 in the sound bed).
+          rise(".rewards", 4.0);
+          qa(".chip").forEach((el, i) =>
+            tl.fromTo(el, { scale: 0.5, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: "back.out(2.2)" }, 4.25 + i * 0.25),
+          );
+
+          // Settle for the outro.
+          tl.to(card, { y: -80, duration: 0.6, ease: "power2.inOut" }, 6.0);
+
+          window.__timelines["jm-card"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

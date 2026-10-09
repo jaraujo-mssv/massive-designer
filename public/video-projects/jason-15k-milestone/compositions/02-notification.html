@@ -1,0 +1,134 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+        }
+        /* The LinkedIn icon leaving the dock: starts on the dock slot (centre 662, 1260). */
+        #root .fly {
+          position: absolute;
+          left: 609px;
+          top: 1207px;
+          width: 106px;
+          height: 106px;
+          padding: 7px;
+          filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.45));
+        }
+        /* macOS-style banner at 1.4×, top right under the menu bar. */
+        #root .banner {
+          position: absolute;
+          left: 272px;
+          top: 70px;
+          width: 784px;
+          display: flex;
+          align-items: center;
+          gap: 22px;
+          padding: 25px 28px;
+          border-radius: 34px;
+          background: rgba(42, 40, 48, 0.78);
+          border: 1px solid rgba(255, 255, 255, 0.14);
+          backdrop-filter: blur(30px);
+          box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+          transform-origin: 50% 50%;
+          font-family: Outfit, sans-serif;
+        }
+        #root .banner .ico {
+          width: 78px;
+          height: 78px;
+          flex-shrink: 0;
+          background: url("assets/template/linkedin.svg") center / contain no-repeat;
+        }
+        #root .banner .txt {
+          flex: 1;
+          min-width: 0;
+        }
+        #root .banner .row {
+          display: flex;
+          justify-content: space-between;
+          font-size: 22px;
+          font-weight: 600;
+          color: rgba(250, 244, 236, 0.6);
+          text-transform: uppercase;
+          letter-spacing: 0.04em;
+        }
+        #root .banner .title {
+          margin-top: 6px;
+          font-size: 31px;
+          font-weight: 700;
+          color: #fff;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        #root .cursor {
+          position: absolute;
+          left: 380px;
+          top: 700px;
+          width: 48px;
+          height: 48px;
+          filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.5));
+        }
+      </style>
+      <div id="root" data-composition-id="jm-notification" data-width="1080" data-height="1350" data-duration="2.7">
+        <div class="banner">
+          <div class="ico"></div>
+          <div class="txt">
+            <div class="row"><span>LinkedIn</span><span>now</span></div>
+            <div class="title">You just hit 15,000 followers!</div>
+          </div>
+        </div>
+        <img class="fly" src="assets/template/linkedin.svg" alt="" />
+        <svg class="cursor" viewBox="0 0 24 24">
+          <path d="M4 2.5 L4 20 L8.6 15.6 L11.6 22 L14.4 20.8 L11.5 14.5 L18 14.5 Z" fill="#111" stroke="#fff" stroke-width="1.4" stroke-linejoin="round" />
+        </svg>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="jm-notification"]');
+          const q = (s) => root.querySelector(s);
+          const fly = q(".fly");
+          const banner = q(".banner");
+          const bannerIcon = q(".banner .ico");
+          const cursor = q(".cursor");
+          const tl = gsap.timeline({ paused: true });
+
+          // Leap: dock slot (662, 1260) → banner icon slot (340, 135); the 92px mark (106px tile, 7px inset)
+          // shrinks to the banner's 78px.
+          tl.fromTo(fly, { x: 0 }, { x: -322, duration: 0.8, ease: "power2.inOut" }, 0);
+          tl.fromTo(fly, { y: 0 }, { y: -1125, duration: 0.8, ease: "power3.out" }, 0);
+          tl.fromTo(fly, { scale: 1 }, { scale: 1.4, duration: 0.32, ease: "power2.out" }, 0);
+          tl.to(fly, { scale: 78 / 92, duration: 0.48, ease: "power2.in" }, 0.32);
+          tl.fromTo(fly, { rotation: 0 }, { rotation: -12, duration: 0.4, ease: "sine.out" }, 0);
+          tl.to(fly, { rotation: 0, duration: 0.4, ease: "sine.in" }, 0.4);
+
+          // Banner slides in from the right edge and is in place when the icon lands.
+          tl.fromTo(banner, { x: 820, opacity: 0 }, { x: 0, opacity: 1, duration: 0.4, ease: "power3.out" }, 0.35);
+          tl.fromTo(bannerIcon, { opacity: 0 }, { opacity: 1, duration: 0.01 }, 0.8);
+          tl.to(fly, { opacity: 0, duration: 0.01 }, 0.8);
+          tl.fromTo(bannerIcon, { scale: 1.18 }, { scale: 1, duration: 0.3, ease: "back.out(2.4)", immediateRender: false }, 0.8);
+
+          // Pointer comes in and clicks the banner.
+          tl.fromTo(cursor, { opacity: 0 }, { opacity: 1, duration: 0.15 }, 1.0);
+          tl.fromTo(cursor, { x: 0, y: 0 }, { x: 540, y: -540, duration: 0.55, ease: "power2.inOut" }, 1.0);
+          tl.to(cursor, { scale: 0.85, duration: 0.08, ease: "power1.out" }, 1.65);
+          tl.to(cursor, { scale: 1, duration: 0.12, ease: "power1.out" }, 1.73);
+          tl.to(banner, { scale: 0.97, duration: 0.08, ease: "power1.out" }, 1.65);
+          tl.to(banner, { scale: 1, duration: 0.14, ease: "power1.out" }, 1.73);
+
+          // Open: the banner grows toward the card's centre and hands off to it.
+          tl.to(banner, { x: -124, y: 444, scale: 1.4, opacity: 0, duration: 0.45, ease: "power2.in" }, 2.1);
+          tl.to(cursor, { opacity: 0, duration: 0.2 }, 2.1);
+
+          window.__timelines["jm-notification"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -78,7 +78,6 @@ Indoors: dark charcoal interiors with warm coral accents and light oak floors.
   Image: offices-john-cena.png
 - [ ] **Jason Grad:** Walking them through a dashboard on the big screen
   Prompt: In a Massive meeting room, Jason Grad, Massive's CEO, stands at a large wall screen pointing at a line chart of network traffic, while The Rock and John Cena sit at the table watching, The Rock with his chin on his hand. The screen shows only charts and numbers. Shot from behind the table, 35mm, their shoulders soft in the foreground, coral-lit wall behind.
-  Image: offices-jason-grad.png
 - [x] **Michael Jordan:** Shooting on the foam hoop over the meeting room door
   Prompt: In Massive's office, Michael Jordan, still in his suit jacket, shoots a small foam ball at a toy hoop hung over a meeting room door, while a few engineers watch from their desks with their arms already going up. Shot from behind the desks, 35mm, their shoulders soft in the foreground, dark charcoal office with coral accent lights and plants.
   Image: offices-michael-jordan.jpg
@@ -94,9 +93,8 @@ Indoors: dark charcoal interiors with warm coral accents and light oak floors.
 - [x] **John Cena:** Hanging off the side of a cable car
   Prompt: On a steep San Francisco street, John Cena rides on the outside step of a cable car, one hand on the pole, grinning, his tie blowing over his shoulder, while the other riders beside him laugh. Shot from the street as the cable car climbs past, 35mm, painted Victorian houses behind, cool morning light with a little fog, no readable signs.
   Image: city-john-cena.png
-- [x] **Jason Grad:** Walking them along the Embarcadero
+- [ ] **Jason Grad:** Walking them along the Embarcadero
   Prompt: Jason Grad, Massive's CEO, walks along San Francisco's Embarcadero between The Rock and John Cena, the three of them mid-conversation, a few passersby doing double takes. Full-length shot from slightly ahead, 50mm, the bay and the Ferry Building clock tower soft behind them, late-afternoon light.
-  Image: city-jason-grad.png
 - [x] **Michael Jordan:** Showing a teenager his shooting form on an outdoor court
   Prompt: On an outdoor public basketball court in San Francisco, the Bay Bridge in the distance, Michael Jordan in his suit trousers and sweater, jacket over the fence, adjusts a teenager's elbow as she lines up a shot, while her friends watch from the fence. Wide-medium shot from the baseline, 35mm, bright clear daylight, plain unmarked ball and court.
   Image: city-michael-jordan.png
@@ -118,9 +116,8 @@ Indoors: dark charcoal interiors with warm coral accents and light oak floors.
 - [x] **Michael Jordan:** Signing a basketball for a fan on the Vltava riverbank
   Prompt: On the Vltava riverbank in Prague, Michael Jordan signs a basketball held up by a delighted teenage fan while her friends film on their phones and a few passersby stop to look. Close-medium shot, 50mm, shallow depth of field, the river and Prague Castle soft in the background, soft morning light, plain unmarked ball.
   Image: fans-michael-jordan.jpg
-- [x] **Sydney Sweeney:** A selfie with two fans on a Prague street
+- [ ] **Sydney Sweeney:** A selfie with two fans on a Prague street
   Prompt: On a cobbled street in Prague, pastel facades and a red-and-cream tram behind, Sydney Sweeney leans in for a selfie with two teenage fans who are trying not to cry with excitement, one of them holding the phone at arm's length. Close-medium shot, 50mm, shallow depth of field, soft afternoon light.
-  Image: fans-sydney-sweeney.png
 
 ## Group shots
 
@@ -132,7 +129,6 @@ Indoors: dark charcoal interiors with warm coral accents and light oak floors.
   Image: group-selfie-rock.png
 - [ ] The press conference from the back of the room
   Prompt: Wide shot from the back of the press conference: The Rock, John Cena, Michael Jordan, Sydney Sweeney and Jason Grad, Massive's CEO, at a long white panel table on a low stage in front of a step-and-repeat backdrop printed with the Massive logo, rows of seated reporters with laptops and phones, photographers and video cameras on tripods along the side aisle, and a large round softbox lighting the stage. Standing eye level, 24mm, deep focus, the room's dark ceiling and tall windows visible.
-  Image: group-press-conference.png
 - [x] With Massive's leadership team in the office lounge
   Prompt: A relaxed group photo in Massive's office lounge: The Rock, John Cena, Michael Jordan and Sydney Sweeney with Jason Grad, Massive's CEO, in the middle and five more members of Massive's leadership team in a row, everyone smiling, The Rock and Michael Jordan at the back a head above everyone, The Rock with a hand on Jason's shoulder, Sydney Sweeney in front beside Jason. White sofas, a light oak floor and a dark wall behind. Full length, 35mm, eye level, soft overhead light.
   Image: group-leadership-team.png

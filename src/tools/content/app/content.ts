@@ -10,10 +10,12 @@ import { KIND } from "./constants";
 import type { BriefDoc, Campaign, ContentDoc, LegendDoc, PersonDoc, PlaceDoc, PostsDoc } from "./types";
 import { parseDoc } from "./utils/parseDoc";
 
-const FILES = import.meta.glob("/content/**/*.md", { query: "?raw", import: "default", eager: true }) as Record<
-  string,
-  string
->;
+// trash.md (discarded takes) isn't part of the tab: the /trash page shows it.
+const FILES = import.meta.glob(["/content/**/*.md", "!/content/**/trash.md"], {
+  query: "?raw",
+  import: "default",
+  eager: true,
+}) as Record<string, string>;
 
 function load(): Campaign[] {
   const entries = Object.entries(FILES).map(([abs, raw]) => ({ path: abs.replace(/^\//, ""), raw }));

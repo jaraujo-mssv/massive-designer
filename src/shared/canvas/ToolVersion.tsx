@@ -19,15 +19,18 @@ const VERSIONS: { id: Version; label: string }[] = [
 export function VersionedTool({
   newApp: NewApp,
   legacyApp: LegacyApp,
+  defaultVersion = "new",
   legacyWhen,
 }: {
   newApp: React.ComponentType;
   legacyApp: React.ComponentType;
+  /** The version a visit opens in. */
+  defaultVersion?: Version;
   /** Opens in Legacy when the query asks for something only Legacy understands. */
   legacyWhen?: (params: URLSearchParams) => boolean;
 }) {
   const [version, setVersion] = useState<Version>(() =>
-    legacyWhen?.(new URLSearchParams(window.location.search)) ? "legacy" : "new",
+    legacyWhen?.(new URLSearchParams(window.location.search)) ? "legacy" : defaultVersion,
   );
   return (
     <ToolVersionContext.Provider value={{ version, setVersion }}>

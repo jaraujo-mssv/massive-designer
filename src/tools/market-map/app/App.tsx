@@ -6,6 +6,7 @@ import { DataSummary, SheetSidebar } from "@/shared/canvas/SheetSidebar";
 import { escapeHtml, htmlToText } from "@/shared/canvas/sheetText";
 import { CANVAS_SIZES, CanvasSizeId, DEFAULT_CANVAS_SIZE, FRAME_SPACING, TILE_GAP } from "@/shared/canvas/sizes";
 import { CanvasThemeId, getCanvasTheme } from "@/shared/canvas/themes";
+import { VersionSwitch } from "@/shared/canvas/ToolVersion";
 import { clearSheetParam, useSheetLoader } from "@/shared/canvas/useSheetLoader";
 import { warmImageCache } from "@/shared/utils/imageDataUrl";
 import { FitWarning } from "./components/FitWarning";
@@ -113,6 +114,7 @@ export default function App() {
       <Toaster position="top-center" richColors />
       <SheetSidebar
         toolName="Market Map"
+        versionSwitch={<VersionSwitch />}
         sizes={CANVAS_SIZES}
         size={size}
         onSizeChange={setSize}

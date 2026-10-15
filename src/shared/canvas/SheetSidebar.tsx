@@ -67,6 +67,8 @@ interface SheetSidebarProps<Size extends string> {
   warnings?: React.ReactNode;
   /** The loaded sheet's logo URLs, to warn when they pass Logo.dev's rate limit. */
   logoUrls?: string[];
+  /** Shown first, above Design: the New | Legacy switch (VersionSwitch). */
+  versionSwitch?: React.ReactNode;
   /** The canvas. */
   children: React.ReactNode;
 }
@@ -115,6 +117,7 @@ export function SheetSidebar<Size extends string>({
   exportProgress,
   warnings,
   logoUrls,
+  versionSwitch,
   children,
 }: SheetSidebarProps<Size>) {
   const chromium = useMemo(() => isChromium(), []);
@@ -182,6 +185,7 @@ export function SheetSidebar<Size extends string>({
 
   const sections = (
     <>
+      {versionSwitch}
       <DesignPanel
         sizes={sizes}
         size={size}

@@ -2,6 +2,7 @@ import { createBrowserRouter, Navigate, useLocation } from 'react-router'
 import { lazy, Suspense } from 'react'
 import { Header } from '@/shared/components/Header'
 import { LandingPage } from '@/shared/components/LandingPage'
+import { VersionedTool } from '@/shared/canvas/ToolVersion'
 
 const CampaignDesignerApp = lazy(() => import('@/tools/campaign-designer/app/App'))
 const ContentApp = lazy(() => import('@/tools/content/app/App'))
@@ -9,9 +10,12 @@ const DitherApp = lazy(() => import('@/tools/dither/app/App'))
 const ImagesApp = lazy(() => import('@/tools/images/app/App'))
 const LogoEncoderApp = lazy(() => import('@/tools/logo-encoder/app/App'))
 const MarketMapApp = lazy(() => import('@/tools/market-map/app/App'))
+// Pre-revamp versions, behind each tool's New | Legacy switch (same URL).
+const MarketMapLegacyApp = lazy(() => import('@/tools/market-map-legacy/app/App'))
 const PartnershipPostApp = lazy(() => import('@/tools/partnership-post/app/App'))
 const SocialMediaApp = lazy(() => import('@/tools/social-media/app/App'))
 const TopListApp = lazy(() => import('@/tools/top-list/app/App'))
+const TopListLegacyApp = lazy(() => import('@/tools/top-list-legacy/app/App'))
 // Not in the nav: /trash is only reachable by URL.
 const TrashApp = lazy(() => import('@/tools/trash/app/App'))
 const VideoApp = lazy(() => import('@/tools/video/app/App'))
@@ -97,7 +101,8 @@ export const router = createBrowserRouter([
     path: '/market-map',
     element: (
       <ToolLayout themeClass="tool-market-map">
-        <MarketMapApp />
+        {/* ?f= (locked embed) is a legacy-only link, so it opens in Legacy. */}
+        <VersionedTool newApp={MarketMapApp} legacyApp={MarketMapLegacyApp} legacyWhen={(q) => q.has('f')} />
       </ToolLayout>
     ),
   },
@@ -121,7 +126,7 @@ export const router = createBrowserRouter([
     path: '/top-list',
     element: (
       <ToolLayout themeClass="tool-top-list">
-        <TopListApp />
+        <VersionedTool newApp={TopListApp} legacyApp={TopListLegacyApp} />
       </ToolLayout>
     ),
   },

@@ -5,6 +5,7 @@ import { ExportProgress, exportCanvasJpg } from "@/shared/canvas/exportJpg";
 import { DataSummary, SheetSidebar } from "@/shared/canvas/SheetSidebar";
 import { escapeHtml, htmlToText } from "@/shared/canvas/sheetText";
 import { CanvasThemeId, getCanvasTheme } from "@/shared/canvas/themes";
+import { VersionSwitch } from "@/shared/canvas/ToolVersion";
 import { clearSheetParam, useSheetLoader } from "@/shared/canvas/useSheetLoader";
 import { warmImageCache } from "@/shared/utils/imageDataUrl";
 import { TileCanvas } from "./components/TileCanvas";
@@ -118,6 +119,7 @@ export default function App() {
       <Toaster position="top-center" richColors />
       <SheetSidebar
         toolName="Top List"
+        versionSwitch={<VersionSwitch />}
         sizes={SIZES}
         size={size}
         onSizeChange={setSize}

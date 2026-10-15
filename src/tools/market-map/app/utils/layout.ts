@@ -52,7 +52,10 @@ export interface PlacedTile {
 }
 
 export interface HiddenGroup {
+  categoryId: string;
   category: string;
+  /** Company ids, in sheet order, so the "+N more" pill can open them for editing. */
+  ids: string[];
   names: string[];
 }
 
@@ -251,7 +254,12 @@ export function trimCategories(categories: Category[], k: number): { categories:
           },
     ),
     hidden: categories
-      .map((c, j) => ({ category: c.name, names: removed[j].map((co) => co.name) }))
+      .map((c, j) => ({
+        categoryId: c.id,
+        category: c.name,
+        ids: removed[j].map((co) => co.id),
+        names: removed[j].map((co) => co.name),
+      }))
       .filter((g) => g.names.length > 0),
   };
 }

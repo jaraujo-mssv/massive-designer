@@ -36,14 +36,20 @@ export function VersionedTool({
   );
 }
 
-/** New | Legacy switch for a VersionedTool's sidebar; renders nothing outside one. */
-export function VersionSwitch() {
+/**
+ * New | Legacy switch for a VersionedTool's sidebar; renders nothing outside one.
+ * Switching unmounts the app, so `confirmLeave` can stop it (unsaved edits).
+ */
+export function VersionSwitch({ confirmLeave }: { confirmLeave?: () => boolean }) {
   const ctx = useContext(ToolVersionContext);
   if (!ctx) return null;
+  const change = (v: Version) => {
+    if (v !== ctx.version && (!confirmLeave || confirmLeave())) ctx.setVersion(v);
+  };
   return (
     <div className="p-4 space-y-2 border-b border-border-subtle shrink-0">
       <Label className="text-xs font-medium text-text-dim uppercase tracking-wide">Version</Label>
-      <Segmented options={VERSIONS} value={ctx.version} onChange={ctx.setVersion} />
+      <Segmented options={VERSIONS} value={ctx.version} onChange={change} />
       {ctx.version === "legacy" && (
         <p className="text-xs text-text-dim">The pre-September editor: manual columns, drag-and-drop, TSV export.</p>
       )}

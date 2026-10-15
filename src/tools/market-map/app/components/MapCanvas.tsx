@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import type { Category } from "../utils/parseSheet";
 import { FitMode, HiddenGroup, layoutMap } from "../utils/layout";
 import { CategoryTile } from "./CategoryTile";
+import type { MapEditTarget } from "./MapEditor";
 
 /** How the map was made to fit, for the warning above Export. */
 export interface FitInfo {
@@ -18,10 +19,12 @@ interface MapCanvasProps {
   tileGap: number;
   fitMode: FitMode;
   onFitChange?: (fit: FitInfo | null) => void;
+  /** Click-to-edit; leave out to make the map read-only (e.g. while exporting). */
+  onEdit?: (target: MapEditTarget, el: HTMLElement) => void;
 }
 
 /** Measures the available box and draws the category tiles from `layoutMap`. */
-export function MapCanvas({ categories, tileGap, fitMode, onFitChange }: MapCanvasProps) {
+export function MapCanvas({ categories, tileGap, fitMode, onFitChange, onEdit }: MapCanvasProps) {
   const boxRef = useRef<HTMLDivElement>(null);
   const [box, setBox] = useState({ w: 0, h: 0 });
   const [fontsVersion, setFontsVersion] = useState(0);
@@ -66,7 +69,7 @@ export function MapCanvas({ categories, tileGap, fitMode, onFitChange }: MapCanv
   return (
     <div ref={boxRef} style={{ position: "relative", width: "100%", height: "100%" }}>
       {layout?.tiles.map((tile) => (
-        <CategoryTile key={tile.category.id} tile={tile} metrics={layout.metrics} />
+        <CategoryTile key={tile.category.id} tile={tile} metrics={layout.metrics} onEdit={onEdit} />
       ))}
     </div>
   );

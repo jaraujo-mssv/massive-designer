@@ -69,6 +69,8 @@ interface SheetSidebarProps<Size extends string> {
   logoUrls?: string[];
   /** Shown first, above Design: the New | Legacy switch (VersionSwitch). */
   versionSwitch?: React.ReactNode;
+  /** Shown under Data while a sheet is loaded: the Edit section (EditPanel). */
+  editPanel?: React.ReactNode;
   /** The canvas. */
   children: React.ReactNode;
 }
@@ -118,6 +120,7 @@ export function SheetSidebar<Size extends string>({
   warnings,
   logoUrls,
   versionSwitch,
+  editPanel,
   children,
 }: SheetSidebarProps<Size>) {
   const chromium = useMemo(() => isChromium(), []);
@@ -222,6 +225,8 @@ export function SheetSidebar<Size extends string>({
           )}
         </div>
       )}
+
+      {isLoaded && editPanel}
 
       {/* Import and examples only while nothing is loaded; unloading brings them back. */}
       {!isLoaded && (

@@ -20,6 +20,8 @@ interface TileProps {
    * grid tiles all use a regular tile's size, so every row looks the same.
    */
   sizing?: { w: number; h: number };
+  /** Click-to-edit; gets the tile to anchor the popover on. */
+  onClick?: (el: HTMLElement) => void;
 }
 
 /** The rank as a brand-red circle with a white number, in the tile's top-left corner. */
@@ -48,7 +50,7 @@ function RankBadge({ rank, size, inset }: { rank: number; size: number; inset: n
   );
 }
 
-export function Tile({ rect, name, description, logoUrl, value, rank, sizing = rect }: TileProps) {
+export function Tile({ rect, name, description, logoUrl, value, rank, sizing = rect, onClick }: TileProps) {
   const [logoFailed, setLogoFailed] = useState(!logoUrl);
   const c = tileContent(sizing.w, sizing.h, name, value, rank !== undefined, rect.w, description ?? null);
   // Blur scales with the tile, so every tile gets a smooth wash, not a smudged logo.
@@ -57,6 +59,8 @@ export function Tile({ rect, name, description, logoUrl, value, rank, sizing = r
   return (
     <div
       title={value ? `${name} · ${value}` : name}
+      className={onClick ? "canvas-editable" : undefined}
+      onClick={onClick && ((e) => onClick(e.currentTarget))}
       style={{
         position: "absolute",
         left: rect.x,

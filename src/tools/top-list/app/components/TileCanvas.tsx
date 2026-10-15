@@ -15,13 +15,15 @@ interface TileCanvasProps {
   tileGap: number;
   /** Bento only: reports how many tiles were enlarged to the minimum size (not to scale). */
   onMinimumCountChange?: (count: number) => void;
+  /** Click-to-edit; leave out to make the tiles read-only (e.g. while exporting). */
+  onEdit?: (id: string, el: HTMLElement) => void;
 }
 
 /**
  * Lays out and draws the tiles: a treemap sized by value for `bento`, equal
  * tiles in rank order for `grid`.
  */
-export function TileCanvas({ layout, items, symbol, minTileSide, tileGap, onMinimumCountChange }: TileCanvasProps) {
+export function TileCanvas({ layout, items, symbol, minTileSide, tileGap, onMinimumCountChange, onEdit }: TileCanvasProps) {
   const boxRef = useRef<HTMLDivElement>(null);
   const [box, setBox] = useState({ w: 0, h: 0 });
   const [fontsVersion, setFontsVersion] = useState(0);
@@ -96,6 +98,7 @@ export function TileCanvas({ layout, items, symbol, minTileSide, tileGap, onMini
             (item.value !== undefined ? formatValue(item.value, symbol, item.approximate) : null)
           }
           rank={layout === "grid" ? item.rank : undefined}
+          onClick={onEdit && ((el) => onEdit(item.id, el))}
         />
       ))}
     </div>

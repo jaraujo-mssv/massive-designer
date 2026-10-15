@@ -47,3 +47,17 @@
   --canvas-export-bg-image: url(/bg.jpg);
   --canvas-export-bg-size: cover;
 }
+
+/* Click-to-edit (src/shared/canvas/edit): pills, tiles and category names show an
+   outline on hover, and keep it while their popover is open. Outline is drawn
+   outside the element, so overflow: hidden doesn't clip it, and it's CSS only:
+   no extra nodes for the JPG export to pick up. Sizes are canvas pixels, so
+   they look thinner in the scaled-down preview. */
+.canvas-editable {
+  cursor: pointer;
+}
+.canvas-editable:hover,
+.canvas-editable[data-editing] {
+  outline: 4px solid var(--red);
+  outline-offset: 2px;
+}

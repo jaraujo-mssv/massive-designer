@@ -1,14 +1,17 @@
 import type { PillMetrics } from "../utils/pills";
 import { HEADER_WEIGHT, PlacedTile } from "../utils/layout";
+import type { MapEditTarget } from "./MapEditor";
 import { CompanyPill } from "./CompanyPill";
 
 interface CategoryTileProps {
   tile: PlacedTile;
   metrics: PillMetrics;
+  /** Click-to-edit: the clicked target and the element to anchor its popover on. */
+  onEdit?: (target: MapEditTarget, el: HTMLElement) => void;
 }
 
 /** A category: its name as a pill on the first row and its companies as pills below. */
-export function CategoryTile({ tile, metrics }: CategoryTileProps) {
+export function CategoryTile({ tile, metrics, onEdit }: CategoryTileProps) {
   const { rect, header, pills } = tile;
   return (
     <div
@@ -28,6 +31,8 @@ export function CategoryTile({ tile, metrics }: CategoryTileProps) {
       {/* The category pill inverts the theme (dark on Light, light on Dark), but in
           softened tones (--canvas-category-*) rather than full ink and cream. */}
       <div
+        className={onEdit ? "canvas-editable" : undefined}
+        onClick={onEdit && ((e) => onEdit({ kind: "category", categoryId: tile.category.id }, e.currentTarget))}
         style={{
           position: "absolute",
           left: header.x,
@@ -57,7 +62,8 @@ export function CategoryTile({ tile, metrics }: CategoryTileProps) {
       </div>
       {pills.map((p) => (
         <CompanyPill
-          key={p.company.id}
+          // Keyed by logo too: a pill whose logo failed keeps showing its letter otherwise.
+          key={`${p.company.id}-${p.company.logoUrl}`}
           name={p.company.name}
           logoUrl={p.company.logoUrl}
           x={p.x}
@@ -65,6 +71,16 @@ export function CategoryTile({ tile, metrics }: CategoryTileProps) {
           width={p.w}
           metrics={metrics}
           more={p.company.more}
+          onClick={
+            onEdit &&
+            ((el) =>
+              onEdit(
+                p.company.more
+                  ? { kind: "more", categoryId: tile.category.id }
+                  : { kind: "company", companyId: p.company.id },
+                el,
+              ))
+          }
         />
       ))}
     </div>

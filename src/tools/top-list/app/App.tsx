@@ -1,6 +1,10 @@
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Toaster, toast } from "sonner";
 import { CanvasFrame } from "@/shared/canvas/CanvasFrame";
+import { EditPanel } from "@/shared/canvas/edit/EditPanel";
+import { EditPopover } from "@/shared/canvas/edit/EditPopover";
+import { copySheetTsv, downloadSheetTsv, toSheetTsv } from "@/shared/canvas/edit/sheetExport";
+import { useDiscardGuard, useEditHistory } from "@/shared/canvas/edit/useEditHistory";
 import { ExportProgress, exportCanvasJpg } from "@/shared/canvas/exportJpg";
 import { DataSummary, SheetSidebar } from "@/shared/canvas/SheetSidebar";
 import { escapeHtml, htmlToText } from "@/shared/canvas/sheetText";
@@ -8,6 +12,7 @@ import { CanvasThemeId, getCanvasTheme } from "@/shared/canvas/themes";
 import { VersionSwitch } from "@/shared/canvas/ToolVersion";
 import { clearSheetParam, useSheetLoader } from "@/shared/canvas/useSheetLoader";
 import { warmImageCache } from "@/shared/utils/imageDataUrl";
+import { ListEditor, ListEditTarget } from "./components/ListEditor";
 import { TileCanvas } from "./components/TileCanvas";
 import { DEFAULT_SIZE, EXAMPLES, PRESETS, SIZES, TopListSizeId } from "./constants";
 import { Layout, ListItem, parseSheet } from "./utils/parseSheet";
@@ -21,7 +26,12 @@ interface LoadedSummary extends Omit<DataSummary, "headline" | "notes"> {
 }
 
 export default function App() {
-  const [items, setItems] = useState<ListItem[]>([]);
+  // The list's data, as loaded and then edited on the canvas (with undo).
+  const history = useEditHistory<ListItem[]>([]);
+  const items = history.value;
+  const confirmDiscard = useDiscardGuard(history.dirty);
+  // The open click-to-edit popover: what it edits and where it's anchored.
+  const [editing, setEditing] = useState<{ target: ListEditTarget; anchor: HTMLElement } | null>(null);
   const [layout, setLayout] = useState<Layout>("grid");
   const [symbol, setSymbol] = useState("$");
   const [title, setTitle] = useState(DEFAULT_TITLE);
@@ -39,17 +49,19 @@ export default function App() {
   const preset = PRESETS[size];
   const logoUrls = useMemo(() => items.map((i) => i.logoUrl), [items]);
 
+  // Convert logos ahead (on load and after edits), so Download JPG doesn't wait for them.
+  useEffect(() => warmImageCache(logoUrls), [logoUrls]);
+
   const loadText = useCallback((text: string, delimiter: string | undefined, source: string) => {
     const sheet = parseSheet(text, delimiter);
     if (sheet.items.length === 0) {
       toast.error("No companies found. The sheet needs name and logo columns.");
-      setItems([]);
+      history.load([]);
       setSummary({ layout: sheet.layout, count: 0, skipped: sheet.skipped, duplicateNames: [] });
       return;
     }
-    setItems(sheet.items);
-    // Start converting logos now, so Download JPG doesn't have to wait for them.
-    warmImageCache(sheet.items.map((i) => i.logoUrl));
+    setEditing(null);
+    history.load(sheet.items);
     setLayout(sheet.layout);
     setSymbol(sheet.symbol);
     // Sheet text goes into a contentEditable as HTML, so escape it first.
@@ -64,14 +76,25 @@ export default function App() {
 
     const skippedNote = sheet.skipped.length > 0 ? ` (${sheet.skipped.length} rows skipped)` : "";
     toast.success(`Loaded ${sheet.items.length} companies from ${source}${skippedNote}`);
+    // history.load is stable.
   }, []);
 
   // Also loads ?e=<sheet> on open (the dashboard's "Open in editor", and old /bento-map links).
   const loadSheet = useSheetLoader(loadText);
   const loadFirstExample = () => loadSheet(EXAMPLES[0].url, EXAMPLES[0].label);
 
+  // Loading another sheet or unloading throws edits away: ask first.
+  const guardedLoadText: typeof loadText = (...args) => {
+    if (confirmDiscard()) loadText(...args);
+  };
+  const guardedLoadSheet: typeof loadSheet = async (...args) => {
+    if (confirmDiscard()) await loadSheet(...args);
+  };
+
   const unloadList = () => {
-    setItems([]);
+    if (!confirmDiscard()) return;
+    setEditing(null);
+    history.load([]);
     setLayout("grid");
     setSummary(null);
     setAtMinimum(0);
@@ -83,6 +106,7 @@ export default function App() {
   const handleExportJpg = async () => {
     const element = canvasRef.current;
     if (!element) return;
+    setEditing(null);
     setIsExporting(true);
     try {
       await exportCanvasJpg(element, {
@@ -103,9 +127,21 @@ export default function App() {
     }
   };
 
+  // Sheet columns parseSheet reads back; "Name · description" splits again on load.
+  const sheetRows = () =>
+    items.map((i) => [
+      String(i.rank),
+      i.description ? `${i.name} · ${i.description}` : i.name,
+      i.logoUrl,
+      i.valueText ?? i.valueLabel ?? (i.value !== undefined ? String(i.value) : ""),
+    ]);
+  const sheetTsv = (rows: string[][]) =>
+    toSheetTsv({ title, date, header: ["position", "company", "logo", "value"], rows });
+
   const sidebarSummary: DataSummary | null = summary && {
     ...summary,
-    headline: `${summary.count} companies · ${
+    // Live count, so it follows edits.
+    headline: `${items.length} companies · ${
       summary.layout === "bento" ? "Bento, sized by value" : "Grid, equal tiles in rank order"
     }`,
     notes:
@@ -119,7 +155,7 @@ export default function App() {
       <Toaster position="top-center" richColors />
       <SheetSidebar
         toolName="Top List"
-        versionSwitch={<VersionSwitch />}
+        versionSwitch={<VersionSwitch confirmLeave={confirmDiscard} />}
         sizes={SIZES}
         size={size}
         onSizeChange={setSize}
@@ -128,6 +164,27 @@ export default function App() {
         showPresentedBy={showPresentedBy}
         onShowPresentedByChange={setShowPresentedBy}
         summary={sidebarSummary}
+        editPanel={
+          <EditPanel
+            hint="Click a tile to edit it."
+            dirty={history.dirty}
+            canUndo={history.canUndo}
+            canRedo={history.canRedo}
+            onUndo={history.undo}
+            onRedo={history.redo}
+            onReset={history.reset}
+            addLabel="Add company"
+            onAdd={(anchor) => setEditing({ target: { kind: "new" }, anchor })}
+            onDownloadTsv={() => {
+              const rows = sheetRows();
+              downloadSheetTsv(htmlToText(title) || "Top List", sheetTsv(rows), rows, 1);
+            }}
+            onCopyTsv={() => {
+              const rows = sheetRows();
+              void copySheetTsv(sheetTsv(rows), rows, 1);
+            }}
+          />
+        }
         columnsHint={
           <>
             Columns: <span className="font-mono">name</span>, <span className="font-mono">logo</span>, and
@@ -136,8 +193,8 @@ export default function App() {
           </>
         }
         examples={EXAMPLES}
-        onLoadText={loadText}
-        onLoadSheet={loadSheet}
+        onLoadText={guardedLoadText}
+        onLoadSheet={guardedLoadSheet}
         onUnload={unloadList}
         onExportJpg={handleExportJpg}
         isExporting={isExporting}
@@ -167,8 +224,22 @@ export default function App() {
             minTileSide={preset.minTileSide}
             tileGap={preset.tileGap}
             onMinimumCountChange={setAtMinimum}
+            onEdit={isExporting ? undefined : (id, anchor) => setEditing({ target: { kind: "item", id }, anchor })}
           />
         </CanvasFrame>
+        <EditPopover anchor={editing?.anchor ?? null} onCancel={() => setEditing(null)}>
+          {editing && (
+            <ListEditor
+              // A fresh form (and draft) for each target.
+              key={JSON.stringify(editing.target)}
+              target={editing.target}
+              items={items}
+              layout={layout}
+              onCommit={history.commit}
+              onClose={() => setEditing(null)}
+            />
+          )}
+        </EditPopover>
       </SheetSidebar>
     </>
   );

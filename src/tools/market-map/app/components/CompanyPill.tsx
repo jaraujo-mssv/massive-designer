@@ -17,10 +17,15 @@ interface CompanyPillProps {
   metrics: PillMetrics;
   /** A "+N more" pill for companies hidden to fit: text only, no logo or wash. */
   more?: boolean;
+  /** Click-to-edit; gets the pill to anchor the popover on. */
+  onClick?: (el: HTMLElement) => void;
 }
 
 /** A company as a pill: logo then name, tinted by a blurred copy of its logo. */
-export function CompanyPill({ name, logoUrl, x, y, width, metrics: m, more = false }: CompanyPillProps) {
+export function CompanyPill({ name, logoUrl, x, y, width, metrics: m, more = false, onClick }: CompanyPillProps) {
+  const editable = onClick
+    ? { className: "canvas-editable", onClick: (e: React.MouseEvent<HTMLElement>) => onClick(e.currentTarget) }
+    : {};
   const [logoFailed, setLogoFailed] = useState(!logoUrl);
   // Blur scales with the pill, so small pills still get a smooth wash, not a smudged logo.
   const washBlur = Math.max(8, m.height * 0.5);
@@ -29,6 +34,7 @@ export function CompanyPill({ name, logoUrl, x, y, width, metrics: m, more = fal
     return (
       <div
         title={name}
+        {...editable}
         style={{
           position: "absolute",
           left: x,
@@ -57,6 +63,7 @@ export function CompanyPill({ name, logoUrl, x, y, width, metrics: m, more = fal
   return (
     <div
       title={name}
+      {...editable}
       style={{
         position: "absolute",
         left: x,

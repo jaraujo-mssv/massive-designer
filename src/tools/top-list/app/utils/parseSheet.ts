@@ -26,6 +26,8 @@ export interface ListItem {
   valueLabel?: string;
   /** The sheet marked the value as an estimate ("~$361M"). */
   approximate: boolean;
+  /** The value cell as typed, for editing and for writing the sheet back out. */
+  valueText?: string;
 }
 
 export interface ParsedSheet {
@@ -110,9 +112,11 @@ export function parseSheet(text: string, delimiter?: string): ParsedSheet {
       item.value = parsed.value;
       item.approximate = parsed.approximate;
       item.valueLabel = parsed.label;
+      item.valueText = row.value?.trim();
       symbols.push(parsed.symbol);
     } else {
       item.valueLabel = row.value?.trim() || undefined;
+      item.valueText = item.valueLabel;
       const position = parseFloat(row.position ?? '');
       // Rows without a position keep their sheet order, after the ranked ones.
       positions.set(id, Number.isFinite(position) ? position : 1e9 + index);
@@ -124,13 +128,26 @@ export function parseSheet(text: string, delimiter?: string): ParsedSheet {
     items.push(item);
   });
 
-  if (layout === 'bento') {
-    items.sort((a, b) => (b.value ?? 0) - (a.value ?? 0));
-  } else {
-    // Array.prototype.sort is stable, so equal positions keep their sheet order.
-    items.sort((a, b) => positions.get(a.id)! - positions.get(b.id)!);
-  }
-  items.forEach((item, i) => (item.rank = i + 1));
+  // Array.prototype.sort is stable, so equal positions keep their sheet order.
+  if (layout === 'grid') items.sort((a, b) => positions.get(a.id)! - positions.get(b.id)!);
 
-  return { title, date, layout, items, symbol: dominantSymbol(symbols), skipped, duplicateNames: [...duplicates] };
+  return {
+    title,
+    date,
+    layout,
+    items: orderItems(items, layout),
+    symbol: dominantSymbol(symbols),
+    skipped,
+    duplicateNames: [...duplicates],
+  };
+}
+
+/**
+ * Puts items in the order shown and numbers them 1..N: Bento by value, largest
+ * first (stable, so ties keep their order); grid as given. Used after loading
+ * and after every edit.
+ */
+export function orderItems(items: ListItem[], layout: Layout): ListItem[] {
+  const ordered = layout === 'bento' ? [...items].sort((a, b) => (b.value ?? 0) - (a.value ?? 0)) : items;
+  return ordered.map((item, i) => (item.rank === i + 1 ? item : { ...item, rank: i + 1 }));
 }

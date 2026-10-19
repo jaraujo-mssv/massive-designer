@@ -4,6 +4,8 @@ export interface Company {
   id: string;
   name: string;
   logoUrl: string;
+  /** The company's website (`url` column): finds a logo when its own doesn't work. */
+  website?: string;
   /** A "+N more" pill standing in for companies hidden to fit (see layout.ts). */
   more?: boolean;
 }
@@ -23,7 +25,7 @@ export interface ParsedSheet {
   duplicateNames: string[];
 }
 
-type Column = 'category' | 'name' | 'logo';
+type Column = 'category' | 'name' | 'logo' | 'website';
 
 const HEADER_ALIASES: Record<string, Column> = {
   category: 'category',
@@ -34,6 +36,10 @@ const HEADER_ALIASES: Record<string, Column> = {
   'logo url': 'logo',
   logo_url: 'logo',
   logourl: 'logo',
+  url: 'website',
+  website: 'website',
+  site: 'website',
+  domain: 'website',
 };
 
 /**
@@ -42,7 +48,8 @@ const HEADER_ALIASES: Record<string, Column> = {
  * are read, and sizing rows are ignored.
  *
  * Categories keep the order they first appear in, and companies keep sheet
- * order. Old-format extras are ignored: `url`, `stroke`, `subcompanies`,
+ * order. `url` (or website/domain) is kept to look up logos. Old-format
+ * extras are ignored: `stroke`, `subcompanies`,
  * `columnGap`, and category-only rows (a category with no company, which used
  * to carry per-category settings).
  */
@@ -75,7 +82,12 @@ export function parseSheet(text: string, delimiter?: string): ParsedSheet {
     if (seen.has(nameKey)) duplicates.add(name);
     seen.add(nameKey);
 
-    categories.get(key)!.companies.push({ id: `company-${index}`, name, logoUrl: row.logo?.trim() ?? '' });
+    categories.get(key)!.companies.push({
+      id: `company-${index}`,
+      name,
+      logoUrl: row.logo?.trim() ?? '',
+      website: row.website?.trim() || undefined,
+    });
     companyCount++;
   });
 

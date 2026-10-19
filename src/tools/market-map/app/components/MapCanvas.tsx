@@ -18,13 +18,15 @@ interface MapCanvasProps {
   categories: Category[];
   tileGap: number;
   fitMode: FitMode;
+  /** The smallest pill name size that reads on a phone, in canvas px (`legibleSizes`). */
+  minFont: number;
   onFitChange?: (fit: FitInfo | null) => void;
   /** Click-to-edit; leave out to make the map read-only (e.g. while exporting). */
   onEdit?: (target: MapEditTarget, el: HTMLElement) => void;
 }
 
 /** Measures the available box and draws the category tiles from `layoutMap`. */
-export function MapCanvas({ categories, tileGap, fitMode, onFitChange, onEdit }: MapCanvasProps) {
+export function MapCanvas({ categories, tileGap, fitMode, minFont, onFitChange, onEdit }: MapCanvasProps) {
   const boxRef = useRef<HTMLDivElement>(null);
   const [box, setBox] = useState({ w: 0, h: 0 });
   const [fontsVersion, setFontsVersion] = useState(0);
@@ -54,9 +56,9 @@ export function MapCanvas({ categories, tileGap, fitMode, onFitChange, onEdit }:
   }, []);
 
   const layout = useMemo(
-    () => layoutMap(categories, box, tileGap, fitMode),
+    () => layoutMap(categories, box, tileGap, fitMode, minFont),
     // fontsVersion re-runs the measuring after the font loads.
-    [categories, box.w, box.h, tileGap, fitMode, fontsVersion],
+    [categories, box.w, box.h, tileGap, fitMode, minFont, fontsVersion],
   );
 
   // Reported once per new layout (layout is memoised, so this doesn't loop).

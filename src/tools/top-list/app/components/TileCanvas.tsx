@@ -1,29 +1,66 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { Layout, ListItem } from "../utils/parseSheet";
+import type { LegibleSizes } from "@/shared/canvas/legibility";
+import type { Layout, ListItem, ListView } from "../utils/parseSheet";
 import { gridRects } from "../utils/grid";
+import { listMinRowHeight, listRects, listRowContent } from "../utils/list";
+import { tileContent } from "../utils/tiers";
 import { allocateAreas } from "../utils/minArea";
 import { insetAndSnap, squarify } from "@/shared/canvas/squarify";
 import { formatValue } from "../utils/value";
+import { ListRow } from "./ListRow";
 import { Tile } from "./Tile";
 
 interface TileCanvasProps {
+  /** List rows or tiles (Bento or equal, as `layout` decides). */
+  view: ListView;
   layout: Layout;
   items: ListItem[];
   symbol: string;
-  /** Bento only. */
+  /** Bento only; raised to fit a phone-readable name when that needs more. */
   minTileSide: number;
   tileGap: number;
+  /** Phone-readable minimum text sizes, in canvas px (`legibleSizes`). */
+  legible: LegibleSizes;
   /** Bento only: reports how many tiles were enlarged to the minimum size (not to scale). */
   onMinimumCountChange?: (count: number) => void;
+  /** Reports what couldn't stay phone-readable, for the sidebar's warning. */
+  onLegibilityChange?: (report: LegibilityReport) => void;
   /** Click-to-edit; leave out to make the tiles read-only (e.g. while exporting). */
   onEdit?: (id: string, el: HTMLElement) => void;
 }
 
+/** What couldn't be drawn at a phone-readable size. */
+export interface LegibilityReport {
+  /** List rows too short for a readable name: their names are smaller. */
+  shrunkNames: number;
+  /** The smallest name size among those, in canvas px (0 when none). */
+  smallestName: number;
+  /** Tiles with no room for a readable name, so they show only the logo. */
+  logoOnly: number;
+}
+
+/** As TileCanvas renders it: as written when the sheet's text matters, else the Bento value, formatted. */
+function valueText(item: ListItem, symbol: string): string | null {
+  return item.valueLabel ?? (item.value !== undefined ? formatValue(item.value, symbol, item.approximate) : null);
+}
+
 /**
- * Lays out and draws the tiles: a treemap sized by value for `bento`, equal
- * tiles in rank order for `grid`.
+ * Lays out and draws the list: full-width ranked rows for the `list` view;
+ * otherwise tiles, a treemap sized by value for `bento` and equal tiles in rank
+ * order for `grid`.
  */
-export function TileCanvas({ layout, items, symbol, minTileSide, tileGap, onMinimumCountChange, onEdit }: TileCanvasProps) {
+export function TileCanvas({
+  view,
+  layout,
+  items,
+  symbol,
+  minTileSide,
+  tileGap,
+  legible,
+  onMinimumCountChange,
+  onLegibilityChange,
+  onEdit,
+}: TileCanvasProps) {
   const boxRef = useRef<HTMLDivElement>(null);
   const [box, setBox] = useState({ w: 0, h: 0 });
   const [fontsVersion, setFontsVersion] = useState(0);
@@ -52,6 +89,9 @@ export function TileCanvas({ layout, items, symbol, minTileSide, tileGap, onMini
     };
   }, []);
 
+  // In List, every row keeps room for a description when any company has one.
+  const withDescriptions = items.some((i) => i.description);
+
   const placed = useMemo(() => {
     if (box.w === 0 || box.h === 0 || items.length === 0) return { tiles: [], atMinimum: 0 };
     // Extend the bounds by half a gap on every side so the outer tiles sit flush
@@ -61,6 +101,15 @@ export function TileCanvas({ layout, items, symbol, minTileSide, tileGap, onMini
     const half = tileGap / 2;
     const bounds = { x: -half, y: -half, w: box.w + tileGap, h: box.h + tileGap };
 
+    if (view === "list") {
+      // Lists with descriptions need taller rows, so they go to two columns sooner.
+      const minRowHeight = listMinRowHeight(legible, withDescriptions);
+      const rects = insetAndSnap(listRects(items.length, bounds, minRowHeight).rects, tileGap);
+      // Every row's content is sized from the shortest row (the left column's, when
+      // the right one has fewer, taller rows), so all rows match.
+      const regular = { w: rects[0].w, h: Math.min(...rects.map((r) => r.h)) };
+      return { tiles: items.map((item, i) => ({ item, rect: rects[i], sizing: regular })), atMinimum: 0 };
+    }
     if (layout === "grid") {
       const rects = insetAndSnap(gridRects(items.length, bounds), tileGap);
       // Size every tile's content from a regular full-row tile, so the stretched
@@ -68,39 +117,85 @@ export function TileCanvas({ layout, items, symbol, minTileSide, tileGap, onMini
       const regular = { w: Math.min(...rects.map((r) => r.w)), h: rects[0].h };
       return { tiles: items.map((item, i) => ({ item, rect: rects[i], sizing: regular })), atMinimum: 0 };
     }
-    const sized = allocateAreas(items.map((i) => i.value ?? 0), bounds.w * bounds.h, minTileSide);
+    // A minimum tile must hold a phone-readable name, which a wide canvas needs more pixels for.
+    const minSide = Math.max(minTileSide, legible.primary * 6);
+    const sized = allocateAreas(items.map((i) => i.value ?? 0), bounds.w * bounds.h, minSide);
     const rects = insetAndSnap(squarify(sized.map((s) => s.area), bounds), tileGap);
     return {
       tiles: items.map((item, i) => ({ item, rect: rects[i], sizing: undefined })),
       atMinimum: sized.filter((s) => s.atMinimum).length,
     };
     // fontsVersion re-runs the tiles' text fitting after the font loads.
-  }, [layout, items, box.w, box.h, minTileSide, tileGap, fontsVersion]);
+  }, [view, layout, items, withDescriptions, box.w, box.h, minTileSide, tileGap, legible, fontsVersion]);
 
   useEffect(() => {
     onMinimumCountChange?.(placed.atMinimum);
   }, [placed.atMinimum, onMinimumCountChange]);
 
+  // The same content rules the rows and tiles render with, counted for the warning.
+  const report = useMemo<LegibilityReport>(() => {
+    let shrunkNames = 0;
+    let smallestName = 0;
+    let logoOnly = 0;
+    for (const { item, rect, sizing } of placed.tiles) {
+      const value = valueText(item, symbol);
+      if (view === "list") {
+        const fit = sizing ?? rect;
+        const c = listRowContent(fit.w, fit.h, item.name, item.description ?? null, value, legible, withDescriptions);
+        if (c.shrunk) {
+          shrunkNames++;
+          smallestName = smallestName === 0 ? c.nameSize : Math.min(smallestName, c.nameSize);
+        }
+      } else {
+        const fit = sizing ?? rect;
+        const c = tileContent(fit.w, fit.h, item.name, value, layout === "grid", rect.w, item.description ?? null, legible);
+        if (!c.nameLines) logoOnly++;
+      }
+    }
+    return { shrunkNames, smallestName, logoOnly };
+  }, [placed, view, layout, symbol, legible, withDescriptions]);
+
+  useEffect(() => {
+    onLegibilityChange?.(report);
+  }, [report, onLegibilityChange]);
+
   return (
     <div ref={boxRef} style={{ position: "relative", width: "100%", height: "100%" }}>
-      {placed.tiles.map(({ item, rect, sizing }) => (
-        <Tile
-          key={`${item.id}-${item.logoUrl}`}
-          rect={rect}
-          sizing={sizing}
-          name={item.name}
-          description={item.description}
-          logoUrl={item.logoUrl}
-          value={
-            // As written when the sheet's text matters (grid labels, "$7B+", ranges);
-            // otherwise the Bento value, formatted.
-            item.valueLabel ??
-            (item.value !== undefined ? formatValue(item.value, symbol, item.approximate) : null)
-          }
-          rank={layout === "grid" ? item.rank : undefined}
-          onClick={onEdit && ((el) => onEdit(item.id, el))}
-        />
-      ))}
+      {placed.tiles.map(({ item, rect, sizing }) => {
+        const key = `${item.id}-${item.logoUrl}`;
+        const value = valueText(item, symbol);
+        const onClick = onEdit && ((el: HTMLElement) => onEdit(item.id, el));
+        return view === "list" ? (
+          <ListRow
+            key={key}
+            rect={rect}
+            sizing={sizing}
+            withDescription={withDescriptions}
+            rank={item.rank}
+            name={item.name}
+            description={item.description}
+            logoUrl={item.logoUrl}
+            website={item.website}
+            value={value}
+            legible={legible}
+            onClick={onClick}
+          />
+        ) : (
+          <Tile
+            key={key}
+            rect={rect}
+            sizing={sizing}
+            name={item.name}
+            description={item.description}
+            logoUrl={item.logoUrl}
+            website={item.website}
+            value={value}
+            rank={layout === "grid" ? item.rank : undefined}
+            legible={legible}
+            onClick={onClick}
+          />
+        );
+      })}
     </div>
   );
 }

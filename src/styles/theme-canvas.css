@@ -5,7 +5,7 @@
   /* Market Map company pills: warm off-white, a step darker than the bright background. */
   --canvas-pill-bg: #f6f0e8;
   /* How strongly each pill is tinted by its blurred logo. */
-  --canvas-pill-wash-opacity: 0.25;
+  --canvas-pill-wash-opacity: 0.18;
   /* Market Map category pills: warm charcoal, softer than full ink. */
   --canvas-category-bg: #5b544d;
   --canvas-category-text: #faf4ec;
@@ -30,7 +30,7 @@
   /* Market Map company pills: darker than the tiles' charcoal, so logos carry the look. */
   --canvas-pill-bg: #221f27;
   /* How strongly each pill is tinted by its blurred logo. */
-  --canvas-pill-wash-opacity: 0.25;
+  --canvas-pill-wash-opacity: 0.18;
   /* Market Map category pills: soft stone, softer than full cream. */
   --canvas-category-bg: #b9b1a6;
   --canvas-category-text: #1a1920;

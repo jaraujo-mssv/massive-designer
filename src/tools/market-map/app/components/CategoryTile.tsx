@@ -66,6 +66,7 @@ export function CategoryTile({ tile, metrics, onEdit }: CategoryTileProps) {
           key={`${p.company.id}-${p.company.logoUrl}`}
           name={p.company.name}
           logoUrl={p.company.logoUrl}
+          website={p.company.website}
           x={p.x}
           y={p.y}
           width={p.w}

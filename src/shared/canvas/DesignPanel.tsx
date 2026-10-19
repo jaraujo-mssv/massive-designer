@@ -19,6 +19,8 @@ interface DesignPanelProps<T extends string> {
   onThemeChange: (theme: CanvasThemeId) => void;
   showPresentedBy: boolean;
   onShowPresentedByChange: (show: boolean) => void;
+  /** Tool-specific controls right under Size (e.g. Top List's Layout). */
+  afterSize?: React.ReactNode;
   children?: React.ReactNode;
 }
 
@@ -62,6 +64,7 @@ export function DesignPanel<T extends string>({
   onThemeChange,
   showPresentedBy,
   onShowPresentedByChange,
+  afterSize,
   children,
 }: DesignPanelProps<T>) {
   return (
@@ -74,6 +77,8 @@ export function DesignPanel<T extends string>({
           onChange={onSizeChange}
         />
       </div>
+
+      {afterSize}
 
       <div className="space-y-2">
         <Label className="text-xs font-medium text-text-dim uppercase tracking-wide">Theme</Label>

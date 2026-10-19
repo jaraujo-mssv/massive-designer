@@ -6,6 +6,10 @@ import { EditPopover } from "@/shared/canvas/edit/EditPopover";
 import { copySheetTsv, downloadSheetTsv, toSheetTsv } from "@/shared/canvas/edit/sheetExport";
 import { useDiscardGuard, useEditHistory } from "@/shared/canvas/edit/useEditHistory";
 import { ExportProgress, exportCanvasJpg } from "@/shared/canvas/exportJpg";
+import { LogoSourcesProvider } from "@/shared/canvas/logos/LogoSourcesContext";
+import { resolvedLogoSync, whenLogosSettled } from "@/shared/canvas/logos/resolve";
+import { INITIALS, logoDevTokenFrom } from "@/shared/canvas/logos/sources";
+import { legibleSizes } from "@/shared/canvas/legibility";
 import { DataSummary, SheetSidebar } from "@/shared/canvas/SheetSidebar";
 import { escapeHtml, htmlToText } from "@/shared/canvas/sheetText";
 import { CANVAS_SIZES, CanvasSizeId, DEFAULT_CANVAS_SIZE, FRAME_SPACING, TILE_GAP } from "@/shared/canvas/sizes";
@@ -49,11 +53,14 @@ export default function App() {
 
   const canvasRef = useRef<HTMLDivElement>(null);
   const { width: canvasW, height: canvasH, label: sizeLabel } = CANVAS_SIZES.find((s) => s.id === size)!;
+  // The smallest pill text that still reads once a feed shrinks the image on a phone.
+  const minFont = legibleSizes(canvasW).primary;
   const companyCount = categories.reduce((n, c) => n + c.companies.length, 0);
   const logoUrls = useMemo(() => categories.flatMap((c) => c.companies.map((co) => co.logoUrl)), [categories]);
+  const logoSources = useMemo(() => ({ logoDevToken: logoDevTokenFrom(logoUrls) }), [logoUrls]);
 
   // Convert logos ahead (on load and after edits), so Download JPG doesn't wait for them.
-  useEffect(() => warmImageCache(logoUrls), [logoUrls]);
+  useEffect(() => warmImageCache(logoUrls.filter((u) => u !== INITIALS)), [logoUrls]);
 
   const loadText = useCallback((text: string, delimiter: string | undefined, source: string) => {
     const sheet = parseSheet(text, delimiter);
@@ -111,6 +118,8 @@ export default function App() {
     setEditing(null);
     setIsExporting(true);
     try {
+      // Logos still being looked up would be captured half-way (the sheet's broken one).
+      await whenLogosSettled();
       await exportCanvasJpg(element, {
         width: canvasW,
         height: canvasH,
@@ -129,9 +138,18 @@ export default function App() {
     }
   };
 
-  const sheetRows = () => categories.flatMap((c) => c.companies.map((co) => [c.name, co.name, co.logoUrl]));
+  // Sheet columns parseSheet reads back, with the logo each company actually shows.
+  const sheetRows = () =>
+    categories.flatMap((c) =>
+      c.companies.map((co) => [
+        c.name,
+        co.name,
+        resolvedLogoSync(co.logoUrl, co.website, logoSources.logoDevToken),
+        co.website ?? "",
+      ]),
+    );
   const sheetTsv = (rows: string[][]) =>
-    toSheetTsv({ title, date, header: ["category", "company", "logo"], rows });
+    toSheetTsv({ title, date, header: ["category", "company", "logo", "url"], rows });
 
   const sidebarSummary: DataSummary | null = summary && {
     ...summary,
@@ -140,7 +158,8 @@ export default function App() {
   };
 
   return (
-    <>
+    // The sheet's Logo.dev key lets companies without a working logo be looked up there too.
+    <LogoSourcesProvider value={logoSources}>
       <Toaster position="top-center" richColors />
       <SheetSidebar
         toolName="Market Map"
@@ -199,6 +218,8 @@ export default function App() {
               fitMode={fitMode}
               onFitModeChange={setFitMode}
               companyCount={companyCount}
+              canvasWidth={canvasW}
+              suggestVertical={size !== "vertical"}
             />
           )
         }
@@ -223,6 +244,7 @@ export default function App() {
             categories={categories}
             tileGap={TILE_GAP}
             fitMode={fitMode}
+            minFont={minFont}
             onFitChange={setFit}
             onEdit={isExporting ? undefined : (target, anchor) => setEditing({ target, anchor })}
           />
@@ -242,6 +264,6 @@ export default function App() {
           )}
         </EditPopover>
       </SheetSidebar>
-    </>
+    </LogoSourcesProvider>
   );
 }

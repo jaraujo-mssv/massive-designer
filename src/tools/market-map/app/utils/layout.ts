@@ -3,16 +3,19 @@ import { insetAndSnap, Rect, squarify } from '@/shared/canvas/squarify';
 import type { Category, Company } from './parseSheet';
 import { flowPills, pillMetrics, PillMetrics, pillWidth } from './pills';
 
-/** Pill font sizes, in canvas pixels. Below MIN_READABLE pills are hard to read. */
-export const MIN_READABLE = 11;
-export const MAX_FONT = 24;
+/**
+ * Pill font sizes are in canvas pixels. The smallest readable size isn't fixed:
+ * it comes from how big text ends up on a phone (`legibleSizes`, passed in as
+ * `minFont`), and pills grow up to MAX_FONT_SCALE times it.
+ */
+const MAX_FONT_SCALE = 1.3;
 /** Where shrinking starts halving instead of searching; it never gives up. */
 const SHRINK_FLOOR = 4;
 
-/** How a map that doesn't fit at MIN_READABLE is made to fit. */
+/** How a map that doesn't fit at the readable size (`minFont`) is made to fit. */
 export type FitMode = 'shrink' | 'hide';
 
-export const HEADER_WEIGHT = 500;
+export const HEADER_WEIGHT = 600;
 const TILE_BORDER = 2;
 const LINE_HEIGHT = 1.2;
 /** The category pill's 1px border, left and right (or top and bottom). */
@@ -62,7 +65,7 @@ export interface HiddenGroup {
 export interface MapLayout {
   metrics: PillMetrics;
   tiles: PlacedTile[];
-  /** False when pills had to shrink below MIN_READABLE to fit. */
+  /** False when pills had to shrink below the readable size (`minFont`) to fit. */
   readable: boolean;
   /** Companies left out to fit ('hide' mode), by category. */
   hidden: HiddenGroup[];
@@ -266,17 +269,25 @@ export function trimCategories(categories: Category[], k: number): { categories:
 
 /**
  * Lays out a market map in `box`: one tile per category, sized by its content,
- * with company pills flowing inside, at the largest pill size (up to MAX_FONT)
+ * with company pills flowing inside, at the largest pill size (up to
+ * minFont × MAX_FONT_SCALE)
  * where every tile holds its header and pills. Pills are never cut off:
  *
- * - If even MIN_READABLE doesn't fit, `shrink` keeps every company and goes
- *   below it (`readable: false`), and `hide` stays at MIN_READABLE and leaves
+ * - If even `minFont` doesn't fit, `shrink` keeps every company and goes
+ *   below it (`readable: false`), and `hide` stays at `minFont` and leaves
  *   out as few companies as it takes (see `trimCategories`).
  */
-export function layoutMap(categories: Category[], box: Box, gap: number, fitMode: FitMode = 'shrink'): MapLayout | null {
+export function layoutMap(
+  categories: Category[],
+  box: Box,
+  gap: number,
+  fitMode: FitMode,
+  /** The smallest pill name size that reads on a phone (`legibleSizes().primary`). */
+  minFont: number,
+): MapLayout | null {
   if (categories.length === 0 || box.w <= 0 || box.h <= 0) return null;
 
-  const readable = largestFitting(categories, box, gap, MIN_READABLE, MAX_FONT);
+  const readable = largestFitting(categories, box, gap, minFont, minFont * MAX_FONT_SCALE);
   if (readable) return { ...readable, readable: true, hidden: [] };
 
   if (fitMode === 'hide') {
@@ -288,18 +299,18 @@ export function layoutMap(categories: Category[], box: Box, gap: number, fitMode
     let hi = maxHide;
     while (lo < hi) {
       const mid = Math.floor((lo + hi) / 2);
-      if (attempt(trimCategories(categories, mid).categories, box, gap, MIN_READABLE)) hi = mid;
+      if (attempt(trimCategories(categories, mid).categories, box, gap, minFont)) hi = mid;
       else lo = mid + 1;
     }
     for (let k = lo; k <= maxHide; k++) {
       const trimmed = trimCategories(categories, k);
-      const fitted = attempt(trimmed.categories, box, gap, MIN_READABLE);
+      const fitted = attempt(trimmed.categories, box, gap, minFont);
       if (fitted) return { ...fitted, readable: true, hidden: trimmed.hidden };
     }
     // Even one company per category doesn't fit readably: shrink instead.
   }
 
-  const shrunk = largestFitting(categories, box, gap, SHRINK_FLOOR, MIN_READABLE);
+  const shrunk = largestFitting(categories, box, gap, SHRINK_FLOOR, minFont);
   if (shrunk) return { ...shrunk, readable: false, hidden: [] };
   for (let f = SHRINK_FLOOR / 2; f > 0.25; f /= 2) {
     const tiny = attempt(categories, box, gap, f);

@@ -44,6 +44,8 @@ interface SheetSidebarProps<Size extends string> {
   onThemeChange: (theme: CanvasThemeId) => void;
   showPresentedBy: boolean;
   onShowPresentedByChange: (show: boolean) => void;
+  /** Tool-specific Design controls, shown right under Size. */
+  designExtra?: React.ReactNode;
   summary: DataSummary | null;
   /** Explains the sheet's columns under the Import buttons. */
   columnsHint: React.ReactNode;
@@ -107,6 +109,7 @@ export function SheetSidebar<Size extends string>({
   onThemeChange,
   showPresentedBy,
   onShowPresentedByChange,
+  designExtra,
   summary,
   columnsHint,
   examples,
@@ -197,6 +200,7 @@ export function SheetSidebar<Size extends string>({
         onThemeChange={onThemeChange}
         showPresentedBy={showPresentedBy}
         onShowPresentedByChange={onShowPresentedByChange}
+        afterSize={designExtra}
       />
 
       {summary && (

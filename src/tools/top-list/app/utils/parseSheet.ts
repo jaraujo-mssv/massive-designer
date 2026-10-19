@@ -8,6 +8,12 @@ import { dominantSymbol, parseValue } from './value';
  */
 export type Layout = 'bento' | 'grid';
 
+/**
+ * How the list is drawn, picked in the sidebar: `list` is ranked full-width
+ * rows; `grid` is the tiles, Bento or equal as the sheet's `Layout` decides.
+ */
+export type ListView = 'list' | 'grid';
+
 export interface ListItem {
   id: string;
   /** The name, without any description (see splitName). */
@@ -15,6 +21,8 @@ export interface ListItem {
   /** Text after " · " and similar in the sheet's name, shown under the name. */
   description?: string;
   logoUrl: string;
+  /** The company's website (`url` column): finds a logo when its own doesn't work. */
+  website?: string;
   /** 1-based rank in the order shown. */
   rank: number;
   /** Bento only. */
@@ -40,7 +48,7 @@ export interface ParsedSheet {
   duplicateNames: string[];
 }
 
-type Column = 'position' | 'name' | 'logo' | 'value';
+type Column = 'position' | 'name' | 'logo' | 'value' | 'website';
 
 const HEADER_ALIASES: Record<string, Column> = {
   position: 'position',
@@ -55,6 +63,10 @@ const HEADER_ALIASES: Record<string, Column> = {
   valuation: 'value',
   'market cap': 'value',
   market_cap: 'value',
+  url: 'website',
+  website: 'website',
+  site: 'website',
+  domain: 'website',
 };
 
 /**
@@ -99,6 +111,7 @@ export function parseSheet(text: string, delimiter?: string): ParsedSheet {
       name: split.name,
       description: split.description,
       logoUrl: row.logo?.trim() ?? '',
+      website: row.website?.trim() || undefined,
       rank: 0,
       approximate: false,
     };

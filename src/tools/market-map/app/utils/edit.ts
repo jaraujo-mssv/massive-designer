@@ -18,7 +18,11 @@ export function findCompany(categories: Category[], companyId: string): { catego
 
 const dropEmpty = (categories: Category[]) => categories.filter((c) => c.companies.length > 0);
 
-export function updateCompany(categories: Category[], companyId: string, patch: Partial<Pick<Company, 'name' | 'logoUrl'>>): Category[] {
+export function updateCompany(
+  categories: Category[],
+  companyId: string,
+  patch: Partial<Pick<Company, 'name' | 'logoUrl' | 'website'>>,
+): Category[] {
   return categories.map((cat) =>
     cat.companies.some((c) => c.id === companyId)
       ? { ...cat, companies: cat.companies.map((c) => (c.id === companyId ? { ...c, ...patch } : c)) }

@@ -10,6 +10,8 @@ export interface ItemDraft {
   name: string;
   description: string;
   logoUrl: string;
+  /** The company's website, to look up logos. */
+  website: string;
   /** The value as typed; Bento needs a number, grid shows any text. */
   valueText: string;
 }
@@ -29,7 +31,13 @@ export function draftFields(draft: ItemDraft, layout: Layout): Partial<ListItem>
   if (!name) return 'A company needs a name.';
   const value = valueFields(draft.valueText, layout);
   if (typeof value === 'string') return value;
-  return { ...value, name, description: draft.description.trim() || undefined, logoUrl: draft.logoUrl };
+  return {
+    ...value,
+    name,
+    description: draft.description.trim() || undefined,
+    logoUrl: draft.logoUrl,
+    website: draft.website.trim() || undefined,
+  };
 }
 
 export function updateItem(items: ListItem[], id: string, fields: Partial<ListItem>, layout: Layout): ListItem[] {

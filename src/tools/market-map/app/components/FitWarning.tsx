@@ -1,5 +1,6 @@
 import { SidebarWarning } from "@/shared/components/SidebarLayout";
-import { FitMode, MIN_READABLE } from "../utils/layout";
+import { PRIMARY_MIN_PT, phonePt } from "@/shared/canvas/legibility";
+import type { FitMode } from "../utils/layout";
 import type { FitInfo } from "./MapCanvas";
 
 interface FitWarningProps {
@@ -7,6 +8,10 @@ interface FitWarningProps {
   fitMode: FitMode;
   onFitModeChange: (mode: FitMode) => void;
   companyCount: number;
+  /** To state sizes as they appear on a phone. */
+  canvasWidth: number;
+  /** False when already on Vertical, the size that fits the most at a phone-readable size. */
+  suggestVertical: boolean;
 }
 
 const MODES: { id: FitMode; label: string }[] = [
@@ -18,7 +23,7 @@ const MODES: { id: FitMode; label: string }[] = [
  * Shown above Export when the map doesn't fit at a readable pill size: says
  * what was done about it and lets you switch between shrinking and hiding.
  */
-export function FitWarning({ fit, fitMode, onFitModeChange, companyCount }: FitWarningProps) {
+export function FitWarning({ fit, fitMode, onFitModeChange, companyCount, canvasWidth, suggestVertical }: FitWarningProps) {
   const hiddenCount = fit.hidden.reduce((n, g) => n + g.names.length, 0);
   if (fit.readable && hiddenCount === 0) return null;
 
@@ -26,13 +31,15 @@ export function FitWarning({ fit, fitMode, onFitModeChange, companyCount }: FitW
     <SidebarWarning>
       {hiddenCount > 0 ? (
         <p>
-          {hiddenCount} {hiddenCount === 1 ? "company is" : "companies are"} hidden to keep pills readable, in{" "}
-          {fit.hidden.length} {fit.hidden.length === 1 ? "category" : "categories"}. Try Horizontal to fit more.
+          {hiddenCount} {hiddenCount === 1 ? "company is" : "companies are"} hidden to keep pills readable on a
+          phone, in {fit.hidden.length} {fit.hidden.length === 1 ? "category" : "categories"}.
+          {suggestVertical && " Try Vertical to fit more."}
         </p>
       ) : (
         <p>
-          {companyCount} companies don't fit at a readable size, so pills are {fit.fontSize.toFixed(1)} px (readable
-          from {MIN_READABLE} px). Try Horizontal, or hide some companies.
+          {companyCount} companies don't fit at a phone-readable size, so names are about{" "}
+          {phonePt(fit.fontSize, canvasWidth).toFixed(1)}pt on a phone (readable from {PRIMARY_MIN_PT}pt).{" "}
+          {suggestVertical ? "Try Vertical, or hide some companies." : "Hide some companies, or split the map."}
         </p>
       )}
 

@@ -1,5 +1,8 @@
 import { useState } from "react";
-import { EditForm, LogoField, SelectField, TextField } from "@/shared/canvas/edit/fields";
+import { EditForm, SelectField, TextField } from "@/shared/canvas/edit/fields";
+import { LogoPicker } from "@/shared/canvas/edit/LogoPicker";
+import { InitialsLogo } from "@/shared/canvas/logos/InitialsLogo";
+import { useResolvedLogo } from "@/shared/canvas/logos/resolve";
 import type { HiddenGroup } from "../utils/layout";
 import type { Category, Company } from "../utils/parseSheet";
 import {
@@ -59,6 +62,7 @@ function CompanyForm({
   const found = findCompany(categories, target.companyId);
   const [name, setName] = useState(found?.company.name ?? "");
   const [logo, setLogo] = useState(found?.company.logoUrl ?? "");
+  const [website, setWebsite] = useState(found?.company.website ?? "");
   const [categoryId, setCategoryId] = useState(found?.category.id ?? "");
   const [newCategory, setNewCategory] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -69,8 +73,9 @@ function CompanyForm({
     const trimmed = name.trim();
     if (!trimmed) return setError("A company needs a name.");
     let next = categories;
-    if (trimmed !== company.name || logo !== company.logoUrl) {
-      next = updateCompany(next, company.id, { name: trimmed, logoUrl: logo });
+    const site = website.trim() || undefined;
+    if (trimmed !== company.name || logo !== company.logoUrl || site !== company.website) {
+      next = updateCompany(next, company.id, { name: trimmed, logoUrl: logo, website: site });
     }
     if (categoryId === NEW_CATEGORY) {
       const newName = newCategory.trim();
@@ -79,7 +84,7 @@ function CompanyForm({
       if (existing) {
         next = moveCompany(next, company.id, existing.id);
       } else {
-        next = addCategory(deleteCompany(next, company.id), newName, { name: trimmed, logoUrl: logo }).categories;
+        next = addCategory(deleteCompany(next, company.id), newName, { name: trimmed, logoUrl: logo, website: site }).categories;
       }
     } else if (categoryId !== category.id) {
       next = moveCompany(next, company.id, categoryId);
@@ -99,7 +104,7 @@ function CompanyForm({
       }}
     >
       <TextField label="Name" value={name} onChange={(v) => (setName(v), setError(null))} error={error} />
-      <LogoField value={logo} onChange={setLogo} />
+      <LogoPicker name={name} logoUrl={logo} website={website} onLogoChange={setLogo} onWebsiteChange={setWebsite} />
       <SelectField
         label="Category"
         value={categoryId}
@@ -127,6 +132,7 @@ function CategoryForm({
   const [adding, setAdding] = useState(false);
   const [companyName, setCompanyName] = useState("");
   const [logo, setLogo] = useState("");
+  const [website, setWebsite] = useState("");
   const [error, setError] = useState<string | null>(null);
   if (!category) return null;
 
@@ -136,7 +142,7 @@ function CategoryForm({
     let next = categories;
     if (trimmed !== category.name) next = renameCategory(next, category.id, trimmed);
     if (adding && companyName.trim()) {
-      next = addCompany(next, category.id, { name: companyName.trim(), logoUrl: logo });
+      next = addCompany(next, category.id, { name: companyName.trim(), logoUrl: logo, website: website.trim() || undefined });
     }
     if (next !== categories) onCommit(next);
     onClose();
@@ -157,7 +163,13 @@ function CategoryForm({
       {adding ? (
         <div className="space-y-3 p-2.5 rounded-lg bg-surface-2 border border-border-subtle">
           <TextField label="New company" value={companyName} onChange={setCompanyName} placeholder="Company name" />
-          <LogoField value={logo} onChange={setLogo} />
+          <LogoPicker
+            name={companyName}
+            logoUrl={logo}
+            website={website}
+            onLogoChange={setLogo}
+            onWebsiteChange={setWebsite}
+          />
         </div>
       ) : (
         <button
@@ -192,11 +204,7 @@ function HiddenList({
               onClick={() => onNavigate({ kind: "company", companyId: c.id, back: target })}
               className="w-full flex items-center gap-2 px-2 py-1.5 text-sm text-left rounded-md hover:bg-surface-2"
             >
-              {c.logoUrl ? (
-                <img src={c.logoUrl} alt="" className="w-5 h-5 object-contain rounded-sm bg-white/90" />
-              ) : (
-                <span className="w-5 h-5" />
-              )}
+              <SmallLogo name={c.name} logoUrl={c.logoUrl} website={c.website} />
               <span className="truncate">{c.name}</span>
             </button>
           </li>
@@ -206,10 +214,21 @@ function HiddenList({
   );
 }
 
+/** A company's logo as the map shows it (resolved, or initials), small, for lists in the popover. */
+function SmallLogo({ name, logoUrl, website }: { name: string; logoUrl: string; website?: string }) {
+  const src = useResolvedLogo(logoUrl, website);
+  return src ? (
+    <img src={src} alt="" className="w-5 h-5 object-contain rounded-sm bg-white/90" />
+  ) : (
+    <InitialsLogo name={name} size={20} />
+  );
+}
+
 function NewCategoryForm({ categories, onCommit, onClose }: MapEditorProps) {
   const [categoryName, setCategoryName] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [logo, setLogo] = useState("");
+  const [website, setWebsite] = useState("");
   const [error, setError] = useState<string | null>(null);
 
   const submit = () => {
@@ -219,11 +238,8 @@ function NewCategoryForm({ categories, onCommit, onClose }: MapEditorProps) {
     if (!cat) return setError("Name the category.");
     if (!company) return setError("A category needs at least one company.");
     const existing = categoryNamed(categories, cat);
-    onCommit(
-      existing
-        ? addCompany(categories, existing.id, { name: company, logoUrl: logo })
-        : addCategory(categories, cat, { name: company, logoUrl: logo }).categories,
-    );
+    const first = { name: company, logoUrl: logo, website: website.trim() || undefined };
+    onCommit(existing ? addCompany(categories, existing.id, first) : addCategory(categories, cat, first).categories);
     onClose();
   };
 
@@ -231,7 +247,7 @@ function NewCategoryForm({ categories, onCommit, onClose }: MapEditorProps) {
     <EditForm title="Add category" onSubmit={submit}>
       <TextField label="Category" value={categoryName} onChange={(v) => (setCategoryName(v), setError(null))} />
       <TextField label="First company" value={companyName} onChange={(v) => (setCompanyName(v), setError(null))} error={error} />
-      <LogoField value={logo} onChange={setLogo} />
+      <LogoPicker name={companyName} logoUrl={logo} website={website} onLogoChange={setLogo} onWebsiteChange={setWebsite} />
     </EditForm>
   );
 }

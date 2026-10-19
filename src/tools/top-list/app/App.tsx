@@ -1,21 +1,29 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { ListNumbers, SquaresFour } from "@phosphor-icons/react";
 import { Toaster, toast } from "sonner";
 import { CanvasFrame } from "@/shared/canvas/CanvasFrame";
 import { EditPanel } from "@/shared/canvas/edit/EditPanel";
 import { EditPopover } from "@/shared/canvas/edit/EditPopover";
 import { copySheetTsv, downloadSheetTsv, toSheetTsv } from "@/shared/canvas/edit/sheetExport";
 import { useDiscardGuard, useEditHistory } from "@/shared/canvas/edit/useEditHistory";
+import { Segmented } from "@/shared/canvas/DesignPanel";
 import { ExportProgress, exportCanvasJpg } from "@/shared/canvas/exportJpg";
+import { LogoSourcesProvider } from "@/shared/canvas/logos/LogoSourcesContext";
+import { resolvedLogoSync, whenLogosSettled } from "@/shared/canvas/logos/resolve";
+import { INITIALS, logoDevTokenFrom } from "@/shared/canvas/logos/sources";
+import { legibleSizes, phonePt, PRIMARY_MIN_PT } from "@/shared/canvas/legibility";
 import { DataSummary, SheetSidebar } from "@/shared/canvas/SheetSidebar";
 import { escapeHtml, htmlToText } from "@/shared/canvas/sheetText";
 import { CanvasThemeId, getCanvasTheme } from "@/shared/canvas/themes";
 import { VersionSwitch } from "@/shared/canvas/ToolVersion";
 import { clearSheetParam, useSheetLoader } from "@/shared/canvas/useSheetLoader";
+import { SidebarWarning } from "@/shared/components/SidebarLayout";
+import { Label } from "@/shared/components/ui/label";
 import { warmImageCache } from "@/shared/utils/imageDataUrl";
 import { ListEditor, ListEditTarget } from "./components/ListEditor";
-import { TileCanvas } from "./components/TileCanvas";
+import { LegibilityReport, TileCanvas } from "./components/TileCanvas";
 import { DEFAULT_SIZE, EXAMPLES, PRESETS, SIZES, TopListSizeId } from "./constants";
-import { Layout, ListItem, parseSheet } from "./utils/parseSheet";
+import { Layout, ListItem, ListView, parseSheet } from "./utils/parseSheet";
 
 const EXPORT_AREA_ID = "top-list-export-area";
 const DEFAULT_TITLE = "<b>Top List</b>";
@@ -33,6 +41,8 @@ export default function App() {
   // The open click-to-edit popover: what it edits and where it's anchored.
   const [editing, setEditing] = useState<{ target: ListEditTarget; anchor: HTMLElement } | null>(null);
   const [layout, setLayout] = useState<Layout>("grid");
+  // List rows or tiles; picked in the sidebar and kept across loads.
+  const [view, setView] = useState<ListView>("list");
   const [symbol, setSymbol] = useState("$");
   const [title, setTitle] = useState(DEFAULT_TITLE);
   const [date, setDate] = useState(DEFAULT_DATE);
@@ -41,16 +51,21 @@ export default function App() {
   const [showPresentedBy, setShowPresentedBy] = useState(true);
   const [summary, setSummary] = useState<LoadedSummary | null>(null);
   const [atMinimum, setAtMinimum] = useState(0);
+  const [legibility, setLegibility] = useState<LegibilityReport | null>(null);
   const [isExporting, setIsExporting] = useState(false);
   const [exportProgress, setExportProgress] = useState<ExportProgress | null>(null);
 
   const canvasRef = useRef<HTMLDivElement>(null);
   const { width: canvasW, height: canvasH, label: sizeLabel } = SIZES.find((s) => s.id === size)!;
   const preset = PRESETS[size];
+  // The smallest text that still reads once a feed shrinks the image on a phone.
+  // Memoised: TileCanvas lays out again whenever it changes.
+  const legible = useMemo(() => legibleSizes(canvasW), [canvasW]);
   const logoUrls = useMemo(() => items.map((i) => i.logoUrl), [items]);
+  const logoSources = useMemo(() => ({ logoDevToken: logoDevTokenFrom(logoUrls) }), [logoUrls]);
 
   // Convert logos ahead (on load and after edits), so Download JPG doesn't wait for them.
-  useEffect(() => warmImageCache(logoUrls), [logoUrls]);
+  useEffect(() => warmImageCache(logoUrls.filter((u) => u !== INITIALS)), [logoUrls]);
 
   const loadText = useCallback((text: string, delimiter: string | undefined, source: string) => {
     const sheet = parseSheet(text, delimiter);
@@ -109,6 +124,8 @@ export default function App() {
     setEditing(null);
     setIsExporting(true);
     try {
+      // Logos still being looked up would be captured half-way (the sheet's broken one).
+      await whenLogosSettled();
       await exportCanvasJpg(element, {
         width: canvasW,
         height: canvasH,
@@ -127,22 +144,48 @@ export default function App() {
     }
   };
 
-  // Sheet columns parseSheet reads back; "Name · description" splits again on load.
+  // Sheet columns parseSheet reads back; "Name · description" splits again on load,
+  // and the logo is the one each company actually shows.
   const sheetRows = () =>
     items.map((i) => [
       String(i.rank),
       i.description ? `${i.name} · ${i.description}` : i.name,
-      i.logoUrl,
+      resolvedLogoSync(i.logoUrl, i.website, logoSources.logoDevToken),
       i.valueText ?? i.valueLabel ?? (i.value !== undefined ? String(i.value) : ""),
+      i.website ?? "",
     ]);
   const sheetTsv = (rows: string[][]) =>
-    toSheetTsv({ title, date, header: ["position", "company", "logo", "value"], rows });
+    toSheetTsv({ title, date, header: ["position", "company", "logo", "value", "url"], rows });
+
+  // What didn't fit at a phone-readable size; shown above Download.
+  const tip = size === "vertical" ? "Try fewer companies." : "Try Vertical, or fewer companies.";
+  const legibilityWarning = items.length > 0 && legibility && (legibility.shrunkNames > 0 || legibility.logoOnly > 0) && (
+    <SidebarWarning>
+      {legibility.shrunkNames > 0 ? (
+        <p>
+          Too many companies to stay readable on a phone: names are about{" "}
+          {phonePt(legibility.smallestName, canvasW).toFixed(1)}pt (readable from {PRIMARY_MIN_PT}pt). {tip}
+        </p>
+      ) : (
+        <p>
+          {legibility.logoOnly} {legibility.logoOnly === 1 ? "company shows" : "companies show"} only the logo: not
+          enough room for a name that reads on a phone. {tip}
+        </p>
+      )}
+    </SidebarWarning>
+  );
 
   const sidebarSummary: DataSummary | null = summary && {
     ...summary,
     // Live count, so it follows edits.
     headline: `${items.length} companies · ${
-      summary.layout === "bento" ? "Bento, sized by value" : "Grid, equal tiles in rank order"
+      view === "list"
+        ? summary.layout === "bento"
+          ? "List, ranked by value"
+          : "List, in rank order"
+        : summary.layout === "bento"
+          ? "Bento, sized by value"
+          : "Grid, equal tiles in rank order"
     }`,
     notes:
       atMinimum > 0
@@ -151,7 +194,8 @@ export default function App() {
   };
 
   return (
-    <>
+    // The sheet's Logo.dev key lets companies without a working logo be looked up there too.
+    <LogoSourcesProvider value={logoSources}>
       <Toaster position="top-center" richColors />
       <SheetSidebar
         toolName="Top List"
@@ -163,6 +207,19 @@ export default function App() {
         onThemeChange={setTheme}
         showPresentedBy={showPresentedBy}
         onShowPresentedByChange={setShowPresentedBy}
+        designExtra={
+          <div className="space-y-2">
+            <Label className="text-xs font-medium text-text-dim uppercase tracking-wide">Layout</Label>
+            <Segmented
+              options={[
+                { id: "list" as const, label: "List", icon: ListNumbers },
+                { id: "grid" as const, label: "Grid", icon: SquaresFour },
+              ]}
+              value={view}
+              onChange={setView}
+            />
+          </div>
+        }
         summary={sidebarSummary}
         editPanel={
           <EditPanel
@@ -200,6 +257,7 @@ export default function App() {
         isExporting={isExporting}
         exportProgress={exportProgress}
         logoUrls={logoUrls}
+        warnings={legibilityWarning || undefined}
       >
         <CanvasFrame
           ref={canvasRef}
@@ -218,10 +276,13 @@ export default function App() {
           onLoadExample={loadFirstExample}
         >
           <TileCanvas
+            view={view}
             layout={layout}
             items={items}
             symbol={symbol}
             minTileSide={preset.minTileSide}
+            legible={legible}
+            onLegibilityChange={setLegibility}
             tileGap={preset.tileGap}
             onMinimumCountChange={setAtMinimum}
             onEdit={isExporting ? undefined : (id, anchor) => setEditing({ target: { kind: "item", id }, anchor })}
@@ -241,6 +302,6 @@ export default function App() {
           )}
         </EditPopover>
       </SheetSidebar>
-    </>
+    </LogoSourcesProvider>
   );
 }

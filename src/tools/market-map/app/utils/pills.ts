@@ -1,6 +1,7 @@
 import { textWidth } from '@/shared/canvas/measureText';
 
-export const PILL_WEIGHT = 400;
+// 500 rather than 400: thin strokes are the first thing lost when a feed shrinks the image.
+export const PILL_WEIGHT = 500;
 
 /** A company pill's measurements at base font size `f` (the name's font size). */
 export interface PillMetrics {

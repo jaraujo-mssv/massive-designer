@@ -9,7 +9,21 @@ const inFlight = new Map<string, Promise<string>>();
 // image from a host finds out; the others wait for that answer.
 const hostAllowsCors = new Map<string, Promise<boolean>>();
 
-const proxyUrl = (url: string) => `/api/image-proxy?url=${encodeURIComponent(url)}`;
+/** The image proxy's URL for `url` (Vite middleware in dev, api/image-proxy on Vercel). */
+export const proxyUrl = (url: string) => `/api/image-proxy?url=${encodeURIComponent(url)}`;
+
+/**
+ * Stores an already-converted image, so a later export finds it ready (e.g.
+ * logos the logo resolver has just downloaded to check them). Keyed by the
+ * absolute URL, as <img>.src reports it.
+ */
+export function primeImageCache(url: string, dataUrl: string): void {
+  try {
+    imageCache.set(new URL(url, window.location.href).href, dataUrl);
+  } catch {
+    imageCache.set(url, dataUrl);
+  }
+}
 
 function hostOf(url: string): string | null {
   try {

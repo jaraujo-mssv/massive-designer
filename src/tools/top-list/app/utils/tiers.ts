@@ -1,16 +1,26 @@
+import type { LegibleSizes } from '@/shared/canvas/legibility';
 import { fitText, textWidth, wrapLines, wrapTwoLines } from '@/shared/canvas/measureText';
 
 const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v));
 
+// Heavier than body text: thin strokes are the first thing lost when a feed
+// shrinks the image on a phone.
 export const NAME_WEIGHT = 600;
-export const VALUE_WEIGHT = 500;
-export const DESCRIPTION_WEIGHT = 400;
+export const VALUE_WEIGHT = 600;
+export const DESCRIPTION_WEIGHT = 500;
 
-/** Below this the logo stops being recognisable, so text gets dropped instead. */
-const MIN_LOGO = 32;
-/** Smallest a name may shrink to before it's shortened with "…". */
-const MIN_NAME_SIZE = 12;
+/** A logo smaller than this many names-worth stops being recognisable, so text gets dropped instead. */
+const MIN_LOGO_SCALE = 1.6;
+/** A two-digit rank number is this share of its badge (RankBadge). */
+const RANK_TEXT_SHARE = 0.46;
+/** Rank numbers sit a step below other secondary text: the badge already makes them stand out. */
+const RANK_TEXT_SCALE = 0.7;
 const LINE_HEIGHT = 1.15;
+
+/** The smallest rank badge, tiles and List rows alike. */
+export function rankBadgeMin(legible: LegibleSizes): number {
+  return (legible.secondary * RANK_TEXT_SCALE) / RANK_TEXT_SHARE;
+}
 
 export interface TileContent {
   /** Logo beside the text (wide, short tiles) instead of above it. */
@@ -48,13 +58,16 @@ export interface TileContent {
  *
  * Names are shown in full wherever possible. In order of preference: one line,
  * two lines split at a word, then the same at smaller sizes down to
- * MIN_NAME_SIZE, and only then one line shortened with "…". Each option must
- * still leave room for the logo (MIN_LOGO). If none does, the name is dropped,
- * then the value.
+ * the phone-readable minimum (`legible.primary`), and only then one line
+ * shortened with "…". Each option must still leave room for the logo. If none
+ * does, the name is dropped, then the value: a tile never shows text smaller
+ * than reads on a phone (`legible`).
  *
- * A `description` (see splitName) goes under the name in smaller type, on up to
- * two lines, then one shortened with "…". It only takes room left over once the
- * name is placed, so it never makes the name smaller; it's dropped first.
+ * A `description` (see splitName) always shows when there is one, under the
+ * name in smaller type, on up to two lines, then one shortened with "…". The
+ * name takes its largest option that still leaves room for it, and the value
+ * gives way before it does. A tile with no room for a name and its description
+ * shows only its logo.
  *
  * Grid tiles pass `value: null` and `withRank`: the rank is a badge in the tile's
  * top-left corner, so the centred content gets its height kept clear above and below.
@@ -68,30 +81,39 @@ export function tileContent(
   value: string | null,
   withRank = false,
   fitW = w,
-  description: string | null = null,
+  description: string | null,
+  /** Phone-readable minimums in canvas px (`legibleSizes`). */
+  legible: LegibleSizes,
 ): TileContent {
+  const MIN_NAME_SIZE = legible.primary;
+  const MIN_LOGO = legible.primary * MIN_LOGO_SCALE;
+  const minRank = rankBadgeMin(legible);
   const short = Math.min(w, h);
   const horizontal = w > h * 2.2;
   const padding = clamp(short * 0.08, 6, 24);
   const gap = clamp(short * 0.05, 4, 16);
-  const rankSize = clamp(short * 0.13, 20, 44);
+  const rankSize = clamp(short * 0.1, minRank, Math.max(36, minRank * 1.15));
   // The badge sits in the top-left corner; keep its height clear, above and below
   // so the content stays centred.
   const rankClearance = withRank ? rankSize * 1.1 : 0;
   const innerW = w - padding * 2;
   const innerH = h - padding * 2 - rankClearance * 2;
 
-  const valueSize = clamp(Math.sqrt(w * h) * 0.085, 20, 56);
-  const baseNameSize = Math.max(17, valueSize * 0.72);
+  const valueSize = clamp(Math.sqrt(w * h) * 0.085, legible.secondary, Math.max(56, legible.secondary * 2));
+  const baseNameSize = Math.max(MIN_NAME_SIZE, valueSize * 0.72);
 
-  const idealLogo = Math.min(clamp(short * 0.34, 44, 160), innerH, horizontal ? h * 0.7 : h * 0.5);
+  const idealLogo = Math.min(
+    clamp(short * 0.34, Math.max(44, MIN_LOGO), Math.max(160, MIN_LOGO)),
+    innerH,
+    horizontal ? h * 0.7 : h * 0.5,
+  );
 
   // The name sits in a pill (no border): its box is the text plus padding, and the
   // padding scales with the name's font size.
   const pillPadX = (size: number) => size * 0.6;
   const pillPadY = (size: number) => size * 0.22;
   const textGap = baseNameSize * 0.3;
-  const descriptionSize = Math.max(11, baseNameSize * 0.75);
+  const descriptionSize = Math.max(legible.secondary, baseNameSize * 0.75);
   const valueFits = (maxW: number) => value !== null && textWidth(value, valueSize, VALUE_WEIGHT) <= maxW;
 
   interface NameFit {
@@ -155,37 +177,60 @@ export function tileContent(
     rankSize,
   });
 
+  /**
+   * The best name option that fits with the value `v`, and with a description
+   * when there is one (its two lines, then one). `fits` says whether a choice
+   * leaves the layout enough room.
+   */
+  const pick = (
+    names: NameFit[],
+    descriptions: string[][],
+    v: string | null,
+    fits: (n: NameFit, v: string | null, d: string[] | null) => boolean,
+  ): { n: NameFit; d: string[] | null } | null => {
+    for (const n of names) {
+      if (!description) {
+        if (fits(n, v, null)) return { n, d: null };
+        continue;
+      }
+      const d = descriptions.find((option) => fits(n, v, option));
+      if (d) return { n, d };
+    }
+    return null;
+  };
+  /** With the value if it fits, else without it (the value gives way before the description). */
+  const pickWithValue = (
+    textW: number,
+    fits: (n: NameFit, v: string | null, d: string[] | null) => boolean,
+  ): { n: NameFit | null; d: string[] | null; v: string | null } => {
+    const names = nameOptions(textW);
+    const descriptions = descriptionOptions(textW);
+    const v = valueFits(textW) ? value : null;
+    const withValue = pick(names, descriptions, v, fits);
+    if (withValue) return { ...withValue, v };
+    const withoutValue = v ? pick(names, descriptions, null, fits) : null;
+    if (withoutValue) return { ...withoutValue, v: null };
+    // No room for a name (and its description): the logo, and the value if it fits alone.
+    return { n: null, d: null, v };
+  };
+
   if (horizontal) {
     // Side by side: the logo keeps its size, the text gets the width that's left.
     const textW = innerW - idealLogo - gap;
-    let fittedValue = valueFits(textW) ? value : null;
-    let fittedName = nameOptions(textW).find((n) => textHeight(n, fittedValue) <= innerH) ?? null;
-    if (!fittedName && textHeight(null, fittedValue) > innerH) fittedValue = null;
-    const fittedDescription = fittedName
-      ? descriptionOptions(textW).find((d) => textHeight(fittedName, fittedValue, d) <= innerH) ?? null
-      : null;
-    return result(idealLogo, fittedName, fittedValue, fittedDescription);
+    const fit = pickWithValue(textW, (n, v, d) => textHeight(n, v, d) <= innerH);
+    const fittedValue = !fit.n && textHeight(null, fit.v) > innerH ? null : fit.v;
+    return result(idealLogo, fit.n, fittedValue, fit.d);
   }
 
-  // Stacked: text is as wide as the tile, and the logo takes the height left over.
+  // Stacked: text is as wide as the tile, and the logo takes the height left over,
+  // but never less than MIN_LOGO.
   const textW = fitW - padding * 2;
   const logoRoom = (n: NameFit | null, v: string | null, d: string[] | null = null) => {
     const textH = textHeight(n, v, d);
     return innerH - (textH > 0 ? gap + textH : 0);
   };
-  let fittedValue = valueFits(textW) ? value : null;
-  const fittedName = nameOptions(textW).find((n) => logoRoom(n, fittedValue) >= MIN_LOGO) ?? null;
-  if (!fittedName && logoRoom(null, fittedValue) < MIN_LOGO) fittedValue = null;
-  // The description only uses room left once the name is placed. It can make the
-  // logo smaller, but never below MIN_LOGO.
-  const fittedDescription = fittedName
-    ? descriptionOptions(textW).find((d) => logoRoom(fittedName, fittedValue, d) >= MIN_LOGO) ?? null
-    : null;
+  const fit = pickWithValue(textW, (n, v, d) => logoRoom(n, v, d) >= MIN_LOGO);
+  const fittedValue = !fit.n && logoRoom(null, fit.v) < MIN_LOGO ? null : fit.v;
 
-  return result(
-    Math.min(idealLogo, logoRoom(fittedName, fittedValue, fittedDescription)),
-    fittedName,
-    fittedValue,
-    fittedDescription,
-  );
+  return result(Math.min(idealLogo, logoRoom(fit.n, fittedValue, fit.d)), fit.n, fittedValue, fit.d);
 }

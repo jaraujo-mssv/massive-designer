@@ -1,9 +1,12 @@
 import { useState } from "react";
+import { InitialsLogo, initialsColor } from "@/shared/canvas/logos/InitialsLogo";
+import { useResolvedLogo } from "@/shared/canvas/logos/resolve";
+import type { LegibleSizes } from "@/shared/canvas/legibility";
 import type { Rect } from "@/shared/canvas/squarify";
 import { DESCRIPTION_WEIGHT, NAME_WEIGHT, VALUE_WEIGHT, tileContent } from "../utils/tiers";
 
-/** How strongly the blurred logo colours the tile. */
-const LOGO_WASH_OPACITY = 0.25;
+/** How strongly the blurred logo colours the tile; kept light so text stays high-contrast. */
+const LOGO_WASH_OPACITY = 0.18;
 
 interface TileProps {
   rect: Rect;
@@ -11,6 +14,8 @@ interface TileProps {
   /** Shown under the name in smaller type, when there's room. */
   description?: string;
   logoUrl: string;
+  /** The company's website, to look up a logo when its own doesn't work. */
+  website?: string;
   /** Value text: formatted (Bento) or as written (grid labels), or null for none. */
   value: string | null;
   /** Rank shown as a red badge in the tile's top-left corner (grid tiles). */
@@ -20,18 +25,23 @@ interface TileProps {
    * grid tiles all use a regular tile's size, so every row looks the same.
    */
   sizing?: { w: number; h: number };
+  /** Phone-readable minimum text sizes, in canvas px. */
+  legible: LegibleSizes;
   /** Click-to-edit; gets the tile to anchor the popover on. */
   onClick?: (el: HTMLElement) => void;
 }
 
-/** The rank as a brand-red circle with a white number, in the tile's top-left corner. */
-function RankBadge({ rank, size, inset }: { rank: number; size: number; inset: number }) {
+/**
+ * The rank as a brand-red circle with a white number: in a tile's top-left
+ * corner when given an `inset`, otherwise inline (List rows).
+ */
+export function RankBadge({ rank, size, inset }: { rank: number; size: number; inset?: number }) {
   return (
     <div
       style={{
-        position: "absolute",
-        top: inset,
-        left: inset,
+        ...(inset !== undefined
+          ? { position: "absolute" as const, top: inset, left: inset }
+          : { position: "relative" as const, flexShrink: 0 }),
         width: size,
         height: size,
         borderRadius: "50%",
@@ -50,9 +60,12 @@ function RankBadge({ rank, size, inset }: { rank: number; size: number; inset: n
   );
 }
 
-export function Tile({ rect, name, description, logoUrl, value, rank, sizing = rect, onClick }: TileProps) {
-  const [logoFailed, setLogoFailed] = useState(!logoUrl);
-  const c = tileContent(sizing.w, sizing.h, name, value, rank !== undefined, rect.w, description ?? null);
+export function Tile({ rect, name, description, logoUrl, website, value, rank, sizing = rect, legible, onClick }: TileProps) {
+  const resolved = useResolvedLogo(logoUrl, website);
+  // A logo that still fails to draw shows initials until the lookup settles on another.
+  const [failedSrc, setFailedSrc] = useState<string | null>(null);
+  const src = resolved && resolved !== failedSrc ? resolved : null;
+  const c = tileContent(sizing.w, sizing.h, name, value, rank !== undefined, rect.w, description ?? null, legible);
   // Blur scales with the tile, so every tile gets a smooth wash, not a smudged logo.
   const washBlur = Math.min(80, Math.max(24, Math.min(rect.w, rect.h) * 0.18));
 
@@ -87,11 +100,11 @@ export function Tile({ rect, name, description, logoUrl, value, rank, sizing = r
           at the logo's centre. Blur fades out at an image's edges, so the image overhangs
           by twice the blur and the tile clips it. The logo and text below are
           position: relative so they paint above it. */}
-      {!logoFailed && (
+      {src ? (
         <img
           aria-hidden
           alt=""
-          src={logoUrl}
+          src={src}
           style={{
             position: "absolute",
             left: "50%",
@@ -106,32 +119,32 @@ export function Tile({ rect, name, description, logoUrl, value, rank, sizing = r
             pointerEvents: "none",
           }}
         />
+      ) : (
+        // No logo: tint the tile in the initials logo's colour instead.
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            inset: 0,
+            backgroundColor: initialsColor(name),
+            opacity: LOGO_WASH_OPACITY,
+            pointerEvents: "none",
+          }}
+        />
       )}
       {rank !== undefined && <RankBadge rank={rank} size={c.rankSize} inset={c.padding} />}
-      {logoFailed ? (
-        <div
-          style={{
-            width: c.logoSize,
-            height: c.logoSize,
-            flexShrink: 0,
-            position: "relative",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: c.logoSize * 0.5,
-            fontWeight: 700,
-            color: "var(--canvas-text-dim)",
-          }}
-        >
-          {name.charAt(0).toUpperCase()}
-        </div>
-      ) : (
+      {src ? (
         <img
-          src={logoUrl}
+          src={src}
           alt={name}
-          onError={() => setLogoFailed(true)}
+          onError={() => setFailedSrc(src)}
           style={{ position: "relative", width: c.logoSize, height: c.logoSize, objectFit: "contain", flexShrink: 0, borderRadius: 6 }}
         />
+      ) : (
+        // Same slot as a logo; drawn a bit smaller, as real logos carry their own padding.
+        <div style={{ position: "relative", width: c.logoSize, height: c.logoSize, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <InitialsLogo name={name} size={c.logoSize * 0.85} />
+        </div>
       )}
 
       {(c.nameLines || c.value) && (
@@ -173,7 +186,7 @@ export function Tile({ rect, name, description, logoUrl, value, rank, sizing = r
                 marginTop: c.textGap,
                 fontSize: c.descriptionSize,
                 fontWeight: DESCRIPTION_WEIGHT,
-                color: "var(--canvas-text-70)",
+                color: "var(--canvas-text-85)",
                 textAlign: c.horizontal ? "left" : "center",
               }}
             >
@@ -190,7 +203,7 @@ export function Tile({ rect, name, description, logoUrl, value, rank, sizing = r
                 marginTop: c.nameLines || c.descriptionLines ? c.textGap : 0,
                 fontSize: c.valueSize,
                 fontWeight: VALUE_WEIGHT,
-                color: "var(--canvas-text-70)",
+                color: "var(--canvas-text-85)",
               }}
             >
               {c.value}

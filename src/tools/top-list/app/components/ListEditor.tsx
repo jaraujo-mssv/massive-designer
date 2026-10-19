@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { EditForm, LogoField, TextField } from "@/shared/canvas/edit/fields";
+import { EditForm, TextField } from "@/shared/canvas/edit/fields";
+import { LogoPicker } from "@/shared/canvas/edit/LogoPicker";
 import { addItem, deleteItem, draftFields, ItemDraft, moveItem, updateItem } from "../utils/edit";
 import type { Layout, ListItem } from "../utils/parseSheet";
 
@@ -25,6 +26,7 @@ export function ListEditor({ target, items, layout, onCommit, onClose }: ListEdi
     name: item?.name ?? "",
     description: item?.description ?? "",
     logoUrl: item?.logoUrl ?? "",
+    website: item?.website ?? "",
     valueText: item?.valueText ?? item?.valueLabel ?? "",
   });
   const [rank, setRank] = useState(String(item?.rank ?? items.length + 1));
@@ -53,6 +55,7 @@ export function ListEditor({ target, items, layout, onCommit, onClose }: ListEdi
         draft.name.trim() === item.name &&
         (draft.description.trim() || undefined) === item.description &&
         draft.logoUrl === item.logoUrl &&
+        (draft.website.trim() || undefined) === item.website &&
         draft.valueText.trim() === (item.valueText ?? item.valueLabel ?? "");
       next = unchanged ? items : updateItem(items, item.id, fields, layout);
       if (layout === "grid" && Number.isFinite(wantedRank) && wantedRank !== item.rank) {
@@ -87,7 +90,13 @@ export function ListEditor({ target, items, layout, onCommit, onClose }: ListEdi
         onChange={(description) => set({ description })}
         placeholder="Optional, shown under the name"
       />
-      <LogoField value={draft.logoUrl} onChange={(logoUrl) => set({ logoUrl })} />
+      <LogoPicker
+        name={draft.name}
+        logoUrl={draft.logoUrl}
+        website={draft.website}
+        onLogoChange={(logoUrl) => set({ logoUrl })}
+        onWebsiteChange={(website) => set({ website })}
+      />
       <div className="flex gap-2">
         <div className="flex-1">
           <TextField

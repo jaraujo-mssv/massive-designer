@@ -24,7 +24,8 @@
     "image:index": "node scripts/image/build-index.mjs",
     "image:new": "node scripts/image/new.mjs",
     "image:render": "node scripts/image/render.mjs",
-    "content:photos": "node scripts/content/photos.mjs"
+    "content:photos": "node scripts/content/photos.mjs",
+    "content:trash": "node scripts/content/trash.mjs"
   },
   "dependencies": {
     "@emotion/react": "11.14.0",
@@ -103,6 +104,7 @@
     "hyperframes": "0.8.77",
     "playwright": "^1.60.0",
     "pptxgenjs": "^4.0.1",
+    "sharp": "^0.35.4",
     "tailwindcss": "4.1.12",
     "typescript": "^5.7.0",
     "vite": "6.3.5"

@@ -10,6 +10,7 @@ const outDir = resolve(repoRoot, "output", "deck");
 const decks = [
   { slug: "consent-sourcing", file: "consent-sourcing.html" },
   { slug: "consent-sourcing-v2", file: "consent-sourcing-v2.html" },
+  { slug: "prague-crawl-2027", file: "prague-crawl-2027.html" },
 ];
 
 // `--png` also writes one screenshot per slide, for reviewing the draft.

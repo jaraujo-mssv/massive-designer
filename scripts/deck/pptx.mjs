@@ -13,7 +13,8 @@
 //
 //   node scripts/deck/pptx.mjs [slug]   (default: consent-sourcing-v2)
 //
-// Text renders in Outfit, so it must be installed where the deck is opened.
+// Text keeps the fonts the deck uses (Outfit, Inter, Jersey 25…), so they must be
+// available where the file is opened. Google Slides has every Google Font.
 
 import { chromium } from "playwright";
 import PptxGenJS from "pptxgenjs";
@@ -113,6 +114,7 @@ for (let index = 0; index < count; index++) {
 
   slides.push(data);
 }
+const deckTitle = (await page.title()).replace(/\s+—\s+.*$/, "");
 await browser.close();
 
 // ---------- In the page: read one slide into drawing ops, in paint order ----------
@@ -288,6 +290,7 @@ function collect(index) {
     for (const node of nodes) {
       const ps = cs(node.parentElement);
       const style = {
+        font: ps.fontFamily.split(",")[0].replace(/["']/g, "").trim(),
         hex: flatten(rgba(ps.color), node.parentElement),
         weight: parseInt(ps.fontWeight, 10),
         size: parseFloat(ps.fontSize),
@@ -433,8 +436,14 @@ const dash = (style) => (style === "dotted" ? "sysDot" : style === "dashed" ? "d
 const pres = new PptxGenJS();
 pres.defineLayout({ name: "DECK", width: 20, height: 11.25 });
 pres.layout = "DECK";
-pres.theme = { headFontFace: "Outfit", bodyFontFace: "Outfit" };
-pres.title = "How compliant residential proxy sourcing works";
+// Every run carries the font the browser used. The theme fonts are the deck's
+// most used face (body) and the next one (headings), so new text matches too.
+const fontUse = new Map();
+for (const s of slides) for (const op of s.ops) if (op.type === "text")
+  for (const line of op.lines) for (const run of line) fontUse.set(run.style.font, (fontUse.get(run.style.font) || 0) + run.text.length);
+const [bodyFont, headFont = bodyFont] = [...fontUse].sort((a, b) => b[1] - a[1]).map(([f]) => f);
+pres.theme = { headFontFace: headFont, bodyFontFace: bodyFont };
+pres.title = deckTitle;
 pres.author = "Massive";
 pres.company = "Massive";
 
@@ -482,6 +491,7 @@ const textRuns = (t) =>
     line.map((run, ri) => ({
       text: run.text,
       options: {
+        fontFace: run.style.font,
         color: run.style.hex,
         bold: run.style.weight >= 600,
         italic: run.style.italic,
@@ -549,7 +559,7 @@ for (const s of slides) {
           margin: [pt(op.box.l - b.x), 0, 0, pt(op.box.t - b.y)],
           valign: "top",
           wrap: op.lines.length > 1,
-          fontFace: "Outfit",
+          fontFace: op.lines[0][0].style.font,
           objectName: b.name,
           ...shapeStyle(b),
         });
@@ -562,7 +572,7 @@ for (const s of slides) {
       const x = op.align === "center" ? op.box.l - slack / 2 : op.align === "right" ? op.box.l - slack : op.box.l;
       slide.addText(runs, {
         x: inch(x), y: inch(op.box.t), w: inch(w + slack), h: inch(op.lines.length * op.lineHeight + 4),
-        margin: 0, valign: "top", fontFace: "Outfit", fit: "none", isTextBox: true, objectName: op.name,
+        margin: 0, valign: "top", fontFace: op.lines[0][0].style.font, fit: "none", isTextBox: true, objectName: op.name,
       });
     }
 
@@ -584,8 +594,8 @@ for (const s of slides) {
         catAxisLabelColor: tick,
         valAxisLabelFontSize: pt(op.tickSize),
         catAxisLabelFontSize: pt(op.tickSize),
-        valAxisLabelFontFace: "Outfit",
-        catAxisLabelFontFace: "Outfit",
+        valAxisLabelFontFace: bodyFont,
+        catAxisLabelFontFace: bodyFont,
         valAxisLineShow: false,
         catAxisLineShow: false,
         valGridLine: { color: "2A292F", size: 0.75 },

@@ -8,7 +8,7 @@ look: "A hotel-style function room set up for a press conference. Across the far
 shot: from the back of the room, facing the stage
 aspect: "16:9"
 refs:
-  - { file: place-press-room.jpg, use: "the room itself: the stage, backdrop, panel table, podium, walls, windows and light" }
+  - { file: place-press-room.webp, use: "the room itself: the stage, backdrop, panel table, podium, walls, windows and light" }
 ---
 
 Where the press conference happens: every press photo and the group shot from the back of the room.

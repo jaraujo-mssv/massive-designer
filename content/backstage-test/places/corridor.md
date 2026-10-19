@@ -8,7 +8,7 @@ look: "A backstage service corridor. Pale grey painted concrete-block walls and 
 shot: down its length from one end
 aspect: "3:4"
 refs:
-  - { file: place-corridor.jpg, use: "the corridor itself: the walls, floor, exit sign, strip lights, ceiling pipes, flight cases and green light" }
+  - { file: place-corridor.webp, use: "the corridor itself: the walls, floor, exit sign, strip lights, ceiling pipes, flight cases and green light" }
 ---
 
 The corridor the guests walk down to the press conference.

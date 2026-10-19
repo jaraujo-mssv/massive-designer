@@ -9,9 +9,9 @@ trait: Signed the Constitution first, then waited for 9 of 13 states to ratify i
 nod: Silver hair tied back, a framed copy of the Constitution behind his desk
 look: "George Washington in 2026: a lean man in his early sixties with a long face, strong nose and calm, stern grey-blue eyes. Silver-grey hair brushed back with volume over the ears and tied in a low ponytail with a black ribbon. Charcoal two-piece suit, white shirt, navy-and-burgundy striped tie, a small flag pin on the lapel, a gold wedding band; often holding his reading glasses."
 refs:
-  - { file: washington-new.jpg, use: "face, hair, suit and tie" }
-  - { file: washington-face.jpg, use: "the face, close up" }
-  - { file: washington-full.jpg, use: "full body from the front and both sides, and the ponytail" }
+  - { file: washington-new.webp, use: "face, hair, suit and tie" }
+  - { file: washington-face.webp, use: "the face, close up" }
+  - { file: washington-full.webp, use: "full body from the front and both sides, and the ponytail" }
 standards: ["01 Opt-in"]
 slides: [7]
 earnedBy: Leading the Constitution, which only took effect once 9 of 13 states said yes

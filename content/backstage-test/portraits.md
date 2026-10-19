@@ -16,10 +16,10 @@ A polished production portrait for a celebrity ambassador campaign, shot by the 
 
 - [x] **The Rock:** Production portrait against navy
   Prompt: A vertical production portrait of The Rock against a seamless dark navy backdrop, framed from just above his head to his waist, in his dark suit over a white shirt open at the collar. On his left lapel, a small enamel pin of the Massive icon, the orange mountain mark on its own, catching the light. He stands square to the camera, arms relaxed at his sides, with a serious, steady expression: jaw set, brows level, mouth closed, no smile, looking straight into the lens.
-  Image: portraits-the-rock.jpg
+  Image: portraits-the-rock.webp
 - [x] **John Cena:** Production portrait against navy
   Prompt: A vertical production portrait of John Cena against a seamless dark navy backdrop, framed from just above his head to his waist, in his navy suit, light-blue shirt and dark red striped tie. On his left lapel, a small enamel pin of the Massive icon, the orange mountain mark on its own, catching the light. He stands square to the camera, hands loosely clasped in front of him, chin slightly down, with a serious, focused expression: mouth closed and still, no smile, looking straight into the lens.
-  Image: portraits-john-cena.jpg
+  Image: portraits-john-cena.webp
 - [x] **Michael Jordan:** Production portrait against navy
   Prompt: A vertical production portrait of Michael Jordan against a seamless dark navy backdrop, framed from just above his head to his waist, in his light grey suit over a black fine-knit sweater. On his left lapel, a small enamel pin of the Massive icon, the orange mountain mark on its own, catching the light. He stands square to the camera, with a serious, composed expression: lips closed, no smile, a calm, intense gaze straight into the lens.
-  Image: portraits-michael-jordan.jpg
+  Image: portraits-michael-jordan.webp

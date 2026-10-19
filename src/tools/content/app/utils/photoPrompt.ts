@@ -42,11 +42,11 @@ const PRINT = "\"IT'S MASSIVE\" in bold black italic capitals made of halftone d
 const merchNote = (top: string) =>
   `Where the scene dresses someone in the Massive ${top}, it replaces the top their description gives them, and fits them as the scene says.`;
 export const LOGOS = [
-  { file: "massive-logo-light-bg.png", label: "Logo, light", mark: "logo", use: "the Massive logo for light surfaces such as a white backdrop or banner", who: null, match: WORDMARK },
-  { file: "massive-logo-dark-bg.png", label: "Logo, dark", mark: "logo", use: "the Massive logo for dark surfaces such as charcoal walls", who: null, match: WORDMARK },
-  { file: "massive-icon.png", label: "Icon", mark: "icon", use: "the Massive icon, the orange mountain mark on its own, for the lapel pin", who: null, match: /Massive icon/i },
+  { file: "massive-logo-light-bg.webp", label: "Logo, light", mark: "logo", use: "the Massive logo for light surfaces such as a white backdrop or banner", who: null, match: WORDMARK },
+  { file: "massive-logo-dark-bg.webp", label: "Logo, dark", mark: "logo", use: "the Massive logo for dark surfaces such as charcoal walls", who: null, match: WORDMARK },
+  { file: "massive-icon.webp", label: "Icon", mark: "icon", use: "the Massive icon, the orange mountain mark on its own, for the lapel pin", who: null, match: /Massive icon/i },
   {
-    file: "massive-tee.jpg",
+    file: "massive-tee.webp",
     label: "T-shirt",
     mark: "T-shirt",
     use: `the It's Massive merch T-shirt: match its off-white cotton, crew neck, and the print exactly, ${PRINT}; ignore the hanger, the wall and its loose, flat fit`,
@@ -55,7 +55,7 @@ export const LOGOS = [
     match: /Massive T-shirt/i,
   },
   {
-    file: "massive-tank.jpg",
+    file: "massive-tank.webp",
     label: "Tank top",
     mark: "tank top",
     use: `the It's Massive merch tank top: match its off-white cotton, sleeveless cut with deep armholes, crew neck, and the print exactly, ${PRINT}; ignore the hanger, the wall and its loose, flat fit`,
@@ -64,7 +64,7 @@ export const LOGOS = [
     match: /Massive tank top/i,
   },
   {
-    file: "massive-racerback.jpg",
+    file: "massive-racerback.webp",
     label: "Racerback",
     mark: "racerback tank",
     use: `the It's Massive merch racerback tank: match its white cotton, scoop neck, racerback straps, and the print exactly, ${PRINT}; ignore the hanger, the wall and its loose, flat fit`,
@@ -89,7 +89,7 @@ const CITIES: { name: string; terms: RegExp }[] = [
 ];
 export const citiesIn = (item: ChecklistItem) => CITIES.filter((c) => c.terms.test(promptOf(item) ?? "")).map((c) => c.name);
 
-/** What a reference shows, for its button: `washington-full.jpg` → "Full body". */
+/** What a reference shows, for its button: `washington-full.webp` → "Full body". */
 const KINDS: Record<string, string> = {
   new: "Portrait",
   face: "Face",

@@ -9,9 +9,9 @@ trait: Superhuman strength, the 12 labors
 nod: Lion pattern on his hoodie, training log titled "Labors"
 look: "Hercules in 2026: a heavily muscled man in his mid-thirties who always wears a red, gold and blue luchador mask. Over the mask sits a lion's head worn as a hood, its jaws open above his brow, the pelt hanging down his back like a cape and fixed with gold lion-head clasps at the shoulders. Red sequined wrestling singlet with gold trim, blue side panels and HERCULES on the waistband; red-and-blue wrist cuffs, red knee pads with a gold lion emblem, red-and-blue shin guards, barefoot."
 refs:
-  - { file: hercules-new.jpg, use: "the mask, lion hood, singlet and build" }
-  - { file: hercules-mask.jpg, use: "the mask and lion hood, front and profile" }
-  - { file: hercules-full.jpg, use: "the full ring gear head to toe, front and side" }
+  - { file: hercules-new.webp, use: "the mask, lion hood, singlet and build" }
+  - { file: hercules-mask.webp, use: "the mask and lion hood, front and profile" }
+  - { file: hercules-full.webp, use: "the full ring gear head to toe, front and side" }
 standards: ["02 Exit"]
 slides: [8, 9]
 earnedBy: Twelve labors of hard work

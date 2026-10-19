@@ -25,7 +25,8 @@
     "image:new": "node scripts/image/new.mjs",
     "image:render": "node scripts/image/render.mjs",
     "content:photos": "node scripts/content/photos.mjs",
-    "content:trash": "node scripts/content/trash.mjs"
+    "content:webp": "node scripts/content/webp.mjs",
+    "content:trash": "node scripts/content/webp.mjs"
   },
   "dependencies": {
     "@emotion/react": "11.14.0",

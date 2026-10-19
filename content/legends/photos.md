@@ -18,13 +18,13 @@ Indoors: dark charcoal interiors with warm coral accents and light oak floors.
 
 - [x] **Washington:** Walking across a Prague plaza with Jason and the leadership team, reading glasses in hand, mid-conversation
   Prompt: In Prague's Karlín district, Washington walks across a wide stone-paved plaza toward a modern glass office building, mid-sentence with Jason Grad, Massive's CEO, who walks beside him laughing, and another Massive executive in an open-collar shirt and blazer, his reading glasses in one hand. A security guard in a dark suit follows a step behind. Shot at eye level from slightly ahead, 35mm, the group filling the frame, afternoon daylight with soft shadows on the paving.
-  Image: arrival-washington.jpg
+  Image: arrival-washington.webp
 - [x] **Hercules:** Crossing the plaza in full ring gear, towering over the team in suits, looking up at the building
   Prompt: On a wide stone-paved plaza in Prague's Karlín district, Hercules walks with Massive's leadership team, a full head taller than everyone, in his complete ring gear and lion hood, looking up at the glass office building while Jason Grad, Massive's CEO, points up at it. The executives in blazers and knitwear walk on as if this is completely normal. Shot from slightly ahead at eye level, 35mm, bright overcast daylight.
-  Image: arrival-hercules.jpg
+  Image: arrival-hercules.webp
 - [x] **Caesar:** Walking with the partnerships team, glancing back over his shoulder at who's behind him
   Prompt: Caesar walks across a wide stone-paved plaza in Prague's Karlín district beside Massive's partnerships team, but glances back over his shoulder, suspicious, at the people walking behind him. Medium shot from the front, 50mm, the people behind him soft in the background, late-afternoon daylight.
-  Image: arrival-caesar.jpg
+  Image: arrival-caesar.webp
 - [ ] **Cleopatra:** Walking in step with the team, tablet folio open, checking the visitor list as she goes
   Prompt: Cleopatra walks in step with two Massive team members across a wide stone-paved plaza in Prague's Karlín district, her tablet folio open in one hand, checking a visitor list as she goes without looking up, while one of the team laughs at something off frame. Medium shot from the front, 50mm, warm late-afternoon light reflecting off the glass building behind.
 
@@ -43,14 +43,14 @@ Indoors: dark charcoal interiors with warm coral accents and light oak floors.
 
 - [x] **Washington:** Leaning into the microphone mid-answer, reading glasses on, shot past a blurred camera
   Prompt: At the press conference, Washington sits at a long white panel table in front of a step-and-repeat backdrop printed with the Massive logo, leaning into a table microphone mid-answer, reading glasses on, a name card reading "George Washington" in front of him. Shot from the press seats past the out-of-focus shape of a video camera in the foreground, 85mm, shallow depth of field.
-  Image: press-washington.jpg
+  Image: press-washington.webp
 - [ ] **Hercules:** Laughing into a handheld microphone while Caesar tries not to smile
   Prompt: At the press conference panel table, Hercules laughs into a handheld microphone, mask and lion hood on, while Caesar beside him tries not to smile and Jason Grad, Massive's CEO, at the end of the table, cracks up. A glass of water and a name card reading "Hercules" sit in front of him, and the Massive logo repeats on the backdrop behind. Shot from the side of the room at eye level, 85mm, the edge of the table leading into the frame.
 - [ ] **Caesar:** Pointing at a reporter off frame as he answers
   Prompt: Caesar sits at the panel table and points firmly at a reporter off frame while answering into a table microphone, a name card reading "Julius Caesar" in front of him. The blurred backs of two reporters' heads frame him in the foreground. Shot from the press seats, 85mm, very shallow depth of field, the Massive logo backdrop soft behind.
 - [x] **Cleopatra:** Listening with a faint smile, chin on her hand, through the blurred heads of the press
   Prompt: Cleopatra sits at the panel table, chin resting on her hand, listening to a question with a faint knowing smile, a name card reading "Cleopatra" in front of her. Shot from the back rows through the out-of-focus heads and raised phones of reporters, 135mm, compressed and intimate, the Massive logo backdrop soft behind her.
-  Image: press-cleopatra.jpg
+  Image: press-cleopatra.webp
 
 ## At Massive's offices
 
@@ -60,10 +60,10 @@ Indoors: dark charcoal interiors with warm coral accents and light oak floors.
   Prompt: In a Massive meeting room, Hercules holds a phone carefully between two huge fingers and taps a switch on the screen, while Jason Grad, Massive's CEO, and two product team members lean in around him to watch, one of them taking notes on a laptop. Medium shot at eye level, 35mm, soft window light and a coral-lit wall behind.
 - [x] **Caesar:** Whiteboard session with the partnerships team
   Prompt: In a Massive meeting room, Caesar stands at a whiteboard covered in boxes and arrows, marker in hand, having just drawn a hard circle around one box, while the partnerships team watches from the table. Shot from behind the team, 35mm, their heads soft in the foreground and Caesar sharp at the board.
-  Image: offices-caesar.jpg
+  Image: offices-caesar.webp
 - [x] **Cleopatra:** Signing visitors in at reception, asking for ID
   Prompt: At Massive's reception desk, Cleopatra stands behind the counter holding out her hand for a visitor's ID with a polite, immovable smile, her tablet folio open on the desk, while the visitor fumbles in his wallet. Medium shot from the side, 50mm, the Massive logo on the dark wall behind the desk, warm coral accent light.
-  Image: offices-cleopatra.jpg
+  Image: offices-cleopatra.webp
 
 ## Around the city
 
@@ -91,7 +91,7 @@ Indoors: dark charcoal interiors with warm coral accents and light oak floors.
 
 - [x] All four eating lunch with the crew
   Prompt: The four legends eat lunch at a long folding table with the film crew and Jason Grad, Massive's CEO, on a break, paper plates and water bottles everywhere: Hercules mid-bite with his mask on, Caesar checking the lunch receipt, Washington and Cleopatra laughing at something a grip just said. Wide-medium shot from the end of the table, 35mm, daylight through big windows.
-  Image: group-lunch.jpg
+  Image: group-lunch.webp
 - [ ] A group selfie with the whole team
   Prompt: A group selfie taken at arm's length by Hercules, his arm entering the frame from the bottom, with the other three legends and about a dozen Massive team members squeezed in behind him, all laughing. Shot on a phone with the wide front camera, slight distortion at the edges, office lights overhead.
 - [ ] The four of them in the office kitchen

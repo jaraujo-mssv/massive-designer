@@ -8,7 +8,7 @@ Drafts for social, each with three photos of its celebrity from the backstage se
 
 ## Chief Massive Officer
 
-Images: portraits-the-rock.jpg, offices-the-rock.jpg, merch-the-rock.png
+Images: portraits-the-rock.webp, offices-the-rock.webp, merch-the-rock.webp
 
 We’re beyond thrilled to announce that Dwayne “The Rock” Johnson has officially accepted the role of Chief Massive Officer at Massive.
 Dwayne brings relentless drive, extraordinary charisma, and the rare ability to make our company name sound modest.
@@ -22,7 +22,7 @@ Massive computing just found its leading man.
 
 ## Ambassador of Massive
 
-Images: press-the-rock.jpg, arrival-the-rock.jpg, fans-the-rock.jpg
+Images: press-the-rock.webp, arrival-the-rock.webp, fans-the-rock.webp
 
 The Rock has made a career out of being the biggest thing in the room.
 We named our company Massive.
@@ -34,7 +34,7 @@ We bring a Massive proxy infrastructure... and a suspiciously convenient company
 
 ## Massive news (Sydney Sweeney)
 
-Images: offices-sydney-sweeney.png, press-sydney-sweeney.jpg, crew-sydney-sweeney.png
+Images: offices-sydney-sweeney.webp, press-sydney-sweeney.webp, crew-sydney-sweeney.webp
 
 We have massive news.
 Sydney Sweeney has joined Massive as our new Ambassador.
@@ -44,7 +44,7 @@ Please join us in welcoming Sydney to the team.
 
 ## Ambassador of Massive (Sydney Sweeney)
 
-Images: merch-sydney-sweeney.jpg, offices-sydney-sweeney.png, city-sydney-sweeney.png
+Images: merch-sydney-sweeney.webp, offices-sydney-sweeney.webp, city-sydney-sweeney.webp
 
 Every headline about Sydney Sweeney uses the same word.
 Massive premiere. Massive audience. Massive moment.
@@ -58,7 +58,7 @@ We bring the company name the headlines keep borrowing.
 
 ## You can't see me (John Cena)
 
-Images: press-john-cena.jpg, portraits-john-cena.jpg, offices-john-cena.png
+Images: press-john-cena.webp, portraits-john-cena.webp, offices-john-cena.webp
 
 We're proud to announce that John Cena has joined Massive as our new Ambassador.
 
@@ -74,7 +74,7 @@ The champ is here. And he's fully visible.
 
 ## Ambassador of Massive (John Cena)
 
-Images: merch-john-cena.png, crew-john-cena.png, city-john-cena.png
+Images: merch-john-cena.webp, crew-john-cena.webp, city-john-cena.webp
 
 For twenty years, arenas have heard the same four words: "The champ is here."
 We'd like to issue a small correction; the champ is Massive.

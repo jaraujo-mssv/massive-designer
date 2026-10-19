@@ -13,7 +13,7 @@
 // no `Image:` yet (--force redoes those too). Each one gets exactly what "Copy prompt"
 // in the Content tab builds: the same prompt and images from photoRequest(), loaded
 // through Vite so there's one prompt builder, with each image labelled by number. The photo lands in
-// public/content/<campaign>/photos/<setting>-<owner>.jpg, the prompt sent beside the
+// public/content/<campaign>/photos/<setting>-<owner>.webp, at 1080p (see lib/webp.mjs), the prompt sent beside the
 // doc in content/<campaign>/prompts/, and the item gains an `Image:` line and a tick.
 //
 // --places makes the campaign's place images instead: an empty reference shot of each
@@ -32,6 +32,7 @@ import { fileURLToPath } from 'node:url';
 import { createServer } from 'vite';
 import * as elevenlabs from './lib/elevenlabs-image.mjs';
 import * as google from './lib/nanobanana.mjs';
+import { toWebp } from './lib/webp.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const die = (msg) => {
@@ -247,7 +248,7 @@ async function worker() {
     const j = jobs[next++];
     writeFileSync(path.join(promptsDir, `${j.name}.txt`), `${transcript(j)}\n`);
     try {
-      const { file, bytes, notes } = await lib.generateImage({
+      const generated = await lib.generateImage({
         prompt: j.prompt,
         refs: j.refs,
         model,
@@ -256,6 +257,11 @@ async function worker() {
         out: j.out,
         key,
       });
+      const { notes } = generated;
+      // Saved as a 1080p WebP like the rest; a regeneration replaces the old one.
+      const webp = await toWebp(generated.file, { overwrite: true });
+      const file = webp?.out ?? generated.file;
+      const bytes = webp?.after ?? generated.bytes;
       // A place image is already named in its doc; a photo gets its Image: line.
       const linked = !j.item || writeBack(j.item, path.basename(file));
       console.log(`[photos] ✓ ${j.name} (${(bytes / 1024).toFixed(0)} KB)${linked ? '' : `: couldn't find its line, add "Image: ${path.basename(file)}" by hand`}`);

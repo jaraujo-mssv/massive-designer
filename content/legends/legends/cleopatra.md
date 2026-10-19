@@ -9,9 +9,9 @@ trait: Snuck into Caesar's palace rolled up in a rug
 nod: Signature eyeliner, a rolled rug leaning in her office corner
 look: "Cleopatra in 2026: a woman in her late thirties with warm olive skin, strong dark brows and sharp black winged eyeliner. Sleek black chin-length bob with a thin braid threaded with gold on one side, small gold hoop earrings. Navy double-breasted blazer with gold buttons over a pleated gold-and-teal silk blouse, a gold collar necklace with teal enamel plates, a gold watch, navy trousers and black heels; always carrying a dark tablet folio."
 refs:
-  - { file: cleopatra-new.jpg, use: "face, hair, blazer and necklace" }
-  - { file: cleopatra-face.jpg, use: "the face and the gold braid, front and profile" }
-  - { file: cleopatra-full.jpg, use: "full body from the front and side, with the tablet folio" }
+  - { file: cleopatra-new.webp, use: "face, hair, blazer and necklace" }
+  - { file: cleopatra-face.webp, use: "the face and the gold braid, front and profile" }
+  - { file: cleopatra-full.webp, use: "full body from the front and side, with the tablet folio" }
 standards: ["04 Buyer vetting", "05 Published data"]
 slides: [11, 12]
 earnedBy: Staying one step ahead of everyone at court

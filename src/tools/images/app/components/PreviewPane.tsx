@@ -60,6 +60,22 @@ export const PreviewPane = forwardRef<PreviewHandle, PreviewPaneProps>(function 
           applied.current.push(done);
           send(values);
         });
+        // modern-screenshot resolves url()s in a <style> block against the hub's address, not the page's, so a
+        // page's own @font-face (assets/fonts/…) fetched the hub's HTML and fell back to a system font. Make them
+        // absolute first; once they are, this is a no-op.
+        let rewrote = false;
+        for (const style of doc.querySelectorAll("style")) {
+          const css = style.textContent ?? "";
+          const absolute = css.replace(
+            /url\((['"]?)(?![a-z]+:|\/\/|#)([^'")]+)\1\)/gi,
+            (_, quote: string, path: string) => `url(${quote}${new URL(path, doc.baseURI).href}${quote})`,
+          );
+          if (absolute !== css) {
+            style.textContent = absolute;
+            rewrote = true;
+          }
+        }
+        if (rewrote) await doc.fonts.ready;
         // modern-screenshot paints backgroundColor over #canvas's own, so pass the page's colour (light pages
         // like the LinkedIn profile came out dark); the house ground only fills in for a transparent canvas.
         const own = doc.defaultView?.getComputedStyle(canvas).backgroundColor;

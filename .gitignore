@@ -20,3 +20,4 @@ public/video-projects/*/snapshots/
 
 # Local secrets (GOOGLE_AI_API_KEY for npm run content:photos)
 .env
+.vscode/settings.json

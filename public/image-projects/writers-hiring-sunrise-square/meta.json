@@ -3,6 +3,8 @@
   "title": "Writers Hiring: Sunrise (square)",
   "description": "Square cut of the sunrise hiring post: the headline beside a writer on an early call at the kitchen table in an oxford shirt and pajamas, with a handwritten note pointing at them.",
   "group": "massive",
+  "category": "hiring",
+  "template": "hiring-photo-square",
   "series": "Writers: Hiring",
   "status": "draft",
   "tags": [

@@ -29,7 +29,7 @@ async function readImage(file: File): Promise<string> {
 
 /** Field image paths in meta.json are relative to the project page. */
 const resolveSrc = (project: ImageProject, src: string) =>
-  src.startsWith("data:") || src.startsWith("/") || /^https?:/.test(src) ? src : new URL(src, new URL(project.path, window.location.origin)).href;
+  src.startsWith("data:") || src.startsWith("/") || /^https?:/.test(src) ? src : new URL(src, new URL(project.path ?? "/", window.location.origin)).href;
 
 function ImageInput({ project, field, value, onChange }: { project: ImageProject; field: ImageField; value: string; onChange: (v: string) => void }) {
   const input = useRef<HTMLInputElement>(null);

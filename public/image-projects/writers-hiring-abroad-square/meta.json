@@ -3,6 +3,8 @@
   "title": "Writers Hiring: Abroad (square)",
   "description": "Square cut of the abroad hiring post: the headline beside a writer on a balcony call in a blazer and shorts, with a handwritten note pointing at them.",
   "group": "massive",
+  "category": "hiring",
+  "template": "hiring-photo-square",
   "series": "Writers: Hiring",
   "status": "draft",
   "tags": [

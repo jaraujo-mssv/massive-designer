@@ -102,7 +102,7 @@ export const PreviewPane = forwardRef<PreviewHandle, PreviewPaneProps>(function 
         <iframe
           ref={frameRef}
           key={project.id}
-          src={project.path}
+          src={project.path ?? undefined}
           title={project.title}
           tabIndex={-1}
           className="absolute left-0 top-0 border-0 pointer-events-none"

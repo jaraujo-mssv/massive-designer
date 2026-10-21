@@ -7,26 +7,33 @@ import { useIsMobile } from "@/shared/components/ui/use-mobile";
 import { saveFile } from "@/shared/utils/saveFile";
 import { FieldsPanel } from "./components/FieldsPanel";
 import { Library } from "./components/Library";
+import { PlannedCard } from "./components/PlannedCard";
 import { PreviewPane, type PreviewHandle } from "./components/PreviewPane";
 import { useFieldValues } from "./hooks/useFieldValues";
 import { useImageIndex } from "./hooks/useImageIndex";
-import type { ImageProject } from "./types";
+import type { ImageCategory, ImageProject } from "./types";
 
 const EMPTY: ImageProject[] = [];
+const NO_CATEGORIES: ImageCategory[] = [];
 
 const fileName = (title: string) => `${title.replace(/[\\/:*?"<>|]+/g, "-").trim()}.jpg`;
 
 export default function App() {
   const index = useImageIndex();
   const projects = index.status === "ready" ? index.projects : EMPTY;
+  const categories = index.status === "ready" ? index.categories : NO_CATEGORIES;
   const [params, setParams] = useSearchParams();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [exporting, setExporting] = useState(false);
   const preview = useRef<PreviewHandle>(null);
   const isMobile = useIsMobile();
 
-  const project = projects.find((p) => p.id === params.get("i")) ?? projects[0] ?? null;
+  // With nothing picked, open the first real image rather than a Planned entry.
+  const project = projects.find((p) => p.id === params.get("i")) ?? projects.find((p) => p.path) ?? projects[0] ?? null;
+  const planned = project?.status === "planned";
   const fields = useFieldValues(project);
+  const categoryLabel = categories.find((c) => c.id === project?.category)?.label;
+  const templateTitle = project?.template && projects.find((p) => p.id === project.template)?.title;
 
   const select = (id: string) => {
     const p = new URLSearchParams(params);
@@ -58,7 +65,8 @@ export default function App() {
   );
 
   const fieldsPanel = (inDrawer: boolean) =>
-    project && (
+    project &&
+    !planned && (
       <FieldsPanel
         project={project}
         values={fields.values}
@@ -75,7 +83,7 @@ export default function App() {
     <>
       <Toaster position="top-center" richColors />
       <SidebarLayout
-        sidebar={<Library projects={projects} selectedId={project?.id ?? null} onSelect={select} />}
+        sidebar={<Library projects={projects} categories={categories} selectedId={project?.id ?? null} onSelect={select} />}
         drawerTitle="Images"
         drawerContent={
           <>
@@ -83,6 +91,7 @@ export default function App() {
             <div className="border-t border-border-subtle">
               <Library
                 projects={projects}
+                categories={categories}
                 selectedId={project?.id ?? null}
                 inDrawer
                 onSelect={(id) => {
@@ -97,7 +106,7 @@ export default function App() {
         onDrawerOpenChange={setDrawerOpen}
         editLabel="Edit"
         editIcon={Images}
-        barAction={project ? downloadButton : undefined}
+        barAction={project && !planned ? downloadButton : undefined}
       >
         <div className="flex-1 min-w-0 min-h-0 flex flex-col">
           {project && (
@@ -109,7 +118,14 @@ export default function App() {
                   {project.source ? ` · from ${project.source}` : ""}
                 </p>
               </div>
-              {!isMobile && downloadButton}
+              <div className="hidden lg:flex items-center gap-1.5 shrink-0 text-[11px] font-mono text-text-dim">
+                {[categoryLabel, templateTitle && `Template: ${templateTitle}`, project.series].filter(Boolean).map((chip) => (
+                  <span key={chip as string} className="px-2 py-0.5 rounded-md border border-border-subtle">
+                    {chip}
+                  </span>
+                ))}
+              </div>
+              {!isMobile && !planned && downloadButton}
             </div>
           )}
 
@@ -122,7 +138,8 @@ export default function App() {
               </p>
             )}
             {index.status === "ready" && !project && <p className="p-4 md:p-8 text-sm text-text-dim">No image projects yet.</p>}
-            {project && <PreviewPane ref={preview} project={project} values={fields.values} />}
+            {project && planned && <PlannedCard project={project} categories={categories} projects={projects} />}
+            {project && !planned && <PreviewPane ref={preview} project={project} values={fields.values} />}
             {project && !isMobile && fieldsPanel(false)}
           </div>
         </div>

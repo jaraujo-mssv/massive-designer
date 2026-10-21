@@ -3,6 +3,8 @@
   "title": "Writers Hiring: Home office (square)",
   "description": "Square cut of the home-office hiring post: the headline beside a writer on a video call in a crisp shirt and star-print pajamas, with a handwritten note pointing at them.",
   "group": "massive",
+  "category": "hiring",
+  "template": "hiring-photo-square",
   "series": "Writers: Hiring",
   "status": "draft",
   "tags": [

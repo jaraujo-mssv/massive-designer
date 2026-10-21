@@ -3,21 +3,73 @@
   "title": "Jason 15K: Grid",
   "description": "Still of the Jason 15K Grid video: the count, a big thank-you and the sign-off row on the Market Map dark background.",
   "group": "massive",
+  "category": "milestones",
+  "template": null,
   "series": "Jason 15K",
   "status": "draft",
-  "tags": ["jason", "linkedin", "milestone", "followers"],
+  "tags": [
+    "jason",
+    "linkedin",
+    "milestone",
+    "followers"
+  ],
   "source": "video-projects/jason-15k-grid",
   "width": 1080,
   "height": 1350,
   "fields": [
-    { "id": "eyebrow", "label": "Eyebrow", "type": "text", "default": "LinkedIn milestone" },
-    { "id": "count", "label": "Count", "type": "text", "default": "15,000" },
-    { "id": "metric", "label": "Metric", "type": "text", "default": "followers" },
-    { "id": "headline", "label": "Headline", "type": "text", "default": "Thank you." },
-    { "id": "subline", "label": "Subline", "type": "text", "default": "for following along." },
-    { "id": "photo", "label": "Photo", "type": "image", "default": "assets/jason.jpg" },
-    { "id": "name", "label": "Name", "type": "text", "default": "Jason Grad" },
-    { "id": "role", "label": "Role", "type": "text", "default": "Co-founder & CEO, Massive" },
-    { "id": "confetti", "label": "Confetti", "type": "toggle", "default": true }
+    {
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "type": "text",
+      "default": "LinkedIn milestone"
+    },
+    {
+      "id": "count",
+      "label": "Count",
+      "type": "text",
+      "default": "15,000"
+    },
+    {
+      "id": "metric",
+      "label": "Metric",
+      "type": "text",
+      "default": "followers"
+    },
+    {
+      "id": "headline",
+      "label": "Headline",
+      "type": "text",
+      "default": "Thank you."
+    },
+    {
+      "id": "subline",
+      "label": "Subline",
+      "type": "text",
+      "default": "for following along."
+    },
+    {
+      "id": "photo",
+      "label": "Photo",
+      "type": "image",
+      "default": "assets/jason.jpg"
+    },
+    {
+      "id": "name",
+      "label": "Name",
+      "type": "text",
+      "default": "Jason Grad"
+    },
+    {
+      "id": "role",
+      "label": "Role",
+      "type": "text",
+      "default": "Co-founder & CEO, Massive"
+    },
+    {
+      "id": "confetti",
+      "label": "Confetti",
+      "type": "toggle",
+      "default": true
+    }
   ]
 }

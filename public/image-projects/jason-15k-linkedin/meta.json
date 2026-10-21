@@ -3,6 +3,8 @@
   "title": "Jason 15K: LinkedIn profile",
   "description": "The Milestone card's structure as LinkedIn's own UI: Jason's profile with his cover, and Highlights with 15K on top and the 10K and 5K milestones struck through below.",
   "group": "massive",
+  "category": "milestones",
+  "template": null,
   "series": "Jason 15K",
   "status": "draft",
   "tags": [

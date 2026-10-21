@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1350" />
+    <title>Hiring: All open roles</title>
+    <link rel="stylesheet" href="../_brand/massive.css" />
+    <!-- The hiring post layout (from writers-hiring-home): a lifestyle photo on the right, the pitch on a cream wash on
+         the left, a handwritten note with an arrow, and the ask in an ink footer. Per image, set on #canvas:
+         --seam (where the photo's empty left side ends), --shift (slides the photo right when its subject sits too far
+         left for the text; the right edge crops) and data-arrow-to (the canvas point the arrow lands on). -->
+    <style>
+      @font-face {
+        font-family: "Caveat";
+        src: url("../_brand/fonts/Caveat.ttf") format("truetype");
+        font-weight: 400 700;
+      }
+      #canvas {
+        width: 1080px;
+        height: 1350px;
+        background: var(--m-cream);
+        color: var(--m-bg);
+      }
+      .photo {
+        position: absolute;
+        left: var(--shift, 0px);
+        top: 0;
+        width: 1080px;
+        height: 1200px;
+        object-fit: cover;
+        object-position: 50% 40%;
+      }
+      /* Cream from the left and the top, so the type sits on a clean ground and the subject stays clear: near-solid
+         up to --seam, then a long, eased fade. */
+      .wash {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1080px;
+        height: 1200px;
+        background:
+          linear-gradient(180deg, rgba(250, 244, 236, 0.7) 0%, rgba(250, 244, 236, 0) 22%),
+          linear-gradient(
+            90deg,
+            rgba(250, 244, 236, 1) 0%,
+            rgba(250, 244, 236, 0.97) var(--seam),
+            rgba(250, 244, 236, 0.72) calc(var(--seam) + 5%),
+            rgba(250, 244, 236, 0.42) calc(var(--seam) + 10%),
+            rgba(250, 244, 236, 0.18) calc(var(--seam) + 15%),
+            rgba(250, 244, 236, 0.05) calc(var(--seam) + 20%),
+            rgba(250, 244, 236, 0) calc(var(--seam) + 24%)
+          );
+      }
+      .copy {
+        position: absolute;
+        left: 72px;
+        top: 96px;
+        width: 600px;
+      }
+      /* Above the swipe, so the descender of "hiring" crosses the red stroke. */
+      .headline {
+        position: relative;
+        z-index: 1;
+        width: 500px;
+        font-size: 128px;
+        font-weight: 900;
+        line-height: 0.9;
+        letter-spacing: -0.05em;
+      }
+      /* The role in cream on the red brush stroke. Each line gets its own stroke (box-decoration-break), and
+         onFields shrinks the type until the role fits in two lines. */
+      .swipe-wrap {
+        position: relative;
+        margin: 6px 0 0 -12px;
+        max-width: 600px;
+        transform: rotate(-2deg);
+        transform-origin: left top;
+      }
+      .swipe {
+        font-size: 112px;
+        font-weight: 900;
+        line-height: 1.1;
+        letter-spacing: -0.045em;
+        color: var(--m-cream);
+        padding: 0 24px 6px 16px;
+        background: url("../_brand/brush.svg") center / 100% 100% no-repeat;
+        -webkit-box-decoration-break: clone;
+        box-decoration-break: clone;
+      }
+      .swipe-wrap svg.ticks {
+        position: absolute;
+        left: -34px;
+        top: -34px;
+        width: 52px;
+        height: 52px;
+      }
+      .details {
+        margin-top: 22px;
+        font-family: var(--m-mono);
+        font-size: 19px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--m-red);
+      }
+      .subline {
+        margin-top: 18px;
+        width: 500px;
+        font-size: 30px;
+        font-weight: 500;
+        line-height: 1.22;
+        letter-spacing: -0.02em;
+      }
+      .benefits {
+        margin-top: 30px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+      .benefit {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+      .benefit .dot {
+        flex: none;
+        display: grid;
+        place-items: center;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: rgba(215, 73, 57, 0.13);
+      }
+      .benefit .dot svg {
+        width: 30px;
+        height: 30px;
+        fill: none;
+        stroke: var(--m-red-deep);
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .benefit .label {
+        width: 390px;
+        font-size: 23px;
+        font-weight: 500;
+        line-height: 1.22;
+        letter-spacing: -0.01em;
+      }
+      /* The roles, by team: "Role · Where" pairs separated by semicolons, rendered in onFields. */
+      .roles {
+        margin-top: 28px;
+        width: 480px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .team-name {
+        padding-bottom: 6px;
+        margin-bottom: 4px;
+        border-bottom: 1px solid rgba(10, 10, 15, 0.12);
+        font-family: var(--m-mono);
+        font-size: 16px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--m-red);
+      }
+      .role-row {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 3px 0;
+        font-size: 22px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+      }
+      .role-row .where {
+        font-family: var(--m-mono);
+        font-size: 14px;
+        font-weight: 600;
+        color: rgba(10, 10, 15, 0.55);
+        white-space: nowrap;
+      }
+      /* The handwritten note, low on the left; arrow.js draws the arrow from its end to data-arrow-to. */
+      .aside {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+      .aside .note {
+        position: absolute;
+        left: 84px;
+        top: 1098px;
+        font-family: "Caveat", cursive;
+        font-size: 50px;
+        font-weight: 700;
+        line-height: 1;
+        transform: rotate(-7deg);
+        transform-origin: left bottom;
+        white-space: nowrap;
+      }
+      .aside svg {
+        position: absolute;
+        inset: 0;
+        width: 1080px;
+        height: 1350px;
+        fill: none;
+        stroke: var(--m-bg);
+        stroke-width: 3.5;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .foot {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 150px;
+        padding: 0 72px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 40px;
+        background: var(--m-bg);
+        color: var(--m-cream);
+      }
+      .foot .exp {
+        font-size: 34px;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        white-space: nowrap;
+      }
+      .foot .cta {
+        margin-top: 8px;
+        font-family: var(--m-mono);
+        font-size: 17px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--m-red-light);
+        white-space: nowrap;
+      }
+      .foot .logo {
+        height: 40px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas" style="--seam: 50.0%; --shift: 151px" data-arrow-to="1015 708">
+      <img class="photo" data-field-src="photo" src="assets/photo.webp" alt="" />
+      <div class="wash"></div>
+
+      <div class="copy">
+        <div class="headline" data-field="headline">We’re hiring</div>
+        <div class="swipe-wrap">
+          <svg class="ticks" viewBox="0 0 64 64" aria-hidden="true">
+            <path d="M50 30 L 42 6 M 34 40 L 10 22 M 28 58 L 4 54" stroke="#d74939" stroke-width="6" stroke-linecap="round" fill="none" />
+          </svg>
+          <span class="swipe" data-field="role">9 open roles</span>
+        </div>
+        <div class="details" data-field="details">Engineering · Marketing · Sales</div>
+        <div class="roles">
+          <div class="team">
+            <div class="team-name" data-field="team1">Engineering</div>
+            <div class="list" data-roles="roles1"><div class="role-row"><span>Security Researcher (Junior)</span><span class="where">Remote</span></div><div class="role-row"><span>Senior Backend Engineer</span><span class="where">Remote</span></div><div class="role-row"><span>Senior Data Engineer</span><span class="where">Remote</span></div><div class="role-row"><span>Support Engineer</span><span class="where">Remote</span></div></div>
+          </div>
+          <div class="team">
+            <div class="team-name" data-field="team2">Marketing</div>
+            <div class="list" data-roles="roles2"><div class="role-row"><span>Social Media Coordinator</span><span class="where">Remote, part-time</span></div><div class="role-row"><span>Writer in Residence</span><span class="where">Remote</span></div></div>
+          </div>
+          <div class="team">
+            <div class="team-name" data-field="team3">Sales</div>
+            <div class="list" data-roles="roles3"><div class="role-row"><span>Account Executive</span><span class="where">Remote, EU</span></div><div class="role-row"><span>Account Executive</span><span class="where">San Francisco</span></div><div class="role-row"><span>GTM Representative</span><span class="where">San Francisco</span></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="aside" data-field-show="showAside">
+        <div class="note" data-field="aside">Your desk?</div>
+        <svg class="arrow" viewBox="0 0 1080 1350" aria-hidden="true"><path class="curve" /><path class="head" /></svg>
+      </div>
+
+      <div class="foot">
+        <div>
+          <div class="exp" data-field="experience">Remote-first · Unlimited vacation</div>
+          <div class="cta" data-field="cta">See every role at joinmassive.com/careers</div>
+        </div>
+        <img class="logo" src="../_brand/logo-massive.svg" alt="Massive" />
+      </div>
+    </div>
+
+    <script src="../_lib/icons.js"></script>
+    <script src="../_lib/arrow.js"></script>
+    <script>
+      const $ = (s) => document.querySelector(s);
+
+      window.onFields = (values) => {
+        // Each team's roles: "Role · Where" pairs, separated by semicolons.
+        document.querySelectorAll("[data-roles]").forEach((list) => {
+          list.replaceChildren(
+            ...String(values[list.dataset.roles] ?? "")
+              .split(";")
+              .map((s) => s.trim())
+              .filter(Boolean)
+              .map((entry) => {
+                const [name, where = ""] = entry.split(" · ");
+                const row = document.createElement("div");
+                row.className = "role-row";
+                row.innerHTML = '<span></span><span class="where"></span>';
+                row.children[0].textContent = name.trim();
+                row.children[1].textContent = where.trim();
+                return row;
+              }),
+          );
+        });
+
+        // Row icons by name (icons.js).
+        document.querySelectorAll(".benefit svg").forEach((svg, i) => {
+          svg.dataset.icon = values[`icon${i + 1}`] ?? svg.dataset.icon;
+        });
+        massiveIcons(document);
+
+        // The role takes at most two lines on the swipe, each clear of the photo: shrink until it does, down to 64px.
+        const swipe = $(".swipe");
+        for (let size = 112; size >= 64; size -= 4) {
+          swipe.style.fontSize = `${size}px`;
+          const lines = [...swipe.getClientRects()];
+          if (lines.length <= 2 && Math.max(...lines.map((r) => r.width)) <= 540) break;
+        }
+
+        const [x, y] = $("#canvas").dataset.arrowTo.split(/\s+/).map(Number);
+        massiveArrow($(".aside svg"), $(".aside .note"), [x, y]);
+      };
+    </script>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

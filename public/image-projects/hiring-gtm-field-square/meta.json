@@ -1,0 +1,63 @@
+{
+  "id": "hiring-gtm-field-square",
+  "title": "Hiring: GTM Representative (Field & Events), square",
+  "description": "GTM Representative (Field & Events) (Field & events, San Francisco): Be Massive in the room at Bay Area AI and data events, and turn it into pipeline. joinmassive.com/careers/gtm-representative-field-events",
+  "group": "massive",
+  "category": "hiring",
+  "template": "hiring-photo-square",
+  "series": "Open roles",
+  "status": "draft",
+  "tags": [
+    "hiring",
+    "careers",
+    "open role",
+    "gtm field"
+  ],
+  "source": "https://www.joinmassive.com/careers/gtm-representative-field-events",
+  "width": 1080,
+  "height": 1080,
+  "fields": [
+    {
+      "id": "photo",
+      "label": "Photo",
+      "type": "image",
+      "default": "assets/photo.webp"
+    },
+    {
+      "id": "headline",
+      "label": "Headline",
+      "type": "text",
+      "default": "We’re hiring"
+    },
+    {
+      "id": "role",
+      "label": "Role (on the swipe)",
+      "type": "text",
+      "default": "GTM Representative"
+    },
+    {
+      "id": "details",
+      "label": "Details line",
+      "type": "text",
+      "default": "Field & events · San Francisco"
+    },
+    {
+      "id": "cta",
+      "label": "Call to action",
+      "type": "text",
+      "default": "joinmassive.com/careers"
+    },
+    {
+      "id": "aside",
+      "label": "Handwritten note",
+      "type": "text",
+      "default": "Office: every event."
+    },
+    {
+      "id": "showAside",
+      "label": "Handwritten note",
+      "type": "toggle",
+      "default": true
+    }
+  ]
+}

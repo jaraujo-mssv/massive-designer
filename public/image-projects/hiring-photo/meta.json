@@ -1,0 +1,450 @@
+{
+  "id": "hiring-photo",
+  "title": "Hiring: Photo (template)",
+  "description": "The photo-led hiring post: a lifestyle photo, \"We’re hiring\" over the role on a red brush stroke, a pitch, four icon rows, a handwritten note with an arrow, and the experience and careers link in an ink footer. Per image, set --seam and data-arrow-to on #canvas.",
+  "group": "templates",
+  "category": "hiring",
+  "series": null,
+  "status": "draft",
+  "tags": [
+    "hiring",
+    "careers",
+    "template",
+    "photo"
+  ],
+  "source": "image-projects/writers-hiring-home",
+  "width": 1080,
+  "height": 1350,
+  "fields": [
+    {
+      "id": "photo",
+      "label": "Photo",
+      "type": "image",
+      "default": "assets/photo.webp"
+    },
+    {
+      "id": "headline",
+      "label": "Headline",
+      "type": "text",
+      "default": "We’re hiring"
+    },
+    {
+      "id": "role",
+      "label": "Role (on the swipe)",
+      "type": "text",
+      "default": "Writer in Residence"
+    },
+    {
+      "id": "details",
+      "label": "Details line",
+      "type": "text",
+      "default": "Remote · Part or full time"
+    },
+    {
+      "id": "subline",
+      "label": "Pitch",
+      "type": "text",
+      "default": "Some of the best benefits in corporate history."
+    },
+    {
+      "id": "icon1",
+      "label": "Row 1 icon",
+      "type": "select",
+      "default": "pencil",
+      "options": [
+        {
+          "value": "book",
+          "label": "Book"
+        },
+        {
+          "value": "calendar",
+          "label": "Calendar"
+        },
+        {
+          "value": "chart",
+          "label": "Chart"
+        },
+        {
+          "value": "clock",
+          "label": "Clock"
+        },
+        {
+          "value": "code",
+          "label": "Code"
+        },
+        {
+          "value": "database",
+          "label": "Database"
+        },
+        {
+          "value": "dollar",
+          "label": "Dollar"
+        },
+        {
+          "value": "globe",
+          "label": "Globe"
+        },
+        {
+          "value": "handshake",
+          "label": "Handshake"
+        },
+        {
+          "value": "headset",
+          "label": "Headset"
+        },
+        {
+          "value": "heart",
+          "label": "Heart"
+        },
+        {
+          "value": "home",
+          "label": "Home"
+        },
+        {
+          "value": "map-pin",
+          "label": "Map pin"
+        },
+        {
+          "value": "megaphone",
+          "label": "Megaphone"
+        },
+        {
+          "value": "pencil",
+          "label": "Pencil"
+        },
+        {
+          "value": "server",
+          "label": "Server"
+        },
+        {
+          "value": "shield",
+          "label": "Shield"
+        },
+        {
+          "value": "shirt",
+          "label": "Shirt"
+        },
+        {
+          "value": "sparkle",
+          "label": "Sparkle"
+        },
+        {
+          "value": "sun",
+          "label": "Sun"
+        }
+      ]
+    },
+    {
+      "id": "benefit1",
+      "label": "Row 1",
+      "type": "text",
+      "default": "Do whatever you want, as long as the content is awesome"
+    },
+    {
+      "id": "icon2",
+      "label": "Row 2 icon",
+      "type": "select",
+      "default": "globe",
+      "options": [
+        {
+          "value": "book",
+          "label": "Book"
+        },
+        {
+          "value": "calendar",
+          "label": "Calendar"
+        },
+        {
+          "value": "chart",
+          "label": "Chart"
+        },
+        {
+          "value": "clock",
+          "label": "Clock"
+        },
+        {
+          "value": "code",
+          "label": "Code"
+        },
+        {
+          "value": "database",
+          "label": "Database"
+        },
+        {
+          "value": "dollar",
+          "label": "Dollar"
+        },
+        {
+          "value": "globe",
+          "label": "Globe"
+        },
+        {
+          "value": "handshake",
+          "label": "Handshake"
+        },
+        {
+          "value": "headset",
+          "label": "Headset"
+        },
+        {
+          "value": "heart",
+          "label": "Heart"
+        },
+        {
+          "value": "home",
+          "label": "Home"
+        },
+        {
+          "value": "map-pin",
+          "label": "Map pin"
+        },
+        {
+          "value": "megaphone",
+          "label": "Megaphone"
+        },
+        {
+          "value": "pencil",
+          "label": "Pencil"
+        },
+        {
+          "value": "server",
+          "label": "Server"
+        },
+        {
+          "value": "shield",
+          "label": "Shield"
+        },
+        {
+          "value": "shirt",
+          "label": "Shirt"
+        },
+        {
+          "value": "sparkle",
+          "label": "Sparkle"
+        },
+        {
+          "value": "sun",
+          "label": "Sun"
+        }
+      ]
+    },
+    {
+      "id": "benefit2",
+      "label": "Row 2",
+      "type": "text",
+      "default": "Remote, from anywhere in the world"
+    },
+    {
+      "id": "icon3",
+      "label": "Row 3 icon",
+      "type": "select",
+      "default": "clock",
+      "options": [
+        {
+          "value": "book",
+          "label": "Book"
+        },
+        {
+          "value": "calendar",
+          "label": "Calendar"
+        },
+        {
+          "value": "chart",
+          "label": "Chart"
+        },
+        {
+          "value": "clock",
+          "label": "Clock"
+        },
+        {
+          "value": "code",
+          "label": "Code"
+        },
+        {
+          "value": "database",
+          "label": "Database"
+        },
+        {
+          "value": "dollar",
+          "label": "Dollar"
+        },
+        {
+          "value": "globe",
+          "label": "Globe"
+        },
+        {
+          "value": "handshake",
+          "label": "Handshake"
+        },
+        {
+          "value": "headset",
+          "label": "Headset"
+        },
+        {
+          "value": "heart",
+          "label": "Heart"
+        },
+        {
+          "value": "home",
+          "label": "Home"
+        },
+        {
+          "value": "map-pin",
+          "label": "Map pin"
+        },
+        {
+          "value": "megaphone",
+          "label": "Megaphone"
+        },
+        {
+          "value": "pencil",
+          "label": "Pencil"
+        },
+        {
+          "value": "server",
+          "label": "Server"
+        },
+        {
+          "value": "shield",
+          "label": "Shield"
+        },
+        {
+          "value": "shirt",
+          "label": "Shirt"
+        },
+        {
+          "value": "sparkle",
+          "label": "Sparkle"
+        },
+        {
+          "value": "sun",
+          "label": "Sun"
+        }
+      ]
+    },
+    {
+      "id": "benefit3",
+      "label": "Row 3",
+      "type": "text",
+      "default": "Work any hours you like"
+    },
+    {
+      "id": "icon4",
+      "label": "Row 4 icon",
+      "type": "select",
+      "default": "shirt",
+      "options": [
+        {
+          "value": "book",
+          "label": "Book"
+        },
+        {
+          "value": "calendar",
+          "label": "Calendar"
+        },
+        {
+          "value": "chart",
+          "label": "Chart"
+        },
+        {
+          "value": "clock",
+          "label": "Clock"
+        },
+        {
+          "value": "code",
+          "label": "Code"
+        },
+        {
+          "value": "database",
+          "label": "Database"
+        },
+        {
+          "value": "dollar",
+          "label": "Dollar"
+        },
+        {
+          "value": "globe",
+          "label": "Globe"
+        },
+        {
+          "value": "handshake",
+          "label": "Handshake"
+        },
+        {
+          "value": "headset",
+          "label": "Headset"
+        },
+        {
+          "value": "heart",
+          "label": "Heart"
+        },
+        {
+          "value": "home",
+          "label": "Home"
+        },
+        {
+          "value": "map-pin",
+          "label": "Map pin"
+        },
+        {
+          "value": "megaphone",
+          "label": "Megaphone"
+        },
+        {
+          "value": "pencil",
+          "label": "Pencil"
+        },
+        {
+          "value": "server",
+          "label": "Server"
+        },
+        {
+          "value": "shield",
+          "label": "Shield"
+        },
+        {
+          "value": "shirt",
+          "label": "Shirt"
+        },
+        {
+          "value": "sparkle",
+          "label": "Sparkle"
+        },
+        {
+          "value": "sun",
+          "label": "Sun"
+        }
+      ]
+    },
+    {
+      "id": "benefit4",
+      "label": "Row 4",
+      "type": "text",
+      "default": "Dress code: business up top, your choice below"
+    },
+    {
+      "id": "aside",
+      "label": "Handwritten note",
+      "type": "text",
+      "default": "Pajamas: approved."
+    },
+    {
+      "id": "showAside",
+      "label": "Handwritten note",
+      "type": "toggle",
+      "default": true
+    },
+    {
+      "id": "experience",
+      "label": "Experience",
+      "type": "text",
+      "default": "2–4 years of writing"
+    },
+    {
+      "id": "cta",
+      "label": "Call to action",
+      "type": "text",
+      "default": "Apply at joinmassive.com/careers"
+    }
+  ]
+}

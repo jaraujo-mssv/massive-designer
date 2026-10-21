@@ -1,0 +1,63 @@
+{
+  "id": "hiring-photo-square",
+  "title": "Hiring: Photo, square (template)",
+  "description": "The square hiring post: \"We’re hiring\" over the role on a red brush stroke, the details and careers link, the photo pinned right, and a handwritten note with an arrow. Per image, set --seam and data-arrow-to on #canvas.",
+  "group": "templates",
+  "category": "hiring",
+  "series": null,
+  "status": "draft",
+  "tags": [
+    "hiring",
+    "careers",
+    "template",
+    "photo",
+    "square"
+  ],
+  "source": "image-projects/writers-hiring-home-square",
+  "width": 1080,
+  "height": 1080,
+  "fields": [
+    {
+      "id": "photo",
+      "label": "Photo",
+      "type": "image",
+      "default": "assets/photo.webp"
+    },
+    {
+      "id": "headline",
+      "label": "Headline",
+      "type": "text",
+      "default": "We’re hiring"
+    },
+    {
+      "id": "role",
+      "label": "Role (on the swipe)",
+      "type": "text",
+      "default": "Writer in Residence"
+    },
+    {
+      "id": "details",
+      "label": "Details line",
+      "type": "text",
+      "default": "Remote · Part or full time"
+    },
+    {
+      "id": "cta",
+      "label": "Call to action",
+      "type": "text",
+      "default": "joinmassive.com/careers"
+    },
+    {
+      "id": "aside",
+      "label": "Handwritten note",
+      "type": "text",
+      "default": "Pajamas: approved."
+    },
+    {
+      "id": "showAside",
+      "label": "Handwritten note",
+      "type": "toggle",
+      "default": true
+    }
+  ]
+}

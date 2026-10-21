@@ -1,0 +1,63 @@
+{
+  "id": "hiring-social-media-square",
+  "title": "Hiring: Social Media Coordinator, square",
+  "description": "Social Media Coordinator (Part-time / contract, Remote, EU): Own Massive's LinkedIn and X: 3–5 posts a week on AI, web data and infrastructure. joinmassive.com/careers/social-media-coordinator",
+  "group": "massive",
+  "category": "hiring",
+  "template": "hiring-photo-square",
+  "series": "Open roles",
+  "status": "draft",
+  "tags": [
+    "hiring",
+    "careers",
+    "open role",
+    "social media"
+  ],
+  "source": "https://www.joinmassive.com/careers/social-media-coordinator",
+  "width": 1080,
+  "height": 1080,
+  "fields": [
+    {
+      "id": "photo",
+      "label": "Photo",
+      "type": "image",
+      "default": "assets/photo.webp"
+    },
+    {
+      "id": "headline",
+      "label": "Headline",
+      "type": "text",
+      "default": "We’re hiring"
+    },
+    {
+      "id": "role",
+      "label": "Role (on the swipe)",
+      "type": "text",
+      "default": "Social Media Coordinator"
+    },
+    {
+      "id": "details",
+      "label": "Details line",
+      "type": "text",
+      "default": "Part-time / contract · Remote, EU"
+    },
+    {
+      "id": "cta",
+      "label": "Call to action",
+      "type": "text",
+      "default": "joinmassive.com/careers"
+    },
+    {
+      "id": "aside",
+      "label": "Handwritten note",
+      "type": "text",
+      "default": "Office: any café."
+    },
+    {
+      "id": "showAside",
+      "label": "Handwritten note",
+      "type": "toggle",
+      "default": true
+    }
+  ]
+}

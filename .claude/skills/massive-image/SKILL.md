@@ -20,12 +20,22 @@ of references and templates, so write each one to be reused: clean markup, the h
   shared logos (`logo-massive.svg`, `icon-massive.svg`, `icon-massive-white.svg`, `linkedin.svg`, `linkedin-in.png`) and
   backgrounds: `bg-dark.jpg` (the Market Map dark canvas), `bg-network-map.webp` (the old site's network map, edges
   faded to transparent) and `bg-globe.jpg` (Earth at night; darken it under type). Link them as `../_brand/…`.
-  `jason-15k-network` shows all of them plus the world map behind one `bg` select field.
+  `jason-15k-network` shows all of them plus the world map behind one `bg` select field. `flags/` holds every
+  country's flag (`<iso>.svg`, 4:3, flag-icons, MIT). `fonts/Caveat.ttf` is the handwriting face (OFL) and `brush.svg`
+  the red brush stroke behind a highlighted word; the hiring templates use both.
 - `public/image-projects/_lib/`:
   - `image-kit.js`: field binding. Every page includes it, as its last script.
   - `confetti.js`: `massiveConfetti(layer, { mode: "burst" | "cannons", count, at, x, y })`, the video confetti frozen at one moment.
   - `world-paths.js`: `WORLD_PATHS` (country outlines as `[iso, pathData]`) on a `WORLD_MAP.w × WORLD_MAP.h` Mercator canvas,
     from massive-new-landing. Fill them with `Path2D` for maps; `jason-15k-network` draws them as a background.
+  - `flags.js`: `massiveFlag("Ukraine")` → `../_brand/flags/ua.svg` (English name, short form like USA/UK, or ISO code;
+    null if unknown). The `welcome-*` cards derive their country pill's flag from a `country` text field with it.
+  - `icons.js`: Lucide line icons by name; `<svg data-icon="code">` then `massiveIcons(document)`. Offer them as a select
+    field (`hiring-photo` has the option list).
+  - `arrow.js`: `massiveArrow(svg, noteEl, [x, y])` draws the hand-drawn arrow from wherever a handwritten note ends to a
+    canvas point; the svg covers the canvas with the canvas-size viewBox.
+- `public/image-projects/categories.json`: the themes the Library groups by, in order (see Organising).
+- `public/image-projects/planned.json`: Planned entries, images to make next (see Organising).
 - `public/image-projects/index.json`: the tab's catalogue. **Regenerate with `npm run image:index` after any change.**
 - `output/images/<id>.jpg`: renders (gitignored).
 
@@ -34,7 +44,9 @@ of references and templates, so write each one to be reused: clean markup, the h
 | Command | Does |
 |---|---|
 | `npm run image:new <id> "<Title>" [--format=portrait\|square\|landscape\|vertical\|x]` | Scaffold a blank project (1080×1350, 1080×1080, 1920×1080, 1080×1920, 1200×675) |
-| `npm run image:new <id> "<Title>" --from=<id>` | Start from an existing project (page, assets, fields) |
+| `npm run image:new <id> "<Title>" --from=<id>` | Start from an existing project (page, assets, fields); records it as `template` |
+| `npm run image:new … --category=<id>` | Set the category while scaffolding |
+| `npm run image:new -- --plan=<planned-id>` | Start a Planned entry: its id, title, category, series, template and first format; it leaves `planned.json` |
 | `npm run image:render <id…> \| --all` | Render to `output/images/<id>.jpg` at 2× and refresh `thumb.jpg` |
 | `npm run image:render <id> --fields '<json>' --name <out>` | Render with overridden fields (no thumb change) |
 | `npm run image:index` | Rebuild `index.json` for the tab |
@@ -47,6 +59,8 @@ of references and templates, so write each one to be reused: clean markup, the h
   "title": "Jason 15K: Grid",
   "description": "One line on what it is; shown under the fields.",
   "group": "massive",
+  "category": "milestones",
+  "template": null,
   "series": "Jason 15K",
   "status": "draft",
   "tags": ["jason", "linkedin", "milestone"],
@@ -63,8 +77,34 @@ of references and templates, so write each one to be reused: clean markup, the h
 
 - `group`: `"massive"` for a finished, one-off image; `"templates"` for one meant to be filled in again (a speaker card,
   a hire announcement). A template's defaults should read as a good example, not as placeholder text.
-- `series` groups related images in the Library (all the stills of one campaign, say).
+- `category`, `template`, `series` and `status`: see Organising.
 - `width` and `height` must match `#canvas`.
+
+## Organising
+
+The Library groups, filters and sorts on these, so set them on every image:
+
+- `category`: the theme, one id from `categories.json`: `hiring`, `team`, `milestones`, `product`, `events`, `content`,
+  `partners`, `seasonal`. Add a category there (with a label and a one-line description) rather than inventing one in a meta.
+- `template`: the template project the image is built on (`hiring-photo`, `welcome-template`), or null for a one-off.
+  `image:new --from` fills it in. Templates themselves (`group: "templates"`) leave it out.
+- `series`: one campaign or set inside a category ("Open roles", "Welcome to Massive", "Jason 15K").
+- `status`: `draft` while it's being made, `ready` once approved, `posted` once it's out. (`planned` is for Planned
+  entries only.)
+- `format` (portrait, square, landscape, story) and the last update are worked out by `image:index`.
+
+`image:index` warns about an unknown category, a `template` that isn't a project, or an unknown status.
+
+**Planned entries** are images to make next, kept in `planned.json`:
+`{ id, title, category, template, series?, formats: ["portrait", "square"], brief, tags }`. `template` is a project id,
+`video:<id>` for a still of a video, or `new` for a layout still to design. They show in the Library as dashed
+placeholders with their brief and the `--plan` command that starts them.
+
+**The hiring templates** (`hiring-photo`, `hiring-photo-square`) take three per-image settings on `#canvas`, besides the
+fields: `--seam` (where the photo's empty left side ends, as a % of the canvas), `--shift` (px to slide the photo right
+when its subject sits too far left for the text) and `data-arrow-to="x y"` (the canvas point the note's arrow lands
+on). Generate their photos with the same recipe as their `assets/photo-prompt.txt`: subject in the right 60%, an
+empty bright left 40%, one Massive-red accent, no text.
 
 ## Fields
 

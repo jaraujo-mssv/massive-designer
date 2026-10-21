@@ -1,0 +1,451 @@
+{
+  "id": "hiring-security-researcher",
+  "title": "Hiring: Security Researcher (Junior)",
+  "description": "Security Researcher (Junior) (Junior, Remote, Full time): Study how proxy traffic gets detected, and help harden everything we ship. joinmassive.com/careers/security-researcher-junior",
+  "group": "massive",
+  "category": "hiring",
+  "template": "hiring-photo",
+  "series": "Open roles",
+  "status": "draft",
+  "tags": [
+    "hiring",
+    "careers",
+    "open role",
+    "security researcher"
+  ],
+  "source": "https://www.joinmassive.com/careers/security-researcher-junior",
+  "width": 1080,
+  "height": 1350,
+  "fields": [
+    {
+      "id": "photo",
+      "label": "Photo",
+      "type": "image",
+      "default": "assets/photo.webp"
+    },
+    {
+      "id": "headline",
+      "label": "Headline",
+      "type": "text",
+      "default": "We’re hiring"
+    },
+    {
+      "id": "role",
+      "label": "Role (on the swipe)",
+      "type": "text",
+      "default": "Security Researcher"
+    },
+    {
+      "id": "details",
+      "label": "Details line",
+      "type": "text",
+      "default": "Junior · Remote · Full time"
+    },
+    {
+      "id": "subline",
+      "label": "Pitch",
+      "type": "text",
+      "default": "Study how proxy traffic gets detected, and help harden everything we ship."
+    },
+    {
+      "id": "icon1",
+      "label": "Row 1 icon",
+      "type": "select",
+      "default": "shield",
+      "options": [
+        {
+          "value": "book",
+          "label": "Book"
+        },
+        {
+          "value": "calendar",
+          "label": "Calendar"
+        },
+        {
+          "value": "chart",
+          "label": "Chart"
+        },
+        {
+          "value": "clock",
+          "label": "Clock"
+        },
+        {
+          "value": "code",
+          "label": "Code"
+        },
+        {
+          "value": "database",
+          "label": "Database"
+        },
+        {
+          "value": "dollar",
+          "label": "Dollar"
+        },
+        {
+          "value": "globe",
+          "label": "Globe"
+        },
+        {
+          "value": "handshake",
+          "label": "Handshake"
+        },
+        {
+          "value": "headset",
+          "label": "Headset"
+        },
+        {
+          "value": "heart",
+          "label": "Heart"
+        },
+        {
+          "value": "home",
+          "label": "Home"
+        },
+        {
+          "value": "map-pin",
+          "label": "Map pin"
+        },
+        {
+          "value": "megaphone",
+          "label": "Megaphone"
+        },
+        {
+          "value": "pencil",
+          "label": "Pencil"
+        },
+        {
+          "value": "server",
+          "label": "Server"
+        },
+        {
+          "value": "shield",
+          "label": "Shield"
+        },
+        {
+          "value": "shirt",
+          "label": "Shirt"
+        },
+        {
+          "value": "sparkle",
+          "label": "Sparkle"
+        },
+        {
+          "value": "sun",
+          "label": "Sun"
+        }
+      ]
+    },
+    {
+      "id": "benefit1",
+      "label": "Row 1",
+      "type": "text",
+      "default": "Research how security vendors classify residential proxy traffic"
+    },
+    {
+      "id": "icon2",
+      "label": "Row 2 icon",
+      "type": "select",
+      "default": "code",
+      "options": [
+        {
+          "value": "book",
+          "label": "Book"
+        },
+        {
+          "value": "calendar",
+          "label": "Calendar"
+        },
+        {
+          "value": "chart",
+          "label": "Chart"
+        },
+        {
+          "value": "clock",
+          "label": "Clock"
+        },
+        {
+          "value": "code",
+          "label": "Code"
+        },
+        {
+          "value": "database",
+          "label": "Database"
+        },
+        {
+          "value": "dollar",
+          "label": "Dollar"
+        },
+        {
+          "value": "globe",
+          "label": "Globe"
+        },
+        {
+          "value": "handshake",
+          "label": "Handshake"
+        },
+        {
+          "value": "headset",
+          "label": "Headset"
+        },
+        {
+          "value": "heart",
+          "label": "Heart"
+        },
+        {
+          "value": "home",
+          "label": "Home"
+        },
+        {
+          "value": "map-pin",
+          "label": "Map pin"
+        },
+        {
+          "value": "megaphone",
+          "label": "Megaphone"
+        },
+        {
+          "value": "pencil",
+          "label": "Pencil"
+        },
+        {
+          "value": "server",
+          "label": "Server"
+        },
+        {
+          "value": "shield",
+          "label": "Shield"
+        },
+        {
+          "value": "shirt",
+          "label": "Shirt"
+        },
+        {
+          "value": "sparkle",
+          "label": "Sparkle"
+        },
+        {
+          "value": "sun",
+          "label": "Sun"
+        }
+      ]
+    },
+    {
+      "id": "benefit2",
+      "label": "Row 2",
+      "type": "text",
+      "default": "Python scripts and small tools that make the work repeatable"
+    },
+    {
+      "id": "icon3",
+      "label": "Row 3 icon",
+      "type": "select",
+      "default": "home",
+      "options": [
+        {
+          "value": "book",
+          "label": "Book"
+        },
+        {
+          "value": "calendar",
+          "label": "Calendar"
+        },
+        {
+          "value": "chart",
+          "label": "Chart"
+        },
+        {
+          "value": "clock",
+          "label": "Clock"
+        },
+        {
+          "value": "code",
+          "label": "Code"
+        },
+        {
+          "value": "database",
+          "label": "Database"
+        },
+        {
+          "value": "dollar",
+          "label": "Dollar"
+        },
+        {
+          "value": "globe",
+          "label": "Globe"
+        },
+        {
+          "value": "handshake",
+          "label": "Handshake"
+        },
+        {
+          "value": "headset",
+          "label": "Headset"
+        },
+        {
+          "value": "heart",
+          "label": "Heart"
+        },
+        {
+          "value": "home",
+          "label": "Home"
+        },
+        {
+          "value": "map-pin",
+          "label": "Map pin"
+        },
+        {
+          "value": "megaphone",
+          "label": "Megaphone"
+        },
+        {
+          "value": "pencil",
+          "label": "Pencil"
+        },
+        {
+          "value": "server",
+          "label": "Server"
+        },
+        {
+          "value": "shield",
+          "label": "Shield"
+        },
+        {
+          "value": "shirt",
+          "label": "Shirt"
+        },
+        {
+          "value": "sparkle",
+          "label": "Sparkle"
+        },
+        {
+          "value": "sun",
+          "label": "Sun"
+        }
+      ]
+    },
+    {
+      "id": "benefit3",
+      "label": "Row 3",
+      "type": "text",
+      "default": "Fully remote and async-first"
+    },
+    {
+      "id": "icon4",
+      "label": "Row 4 icon",
+      "type": "select",
+      "default": "book",
+      "options": [
+        {
+          "value": "book",
+          "label": "Book"
+        },
+        {
+          "value": "calendar",
+          "label": "Calendar"
+        },
+        {
+          "value": "chart",
+          "label": "Chart"
+        },
+        {
+          "value": "clock",
+          "label": "Clock"
+        },
+        {
+          "value": "code",
+          "label": "Code"
+        },
+        {
+          "value": "database",
+          "label": "Database"
+        },
+        {
+          "value": "dollar",
+          "label": "Dollar"
+        },
+        {
+          "value": "globe",
+          "label": "Globe"
+        },
+        {
+          "value": "handshake",
+          "label": "Handshake"
+        },
+        {
+          "value": "headset",
+          "label": "Headset"
+        },
+        {
+          "value": "heart",
+          "label": "Heart"
+        },
+        {
+          "value": "home",
+          "label": "Home"
+        },
+        {
+          "value": "map-pin",
+          "label": "Map pin"
+        },
+        {
+          "value": "megaphone",
+          "label": "Megaphone"
+        },
+        {
+          "value": "pencil",
+          "label": "Pencil"
+        },
+        {
+          "value": "server",
+          "label": "Server"
+        },
+        {
+          "value": "shield",
+          "label": "Shield"
+        },
+        {
+          "value": "shirt",
+          "label": "Shirt"
+        },
+        {
+          "value": "sparkle",
+          "label": "Sparkle"
+        },
+        {
+          "value": "sun",
+          "label": "Sun"
+        }
+      ]
+    },
+    {
+      "id": "benefit4",
+      "label": "Row 4",
+      "type": "text",
+      "default": "$50 a month for courses, books and workshops"
+    },
+    {
+      "id": "aside",
+      "label": "Handwritten note",
+      "type": "text",
+      "default": "Home lab: encouraged."
+    },
+    {
+      "id": "showAside",
+      "label": "Handwritten note",
+      "type": "toggle",
+      "default": true
+    },
+    {
+      "id": "experience",
+      "label": "Experience",
+      "type": "text",
+      "default": "0–2 years · TCP/IP, DNS, TLS · Python"
+    },
+    {
+      "id": "cta",
+      "label": "Call to action",
+      "type": "text",
+      "default": "Apply at joinmassive.com/careers"
+    }
+  ]
+}

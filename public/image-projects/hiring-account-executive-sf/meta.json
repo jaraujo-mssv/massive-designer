@@ -1,0 +1,451 @@
+{
+  "id": "hiring-account-executive-sf",
+  "title": "Hiring: Account Executive (San Francisco)",
+  "description": "Account Executive (San Francisco) (San Francisco, ~$220k OTE + equity): Own technical deals end to end: discovery, POCs, negotiation and close. joinmassive.com/careers/account-executive-san-francisco",
+  "group": "massive",
+  "category": "hiring",
+  "template": "hiring-photo",
+  "series": "Open roles",
+  "status": "draft",
+  "tags": [
+    "hiring",
+    "careers",
+    "open role",
+    "account executive sf"
+  ],
+  "source": "https://www.joinmassive.com/careers/account-executive-san-francisco",
+  "width": 1080,
+  "height": 1350,
+  "fields": [
+    {
+      "id": "photo",
+      "label": "Photo",
+      "type": "image",
+      "default": "assets/photo.webp"
+    },
+    {
+      "id": "headline",
+      "label": "Headline",
+      "type": "text",
+      "default": "We’re hiring"
+    },
+    {
+      "id": "role",
+      "label": "Role (on the swipe)",
+      "type": "text",
+      "default": "Account Executive"
+    },
+    {
+      "id": "details",
+      "label": "Details line",
+      "type": "text",
+      "default": "San Francisco · ~$220k OTE + equity"
+    },
+    {
+      "id": "subline",
+      "label": "Pitch",
+      "type": "text",
+      "default": "Own technical deals end to end: discovery, POCs, negotiation and close."
+    },
+    {
+      "id": "icon1",
+      "label": "Row 1 icon",
+      "type": "select",
+      "default": "handshake",
+      "options": [
+        {
+          "value": "book",
+          "label": "Book"
+        },
+        {
+          "value": "calendar",
+          "label": "Calendar"
+        },
+        {
+          "value": "chart",
+          "label": "Chart"
+        },
+        {
+          "value": "clock",
+          "label": "Clock"
+        },
+        {
+          "value": "code",
+          "label": "Code"
+        },
+        {
+          "value": "database",
+          "label": "Database"
+        },
+        {
+          "value": "dollar",
+          "label": "Dollar"
+        },
+        {
+          "value": "globe",
+          "label": "Globe"
+        },
+        {
+          "value": "handshake",
+          "label": "Handshake"
+        },
+        {
+          "value": "headset",
+          "label": "Headset"
+        },
+        {
+          "value": "heart",
+          "label": "Heart"
+        },
+        {
+          "value": "home",
+          "label": "Home"
+        },
+        {
+          "value": "map-pin",
+          "label": "Map pin"
+        },
+        {
+          "value": "megaphone",
+          "label": "Megaphone"
+        },
+        {
+          "value": "pencil",
+          "label": "Pencil"
+        },
+        {
+          "value": "server",
+          "label": "Server"
+        },
+        {
+          "value": "shield",
+          "label": "Shield"
+        },
+        {
+          "value": "shirt",
+          "label": "Shirt"
+        },
+        {
+          "value": "sparkle",
+          "label": "Sparkle"
+        },
+        {
+          "value": "sun",
+          "label": "Sun"
+        }
+      ]
+    },
+    {
+      "id": "benefit1",
+      "label": "Row 1",
+      "type": "text",
+      "default": "Residential proxies, Web Render and ISP products"
+    },
+    {
+      "id": "icon2",
+      "label": "Row 2 icon",
+      "type": "select",
+      "default": "code",
+      "options": [
+        {
+          "value": "book",
+          "label": "Book"
+        },
+        {
+          "value": "calendar",
+          "label": "Calendar"
+        },
+        {
+          "value": "chart",
+          "label": "Chart"
+        },
+        {
+          "value": "clock",
+          "label": "Clock"
+        },
+        {
+          "value": "code",
+          "label": "Code"
+        },
+        {
+          "value": "database",
+          "label": "Database"
+        },
+        {
+          "value": "dollar",
+          "label": "Dollar"
+        },
+        {
+          "value": "globe",
+          "label": "Globe"
+        },
+        {
+          "value": "handshake",
+          "label": "Handshake"
+        },
+        {
+          "value": "headset",
+          "label": "Headset"
+        },
+        {
+          "value": "heart",
+          "label": "Heart"
+        },
+        {
+          "value": "home",
+          "label": "Home"
+        },
+        {
+          "value": "map-pin",
+          "label": "Map pin"
+        },
+        {
+          "value": "megaphone",
+          "label": "Megaphone"
+        },
+        {
+          "value": "pencil",
+          "label": "Pencil"
+        },
+        {
+          "value": "server",
+          "label": "Server"
+        },
+        {
+          "value": "shield",
+          "label": "Shield"
+        },
+        {
+          "value": "shirt",
+          "label": "Shirt"
+        },
+        {
+          "value": "sparkle",
+          "label": "Sparkle"
+        },
+        {
+          "value": "sun",
+          "label": "Sun"
+        }
+      ]
+    },
+    {
+      "id": "benefit2",
+      "label": "Row 2",
+      "type": "text",
+      "default": "Run the POCs where customers benchmark us"
+    },
+    {
+      "id": "icon3",
+      "label": "Row 3 icon",
+      "type": "select",
+      "default": "map-pin",
+      "options": [
+        {
+          "value": "book",
+          "label": "Book"
+        },
+        {
+          "value": "calendar",
+          "label": "Calendar"
+        },
+        {
+          "value": "chart",
+          "label": "Chart"
+        },
+        {
+          "value": "clock",
+          "label": "Clock"
+        },
+        {
+          "value": "code",
+          "label": "Code"
+        },
+        {
+          "value": "database",
+          "label": "Database"
+        },
+        {
+          "value": "dollar",
+          "label": "Dollar"
+        },
+        {
+          "value": "globe",
+          "label": "Globe"
+        },
+        {
+          "value": "handshake",
+          "label": "Handshake"
+        },
+        {
+          "value": "headset",
+          "label": "Headset"
+        },
+        {
+          "value": "heart",
+          "label": "Heart"
+        },
+        {
+          "value": "home",
+          "label": "Home"
+        },
+        {
+          "value": "map-pin",
+          "label": "Map pin"
+        },
+        {
+          "value": "megaphone",
+          "label": "Megaphone"
+        },
+        {
+          "value": "pencil",
+          "label": "Pencil"
+        },
+        {
+          "value": "server",
+          "label": "Server"
+        },
+        {
+          "value": "shield",
+          "label": "Shield"
+        },
+        {
+          "value": "shirt",
+          "label": "Shirt"
+        },
+        {
+          "value": "sparkle",
+          "label": "Sparkle"
+        },
+        {
+          "value": "sun",
+          "label": "Sun"
+        }
+      ]
+    },
+    {
+      "id": "benefit3",
+      "label": "Row 3",
+      "type": "text",
+      "default": "Bay Area based, no office"
+    },
+    {
+      "id": "icon4",
+      "label": "Row 4 icon",
+      "type": "select",
+      "default": "sun",
+      "options": [
+        {
+          "value": "book",
+          "label": "Book"
+        },
+        {
+          "value": "calendar",
+          "label": "Calendar"
+        },
+        {
+          "value": "chart",
+          "label": "Chart"
+        },
+        {
+          "value": "clock",
+          "label": "Clock"
+        },
+        {
+          "value": "code",
+          "label": "Code"
+        },
+        {
+          "value": "database",
+          "label": "Database"
+        },
+        {
+          "value": "dollar",
+          "label": "Dollar"
+        },
+        {
+          "value": "globe",
+          "label": "Globe"
+        },
+        {
+          "value": "handshake",
+          "label": "Handshake"
+        },
+        {
+          "value": "headset",
+          "label": "Headset"
+        },
+        {
+          "value": "heart",
+          "label": "Heart"
+        },
+        {
+          "value": "home",
+          "label": "Home"
+        },
+        {
+          "value": "map-pin",
+          "label": "Map pin"
+        },
+        {
+          "value": "megaphone",
+          "label": "Megaphone"
+        },
+        {
+          "value": "pencil",
+          "label": "Pencil"
+        },
+        {
+          "value": "server",
+          "label": "Server"
+        },
+        {
+          "value": "shield",
+          "label": "Shield"
+        },
+        {
+          "value": "shirt",
+          "label": "Shirt"
+        },
+        {
+          "value": "sparkle",
+          "label": "Sparkle"
+        },
+        {
+          "value": "sun",
+          "label": "Sun"
+        }
+      ]
+    },
+    {
+      "id": "benefit4",
+      "label": "Row 4",
+      "type": "text",
+      "default": "Unlimited vacation"
+    },
+    {
+      "id": "aside",
+      "label": "Handwritten note",
+      "type": "text",
+      "default": "View: included."
+    },
+    {
+      "id": "showAside",
+      "label": "Handwritten note",
+      "type": "toggle",
+      "default": true
+    },
+    {
+      "id": "experience",
+      "label": "Experience",
+      "type": "text",
+      "default": "3–6 years closing B2B tech deals"
+    },
+    {
+      "id": "cta",
+      "label": "Call to action",
+      "type": "text",
+      "default": "Apply at joinmassive.com/careers"
+    }
+  ]
+}

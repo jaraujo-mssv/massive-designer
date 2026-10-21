@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1080" />
+    <title>Hiring: Account Executive (San Francisco), square</title>
+    <link rel="stylesheet" href="../_brand/massive.css" />
+    <!-- The square hiring post (from writers-hiring-home-square): the headline and the role on a cream wash beside the
+         photo, and a handwritten note with an arrow. Per image, set on #canvas: --seam (where the photo's empty left
+         side ends), --shift (slides the photo right when its subject sits too far left) and data-arrow-to (the canvas
+         point the arrow lands on). -->
+    <style>
+      @font-face {
+        font-family: "Caveat";
+        src: url("../_brand/fonts/Caveat.ttf") format("truetype");
+        font-weight: 400 700;
+      }
+      #canvas {
+        width: 1080px;
+        height: 1080px;
+        background: var(--m-cream);
+        color: var(--m-bg);
+      }
+      /* Narrower than the canvas and pinned right, so the whole subject fits beside the headline. */
+      .photo {
+        position: absolute;
+        top: 0;
+        left: calc(200px + var(--shift, 0px));
+        width: 880px;
+        height: 1080px;
+        object-fit: cover;
+        object-position: 50% 50%;
+      }
+      .wash {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1080px;
+        height: 1080px;
+        background:
+          linear-gradient(180deg, rgba(250, 244, 236, 0.6) 0%, rgba(250, 244, 236, 0) 20%),
+          linear-gradient(
+            90deg,
+            rgba(250, 244, 236, 1) 0%,
+            rgba(250, 244, 236, 0.97) var(--seam),
+            rgba(250, 244, 236, 0.68) calc(var(--seam) + 4%),
+            rgba(250, 244, 236, 0.38) calc(var(--seam) + 8%),
+            rgba(250, 244, 236, 0.14) calc(var(--seam) + 12%),
+            rgba(250, 244, 236, 0.03) calc(var(--seam) + 16%),
+            rgba(250, 244, 236, 0) calc(var(--seam) + 19%)
+          );
+      }
+      .copy {
+        position: absolute;
+        left: 72px;
+        top: 0;
+        width: 600px;
+        height: 840px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+      }
+      /* Above the swipe, so the descender of "hiring" crosses the red stroke. */
+      .headline {
+        position: relative;
+        z-index: 1;
+        width: 560px;
+        font-size: 156px;
+        font-weight: 900;
+        line-height: 0.9;
+        letter-spacing: -0.05em;
+      }
+      /* The role in cream on the red brush stroke, one stroke per line; onFields fits it to two lines. */
+      .swipe-wrap {
+        position: relative;
+        margin: 8px 0 0 -12px;
+        max-width: 620px;
+        transform: rotate(-2deg);
+        transform-origin: left top;
+      }
+      .swipe {
+        font-size: 124px;
+        font-weight: 900;
+        line-height: 1.1;
+        letter-spacing: -0.045em;
+        color: var(--m-cream);
+        padding: 0 26px 6px 18px;
+        background: url("../_brand/brush.svg") center / 100% 100% no-repeat;
+        -webkit-box-decoration-break: clone;
+        box-decoration-break: clone;
+      }
+      .swipe-wrap svg.ticks {
+        position: absolute;
+        left: -38px;
+        top: -40px;
+        width: 60px;
+        height: 60px;
+      }
+      .details {
+        margin-top: 26px;
+        font-family: var(--m-mono);
+        font-size: 21px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--m-red);
+      }
+      .cta {
+        margin-top: 8px;
+        font-family: var(--m-mono);
+        font-size: 19px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        color: rgba(10, 10, 15, 0.55);
+      }
+      /* The handwritten note, low on the left; arrow.js draws the arrow from its end to data-arrow-to. */
+      .aside {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+      .aside .note {
+        position: absolute;
+        left: 84px;
+        top: 900px;
+        font-family: "Caveat", cursive;
+        font-size: 56px;
+        font-weight: 700;
+        line-height: 1;
+        transform: rotate(-7deg);
+        transform-origin: left bottom;
+        white-space: nowrap;
+      }
+      .aside svg {
+        position: absolute;
+        inset: 0;
+        width: 1080px;
+        height: 1080px;
+        fill: none;
+        stroke: var(--m-bg);
+        stroke-width: 3.5;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas" style="--seam: 55.7%; --shift: 4px" data-arrow-to="952 376">
+      <img class="photo" data-field-src="photo" src="assets/photo.webp" alt="" />
+      <div class="wash"></div>
+
+      <div class="copy">
+        <div class="headline" data-field="headline">We’re hiring</div>
+        <div class="swipe-wrap">
+          <svg class="ticks" viewBox="0 0 64 64" aria-hidden="true">
+            <path d="M50 30 L 42 6 M 34 40 L 10 22 M 28 58 L 4 54" stroke="#d74939" stroke-width="6" stroke-linecap="round" fill="none" />
+          </svg>
+          <span class="swipe" data-field="role">Account Executive</span>
+        </div>
+        <div class="details" data-field="details">San Francisco · ~<20k OTE + equity</div>
+        <div class="cta" data-field="cta">joinmassive.com/careers</div>
+      </div>
+
+      <div class="aside" data-field-show="showAside">
+        <div class="note" data-field="aside">View: included.</div>
+        <svg class="arrow" viewBox="0 0 1080 1080" aria-hidden="true"><path class="curve" /><path class="head" /></svg>
+      </div>
+    </div>
+
+    <script src="../_lib/arrow.js"></script>
+    <script>
+      const $ = (s) => document.querySelector(s);
+
+      window.onFields = () => {
+        // The role takes at most two lines on the swipe, each clear of the photo: shrink until it does, down to 72px.
+        const swipe = $(".swipe");
+        for (let size = 124; size >= 72; size -= 4) {
+          swipe.style.fontSize = `${size}px`;
+          const lines = [...swipe.getClientRects()];
+          if (lines.length <= 2 && Math.max(...lines.map((r) => r.width)) <= 540) break;
+        }
+
+        const [x, y] = $("#canvas").dataset.arrowTo.split(/\s+/).map(Number);
+        massiveArrow($(".aside svg"), $(".aside .note"), [x, y]);
+      };
+    </script>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

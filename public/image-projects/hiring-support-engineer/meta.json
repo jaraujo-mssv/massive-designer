@@ -1,0 +1,451 @@
+{
+  "id": "hiring-support-engineer",
+  "title": "Hiring: Support Engineer (Web Scraping & Proxies)",
+  "description": "Support Engineer (Web Scraping & Proxies) (Web scraping & proxies, Remote): Help customers succeed with proxies and scraping, from setup to CAPTCHAs. joinmassive.com/careers/support-engineer-web-scraping-proxies",
+  "group": "massive",
+  "category": "hiring",
+  "template": "hiring-photo",
+  "series": "Open roles",
+  "status": "draft",
+  "tags": [
+    "hiring",
+    "careers",
+    "open role",
+    "support engineer"
+  ],
+  "source": "https://www.joinmassive.com/careers/support-engineer-web-scraping-proxies",
+  "width": 1080,
+  "height": 1350,
+  "fields": [
+    {
+      "id": "photo",
+      "label": "Photo",
+      "type": "image",
+      "default": "assets/photo.webp"
+    },
+    {
+      "id": "headline",
+      "label": "Headline",
+      "type": "text",
+      "default": "We’re hiring"
+    },
+    {
+      "id": "role",
+      "label": "Role (on the swipe)",
+      "type": "text",
+      "default": "Support Engineer"
+    },
+    {
+      "id": "details",
+      "label": "Details line",
+      "type": "text",
+      "default": "Web scraping & proxies · Remote"
+    },
+    {
+      "id": "subline",
+      "label": "Pitch",
+      "type": "text",
+      "default": "Help customers succeed with proxies and scraping, from setup to CAPTCHAs."
+    },
+    {
+      "id": "icon1",
+      "label": "Row 1 icon",
+      "type": "select",
+      "default": "headset",
+      "options": [
+        {
+          "value": "book",
+          "label": "Book"
+        },
+        {
+          "value": "calendar",
+          "label": "Calendar"
+        },
+        {
+          "value": "chart",
+          "label": "Chart"
+        },
+        {
+          "value": "clock",
+          "label": "Clock"
+        },
+        {
+          "value": "code",
+          "label": "Code"
+        },
+        {
+          "value": "database",
+          "label": "Database"
+        },
+        {
+          "value": "dollar",
+          "label": "Dollar"
+        },
+        {
+          "value": "globe",
+          "label": "Globe"
+        },
+        {
+          "value": "handshake",
+          "label": "Handshake"
+        },
+        {
+          "value": "headset",
+          "label": "Headset"
+        },
+        {
+          "value": "heart",
+          "label": "Heart"
+        },
+        {
+          "value": "home",
+          "label": "Home"
+        },
+        {
+          "value": "map-pin",
+          "label": "Map pin"
+        },
+        {
+          "value": "megaphone",
+          "label": "Megaphone"
+        },
+        {
+          "value": "pencil",
+          "label": "Pencil"
+        },
+        {
+          "value": "server",
+          "label": "Server"
+        },
+        {
+          "value": "shield",
+          "label": "Shield"
+        },
+        {
+          "value": "shirt",
+          "label": "Shirt"
+        },
+        {
+          "value": "sparkle",
+          "label": "Sparkle"
+        },
+        {
+          "value": "sun",
+          "label": "Sun"
+        }
+      ]
+    },
+    {
+      "id": "benefit1",
+      "label": "Row 1",
+      "type": "text",
+      "default": "Proxy setup with Scrapy, Puppeteer and Selenium"
+    },
+    {
+      "id": "icon2",
+      "label": "Row 2 icon",
+      "type": "select",
+      "default": "book",
+      "options": [
+        {
+          "value": "book",
+          "label": "Book"
+        },
+        {
+          "value": "calendar",
+          "label": "Calendar"
+        },
+        {
+          "value": "chart",
+          "label": "Chart"
+        },
+        {
+          "value": "clock",
+          "label": "Clock"
+        },
+        {
+          "value": "code",
+          "label": "Code"
+        },
+        {
+          "value": "database",
+          "label": "Database"
+        },
+        {
+          "value": "dollar",
+          "label": "Dollar"
+        },
+        {
+          "value": "globe",
+          "label": "Globe"
+        },
+        {
+          "value": "handshake",
+          "label": "Handshake"
+        },
+        {
+          "value": "headset",
+          "label": "Headset"
+        },
+        {
+          "value": "heart",
+          "label": "Heart"
+        },
+        {
+          "value": "home",
+          "label": "Home"
+        },
+        {
+          "value": "map-pin",
+          "label": "Map pin"
+        },
+        {
+          "value": "megaphone",
+          "label": "Megaphone"
+        },
+        {
+          "value": "pencil",
+          "label": "Pencil"
+        },
+        {
+          "value": "server",
+          "label": "Server"
+        },
+        {
+          "value": "shield",
+          "label": "Shield"
+        },
+        {
+          "value": "shirt",
+          "label": "Shirt"
+        },
+        {
+          "value": "sparkle",
+          "label": "Sparkle"
+        },
+        {
+          "value": "sun",
+          "label": "Sun"
+        }
+      ]
+    },
+    {
+      "id": "benefit2",
+      "label": "Row 2",
+      "type": "text",
+      "default": "Write the docs and guides customers learn from"
+    },
+    {
+      "id": "icon3",
+      "label": "Row 3 icon",
+      "type": "select",
+      "default": "home",
+      "options": [
+        {
+          "value": "book",
+          "label": "Book"
+        },
+        {
+          "value": "calendar",
+          "label": "Calendar"
+        },
+        {
+          "value": "chart",
+          "label": "Chart"
+        },
+        {
+          "value": "clock",
+          "label": "Clock"
+        },
+        {
+          "value": "code",
+          "label": "Code"
+        },
+        {
+          "value": "database",
+          "label": "Database"
+        },
+        {
+          "value": "dollar",
+          "label": "Dollar"
+        },
+        {
+          "value": "globe",
+          "label": "Globe"
+        },
+        {
+          "value": "handshake",
+          "label": "Handshake"
+        },
+        {
+          "value": "headset",
+          "label": "Headset"
+        },
+        {
+          "value": "heart",
+          "label": "Heart"
+        },
+        {
+          "value": "home",
+          "label": "Home"
+        },
+        {
+          "value": "map-pin",
+          "label": "Map pin"
+        },
+        {
+          "value": "megaphone",
+          "label": "Megaphone"
+        },
+        {
+          "value": "pencil",
+          "label": "Pencil"
+        },
+        {
+          "value": "server",
+          "label": "Server"
+        },
+        {
+          "value": "shield",
+          "label": "Shield"
+        },
+        {
+          "value": "shirt",
+          "label": "Shirt"
+        },
+        {
+          "value": "sparkle",
+          "label": "Sparkle"
+        },
+        {
+          "value": "sun",
+          "label": "Sun"
+        }
+      ]
+    },
+    {
+      "id": "benefit3",
+      "label": "Row 3",
+      "type": "text",
+      "default": "Fully remote, EU time zone preferred"
+    },
+    {
+      "id": "icon4",
+      "label": "Row 4 icon",
+      "type": "select",
+      "default": "sun",
+      "options": [
+        {
+          "value": "book",
+          "label": "Book"
+        },
+        {
+          "value": "calendar",
+          "label": "Calendar"
+        },
+        {
+          "value": "chart",
+          "label": "Chart"
+        },
+        {
+          "value": "clock",
+          "label": "Clock"
+        },
+        {
+          "value": "code",
+          "label": "Code"
+        },
+        {
+          "value": "database",
+          "label": "Database"
+        },
+        {
+          "value": "dollar",
+          "label": "Dollar"
+        },
+        {
+          "value": "globe",
+          "label": "Globe"
+        },
+        {
+          "value": "handshake",
+          "label": "Handshake"
+        },
+        {
+          "value": "headset",
+          "label": "Headset"
+        },
+        {
+          "value": "heart",
+          "label": "Heart"
+        },
+        {
+          "value": "home",
+          "label": "Home"
+        },
+        {
+          "value": "map-pin",
+          "label": "Map pin"
+        },
+        {
+          "value": "megaphone",
+          "label": "Megaphone"
+        },
+        {
+          "value": "pencil",
+          "label": "Pencil"
+        },
+        {
+          "value": "server",
+          "label": "Server"
+        },
+        {
+          "value": "shield",
+          "label": "Shield"
+        },
+        {
+          "value": "shirt",
+          "label": "Shirt"
+        },
+        {
+          "value": "sparkle",
+          "label": "Sparkle"
+        },
+        {
+          "value": "sun",
+          "label": "Sun"
+        }
+      ]
+    },
+    {
+      "id": "benefit4",
+      "label": "Row 4",
+      "type": "text",
+      "default": "Unlimited vacation"
+    },
+    {
+      "id": "aside",
+      "label": "Handwritten note",
+      "type": "text",
+      "default": "Office: the sofa."
+    },
+    {
+      "id": "showAside",
+      "label": "Handwritten note",
+      "type": "toggle",
+      "default": true
+    },
+    {
+      "id": "experience",
+      "label": "Experience",
+      "type": "text",
+      "default": "2+ years in web scraping and proxies"
+    },
+    {
+      "id": "cta",
+      "label": "Call to action",
+      "type": "text",
+      "default": "Apply at joinmassive.com/careers"
+    }
+  ]
+}

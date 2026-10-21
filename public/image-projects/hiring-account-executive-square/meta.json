@@ -1,0 +1,63 @@
+{
+  "id": "hiring-account-executive-square",
+  "title": "Hiring: Account Executive, square",
+  "description": "Account Executive (Remote, European time zone): Own the full sales cycle, from first outbound to signed contract. joinmassive.com/careers/account-executive-ae",
+  "group": "massive",
+  "category": "hiring",
+  "template": "hiring-photo-square",
+  "series": "Open roles",
+  "status": "draft",
+  "tags": [
+    "hiring",
+    "careers",
+    "open role",
+    "account executive"
+  ],
+  "source": "https://www.joinmassive.com/careers/account-executive-ae",
+  "width": 1080,
+  "height": 1080,
+  "fields": [
+    {
+      "id": "photo",
+      "label": "Photo",
+      "type": "image",
+      "default": "assets/photo.webp"
+    },
+    {
+      "id": "headline",
+      "label": "Headline",
+      "type": "text",
+      "default": "We’re hiring"
+    },
+    {
+      "id": "role",
+      "label": "Role (on the swipe)",
+      "type": "text",
+      "default": "Account Executive"
+    },
+    {
+      "id": "details",
+      "label": "Details line",
+      "type": "text",
+      "default": "Remote · European time zone"
+    },
+    {
+      "id": "cta",
+      "label": "Call to action",
+      "type": "text",
+      "default": "joinmassive.com/careers"
+    },
+    {
+      "id": "aside",
+      "label": "Handwritten note",
+      "type": "text",
+      "default": "Commute: 0 min."
+    },
+    {
+      "id": "showAside",
+      "label": "Handwritten note",
+      "type": "toggle",
+      "default": true
+    }
+  ]
+}

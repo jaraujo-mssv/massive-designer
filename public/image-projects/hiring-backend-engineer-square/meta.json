@@ -1,0 +1,63 @@
+{
+  "id": "hiring-backend-engineer-square",
+  "title": "Hiring: Senior Backend Engineer (Proxy & Infra), square",
+  "description": "Senior Backend Engineer (Proxy & Infra) (Senior, Proxy & Infra, Remote): Build and run the Go services behind Massive's global proxy network. joinmassive.com/careers/senior-backend-engineer-proxy-infra",
+  "group": "massive",
+  "category": "hiring",
+  "template": "hiring-photo-square",
+  "series": "Open roles",
+  "status": "draft",
+  "tags": [
+    "hiring",
+    "careers",
+    "open role",
+    "backend engineer"
+  ],
+  "source": "https://www.joinmassive.com/careers/senior-backend-engineer-proxy-infra",
+  "width": 1080,
+  "height": 1080,
+  "fields": [
+    {
+      "id": "photo",
+      "label": "Photo",
+      "type": "image",
+      "default": "assets/photo.webp"
+    },
+    {
+      "id": "headline",
+      "label": "Headline",
+      "type": "text",
+      "default": "We’re hiring"
+    },
+    {
+      "id": "role",
+      "label": "Role (on the swipe)",
+      "type": "text",
+      "default": "Backend Engineer"
+    },
+    {
+      "id": "details",
+      "label": "Details line",
+      "type": "text",
+      "default": "Senior · Proxy & Infra · Remote"
+    },
+    {
+      "id": "cta",
+      "label": "Call to action",
+      "type": "text",
+      "default": "joinmassive.com/careers"
+    },
+    {
+      "id": "aside",
+      "label": "Handwritten note",
+      "type": "text",
+      "default": "Socks: mismatched."
+    },
+    {
+      "id": "showAside",
+      "label": "Handwritten note",
+      "type": "toggle",
+      "default": true
+    }
+  ]
+}

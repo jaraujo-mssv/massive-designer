@@ -1,0 +1,82 @@
+{
+  "id": "welcome-maria",
+  "title": "Welcome to Massive: Maria Duarte",
+  "description": "Maria Duarte, Engineer from Brazil: the Welcome to Massive card over the dimmed Slack desktop, with the welcome line below.",
+  "group": "massive",
+  "category": "team",
+  "template": "welcome-template",
+  "series": "Welcome to Massive",
+  "status": "draft",
+  "tags": [
+    "welcome",
+    "new hire",
+    "team",
+    "slack",
+    "maria"
+  ],
+  "source": "video-projects/welcome-to-massive",
+  "width": 1080,
+  "height": 1350,
+  "fields": [
+    {
+      "id": "photo",
+      "label": "Photo",
+      "type": "image",
+      "default": "assets/maria.png"
+    },
+    {
+      "id": "badge",
+      "label": "Badge",
+      "type": "text",
+      "default": "New hire"
+    },
+    {
+      "id": "name",
+      "label": "Full name",
+      "type": "text",
+      "default": "Maria Duarte"
+    },
+    {
+      "id": "firstName",
+      "label": "First name",
+      "type": "text",
+      "default": "Maria"
+    },
+    {
+      "id": "status",
+      "label": "Status",
+      "type": "text",
+      "default": "Available"
+    },
+    {
+      "id": "role",
+      "label": "Role",
+      "type": "text",
+      "default": "Engineer"
+    },
+    {
+      "id": "country",
+      "label": "Country",
+      "type": "text",
+      "default": "Brazil"
+    },
+    {
+      "id": "hobbies",
+      "label": "Abilities (comma-separated, up to 5)",
+      "type": "text",
+      "default": "Climbing, Soccer, Tennis, Fishing, Fortnite"
+    },
+    {
+      "id": "food",
+      "label": "Fuel (favourite food)",
+      "type": "text",
+      "default": "Barbecue"
+    },
+    {
+      "id": "confetti",
+      "label": "Confetti",
+      "type": "toggle",
+      "default": true
+    }
+  ]
+}

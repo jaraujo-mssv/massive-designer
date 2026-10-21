@@ -1,0 +1,82 @@
+{
+  "id": "welcome-ryan",
+  "title": "Welcome to Massive: Ryan Turner",
+  "description": "Ryan Turner, Head of Innovation from USA: the Welcome to Massive card over the dimmed Slack desktop, with the welcome line below.",
+  "group": "massive",
+  "category": "team",
+  "template": "welcome-template",
+  "series": "Welcome to Massive",
+  "status": "draft",
+  "tags": [
+    "welcome",
+    "new hire",
+    "team",
+    "slack",
+    "ryan"
+  ],
+  "source": "video-projects/welcome-to-massive",
+  "width": 1080,
+  "height": 1350,
+  "fields": [
+    {
+      "id": "photo",
+      "label": "Photo",
+      "type": "image",
+      "default": "assets/ryan.png"
+    },
+    {
+      "id": "badge",
+      "label": "Badge",
+      "type": "text",
+      "default": "New hire"
+    },
+    {
+      "id": "name",
+      "label": "Full name",
+      "type": "text",
+      "default": "Ryan Turner"
+    },
+    {
+      "id": "firstName",
+      "label": "First name",
+      "type": "text",
+      "default": "Ryan"
+    },
+    {
+      "id": "status",
+      "label": "Status",
+      "type": "text",
+      "default": "Available"
+    },
+    {
+      "id": "role",
+      "label": "Role",
+      "type": "text",
+      "default": "Head of Innovation"
+    },
+    {
+      "id": "country",
+      "label": "Country",
+      "type": "text",
+      "default": "USA"
+    },
+    {
+      "id": "hobbies",
+      "label": "Abilities (comma-separated, up to 5)",
+      "type": "text",
+      "default": "Soccer, Woodworking, AI, Electronics"
+    },
+    {
+      "id": "food",
+      "label": "Fuel (favourite food)",
+      "type": "text",
+      "default": "Tex-Mex"
+    },
+    {
+      "id": "confetti",
+      "label": "Confetti",
+      "type": "toggle",
+      "default": true
+    }
+  ]
+}

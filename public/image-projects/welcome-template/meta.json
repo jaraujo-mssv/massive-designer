@@ -1,0 +1,82 @@
+{
+  "id": "welcome-template",
+  "title": "Welcome to Massive: Template (Franklin)",
+  "description": "A new teammate's character-sheet card over the dimmed Slack desktop, with the welcome line below: the Welcome to Massive video held still in the Milestone card's layout. Fill in a new hire's details and photo.",
+  "group": "templates",
+  "category": "team",
+  "template": null,
+  "series": "Welcome to Massive",
+  "status": "draft",
+  "tags": [
+    "welcome",
+    "new hire",
+    "team",
+    "slack",
+    "card"
+  ],
+  "source": "video-projects/welcome-to-massive",
+  "width": 1080,
+  "height": 1350,
+  "fields": [
+    {
+      "id": "photo",
+      "label": "Photo",
+      "type": "image",
+      "default": "assets/franklin.jpg"
+    },
+    {
+      "id": "badge",
+      "label": "Badge",
+      "type": "text",
+      "default": "New hire"
+    },
+    {
+      "id": "name",
+      "label": "Full name",
+      "type": "text",
+      "default": "Franklin Uche"
+    },
+    {
+      "id": "firstName",
+      "label": "First name",
+      "type": "text",
+      "default": "Franklin"
+    },
+    {
+      "id": "status",
+      "label": "Status",
+      "type": "text",
+      "default": "Available"
+    },
+    {
+      "id": "role",
+      "label": "Role",
+      "type": "text",
+      "default": "Community Lead"
+    },
+    {
+      "id": "country",
+      "label": "Country",
+      "type": "text",
+      "default": "Nigeria"
+    },
+    {
+      "id": "hobbies",
+      "label": "Abilities (comma-separated, up to 5)",
+      "type": "text",
+      "default": "Playing football, Playing golf, Gardening"
+    },
+    {
+      "id": "food",
+      "label": "Fuel (favourite food)",
+      "type": "text",
+      "default": "Medium rare steak and rice"
+    },
+    {
+      "id": "confetti",
+      "label": "Confetti",
+      "type": "toggle",
+      "default": true
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "id": "welcome-artem",
+  "title": "Welcome to Massive: Artem Shcherbatiuk",
+  "description": "Artem Shcherbatiuk, Senior Software Engineer from Poland: the Welcome to Massive card over the dimmed Slack desktop, with the welcome line below.",
+  "group": "massive",
+  "category": "team",
+  "template": "welcome-template",
+  "series": "Welcome to Massive",
+  "status": "draft",
+  "tags": [
+    "welcome",
+    "new hire",
+    "team",
+    "slack",
+    "artem"
+  ],
+  "source": "video-projects/welcome-to-massive",
+  "width": 1080,
+  "height": 1350,
+  "fields": [
+    {
+      "id": "photo",
+      "label": "Photo",
+      "type": "image",
+      "default": "assets/artem.jpg"
+    },
+    {
+      "id": "badge",
+      "label": "Badge",
+      "type": "text",
+      "default": "New hire"
+    },
+    {
+      "id": "name",
+      "label": "Full name",
+      "type": "text",
+      "default": "Artem Shcherbatiuk"
+    },
+    {
+      "id": "firstName",
+      "label": "First name",
+      "type": "text",
+      "default": "Artem"
+    },
+    {
+      "id": "status",
+      "label": "Status",
+      "type": "text",
+      "default": "Available"
+    },
+    {
+      "id": "role",
+      "label": "Role",
+      "type": "text",
+      "default": "Senior Software Engineer"
+    },
+    {
+      "id": "country",
+      "label": "Country",
+      "type": "text",
+      "default": "Poland"
+    },
+    {
+      "id": "hobbies",
+      "label": "Abilities (comma-separated, up to 5)",
+      "type": "text",
+      "default": "Ping pong, Skiing, Windsurfing"
+    },
+    {
+      "id": "food",
+      "label": "Fuel (favourite food)",
+      "type": "text",
+      "default": "Pad Thai"
+    },
+    {
+      "id": "confetti",
+      "label": "Confetti",
+      "type": "toggle",
+      "default": true
+    }
+  ]
+}

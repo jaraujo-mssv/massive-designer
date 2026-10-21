@@ -1,0 +1,82 @@
+{
+  "id": "welcome-anton",
+  "title": "Welcome to Massive: Anton Komandyr",
+  "description": "Anton Komandyr, Engineer from Ukraine: the Welcome to Massive card over the dimmed Slack desktop, with the welcome line below.",
+  "group": "massive",
+  "category": "team",
+  "template": "welcome-template",
+  "series": "Welcome to Massive",
+  "status": "draft",
+  "tags": [
+    "welcome",
+    "new hire",
+    "team",
+    "slack",
+    "anton"
+  ],
+  "source": "video-projects/welcome-to-massive",
+  "width": 1080,
+  "height": 1350,
+  "fields": [
+    {
+      "id": "photo",
+      "label": "Photo",
+      "type": "image",
+      "default": "assets/anton.jpg"
+    },
+    {
+      "id": "badge",
+      "label": "Badge",
+      "type": "text",
+      "default": "New hire"
+    },
+    {
+      "id": "name",
+      "label": "Full name",
+      "type": "text",
+      "default": "Anton Komandyr"
+    },
+    {
+      "id": "firstName",
+      "label": "First name",
+      "type": "text",
+      "default": "Anton"
+    },
+    {
+      "id": "status",
+      "label": "Status",
+      "type": "text",
+      "default": "Available"
+    },
+    {
+      "id": "role",
+      "label": "Role",
+      "type": "text",
+      "default": "Engineer"
+    },
+    {
+      "id": "country",
+      "label": "Country",
+      "type": "text",
+      "default": "Ukraine"
+    },
+    {
+      "id": "hobbies",
+      "label": "Abilities (comma-separated, up to 5)",
+      "type": "text",
+      "default": "Board games, Snowboarding"
+    },
+    {
+      "id": "food",
+      "label": "Fuel (favourite food)",
+      "type": "text",
+      "default": "Beef steak"
+    },
+    {
+      "id": "confetti",
+      "label": "Confetti",
+      "type": "toggle",
+      "default": true
+    }
+  ]
+}

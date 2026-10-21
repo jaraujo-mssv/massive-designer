@@ -1,0 +1,91 @@
+{
+  "id": "writers-hiring-abroad",
+  "title": "Writers Hiring: Abroad",
+  "description": "Hiring post for part- and full-time writers: the benefits on a cream wash beside a writer on a video call from a sunny balcony abroad, blazer up top and shorts below.",
+  "group": "massive",
+  "series": "Writers: Hiring",
+  "status": "draft",
+  "tags": [
+    "hiring",
+    "careers",
+    "writers",
+    "linkedin"
+  ],
+  "source": "image-projects/writers-hiring-home",
+  "width": 1080,
+  "height": 1350,
+  "fields": [
+    {
+      "id": "photo",
+      "label": "Photo",
+      "type": "image",
+      "default": "assets/photo.webp"
+    },
+    {
+      "id": "headline",
+      "label": "Headline",
+      "type": "text",
+      "default": "We’re hiring"
+    },
+    {
+      "id": "role",
+      "label": "Role",
+      "type": "text",
+      "default": "writers."
+    },
+    {
+      "id": "subline",
+      "label": "Subline",
+      "type": "text",
+      "default": "Some of the best benefits in corporate history."
+    },
+    {
+      "id": "benefit1",
+      "label": "Benefit 1",
+      "type": "text",
+      "default": "Do whatever you want, as long as the content is awesome"
+    },
+    {
+      "id": "benefit2",
+      "label": "Benefit 2",
+      "type": "text",
+      "default": "Remote, from anywhere in the world"
+    },
+    {
+      "id": "benefit3",
+      "label": "Benefit 3",
+      "type": "text",
+      "default": "Work any hours you like"
+    },
+    {
+      "id": "benefit4",
+      "label": "Benefit 4",
+      "type": "text",
+      "default": "Dress code: business up top, your choice below"
+    },
+    {
+      "id": "aside",
+      "label": "Handwritten note",
+      "type": "text",
+      "default": "Office: wherever."
+    },
+    {
+      "id": "showAside",
+      "label": "Handwritten note",
+      "type": "toggle",
+      "default": true
+    },
+    {
+      "id": "experience",
+      "label": "Experience",
+      "type": "text",
+      "default": "2–4 years of writing"
+    },
+    {
+      "id": "requirements",
+      "label": "Background",
+      "type": "text",
+      "default": "Ghostwriting, journalism, editorial, content marketing all count"
+    }
+  ]
+}

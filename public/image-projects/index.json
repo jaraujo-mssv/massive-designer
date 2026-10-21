@@ -391,6 +391,441 @@
       ],
       "path": "/image-projects/jason-15k-very-nice/index.html",
       "thumb": "/image-projects/jason-15k-very-nice/thumb.jpg"
+    },
+    {
+      "id": "writers-hiring-abroad",
+      "title": "Writers Hiring: Abroad",
+      "description": "Hiring post for part- and full-time writers: the benefits on a cream wash beside a writer on a video call from a sunny balcony abroad, blazer up top and shorts below.",
+      "group": "massive",
+      "series": "Writers: Hiring",
+      "status": "draft",
+      "tags": [
+        "hiring",
+        "careers",
+        "writers",
+        "linkedin"
+      ],
+      "source": "image-projects/writers-hiring-home",
+      "width": 1080,
+      "height": 1350,
+      "fields": [
+        {
+          "id": "photo",
+          "label": "Photo",
+          "type": "image",
+          "default": "assets/photo.webp"
+        },
+        {
+          "id": "headline",
+          "label": "Headline",
+          "type": "text",
+          "default": "We’re hiring"
+        },
+        {
+          "id": "role",
+          "label": "Role",
+          "type": "text",
+          "default": "writers."
+        },
+        {
+          "id": "subline",
+          "label": "Subline",
+          "type": "text",
+          "default": "Some of the best benefits in corporate history."
+        },
+        {
+          "id": "benefit1",
+          "label": "Benefit 1",
+          "type": "text",
+          "default": "Do whatever you want, as long as the content is awesome"
+        },
+        {
+          "id": "benefit2",
+          "label": "Benefit 2",
+          "type": "text",
+          "default": "Remote, from anywhere in the world"
+        },
+        {
+          "id": "benefit3",
+          "label": "Benefit 3",
+          "type": "text",
+          "default": "Work any hours you like"
+        },
+        {
+          "id": "benefit4",
+          "label": "Benefit 4",
+          "type": "text",
+          "default": "Dress code: business up top, your choice below"
+        },
+        {
+          "id": "aside",
+          "label": "Handwritten note",
+          "type": "text",
+          "default": "Office: wherever."
+        },
+        {
+          "id": "showAside",
+          "label": "Handwritten note",
+          "type": "toggle",
+          "default": true
+        },
+        {
+          "id": "experience",
+          "label": "Experience",
+          "type": "text",
+          "default": "2–4 years of writing"
+        },
+        {
+          "id": "requirements",
+          "label": "Background",
+          "type": "text",
+          "default": "Ghostwriting, journalism, editorial, content marketing all count"
+        }
+      ],
+      "path": "/image-projects/writers-hiring-abroad/index.html",
+      "thumb": "/image-projects/writers-hiring-abroad/thumb.jpg"
+    },
+    {
+      "id": "writers-hiring-abroad-square",
+      "title": "Writers Hiring: Abroad (square)",
+      "description": "Square cut of the abroad hiring post: the headline beside a writer on a balcony call in a blazer and shorts, with a handwritten note pointing at them.",
+      "group": "massive",
+      "series": "Writers: Hiring",
+      "status": "draft",
+      "tags": [
+        "hiring",
+        "careers",
+        "writers",
+        "linkedin",
+        "square"
+      ],
+      "source": "image-projects/writers-hiring-abroad",
+      "width": 1080,
+      "height": 1080,
+      "fields": [
+        {
+          "id": "photo",
+          "label": "Photo",
+          "type": "image",
+          "default": "assets/photo.webp"
+        },
+        {
+          "id": "headline",
+          "label": "Headline",
+          "type": "text",
+          "default": "We’re hiring"
+        },
+        {
+          "id": "role",
+          "label": "Role",
+          "type": "text",
+          "default": "writers."
+        },
+        {
+          "id": "aside",
+          "label": "Handwritten note",
+          "type": "text",
+          "default": "Office: wherever."
+        },
+        {
+          "id": "showAside",
+          "label": "Handwritten note",
+          "type": "toggle",
+          "default": true
+        }
+      ],
+      "path": "/image-projects/writers-hiring-abroad-square/index.html",
+      "thumb": "/image-projects/writers-hiring-abroad-square/thumb.jpg"
+    },
+    {
+      "id": "writers-hiring-home",
+      "title": "Writers Hiring: Home office",
+      "description": "Hiring post for part- and full-time writers: the benefits on a cream wash beside a writer on a video call at home, business up top and pajamas below.",
+      "group": "massive",
+      "series": "Writers: Hiring",
+      "status": "draft",
+      "tags": [
+        "hiring",
+        "careers",
+        "writers",
+        "linkedin"
+      ],
+      "source": null,
+      "width": 1080,
+      "height": 1350,
+      "fields": [
+        {
+          "id": "photo",
+          "label": "Photo",
+          "type": "image",
+          "default": "assets/photo.webp"
+        },
+        {
+          "id": "headline",
+          "label": "Headline",
+          "type": "text",
+          "default": "We’re hiring"
+        },
+        {
+          "id": "role",
+          "label": "Role",
+          "type": "text",
+          "default": "writers."
+        },
+        {
+          "id": "subline",
+          "label": "Subline",
+          "type": "text",
+          "default": "Some of the best benefits in corporate history."
+        },
+        {
+          "id": "benefit1",
+          "label": "Benefit 1",
+          "type": "text",
+          "default": "Do whatever you want, as long as the content is awesome"
+        },
+        {
+          "id": "benefit2",
+          "label": "Benefit 2",
+          "type": "text",
+          "default": "Remote, from anywhere in the world"
+        },
+        {
+          "id": "benefit3",
+          "label": "Benefit 3",
+          "type": "text",
+          "default": "Work any hours you like"
+        },
+        {
+          "id": "benefit4",
+          "label": "Benefit 4",
+          "type": "text",
+          "default": "Dress code: business up top, your choice below"
+        },
+        {
+          "id": "aside",
+          "label": "Handwritten note",
+          "type": "text",
+          "default": "Pajamas: approved."
+        },
+        {
+          "id": "showAside",
+          "label": "Handwritten note",
+          "type": "toggle",
+          "default": true
+        },
+        {
+          "id": "experience",
+          "label": "Experience",
+          "type": "text",
+          "default": "2–4 years of writing"
+        },
+        {
+          "id": "requirements",
+          "label": "Background",
+          "type": "text",
+          "default": "Ghostwriting, journalism, editorial, content marketing all count"
+        }
+      ],
+      "path": "/image-projects/writers-hiring-home/index.html",
+      "thumb": "/image-projects/writers-hiring-home/thumb.jpg"
+    },
+    {
+      "id": "writers-hiring-home-square",
+      "title": "Writers Hiring: Home office (square)",
+      "description": "Square cut of the home-office hiring post: the headline beside a writer on a video call in a crisp shirt and star-print pajamas, with a handwritten note pointing at them.",
+      "group": "massive",
+      "series": "Writers: Hiring",
+      "status": "draft",
+      "tags": [
+        "hiring",
+        "careers",
+        "writers",
+        "linkedin",
+        "square"
+      ],
+      "source": "image-projects/writers-hiring-home",
+      "width": 1080,
+      "height": 1080,
+      "fields": [
+        {
+          "id": "photo",
+          "label": "Photo",
+          "type": "image",
+          "default": "assets/photo.webp"
+        },
+        {
+          "id": "headline",
+          "label": "Headline",
+          "type": "text",
+          "default": "We’re hiring"
+        },
+        {
+          "id": "role",
+          "label": "Role",
+          "type": "text",
+          "default": "writers."
+        },
+        {
+          "id": "aside",
+          "label": "Handwritten note",
+          "type": "text",
+          "default": "Pajamas: approved."
+        },
+        {
+          "id": "showAside",
+          "label": "Handwritten note",
+          "type": "toggle",
+          "default": true
+        }
+      ],
+      "path": "/image-projects/writers-hiring-home-square/index.html",
+      "thumb": "/image-projects/writers-hiring-home-square/thumb.jpg"
+    },
+    {
+      "id": "writers-hiring-sunrise",
+      "title": "Writers Hiring: Sunrise",
+      "description": "Hiring post for part- and full-time writers: the benefits on a cream wash beside a writer on an early video call at the kitchen table at sunrise, oxford shirt up top and pajamas below.",
+      "group": "massive",
+      "series": "Writers: Hiring",
+      "status": "draft",
+      "tags": [
+        "hiring",
+        "careers",
+        "writers",
+        "linkedin"
+      ],
+      "source": "image-projects/writers-hiring-home",
+      "width": 1080,
+      "height": 1350,
+      "fields": [
+        {
+          "id": "photo",
+          "label": "Photo",
+          "type": "image",
+          "default": "assets/photo.webp"
+        },
+        {
+          "id": "headline",
+          "label": "Headline",
+          "type": "text",
+          "default": "We’re hiring"
+        },
+        {
+          "id": "role",
+          "label": "Role",
+          "type": "text",
+          "default": "writers."
+        },
+        {
+          "id": "subline",
+          "label": "Subline",
+          "type": "text",
+          "default": "Some of the best benefits in corporate history."
+        },
+        {
+          "id": "benefit1",
+          "label": "Benefit 1",
+          "type": "text",
+          "default": "Do whatever you want, as long as the content is awesome"
+        },
+        {
+          "id": "benefit2",
+          "label": "Benefit 2",
+          "type": "text",
+          "default": "Remote, from anywhere in the world"
+        },
+        {
+          "id": "benefit3",
+          "label": "Benefit 3",
+          "type": "text",
+          "default": "Work any hours you like"
+        },
+        {
+          "id": "benefit4",
+          "label": "Benefit 4",
+          "type": "text",
+          "default": "Dress code: business up top, your choice below"
+        },
+        {
+          "id": "aside",
+          "label": "Handwritten note",
+          "type": "text",
+          "default": "Hours: yours."
+        },
+        {
+          "id": "showAside",
+          "label": "Handwritten note",
+          "type": "toggle",
+          "default": true
+        },
+        {
+          "id": "experience",
+          "label": "Experience",
+          "type": "text",
+          "default": "2–4 years of writing"
+        },
+        {
+          "id": "requirements",
+          "label": "Background",
+          "type": "text",
+          "default": "Ghostwriting, journalism, editorial, content marketing all count"
+        }
+      ],
+      "path": "/image-projects/writers-hiring-sunrise/index.html",
+      "thumb": "/image-projects/writers-hiring-sunrise/thumb.jpg"
+    },
+    {
+      "id": "writers-hiring-sunrise-square",
+      "title": "Writers Hiring: Sunrise (square)",
+      "description": "Square cut of the sunrise hiring post: the headline beside a writer on an early call at the kitchen table in an oxford shirt and pajamas, with a handwritten note pointing at them.",
+      "group": "massive",
+      "series": "Writers: Hiring",
+      "status": "draft",
+      "tags": [
+        "hiring",
+        "careers",
+        "writers",
+        "linkedin",
+        "square"
+      ],
+      "source": "image-projects/writers-hiring-sunrise",
+      "width": 1080,
+      "height": 1080,
+      "fields": [
+        {
+          "id": "photo",
+          "label": "Photo",
+          "type": "image",
+          "default": "assets/photo.webp"
+        },
+        {
+          "id": "headline",
+          "label": "Headline",
+          "type": "text",
+          "default": "We’re hiring"
+        },
+        {
+          "id": "role",
+          "label": "Role",
+          "type": "text",
+          "default": "writers."
+        },
+        {
+          "id": "aside",
+          "label": "Handwritten note",
+          "type": "text",
+          "default": "Hours: yours."
+        },
+        {
+          "id": "showAside",
+          "label": "Handwritten note",
+          "type": "toggle",
+          "default": true
+        }
+      ],
+      "path": "/image-projects/writers-hiring-sunrise-square/index.html",
+      "thumb": "/image-projects/writers-hiring-sunrise-square/thumb.jpg"
     }
   ]
 }

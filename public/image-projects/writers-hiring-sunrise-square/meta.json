@@ -1,0 +1,50 @@
+{
+  "id": "writers-hiring-sunrise-square",
+  "title": "Writers Hiring: Sunrise (square)",
+  "description": "Square cut of the sunrise hiring post: the headline beside a writer on an early call at the kitchen table in an oxford shirt and pajamas, with a handwritten note pointing at them.",
+  "group": "massive",
+  "series": "Writers: Hiring",
+  "status": "draft",
+  "tags": [
+    "hiring",
+    "careers",
+    "writers",
+    "linkedin",
+    "square"
+  ],
+  "source": "image-projects/writers-hiring-sunrise",
+  "width": 1080,
+  "height": 1080,
+  "fields": [
+    {
+      "id": "photo",
+      "label": "Photo",
+      "type": "image",
+      "default": "assets/photo.webp"
+    },
+    {
+      "id": "headline",
+      "label": "Headline",
+      "type": "text",
+      "default": "We’re hiring"
+    },
+    {
+      "id": "role",
+      "label": "Role",
+      "type": "text",
+      "default": "writers."
+    },
+    {
+      "id": "aside",
+      "label": "Handwritten note",
+      "type": "text",
+      "default": "Hours: yours."
+    },
+    {
+      "id": "showAside",
+      "label": "Handwritten note",
+      "type": "toggle",
+      "default": true
+    }
+  ]
+}

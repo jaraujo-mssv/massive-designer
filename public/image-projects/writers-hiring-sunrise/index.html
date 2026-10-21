@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1350" />
+    <title>Writers Hiring: Sunrise</title>
+    <link rel="stylesheet" href="../_brand/massive.css" />
+    <!-- A hiring post: a lifestyle photo on the right, the pitch on a cream wash on the left, the ask in an ink footer. -->
+    <style>
+      @font-face {
+        font-family: "Caveat";
+        src: url("assets/fonts/Caveat.ttf") format("truetype");
+        font-weight: 400 700;
+      }
+      #canvas {
+        width: 1080px;
+        height: 1350px;
+        background: var(--m-cream);
+        color: var(--m-bg);
+      }
+      .photo {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1080px;
+        height: 1200px;
+        object-fit: cover;
+        object-position: 50% 40%;
+      }
+      /* Cream from the left and the top, so the type sits on a clean ground and the writer stays clear.
+         --seam is where the photo's empty left side ends: near-solid cream up to it, then a long, eased fade. */
+      .wash {
+        --seam: 42%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1080px;
+        height: 1200px;
+        background:
+          linear-gradient(180deg, rgba(250, 244, 236, 0.7) 0%, rgba(250, 244, 236, 0) 22%),
+          linear-gradient(
+            90deg,
+            rgba(250, 244, 236, 1) 0%,
+            rgba(250, 244, 236, 0.97) var(--seam),
+            rgba(250, 244, 236, 0.72) calc(var(--seam) + 5%),
+            rgba(250, 244, 236, 0.42) calc(var(--seam) + 10%),
+            rgba(250, 244, 236, 0.18) calc(var(--seam) + 15%),
+            rgba(250, 244, 236, 0.05) calc(var(--seam) + 20%),
+            rgba(250, 244, 236, 0) calc(var(--seam) + 24%)
+          );
+      }
+      .copy {
+        position: absolute;
+        left: 72px;
+        top: 100px;
+        width: 580px;
+      }
+      /* Above the swipe, so the descender of "hiring" crosses the red stroke. */
+      .headline {
+        position: relative;
+        z-index: 1;
+        width: 500px;
+        font-size: 128px;
+        font-weight: 900;
+        line-height: 0.9;
+        letter-spacing: -0.05em;
+      }
+      /* "writers." in cream on a red brush stroke; the stroke stretches to whatever the role says. */
+      .swipe {
+        position: relative;
+        display: inline-block;
+        margin: -24px 0 0 -10px;
+        padding: 0 30px 12px 20px;
+        font-size: 120px;
+        font-weight: 900;
+        line-height: 1;
+        letter-spacing: -0.05em;
+        color: var(--m-cream);
+        transform: rotate(-2deg);
+        isolation: isolate;
+        white-space: nowrap;
+      }
+      .swipe svg.stroke {
+        position: absolute;
+        left: -8px;
+        right: -8px;
+        top: 10px;
+        bottom: -4px;
+        width: calc(100% + 16px);
+        height: calc(100% - 6px);
+        z-index: -1;
+      }
+      .swipe svg.ticks {
+        position: absolute;
+        left: -34px;
+        top: -40px;
+        width: 52px;
+        height: 52px;
+      }
+      .subline {
+        margin-top: 34px;
+        width: 500px;
+        font-size: 34px;
+        font-weight: 500;
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+      }
+      .benefits {
+        margin-top: 40px;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+      .benefit {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+      .benefit .dot {
+        flex: none;
+        display: grid;
+        place-items: center;
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background: rgba(215, 73, 57, 0.13);
+      }
+      .benefit .dot svg {
+        width: 32px;
+        height: 32px;
+        fill: none;
+        stroke: var(--m-red-deep);
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .benefit .label {
+        width: 380px;
+        font-size: 24px;
+        font-weight: 500;
+        line-height: 1.22;
+        letter-spacing: -0.01em;
+      }
+      /* The handwritten note, and an arrow from its end to the writer's pajamas (aimed per photo). */
+      .aside {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+      .aside .note {
+        position: absolute;
+        left: 84px;
+        top: 1098px;
+        font-family: "Caveat", cursive;
+        font-size: 50px;
+        font-weight: 700;
+        line-height: 1;
+        transform: rotate(-7deg);
+        transform-origin: left bottom;
+        white-space: nowrap;
+      }
+      .aside svg {
+        position: absolute;
+        left: 300px;
+        top: 880px;
+        width: 360px;
+        height: 210px;
+        fill: none;
+        stroke: var(--m-bg);
+        stroke-width: 3.5;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .foot {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 150px;
+        padding: 0 72px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: var(--m-bg);
+        color: var(--m-cream);
+      }
+      .foot .exp {
+        font-size: 38px;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        white-space: nowrap;
+      }
+      .foot .req {
+        max-width: 540px;
+        margin-top: 8px;
+        font-family: var(--m-mono);
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 1.45;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--m-cream-dim);
+      }
+      .foot .logo {
+        height: 40px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas">
+      <img class="photo" data-field-src="photo" src="assets/photo.webp" alt="" />
+      <div class="wash"></div>
+
+      <div class="copy">
+        <div class="headline" data-field="headline">We’re hiring</div>
+        <div class="swipe">
+          <svg class="stroke" viewBox="0 0 600 140" preserveAspectRatio="none" aria-hidden="true">
+            <path
+              fill="#d74939"
+              d="M14 34 C 60 22 120 20 180 18 C 300 13 430 10 560 16 L 588 22 C 594 40 590 60 596 78 C 592 96 597 112 586 124 C 470 132 330 133 200 134 C 130 134 70 132 18 128 C 8 112 13 98 6 84 C 12 68 4 50 14 34 Z"
+            />
+            <path fill="#d74939" opacity="0.55" d="M560 18 L 600 26 L 596 40 L 572 36 Z M 6 112 L 22 108 L 26 132 L 2 128 Z" />
+          </svg>
+          <svg class="ticks" viewBox="0 0 64 64" aria-hidden="true">
+            <path d="M50 30 L 42 6 M 34 40 L 10 22 M 28 58 L 4 54" stroke="#d74939" stroke-width="6" stroke-linecap="round" fill="none" />
+          </svg>
+          <span data-field="role">writers.</span>
+        </div>
+        <div class="subline" data-field="subline">Some of the best benefits in corporate history.</div>
+
+        <div class="benefits">
+          <div class="benefit">
+            <div class="dot">
+              <svg viewBox="0 0 24 24">
+                <path d="M21.17 6.81a1 1 0 0 0-3.98-3.98L3.84 16.17a2 2 0 0 0-.5.83l-1.32 4.36a.5.5 0 0 0 .62.62l4.35-1.32a2 2 0 0 0 .83-.5z" />
+                <path d="m15 5 4 4" />
+              </svg>
+            </div>
+            <div class="label" data-field="benefit1">Do whatever you want, as long as the content is awesome</div>
+          </div>
+          <div class="benefit">
+            <div class="dot">
+              <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
+                <path d="M2 12h20" />
+              </svg>
+            </div>
+            <div class="label" data-field="benefit2">Remote, from anywhere in the world</div>
+          </div>
+          <div class="benefit">
+            <div class="dot">
+              <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 6v6l4 2" />
+              </svg>
+            </div>
+            <div class="label" data-field="benefit3">Work any hours you like</div>
+          </div>
+          <div class="benefit">
+            <div class="dot">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"
+                />
+              </svg>
+            </div>
+            <div class="label" data-field="benefit4">Dress code: business up top, your choice below</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="aside" data-field-show="showAside">
+        <div class="note" data-field="aside">Hours: yours.</div>
+        <svg viewBox="0 0 360 210" aria-hidden="true">
+          <path d="M8 192 C 110 200 250 150 344 22" />
+          <path d="M312 30 L 346 20 L 350 56" />
+        </svg>
+      </div>
+
+      <div class="foot">
+        <div>
+          <div class="exp" data-field="experience">2–4 years of writing</div>
+          <div class="req" data-field="requirements">Ghostwriting, journalism, editorial, content marketing all count</div>
+        </div>
+        <img class="logo" src="../_brand/logo-massive.svg" alt="Massive" />
+      </div>
+    </div>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

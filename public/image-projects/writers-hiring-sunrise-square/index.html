@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1080" />
+    <title>Writers Hiring: Sunrise (square)</title>
+    <link rel="stylesheet" href="../_brand/massive.css" />
+    <!-- The square cut of writers-hiring-sunrise: just the headline on a cream wash beside the photo, and a handwritten note pointing at the writer's bottoms. -->
+    <style>
+      @font-face {
+        font-family: "Caveat";
+        src: url("assets/fonts/Caveat.ttf") format("truetype");
+        font-weight: 400 700;
+      }
+      #canvas {
+        width: 1080px;
+        height: 1080px;
+        background: var(--m-cream);
+        color: var(--m-bg);
+      }
+      /* Narrower than the canvas and pinned right, so the whole writer fits beside the headline. */
+      .photo {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 880px;
+        height: 1080px;
+        object-fit: cover;
+        object-position: 50% 50%;
+      }
+      /* Cream from the left and the top, so the headline sits on a clean ground and the writer stays clear.
+         --seam is where the photo's empty left side ends: near-solid cream up to it, then an eased fade. */
+      .wash {
+        --seam: 53%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1080px;
+        height: 1080px;
+        background:
+          linear-gradient(180deg, rgba(250, 244, 236, 0.6) 0%, rgba(250, 244, 236, 0) 20%),
+          linear-gradient(
+            90deg,
+            rgba(250, 244, 236, 1) 0%,
+            rgba(250, 244, 236, 0.97) var(--seam),
+            rgba(250, 244, 236, 0.68) calc(var(--seam) + 4%),
+            rgba(250, 244, 236, 0.38) calc(var(--seam) + 8%),
+            rgba(250, 244, 236, 0.14) calc(var(--seam) + 12%),
+            rgba(250, 244, 236, 0.03) calc(var(--seam) + 16%),
+            rgba(250, 244, 236, 0) calc(var(--seam) + 19%)
+          );
+      }
+      .copy {
+        position: absolute;
+        left: 72px;
+        top: 0;
+        height: 840px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+      }
+      /* Above the swipe, so the descender of "hiring" crosses the red stroke. */
+      .headline {
+        position: relative;
+        z-index: 1;
+        width: 560px;
+        font-size: 164px;
+        font-weight: 900;
+        line-height: 0.9;
+        letter-spacing: -0.05em;
+      }
+      /* "writers." in cream on a red brush stroke; the stroke stretches to whatever the role says. */
+      .swipe {
+        position: relative;
+        display: inline-block;
+        margin: -30px 0 0 -12px;
+        padding: 0 34px 14px 22px;
+        font-size: 144px;
+        font-weight: 900;
+        line-height: 1;
+        letter-spacing: -0.05em;
+        color: var(--m-cream);
+        transform: rotate(-2deg);
+        isolation: isolate;
+        white-space: nowrap;
+      }
+      .swipe svg.stroke {
+        position: absolute;
+        left: -8px;
+        right: -8px;
+        top: 12px;
+        bottom: -4px;
+        width: calc(100% + 16px);
+        height: calc(100% - 8px);
+        z-index: -1;
+      }
+      .swipe svg.ticks {
+        position: absolute;
+        left: -38px;
+        top: -46px;
+        width: 60px;
+        height: 60px;
+      }
+      /* The handwritten note, and an arrow from its end to the writer's bottoms, drawn in canvas coordinates. */
+      .aside {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+      .aside .note {
+        position: absolute;
+        left: 84px;
+        top: 880px;
+        font-family: "Caveat", cursive;
+        font-size: 56px;
+        font-weight: 700;
+        line-height: 1;
+        transform: rotate(-7deg);
+        transform-origin: left bottom;
+        white-space: nowrap;
+      }
+      .aside svg {
+        position: absolute;
+        inset: 0;
+        width: 1080px;
+        height: 1080px;
+        fill: none;
+        stroke: var(--m-bg);
+        stroke-width: 3.5;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas">
+      <img class="photo" data-field-src="photo" src="assets/photo.webp" alt="" />
+      <div class="wash"></div>
+
+      <div class="copy">
+        <div class="headline" data-field="headline">We’re hiring</div>
+        <div class="swipe">
+          <svg class="stroke" viewBox="0 0 600 140" preserveAspectRatio="none" aria-hidden="true">
+            <path
+              fill="#d74939"
+              d="M14 34 C 60 22 120 20 180 18 C 300 13 430 10 560 16 L 588 22 C 594 40 590 60 596 78 C 592 96 597 112 586 124 C 470 132 330 133 200 134 C 130 134 70 132 18 128 C 8 112 13 98 6 84 C 12 68 4 50 14 34 Z"
+            />
+            <path fill="#d74939" opacity="0.55" d="M560 18 L 600 26 L 596 40 L 572 36 Z M 6 112 L 22 108 L 26 132 L 2 128 Z" />
+          </svg>
+          <svg class="ticks" viewBox="0 0 64 64" aria-hidden="true">
+            <path d="M50 30 L 42 6 M 34 40 L 10 22 M 28 58 L 4 54" stroke="#d74939" stroke-width="6" stroke-linecap="round" fill="none" />
+          </svg>
+          <span data-field="role">writers.</span>
+        </div>
+      </div>
+
+      <div class="aside" data-field-show="showAside">
+        <div class="note" data-field="aside">Hours: yours.</div>
+        <svg viewBox="0 0 1080 1080" aria-hidden="true">
+          <path d="M342 893 C 469 901 647 854 765 735" />
+          <path d="M736 743 L 765 735 L 757 764" />
+        </svg>
+      </div>
+    </div>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

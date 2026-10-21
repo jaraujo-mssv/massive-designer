@@ -163,6 +163,26 @@ function contentWritePlugin() {
   };
 }
 
+/**
+ * Keeps the local-only tools' files out of the deployed build. Vite copies all of public/ into dist/; this removes
+ * the Video tab's projects, the Content tab's campaign media and the old storyboard pages once the build is
+ * written. Their routes are dev-only too (src/router/index.tsx), so the dev server is the only place they exist.
+ */
+function localOnlyPublicDirs() {
+  const dirs = ['video-projects', 'content', 'storyboards'];
+  let outDir = '';
+  return {
+    name: 'local-only-public-dirs',
+    apply: 'build' as const,
+    configResolved(config: { root: string; build: { outDir: string } }) {
+      outDir = path.resolve(config.root, config.build.outDir);
+    },
+    closeBundle() {
+      for (const dir of dirs) fs.rmSync(path.join(outDir, dir), { recursive: true, force: true });
+    },
+  };
+}
+
 function imageProxyPlugin() {
   const handler: Connect.NextHandleFunction = async (req, res, next) => {
     if (!req.url?.startsWith('/api/image-proxy')) return next();
@@ -191,7 +211,7 @@ function imageProxyPlugin() {
 }
 
 export default defineConfig({
-  plugins: [react(), tailwindcss(), imageProxyPlugin(), videoVariantsPlugin(), contentWritePlugin()],
+  plugins: [react(), tailwindcss(), imageProxyPlugin(), videoVariantsPlugin(), contentWritePlugin(), localOnlyPublicDirs()],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

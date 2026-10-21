@@ -14,7 +14,7 @@ Design social media graphics with customizable layouts and typography.
 Build ranked list visuals for reports and presentations.
 
 ### Content
-Organizes and previews campaign content (scripts, animatic frames, legend cards, photo shotlists, landing page wireframes) from markdown under `content/`. On the dev server, checklists and status write back to the files. See `docs/plans/content.md`.
+Organizes and previews campaign content (scripts, animatic frames, legend cards, photo shotlists, landing page wireframes) from markdown under `content/`. On the dev server, checklists and status write back to the files. See `docs/plans/content.md`. Dev server only, like the Video tab: neither is in the deployed build.
 
 ### Logo Encoder
 Turns an image into a square PNG data URL (base64), ready for the `logo` column of Top List and Market Map sheets.
@@ -35,6 +35,9 @@ npm run build
 ```
 
 The project includes a `vercel.json` config for SPA routing — deploy directly to Vercel with no additional setup.
+
+Video, Content and `/trash` are local-only: the build leaves out their routes, nav entries and code, and drops
+`public/video-projects`, `public/content` and `public/storyboards` from `dist/`. Use `npm run dev` for them.
 
 ## Stack
 

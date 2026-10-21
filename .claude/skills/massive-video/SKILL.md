@@ -15,7 +15,8 @@ Remotion's company license rules it out.
 - `public/video-projects/<id>/`: one project per video. Tracked: `index.html`, `compositions/*.html`,
   `STORYBOARD.md`, `SCRIPT.md`, `voice.json`, `frame.md`, `meta.json`, `media.json`, `js/`.
 - `public/video-projects/<id>/assets/`: media (voice, music, footage). **Gitignored and not deployed.**
-  Only `assets/brand/` (logos) is tracked. The deployed tab previews without media.
+  Only `assets/brand/` (logos) is tracked. The Video tab is dev-server only: the deployed build leaves out the tab
+  and all of `public/video-projects/`.
 - `public/video-projects/_brand/`: master copies of `frame.md` (house style), `lib/` (frame-kit, massive.css)
   and `assets/brand/`. `npm run video:brand` copies `lib/` + `assets/brand/` into every project, because the
   CLI only serves a project's own folder. Edit the master, then sync; never edit a project's `lib/` copy.
@@ -88,7 +89,7 @@ declared on `<html>` in `public/video-projects/welcome-to-massive/index.html`:
 | `photo` | `assets/template/franklin.jpg` | Path inside the project, or a URL. Square, ideally 720 px or more (shown at 356 px) |
 | `sfx` | `assets/template/sfx-mix-3.mp3` | Sound bed with one ping per hobby chip: `sfx-mix-N.mp3`, N = number of hobbies (1–5) |
 
-The committed defaults are Franklin Uche's, so they're public on the deployed site. Anyone else's details and
+The committed defaults are Franklin Uche's, so they're in git (the deployed site doesn't serve video projects). Anyone else's details and
 photo stay local unless the user says otherwise.
 
 To render someone else, map the onboarding-form answers (name & last name, location, role, hobbies, favourite

@@ -18,21 +18,29 @@ import {
 
 // Order is the nav order. `group` splits the nav with a divider: the
 // sheet-driven canvas tools first, then the rest. Deprecated tools stay
-// routable by direct URL but are hidden from the nav.
-const tools: { label: string; route: string; icon: Icon; group: string; deprecated?: boolean }[] = [
+// routable by direct URL but are hidden from the nav. Local-only tools are
+// listed on the dev server only (they aren't in the deployed build at all).
+const tools: {
+  label: string
+  route: string
+  icon: Icon
+  group: string
+  deprecated?: boolean
+  localOnly?: boolean
+}[] = [
   { label: 'Market Map', route: '/market-map', icon: SquaresFour, group: 'canvas' },
   { label: 'Top List', route: '/top-list', icon: Trophy, group: 'canvas' },
   { label: 'Partnership Post', route: '/partnership-post', icon: Handshake, group: 'other' },
-  { label: 'Video', route: '/video', icon: VideoCamera, group: 'other' },
+  { label: 'Video', route: '/video', icon: VideoCamera, group: 'other', localOnly: true },
   { label: 'Images', route: '/images', icon: Images, group: 'other' },
-  { label: 'Content', route: '/content', icon: Notebook, group: 'other' },
+  { label: 'Content', route: '/content', icon: Notebook, group: 'other', localOnly: true },
   { label: 'Logo Encoder', route: '/logo-encoder', icon: ImageSquare, group: 'other' },
   { label: 'Social Media', route: '/social-media', icon: ShareNetwork, group: 'other', deprecated: true },
   { label: 'Campaign Designer', route: '/campaign-designer', icon: Megaphone, group: 'other', deprecated: true },
   { label: 'Dither', route: '/dither', icon: DotsNine, group: 'other', deprecated: true },
 ]
 
-const visibleTools = tools.filter((t) => !t.deprecated)
+const visibleTools = tools.filter((t) => !t.deprecated && (!t.localOnly || import.meta.env.DEV))
 
 function NavLink({ to, label, icon: ToolIcon }: { to: string; label: string; icon: Icon }) {
   const match = useMatch(to)

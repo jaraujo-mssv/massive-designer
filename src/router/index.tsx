@@ -5,7 +5,6 @@ import { LandingPage } from '@/shared/components/LandingPage'
 import { VersionedTool } from '@/shared/canvas/ToolVersion'
 
 const CampaignDesignerApp = lazy(() => import('@/tools/campaign-designer/app/App'))
-const ContentApp = lazy(() => import('@/tools/content/app/App'))
 const DitherApp = lazy(() => import('@/tools/dither/app/App'))
 const ImagesApp = lazy(() => import('@/tools/images/app/App'))
 const LogoEncoderApp = lazy(() => import('@/tools/logo-encoder/app/App'))
@@ -16,9 +15,6 @@ const PartnershipPostApp = lazy(() => import('@/tools/partnership-post/app/App')
 const SocialMediaApp = lazy(() => import('@/tools/social-media/app/App'))
 const TopListApp = lazy(() => import('@/tools/top-list/app/App'))
 const TopListLegacyApp = lazy(() => import('@/tools/top-list-legacy/app/App'))
-// Not in the nav: /trash is only reachable by URL.
-const TrashApp = lazy(() => import('@/tools/trash/app/App'))
-const VideoApp = lazy(() => import('@/tools/video/app/App'))
 
 /** Sends a renamed or merged tool's old links on, keeping their query (?e= …). */
 function RedirectTo({ path }: { path: string }) {
@@ -45,6 +41,50 @@ function ToolLayout({ children, themeClass }: { children: React.ReactNode; theme
   )
 }
 
+/**
+ * Video, Content and Trash work on local files (video projects and renders, the campaign docs under content/), so
+ * only the dev server has them. In a build `import.meta.env.DEV` is false, this goes unused and Rollup drops it with
+ * its imports: no chunks, none of content/'s markdown, and the vite.config build step drops their public/ folders.
+ */
+function localOnlyRoutes() {
+  const ContentApp = lazy(() => import('@/tools/content/app/App'))
+  // Not in the nav: /trash is only reachable by URL.
+  const TrashApp = lazy(() => import('@/tools/trash/app/App'))
+  const VideoApp = lazy(() => import('@/tools/video/app/App'))
+  return [
+    {
+      path: '/content',
+      element: (
+        <ToolLayout themeClass="tool-content">
+          <ContentApp />
+        </ToolLayout>
+      ),
+    },
+    {
+      path: '/trash',
+      element: (
+        <ToolLayout themeClass="tool-trash">
+          <TrashApp />
+        </ToolLayout>
+      ),
+    },
+    {
+      path: '/video',
+      element: (
+        <ToolLayout themeClass="tool-video">
+          <VideoApp />
+        </ToolLayout>
+      ),
+    },
+  ]
+}
+
+/** On the deployed site, old links to the local-only tools land on the home page. */
+const localOnlyRedirects = ['/content', '/trash', '/video'].map((path) => ({
+  path,
+  element: <Navigate to="/" replace />,
+}))
+
 export const router = createBrowserRouter([
   {
     path: '/',
@@ -65,14 +105,6 @@ export const router = createBrowserRouter([
     element: (
       <ToolLayout themeClass="tool-campaign-designer">
         <CampaignDesignerApp />
-      </ToolLayout>
-    ),
-  },
-  {
-    path: '/content',
-    element: (
-      <ToolLayout themeClass="tool-content">
-        <ContentApp />
       </ToolLayout>
     ),
   },
@@ -145,20 +177,5 @@ export const router = createBrowserRouter([
       </ToolLayout>
     ),
   },
-  {
-    path: '/trash',
-    element: (
-      <ToolLayout themeClass="tool-trash">
-        <TrashApp />
-      </ToolLayout>
-    ),
-  },
-  {
-    path: '/video',
-    element: (
-      <ToolLayout themeClass="tool-video">
-        <VideoApp />
-      </ToolLayout>
-    ),
-  },
+  ...(import.meta.env.DEV ? localOnlyRoutes() : localOnlyRedirects),
 ])

@@ -10,7 +10,7 @@ interface CategoryTileProps {
   onEdit?: (target: MapEditTarget, el: HTMLElement) => void;
 }
 
-/** A category: its name as a pill on the first row and its companies as pills below. */
+/** A category: its name on the first row and its companies as pills below. */
 export function CategoryTile({ tile, metrics, onEdit }: CategoryTileProps) {
   const { rect, header, pills } = tile;
   return (
@@ -28,8 +28,7 @@ export function CategoryTile({ tile, metrics, onEdit }: CategoryTileProps) {
         fontFamily: "Outfit, sans-serif",
       }}
     >
-      {/* The category pill inverts the theme (dark on Light, light on Dark), but in
-          softened tones (--canvas-category-*) rather than full ink and cream. */}
+      {/* Plain bold text in the category colour (the accent), set apart from the company names. */}
       <div
         className={onEdit ? "canvas-editable" : undefined}
         onClick={onEdit && ((e) => onEdit({ kind: "category", categoryId: tile.category.id }, e.currentTarget))}
@@ -39,16 +38,7 @@ export function CategoryTile({ tile, metrics, onEdit }: CategoryTileProps) {
           top: header.y,
           width: header.w,
           height: header.h,
-          boxSizing: "border-box",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          padding: `${header.padY}px ${header.padX}px`,
-          // A wrapped name gets a rounded box; a full capsule would clip its corners.
-          borderRadius: header.lines.length > 1 ? header.fontSize * 0.8 : 999,
-          backgroundColor: "var(--canvas-category-bg)",
-          border: "1px solid var(--canvas-category-bg)",
-          color: "var(--canvas-category-text)",
+          color: "var(--canvas-category)",
           fontSize: header.fontSize,
           fontWeight: HEADER_WEIGHT,
           lineHeight: 1.2,

@@ -2,17 +2,21 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import type { LegibleSizes } from "@/shared/canvas/legibility";
 import type { Layout, ListItem, ListView } from "../utils/parseSheet";
 import { gridRects } from "../utils/grid";
-import { listMinRowHeight, listRects, listRowContent } from "../utils/list";
+import { LegacyListLayout, legacyListLayout } from "../utils/legacyList";
+import { listRects, listRowContent } from "../utils/list";
 import { tileContent } from "../utils/tiers";
 import { allocateAreas } from "../utils/minArea";
-import { insetAndSnap, squarify } from "@/shared/canvas/squarify";
+import { insetAndSnap, Rect, squarify } from "@/shared/canvas/squarify";
 import { formatValue } from "../utils/value";
+import { LegacyListRow } from "./LegacyListRow";
 import { ListRow } from "./ListRow";
 import { Tile } from "./Tile";
 
 interface TileCanvasProps {
   /** List rows or tiles (Bento or equal, as `layout` decides). */
   view: ListView;
+  /** A legacy theme: the old columns of cards in List, and the old card look on tiles. */
+  legacy: boolean;
   layout: Layout;
   items: ListItem[];
   symbol: string;
@@ -45,12 +49,13 @@ function valueText(item: ListItem, symbol: string): string | null {
 }
 
 /**
- * Lays out and draws the list: full-width ranked rows for the `list` view;
- * otherwise tiles, a treemap sized by value for `bento` and equal tiles in rank
- * order for `grid`.
+ * Lays out and draws the list: full-width ranked rows for the `list` view (the
+ * old columns of cards under a legacy theme); otherwise tiles, a treemap sized
+ * by value for `bento` and equal tiles in rank order for `grid`.
  */
 export function TileCanvas({
   view,
+  legacy,
   layout,
   items,
   symbol,
@@ -92,8 +97,25 @@ export function TileCanvas({
   // In List, every row keeps room for a description when any company has one.
   const withDescriptions = items.some((i) => i.description);
 
-  const placed = useMemo(() => {
+  const placed = useMemo((): {
+    tiles: { item: ListItem; rect: Rect; sizing: { w: number; h: number } | undefined }[];
+    atMinimum: number;
+    /** List rows show their values under the names (two columns). */
+    valueBelow?: boolean;
+    /** The legacy List's shared card metrics, when that's what's drawn. */
+    legacyList?: LegacyListLayout;
+  } => {
     if (box.w === 0 || box.h === 0 || items.length === 0) return { tiles: [], atMinimum: 0 };
+    if (view === "list" && legacy) {
+      const entries = items.map((i) => ({ rank: i.rank, name: i.name, value: valueText(i, symbol) }));
+      const legacyList = legacyListLayout(entries, box, tileGap, legible, withDescriptions);
+      if (!legacyList) return { tiles: [], atMinimum: 0 };
+      return {
+        tiles: items.map((item, i) => ({ item, rect: legacyList.rects[i], sizing: undefined })),
+        atMinimum: 0,
+        legacyList,
+      };
+    }
     // Extend the bounds by half a gap on every side so the outer tiles sit flush
     // with the content box once each tile is inset by half a gap. Bento areas must
     // be shared out over these same bounds: allocating over the smaller content
@@ -102,13 +124,14 @@ export function TileCanvas({
     const bounds = { x: -half, y: -half, w: box.w + tileGap, h: box.h + tileGap };
 
     if (view === "list") {
-      // Lists with descriptions need taller rows, so they go to two columns sooner.
-      const minRowHeight = listMinRowHeight(legible, withDescriptions);
-      const rects = insetAndSnap(listRects(items.length, bounds, minRowHeight).rects, tileGap);
+      const list = listRects(items.length, bounds);
+      const rects = insetAndSnap(list.rects, tileGap);
       // Every row's content is sized from the shortest row (the left column's, when
       // the right one has fewer, taller rows), so all rows match.
       const regular = { w: rects[0].w, h: Math.min(...rects.map((r) => r.h)) };
-      return { tiles: items.map((item, i) => ({ item, rect: rects[i], sizing: regular })), atMinimum: 0 };
+      // Half-width rows put the value under the name, to leave the name the row's width.
+      const valueBelow = list.columns > 1 && items.some((i) => valueText(i, symbol));
+      return { tiles: items.map((item, i) => ({ item, rect: rects[i], sizing: regular })), atMinimum: 0, valueBelow };
     }
     if (layout === "grid") {
       const rects = insetAndSnap(gridRects(items.length, bounds), tileGap);
@@ -126,7 +149,7 @@ export function TileCanvas({
       atMinimum: sized.filter((s) => s.atMinimum).length,
     };
     // fontsVersion re-runs the tiles' text fitting after the font loads.
-  }, [view, layout, items, withDescriptions, box.w, box.h, minTileSide, tileGap, legible, fontsVersion]);
+  }, [view, legacy, layout, items, symbol, withDescriptions, box.w, box.h, minTileSide, tileGap, legible, fontsVersion]);
 
   useEffect(() => {
     onMinimumCountChange?.(placed.atMinimum);
@@ -134,6 +157,11 @@ export function TileCanvas({
 
   // The same content rules the rows and tiles render with, counted for the warning.
   const report = useMemo<LegibilityReport>(() => {
+    // Legacy cards all share one size, so either every name is readable or none is.
+    if (placed.legacyList) {
+      const { shrunk, metrics } = placed.legacyList;
+      return { shrunkNames: shrunk ? placed.tiles.length : 0, smallestName: shrunk ? metrics.nameSize : 0, logoOnly: 0 };
+    }
     let shrunkNames = 0;
     let smallestName = 0;
     let logoOnly = 0;
@@ -141,7 +169,16 @@ export function TileCanvas({
       const value = valueText(item, symbol);
       if (view === "list") {
         const fit = sizing ?? rect;
-        const c = listRowContent(fit.w, fit.h, item.name, item.description ?? null, value, legible, withDescriptions);
+        const c = listRowContent(
+          fit.w,
+          fit.h,
+          item.name,
+          item.description ?? null,
+          value,
+          legible,
+          withDescriptions,
+          placed.valueBelow,
+        );
         if (c.shrunk) {
           shrunkNames++;
           smallestName = smallestName === 0 ? c.nameSize : Math.min(smallestName, c.nameSize);
@@ -165,12 +202,29 @@ export function TileCanvas({
         const key = `${item.id}-${item.logoUrl}`;
         const value = valueText(item, symbol);
         const onClick = onEdit && ((el: HTMLElement) => onEdit(item.id, el));
+        if (placed.legacyList) {
+          return (
+            <LegacyListRow
+              key={key}
+              rect={rect}
+              metrics={placed.legacyList.metrics}
+              rank={item.rank}
+              name={item.name}
+              description={item.description}
+              logoUrl={item.logoUrl}
+              website={item.website}
+              value={value}
+              onClick={onClick}
+            />
+          );
+        }
         return view === "list" ? (
           <ListRow
             key={key}
             rect={rect}
             sizing={sizing}
             withDescription={withDescriptions}
+            valueBelow={placed.valueBelow}
             rank={item.rank}
             name={item.name}
             description={item.description}
@@ -192,6 +246,7 @@ export function TileCanvas({
             value={value}
             rank={layout === "grid" ? item.rank : undefined}
             legible={legible}
+            legacy={legacy}
             onClick={onClick}
           />
         );

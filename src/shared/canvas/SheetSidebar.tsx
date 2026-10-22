@@ -15,6 +15,7 @@ import { toast } from "sonner";
 import { DesignPanel, SizeOption } from "./DesignPanel";
 import type { ExportProgress } from "./exportJpg";
 import type { SkippedRow } from "./sheetText";
+import type { ThemePreviewProps } from "./ThemePicker";
 import type { CanvasThemeId } from "./themes";
 
 export interface Example {
@@ -36,15 +37,18 @@ export interface DataSummary {
 }
 
 interface SheetSidebarProps<Size extends string> {
+  /** Titles the phones' drawer; the desktop column starts straight at Size. */
   toolName: string;
   sizes: SizeOption<Size>[];
   size: Size;
   onSizeChange: (size: Size) => void;
   theme: CanvasThemeId;
   onThemeChange: (theme: CanvasThemeId) => void;
+  /** The tool's mini canvas for the theme cards (see ThemePicker). */
+  themePreview?: React.ComponentType<ThemePreviewProps>;
   showPresentedBy: boolean;
   onShowPresentedByChange: (show: boolean) => void;
-  /** Tool-specific Design controls, shown right under Size. */
+  /** Tool-specific Design controls, shown right under Theme. */
   designExtra?: React.ReactNode;
   summary: DataSummary | null;
   /** Explains the sheet's columns under the Import buttons. */
@@ -69,8 +73,6 @@ interface SheetSidebarProps<Size extends string> {
   warnings?: React.ReactNode;
   /** The loaded sheet's logo URLs, to warn when they pass Logo.dev's rate limit. */
   logoUrls?: string[];
-  /** Shown first, above Design: the New | Legacy switch (VersionSwitch). */
-  versionSwitch?: React.ReactNode;
   /** Shown under Data while a sheet is loaded: the Edit section (EditPanel). */
   editPanel?: React.ReactNode;
   /** The canvas. */
@@ -107,6 +109,7 @@ export function SheetSidebar<Size extends string>({
   onSizeChange,
   theme,
   onThemeChange,
+  themePreview,
   showPresentedBy,
   onShowPresentedByChange,
   designExtra,
@@ -122,7 +125,6 @@ export function SheetSidebar<Size extends string>({
   exportProgress,
   warnings,
   logoUrls,
-  versionSwitch,
   editPanel,
   children,
 }: SheetSidebarProps<Size>) {
@@ -191,16 +193,16 @@ export function SheetSidebar<Size extends string>({
 
   const sections = (
     <>
-      {versionSwitch}
       <DesignPanel
         sizes={sizes}
         size={size}
         onSizeChange={onSizeChange}
         theme={theme}
         onThemeChange={onThemeChange}
+        themePreview={themePreview}
         showPresentedBy={showPresentedBy}
         onShowPresentedByChange={onShowPresentedByChange}
-        afterSize={designExtra}
+        afterTheme={designExtra}
       />
 
       {summary && (
@@ -342,7 +344,7 @@ export function SheetSidebar<Size extends string>({
     <>
       <SidebarLayout
         sidebar={
-          <SidebarColumn toolName={toolName} footer={desktopExport}>
+          <SidebarColumn footer={desktopExport}>
             {sections}
           </SidebarColumn>
         }

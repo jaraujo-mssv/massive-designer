@@ -1,8 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { Category } from "../utils/parseSheet";
+import { layoutColumns } from "../utils/columns";
 import { FitMode, HiddenGroup, layoutMap } from "../utils/layout";
+import { CategoryCard } from "./CategoryCard";
 import { CategoryTile } from "./CategoryTile";
 import type { MapEditTarget } from "./MapEditor";
+
+/** Columns of category cards (columns.ts), or a treemap of tiles with pills (layout.ts). */
+export type MapView = "columns" | "tiles";
 
 /** How the map was made to fit, for the warning above Export. */
 export interface FitInfo {
@@ -16,6 +21,9 @@ export interface FitInfo {
 
 interface MapCanvasProps {
   categories: Category[];
+  view: MapView;
+  /** A legacy theme: the old tool's look (Columns only). */
+  legacy: boolean;
   tileGap: number;
   fitMode: FitMode;
   /** The smallest pill name size that reads on a phone, in canvas px (`legibleSizes`). */
@@ -25,8 +33,11 @@ interface MapCanvasProps {
   onEdit?: (target: MapEditTarget, el: HTMLElement) => void;
 }
 
-/** Measures the available box and draws the category tiles from `layoutMap`. */
-export function MapCanvas({ categories, tileGap, fitMode, minFont, onFitChange, onEdit }: MapCanvasProps) {
+/**
+ * Measures the available box and draws the map: columns of cards from
+ * `layoutColumns` (in the theme's look), or category tiles from `layoutMap`.
+ */
+export function MapCanvas({ categories, view, legacy, tileGap, fitMode, minFont, onFitChange, onEdit }: MapCanvasProps) {
   const boxRef = useRef<HTMLDivElement>(null);
   const [box, setBox] = useState({ w: 0, h: 0 });
   const [fontsVersion, setFontsVersion] = useState(0);
@@ -55,11 +66,19 @@ export function MapCanvas({ categories, tileGap, fitMode, minFont, onFitChange, 
     };
   }, []);
 
-  const layout = useMemo(
-    () => layoutMap(categories, box, tileGap, fitMode, minFont),
+  const tiles = useMemo(
+    () => (view === "tiles" ? layoutMap(categories, box, tileGap, fitMode, minFont) : null),
     // fontsVersion re-runs the measuring after the font loads.
-    [categories, box.w, box.h, tileGap, fitMode, minFont, fontsVersion],
+    [view, categories, box.w, box.h, tileGap, fitMode, minFont, fontsVersion],
   );
+  const columns = useMemo(
+    () =>
+      view === "columns"
+        ? layoutColumns(categories, box, tileGap, fitMode, minFont, legacy ? "legacy" : "modern")
+        : null,
+    [view, legacy, categories, box.w, box.h, tileGap, fitMode, minFont, fontsVersion],
+  );
+  const layout = columns ?? tiles;
 
   // Reported once per new layout (layout is memoised, so this doesn't loop).
   useEffect(() => {
@@ -70,8 +89,26 @@ export function MapCanvas({ categories, tileGap, fitMode, minFont, onFitChange, 
 
   return (
     <div ref={boxRef} style={{ position: "relative", width: "100%", height: "100%" }}>
-      {layout?.tiles.map((tile) => (
-        <CategoryTile key={tile.category.id} tile={tile} metrics={layout.metrics} onEdit={onEdit} />
+      {tiles?.tiles.map((tile) => (
+        <CategoryTile key={tile.category.id} tile={tile} metrics={tiles.metrics} onEdit={onEdit} />
+      ))}
+      {columns?.cards.map((card) => (
+        <CategoryCard key={card.category.id} card={card} metrics={columns.metrics} onEdit={onEdit} />
+      ))}
+      {/* Modern Columns: rules between categories and between columns. */}
+      {columns?.separators.map((s) => (
+        <div
+          key={`${s.x}-${s.y}`}
+          style={{
+            position: "absolute",
+            left: s.x,
+            top: s.y,
+            width: s.w,
+            height: s.h,
+            backgroundColor: "var(--canvas-border-strong)",
+            pointerEvents: "none",
+          }}
+        />
       ))}
     </div>
   );

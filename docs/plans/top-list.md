@@ -113,18 +113,48 @@ Every tile aims to show **logo, name and value**: stacked, or side by side on wi
 
 - **Sizes:** **Vertical 1080 × 1350** (default), **Square 1080 × 1080** and **Horizontal 1920 × 1080**.
 - **Frame:** the title and subtitle header at the top and "Presented by" in the corner, same as Market Map. The treemap fills the rest of the canvas.
-- **Themes:** the shared theme list in `src/shared/canvas/themes.ts`: Dark and Light for now. The two placeholder themes from [auto-sizing-design-panel.md](auto-sizing-design-panel.md) are added there, and Top List picks them up automatically.
+- **Themes:** the shared theme list in `src/shared/canvas/themes.ts`: **Dark**, **Light**, **Dark Legacy** and **Light Legacy**. They're picked from a row of live preview cards; see Themes in [market-map.md](market-map.md). The legacy themes recreate the pre-revamp Top List; see Legacy themes below. Under Dark and Light:
   - Tiles use `--canvas-card-bg` with no outline, only a 2 px `--canvas-border-15` stroke along the bottom, and the gaps show `--canvas-bg`.
   - **Logo wash (experimental):** behind the content, each tile shows its own logo scaled to cover the tile, blurred (18% of the tile's short side, 24–80 px), colour-boosted (`saturate(1.4)`) and at 25% opacity (`LOGO_WASH_OPACITY` in `Tile.tsx`), so the tile takes on the logo's colours and neighbouring tiles differ in shade. (It replaced an earlier 0–7% overlay whose strength came from the company name.) The blurred image overhangs the tile by twice the blur and is clipped, so the tint reaches the edges. It survives the JPG export.
   - The name sits in a pill that follows the theme: `--canvas-card-bg-2` fill and `--canvas-text` text, with no outline (a dark pill with light text on Dark, a light pill with dark text on Light). Its padding scales with the name's font size, and names are fitted to the width left inside the pill. The value is plain text in `--canvas-text-70` below it.
 - **Logo contrast:** a dark logo on the Dark theme can disappear. Not built yet: logos sit directly on the tile, as in Top List. If it becomes a problem, add a per-theme logo chip.
+
+## Legacy themes
+
+Dark Legacy and Light Legacy (the theme's `legacy` flag) draw the old Top List.
+
+**Header:** the old one, with the title and subtitle centred and "Presented by" at the bottom right (`headerStyle="centered"` on `CanvasFrame`).
+
+**List** (`utils/legacyList.ts`, `components/LegacyListRow.tsx`) is the old columns of full-width cards:
+
+- **Card:** `--canvas-card-bg` fill, a 2 px `--canvas-border` stroke, 8 px radius and no logo wash.
+- **Contents:** the rank as a plain bold number, then the logo, the name (400, `--canvas-text`) and the value in a pill (`--canvas-card-bg-2` fill, 1 px `--canvas-border-15`). The pill sits on the right in one column, and under the name in two or more.
+- **Columns:** 1 for up to 5 companies, else 2 (the old default). A 3rd only when cards wouldn't otherwise be readable and names still have room. Cards are ranked down, then across.
+- **Height:** cards keep their natural height (never stretched) and the block is centred.
+- **Sizes:** type and logos are the old proportions of the name size (logo `56/18`, value `13/18`). The rank is `14/18`, smaller than the old `20/18`, so it doesn't outweigh the name (it stays at least the readable size for secondary text). Padding and gaps follow the canvas width, as on the old 850 px canvas.
+  - Readable names are bigger than the old 18 px. Spacing grown with them squeezed names to "Pa…" in two columns of values.
+- **Name size:** as large as fits the height with every name on one line, up to 1.35× readable.
+  - At readable size, the logo gives way first, down to `1.6f`.
+  - Then names wrap to two lines when the card has the height.
+  - A name that still doesn't fit shrinks on its own card, down to the readable size for secondary text (8pt on a phone), and only then is cut with "…".
+  - A description line shows when there's room.
+  - Only when even small logos don't fit does everything shrink below readable, which shows the legibility warning.
+- **Measured on the examples (Vertical):** Top 10 AI SDRs and 10 Web Scraping APIs show every name in full. On Top Frontier AI Labs (17 companies, nine rows a column), a few long names are still cut.
+
+**Grid and Bento** keep their arrangement, with the old card look (`legacy` on `Tile`):
+
+- A full 2 px `--canvas-border` stroke (taken from the padding, so `tileContent`'s geometry holds) and 8 px radius.
+- No logo wash and no name pill.
+- The rank as a plain number in the badge's box (`RankBadge plain`).
+
+**Editing:** theme switches close any open edit popover.
 
 ## Sidebar
 
 It uses the shared **Design** panel, with no spreadsheet switch because sizing is always automatic:
 
 - **Size:** Vertical / Square / Horizontal
-- **Theme:** the theme selector
+- **Theme:** a sideways-scrolling row of theme cards, each a live preview (`components/ThemePreview.tsx`)
 - **Show "Presented by":** a switch
 - **Data:** the company count and which layout was chosen, skipped rows with reasons, duplicate names, and (Bento) how many tiles are shown at minimum size
 - **Import:** CSV/TSV file, Google Sheets URL, a column hint, and the Examples list (Load / Open); shown only while no list is loaded
@@ -141,9 +171,12 @@ src/tools/top-list/app/
   constants.ts            per-size presets, example sheets
   components/
     TileCanvas.tsx        picks the layout, places and renders the tiles
-    Tile.tsx              logo, name pill, value or rank, logo wash
+    Tile.tsx              logo, name pill, value or rank, logo wash (or the legacy card look)
+    LegacyListRow.tsx     legacy themes: a List card with plain rank, logo, name, value pill
+    ThemePreview.tsx      the mini list on each theme card
   utils/
     parseSheet.ts         header aliases, layout switch, ordering
+    legacyList.ts         legacy themes: the List's columns of cards and their sizes
     minArea.ts            proportional areas with a minimum tile size (pure)
     grid.ts               equal-tile grid with a stretched last row (pure)
     value.ts              parses "4.2T" / "$1,200" → number; formats back to compact form

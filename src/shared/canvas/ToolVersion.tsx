@@ -1,14 +1,12 @@
 import { createContext, useContext, useState } from "react";
-import { Label } from "@/shared/components/ui/label";
-import { Segmented } from "./DesignPanel";
 
 type Version = "new" | "legacy";
 
 const ToolVersionContext = createContext<{ version: Version; setVersion: (v: Version) => void } | null>(null);
 
-const VERSIONS: { id: Version; label: string }[] = [
-  { id: "new", label: "New" },
-  { id: "legacy", label: "Legacy" },
+const VERSIONS: { id: Version; label: string; hint: string }[] = [
+  { id: "new", label: "New", hint: "Automatic layout, themes and click-to-edit" },
+  { id: "legacy", label: "Legacy", hint: "The pre-September editor: manual columns, drag-and-drop, TSV export" },
 ];
 
 /**
@@ -40,8 +38,10 @@ export function VersionedTool({
 }
 
 /**
- * New | Legacy switch for a VersionedTool's sidebar; renders nothing outside one.
- * Switching unmounts the app, so `confirmLeave` can stop it (unsaved edits).
+ * New | Legacy switch for a VersionedTool; renders nothing outside one. It sits
+ * in the top-left corner of the canvas area (which must be position: relative),
+ * over the preview but outside the exported image, in the same place in both
+ * versions. Switching unmounts the app, so `confirmLeave` can stop it (unsaved edits).
  */
 export function VersionSwitch({ confirmLeave }: { confirmLeave?: () => boolean }) {
   const ctx = useContext(ToolVersionContext);
@@ -50,12 +50,24 @@ export function VersionSwitch({ confirmLeave }: { confirmLeave?: () => boolean }
     if (v !== ctx.version && (!confirmLeave || confirmLeave())) ctx.setVersion(v);
   };
   return (
-    <div className="p-4 space-y-2 border-b border-border-subtle shrink-0">
-      <Label className="text-xs font-medium text-text-dim uppercase tracking-wide">Version</Label>
-      <Segmented options={VERSIONS} value={ctx.version} onChange={change} />
-      {ctx.version === "legacy" && (
-        <p className="text-xs text-text-dim">The pre-September editor: manual columns, drag-and-drop, TSV export.</p>
-      )}
+    <div
+      role="group"
+      aria-label="Version"
+      className="absolute top-3 left-3 z-10 flex gap-0.5 p-0.5 rounded-lg border border-border-subtle bg-surface/85 backdrop-blur-sm shadow-md"
+    >
+      {VERSIONS.map((v) => (
+        <button
+          key={v.id}
+          title={v.hint}
+          aria-pressed={ctx.version === v.id}
+          onClick={() => change(v.id)}
+          className={`px-3 py-1 rounded-md text-xs font-medium transition-colors ${
+            ctx.version === v.id ? "bg-brand text-white" : "text-text-dim hover:text-text-primary"
+          }`}
+        >
+          {v.label}
+        </button>
+      ))}
     </div>
   );
 }

@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Columns, SquaresFour } from "@phosphor-icons/react";
 import { Toaster, toast } from "sonner";
 import { CanvasFrame } from "@/shared/canvas/CanvasFrame";
+import { Segmented } from "@/shared/canvas/DesignPanel";
 import { EditPanel } from "@/shared/canvas/edit/EditPanel";
 import { EditPopover } from "@/shared/canvas/edit/EditPopover";
 import { copySheetTsv, downloadSheetTsv, toSheetTsv } from "@/shared/canvas/edit/sheetExport";
@@ -13,13 +15,16 @@ import { legibleSizes } from "@/shared/canvas/legibility";
 import { DataSummary, SheetSidebar } from "@/shared/canvas/SheetSidebar";
 import { escapeHtml, htmlToText } from "@/shared/canvas/sheetText";
 import { CANVAS_SIZES, CanvasSizeId, DEFAULT_CANVAS_SIZE, FRAME_SPACING, TILE_GAP } from "@/shared/canvas/sizes";
+import type { ThemePreviewProps } from "@/shared/canvas/ThemePicker";
 import { CanvasThemeId, getCanvasTheme } from "@/shared/canvas/themes";
 import { VersionSwitch } from "@/shared/canvas/ToolVersion";
 import { clearSheetParam, useSheetLoader } from "@/shared/canvas/useSheetLoader";
+import { Label } from "@/shared/components/ui/label";
 import { warmImageCache } from "@/shared/utils/imageDataUrl";
 import { FitWarning } from "./components/FitWarning";
-import { FitInfo, MapCanvas } from "./components/MapCanvas";
+import { FitInfo, MapCanvas, MapView } from "./components/MapCanvas";
 import { MapEditor, MapEditTarget } from "./components/MapEditor";
+import { ThemePreview } from "./components/ThemePreview";
 import { EXAMPLES } from "./constants";
 import type { FitMode } from "./utils/layout";
 import { Category, parseSheet } from "./utils/parseSheet";
@@ -43,6 +48,8 @@ export default function App() {
   const [date, setDate] = useState(DEFAULT_DATE);
   const [size, setSize] = useState<CanvasSizeId>(DEFAULT_CANVAS_SIZE);
   const [theme, setTheme] = useState<CanvasThemeId>("light");
+  // Columns or tiles; picked in the sidebar and kept across loads.
+  const [view, setView] = useState<MapView>("columns");
   const [showPresentedBy, setShowPresentedBy] = useState(true);
   const [summary, setSummary] = useState<LoadedSummary | null>(null);
   // How a map too big for readable pills is made to fit; kept across loads.
@@ -55,6 +62,17 @@ export default function App() {
   const { width: canvasW, height: canvasH, label: sizeLabel } = CANVAS_SIZES.find((s) => s.id === size)!;
   // The smallest pill text that still reads once a feed shrinks the image on a phone.
   const minFont = legibleSizes(canvasW).primary;
+  // Legacy themes draw the old tool's columns of cards, whatever the Layout.
+  const legacy = getCanvasTheme(theme).legacy;
+  const shownView: MapView = legacy ? "columns" : view;
+  // The theme cards preview the chosen layout.
+  const themePreview = useMemo(
+    () =>
+      function Preview(props: ThemePreviewProps) {
+        return <ThemePreview {...props} view={view} />;
+      },
+    [view],
+  );
   const companyCount = categories.reduce((n, c) => n + c.companies.length, 0);
   const logoUrls = useMemo(() => categories.flatMap((c) => c.companies.map((co) => co.logoUrl)), [categories]);
   const logoSources = useMemo(() => ({ logoDevToken: logoDevTokenFrom(logoUrls) }), [logoUrls]);
@@ -163,14 +181,37 @@ export default function App() {
       <Toaster position="top-center" richColors />
       <SheetSidebar
         toolName="Market Map"
-        versionSwitch={<VersionSwitch confirmLeave={confirmDiscard} />}
         sizes={CANVAS_SIZES}
         size={size}
         onSizeChange={setSize}
         theme={theme}
-        onThemeChange={setTheme}
+        onThemeChange={(t) => {
+          // The popover's anchor goes away when the map is drawn again (legacy cards or not).
+          setEditing(null);
+          setTheme(t);
+        }}
+        themePreview={themePreview}
         showPresentedBy={showPresentedBy}
         onShowPresentedByChange={setShowPresentedBy}
+        designExtra={
+          // Legacy themes are always the old columns, so there's nothing to pick.
+          !legacy && (
+            <div className="space-y-2">
+              <Label className="text-xs font-medium text-text-dim uppercase tracking-wide">Layout</Label>
+              <Segmented
+                options={[
+                  { id: "columns" as const, label: "Columns", icon: Columns },
+                  { id: "tiles" as const, label: "Tiles", icon: SquaresFour },
+                ]}
+                value={view}
+                onChange={(v) => {
+                  setEditing(null);
+                  setView(v);
+                }}
+              />
+            </div>
+          )
+        }
         summary={sidebarSummary}
         editPanel={
           <EditPanel
@@ -196,8 +237,8 @@ export default function App() {
         columnsHint={
           <>
             Columns: <span className="font-mono">category</span>, <span className="font-mono">company</span>,{" "}
-            <span className="font-mono">logo</span>. One row per company; each category becomes a tile, sized to
-            fit its companies.
+            <span className="font-mono">logo</span>. One row per company; each category becomes a card (Columns)
+            or a tile (Tiles), sized to fit its companies.
           </>
         }
         examples={EXAMPLES}
@@ -237,11 +278,14 @@ export default function App() {
           onSubtitleChange={setDate}
           showPresentedBy={showPresentedBy}
           presentedById="massiveLogo_grad_marketmap"
+          corner={<VersionSwitch confirmLeave={confirmDiscard} />}
           empty={categories.length === 0}
           onLoadExample={loadFirstExample}
         >
           <MapCanvas
             categories={categories}
+            view={shownView}
+            legacy={legacy}
             tileGap={TILE_GAP}
             fitMode={fitMode}
             minFont={minFont}

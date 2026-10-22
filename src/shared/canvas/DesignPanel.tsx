@@ -1,7 +1,9 @@
+import { useId } from "react";
 import type { Icon } from "@phosphor-icons/react";
 import { Label } from "@/shared/components/ui/label";
 import { Switch } from "@/shared/components/ui/switch";
-import { CANVAS_THEMES, CanvasThemeId } from "./themes";
+import { ThemePicker, ThemePreviewProps } from "./ThemePicker";
+import type { CanvasThemeId } from "./themes";
 
 export interface SizeOption<T extends string> {
   id: T;
@@ -17,10 +19,12 @@ interface DesignPanelProps<T extends string> {
   onSizeChange: (size: T) => void;
   theme: CanvasThemeId;
   onThemeChange: (theme: CanvasThemeId) => void;
+  /** The tool's mini canvas for the theme cards (see ThemePicker). */
+  themePreview?: React.ComponentType<ThemePreviewProps>;
   showPresentedBy: boolean;
   onShowPresentedByChange: (show: boolean) => void;
-  /** Tool-specific controls right under Size (e.g. Top List's Layout). */
-  afterSize?: React.ReactNode;
+  /** Tool-specific controls right under Theme (e.g. Top List's Layout). */
+  afterTheme?: React.ReactNode;
   children?: React.ReactNode;
 }
 
@@ -62,11 +66,13 @@ export function DesignPanel<T extends string>({
   onSizeChange,
   theme,
   onThemeChange,
+  themePreview,
   showPresentedBy,
   onShowPresentedByChange,
-  afterSize,
+  afterTheme,
   children,
 }: DesignPanelProps<T>) {
+  const themeLabelId = useId();
   return (
     <div className="p-4 space-y-4 border-b border-border-subtle">
       <div className="space-y-2">
@@ -78,12 +84,14 @@ export function DesignPanel<T extends string>({
         />
       </div>
 
-      {afterSize}
-
       <div className="space-y-2">
-        <Label className="text-xs font-medium text-text-dim uppercase tracking-wide">Theme</Label>
-        <Segmented options={CANVAS_THEMES} value={theme} onChange={onThemeChange} />
+        <Label id={themeLabelId} className="text-xs font-medium text-text-dim uppercase tracking-wide">
+          Theme
+        </Label>
+        <ThemePicker value={theme} onChange={onThemeChange} Preview={themePreview} labelledBy={themeLabelId} />
       </div>
+
+      {afterTheme}
 
       <div className="flex items-center justify-between p-3 bg-surface-2 rounded-lg border border-border-subtle">
         <Label className="text-sm text-text-primary">Show Presented By Logo</Label>

@@ -815,7 +815,6 @@ export default function App() {
               <span className="text-xs font-semibold text-text-dim uppercase tracking-widest font-mono">Market Map</span>
               <ModeToggle mode={mode} setMode={setMode} />
             </div>
-            <VersionSwitch />
 
             {/* Controls */}
             <div className="flex-1 overflow-y-auto min-h-0">
@@ -882,11 +881,13 @@ export default function App() {
         {/* Canvas Area */}
         <div
           ref={canvasContainerRef}
-          className={`flex-1 flex items-center justify-center overflow-hidden canvas-${settings.canvasTheme}`}
+          className={`relative flex-1 flex items-center justify-center overflow-hidden canvas-${settings.canvasTheme}`}
           style={{
             backgroundColor: '#0d0c17',
           }}
         >
+          {/* Hidden on embeds, like the sidebar. */}
+          {!isLocked && <VersionSwitch />}
           <div style={{ width: canvasW * canvasScale, height: canvasH * canvasScale, flexShrink: 0 }}>
             <div
               id="market-map-export-area"

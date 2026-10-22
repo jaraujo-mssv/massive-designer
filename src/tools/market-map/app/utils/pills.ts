@@ -17,19 +17,23 @@ export interface PillMetrics {
   gapY: number;
 }
 
+/**
+ * Slim on purpose: padding and gaps are space the names don't get, and on a
+ * dense map every row of pills adds up (a pill was 2.1 names tall, now 1.74).
+ */
 export function pillMetrics(f: number): PillMetrics {
-  const logo = f * 1.4;
-  const padY = f * 0.35;
+  const logo = f * 1.3;
+  const padY = f * 0.22;
   return {
     fontSize: f,
     logo,
-    padX: f * 0.6,
+    padX: f * 0.45,
     padY,
-    innerGap: f * 0.45,
+    innerGap: f * 0.4,
     // Logo height plus padding (pills have no border).
     height: logo + padY * 2,
-    gapX: f * 0.45,
-    gapY: f * 0.45,
+    gapX: f * 0.35,
+    gapY: f * 0.3,
   };
 }
 

@@ -9,6 +9,8 @@ import { RankBadge } from "./Tile";
 
 /** How strongly the blurred logo colours the row (as tiles); light, so text stays high-contrast. */
 const LOGO_WASH_OPACITY = 0.18;
+/** How much of the row, from the right, the logo wash covers. */
+const LOGO_WASH_SHARE = 0.6;
 
 interface ListRowProps {
   rect: Rect;
@@ -16,6 +18,8 @@ interface ListRowProps {
   sizing?: { w: number; h: number };
   /** The list has descriptions: keep room for one, so every row matches. */
   withDescription: boolean;
+  /** Values go under the names (lists in two columns), not on the right. */
+  valueBelow?: boolean;
   rank: number;
   name: string;
   description?: string;
@@ -32,13 +36,15 @@ interface ListRowProps {
 
 /**
  * A company as a full-width List row: rank, logo, name pill with its
- * description underneath, and the value on the right. Styled like a Tile
- * (card, bottom stroke, logo wash), with the wash centred on the logo.
+ * description underneath, and the value on the right (or, with `valueBelow`,
+ * between the name and the description). Styled like a Tile
+ * (card, bottom stroke, logo wash), with the wash across the right of the row.
  */
 export function ListRow({
   rect,
   sizing = rect,
   withDescription,
+  valueBelow = false,
   rank,
   name,
   description,
@@ -52,9 +58,9 @@ export function ListRow({
   // A logo that still fails to draw shows initials until the lookup settles on another.
   const [failedSrc, setFailedSrc] = useState<string | null>(null);
   const src = resolved && resolved !== failedSrc ? resolved : null;
-  const c = listRowContent(sizing.w, sizing.h, name, description ?? null, value, legible, withDescription);
-  const washSize = rect.h * 3;
-  const logoCenterX = c.padding + c.rankSize + c.gap + c.logoSize / 2;
+  const c = listRowContent(sizing.w, sizing.h, name, description ?? null, value, legible, withDescription, valueBelow);
+  // Blur scales with the row, so the wash stays smooth, not a smudged logo.
+  const washBlur = Math.min(80, Math.max(24, rect.h * 0.5));
 
   return (
     <div
@@ -79,8 +85,10 @@ export function ListRow({
         fontFamily: "Outfit, sans-serif",
       }}
     >
-      {/* Logo wash: the logo, blurred and faded, centred on the logo so it tints
-          the left of the row. Content below is position: relative to paint above it. */}
+      {/* Logo wash: the logo, blurred and faded, across the right of the row. Its left
+          edge sits where the wash starts and the blur softens it into the card; it
+          overhangs the other three sides by twice the blur, so the row clips the blur's
+          fade there. Content below is position: relative to paint above it. */}
       {src ? (
         <img
           aria-hidden
@@ -88,24 +96,24 @@ export function ListRow({
           src={src}
           style={{
             position: "absolute",
-            left: logoCenterX - washSize / 2,
-            top: (rect.h - washSize) / 2,
-            width: washSize,
-            height: washSize,
+            left: rect.w * (1 - LOGO_WASH_SHARE),
+            top: -washBlur * 2,
+            width: rect.w * LOGO_WASH_SHARE + washBlur * 2,
+            height: rect.h + washBlur * 4,
             objectFit: "cover",
-            filter: `blur(${Math.max(16, rect.h * 0.35)}px) saturate(1.4)`,
+            filter: `blur(${washBlur}px) saturate(1.4)`,
             opacity: LOGO_WASH_OPACITY,
             pointerEvents: "none",
           }}
         />
       ) : (
-        // No logo: tint the left of the row in the initials logo's colour instead.
+        // No logo: tint the right of the row in the initials logo's colour instead.
         <div
           aria-hidden
           style={{
             position: "absolute",
             inset: 0,
-            background: `linear-gradient(to right, ${initialsColor(name)}, transparent 60%)`,
+            background: `linear-gradient(to left, ${initialsColor(name)}, transparent ${LOGO_WASH_SHARE * 100}%)`,
             opacity: LOGO_WASH_OPACITY,
             pointerEvents: "none",
           }}
@@ -150,6 +158,20 @@ export function ListRow({
         >
           {c.name}
         </span>
+        {c.value && c.valueBelow && (
+          <span
+            style={{
+              marginTop: c.textGap,
+              // Lines up with the name's text, not its pill.
+              paddingLeft: c.pillPadX,
+              fontSize: c.valueSize,
+              fontWeight: VALUE_WEIGHT,
+              color: "var(--canvas-text-85)",
+            }}
+          >
+            {c.value}
+          </span>
+        )}
         {c.descriptionLines && (
           <span
             style={{
@@ -170,7 +192,7 @@ export function ListRow({
         )}
       </div>
 
-      {c.value && (
+      {c.value && !c.valueBelow && (
         <span
           style={{
             position: "relative",

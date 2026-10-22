@@ -15,12 +15,12 @@ interface FitWarningProps {
 }
 
 const MODES: { id: FitMode; label: string }[] = [
-  { id: "shrink", label: "Shrink pills" },
+  { id: "shrink", label: "Shrink names" },
   { id: "hide", label: "Hide companies" },
 ];
 
 /**
- * Shown above Export when the map doesn't fit at a readable pill size: says
+ * Shown above Export when the map doesn't fit at a readable name size: says
  * what was done about it and lets you switch between shrinking and hiding.
  */
 export function FitWarning({ fit, fitMode, onFitModeChange, companyCount, canvasWidth, suggestVertical }: FitWarningProps) {
@@ -31,7 +31,7 @@ export function FitWarning({ fit, fitMode, onFitModeChange, companyCount, canvas
     <SidebarWarning>
       {hiddenCount > 0 ? (
         <p>
-          {hiddenCount} {hiddenCount === 1 ? "company is" : "companies are"} hidden to keep pills readable on a
+          {hiddenCount} {hiddenCount === 1 ? "company is" : "companies are"} hidden to keep names readable on a
           phone, in {fit.hidden.length} {fit.hidden.length === 1 ? "category" : "categories"}.
           {suggestVertical && " Try Vertical to fit more."}
         </p>

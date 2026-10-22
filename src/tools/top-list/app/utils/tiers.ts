@@ -13,8 +13,8 @@ export const DESCRIPTION_WEIGHT = 500;
 const MIN_LOGO_SCALE = 1.6;
 /** A two-digit rank number is this share of its badge (RankBadge). */
 const RANK_TEXT_SHARE = 0.46;
-/** Rank numbers sit a step below other secondary text: the badge already makes them stand out. */
-const RANK_TEXT_SCALE = 0.7;
+/** Rank numbers sit well below other secondary text: the badge already makes them stand out. */
+const RANK_TEXT_SCALE = 0.55;
 const LINE_HEIGHT = 1.15;
 
 /** The smallest rank badge, tiles and List rows alike. */
@@ -92,7 +92,7 @@ export function tileContent(
   const horizontal = w > h * 2.2;
   const padding = clamp(short * 0.08, 6, 24);
   const gap = clamp(short * 0.05, 4, 16);
-  const rankSize = clamp(short * 0.1, minRank, Math.max(36, minRank * 1.15));
+  const rankSize = clamp(short * 0.08, minRank, Math.max(28, minRank * 1.15));
   // The badge sits in the top-left corner; keep its height clear, above and below
   // so the content stays centred.
   const rankClearance = withRank ? rankSize * 1.1 : 0;

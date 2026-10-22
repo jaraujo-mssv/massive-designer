@@ -25,6 +25,13 @@ interface CanvasFrameProps {
   showPresentedBy: boolean;
   /** Unique per tool: SVG gradient ids are global on the page. */
   presentedById: string;
+  /**
+   * `side` (default): title on the left, "Presented by" beside it. `centered`:
+   * the old Top List's header, title centred and "Presented by" at the bottom right.
+   */
+  headerStyle?: "side" | "centered";
+  /** Over the preview's top-left corner, outside the exported image: the New | Legacy switch (VersionSwitch). */
+  corner?: React.ReactNode;
   /** Shows the "Import a spreadsheet" placeholder instead of `children`. */
   empty: boolean;
   onLoadExample: () => void;
@@ -49,6 +56,8 @@ export const CanvasFrame = forwardRef<HTMLDivElement, CanvasFrameProps>(function
     onSubtitleChange,
     showPresentedBy,
     presentedById,
+    headerStyle = "side",
+    corner,
     empty,
     onLoadExample,
     children,
@@ -57,14 +66,22 @@ export const CanvasFrame = forwardRef<HTMLDivElement, CanvasFrameProps>(function
 ) {
   const containerRef = useRef<HTMLDivElement>(null);
   const scale = useFitScale(containerRef, width, height);
-  const titleStyle = { fontFamily: "Outfit, sans-serif", lineHeight: 1.1, fontWeight: 900 } as const;
+  const centered = headerStyle === "centered";
+  const footer = centered && showPresentedBy;
+  const titleStyle = {
+    fontFamily: "Outfit, sans-serif",
+    lineHeight: 1.1,
+    fontWeight: 900,
+    textAlign: centered ? "center" : undefined,
+  } as const;
 
   return (
     <div
       ref={containerRef}
-      className={`flex-1 flex items-center justify-center overflow-hidden ${canvasThemeClass(theme)}`}
+      className={`relative flex-1 flex items-center justify-center overflow-hidden ${canvasThemeClass(theme)}`}
       style={{ backgroundColor: "#0d0c17" }}
     >
+      {corner}
       <div style={{ width: width * scale, height: height * scale, flexShrink: 0 }}>
         <div
           id={exportId}
@@ -101,10 +118,16 @@ export const CanvasFrame = forwardRef<HTMLDivElement, CanvasFrameProps>(function
                 style={{ ...titleStyle, color: "var(--canvas-red)", fontSize: `${spacing.subtitleFontSize}px` }}
               />
             </div>
-            {showPresentedBy && <PresentedBy gradientId={presentedById} />}
+            {showPresentedBy && !centered && <PresentedBy gradientId={presentedById} />}
           </div>
 
-          <div style={{ flex: 1, minHeight: 0, padding: `0 ${spacing.sitePadding}px ${spacing.sitePadding}px` }}>
+          <div
+            style={{
+              flex: 1,
+              minHeight: 0,
+              padding: `0 ${spacing.sitePadding}px ${footer ? spacing.headerBottomPadding : spacing.sitePadding}px`,
+            }}
+          >
             {empty ? (
               <div
                 className="h-full flex flex-col items-center justify-center gap-3 rounded-lg"
@@ -127,6 +150,15 @@ export const CanvasFrame = forwardRef<HTMLDivElement, CanvasFrameProps>(function
               children
             )}
           </div>
+
+          {footer && (
+            <div
+              className="flex justify-end shrink-0"
+              style={{ padding: `0 ${spacing.sitePadding}px ${spacing.sitePadding}px` }}
+            >
+              <PresentedBy gradientId={presentedById} />
+            </div>
+          )}
         </div>
       </div>
     </div>

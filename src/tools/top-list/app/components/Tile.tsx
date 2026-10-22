@@ -27,15 +27,21 @@ interface TileProps {
   sizing?: { w: number; h: number };
   /** Phone-readable minimum text sizes, in canvas px. */
   legible: LegibleSizes;
+  /** A legacy theme: the old card look (full stroke, plain rank, no wash or name pill). */
+  legacy?: boolean;
   /** Click-to-edit; gets the tile to anchor the popover on. */
   onClick?: (el: HTMLElement) => void;
 }
 
+/** The tiles' stroke: all round on the old cards, otherwise only along the bottom. */
+const TILE_STROKE = 2;
+
 /**
  * The rank as a brand-red circle with a white number: in a tile's top-left
- * corner when given an `inset`, otherwise inline (List rows).
+ * corner when given an `inset`, otherwise inline (List rows). `plain` draws
+ * just the number, as the old tools did, in the same box.
  */
-export function RankBadge({ rank, size, inset }: { rank: number; size: number; inset?: number }) {
+export function RankBadge({ rank, size, inset, plain = false }: { rank: number; size: number; inset?: number; plain?: boolean }) {
   return (
     <div
       style={{
@@ -45,12 +51,12 @@ export function RankBadge({ rank, size, inset }: { rank: number; size: number; i
         width: size,
         height: size,
         borderRadius: "50%",
-        backgroundColor: "var(--canvas-red)",
-        color: "#ffffff",
+        backgroundColor: plain ? "transparent" : "var(--canvas-red)",
+        color: plain ? "var(--canvas-text)" : "#ffffff",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        fontSize: size * (rank >= 10 ? 0.46 : 0.56),
+        fontSize: size * (plain ? (rank >= 10 ? 0.6 : 0.7) : rank >= 10 ? 0.46 : 0.56),
         fontWeight: 700,
         lineHeight: 1,
       }}
@@ -60,7 +66,7 @@ export function RankBadge({ rank, size, inset }: { rank: number; size: number; i
   );
 }
 
-export function Tile({ rect, name, description, logoUrl, website, value, rank, sizing = rect, legible, onClick }: TileProps) {
+export function Tile({ rect, name, description, logoUrl, website, value, rank, sizing = rect, legible, legacy = false, onClick }: TileProps) {
   const resolved = useResolvedLogo(logoUrl, website);
   // A logo that still fails to draw shows initials until the lookup settles on another.
   const [failedSrc, setFailedSrc] = useState<string | null>(null);
@@ -68,6 +74,8 @@ export function Tile({ rect, name, description, logoUrl, website, value, rank, s
   const c = tileContent(sizing.w, sizing.h, name, value, rank !== undefined, rect.w, description ?? null, legible);
   // Blur scales with the tile, so every tile gets a smooth wash, not a smudged logo.
   const washBlur = Math.min(80, Math.max(24, Math.min(rect.w, rect.h) * 0.18));
+  // The legacy stroke on the other three sides comes out of the padding, so the content keeps its room.
+  const edge = legacy ? Math.max(0, c.padding - TILE_STROKE) : c.padding;
 
   return (
     <div
@@ -81,11 +89,14 @@ export function Tile({ rect, name, description, logoUrl, website, value, rank, s
         width: rect.w,
         height: rect.h,
         backgroundColor: "var(--canvas-card-bg)",
-        // Only a bottom stroke: it grounds each tile without boxing it in.
-        borderBottom: "2px solid var(--canvas-border-15)",
-        borderRadius: 6,
+        // Modern tiles have only a bottom stroke: it grounds each tile without boxing it in.
+        // Longhands, so switching theme doesn't mix border and borderBottom.
+        borderStyle: "solid",
+        borderWidth: legacy ? TILE_STROKE : `0 0 ${TILE_STROKE}px 0`,
+        borderColor: legacy ? "var(--canvas-border)" : "var(--canvas-border-15)",
+        borderRadius: legacy ? 8 : 6,
         boxSizing: "border-box",
-        padding: c.padding,
+        padding: `${edge}px ${edge}px ${c.padding}px`,
         display: "flex",
         flexDirection: c.horizontal ? "row" : "column",
         alignItems: "center",
@@ -99,8 +110,8 @@ export function Tile({ rect, name, description, logoUrl, website, value, rank, s
           tile's longer side, heavily blurred and faded, so the tile takes on the colours
           at the logo's centre. Blur fades out at an image's edges, so the image overhangs
           by twice the blur and the tile clips it. The logo and text below are
-          position: relative so they paint above it. */}
-      {src ? (
+          position: relative so they paint above it. Legacy tiles have none. */}
+      {legacy ? null : src ? (
         <img
           aria-hidden
           alt=""
@@ -132,7 +143,7 @@ export function Tile({ rect, name, description, logoUrl, website, value, rank, s
           }}
         />
       )}
-      {rank !== undefined && <RankBadge rank={rank} size={c.rankSize} inset={c.padding} />}
+      {rank !== undefined && <RankBadge rank={rank} size={c.rankSize} inset={edge} plain={legacy} />}
       {src ? (
         <img
           src={src}
@@ -163,11 +174,12 @@ export function Tile({ rect, name, description, logoUrl, website, value, rank, s
             <span
               style={{
                 fontSize: c.nameSize,
-                fontWeight: NAME_WEIGHT,
+                // Legacy names are plain text at the old weight, which is narrower than the one measured.
+                fontWeight: legacy ? 400 : NAME_WEIGHT,
                 textAlign: c.horizontal ? "left" : "center",
                 // Follows the theme: dark pill with light text on Dark, light pill with dark text on Light.
                 color: "var(--canvas-text)",
-                backgroundColor: "var(--canvas-card-bg-2)",
+                backgroundColor: legacy ? "transparent" : "var(--canvas-card-bg-2)",
                 // A two-line name gets a rounded box; a full capsule would clip its corners.
                 borderRadius: c.nameLines.length > 1 ? c.nameSize * 0.8 : 999,
                 padding: `${c.pillPadY}px ${c.pillPadX}px`,

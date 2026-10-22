@@ -20,23 +20,13 @@ const MIN_PADDING = 10;
 
 const rowPadding = (h: number) => clamp(h * 0.12, MIN_PADDING, 28);
 
-/**
- * The shortest row that still shows its name at the phone-readable size, plus
- * a description line when the list has descriptions. Shorter rows than this
- * in one column go into two (see listRects).
- */
-export function listMinRowHeight({ primary, secondary }: LegibleSizes, withDescriptions: boolean): number {
-  const name = primary * PILL_HEIGHT;
-  const description = withDescriptions ? primary * 0.12 + secondary * LINE_HEIGHT : 0;
-  const content = name + description;
-  // Padding grows with the row (rowPadding: 12% top and bottom, at least MIN_PADDING).
-  return Math.max(content + MIN_PADDING * 2, content / (1 - 0.12 * 2));
-}
+/** Up to this many companies sit in one column; more go into two. */
+const ONE_COLUMN_MAX = 7;
 
 /**
  * Full-width rows for the List layout, one per item, sharing the height
- * equally. When one column would make rows shorter than `minRowHeight`, the
- * rows go into two columns, ranked down the left column first, then the right.
+ * equally. Past ONE_COLUMN_MAX items the rows go into two columns, ranked
+ * down the left column first, then the right.
  * Each column fills the full height, so with an odd count the right column's
  * rows are a little taller (TileCanvas sizes every row's content from the
  * shortest, so they still match).
@@ -44,9 +34,9 @@ export function listMinRowHeight({ primary, secondary }: LegibleSizes, withDescr
  * Returned in item order, the same Rect shape as `gridRects`, so both go
  * through `insetAndSnap`.
  */
-export function listRects(count: number, bounds: Rect, minRowHeight: number): { rects: Rect[]; columns: 1 | 2 } {
+export function listRects(count: number, bounds: Rect): { rects: Rect[]; columns: 1 | 2 } {
   if (count <= 0) return { rects: [], columns: 1 };
-  const columns: 1 | 2 = count > 1 && bounds.h / count < minRowHeight ? 2 : 1;
+  const columns: 1 | 2 = count > ONE_COLUMN_MAX ? 2 : 1;
   const leftRows = Math.ceil(count / columns);
   const colW = bounds.w / columns;
   const rects: Rect[] = [];
@@ -74,15 +64,17 @@ export interface ListRowContent {
   descriptionSize: number;
   /** Space between the name pill and the description. */
   textGap: number;
-  /** Right-aligned value, or null for none. */
+  /** The value, right-aligned or under the name (`valueBelow`), or null for none. */
   value: string | null;
   valueSize: number;
+  /** The value sits under the name instead of on the right (lists in two columns). */
+  valueBelow: boolean;
   /** The row was too short for a phone-readable name, so it's smaller than `legible.primary`. */
   shrunk: boolean;
 }
 
 /** `text` on up to two lines in `maxW`: wrapped when it fits, else the second line cut with "…". */
-function twoLines(text: string, maxW: number, size: number, weight: number): string[] | null {
+export function twoLines(text: string, maxW: number, size: number, weight: number): string[] | null {
   const wrapped = wrapLines(text, maxW, size, weight, 2);
   if (wrapped) return wrapped;
   const words = text.split(/\s+/).filter(Boolean);
@@ -98,8 +90,10 @@ function twoLines(text: string, maxW: number, size: number, weight: number): str
 
 /**
  * Decides what a List row shows from its size: rank badge, logo, name pill
- * with the description under it, and the value on the right. Every row of a
- * list is sized from the same (shortest) row, so they all match.
+ * with the description under it, and the value on the right. With `valueBelow`
+ * (two columns, too narrow for the value beside the name) the value goes
+ * between the name and the description instead, and every row keeps room for
+ * it. Every row of a list is sized from the same (shortest) row, so they all match.
  *
  * Sizes grow with the row up to a cap and stay at or above what reads on a
  * phone (`legible`). When the list has descriptions, every row keeps room for
@@ -118,52 +112,61 @@ export function listRowContent(
   legible: LegibleSizes,
   /** The list has descriptions: keep room for one in every row, so rows look alike. */
   withDescription: boolean,
+  /** The list's values go under the names: keep room for one in every row. */
+  valueBelow = false,
 ): ListRowContent {
   const { primary, secondary } = legible;
   const padding = rowPadding(h);
   const innerH = h - padding * 2;
   const gap = clamp(h * 0.12, 8, 24);
   const minRank = rankBadgeMin(legible);
-  const rankSize = Math.min(clamp(h * 0.32, minRank, Math.max(40, minRank * 1.15)), innerH);
+  const rankSize = Math.min(clamp(h * 0.25, minRank, Math.max(32, minRank * 1.15)), innerH);
   const logoSize = Math.min(clamp(h * 0.6, primary * 1.4, Math.max(84, primary * 2)), innerH);
 
-  // Height first: the name pill must fit in the row, even if that means going small.
-  let nameSize = Math.min(clamp(h * 0.3, primary, primary * MAX_NAME_SCALE), innerH / PILL_HEIGHT);
+  // Height first: the name pill (and the value under it) must fit in the row, even if that means going small.
   const descSizeFor = (size: number) => Math.max(secondary, size * 0.65);
-  const fits = (size: number, lines: number) =>
-    size * PILL_HEIGHT + size * 0.12 + lines * descSizeFor(size) * LINE_HEIGHT <= innerH;
+  const valueSizeFor = (size: number) => Math.max(secondary, size * 0.9);
+  /** The text column's height at name size `size`, with `lines` of description. */
+  const stackH = (size: number, lines: number, descSize = descSizeFor(size), valueSize = valueSizeFor(size)) =>
+    size * PILL_HEIGHT +
+    (valueBelow ? size * 0.12 + valueSize * LINE_HEIGHT : 0) +
+    (lines > 0 ? size * 0.12 + lines * descSize * LINE_HEIGHT : 0);
+  const fits = (size: number, lines: number) => stackH(size, lines) <= innerH;
+  let nameSize = clamp(h * 0.3, primary, primary * MAX_NAME_SCALE);
   let descriptionSize = descSizeFor(nameSize);
   let descLines = 0;
-  if (withDescription) {
-    // Two lines, then one, with the name made smaller if need be, but not below the minimum.
-    for (const lines of [2, 1]) {
-      let size = nameSize;
-      while (size > primary && !fits(size, lines)) size = Math.max(primary, size - 1);
-      if (fits(size, lines)) {
-        nameSize = size;
-        descriptionSize = descSizeFor(size);
-        descLines = lines;
-        break;
-      }
-    }
-    if (descLines === 0) {
-      // Too short even at the minimums: name and one description line shrink together.
-      descLines = 1;
-      nameSize = innerH / (PILL_HEIGHT + 0.12 + 0.8 * LINE_HEIGHT);
-      descriptionSize = nameSize * 0.8;
+  let placed = false;
+  // Two description lines, then one (none without descriptions), with the name made
+  // smaller if need be, but not below the minimum.
+  for (const lines of withDescription ? [2, 1] : [0]) {
+    let size = nameSize;
+    while (size > primary && !fits(size, lines)) size = Math.max(primary, size - 1);
+    if (fits(size, lines)) {
+      nameSize = size;
+      descriptionSize = descSizeFor(size);
+      descLines = lines;
+      placed = true;
+      break;
     }
   }
+  if (!placed) {
+    // Too short even at the minimums: name, value and one description line shrink together.
+    descLines = withDescription ? 1 : 0;
+    nameSize = innerH / stackH(1, descLines, 0.8, 0.9);
+    descriptionSize = nameSize * 0.8;
+  }
   const shrunk = nameSize < primary - 0.01;
-  const valueSize = shrunk ? nameSize * 0.9 : Math.max(secondary, nameSize * 0.9);
+  const valueSize = shrunk ? nameSize * 0.9 : valueSizeFor(nameSize);
 
+  // A value on the right takes its width from the text column; one under the name is fitted to it below.
   let shownValue: string | null = null;
   let valueW = 0;
-  if (value) {
+  if (value && !valueBelow) {
     shownValue = fitText(value, w * MAX_VALUE_SHARE, valueSize, VALUE_WEIGHT, 1) ?? value;
     valueW = textWidth(shownValue, valueSize, VALUE_WEIGHT);
   }
 
-  // What's left for the text column: the name pill and the description.
+  // What's left for the text column: the name pill and the description (and the value under them).
   const textW = Math.max(0, w - padding * 2 - rankSize - logoSize - gap * 2 - (shownValue ? valueW + gap : 0));
 
   // Then width: shrink toward the minimum (never below it for width), then cut with "…".
@@ -178,6 +181,7 @@ export function listRowContent(
 
   // Indented to line up with the name's text; always shown when there is one.
   const descW = textW - pillPadX;
+  if (value && valueBelow) shownValue = fitText(value, descW, valueSize, VALUE_WEIGHT, 1) ?? value;
   let descriptionLines: string[] | null = null;
   if (description && descLines === 2) {
     descriptionLines = twoLines(description, descW, descriptionSize, DESCRIPTION_WEIGHT);
@@ -200,6 +204,7 @@ export function listRowContent(
     textGap: nameSize * 0.12,
     value: shownValue,
     valueSize,
+    valueBelow,
     shrunk,
   };
 }

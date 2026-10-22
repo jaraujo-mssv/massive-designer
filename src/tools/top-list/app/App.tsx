@@ -22,6 +22,7 @@ import { Label } from "@/shared/components/ui/label";
 import { warmImageCache } from "@/shared/utils/imageDataUrl";
 import { ListEditor, ListEditTarget } from "./components/ListEditor";
 import { LegibilityReport, TileCanvas } from "./components/TileCanvas";
+import { ThemePreview } from "./components/ThemePreview";
 import { DEFAULT_SIZE, EXAMPLES, PRESETS, SIZES, TopListSizeId } from "./constants";
 import { Layout, ListItem, ListView, parseSheet } from "./utils/parseSheet";
 
@@ -61,6 +62,8 @@ export default function App() {
   // The smallest text that still reads once a feed shrinks the image on a phone.
   // Memoised: TileCanvas lays out again whenever it changes.
   const legible = useMemo(() => legibleSizes(canvasW), [canvasW]);
+  // Legacy themes draw the old cards (and in List, the old columns) with a centred header.
+  const legacy = getCanvasTheme(theme).legacy;
   const logoUrls = useMemo(() => items.map((i) => i.logoUrl), [items]);
   const logoSources = useMemo(() => ({ logoDevToken: logoDevTokenFrom(logoUrls) }), [logoUrls]);
 
@@ -199,12 +202,16 @@ export default function App() {
       <Toaster position="top-center" richColors />
       <SheetSidebar
         toolName="Top List"
-        versionSwitch={<VersionSwitch confirmLeave={confirmDiscard} />}
         sizes={SIZES}
         size={size}
         onSizeChange={setSize}
         theme={theme}
-        onThemeChange={setTheme}
+        onThemeChange={(t) => {
+          // The popover's anchor goes away when the List switches between rows and cards.
+          setEditing(null);
+          setTheme(t);
+        }}
+        themePreview={ThemePreview}
         showPresentedBy={showPresentedBy}
         onShowPresentedByChange={setShowPresentedBy}
         designExtra={
@@ -272,11 +279,14 @@ export default function App() {
           onSubtitleChange={setDate}
           showPresentedBy={showPresentedBy}
           presentedById="massiveLogo_grad_toplist"
+          headerStyle={legacy ? "centered" : "side"}
+          corner={<VersionSwitch confirmLeave={confirmDiscard} />}
           empty={items.length === 0}
           onLoadExample={loadFirstExample}
         >
           <TileCanvas
             view={view}
+            legacy={legacy}
             layout={layout}
             items={items}
             symbol={symbol}

@@ -1,5 +1,3 @@
-import { Moon, Sun, type Icon } from '@phosphor-icons/react';
-
 /**
  * Canvas themes shared by the canvas tools.
  *
@@ -11,15 +9,21 @@ import { Moon, Sun, type Icon } from '@phosphor-icons/react';
 export interface CanvasTheme {
   id: CanvasThemeId;
   label: string;
-  icon?: Icon;
-  exportBg?: string;
+  /**
+   * Imitates the pre-revamp tools: their look and their layout (columns of
+   * cards). Tools branch on this, never on the id.
+   */
+  legacy: boolean;
+  exportBg: string;
 }
 
-export type CanvasThemeId = 'dark' | 'light';
+export type CanvasThemeId = 'dark' | 'light' | 'dark-legacy' | 'light-legacy';
 
 export const CANVAS_THEMES: CanvasTheme[] = [
-  { id: 'dark', label: 'Dark', icon: Moon, exportBg: '/bg.jpg' },
-  { id: 'light', label: 'Light', icon: Sun, exportBg: '/canvas-bg-light.jpg' },
+  { id: 'dark', label: 'Dark', legacy: false, exportBg: '/bg.jpg' },
+  { id: 'light', label: 'Light', legacy: false, exportBg: '/canvas-bg-light.jpg' },
+  { id: 'dark-legacy', label: 'Dark Legacy', legacy: true, exportBg: '/bg.jpg' },
+  { id: 'light-legacy', label: 'Light Legacy', legacy: true, exportBg: '/bg-light.jpg' },
 ];
 
 export function getCanvasTheme(id: CanvasThemeId): CanvasTheme {

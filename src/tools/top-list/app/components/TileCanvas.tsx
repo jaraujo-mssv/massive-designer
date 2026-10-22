@@ -3,7 +3,7 @@ import type { LegibleSizes } from "@/shared/canvas/legibility";
 import type { Layout, ListItem, ListView } from "../utils/parseSheet";
 import { gridRects } from "../utils/grid";
 import { LegacyListLayout, legacyListLayout } from "../utils/legacyList";
-import { listRects, listRowContent } from "../utils/list";
+import { ListFit, listFit, listRects, listRowContent } from "../utils/list";
 import { tileContent } from "../utils/tiers";
 import { allocateAreas } from "../utils/minArea";
 import { insetAndSnap, Rect, squarify } from "@/shared/canvas/squarify";
@@ -102,6 +102,8 @@ export function TileCanvas({
     atMinimum: number;
     /** List rows show their values under the names (two columns). */
     valueBelow?: boolean;
+    /** The name and logo sizes every List row shares. */
+    listFit?: ListFit;
     /** The legacy List's shared card metrics, when that's what's drawn. */
     legacyList?: LegacyListLayout;
   } => {
@@ -131,7 +133,21 @@ export function TileCanvas({
       const regular = { w: rects[0].w, h: Math.min(...rects.map((r) => r.h)) };
       // Half-width rows put the value under the name, to leave the name the row's width.
       const valueBelow = list.columns > 1 && items.some((i) => valueText(i, symbol));
-      return { tiles: items.map((item, i) => ({ item, rect: rects[i], sizing: regular })), atMinimum: 0, valueBelow };
+      // One name size and one logo size for every row, made to fit the longest names.
+      const fit = listFit(
+        items.map((i) => ({ name: i.name, value: valueText(i, symbol) })),
+        regular.w,
+        regular.h,
+        legible,
+        withDescriptions,
+        valueBelow,
+      );
+      return {
+        tiles: items.map((item, i) => ({ item, rect: rects[i], sizing: regular })),
+        atMinimum: 0,
+        valueBelow,
+        listFit: fit,
+      };
     }
     if (layout === "grid") {
       const rects = insetAndSnap(gridRects(items.length, bounds), tileGap);
@@ -178,6 +194,7 @@ export function TileCanvas({
           legible,
           withDescriptions,
           placed.valueBelow,
+          placed.listFit,
         );
         if (c.shrunk) {
           shrunkNames++;
@@ -225,6 +242,7 @@ export function TileCanvas({
             sizing={sizing}
             withDescription={withDescriptions}
             valueBelow={placed.valueBelow}
+            fit={placed.listFit}
             rank={item.rank}
             name={item.name}
             description={item.description}

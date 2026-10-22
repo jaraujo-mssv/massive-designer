@@ -85,6 +85,19 @@ Enlarged tiles are no longer to scale, so the sidebar says how many there are. T
 - **Rank:** a brand-red circle (`--canvas-red`) with the number in white and no outline, in the tile's top-left corner (at the tile's padding). Its diameter is `clamp(short side × 0.13, 20, 44)`; two-digit ranks use slightly smaller text. The centred content keeps the badge's height clear above and below.
 - **Shared with Bento:** grid rects go through the same `insetAndSnap` as the treemap, with the same 12 px gap, and outer tiles are flush with the edges.
 
+## List layout: long names
+
+`utils/list.ts` (`listFit`, `listRowContent`), drawn by `components/ListRow.tsx`.
+
+- **One name size and one logo size for the whole list,** so every row matches: no big short name next to a small long one.
+- **Long names are made room for in this order, all rows together:**
+  1. The logos shrink, by at most 20%.
+  2. The names shrink, 5% at a time, toward the phone-readable minimum (never below it to fit the width).
+  3. A name that still doesn't fit at the end wraps onto two lines, balanced, when the row has the height for the extra line. The description and a value under the name keep their place. A wrapped name's pill becomes a rounded box.
+  4. Only then is it cut with "…".
+- **Trade-off:** one long name shrinks the whole list before anything wraps.
+- **Example:** on Top 10 AI SDRs (Vertical, two columns), "Agent Frank (Salesforce)" doesn't fit even at 30 px with smaller logos. Every name goes to 30 px with logos of about 67 px (from 84). "ZoomInfo Copilot" then fits on one line, and "Agent Frank / (Salesforce)" wraps. Before this change, each row shrank on its own and both names were cut.
+
 ## Responsive tiles
 
 Each tile picks how much to show based on **its own pixel size**, not the canvas size. That's what keeps the design working at both canvas sizes and for any number of companies.

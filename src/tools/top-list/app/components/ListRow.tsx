@@ -4,7 +4,7 @@ import { InitialsLogo, initialsColor } from "@/shared/canvas/logos/InitialsLogo"
 import { useResolvedLogo } from "@/shared/canvas/logos/resolve";
 import type { Rect } from "@/shared/canvas/squarify";
 import { DESCRIPTION_WEIGHT, NAME_WEIGHT, VALUE_WEIGHT } from "../utils/tiers";
-import { listRowContent } from "../utils/list";
+import { ListFit, listRowContent } from "../utils/list";
 import { RankBadge } from "./Tile";
 
 /** How strongly the blurred logo colours the row (as tiles); light, so text stays high-contrast. */
@@ -20,6 +20,8 @@ interface ListRowProps {
   withDescription: boolean;
   /** Values go under the names (lists in two columns), not on the right. */
   valueBelow?: boolean;
+  /** The name and logo sizes the whole list shares (listFit). */
+  fit?: ListFit;
   rank: number;
   name: string;
   description?: string;
@@ -45,6 +47,7 @@ export function ListRow({
   sizing = rect,
   withDescription,
   valueBelow = false,
+  fit,
   rank,
   name,
   description,
@@ -58,7 +61,7 @@ export function ListRow({
   // A logo that still fails to draw shows initials until the lookup settles on another.
   const [failedSrc, setFailedSrc] = useState<string | null>(null);
   const src = resolved && resolved !== failedSrc ? resolved : null;
-  const c = listRowContent(sizing.w, sizing.h, name, description ?? null, value, legible, withDescription, valueBelow);
+  const c = listRowContent(sizing.w, sizing.h, name, description ?? null, value, legible, withDescription, valueBelow, fit);
   // Blur scales with the row, so the wash stays smooth, not a smudged logo.
   const washBlur = Math.min(80, Math.max(24, rect.h * 0.5));
 
@@ -152,11 +155,16 @@ export function ListRow({
             fontWeight: NAME_WEIGHT,
             color: "var(--canvas-text)",
             backgroundColor: "var(--canvas-card-bg-2)",
-            borderRadius: 999,
+            // A two-line name gets a rounded box; a full capsule would clip its corners.
+            borderRadius: c.nameLines.length > 1 ? c.nameSize * 0.8 : 999,
             padding: `${c.pillPadY}px ${c.pillPadX}px`,
           }}
         >
-          {c.name}
+          {c.nameLines.map((line, i) => (
+            <span key={i} style={{ display: "block" }}>
+              {line}
+            </span>
+          ))}
         </span>
         {c.value && c.valueBelow && (
           <span

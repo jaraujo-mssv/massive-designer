@@ -14,7 +14,8 @@ import { INITIALS, logoDevTokenFrom } from "@/shared/canvas/logos/sources";
 import { legibleSizes, phonePt, PRIMARY_MIN_PT } from "@/shared/canvas/legibility";
 import { DataSummary, SheetSidebar } from "@/shared/canvas/SheetSidebar";
 import { escapeHtml, htmlToText } from "@/shared/canvas/sheetText";
-import { CanvasThemeId, getCanvasTheme } from "@/shared/canvas/themes";
+import { useRemembered } from "@/shared/canvas/remembered";
+import { CANVAS_THEME_IDS, CanvasThemeId, getCanvasTheme } from "@/shared/canvas/themes";
 import { VersionSwitch } from "@/shared/canvas/ToolVersion";
 import { clearSheetParam, useSheetLoader } from "@/shared/canvas/useSheetLoader";
 import { SidebarWarning } from "@/shared/components/SidebarLayout";
@@ -27,6 +28,7 @@ import { DEFAULT_SIZE, EXAMPLES, PRESETS, SIZES, TopListSizeId } from "./constan
 import { Layout, ListItem, ListView, parseSheet } from "./utils/parseSheet";
 
 const EXPORT_AREA_ID = "top-list-export-area";
+const LIST_VIEWS: readonly ListView[] = ["list", "grid"];
 const DEFAULT_TITLE = "<b>Top List</b>";
 const DEFAULT_DATE = "<b>By Massive</b>";
 
@@ -42,13 +44,14 @@ export default function App() {
   // The open click-to-edit popover: what it edits and where it's anchored.
   const [editing, setEditing] = useState<{ target: ListEditTarget; anchor: HTMLElement } | null>(null);
   const [layout, setLayout] = useState<Layout>("grid");
-  // List rows or tiles; picked in the sidebar and kept across loads.
-  const [view, setView] = useState<ListView>("list");
+  // List rows or tiles; picked in the sidebar and kept across loads. Layout and
+  // theme open as they were last time in this browser.
+  const [view, setView] = useRemembered<ListView>("top-list.layout", "list", LIST_VIEWS);
   const [symbol, setSymbol] = useState("$");
   const [title, setTitle] = useState(DEFAULT_TITLE);
   const [date, setDate] = useState(DEFAULT_DATE);
   const [size, setSize] = useState<TopListSizeId>(DEFAULT_SIZE);
-  const [theme, setTheme] = useState<CanvasThemeId>("light");
+  const [theme, setTheme] = useRemembered<CanvasThemeId>("top-list.theme", "light", CANVAS_THEME_IDS);
   const [showPresentedBy, setShowPresentedBy] = useState(true);
   const [summary, setSummary] = useState<LoadedSummary | null>(null);
   const [atMinimum, setAtMinimum] = useState(0);

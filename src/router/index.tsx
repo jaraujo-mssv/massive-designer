@@ -133,13 +133,13 @@ export const router = createBrowserRouter([
     path: '/market-map',
     element: (
       <ToolLayout themeClass="tool-market-map">
-        {/* Legacy is the default for now. ?f= (locked embed) is a legacy-only link,
-            so it opens in Legacy whatever the default. */}
+        {/* Opens in New, or in the version last picked in this browser. ?f= (locked
+            embed) is a legacy-only link, so it opens in Legacy whatever was picked. */}
         <VersionedTool
           newApp={MarketMapApp}
           legacyApp={MarketMapLegacyApp}
-          defaultVersion="legacy"
           legacyWhen={(q) => q.has('f')}
+          storageKey="market-map.version"
         />
       </ToolLayout>
     ),
@@ -164,8 +164,8 @@ export const router = createBrowserRouter([
     path: '/top-list',
     element: (
       <ToolLayout themeClass="tool-top-list">
-        {/* Legacy is the default for now. */}
-        <VersionedTool newApp={TopListApp} legacyApp={TopListLegacyApp} defaultVersion="legacy" />
+        {/* Opens in New, or in the version last picked in this browser. */}
+        <VersionedTool newApp={TopListApp} legacyApp={TopListLegacyApp} storageKey="top-list.version" />
       </ToolLayout>
     ),
   },

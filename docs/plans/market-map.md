@@ -89,6 +89,11 @@ Four themes, shared with Top List (`src/shared/canvas/themes.ts`): **Dark**, **L
   - On phones, sideways swipes scroll the row instead of dragging the drawer (`data-vaul-no-drag`).
 - **Theme and Layout switches close any open edit popover:** its anchor goes away when the map is drawn again.
 - The theme's label is part of the exported file name, e.g. "LLM Search Stack - Q1 2026 - Dark Legacy - Square".
+- **Remembered per browser** (`src/shared/canvas/remembered.ts`, in localStorage):
+  - Both tools open in **New**, or in the version last picked: `market-map.version` / `top-list.version`.
+  - Each tool keeps its own theme and layout: `market-map.theme`, `market-map.layout`, `top-list.theme`, `top-list.layout`.
+  - A legacy `?f=` embed link still opens in Legacy without changing what's remembered.
+  - Blocked storage (e.g. private windows) just falls back to the defaults.
 
 ## Columns layout
 

@@ -15,8 +15,9 @@ import { legibleSizes } from "@/shared/canvas/legibility";
 import { DataSummary, SheetSidebar } from "@/shared/canvas/SheetSidebar";
 import { escapeHtml, htmlToText } from "@/shared/canvas/sheetText";
 import { CANVAS_SIZES, CanvasSizeId, DEFAULT_CANVAS_SIZE, FRAME_SPACING, TILE_GAP } from "@/shared/canvas/sizes";
+import { useRemembered } from "@/shared/canvas/remembered";
 import type { ThemePreviewProps } from "@/shared/canvas/ThemePicker";
-import { CanvasThemeId, getCanvasTheme } from "@/shared/canvas/themes";
+import { CANVAS_THEME_IDS, CanvasThemeId, getCanvasTheme } from "@/shared/canvas/themes";
 import { VersionSwitch } from "@/shared/canvas/ToolVersion";
 import { clearSheetParam, useSheetLoader } from "@/shared/canvas/useSheetLoader";
 import { Label } from "@/shared/components/ui/label";
@@ -30,6 +31,7 @@ import type { FitMode } from "./utils/layout";
 import { Category, parseSheet } from "./utils/parseSheet";
 
 const EXPORT_AREA_ID = "market-map-export-area";
+const MAP_VIEWS: readonly MapView[] = ["columns", "tiles"];
 const DEFAULT_TITLE = "<b>Market Map</b>";
 const DEFAULT_DATE = "<b>By Massive</b>";
 
@@ -47,9 +49,10 @@ export default function App() {
   const [title, setTitle] = useState(DEFAULT_TITLE);
   const [date, setDate] = useState(DEFAULT_DATE);
   const [size, setSize] = useState<CanvasSizeId>(DEFAULT_CANVAS_SIZE);
-  const [theme, setTheme] = useState<CanvasThemeId>("light");
+  // Theme and layout open as they were last time in this browser.
+  const [theme, setTheme] = useRemembered<CanvasThemeId>("market-map.theme", "light", CANVAS_THEME_IDS);
   // Columns or tiles; picked in the sidebar and kept across loads.
-  const [view, setView] = useState<MapView>("columns");
+  const [view, setView] = useRemembered<MapView>("market-map.layout", "columns", MAP_VIEWS);
   const [showPresentedBy, setShowPresentedBy] = useState(true);
   const [summary, setSummary] = useState<LoadedSummary | null>(null);
   // How a map too big for readable pills is made to fit; kept across loads.

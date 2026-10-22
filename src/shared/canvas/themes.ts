@@ -26,6 +26,9 @@ export const CANVAS_THEMES: CanvasTheme[] = [
   { id: 'light-legacy', label: 'Light Legacy', legacy: true, exportBg: '/bg-light.jpg' },
 ];
 
+/** Every theme id, e.g. to check a remembered theme still exists. */
+export const CANVAS_THEME_IDS = CANVAS_THEMES.map((t) => t.id);
+
 export function getCanvasTheme(id: CanvasThemeId): CanvasTheme {
   return CANVAS_THEMES.find((t) => t.id === id) ?? CANVAS_THEMES[0];
 }

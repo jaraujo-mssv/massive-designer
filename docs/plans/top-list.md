@@ -168,6 +168,8 @@ It uses the shared **Design** panel, with no spreadsheet switch because sizing i
 
 - **Size:** Vertical / Square / Horizontal
 - **Theme:** a sideways-scrolling row of theme cards, each a live preview (`components/ThemePreview.tsx`)
+- **Layout:** List / Grid
+- **Remembered:** the theme, the layout and the version (New, the default, or Legacy) are kept in the browser (`top-list.theme`, `top-list.layout`, `top-list.version`), so the tool opens as it was left. See Themes in [market-map.md](market-map.md).
 - **Show "Presented by":** a switch
 - **Data:** the company count and which layout was chosen, skipped rows with reasons, duplicate names, and (Bento) how many tiles are shown at minimum size
 - **Import:** CSV/TSV file, Google Sheets URL, a column hint, and the Examples list (Load / Open); shown only while no list is loaded

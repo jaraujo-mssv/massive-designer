@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from "react";
+import { readRemembered, remember } from "./remembered";
 
 type Version = "new" | "legacy";
 
@@ -11,25 +12,35 @@ const VERSIONS: { id: Version; label: string; hint: string }[] = [
 
 /**
  * Serves a tool's current app and its pre-revamp legacy app from the same URL.
- * The choice lives in state only, so links (?e= …) never change; switching
+ * The choice isn't in the URL, so links (?e= …) never change; switching
  * remounts the other app, which loads ?e= again if it's still in the address.
+ * The browser remembers the version last picked (`storageKey`) and opens in it
+ * next time.
  */
 export function VersionedTool({
   newApp: NewApp,
   legacyApp: LegacyApp,
   defaultVersion = "new",
   legacyWhen,
+  storageKey,
 }: {
   newApp: React.ComponentType;
   legacyApp: React.ComponentType;
-  /** The version a visit opens in. */
+  /** The version a first visit opens in. */
   defaultVersion?: Version;
-  /** Opens in Legacy when the query asks for something only Legacy understands. */
+  /** Opens in Legacy when the query asks for something only Legacy understands (not remembered). */
   legacyWhen?: (params: URLSearchParams) => boolean;
+  /** Where the version last picked is remembered, e.g. "market-map.version". */
+  storageKey?: string;
 }) {
-  const [version, setVersion] = useState<Version>(() =>
-    legacyWhen?.(new URLSearchParams(window.location.search)) ? "legacy" : defaultVersion,
-  );
+  const [version, setVersionState] = useState<Version>(() => {
+    if (legacyWhen?.(new URLSearchParams(window.location.search))) return "legacy";
+    return (storageKey && readRemembered(storageKey, ["new", "legacy"] as const)) || defaultVersion;
+  });
+  const setVersion = (v: Version) => {
+    setVersionState(v);
+    if (storageKey) remember(storageKey, v);
+  };
   return (
     <ToolVersionContext.Provider value={{ version, setVersion }}>
       {version === "legacy" ? <LegacyApp /> : <NewApp />}

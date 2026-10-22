@@ -5,6 +5,7 @@ node_modules
 .claude/skills/*
 !.claude/skills/massive-video/
 !.claude/skills/massive-image/
+!.claude/skills/massive-deck/
 output
 dist
 dist-campaign-standalone

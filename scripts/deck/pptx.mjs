@@ -11,7 +11,7 @@
 //   - the chart      → a native line chart
 // Only the slide backdrop (glow and grid) stays a flat background picture.
 //
-//   node scripts/deck/pptx.mjs [slug]   (default: consent-sourcing-v2)
+//   node scripts/deck/pptx.mjs <slug…>
 //
 // Text keeps the fonts the deck uses (Outfit, Inter, Jersey 25…), so they must be
 // available where the file is opened. Google Slides has every Google Font.
@@ -19,6 +19,8 @@
 import { chromium } from "playwright";
 import PptxGenJS from "pptxgenjs";
 import sharp from "sharp";
+import { execFileSync } from "node:child_process";
+import { readdirSync } from "node:fs";
 import { mkdir, readFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { pathToFileURL, fileURLToPath } from "node:url";
@@ -27,7 +29,20 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(__dirname, "..", "..");
 const outDir = resolve(repoRoot, "output", "deck");
 
-const slug = process.argv[2] ?? "consent-sourcing-v2";
+const available = readdirSync(__dirname).filter((f) => f.endsWith(".html")).map((f) => f.slice(0, -5));
+const asked = process.argv.slice(2);
+const unknown = asked.filter((s) => !available.includes(s));
+if (!asked.length || unknown.length) {
+  if (unknown.length) console.error(`No deck named ${unknown.join(", ")}.`);
+  console.error(`Usage: npm run deck:pptx <slug…>\nDecks: ${available.join(", ")}`);
+  process.exit(1);
+}
+// Several decks: one run each, so every deck gets a fresh browser and presentation.
+if (asked.length > 1) {
+  for (const s of asked) execFileSync(process.execPath, [fileURLToPath(import.meta.url), s], { stdio: "inherit" });
+  process.exit(0);
+}
+const slug = asked[0];
 const PX = 96; // CSS px per inch; slides are 1920×1080 px = 20×11.25 in
 const W = 1920;
 const H = 1080;

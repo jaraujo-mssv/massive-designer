@@ -1,4 +1,5 @@
 import { chromium } from "playwright";
+import { readdirSync } from "node:fs";
 import { mkdir } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { pathToFileURL, fileURLToPath } from "node:url";
@@ -7,11 +8,16 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(__dirname, "..", "..");
 const outDir = resolve(repoRoot, "output", "deck");
 
-const decks = [
-  { slug: "consent-sourcing", file: "consent-sourcing.html" },
-  { slug: "consent-sourcing-v2", file: "consent-sourcing-v2.html" },
-  { slug: "prague-crawl-2027", file: "prague-crawl-2027.html" },
-];
+//   node scripts/deck/render.mjs [slug…] [--png]   (no slug: every deck)
+// A deck is any scripts/deck/<slug>.html.
+const available = readdirSync(__dirname).filter((f) => f.endsWith(".html")).map((f) => f.slice(0, -5));
+const asked = process.argv.slice(2).filter((a) => !a.startsWith("--"));
+const unknown = asked.filter((s) => !available.includes(s));
+if (unknown.length) {
+  console.error(`No deck named ${unknown.join(", ")}. Decks: ${available.join(", ")}`);
+  process.exit(1);
+}
+const decks = (asked.length ? asked : available).map((slug) => ({ slug, file: `${slug}.html` }));
 
 // `--png` also writes one screenshot per slide, for reviewing the draft.
 const withPng = process.argv.includes("--png");

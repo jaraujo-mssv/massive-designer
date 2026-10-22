@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { EditForm, SelectField, TextField } from "@/shared/canvas/edit/fields";
+import { companySearchLinks, EditForm, SelectField, TextField } from "@/shared/canvas/edit/fields";
 import { LogoPicker } from "@/shared/canvas/edit/LogoPicker";
 import { InitialsLogo } from "@/shared/canvas/logos/InitialsLogo";
 import { useResolvedLogo } from "@/shared/canvas/logos/resolve";
@@ -103,7 +103,13 @@ function CompanyForm({
         onClose();
       }}
     >
-      <TextField label="Name" value={name} onChange={(v) => (setName(v), setError(null))} error={error} />
+      <TextField
+        label="Name"
+        value={name}
+        onChange={(v) => (setName(v), setError(null))}
+        error={error}
+        links={companySearchLinks(name)}
+      />
       <LogoPicker name={name} logoUrl={logo} website={website} onLogoChange={setLogo} onWebsiteChange={setWebsite} />
       <SelectField
         label="Category"
@@ -162,7 +168,13 @@ function CategoryForm({
       <TextField label="Name" value={name} onChange={(v) => (setName(v), setError(null))} error={error} />
       {adding ? (
         <div className="space-y-3 p-2.5 rounded-lg bg-surface-2 border border-border-subtle">
-          <TextField label="New company" value={companyName} onChange={setCompanyName} placeholder="Company name" />
+          <TextField
+            label="New company"
+            value={companyName}
+            onChange={setCompanyName}
+            placeholder="Company name"
+            links={companySearchLinks(companyName)}
+          />
           <LogoPicker
             name={companyName}
             logoUrl={logo}
@@ -246,7 +258,13 @@ function NewCategoryForm({ categories, onCommit, onClose }: MapEditorProps) {
   return (
     <EditForm title="Add category" onSubmit={submit}>
       <TextField label="Category" value={categoryName} onChange={(v) => (setCategoryName(v), setError(null))} />
-      <TextField label="First company" value={companyName} onChange={(v) => (setCompanyName(v), setError(null))} error={error} />
+      <TextField
+        label="First company"
+        value={companyName}
+        onChange={(v) => (setCompanyName(v), setError(null))}
+        error={error}
+        links={companySearchLinks(companyName)}
+      />
       <LogoPicker name={companyName} logoUrl={logo} website={website} onLogoChange={setLogo} onWebsiteChange={setWebsite} />
     </EditForm>
   );

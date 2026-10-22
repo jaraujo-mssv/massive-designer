@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { EditForm, TextField } from "@/shared/canvas/edit/fields";
+import { companySearchLinks, EditForm, TextField } from "@/shared/canvas/edit/fields";
 import { LogoPicker } from "@/shared/canvas/edit/LogoPicker";
 import { addItem, deleteItem, draftFields, ItemDraft, moveItem, updateItem } from "../utils/edit";
 import type { Layout, ListItem } from "../utils/parseSheet";
@@ -83,6 +83,7 @@ export function ListEditor({ target, items, layout, onCommit, onClose }: ListEdi
         value={draft.name}
         onChange={(name) => set({ name })}
         error={error?.field === "name" ? error.message : null}
+        links={companySearchLinks(draft.name)}
       />
       <TextField
         label="Description"

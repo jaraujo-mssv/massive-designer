@@ -1,12 +1,37 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { ArrowUpRight } from "@phosphor-icons/react";
 import { Link2, Upload, X } from "lucide-react";
+import { toast } from "sonner";
 import { sidebarInputClass } from "@/shared/components/SidebarLayout";
 import { InitialsLogo } from "../logos/InitialsLogo";
 import { useLogoSources } from "../logos/LogoSourcesContext";
 import { LogoProbe, probeLogo } from "../logos/resolve";
 import { domainFrom, domainInLogoUrl, INITIALS, isHostingSite, PICKER_SOURCES, sourceOf, sourceUrl } from "../logos/sources";
+import { TextField } from "./fields";
 
 const labelClass = "block text-[11px] font-medium text-text-dim uppercase tracking-wide mb-1";
+/** Pasted images are cropped to a square at most this many pixels a side. */
+const PASTED_LOGO_MAX = 512;
+
+/** An image cropped to its centred square (logos sit in square slots), as a data URL. */
+async function squareDataUrl(image: Blob): Promise<string> {
+  const bitmap = await createImageBitmap(image);
+  const side = Math.min(bitmap.width, bitmap.height);
+  const out = Math.min(side, PASTED_LOGO_MAX);
+  const canvas = document.createElement("canvas");
+  canvas.width = out;
+  canvas.height = out;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("No canvas");
+  ctx.imageSmoothingQuality = "high";
+  ctx.drawImage(bitmap, (bitmap.width - side) / 2, (bitmap.height - side) / 2, side, side, 0, 0, out, out);
+  bitmap.close();
+  // WebP keeps transparency at a fraction of PNG's size; browsers that can't encode it give PNG.
+  return canvas.toDataURL("image/webp", 0.92);
+}
+
+/** A typed website as a link: https:// unless it says otherwise. */
+const websiteHref = (text: string) => (/^https?:\/\//i.test(text) ? text : `https://${text}`);
 const iconButtonClass =
   "relative w-10 h-10 shrink-0 rounded-lg border flex items-center justify-center overflow-hidden transition-colors";
 const ring = (selected: boolean) =>
@@ -93,20 +118,39 @@ export function LogoPicker({
   };
   const uploaded = logoUrl.startsWith("data:");
 
+  // A pasted image becomes the logo, cropped square; pasted text replaces an image already there.
+  const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+    const image = Array.from(e.clipboardData.files).find((f) => f.type.startsWith("image/"));
+    if (image) {
+      e.preventDefault();
+      squareDataUrl(image).then(onLogoChange, () => toast.error("Couldn't read the pasted image"));
+      return;
+    }
+    const text = e.clipboardData.getData("text").trim();
+    if (uploaded && text) {
+      e.preventDefault();
+      onLogoChange(text);
+    }
+  };
+
+  const websiteTrimmed = websiteText.trim();
+
   return (
     <div className="space-y-2">
-      <label className="block">
-        <span className={labelClass}>Website</span>
-        <input
-          value={websiteText}
-          placeholder="example.com"
-          onChange={(e) => {
-            setWebsiteText(e.target.value);
-            onWebsiteChange(e.target.value.trim());
-          }}
-          className={`${sidebarInputClass} py-1.5`}
-        />
-      </label>
+      <TextField
+        label="Website"
+        value={websiteText}
+        placeholder="example.com"
+        onChange={(v) => {
+          setWebsiteText(v);
+          onWebsiteChange(v.trim());
+        }}
+        links={
+          websiteTrimmed
+            ? [{ href: websiteHref(websiteTrimmed), title: "Open the website", icon: <ArrowUpRight size={14} weight="bold" /> }]
+            : []
+        }
+      />
 
       <div>
         <span className={labelClass}>Logo</span>
@@ -139,7 +183,7 @@ export function LogoPicker({
           </button>
           <button
             type="button"
-            title="Custom URL or upload"
+            title="Custom URL, pasted image or upload"
             onClick={() => setShowCustom((v) => !v)}
             className={`${iconButtonClass} ${isCustom ? "bg-white" : "bg-surface-2"} ${ring(isCustom)}`}
           >
@@ -166,10 +210,11 @@ export function LogoPicker({
       {showCustom && (
         <div className="flex items-center gap-2">
           <input
-            value={uploaded ? "Uploaded image" : isCustom ? logoUrl : ""}
+            value={uploaded ? "Pasted or uploaded image" : isCustom ? logoUrl : ""}
             readOnly={uploaded}
-            placeholder="Paste a logo URL"
+            placeholder="Paste a logo URL or image"
             onChange={(e) => onLogoChange(e.target.value.trim())}
+            onPaste={handlePaste}
             className={`${sidebarInputClass} py-1.5 min-w-0`}
           />
           <button

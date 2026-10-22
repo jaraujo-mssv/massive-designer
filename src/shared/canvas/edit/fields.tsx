@@ -1,8 +1,30 @@
-import { useState } from "react";
+import { useId, useState } from "react";
+import { LinkedinLogo, XLogo } from "@phosphor-icons/react";
 import { ArrowLeft, Trash2 } from "lucide-react";
 import { sidebarInputClass } from "@/shared/components/SidebarLayout";
 
 const labelClass = "block text-[11px] font-medium text-text-dim uppercase tracking-wide mb-1";
+
+/** An icon link at the end of a field, opened in a new tab (the website, a search for the name…). */
+export interface FieldLink {
+  href: string;
+  title: string;
+  icon: React.ReactNode;
+}
+
+/** Links to look a company up by name on LinkedIn and X; none while the name is empty. */
+export function companySearchLinks(name: string): FieldLink[] {
+  const q = encodeURIComponent(name.trim());
+  if (!q) return [];
+  return [
+    {
+      href: `https://www.linkedin.com/search/results/companies/?keywords=${q}`,
+      title: "Search on LinkedIn",
+      icon: <LinkedinLogo size={14} weight="fill" />,
+    },
+    { href: `https://x.com/search?q=${q}&f=user`, title: "Search on X", icon: <XLogo size={14} weight="bold" /> },
+  ];
+}
 
 /** The popover's form: a heading row, the fields, then Delete and Apply. */
 export function EditForm({
@@ -71,6 +93,7 @@ export function TextField({
   placeholder,
   error,
   type = "text",
+  links = [],
 }: {
   label: string;
   value: string;
@@ -78,19 +101,46 @@ export function TextField({
   placeholder?: string;
   error?: string | null;
   type?: "text" | "number";
+  /** Icon links inside the field's right end. */
+  links?: FieldLink[];
 }) {
+  const id = useId();
   return (
-    <label className="block">
-      <span className={labelClass}>{label}</span>
-      <input
-        type={type}
-        value={value}
-        placeholder={placeholder}
-        onChange={(e) => onChange(e.target.value)}
-        className={`${sidebarInputClass} py-1.5 ${error ? "border-red-500/60" : ""}`}
-      />
+    <div>
+      <label htmlFor={id} className={labelClass}>
+        {label}
+      </label>
+      <div className="relative">
+        <input
+          id={id}
+          type={type}
+          value={value}
+          placeholder={placeholder}
+          onChange={(e) => onChange(e.target.value)}
+          className={`${sidebarInputClass} py-1.5 ${error ? "border-red-500/60" : ""}`}
+          // Room for the links, so text doesn't run under them.
+          style={links.length ? { paddingRight: 8 + links.length * 26 } : undefined}
+        />
+        {links.length > 0 && (
+          <div className="absolute inset-y-0 right-1.5 flex items-center gap-0.5">
+            {links.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={l.title}
+                aria-label={l.title}
+                className="size-6 flex items-center justify-center rounded text-text-dim hover:text-text-primary hover:bg-surface-2 transition-colors"
+              >
+                {l.icon}
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
       {error && <span className="block mt-1 text-[11px] text-red-400">{error}</span>}
-    </label>
+    </div>
   );
 }
 

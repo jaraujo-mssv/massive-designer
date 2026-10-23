@@ -1,17 +1,16 @@
 import { MockBar, MockCanvas, MockHeader, MockLogo, ThemePreviewProps } from "@/shared/canvas/ThemePicker";
 import type { MapView } from "./MapCanvas";
 
-/** A modern tile: outlined, with the category name over flowing company pills. */
+/** A modern tile: the category name over flowing company pills, with rules between tiles (`RULE`). */
 const TILE: React.CSSProperties = {
+  flex: 1,
+  minWidth: 0,
   boxSizing: "border-box",
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
   justifyContent: "center",
   gap: 2,
-  padding: 3,
-  border: "1px solid var(--canvas-border-strong)",
-  borderRadius: 3,
   overflow: "hidden",
 };
 
@@ -129,18 +128,20 @@ export function ThemePreview({ legacy, view }: ThemePreviewProps & { view: MapVi
   return (
     <MockCanvas>
       <MockHeader />
-      <span style={{ flex: 1, display: "grid", gridTemplateColumns: "58fr 42fr", gridTemplateRows: "1fr 1fr", gap: 2 }}>
-        <span style={{ ...TILE, gridRow: "span 2" }}>
+      <span style={{ flex: 1, display: "flex", gap: 3 }}>
+        <span style={{ ...TILE, flex: 58 }}>
           <MockBar w="45%" h={3} color="var(--canvas-category)" />
           <Pills count={6} from={0} />
         </span>
-        <span style={TILE}>
-          <MockBar w="60%" h={3} color="var(--canvas-category)" />
-          <Pills count={2} from={6} />
-        </span>
-        <span style={TILE}>
-          <MockBar w="60%" h={3} color="var(--canvas-category)" />
-          <Pills count={3} from={8} />
+        <span style={{ flex: 42, minWidth: 0, display: "flex", flexDirection: "column", gap: 3, borderLeft: RULE, paddingLeft: 3 }}>
+          <span style={TILE}>
+            <MockBar w="60%" h={3} color="var(--canvas-category)" />
+            <Pills count={2} from={6} />
+          </span>
+          <span style={{ ...TILE, borderTop: RULE, paddingTop: 3 }}>
+            <MockBar w="60%" h={3} color="var(--canvas-category)" />
+            <Pills count={3} from={8} />
+          </span>
         </span>
       </span>
     </MockCanvas>

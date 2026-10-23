@@ -68,7 +68,7 @@ Inside a tile, the category name is centred at the top as plain bold text (`1.1f
 ## Style
 
 - **Category names:** plain bold text, no pill, in `--canvas-category`. It's the text colour (`--canvas-text`): dark on Light, cream on Dark, for contrast; size and weight set the names apart from the company names. From 2026-10-22 to 2026-10-23 it was the accent (`--canvas-red`), and before that warm charcoal / soft stone.
-- **Tiles:** no fill, so the canvas background shows through, and a 2 px solid `--canvas-border-strong` outline with a 6 px radius. The treemap needs the outlines to hold its shape.
+- **Tiles:** no fill and no outline, so the canvas background shows through. As in Columns, 2 px `--canvas-border-strong` rules sit in the middle of the gaps, along the treemap's cuts (`squarifyWithCuts`). Each row of tiles is cut from the space left along that space's whole length, so that rule is continuous; the rules between the tiles in a row stop at the tiles' edges, short of it. No two rules overlap (the colour is see-through on Light).
 - **Columns:** no cards. 2 px `--canvas-border-strong` rules run between categories stacked in a column, and between columns over the full height of the block.
 - **Pills:** each pill has its own `--canvas-pill-bg` fill: a warm off-white (`#f6f0e8`) on Light, a dark `#221f27` on Dark. No outline; text `--canvas-text`, fully rounded, with a blurred wash of the company's logo on top (`components/PillWash.tsx`, shared by both layouts).
 - **Legacy themes:** the old tool's filled cards and plain names (see Columns layout below).

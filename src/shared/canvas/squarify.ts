@@ -15,6 +15,15 @@ function worstRatio(row: number[], side: number): number {
   return Math.max((s2 * max) / sum2, sum2 / (s2 * min));
 }
 
+/** A straight cut between two neighbouring treemap tiles, before any gap opens between them. */
+export interface Cut {
+  /** The cut's top (vertical) or left (horizontal) end. */
+  x: number;
+  y: number;
+  length: number;
+  vertical: boolean;
+}
+
 /**
  * Squarified treemap (Bruls, Huizing & van Wijk, 2000).
  *
@@ -24,7 +33,17 @@ function worstRatio(row: number[], side: number): number {
  * Returns one rect per area, in the same order.
  */
 export function squarify(areas: number[], bounds: Rect): Rect[] {
+  return squarifyWithCuts(areas, bounds).rects;
+}
+
+/**
+ * `squarify`, with the cuts between its tiles: each row is cut from the space
+ * left after it along that space's whole side, and the tiles in a row are cut
+ * from each other across the row. No two cuts overlap.
+ */
+export function squarifyWithCuts(areas: number[], bounds: Rect): { rects: Rect[]; cuts: Cut[] } {
   const rects: Rect[] = [];
+  const cuts: Cut[] = [];
   let free = { ...bounds };
   let i = 0;
 
@@ -42,27 +61,31 @@ export function squarify(areas: number[], bounds: Rect): Rect[] {
       // Short side is the height: lay the row as a column on the left.
       const colW = free.h > 0 ? rowArea / free.h : 0;
       let y = free.y;
-      for (const a of row) {
+      row.forEach((a, k) => {
         const h = colW > 0 ? a / colW : 0;
+        if (k > 0) cuts.push({ x: free.x, y, length: colW, vertical: false });
         rects.push({ x: free.x, y, w: colW, h });
         y += h;
-      }
+      });
+      if (j < areas.length) cuts.push({ x: free.x + colW, y: free.y, length: free.h, vertical: true });
       free = { x: free.x + colW, y: free.y, w: free.w - colW, h: free.h };
     } else {
       // Short side is the width: lay the row across the top.
       const rowH = free.w > 0 ? rowArea / free.w : 0;
       let x = free.x;
-      for (const a of row) {
+      row.forEach((a, k) => {
         const w = rowH > 0 ? a / rowH : 0;
+        if (k > 0) cuts.push({ x, y: free.y, length: rowH, vertical: true });
         rects.push({ x, y: free.y, w, h: rowH });
         x += w;
-      }
+      });
+      if (j < areas.length) cuts.push({ x: free.x, y: free.y + rowH, length: free.w, vertical: false });
       free = { x: free.x, y: free.y + rowH, w: free.w, h: free.h - rowH };
     }
     i = j;
   }
 
-  return rects;
+  return { rects, cuts };
 }
 
 /**

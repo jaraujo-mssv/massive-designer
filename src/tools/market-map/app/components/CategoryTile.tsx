@@ -10,7 +10,10 @@ interface CategoryTileProps {
   onEdit?: (target: MapEditTarget, el: HTMLElement) => void;
 }
 
-/** A category: its name on the first row and its companies as pills below. */
+/**
+ * A category: its name on the first row and its companies as pills below. No
+ * outline: MapCanvas draws rules between the tiles, as in Columns.
+ */
 export function CategoryTile({ tile, metrics, onEdit }: CategoryTileProps) {
   const { rect, header, pills } = tile;
   return (
@@ -22,8 +25,6 @@ export function CategoryTile({ tile, metrics, onEdit }: CategoryTileProps) {
         width: rect.w,
         height: rect.h,
         boxSizing: "border-box",
-        border: "2px solid var(--canvas-border-strong)",
-        borderRadius: 6,
         overflow: "hidden",
         fontFamily: "Outfit, sans-serif",
       }}

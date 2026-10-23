@@ -1,5 +1,5 @@
 import { textWidth, wrapLines } from '@/shared/canvas/measureText';
-import { insetAndSnap, Rect, squarify } from '@/shared/canvas/squarify';
+import { Cut, insetAndSnap, Rect, squarifyWithCuts } from '@/shared/canvas/squarify';
 import type { Category, Company } from './parseSheet';
 import { flowPills, pillMetrics, PillMetrics, pillWidth } from './pills';
 
@@ -17,8 +17,9 @@ export type FitMode = 'shrink' | 'hide';
 
 // Bold: category names are plain text, so weight is what makes them headings.
 export const HEADER_WEIGHT = 700;
-const TILE_BORDER = 2;
 const LINE_HEIGHT = 1.2;
+/** The rules between tiles, in canvas pixels (as Columns'). */
+const SEPARATOR = 2;
 /**
  * Long category names wrap onto up to this many lines. Three lets a long name
  * with few companies have a compact, near-square tile instead of a wide one.
@@ -27,7 +28,7 @@ const MAX_HEADER_LINES = 3;
 
 export interface PlacedPill {
   company: Company;
-  /** Inside the tile's padding box (the tile's border excluded). */
+  /** Inside the tile. */
   x: number;
   y: number;
   w: number;
@@ -37,7 +38,7 @@ export interface PlacedPill {
 export interface PlacedHeader {
   lines: string[];
   fontSize: number;
-  /** Inside the tile's padding box, like the company pills. */
+  /** Inside the tile, like the company pills. */
   x: number;
   y: number;
   w: number;
@@ -62,6 +63,12 @@ export interface HiddenGroup {
 export interface MapLayout {
   metrics: PillMetrics;
   tiles: PlacedTile[];
+  /**
+   * Rules between the tiles, along the treemap's cuts (as Columns' separators):
+   * each row of tiles' cut runs the length of the space left, and the cuts
+   * between the tiles in a row stop at their edges, short of it.
+   */
+  separators: Rect[];
   /** False when pills had to shrink below the readable size (`minFont`) to fit. */
   readable: boolean;
   /** Companies left out to fit ('hide' mode), by category. */
@@ -79,6 +86,22 @@ function sizes(f: number) {
   const headerSize = f * 1.1;
   const padding = Math.min(16, Math.max(8, f * 0.6));
   return { metrics, headerSize, padding };
+}
+
+/**
+ * A rule along each cut, in the middle of the gap that opens there and reaching
+ * the tiles' edges on either side (not into the gaps at its ends), snapped as
+ * `insetAndSnap` snaps the tiles.
+ */
+function rules(cuts: Cut[], gap: number): Rect[] {
+  return cuts.map((c) => {
+    const at = Math.round((c.vertical ? c.x : c.y) - SEPARATOR / 2);
+    const from = Math.round((c.vertical ? c.y : c.x) + gap / 2);
+    const to = Math.round((c.vertical ? c.y : c.x) + c.length - gap / 2);
+    return c.vertical
+      ? { x: at, y: from, w: SEPARATOR, h: Math.max(0, to - from) }
+      : { x: from, y: at, w: Math.max(0, to - from), h: SEPARATOR };
+  });
 }
 
 /** Rounds of re-weighting before a font size is given up on. */
@@ -100,7 +123,7 @@ const TARGET_FILL = 0.95;
  */
 function attempt(categories: Category[], box: { w: number; h: number }, gap: number, f: number) {
   const { metrics, headerSize, padding } = sizes(f);
-  const chrome = padding * 2 + TILE_BORDER * 2;
+  const chrome = padding * 2;
   const headerLineH = headerSize * LINE_HEIGHT;
   // A category name of `lines` lines, plus the row gap below it.
   const headerRowH = (lines: number) => lines * headerLineH + metrics.gapY;
@@ -122,12 +145,13 @@ function attempt(categories: Category[], box: { w: number; h: number }, gap: num
   const bounds = { x: -gap / 2, y: -gap / 2, w: box.w + gap, h: box.h + gap };
 
   let tiles: PlacedTile[] = [];
-  let best: { tiles: PlacedTile[]; minFill: number } | null = null;
+  let best: { tiles: PlacedTile[]; separators: Rect[]; minFill: number } | null = null;
   for (let round = 0; round < MAX_ROUNDS; round++) {
     const order = [...measured].sort((a, b) => b.weight - a.weight);
     const totalWeight = order.reduce((sum, m) => sum + m.weight, 0);
     const areas = order.map((m) => (m.weight / totalWeight) * bounds.w * bounds.h);
-    const rects = insetAndSnap(squarify(areas, bounds), gap);
+    const treemap = squarifyWithCuts(areas, bounds);
+    const rects = insetAndSnap(treemap.rects, gap);
 
     tiles = [];
     let allFit = true;
@@ -193,11 +217,11 @@ function attempt(categories: Category[], box: { w: number; h: number }, gap: num
       });
     });
     if (allFit) {
-      if (!best || minFill > best.minFill) best = { tiles, minFill };
+      if (!best || minFill > best.minFill) best = { tiles, separators: rules(treemap.cuts, gap), minFill };
       if (!anyRoomy) break;
     }
   }
-  return best ? { metrics, tiles: best.tiles } : null;
+  return best ? { metrics, tiles: best.tiles, separators: best.separators } : null;
 }
 
 type Box = { w: number; h: number };

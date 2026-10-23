@@ -95,8 +95,8 @@ export function MapCanvas({ categories, view, legacy, tileGap, fitMode, minFont,
       {columns?.cards.map((card) => (
         <CategoryCard key={card.category.id} card={card} metrics={columns.metrics} onEdit={onEdit} />
       ))}
-      {/* Modern Columns: rules between categories and between columns. */}
-      {columns?.separators.map((s) => (
+      {/* Modern looks: rules between categories (and, in Columns, between columns). */}
+      {layout?.separators.map((s) => (
         <div
           key={`${s.x}-${s.y}`}
           style={{

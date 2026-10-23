@@ -164,21 +164,47 @@ function contentWritePlugin() {
 }
 
 /**
+ * The photos /trash shows: every `Image:` in content/<campaign>/trash.md, as paths under public/
+ * (content/<campaign>/photos/<file>), read the same way as src/tools/trash/app/App.tsx.
+ */
+function trashPhotos(root: string): string[] {
+  const contentDir = path.join(root, 'content');
+  if (!fs.existsSync(contentDir)) return [];
+  return fs.readdirSync(contentDir).flatMap((campaign) => {
+    const file = path.join(contentDir, campaign, 'trash.md');
+    if (!fs.existsSync(file)) return [];
+    return [...fs.readFileSync(file, 'utf8').matchAll(/^\s+Image:\s*(\S+)/gm)].map((m) =>
+      path.join('content', campaign, 'photos', m[1]),
+    );
+  });
+}
+
+/**
  * Keeps the local-only tools' files out of the deployed build. Vite copies all of public/ into dist/; this removes
  * the Video tab's projects, the Content tab's campaign media and the old storyboard pages once the build is
  * written. Their routes are dev-only too (src/router/index.tsx), so the dev server is the only place they exist.
+ * /trash is live, so the photos it lists are put back after public/content goes.
  */
 function localOnlyPublicDirs() {
   const dirs = ['video-projects', 'content', 'storyboards'];
+  let root = '';
   let outDir = '';
   return {
     name: 'local-only-public-dirs',
     apply: 'build' as const,
     configResolved(config: { root: string; build: { outDir: string } }) {
+      root = config.root;
       outDir = path.resolve(config.root, config.build.outDir);
     },
     closeBundle() {
       for (const dir of dirs) fs.rmSync(path.join(outDir, dir), { recursive: true, force: true });
+      for (const photo of trashPhotos(root)) {
+        const from = path.join(root, 'public', photo);
+        if (!fs.existsSync(from)) continue;
+        const to = path.join(outDir, photo);
+        fs.mkdirSync(path.dirname(to), { recursive: true });
+        fs.copyFileSync(from, to);
+      }
     },
   };
 }

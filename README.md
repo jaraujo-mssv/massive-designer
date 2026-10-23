@@ -36,8 +36,9 @@ npm run build
 
 The project includes a `vercel.json` config for SPA routing — deploy directly to Vercel with no additional setup.
 
-Video, Content and `/trash` are local-only: the build leaves out their routes, nav entries and code, and drops
+Video and Content are local-only: the build leaves out their routes, nav entries and code, and drops
 `public/video-projects`, `public/content` and `public/storyboards` from `dist/`. Use `npm run dev` for them.
+`/trash` is live (by URL, not in the nav): the build keeps `trash.md` and only the photos it lists.
 
 ## Stack
 

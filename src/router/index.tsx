@@ -15,6 +15,8 @@ const PartnershipPostApp = lazy(() => import('@/tools/partnership-post/app/App')
 const SocialMediaApp = lazy(() => import('@/tools/social-media/app/App'))
 const TopListApp = lazy(() => import('@/tools/top-list/app/App'))
 const TopListLegacyApp = lazy(() => import('@/tools/top-list-legacy/app/App'))
+// Not in the nav: /trash is only reachable by URL.
+const TrashApp = lazy(() => import('@/tools/trash/app/App'))
 
 /** Sends a renamed or merged tool's old links on, keeping their query (?e= …). */
 function RedirectTo({ path }: { path: string }) {
@@ -42,14 +44,13 @@ function ToolLayout({ children, themeClass }: { children: React.ReactNode; theme
 }
 
 /**
- * Video, Content and Trash work on local files (video projects and renders, the campaign docs under content/), so
- * only the dev server has them. In a build `import.meta.env.DEV` is false, this goes unused and Rollup drops it with
- * its imports: no chunks, none of content/'s markdown, and the vite.config build step drops their public/ folders.
+ * Video and Content work on local files (video projects and renders, the campaign docs under content/), so only the
+ * dev server has them. In a build `import.meta.env.DEV` is false, this goes unused and Rollup drops it with its
+ * imports: no chunks, none of content/'s markdown, and the vite.config build step drops their public/ folders.
+ * (/trash is the exception: it's live, with only trash.md and the photos it lists.)
  */
 function localOnlyRoutes() {
   const ContentApp = lazy(() => import('@/tools/content/app/App'))
-  // Not in the nav: /trash is only reachable by URL.
-  const TrashApp = lazy(() => import('@/tools/trash/app/App'))
   const VideoApp = lazy(() => import('@/tools/video/app/App'))
   return [
     {
@@ -57,14 +58,6 @@ function localOnlyRoutes() {
       element: (
         <ToolLayout themeClass="tool-content">
           <ContentApp />
-        </ToolLayout>
-      ),
-    },
-    {
-      path: '/trash',
-      element: (
-        <ToolLayout themeClass="tool-trash">
-          <TrashApp />
         </ToolLayout>
       ),
     },
@@ -80,7 +73,7 @@ function localOnlyRoutes() {
 }
 
 /** On the deployed site, old links to the local-only tools land on the home page. */
-const localOnlyRedirects = ['/content', '/trash', '/video'].map((path) => ({
+const localOnlyRedirects = ['/content', '/video'].map((path) => ({
   path,
   element: <Navigate to="/" replace />,
 }))
@@ -174,6 +167,14 @@ export const router = createBrowserRouter([
     element: (
       <ToolLayout themeClass="tool-images">
         <ImagesApp />
+      </ToolLayout>
+    ),
+  },
+  {
+    path: '/trash',
+    element: (
+      <ToolLayout themeClass="tool-trash">
+        <TrashApp />
       </ToolLayout>
     ),
   },

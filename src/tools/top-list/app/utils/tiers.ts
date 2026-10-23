@@ -12,14 +12,38 @@ export const DESCRIPTION_WEIGHT = 500;
 /** A logo smaller than this many names-worth stops being recognisable, so text gets dropped instead. */
 const MIN_LOGO_SCALE = 1.6;
 /** A two-digit rank number is this share of its badge (RankBadge). */
-const RANK_TEXT_SHARE = 0.46;
-/** Rank numbers sit well below other secondary text: the badge already makes them stand out. */
-const RANK_TEXT_SCALE = 0.55;
+export const RANK_TEXT_SHARE = 0.56;
+/** A one-digit rank number is this share of its badge. */
+export const RANK_TEXT_SHARE_ONE_DIGIT = 0.66;
+/** Rank numbers may sit below other secondary text: the badge already makes them stand out. */
+const RANK_TEXT_SCALE = 0.68;
+/**
+ * The share of the rank badge inside its item: the badge floats over the item's
+ * top-left corner, with the rest over the gap.
+ */
+export const RANK_INSIDE = 0.7;
+/** Badges grow with their item, up to this many times the smallest. */
+const RANK_MAX_SCALE = 2.1;
 const LINE_HEIGHT = 1.15;
 
 /** The smallest rank badge, tiles and List rows alike. */
 export function rankBadgeMin(legible: LegibleSizes): number {
   return (legible.secondary * RANK_TEXT_SCALE) / RANK_TEXT_SHARE;
+}
+
+/** The rank badge's diameter for an item (a List row or card) whose shorter side is `short`. */
+export function rankBadgeSize(short: number, legible: LegibleSizes): number {
+  const min = rankBadgeMin(legible);
+  return clamp(short * 0.48, min, min * RANK_MAX_SCALE);
+}
+
+/**
+ * A grid tile's rank badge: as `rankBadgeSize`, but never so big that the
+ * smallest logo no longer fits between the badge and the tile's other side.
+ */
+export function tileRankSize(w: number, h: number, legible: LegibleSizes): number {
+  const room = (w - legible.primary * MIN_LOGO_SCALE) / (2 * RANK_INSIDE);
+  return Math.max(rankBadgeMin(legible), Math.min(rankBadgeSize(Math.min(w, h), legible), room));
 }
 
 export interface TileContent {
@@ -45,7 +69,7 @@ export interface TileContent {
   pillPadY: number;
   /** Space between the name pill, the description and the value. */
   textGap: number;
-  /** Diameter of the rank badge in the tile's top-left corner (grid tiles). */
+  /** Diameter of the rank badge floating over the tile's top-left corner (grid tiles), else 0. */
   rankSize: number;
 }
 
@@ -69,8 +93,9 @@ export interface TileContent {
  * gives way before it does. A tile with no room for a name and its description
  * shows only its logo.
  *
- * Grid tiles pass `value: null` and `withRank`: the rank is a badge in the tile's
- * top-left corner, so the centred content gets its height kept clear above and below.
+ * Grid tiles pass `withRank`: the rank is a badge floating over the tile's
+ * top-left corner (TileCanvas draws it), so the logo keeps clear of the part
+ * inside the tile. The text under the logo always starts below it.
  * `fitW` is the tile's real width when sizes come from a different (regular)
  * tile: logo and type use `w`, but names get the full width to fit in.
  */
@@ -87,17 +112,16 @@ export function tileContent(
 ): TileContent {
   const MIN_NAME_SIZE = legible.primary;
   const MIN_LOGO = legible.primary * MIN_LOGO_SCALE;
-  const minRank = rankBadgeMin(legible);
   const short = Math.min(w, h);
   const horizontal = w > h * 2.2;
   const padding = clamp(short * 0.08, 6, 24);
   const gap = clamp(short * 0.05, 4, 16);
-  const rankSize = clamp(short * 0.08, minRank, Math.max(28, minRank * 1.15));
-  // The badge sits in the top-left corner; keep its height clear, above and below
-  // so the content stays centred.
-  const rankClearance = withRank ? rankSize * 1.1 : 0;
-  const innerW = w - padding * 2;
-  const innerH = h - padding * 2 - rankClearance * 2;
+  const rankSize = withRank ? tileRankSize(w, h, legible) : 0;
+  // The centred content keeps clear of the badge's part inside the tile, from the left
+  // and the right alike.
+  const corner = rankSize * RANK_INSIDE;
+  const innerW = Math.min(w - padding * 2, w - corner * 2);
+  const innerH = h - padding * 2;
 
   const valueSize = clamp(Math.sqrt(w * h) * 0.085, legible.secondary, Math.max(56, legible.secondary * 2));
   const baseNameSize = Math.max(MIN_NAME_SIZE, valueSize * 0.72);
@@ -106,6 +130,7 @@ export function tileContent(
     clamp(short * 0.34, Math.max(44, MIN_LOGO), Math.max(160, MIN_LOGO)),
     innerH,
     horizontal ? h * 0.7 : h * 0.5,
+    innerW,
   );
 
   // The name sits in a pill (no border): its box is the text plus padding, and the

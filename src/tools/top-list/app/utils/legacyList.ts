@@ -2,12 +2,14 @@ import type { LegibleSizes } from '@/shared/canvas/legibility';
 import type { Rect } from '@/shared/canvas/squarify';
 import { fitText, textWidth, wrapLines } from '@/shared/canvas/measureText';
 import { twoLines } from './list';
+import { RANK_INSIDE, rankBadgeMin } from './tiers';
 
 /**
  * The legacy themes' List (themes.ts `legacy`): the pre-revamp Top List's
- * columns of full-width cards, each with a plain rank number, logo, name and a
- * value pill. Cards keep their natural height (the old tool never stretched
- * them) and the block of columns is centred in the canvas.
+ * columns of full-width cards, each with a logo, name and a value pill, and the
+ * rank in a ring floating over its top-left corner. Cards keep their natural
+ * height (the old tool never stretched them) and the block of columns is
+ * centred in the canvas.
  *
  * Proportions are the old tool's, as multiples of its 18px names. Type and
  * logos follow the name size `f`; padding and gaps follow the canvas width as
@@ -16,7 +18,6 @@ import { twoLines } from './list';
  */
 
 export const LEGACY_NAME_WEIGHT = 400;
-export const LEGACY_RANK_WEIGHT = 700;
 export const LEGACY_VALUE_WEIGHT = 500;
 export const LEGACY_DESCRIPTION_WEIGHT = 400;
 export const LEGACY_LINE_HEIGHT = 1.2;
@@ -25,9 +26,8 @@ export const LEGACY_LINE_HEIGHT = 1.2;
 const OLD_NAME = 18;
 const OLD_BODY_W = 690;
 
-/** Smaller than the old tool's 20px, so the rank doesn't outweigh the name. */
-const RANK = 14 / 18;
-const RANK_BOX = 24 / 18;
+/** The rank badge's diameter, as a multiple of the name size. */
+const RANK = 1.52;
 const LOGO = 56 / 18;
 const PAD_Y = 13 / 18;
 const PAD_X = 16 / 18;
@@ -59,9 +59,10 @@ export interface LegacyCardMetrics {
   nameSize: number;
   /** A name too long for its card shrinks down to this before it's cut. */
   minNameSize: number;
+  /** Diameter of the rank's ring (RankBadge), floating over the card's top-left corner. */
   rankSize: number;
-  /** Width of the rank's box, so every name starts at the same place. */
-  rankBox: number;
+  /** Where the logo starts: beside the ring's part inside the card, the same on every card. */
+  lead: number;
   logo: number;
   padX: number;
   padY: number;
@@ -94,7 +95,6 @@ export interface LegacyListLayout {
 
 /** What a legacy card needs from each entry to size the shared metrics. */
 export interface LegacyListEntry {
-  rank: number;
   name: string;
   value: string | null;
 }
@@ -129,7 +129,7 @@ export function legacyListLayout(
   if (count === 0 || box.w <= 0 || box.h <= 0) return null;
   const columnGap = gap * 2;
   const cardGap = gap;
-  const widestRank = entries.reduce((a, e) => (String(e.rank).length > a.length ? String(e.rank) : a), '');
+  const minRank = rankBadgeMin({ primary, secondary });
   const withValues = entries.some((e) => e.value);
   // Measured once at 100px, then scaled to each name size tried.
   const widestName = Math.max(...entries.map((e) => textWidth(e.name, 100, LEGACY_NAME_WEIGHT) / 100));
@@ -145,13 +145,14 @@ export function legacyListLayout(
     const s = spacingFor(f);
     // Shrunk cards scale their secondary text along with the names.
     const floor = shrunk ? (secondary * f) / primary : secondary;
-    const rankSize = Math.max(floor, RANK * f);
+    const rankSize = Math.max(shrunk ? (minRank * f) / primary : minRank, RANK * f);
     const valueSize = Math.max(floor, VALUE * f);
     const m = {
       nameSize: f,
       minNameSize: Math.min(f, floor),
       rankSize,
-      rankBox: Math.max(RANK_BOX * s, textWidth(widestRank, rankSize, LEGACY_RANK_WEIGHT) + f * 0.2),
+      // Cards are too short for the logo to sit under the ring, so it starts beside it.
+      lead: Math.max(PAD_X * s, rankSize * RANK_INSIDE + (GAP * s) / 2),
       padX: PAD_X * s,
       padY: PAD_Y * s,
       gap: GAP * s,
@@ -170,12 +171,12 @@ export function legacyListLayout(
     const valueW = m.valueBelow
       ? 0
       : Math.max(0, ...entries.map((e) => (e.value ? valuePill(e.value, colW * MAX_VALUE_SHARE, m).w + m.gap : 0)));
-    const logoAndName = colW - BORDER * 2 - m.padX * 2 - m.rankBox - m.gap * 2 - valueW - m.namePadX * 2;
+    const logoAndName = colW - BORDER * 2 - m.lead - m.padX - m.gap - valueW - m.namePadX * 2;
     const valuePillH = valueSize * LEGACY_LINE_HEIGHT + m.valuePadY * 2 + 2;
     const valueBelowH = m.valueBelow ? m.valueGap + valuePillH : 0;
     // The shortest card at this size: smallest logo, names on one line.
     const minCardH =
-      BORDER * 2 + m.padY * 2 + Math.max(MIN_LOGO * f, f * LEGACY_LINE_HEIGHT + valueBelowH, valuePillH, rankSize);
+      BORDER * 2 + m.padY * 2 + Math.max(MIN_LOGO * f, f * LEGACY_LINE_HEIGHT + valueBelowH, valuePillH);
     return { m, logoAndName, valueBelowH, minCardH };
   };
 
@@ -201,7 +202,7 @@ export function legacyListLayout(
     const rows = rowsIn(n);
     const colW = columnW(n);
     const valuePillH = m.valueSize * LEGACY_LINE_HEIGHT + m.valuePadY * 2 + 2;
-    const cardH = BORDER * 2 + m.padY * 2 + Math.max(m.logo, m.textHeight, valuePillH, m.rankSize);
+    const cardH = BORDER * 2 + m.padY * 2 + Math.max(m.logo, m.textHeight, valuePillH);
     const blockH = rows * cardH + (rows - 1) * cardGap;
     const top = Math.max(0, (box.h - blockH) / 2);
     const rects = entries.map((_, i) => {
@@ -261,7 +262,7 @@ export function legacyCardContent(
   description: string | null,
   value: string | null,
 ): LegacyCardContent {
-  const textW = w - BORDER * 2 - m.padX * 2 - m.rankBox - m.logo - m.gap * 2 - m.namePadX * 2;
+  const textW = w - BORDER * 2 - m.lead - m.padX - m.logo - m.gap - m.namePadX * 2;
   // A pill under the name gets the name's width; one on the right takes from it.
   const pill = value ? valuePill(value, m.valueBelow ? textW : w * MAX_VALUE_SHARE, m) : null;
   const room = Math.max(0, textW - (pill && !m.valueBelow ? pill.w + m.gap : 0));

@@ -1,7 +1,7 @@
 import type { LegibleSizes } from '@/shared/canvas/legibility';
 import type { Rect } from '@/shared/canvas/squarify';
 import { fitText, textWidth, wrapLines } from '@/shared/canvas/measureText';
-import { DESCRIPTION_WEIGHT, NAME_WEIGHT, rankBadgeMin, VALUE_WEIGHT } from './tiers';
+import { DESCRIPTION_WEIGHT, NAME_WEIGHT, RANK_INSIDE, rankBadgeSize, VALUE_WEIGHT } from './tiers';
 
 const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v));
 
@@ -53,7 +53,10 @@ export function listRects(count: number, bounds: Rect): { rects: Rect[]; columns
 
 export interface ListRowContent {
   padding: number;
+  /** Where the logo starts: the padding, or beside the rank badge when the logo would reach under it. */
+  lead: number;
   gap: number;
+  /** Diameter of the rank badge floating over the row's top-left corner. */
   rankSize: number;
   logoSize: number;
   /**
@@ -99,6 +102,8 @@ interface RowMetrics {
   innerH: number;
   gap: number;
   rankSize: number;
+  /** Where the logo starts (ListRowContent). */
+  lead: number;
   /** The logo before it gives way to long names. */
   logoSize: number;
   /** The largest name the row's height takes (with its description and value). */
@@ -121,9 +126,12 @@ function rowMetrics(h: number, legible: LegibleSizes, withDescription: boolean, 
   const padding = rowPadding(h);
   const innerH = h - padding * 2;
   const gap = clamp(h * 0.12, 8, 24);
-  const minRank = rankBadgeMin(legible);
-  const rankSize = Math.min(clamp(h * 0.25, minRank, Math.max(32, minRank * 1.15)), innerH);
+  const rankSize = rankBadgeSize(h, legible);
   const logoSize = Math.min(clamp(h * 0.6, primary * 1.4, Math.max(84, primary * 2)), innerH);
+  // The badge floats over the row's top-left corner: a logo that would reach under
+  // its part inside the row starts beside it instead.
+  const corner = rankSize * RANK_INSIDE;
+  const lead = (h - logoSize) / 2 >= corner ? padding : Math.max(padding, corner + gap / 2);
 
   const descSizeFor = (size: number) => Math.max(secondary, size * 0.65);
   const valueSizeFor = (size: number) => Math.max(secondary, size * 0.9);
@@ -162,6 +170,7 @@ function rowMetrics(h: number, legible: LegibleSizes, withDescription: boolean, 
     innerH,
     gap,
     rankSize,
+    lead,
     logoSize,
     nameSize,
     descriptionSize,
@@ -179,9 +188,9 @@ function rightValue(value: string | null, w: number, m: RowMetrics, valueBelow: 
   return { text, width: textWidth(text, m.valueSize, VALUE_WEIGHT) };
 }
 
-/** The row's width beside its padding, rank, gaps and (on the right) value: for the logo and the name pill. */
+/** The row's width beside its lead, padding, gap and (on the right) value: for the logo and the name pill. */
 function logoAndText(w: number, m: RowMetrics, valueWidth: number): number {
-  return w - m.padding * 2 - m.rankSize - m.gap * 2 - (valueWidth ? valueWidth + m.gap : 0);
+  return w - m.lead - m.padding - m.gap - (valueWidth ? valueWidth + m.gap : 0);
 }
 
 /** The name and logo sizes every row of a list shares, so the rows match (listFit). */
@@ -291,6 +300,7 @@ export function listRowContent(
 
   return {
     padding: m.padding,
+    lead: m.lead,
     gap: m.gap,
     rankSize: m.rankSize,
     logoSize,

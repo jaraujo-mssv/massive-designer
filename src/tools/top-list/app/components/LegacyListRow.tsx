@@ -6,7 +6,6 @@ import {
   LEGACY_DESCRIPTION_WEIGHT,
   LEGACY_LINE_HEIGHT,
   LEGACY_NAME_WEIGHT,
-  LEGACY_RANK_WEIGHT,
   LEGACY_VALUE_WEIGHT,
   LegacyCardMetrics,
   legacyCardContent,
@@ -15,7 +14,6 @@ import {
 interface LegacyListRowProps {
   rect: Rect;
   metrics: LegacyCardMetrics;
-  rank: number;
   name: string;
   description?: string;
   logoUrl: string;
@@ -28,11 +26,12 @@ interface LegacyListRowProps {
 }
 
 /**
- * A company as the old Top List drew it: a bordered card with the rank as a
- * plain number, the logo, the name, and the value in a pill on the right (or
- * under the name, when `metrics.valueBelow`). No logo wash.
+ * A company as the old Top List drew it: a bordered card with the logo, the
+ * name, and the value in a pill on the right (or under the name, when
+ * `metrics.valueBelow`). No logo wash. The rank's ring floats over the card's
+ * top-left corner (TileCanvas).
  */
-export function LegacyListRow({ rect, metrics: m, rank, name, description, logoUrl, website, value, onClick }: LegacyListRowProps) {
+export function LegacyListRow({ rect, metrics: m, name, description, logoUrl, website, value, onClick }: LegacyListRowProps) {
   const resolved = useResolvedLogo(logoUrl, website);
   // A logo that still fails to draw shows initials until the lookup settles on another.
   const [failedSrc, setFailedSrc] = useState<string | null>(null);
@@ -73,7 +72,7 @@ export function LegacyListRow({ rect, metrics: m, rank, name, description, logoU
         backgroundColor: "var(--canvas-card-bg)",
         border: `${m.border}px solid var(--canvas-border)`,
         borderRadius: m.radius,
-        padding: `0 ${m.padX}px`,
+        padding: `0 ${m.padX}px 0 ${m.lead}px`,
         display: "flex",
         alignItems: "center",
         gap: m.gap,
@@ -81,19 +80,6 @@ export function LegacyListRow({ rect, metrics: m, rank, name, description, logoU
         fontFamily: "Outfit, sans-serif",
       }}
     >
-      <div
-        style={{
-          width: m.rankBox,
-          flexShrink: 0,
-          textAlign: "center",
-          fontSize: m.rankSize,
-          fontWeight: LEGACY_RANK_WEIGHT,
-          lineHeight: 1,
-          color: "var(--canvas-text)",
-        }}
-      >
-        {rank}
-      </div>
       {src ? (
         <img
           src={src}

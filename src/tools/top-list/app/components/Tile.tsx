@@ -3,7 +3,14 @@ import { InitialsLogo, initialsColor } from "@/shared/canvas/logos/InitialsLogo"
 import { useResolvedLogo } from "@/shared/canvas/logos/resolve";
 import type { LegibleSizes } from "@/shared/canvas/legibility";
 import type { Rect } from "@/shared/canvas/squarify";
-import { DESCRIPTION_WEIGHT, NAME_WEIGHT, VALUE_WEIGHT, tileContent } from "../utils/tiers";
+import {
+  DESCRIPTION_WEIGHT,
+  NAME_WEIGHT,
+  RANK_TEXT_SHARE,
+  RANK_TEXT_SHARE_ONE_DIGIT,
+  VALUE_WEIGHT,
+  tileContent,
+} from "../utils/tiers";
 
 /** How strongly the blurred logo colours the tile; kept light so text stays high-contrast. */
 const LOGO_WASH_OPACITY = 0.18;
@@ -18,8 +25,8 @@ interface TileProps {
   website?: string;
   /** Value text: formatted (Bento) or as written (grid labels), or null for none. */
   value: string | null;
-  /** Rank shown as a red badge in the tile's top-left corner (grid tiles). */
-  rank?: number;
+  /** Grid tiles: keep the logo clear of the rank badge TileCanvas floats over the tile's top-left corner. */
+  withRank?: boolean;
   /**
    * Size to fit the content to, when it should differ from the tile's own:
    * grid tiles all use a regular tile's size, so every row looks the same.
@@ -27,7 +34,7 @@ interface TileProps {
   sizing?: { w: number; h: number };
   /** Phone-readable minimum text sizes, in canvas px. */
   legible: LegibleSizes;
-  /** A legacy theme: the old card look (full stroke, plain rank, no wash or name pill). */
+  /** A legacy theme: the old card look (full stroke, no wash or name pill). */
   legacy?: boolean;
   /** Click-to-edit; gets the tile to anchor the popover on. */
   onClick?: (el: HTMLElement) => void;
@@ -35,30 +42,41 @@ interface TileProps {
 
 /** The tiles' stroke: all round on the old cards, otherwise only along the bottom. */
 const TILE_STROKE = 2;
+/** The rim that sets a rank badge off from what it overlaps, as a share of its diameter. */
+const RANK_RIM = 0.06;
 
 /**
- * The rank as a brand-red circle with a white number: in a tile's top-left
- * corner when given an `inset`, otherwise inline (List rows). `plain` draws
- * just the number, as the old tools did, in the same box.
+ * The rank as a brand-red circle with a white number, floating over an item's
+ * top-left corner at `left`/`top` (TileCanvas draws it above every tile and row,
+ * so it can reach over the gap). A rim in the canvas colour sets it off from
+ * what it overlaps. `outlined` draws a ring in the text colour on the card
+ * colour instead, for the legacy themes' card look.
  */
-export function RankBadge({ rank, size, inset, plain = false }: { rank: number; size: number; inset?: number; plain?: boolean }) {
+export function RankBadge({ rank, size, left, top, outlined = false }: { rank: number; size: number; left: number; top: number; outlined?: boolean }) {
   return (
     <div
       style={{
-        ...(inset !== undefined
-          ? { position: "absolute" as const, top: inset, left: inset }
-          : { position: "relative" as const, flexShrink: 0 }),
+        position: "absolute",
+        left,
+        top,
         width: size,
         height: size,
+        boxSizing: "border-box",
         borderRadius: "50%",
-        backgroundColor: plain ? "transparent" : "var(--canvas-red)",
-        color: plain ? "var(--canvas-text)" : "#ffffff",
+        backgroundColor: outlined ? "var(--canvas-card-bg)" : "var(--canvas-red)",
+        // The legacy cards' stroke width.
+        border: outlined ? `${TILE_STROKE}px solid var(--canvas-text)` : "none",
+        boxShadow: `0 0 0 ${Math.max(3, size * RANK_RIM)}px var(--canvas-bg)`,
+        color: outlined ? "var(--canvas-text)" : "#ffffff",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        fontSize: size * (plain ? (rank >= 10 ? 0.6 : 0.7) : rank >= 10 ? 0.46 : 0.56),
-        fontWeight: 700,
+        fontSize: size * (rank >= 10 ? RANK_TEXT_SHARE : RANK_TEXT_SHARE_ONE_DIGIT),
+        fontWeight: 800,
         lineHeight: 1,
+        fontFamily: "Outfit, sans-serif",
+        // Clicks reach the tile or row underneath (click-to-edit).
+        pointerEvents: "none",
       }}
     >
       {rank}
@@ -66,12 +84,12 @@ export function RankBadge({ rank, size, inset, plain = false }: { rank: number; 
   );
 }
 
-export function Tile({ rect, name, description, logoUrl, website, value, rank, sizing = rect, legible, legacy = false, onClick }: TileProps) {
+export function Tile({ rect, name, description, logoUrl, website, value, withRank = false, sizing = rect, legible, legacy = false, onClick }: TileProps) {
   const resolved = useResolvedLogo(logoUrl, website);
   // A logo that still fails to draw shows initials until the lookup settles on another.
   const [failedSrc, setFailedSrc] = useState<string | null>(null);
   const src = resolved && resolved !== failedSrc ? resolved : null;
-  const c = tileContent(sizing.w, sizing.h, name, value, rank !== undefined, rect.w, description ?? null, legible);
+  const c = tileContent(sizing.w, sizing.h, name, value, withRank, rect.w, description ?? null, legible);
   // Blur scales with the tile, so every tile gets a smooth wash, not a smudged logo.
   const washBlur = Math.min(80, Math.max(24, Math.min(rect.w, rect.h) * 0.18));
   // The legacy stroke on the other three sides comes out of the padding, so the content keeps its room.
@@ -143,7 +161,6 @@ export function Tile({ rect, name, description, logoUrl, website, value, rank, s
           }}
         />
       )}
-      {rank !== undefined && <RankBadge rank={rank} size={c.rankSize} inset={edge} plain={legacy} />}
       {src ? (
         <img
           src={src}

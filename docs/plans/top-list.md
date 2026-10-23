@@ -7,7 +7,7 @@
 One tool that turns a spreadsheet of companies into a branded image. The layout is chosen automatically from the sheet:
 
 - **Bento:** when the sheet has a value column, a **treemap** where each tile's **area is proportional to the company's value**. It follows the finviz market heatmap, with near-square tiles packed edge to edge, but with **no colour coding**. The only thing the map shows is relative size.
-- **Grid:** otherwise, **equal tiles in rank order**, each with its rank number in the corner.
+- **Grid:** otherwise, **equal tiles in rank order**, each with its rank number on the corner.
 
 Both layouts use the same tiles and the same design system as Market Map: canvas themes, the title and subtitle header, the "Presented by" mark, and JPG export. Sizing is always automatic: `__SETTING__` and `__COLUMNS__` rows in a sheet are ignored.
 
@@ -82,7 +82,13 @@ Enlarged tiles are no longer to scale, so the sidebar says how many there are. T
 
 - **Short last row:** when the last row isn't full, its tiles stretch to fill it. 10 companies read 4 + 4 + 2, with the bottom two tiles twice as wide.
 - **Same content size everywhere:** every tile's logo and text are sized from a regular full-row tile, so the stretched bottom tiles don't look bigger than rank 1. Names still get the stretched tile's full width to fit in.
-- **Rank:** a brand-red circle (`--canvas-red`) with the number in white and no outline, in the tile's top-left corner (at the tile's padding). Its diameter is `clamp(short side × 0.13, 20, 44)`; two-digit ranks use slightly smaller text. The centred content keeps the badge's height clear above and below.
+- **Rank (floating), Grid and List alike:** a brand-red circle (`--canvas-red`) with the number in white (800), floating over the item's top-left corner: 70% of it inside the item, 30% out over the gap (`RANK_INSIDE`).
+  - **Drawn by TileCanvas**, after every tile and row, so it sits above the neighbours it reaches over. Tiles and rows clip their content, so it can't be drawn inside them. It ignores clicks, so click-to-edit still reaches the item underneath.
+  - **A rim** in `--canvas-bg` (6% of the diameter) sets it off from what it overlaps.
+  - **Diameter:** `clamp(short side × 0.48, min, min × 2.1)` (`rankBadgeSize`), where `min` (`rankBadgeMin`) keeps a two-digit number at 0.68× the readable size for secondary text. The number is 0.56 of the circle with two digits and 0.66 with one. About 61 px on a Vertical grid of 10.
+  - **Room:** the first row is laid out lower by the 30% that overhangs, clear of the header.
+    - Tiles keep only their logo clear of the badge (`tileRankSize` caps it so the smallest logo still fits beside it), and the text under the logo always starts below it, so tiles lose no height to it.
+    - A List row's logo starts at the padding when it sits below the badge, else beside it (`lead`).
 - **Shared with Bento:** grid rects go through the same `insetAndSnap` as the treemap, with the same 12 px gap, and outer tiles are flush with the edges.
 
 ## List layout: long names
@@ -141,10 +147,11 @@ Dark Legacy and Light Legacy (the theme's `legacy` flag) draw the old Top List.
 **List** (`utils/legacyList.ts`, `components/LegacyListRow.tsx`) is the old columns of full-width cards:
 
 - **Card:** `--canvas-card-bg` fill, a 2 px `--canvas-border` stroke, 8 px radius and no logo wash.
-- **Contents:** the rank as a plain bold number, then the logo, the name (400, `--canvas-text`) and the value in a pill (`--canvas-card-bg-2` fill, 1 px `--canvas-border-15`). The pill sits on the right in one column, and under the name in two or more.
+- **Contents:** the logo, the name (400, `--canvas-text`) and the value in a pill (`--canvas-card-bg-2` fill, 1 px `--canvas-border-15`). The pill sits on the right in one column, and under the name in two or more.
+- **Rank:** floating, as in Grid, in a ring (`RankBadge outlined`: 2 px `--canvas-text` on `--canvas-card-bg`). Its diameter is `1.52` times the name size. Cards are too short for the logo to sit under it, so the logo always starts beside it.
 - **Columns:** 1 for up to 5 companies, else 2 (the old default). A 3rd only when cards wouldn't otherwise be readable and names still have room. Cards are ranked down, then across.
 - **Height:** cards keep their natural height (never stretched) and the block is centred.
-- **Sizes:** type and logos are the old proportions of the name size (logo `56/18`, value `13/18`). The rank is `14/18`, smaller than the old `20/18`, so it doesn't outweigh the name (it stays at least the readable size for secondary text). Padding and gaps follow the canvas width, as on the old 850 px canvas.
+- **Sizes:** type and logos are the old proportions of the name size (logo `56/18`, value `13/18`). Padding and gaps follow the canvas width, as on the old 850 px canvas.
   - Readable names are bigger than the old 18 px. Spacing grown with them squeezed names to "Pa…" in two columns of values.
 - **Name size:** as large as fits the height with every name on one line, up to 1.35× readable.
   - At readable size, the logo gives way first, down to `1.6f`.
@@ -158,7 +165,7 @@ Dark Legacy and Light Legacy (the theme's `legacy` flag) draw the old Top List.
 
 - A full 2 px `--canvas-border` stroke (taken from the padding, so `tileContent`'s geometry holds) and 8 px radius.
 - No logo wash and no name pill.
-- The rank as a plain number in the badge's box (`RankBadge plain`).
+- The rank in a floating ring, as in the List (`RankBadge outlined`).
 
 **Editing:** theme switches close any open edit popover.
 
@@ -185,9 +192,9 @@ src/tools/top-list/app/
   App.tsx                 state, loading, unload, export
   constants.ts            per-size presets, example sheets
   components/
-    TileCanvas.tsx        picks the layout, places and renders the tiles
-    Tile.tsx              logo, name pill, value or rank, logo wash (or the legacy card look)
-    LegacyListRow.tsx     legacy themes: a List card with plain rank, logo, name, value pill
+    TileCanvas.tsx        picks the layout, places and renders the tiles, then the floating rank badges
+    Tile.tsx              logo, name pill, value, logo wash (or the legacy card look); RankBadge
+    LegacyListRow.tsx     legacy themes: a List card with logo, name, value pill
     ThemePreview.tsx      the mini list on each theme card
   utils/
     parseSheet.ts         header aliases, layout switch, ordering

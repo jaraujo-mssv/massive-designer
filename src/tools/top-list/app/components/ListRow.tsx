@@ -5,7 +5,6 @@ import { useResolvedLogo } from "@/shared/canvas/logos/resolve";
 import type { Rect } from "@/shared/canvas/squarify";
 import { DESCRIPTION_WEIGHT, NAME_WEIGHT, VALUE_WEIGHT } from "../utils/tiers";
 import { ListFit, listRowContent } from "../utils/list";
-import { RankBadge } from "./Tile";
 
 /** How strongly the blurred logo colours the row (as tiles); light, so text stays high-contrast. */
 const LOGO_WASH_OPACITY = 0.18;
@@ -22,7 +21,6 @@ interface ListRowProps {
   valueBelow?: boolean;
   /** The name and logo sizes the whole list shares (listFit). */
   fit?: ListFit;
-  rank: number;
   name: string;
   description?: string;
   logoUrl: string;
@@ -37,10 +35,11 @@ interface ListRowProps {
 }
 
 /**
- * A company as a full-width List row: rank, logo, name pill with its
- * description underneath, and the value on the right (or, with `valueBelow`,
- * between the name and the description). Styled like a Tile
- * (card, bottom stroke, logo wash), with the wash across the right of the row.
+ * A company as a full-width List row: logo, name pill with its description
+ * underneath, and the value on the right (or, with `valueBelow`, between the
+ * name and the description). The rank badge floats over the row's top-left
+ * corner (TileCanvas). Styled like a Tile (card, bottom stroke, logo wash),
+ * with the wash across the right of the row.
  */
 export function ListRow({
   rect,
@@ -48,7 +47,6 @@ export function ListRow({
   withDescription,
   valueBelow = false,
   fit,
-  rank,
   name,
   description,
   logoUrl,
@@ -80,7 +78,7 @@ export function ListRow({
         borderBottom: "2px solid var(--canvas-border-15)",
         borderRadius: 6,
         boxSizing: "border-box",
-        padding: `0 ${c.padding}px`,
+        padding: `0 ${c.padding}px 0 ${c.lead}px`,
         display: "flex",
         alignItems: "center",
         gap: c.gap,
@@ -122,7 +120,6 @@ export function ListRow({
           }}
         />
       )}
-      <RankBadge rank={rank} size={c.rankSize} />
       {src ? (
         <img
           src={src}

@@ -28,18 +28,15 @@ export function ThemePreview({ legacy }: ThemePreviewProps) {
                   >
                     <span
                       style={{
-                        width: 4,
+                        display: "block",
+                        boxSizing: "border-box",
                         flexShrink: 0,
-                        textAlign: "center",
-                        fontFamily: "Outfit, sans-serif",
-                        fontSize: 6,
-                        fontWeight: 700,
-                        lineHeight: 1,
-                        color: "var(--canvas-text)",
+                        width: 5,
+                        height: 5,
+                        borderRadius: "50%",
+                        border: "1px solid var(--canvas-text)",
                       }}
-                    >
-                      {i + 1}
-                    </span>
+                    />
                     <MockLogo size={6} i={i} />
                     <MockBar w={`${30 + (i * 9) % 15}%`} h={2} color="var(--canvas-text)" />
                     <span style={{ flex: 1 }} />

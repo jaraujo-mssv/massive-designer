@@ -4,13 +4,16 @@ import type { Layout, ListItem, ListView } from "../utils/parseSheet";
 import { gridRects } from "../utils/grid";
 import { LegacyListLayout, legacyListLayout } from "../utils/legacyList";
 import { ListFit, listFit, listRects, listRowContent } from "../utils/list";
-import { tileContent } from "../utils/tiers";
+import { RANK_INSIDE, rankBadgeSize, tileContent, tileRankSize } from "../utils/tiers";
 import { allocateAreas } from "../utils/minArea";
 import { insetAndSnap, Rect, squarify } from "@/shared/canvas/squarify";
 import { formatValue } from "../utils/value";
 import { LegacyListRow } from "./LegacyListRow";
 import { ListRow } from "./ListRow";
-import { Tile } from "./Tile";
+import { RankBadge, Tile } from "./Tile";
+
+/** The share of a rank badge outside its item, over the gap (and above the first row). */
+const RANK_OUTSIDE = 1 - RANK_INSIDE;
 
 interface TileCanvasProps {
   /** List rows or tiles (Bento or equal, as `layout` decides). */
@@ -106,16 +109,30 @@ export function TileCanvas({
     listFit?: ListFit;
     /** The legacy List's shared card metrics, when that's what's drawn. */
     legacyList?: LegacyListLayout;
+    /** Diameter of the rank badges floating over each item's top-left corner, or 0 for none (Bento). */
+    rankSize: number;
   } => {
-    if (box.w === 0 || box.h === 0 || items.length === 0) return { tiles: [], atMinimum: 0 };
+    if (box.w === 0 || box.h === 0 || items.length === 0) return { tiles: [], atMinimum: 0, rankSize: 0 };
+    // Rank badges overhang their item's top-left corner, so the first row is laid out
+    // that much lower, clear of the header: once to size the badges, then again below them.
     if (view === "list" && legacy) {
-      const entries = items.map((i) => ({ rank: i.rank, name: i.name, value: valueText(i, symbol) }));
-      const legacyList = legacyListLayout(entries, box, tileGap, legible, withDescriptions);
-      if (!legacyList) return { tiles: [], atMinimum: 0 };
+      const entries = items.map((i) => ({ name: i.name, value: valueText(i, symbol) }));
+      const legacyAt = (top: number) => {
+        const layout = legacyListLayout(entries, { w: box.w, h: box.h - top }, tileGap, legible, withDescriptions);
+        return layout && { ...layout, rects: layout.rects.map((r) => ({ ...r, y: r.y + top })) };
+      };
+      let legacyList = legacyAt(0);
+      // The block of cards is centred, so it may already leave the room.
+      if (legacyList && Math.min(...legacyList.rects.map((r) => r.y)) < legacyList.metrics.rankSize * RANK_OUTSIDE) {
+        legacyList = legacyAt(legacyList.metrics.rankSize * RANK_OUTSIDE);
+      }
+      if (!legacyList) return { tiles: [], atMinimum: 0, rankSize: 0 };
+      const { rects } = legacyList;
       return {
-        tiles: items.map((item, i) => ({ item, rect: legacyList.rects[i], sizing: undefined })),
+        tiles: items.map((item, i) => ({ item, rect: rects[i], sizing: undefined })),
         atMinimum: 0,
         legacyList,
+        rankSize: legacyList.metrics.rankSize,
       };
     }
     // Extend the bounds by half a gap on every side so the outer tiles sit flush
@@ -123,14 +140,17 @@ export function TileCanvas({
     // be shared out over these same bounds: allocating over the smaller content
     // box left the difference as an empty corner after the last tile.
     const half = tileGap / 2;
-    const bounds = { x: -half, y: -half, w: box.w + tileGap, h: box.h + tileGap };
+    const boundsBelow = (top: number) => ({ x: -half, y: top - half, w: box.w + tileGap, h: box.h + tileGap - top });
 
     if (view === "list") {
-      const list = listRects(items.length, bounds);
-      const rects = insetAndSnap(list.rects, tileGap);
       // Every row's content is sized from the shortest row (the left column's, when
       // the right one has fewer, taller rows), so all rows match.
-      const regular = { w: rects[0].w, h: Math.min(...rects.map((r) => r.h)) };
+      const listAt = (top: number) => {
+        const list = listRects(items.length, boundsBelow(top));
+        const rects = insetAndSnap(list.rects, tileGap);
+        return { list, rects, regular: { w: rects[0].w, h: Math.min(...rects.map((r) => r.h)) } };
+      };
+      const { list, rects, regular } = listAt(rankBadgeSize(listAt(0).regular.h, legible) * RANK_OUTSIDE);
       // Half-width rows put the value under the name, to leave the name the row's width.
       const valueBelow = list.columns > 1 && items.some((i) => valueText(i, symbol));
       // One name size and one logo size for every row, made to fit the longest names.
@@ -147,15 +167,26 @@ export function TileCanvas({
         atMinimum: 0,
         valueBelow,
         listFit: fit,
+        rankSize: rankBadgeSize(regular.h, legible),
       };
     }
     if (layout === "grid") {
-      const rects = insetAndSnap(gridRects(items.length, bounds), tileGap);
       // Size every tile's content from a regular full-row tile, so the stretched
       // tiles in a short last row don't get bigger logos and text than rank 1.
-      const regular = { w: Math.min(...rects.map((r) => r.w)), h: rects[0].h };
-      return { tiles: items.map((item, i) => ({ item, rect: rects[i], sizing: regular })), atMinimum: 0 };
+      const gridAt = (top: number) => {
+        const rects = insetAndSnap(gridRects(items.length, boundsBelow(top)), tileGap);
+        return { rects, regular: { w: Math.min(...rects.map((r) => r.w)), h: rects[0].h } };
+      };
+      const first = gridAt(0).regular;
+      const { rects, regular } = gridAt(tileRankSize(first.w, first.h, legible) * RANK_OUTSIDE);
+      return {
+        tiles: items.map((item, i) => ({ item, rect: rects[i], sizing: regular })),
+        atMinimum: 0,
+        rankSize: tileRankSize(regular.w, regular.h, legible),
+      };
     }
+    // Bento has no ranks, so no room above.
+    const bounds = boundsBelow(0);
     // A minimum tile must hold a phone-readable name, which a wide canvas needs more pixels for.
     const minSide = Math.max(minTileSide, legible.primary * 6);
     const sized = allocateAreas(items.map((i) => i.value ?? 0), bounds.w * bounds.h, minSide);
@@ -163,6 +194,7 @@ export function TileCanvas({
     return {
       tiles: items.map((item, i) => ({ item, rect: rects[i], sizing: undefined })),
       atMinimum: sized.filter((s) => s.atMinimum).length,
+      rankSize: 0,
     };
     // fontsVersion re-runs the tiles' text fitting after the font loads.
   }, [view, legacy, layout, items, symbol, withDescriptions, box.w, box.h, minTileSide, tileGap, legible, fontsVersion]);
@@ -225,7 +257,6 @@ export function TileCanvas({
               key={key}
               rect={rect}
               metrics={placed.legacyList.metrics}
-              rank={item.rank}
               name={item.name}
               description={item.description}
               logoUrl={item.logoUrl}
@@ -243,7 +274,6 @@ export function TileCanvas({
             withDescription={withDescriptions}
             valueBelow={placed.valueBelow}
             fit={placed.listFit}
-            rank={item.rank}
             name={item.name}
             description={item.description}
             logoUrl={item.logoUrl}
@@ -262,13 +292,25 @@ export function TileCanvas({
             logoUrl={item.logoUrl}
             website={item.website}
             value={value}
-            rank={layout === "grid" ? item.rank : undefined}
+            withRank={layout === "grid"}
             legible={legible}
             legacy={legacy}
             onClick={onClick}
           />
         );
       })}
+      {/* After every tile and row, so each badge sits above the neighbours it reaches over. */}
+      {placed.rankSize > 0 &&
+        placed.tiles.map(({ item, rect }) => (
+          <RankBadge
+            key={`rank-${item.id}`}
+            rank={item.rank}
+            size={placed.rankSize}
+            left={rect.x - placed.rankSize * RANK_OUTSIDE}
+            top={rect.y - placed.rankSize * RANK_OUTSIDE}
+            outlined={legacy}
+          />
+        ))}
     </div>
   );
 }

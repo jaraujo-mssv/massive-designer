@@ -34,15 +34,19 @@ npm run build        # vite build → dist/
 npm run preview      # serves dist/, with the image proxy
 ```
 
-- No env vars are needed for the app. `.env` (see `.env.example`) only holds `ELEVENLABS_API_KEY` and
-  `GOOGLE_AI_API_KEY`, for `npm run content:photos` and `npm run video:voice`.
+- No env vars are needed for the app. `.env` (see `.env.example`) only holds `ELEVENLABS_API_KEY`,
+  `ELEVENLABS_IMAGE_API_KEY` and `GOOGLE_AI_API_KEY`, for `npm run content:photos`, `npm run video:voice` and
+  `npm run merch:mockups`.
+- `npm run merch:mockups` makes the Merch tab's desk photos (`public/merch-files/mockups/`) through ElevenLabs (GPT Image 2)
+  from the rendered designs, with `ELEVENLABS_IMAGE_API_KEY` (the general key lacks the `image_video_generation`
+  permission). It costs plan credits, so `merch` doesn't run it.
 - Deploy is Vercel. `vercel.json` rewrites everything except `/api/` and `/video-projects/` to `index.html`, and
   `api/image-proxy.ts` is the serverless image proxy.
 - **Dev server only:** Video and Content work on local files. In a build `import.meta.env.DEV` is false, so their
   routes, nav entries and code drop out, and `localOnlyPublicDirs()` deletes their `public/` folders from `dist/`.
 - Script commands that render through Playwright Chromium: `image:render`, `deck`, `deck:pptx`, `docs`, `onepager`,
-  `menu`, `banners`. If Chromium is missing, run `npx playwright install chromium`. Renders go to `output/`
-  (gitignored).
+  `menu`, `banners`, `merch`. If Chromium is missing, run `npx playwright install chromium`. Renders go to `output/`
+  (gitignored), except `merch`, which writes to `public/merch-files/` (committed: the live Merch tab serves them).
 - **npm flags go after `--`:** `npm run image:render -- --all`. Before `--`, npm takes the flag for itself.
 
 ## Structure
@@ -59,6 +63,7 @@ npm run preview      # serves dist/, with the image proxy
 | `public/image-projects/`, `scripts/image/` | The Images tool's projects and CLI. |
 | `public/video-projects/`, `scripts/video/` | The Video tool (HyperFrames). |
 | `scripts/deck/`, `scripts/docs/`, `scripts/onepager/`, `scripts/menu/`, `scripts/banners/` | HTML → PDF/PNG/PPTX pipelines, no UI. |
+| `scripts/merch/`, `public/merch-files/` | Button, pin and sticker artwork (`merch.html`, vendor specs in its header; sticker SVGs in `stickers/`) and its renders, for the Merch tab. |
 | `content/` | Campaign markdown for the Content tool. |
 | `docs/plans/` | One design doc per tool. Where a doc and the code disagree, the code wins. |
 | `.claude/skills/` | `massive-image`, `massive-video`, `massive-deck`. Read the matching one before working on images, videos or decks. |
@@ -70,6 +75,7 @@ npm run preview      # serves dist/, with the image proxy
 | Top List | `/top-list` (`/bento-map` redirects here) | `src/tools/top-list/` (+ `top-list-legacy/`) | Live |
 | Images | `/images` | `src/tools/images/`, `public/image-projects/` | Live |
 | Partnership Post, Logo Encoder | `/partnership-post`, `/logo-encoder` | `src/tools/…` | Live |
+| Merch | `/merch` | `src/tools/merch/`, `scripts/merch/` | Live |
 | Video, Content | `/video`, `/content` | `src/tools/…` | Dev server only |
 | Trash | `/trash` | `src/tools/trash/` | URL only, not in the nav |
 | Social Media, Campaign Designer, Dither | `/social-media`, … | `src/tools/…` | Deprecated: hidden from the nav, still routable |

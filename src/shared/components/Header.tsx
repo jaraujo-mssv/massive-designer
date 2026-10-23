@@ -12,6 +12,7 @@ import {
   ShareNetwork,
   SquaresFour,
   Trophy,
+  TShirt,
   VideoCamera,
   type Icon,
 } from '@phosphor-icons/react'
@@ -33,6 +34,7 @@ const tools: {
   { label: 'Partnership Post', route: '/partnership-post', icon: Handshake, group: 'other' },
   { label: 'Video', route: '/video', icon: VideoCamera, group: 'other', localOnly: true },
   { label: 'Images', route: '/images', icon: Images, group: 'other' },
+  { label: 'Merch', route: '/merch', icon: TShirt, group: 'other' },
   { label: 'Content', route: '/content', icon: Notebook, group: 'other', localOnly: true },
   { label: 'Logo Encoder', route: '/logo-encoder', icon: ImageSquare, group: 'other' },
   { label: 'Social Media', route: '/social-media', icon: ShareNetwork, group: 'other', deprecated: true },

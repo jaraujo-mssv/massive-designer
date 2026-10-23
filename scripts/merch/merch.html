@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Massive merch · Print proof</title>
+<!--
+  Massive merch artwork, rendered by scripts/merch/render.mjs into public/merch-files/ for the Merch tab.
+  Opened as is, this is the print proof: Letter landscape, everything at actual size, with guides.
+  render.mjs sets html[data-only="<file>"] to print one design on its own, at its own size, without guides.
+
+  Vendor specs:
+  - 1" button: Affordable Buttons, r100 (https://affordablebuttons.com/product/custom-round-button-438).
+    Their template (r100-PDF.zip, https://affordablebuttons.com/content/button_templates) is 1.31 in square:
+    the 1 in face, the background running on to the 1.31 in cut circle that wraps round the edge, and a
+    0.94 in safe line. Full bleed, no guides in the file, 300 dpi. They prefer CMYK; Chromium writes RGB.
+  - 1" round pin: Wizard Pins, USA Rush Printed (https://wizardpins.com/products/usa-rush-pins). Digital print
+    on a stock 1 in circle. Their template is on request, so this assumes 1/16 in of bleed (1.125 in square).
+  - Soft enamel, die-cut, 1.25 in wide: PinsFast (https://pinsfast.com/soft-enamel-pins/). A vector colour
+    mockup on a transparent ground; their artist matches the Pantones and makes the production proof. Metal
+    lines are at least 0.35 mm (Wizard Pins' minimum is 0.2 mm). Enamel can't do a gradient, so the mountain is
+    one orange, the logo gradient's midpoint. Black nickel plating.
+  - Sticker, die-cut, 10 × 5 cm: no vendor yet. The four designs are the sticker files as they came
+    (stickers/*.svg, 10 × 5 cm at 300 dpi), each cut to its own outline. render.mjs also copies them out as SVGs.
+
+  The art is drawn in hundredths of an inch: the round faces in a 100 × 100 box centred on 0,0, the enamel pins
+  125 wide. The round designs stay inside 0.8 in, within both vendors' safe lines.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@900&family=JetBrains+Mono:wght@400;600&display=swap" />
+<style>
+:root {
+  --ink: #171615;
+  --ink-dim: rgba(23, 22, 21, 0.55);
+  --guide: #e5007e;
+  --font-display: 'Outfit', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+@page { size: letter landscape; margin: 0; }
+
+html, body {
+  background: #fff;
+  color: var(--ink);
+  font-family: var(--font-display);
+  -webkit-font-smoothing: antialiased;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* Hidden without display:none, which would drop the gradient */
+.sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+/* ---------- Proof ---------- */
+.proof {
+  width: 11in;
+  height: 8.5in;
+  padding: 0.5in;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 0.34in;
+  break-after: page;
+}
+.proof:last-of-type { break-after: auto; }
+.proof-head { display: flex; justify-content: space-between; align-items: baseline; }
+.proof-head h1 { font-size: 20pt; font-weight: 900; letter-spacing: -0.01em; }
+.legend, .row-label, figcaption {
+  font-family: var(--font-mono);
+  font-size: 7pt;
+  letter-spacing: 0.03em;
+  color: var(--ink-dim);
+}
+.legend span::before {
+  content: '';
+  display: inline-block;
+  width: 0.24in;
+  margin: 0 0.06in 0.025in 0.18in;
+  vertical-align: middle;
+  border-top: 1pt dashed var(--guide);
+}
+.legend .safe::before { border-top-style: dotted; }
+.row { display: flex; flex-direction: column; gap: 0.1in; }
+.row-label b { color: var(--ink); font-weight: 600; }
+.cells { display: flex; gap: 0.16in; align-items: flex-end; }
+.cell { display: flex; flex-direction: column; gap: 0.06in; }
+
+/* ---------- Art ---------- */
+.art { position: relative; }
+.art svg { display: block; overflow: visible; }
+
+.round.dark { --bg: #0a0a0f; --fg: #ffffff; --grid: #4d4d55; }
+.round.white { --bg: #ffffff; --fg: #171615; --grid: #c4c4c8; }
+.round { background: var(--bg); }
+.button { width: 1.31in; height: 1.31in; }
+.pin { width: 1.125in; height: 1.125in; }
+.face { position: absolute; left: calc(50% - 0.5in); top: calc(50% - 0.5in); width: 1in; height: 1in; }
+
+/* Guides: dashed, the 1 in face (button) or cut (pin); dotted, the safe line */
+.round::before, .round::after {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  border-radius: 50%;
+}
+.round::before { inset: calc(50% - 0.5in); border: 0.6pt dashed var(--guide); }
+.button::after { inset: calc(50% - 0.47in); border: 0.6pt dotted var(--guide); }
+.pin::after { inset: calc(50% - 0.4375in); border: 0.6pt dotted var(--guide); }
+
+.enamel { --metal: #2e2f34; --orange: #f38165; --white: #ffffff; width: 1.25in; }
+.enamel svg { width: 1.25in; height: auto; }
+
+/* The stickers fill their 10 × 5 cm artboard; on the proof the artboard is grey, so the white ones show */
+.sticker { width: 100mm; height: 50mm; }
+.sticker img { display: block; width: 100%; height: 100%; }
+html:not([data-only]) .sticker { background: #d6d1c7; }
+.cells.wrap { flex-wrap: wrap; max-width: 8.1in; }
+
+/* ---------- One design (render.mjs) ----------
+   Centred on a page of its own size. Chromium rounds a PDF page to about 1/150 in, so a round design's ground
+   runs on past its edge and an enamel pin has a hairline of margin: the rounding never cuts into the art. */
+html[data-only], html[data-only] body { background: transparent; }
+html[data-only] .proof { width: 100vw; height: 100vh; padding: 0; gap: 0; display: grid; place-items: center; }
+html[data-only] .round { box-shadow: 0 0 0 0.05in var(--bg); }
+html[data-only] .enamel { box-sizing: content-box; padding: 0.01in; }
+html[data-only] .proof:not(:has(.is-only)),
+html[data-only] .proof-head,
+html[data-only] .row-label,
+html[data-only] figcaption,
+html[data-only] .row:not(:has(.is-only)),
+html[data-only] .cell:not(:has(.is-only)) { display: none; }
+html[data-only] .round::before,
+html[data-only] .round::after { display: none; }
+</style>
+</head>
+<body>
+
+<svg class="sprite" aria-hidden="true">
+  <defs>
+    <linearGradient id="massive-grad" x1="90.1778" y1="135.619" x2="207.178" y2="50.8616" gradientUnits="userSpaceOnUse">
+      <stop offset="0.29" stop-color="#F69666" />
+      <stop offset="1" stop-color="#F16D65" />
+    </linearGradient>
+
+    <!-- From public/image-projects/_brand/logo-massive.svg. The mountain takes --mountain, the wordmark its fill. -->
+    <symbol id="icon" viewBox="0 11.12 283.38 112.47" overflow="visible">
+      <path style="fill: var(--mountain, url(#massive-grad))" fill-rule="evenodd" clip-rule="evenodd" d="M3.75979 101.28L81.4085 22.293C95.8979 7.55293 119.577 7.36706 134.3 21.88C134.32 21.9007 134.341 21.9213 134.362 21.942L192.112 79.1367C192.652 79.6685 193.518 79.6633 194.047 79.1264C194.555 78.6101 194.575 77.7892 194.098 77.2471L170.497 50.6529C167.785 47.5965 167.593 43.048 170.036 39.7695L180.755 25.4166C187.434 16.4693 200.088 14.6416 209.023 21.3327C210.149 22.1743 211.181 23.1346 212.109 24.193L280.133 101.838C284.899 107.28 284.359 115.561 278.924 120.337C276.539 122.433 273.469 123.589 270.295 123.589H13.0892C5.86008 123.589 0 117.719 0 110.481C0 107.037 1.35352 103.738 3.75979 101.286V101.28Z" />
+    </symbol>
+    <symbol id="wordmark" viewBox="352.27 0 737.89 123.62" overflow="visible">
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M352.275 120.673L372.106 2.94802H402.163L425.557 65.7136L448.795 2.94802H478.853L498.684 120.668H468.47L458.399 52.9095L430.821 120.668H418.737L392.554 52.9095L382.483 120.668H352.27L352.275 120.673ZM580.668 76.5247L567.49 38.2675L554.313 76.5247H580.662H580.668ZM590.801 100.217H547.104L540.077 120.673H507.458L552.254 2.94802H585.651L630.442 120.668H597.823L590.801 100.212V100.217ZM709.88 33.2388C706.514 30.549 703.149 28.5561 699.788 27.2602C696.422 25.9643 693.166 25.3189 690.013 25.3189C686.014 25.3189 682.758 26.2482 680.232 28.1121C677.706 29.9759 676.446 32.4076 676.446 35.4124C676.446 37.4827 677.074 39.1917 678.339 40.5392C679.599 41.8867 681.259 43.0484 683.307 44.0345C685.356 45.0206 687.674 45.8725 690.246 46.5953C692.823 47.3181 695.37 48.0977 697.895 48.9238C707.987 52.2383 715.372 56.663 720.055 62.2028C724.732 67.7426 727.071 74.9603 727.071 83.8663C727.071 89.8708 726.044 95.3074 723.996 100.171C721.947 105.034 718.95 109.206 715.009 112.67C711.062 116.14 706.229 118.83 700.499 120.745C694.768 122.66 688.275 123.616 681.02 123.616C665.986 123.616 652.057 119.217 639.227 110.414L652.472 85.8799C657.098 89.9173 661.672 92.9221 666.194 94.884C670.716 96.8511 675.181 97.832 679.599 97.832C684.645 97.832 688.405 96.691 690.873 94.4142C693.347 92.1373 694.581 89.5507 694.581 86.6492C694.581 84.8886 694.265 83.3604 693.638 82.0697C693.01 80.7738 691.957 79.5863 690.484 78.4969C689.012 77.4075 687.093 76.4008 684.728 75.4715C682.363 74.5421 679.496 73.5044 676.13 72.3634C672.137 71.1191 668.216 69.7509 664.384 68.2485C660.546 66.7461 657.129 64.7533 654.131 62.2699C651.134 59.7865 648.717 56.6526 646.876 52.8734C645.035 49.0941 644.117 44.3081 644.117 38.5102C644.117 32.7122 645.092 27.4615 647.037 22.7478C648.982 18.0392 651.715 14.0018 655.236 10.6356C658.757 7.26938 663.067 4.65695 668.17 2.79314C673.267 0.929325 678.972 0 685.278 0C691.164 0 697.32 0.800252 703.729 2.40592C710.144 4.01158 716.295 6.36587 722.181 9.47394L709.88 33.2337V33.2388ZM809.439 33.2388C806.073 30.549 802.708 28.5561 799.347 27.2602C795.982 25.9643 792.725 25.3189 789.567 25.3189C785.568 25.3189 782.312 26.2482 779.786 28.1121C777.266 29.9759 776 32.4076 776 35.4124C776 37.4827 776.633 39.1917 777.893 40.5392C779.158 41.8867 780.813 43.0484 782.861 44.0345C784.91 45.0154 787.223 45.8725 789.8 46.5953C792.377 47.3181 794.929 48.0977 797.449 48.9238C807.541 52.2383 814.926 56.663 819.609 62.2028C824.286 67.7426 826.625 74.9603 826.625 83.8663C826.625 89.8708 825.598 95.3074 823.55 100.171C821.501 105.034 818.504 109.206 814.557 112.67C810.616 116.14 805.778 118.83 800.047 120.745C794.317 122.66 787.824 123.616 780.569 123.616C765.535 123.616 751.606 119.217 738.776 110.414L752.021 85.8799C756.646 89.9173 761.22 92.9221 765.742 94.884C770.265 96.8511 774.735 97.832 779.148 97.832C784.194 97.832 787.954 96.691 790.422 94.4142C792.891 92.1373 794.13 89.5507 794.13 86.6492C794.13 84.8886 793.814 83.3604 793.186 82.0697C792.554 80.7738 791.506 79.5863 790.033 78.4969C788.561 77.4075 786.642 76.4008 784.277 75.4715C781.912 74.5421 779.044 73.5044 775.684 72.3634C771.686 71.1191 767.77 69.7509 763.933 68.2485C760.095 66.7461 756.678 64.7533 753.68 62.2699C750.683 59.7865 748.266 56.6526 746.425 52.8734C744.584 49.0941 743.666 44.3081 743.666 38.5102C743.666 32.7122 744.641 27.4615 746.586 22.7478C748.53 18.0392 751.263 14.0018 754.785 10.6356C758.306 7.26938 762.621 4.65695 767.718 2.79314C772.816 0.929325 778.521 0 784.832 0C790.718 0 796.868 0.800252 803.283 2.40592C809.698 4.01158 815.849 6.36587 821.735 9.47394L809.434 33.2337L809.439 33.2388ZM873.485 2.95319V120.673H844.205V2.94802H873.485V2.95319ZM921.237 2.95319L949.531 74.6144L977.986 2.95319H1011.1L961.661 120.673H937.407L888.12 2.94802H921.237V2.95319ZM1090.16 28.871H1053.59V48.5417H1088.12V74.4595H1053.59V94.7549H1090.16V120.673H1022.82V2.94802H1090.16V28.8658V28.871Z" />
+    </symbol>
+
+    <!-- The horizontal logo, laid out as in logo-massive.svg (as on the stickers). A stroke on it is in these units. -->
+    <symbol id="lockup" viewBox="0 0 1090.16 123.62" overflow="visible">
+      <use href="#icon" x="0" y="11.12" width="283.38" height="112.47" />
+      <use href="#wordmark" x="352.27" y="0" width="737.89" height="123.62" />
+    </symbol>
+
+    <!-- The wireframe globe, 0.86 in across (inside both vendors' safe lines): drawn by the script at the end of the page -->
+    <g id="globe"></g>
+
+    <!-- Round faces, 1 in = 100. The logo is as wide as the 0.8 in safe circle allows, on a band of the background
+         colour that stops just inside the globe's outline. -->
+    <g id="round-logo">
+      <use href="#globe" />
+      <rect x="-40.5" y="-7.3" width="81" height="14.6" rx="7.3" style="fill: var(--bg)" />
+      <use href="#lockup" x="-38" y="-4.31" width="76" height="8.62" style="fill: var(--fg)" />
+    </g>
+    <g id="round-icon">
+      <use href="#icon" x="-35" y="-14.9" width="70" height="27.78" />
+    </g>
+    <!-- Outfit has no italic: the slant is a skew, from each line's baseline. The background-coloured stroke keeps the letters off the mountain. -->
+    <!-- The mountain's base sits at the middle of MASSIVE's caps; the whole is then re-centred and kept inside 0.8 in. -->
+    <g id="round-tagline" transform="translate(0 2.44) scale(0.975)">
+      <use href="#icon" x="-35" y="-19.36" width="70" height="27.78" />
+      <g font-family="Outfit" font-weight="900" font-size="16.35" text-anchor="middle"
+         style="fill: var(--fg); stroke: var(--bg); stroke-width: 2; stroke-linejoin: round; paint-order: stroke">
+        <text transform="translate(-1.26 -2.5) skewX(-12)">IT’S</text>
+        <text transform="translate(-1.26 14.34) skewX(-12)">MASSIVE</text>
+      </g>
+    </g>
+
+    <!-- Enamel tagline, 125 wide -->
+    <g id="enamel-tagline-text" font-family="Outfit" font-weight="900" font-size="25.44" text-anchor="middle">
+      <text transform="translate(60.54 21.92) skewX(-12)">IT’S</text>
+      <text transform="translate(60.54 46.34) skewX(-12)">MASSIVE</text>
+    </g>
+  </defs>
+</svg>
+
+<main class="proof">
+  <header class="proof-head">
+    <h1>Massive merch</h1>
+    <p class="legend">Actual size<span class="cut">Face (button) · cut (pin)</span><span class="safe">Safe line</span></p>
+  </header>
+
+  <section class="row">
+    <p class="row-label"><b>1" button</b> · Affordable Buttons r100 · 1.31 in square: the 1 in face, the rest wraps round the edge</p>
+    <div class="cells">
+      <figure class="cell"><div class="art round button dark" data-file="button-logo-dark"><svg class="face" viewBox="-50 -50 100 100"><use href="#round-logo" /></svg></div><figcaption>Logo · Dark</figcaption></figure>
+      <figure class="cell"><div class="art round button white" data-file="button-logo-white"><svg class="face" viewBox="-50 -50 100 100"><use href="#round-logo" /></svg></div><figcaption>Logo · White</figcaption></figure>
+      <figure class="cell"><div class="art round button dark" data-file="button-icon-dark"><svg class="face" viewBox="-50 -50 100 100"><use href="#round-icon" /></svg></div><figcaption>Icon · Dark</figcaption></figure>
+      <figure class="cell"><div class="art round button white" data-file="button-icon-white"><svg class="face" viewBox="-50 -50 100 100"><use href="#round-icon" /></svg></div><figcaption>Icon · White</figcaption></figure>
+      <figure class="cell"><div class="art round button dark" data-file="button-tagline-dark"><svg class="face" viewBox="-50 -50 100 100"><use href="#round-tagline" /></svg></div><figcaption>Tagline · Dark</figcaption></figure>
+      <figure class="cell"><div class="art round button white" data-file="button-tagline-white"><svg class="face" viewBox="-50 -50 100 100"><use href="#round-tagline" /></svg></div><figcaption>Tagline · White</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="row">
+    <p class="row-label"><b>1" round pin</b> · Wizard Pins Rush Printed · 1.125 in square: the 1 in circle and 1/16 in of bleed</p>
+    <div class="cells">
+      <figure class="cell"><div class="art round pin dark" data-file="pin-logo-dark"><svg class="face" viewBox="-50 -50 100 100"><use href="#round-logo" /></svg></div><figcaption>Logo · Dark</figcaption></figure>
+      <figure class="cell"><div class="art round pin white" data-file="pin-logo-white"><svg class="face" viewBox="-50 -50 100 100"><use href="#round-logo" /></svg></div><figcaption>Logo · White</figcaption></figure>
+      <figure class="cell"><div class="art round pin dark" data-file="pin-icon-dark"><svg class="face" viewBox="-50 -50 100 100"><use href="#round-icon" /></svg></div><figcaption>Icon · Dark</figcaption></figure>
+      <figure class="cell"><div class="art round pin white" data-file="pin-icon-white"><svg class="face" viewBox="-50 -50 100 100"><use href="#round-icon" /></svg></div><figcaption>Icon · White</figcaption></figure>
+      <figure class="cell"><div class="art round pin dark" data-file="pin-tagline-dark"><svg class="face" viewBox="-50 -50 100 100"><use href="#round-tagline" /></svg></div><figcaption>Tagline · Dark</figcaption></figure>
+      <figure class="cell"><div class="art round pin white" data-file="pin-tagline-white"><svg class="face" viewBox="-50 -50 100 100"><use href="#round-tagline" /></svg></div><figcaption>Tagline · White</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="row">
+    <p class="row-label"><b>Soft enamel pin</b> · PinsFast · 1.25 in wide, die-cut to the outline, black nickel</p>
+    <div class="cells">
+      <!-- Each pin: the metal (the shapes grown by a wide round stroke: the die-cut outline), then the enamel.
+           A stroke inside a scaled <use href="#icon"> is in the symbol's units: the width wanted ÷ (width / 283.38). -->
+      <figure class="cell">
+        <div class="art enamel" data-file="enamel-logo">
+          <!-- Like the black logo sticker: a 6 wide metal border round the logo (12 ÷ (113 / 1090.16)), an orange
+               mountain and white letters -->
+          <svg viewBox="0 0 125 24.81">
+            <use href="#lockup" x="6" y="6" width="113" height="12.81" style="--mountain: var(--metal); fill: var(--metal); stroke: var(--metal); stroke-width: 115.77; stroke-linejoin: round" />
+            <use href="#lockup" x="6" y="6" width="113" height="12.81" style="--mountain: var(--orange); fill: var(--white)" />
+          </svg>
+        </div>
+        <figcaption>Logo</figcaption>
+      </figure>
+      <figure class="cell">
+        <div class="art enamel" data-file="enamel-icon">
+          <svg viewBox="0 0 125 53.23">
+            <use href="#icon" x="3" y="3" width="119" height="47.23" style="--mountain: var(--metal); stroke: var(--metal); stroke-width: 14.29; stroke-linejoin: round" />
+            <use href="#icon" x="3" y="3" width="119" height="47.23" style="--mountain: var(--orange)" />
+          </svg>
+        </div>
+        <figcaption>Icon</figcaption>
+      </figure>
+      <figure class="cell">
+        <div class="art enamel" data-file="enamel-tagline">
+          <!-- The mountain's base at the middle of MASSIVE's caps; the viewBox starts above 0 to fit its border -->
+          <svg viewBox="0 -6.1 125 56.3">
+            <g style="fill: var(--metal); stroke: var(--metal); stroke-linejoin: round">
+              <use href="#icon" x="12.5" y="-2.56" width="100" height="39.69" style="--mountain: var(--metal); stroke-width: 19.84" />
+              <use href="#enamel-tagline-text" style="stroke-width: 7" />
+            </g>
+            <use href="#icon" x="12.5" y="-2.56" width="100" height="39.69" style="--mountain: var(--orange)" />
+            <use href="#enamel-tagline-text" style="fill: var(--white); stroke: var(--metal); stroke-width: 2.8; stroke-linejoin: round; paint-order: stroke" />
+          </svg>
+        </div>
+        <figcaption>Tagline</figcaption>
+      </figure>
+    </div>
+  </section>
+</main>
+
+<main class="proof">
+  <header class="proof-head">
+    <h1>Massive merch</h1>
+    <p class="legend">Actual size</p>
+  </header>
+
+  <section class="row">
+    <p class="row-label"><b>Sticker, 10 × 5 cm</b> · die-cut to the outline · the grey is the artboard and is cut away</p>
+    <div class="cells wrap">
+      <figure class="cell"><div class="art sticker" data-file="sticker-logo-black"><img src="stickers/sticker-logo-black.svg" alt="" /></div><figcaption>Logo · Black</figcaption></figure>
+      <figure class="cell"><div class="art sticker" data-file="sticker-logo-white"><img src="stickers/sticker-logo-white.svg" alt="" /></div><figcaption>Logo · White</figcaption></figure>
+      <figure class="cell"><div class="art sticker" data-file="sticker-halftone-black"><img src="stickers/sticker-halftone-black.svg" alt="" /></div><figcaption>Halftone · Black</figcaption></figure>
+      <figure class="cell"><div class="art sticker" data-file="sticker-halftone-white"><img src="stickers/sticker-halftone-white.svg" alt="" /></div><figcaption>Halftone · White</figcaption></figure>
+    </div>
+  </section>
+</main>
+
+<script>
+  // The globe behind the round logos: an orthographic sphere of radius 43 (0.86 in across), tipped 20° toward the
+  // viewer and turned 15°, with meridians and parallels every 30° (the front half only) and a node at some crossings.
+  // Lines are 0.5 (0.13 mm); the nodes are the orange of the enamel pins, ringed in the background colour.
+  (() => {
+    const R = 43;
+    const TILT = (20 * Math.PI) / 180;
+    const SPIN = (15 * Math.PI) / 180;
+    // [latitude, longitude] crossings, clear of the logo band
+    const NODES = [[60, -30], [60, 60], [30, -60], [30, 90], [0, 30], [-30, -30], [-30, 0], [-30, 60]];
+    const SVG = "http://www.w3.org/2000/svg";
+
+    const project = (lat, lon) => {
+      const phi = (lat * Math.PI) / 180;
+      const lambda = (lon * Math.PI) / 180 - SPIN;
+      const x = Math.cos(phi) * Math.sin(lambda);
+      const y = Math.sin(phi);
+      const z = Math.cos(phi) * Math.cos(lambda);
+      return [R * x, -R * (y * Math.cos(TILT) - z * Math.sin(TILT)), y * Math.sin(TILT) + z * Math.cos(TILT)];
+    };
+    // A path through the points, lifting the pen wherever the line goes round the back
+    const trace = (points) => {
+      let d = "";
+      let down = false;
+      for (const [x, y, z] of points) {
+        if (z < 0) {
+          down = false;
+          continue;
+        }
+        d += `${down ? "L" : "M"}${x.toFixed(2)} ${y.toFixed(2)}`;
+        down = true;
+      }
+      return d;
+    };
+    const steps = (from, to) => Array.from({ length: (to - from) / 2 + 1 }, (_, i) => from + i * 2);
+
+    let d = "";
+    for (let lon = -180; lon < 180; lon += 30) d += trace(steps(-90, 90).map((lat) => project(lat, lon)));
+    for (const lat of [-60, -30, 0, 30, 60]) d += trace(steps(-180, 180).map((lon) => project(lat, lon)));
+
+    const globe = document.getElementById("globe");
+    const add = (tag, attrs) => {
+      const el = document.createElementNS(SVG, tag);
+      for (const [name, value] of Object.entries(attrs)) el.setAttribute(name, value);
+      globe.appendChild(el);
+    };
+    const line = "fill: none; stroke: var(--grid); stroke-width: 0.5; stroke-linecap: round; stroke-linejoin: round";
+    add("circle", { cx: 0, cy: 0, r: R, style: line });
+    add("path", { d, style: line });
+    for (const [lat, lon] of NODES) {
+      const [cx, cy] = project(lat, lon);
+      add("circle", {
+        cx: cx.toFixed(2),
+        cy: cy.toFixed(2),
+        r: 1.3,
+        style: "fill: #f38165; stroke: var(--bg); stroke-width: 0.8; paint-order: stroke",
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>

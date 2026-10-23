@@ -11,6 +11,7 @@ const LogoEncoderApp = lazy(() => import('@/tools/logo-encoder/app/App'))
 const MarketMapApp = lazy(() => import('@/tools/market-map/app/App'))
 // Pre-revamp versions, behind each tool's New | Legacy switch (same URL).
 const MarketMapLegacyApp = lazy(() => import('@/tools/market-map-legacy/app/App'))
+const MerchApp = lazy(() => import('@/tools/merch/app/App'))
 const PartnershipPostApp = lazy(() => import('@/tools/partnership-post/app/App'))
 const SocialMediaApp = lazy(() => import('@/tools/social-media/app/App'))
 const TopListApp = lazy(() => import('@/tools/top-list/app/App'))
@@ -134,6 +135,14 @@ export const router = createBrowserRouter([
           legacyWhen={(q) => q.has('f')}
           storageKey="market-map.version"
         />
+      </ToolLayout>
+    ),
+  },
+  {
+    path: '/merch',
+    element: (
+      <ToolLayout themeClass="tool-merch">
+        <MerchApp />
       </ToolLayout>
     ),
   },

@@ -28,7 +28,7 @@ export function CategoryTile({ tile, metrics, onEdit }: CategoryTileProps) {
         fontFamily: "Outfit, sans-serif",
       }}
     >
-      {/* Plain bold text in the category colour (the accent), set apart from the company names. */}
+      {/* Plain bold text in the category colour, set apart from the company names by size and weight. */}
       <div
         className={onEdit ? "canvas-editable" : undefined}
         onClick={onEdit && ((e) => onEdit({ kind: "category", categoryId: tile.category.id }, e.currentTarget))}

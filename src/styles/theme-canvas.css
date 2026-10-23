@@ -7,8 +7,8 @@
   --canvas-pill-bg: #f6f0e8;
   /* How strongly each pill is tinted by its blurred logo. */
   --canvas-pill-wash-opacity: 0.18;
-  /* Market Map category names: the accent, as the subtitle. */
-  --canvas-category: var(--canvas-red);
+  /* Market Map category names: the text colour, so they contrast with the background. */
+  --canvas-category: var(--canvas-text);
   --canvas-text: #1a1b2a;
   --canvas-text-85: rgba(26, 27, 42, 0.85);
   --canvas-text-70: rgba(26, 27, 42, 0.7);
@@ -32,8 +32,8 @@
   --canvas-pill-bg: #221f27;
   /* How strongly each pill is tinted by its blurred logo. */
   --canvas-pill-wash-opacity: 0.18;
-  /* Market Map category names: the accent, as the subtitle. */
-  --canvas-category: var(--canvas-red);
+  /* Market Map category names: the text colour, so they contrast with the background. */
+  --canvas-category: var(--canvas-text);
   --canvas-text: #faf4ec;
   --canvas-text-85: rgba(255, 255, 255, 0.85);
   --canvas-text-70: rgba(255, 255, 255, 0.7);

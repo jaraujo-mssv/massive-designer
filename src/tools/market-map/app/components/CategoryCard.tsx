@@ -54,7 +54,7 @@ export function CategoryCard({ card, metrics: m, onEdit }: CategoryCardProps) {
           fontWeight: m.headerWeight,
           lineHeight: COLUMN_LINE_HEIGHT,
           whiteSpace: "nowrap",
-          // Modern: the accent colour, apart from the company names.
+          // Modern: the category colour (see theme-canvas.css).
           color: modern ? "var(--canvas-category)" : "var(--canvas-text)",
         }}
       >

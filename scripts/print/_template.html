@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>{{TITLE}}</title>
+<link rel="stylesheet" href="print.css" />
+<style id="page-size">
+  @page { size: {{W}}mm {{H}}mm; }
+  :root { --page-w: {{W}}mm; --page-h: {{H}}mm; --s: {{S}}; }
+</style>
+</head>
+<body>
+
+  <!-- One .page per printed page. Copy comes from the brief; never invent numbers. -->
+  <div class="page">
+    <div class="eyebrow">Eyebrow</div>
+    <h1>{{TITLE}}</h1>
+    <p class="lede">One or two sentences that say what this is and why it matters to the reader.</p>
+
+    <div class="cols">
+      <div class="card">
+        <h2>First point</h2>
+        <p>Short, specific copy. Keep each card to one idea.</p>
+      </div>
+      <div class="card">
+        <h2>Second point</h2>
+        <p>Short, specific copy. Keep each card to one idea.</p>
+      </div>
+    </div>
+
+    <div class="grow"></div>
+
+    <div class="footer">
+      <img src="../../public/logo-positive.svg" alt="Massive" />
+      <span class="url">joinmassive.com</span>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,177 @@
+/* ==========================================================================
+   Massive print: posters, one-pagers, flyers, cards, signage (brand/BRAND.md, light register).
+   White cards on a faint orange ground, ink type, one paper-red accent, a fine line grid.
+   Each page sets its size in its own <style id="page-size"> (npm run print:new writes it):
+     @page { size: <W>mm <H>mm; }  :root { --page-w; --page-h; --s }
+   --s scales the type and spacing: 1 on A4, 1.41 on A3, 0.7 on A5.
+   ========================================================================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300..900&family=JetBrains+Mono:wght@400;600&display=swap");
+
+:root {
+  --ground: #fff7f2;
+  --card: #ffffff;
+  --ink: #171615;
+  --ink-mid: rgba(23, 22, 21, 0.72);
+  --ink-dim: rgba(23, 22, 21, 0.55);
+  --accent: #d54635;
+  --accent-light: #f3a07a;
+  --line: rgba(23, 22, 21, 0.14);
+  --grid: rgba(23, 22, 21, 0.045);
+  --sans: Outfit, sans-serif;
+  --mono: "JetBrains Mono", monospace;
+  --page-w: 210mm;
+  --page-h: 297mm;
+  --s: 1;
+  --pad: calc(16mm * var(--s));
+}
+
+@page { margin: 0; }
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  font-family: var(--sans);
+  color: var(--ink);
+  background: #e9e2dc;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* One .page per printed page. */
+.page {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: var(--page-w);
+  height: var(--page-h);
+  margin: 0 auto;
+  padding: var(--pad);
+  overflow: hidden;
+  background-color: var(--ground);
+  background-image:
+    linear-gradient(to right, var(--grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+  background-size: max(8mm, calc(12mm * var(--s))) max(8mm, calc(12mm * var(--s)));
+  break-after: page;
+}
+.page:last-of-type { break-after: auto; }
+.page.white { background-color: var(--card); }
+
+/* ---------- Type ---------- */
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: calc(3mm * var(--s));
+  font-size: calc(9pt * var(--s));
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: calc(5mm * var(--s));
+}
+.eyebrow::before {
+  content: "";
+  width: calc(7mm * var(--s));
+  height: 1px;
+  background: var(--accent);
+}
+h1 {
+  font-size: calc(40pt * var(--s));
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  margin-bottom: calc(6mm * var(--s));
+}
+h2 {
+  font-size: calc(17pt * var(--s));
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: calc(3mm * var(--s));
+}
+.lede {
+  font-size: calc(14pt * var(--s));
+  font-weight: 300;
+  line-height: 1.35;
+  color: var(--ink-mid);
+  max-width: 36em;
+  margin-bottom: calc(8mm * var(--s));
+}
+p, li {
+  font-size: calc(10.5pt * var(--s));
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--ink-mid);
+}
+p + p { margin-top: calc(2.5mm * var(--s)); }
+strong { color: var(--ink); font-weight: 700; }
+.hl { color: var(--accent); }
+.label {
+  font-size: calc(8pt * var(--s));
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+
+/* A big number. Every figure comes from a source: put it in .source. */
+.stat {
+  font-size: calc(54pt * var(--s));
+  font-weight: 900;
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  color: var(--accent);
+}
+.source {
+  font-size: calc(7.5pt * var(--s));
+  color: var(--ink-dim);
+}
+
+ul.bullets { list-style: none; display: grid; gap: calc(2mm * var(--s)); }
+ul.bullets li { position: relative; padding-left: calc(5mm * var(--s)); }
+ul.bullets li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: calc(2mm * var(--s));
+  height: 2px;
+  background: var(--accent);
+}
+
+/* Code and fixed-width values only (brand/BRAND.md): commands, paths, parameters. */
+code, pre, kbd, samp, .m-code { font-family: var(--mono); font-size: 0.92em; }
+
+/* ---------- Layout ---------- */
+.grow { flex: 1; }
+.cols { display: grid; grid-template-columns: repeat(var(--cols, 2), 1fr); gap: calc(5mm * var(--s)); }
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: calc(4mm * var(--s));
+  padding: calc(6mm * var(--s)) calc(7mm * var(--s));
+}
+.rule { height: 3px; width: calc(16mm * var(--s)); background: var(--accent); margin: calc(6mm * var(--s)) 0; }
+
+/* ---------- Footer: logo + URL ---------- */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: calc(6mm * var(--s));
+  padding-top: calc(5mm * var(--s));
+  border-top: 1px solid var(--line);
+}
+.footer img { height: calc(7mm * var(--s)); width: auto; display: block; }
+.footer .url {
+  font-size: calc(9pt * var(--s));
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+}
+
+/* On screen, show pages as sheets. */
+@media screen {
+  body { padding: 10mm 0; }
+  .page { margin-bottom: 10mm; box-shadow: 0 2px 18px rgba(23, 22, 21, 0.12); }
+}

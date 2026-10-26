@@ -50,7 +50,7 @@ npm run preview      # serves dist/, with the image proxy
   `api/image-proxy.ts` is the serverless image proxy.
 - **Dev server only:** Video and Content work on local files. In a build `import.meta.env.DEV` is false, so their
   routes, nav entries and code drop out, and `localOnlyPublicDirs()` deletes their `public/` folders from `dist/`.
-- Script commands that render through Playwright Chromium: `image:render`, `deck`, `deck:pptx`, `docs`, `onepager`,
+- Script commands that render through Playwright Chromium: `image:render`, `print`, `deck`, `deck:pptx`, `docs`, `onepager`,
   `menu`, `banners`, `merch`. If Chromium is missing, `npm run setup` installs it. Renders go to `output/`
   (gitignored), except `merch`, which writes to `public/merch-files/` (committed: the live Merch tab serves them), and
   `gif:render` (HyperFrames + FFmpeg), which writes each GIF to `public/video-projects/<id>/gif/` (committed).
@@ -69,11 +69,12 @@ npm run preview      # serves dist/, with the image proxy
 | `src/styles/` | Design tokens and per-tool CSS (see Brand). |
 | `public/image-projects/`, `scripts/image/` | The Images tool's projects and CLI. |
 | `public/video-projects/`, `scripts/video/` | The Video tool (HyperFrames). LinkedIn GIFs are projects with `"output": "gif"` (`gif:new`, `gif:render`, loop kit in `_gif/`). |
-| `scripts/deck/`, `scripts/docs/`, `scripts/onepager/`, `scripts/menu/`, `scripts/banners/` | HTML → PDF/PNG/PPTX pipelines, no UI. |
+| `scripts/print/` | Any print piece or designed PDF at any page size (`print:new`, `print`), on `print.css`. |
+| `scripts/deck/`, `scripts/docs/`, `scripts/onepager/`, `scripts/menu/`, `scripts/banners/` | HTML → PDF/PNG/PPTX pipelines, no UI. Docs, one-pager and menu are legacy; new print pieces go in `scripts/print/`. |
 | `scripts/merch/`, `public/merch-files/` | Button, pin and sticker artwork (`merch.html`, vendor specs in its header; sticker SVGs in `stickers/`) and its renders, for the Merch tab. |
 | `content/` | Campaign markdown for the Content tool. |
 | `docs/plans/` | One design doc per tool. Where a doc and the code disagree, the code wins. |
-| `.claude/skills/` | `massive-image`, `massive-video`, `massive-gif`, `massive-deck`. Read the matching one before working on images, videos, GIFs or decks. |
+| `.claude/skills/` | `massive-image`, `massive-video`, `massive-gif`, `massive-deck`, `massive-print`. Read the matching one before working on images, videos, GIFs, decks or print. |
 | `originals/` | The first Figma Make exports. Reference only, not built. |
 
 | Tool | Route | Code | Status |

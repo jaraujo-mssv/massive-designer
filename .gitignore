@@ -8,6 +8,7 @@ node_modules
 !.claude/skills/massive-image/
 !.claude/skills/massive-deck/
 !.claude/skills/massive-gif/
+!.claude/skills/massive-print/
 output
 dist
 dist-campaign-standalone

@@ -109,6 +109,7 @@
     "@tailwindcss/vite": "4.1.12",
     "@types/react": "^18.3.0",
     "@types/react-dom": "^18.3.0",
+    "@vercel/blob": "2.8.2",
     "@vitejs/plugin-react": "4.7.0",
     "hyperframes": "0.8.77",
     "playwright": "^1.60.0",

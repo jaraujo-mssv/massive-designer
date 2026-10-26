@@ -112,7 +112,7 @@ docs/plans/video.md   docs/video/making-a-video.md
   - the parsed storyboard (`@hyperframes/core/storyboard`), with each frame's start time taken from the matching host clip's `data-start` for its `src`
   - the raw `SCRIPT.md`
   - the `assets/…` references found in the HTML (the `media` list)
-- **`sync-media.mjs`** (`npm run video:media [id]`) copies the files listed in each project's `media.json` from `../remotion-playground` and `../sparktray-campaign`. The source folders can be overridden with `PLAYGROUND_DIR` and `SPARKTRAY_DIR`. It writes a gitignored `assets/.synced` stamp.
+- **`sync-media.mjs`** (`npm run video:media [id]`) gets the files listed in each project's `media.json`: it copies `from` `../remotion-playground` and `../sparktray-campaign` when those are checked out (override with `PLAYGROUND_DIR` and `SPARKTRAY_DIR`), else downloads the entry's public `url`. `--push <id>` uploads a project's untracked media to Vercel Blob (`BLOB_READ_WRITE_TOKEN`) and writes the URLs back. It writes a gitignored `assets/.synced` stamp.
 - **`render.mjs`** (`npm run video:render <id…> | --all`) warns when media is missing, then runs `npx hyperframes@0.8.77 render --quality high --output output/video/<id>.mp4` inside the project folder. `--draft` switches to `--quality draft`.
 - **`npm run video:preview <id>`** opens HyperFrames Studio on that project for editing and reviewing the storyboard.
 - **Dependencies:**

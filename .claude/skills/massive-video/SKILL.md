@@ -34,7 +34,8 @@ projects too, with their own pipeline: use the `massive-gif` skill.
 |---|---|
 | `npm run video:new <id> "<Title>" [--format=landscape\|square\|portrait\|vertical]` | Scaffold a Massive project |
 | `npm run video:voice <id> [--dry-run]` | Record SCRIPT.md with ElevenLabs (one take, word timings → `voice.json`) |
-| `npm run video:media [id]` | Copy media listed in `media.json` from `../remotion-playground` / `../sparktray-campaign` |
+| `npm run video:media [id]` | Get the media listed in `media.json`: download each `url`, or copy `from` a sibling repo |
+| `npm run video:media -- --push <id>` | Upload a project's untracked media (voice takes, footage) and record the URLs in `media.json`. Needs `BLOB_READ_WRITE_TOKEN`; the URLs are public |
 | `npm run video:preview <id>` | HyperFrames Studio for editing + storyboard review |
 | `npm run video:index` | Rebuild `index.json` for the tab |
 | `npm run video:render <id> [--draft]` | Render to `output/video/<id>.mp4` |

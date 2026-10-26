@@ -8,13 +8,15 @@ Code or HyperFrames Studio.
 
 ## One-time setup
 
-- Node 22 or newer: run `nvm use` in the repo (`.nvmrc` pins 24).
-- FFmpeg on your PATH (`brew install ffmpeg`).
-- `npx hyperframes browser ensure` installs the headless Chrome the renderer uses.
-- To pull media for the existing videos, check out `remotion-playground` and
-  `sparktray-campaign` next to this repo, then run `npm run video:media`. Voiceover, music and
-  footage are gitignored, so they never reach the deployed site.
-- To record narration, set `ELEVENLABS_API_KEY`.
+- `npm run setup` checks and installs what's missing (`npm run doctor` only checks):
+  - Node 22 or newer: run `nvm use` in the repo (`.nvmrc` pins 24).
+  - FFmpeg on your PATH (`brew install ffmpeg`).
+  - The headless Chrome the renderer uses (`npx hyperframes browser ensure`).
+  - The existing videos' media (`npm run video:media`). Voiceover, music and footage are gitignored,
+    so they never reach the deployed site; each project's `media.json` lists them with a public `url`.
+- To record narration, set `ELEVENLABS_API_KEY` in `.env`.
+- To share a new video's media, set `BLOB_READ_WRITE_TOKEN` in `.env` and run
+  `npm run video:media -- --push <id>`, then commit `media.json`.
 
 ## From idea to MP4
 

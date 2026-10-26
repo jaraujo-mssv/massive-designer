@@ -119,5 +119,6 @@ These exist in older work and stay there. Don't start a new design from them.
 | Canvas Dark `#0d0c17`, accent `#e05642` | `theme-canvas.css` (the live tools) | The dark core |
 | Mono eyebrows, labels and URLs | Older images; videos whose `lib/massive.css` predates the rule; docs, the one-pager, the menu, merch legends, banner URLs | Outfit |
 
-Fifteen older videos carry a copy of `lib/massive.css` with mono eyebrows. `npm run video:brand <id>` brings one up
-to date and switches its eyebrows to Outfit. That changes how the video looks, so re-render it and check the result.
+Fifteen older videos carry an old copy of `lib/massive.css` with mono eyebrows. `video:render`, `video:preview` and
+`gif:render` copy the current brand files into a project first, so the next render of one of them switches its
+eyebrows to Outfit. That's intended, but look at the render before you replace a published file with it.

@@ -22,9 +22,9 @@ projects too, with their own pipeline: use the `massive-gif` skill.
   and all of `public/video-projects/`.
 - `public/video-projects/_brand/`: master copies of `frame.md` (house style), `lib/` (frame-kit, massive.css)
   and `assets/brand/`. `npm run video:brand <id>` copies `lib/` + `assets/brand/` into a project, because the
-  CLI only serves a project's own folder. Edit the master, then sync the project you're working on; never edit a
-  project's `lib/` copy. Without an id it syncs every project, and 15 older ones would switch their mono eyebrows to
-  Outfit, so don't run it bare.
+  CLI only serves a project's own folder; `video:render`, `video:preview` and `gif:render` do it for you first. Edit
+  the master, never a project's `lib/` copy. Don't run `video:brand` without an id: it rewrites every project's copy.
+  Fifteen older videos have an old copy with mono eyebrows, so re-rendering one switches them to Outfit; check it.
 - `meta.json`: `{ id, name, group: "massive" | "templates", kind: "native" | "port" | "template", brand, status, source }`.
   **Every video sets `"posterFromEnd": true`**: the render copies the last frame over frame 0, so the file's
   thumbnail (LinkedIn, Slack) shows the finished end screen. `video:new` writes it; add it to any project that lacks it

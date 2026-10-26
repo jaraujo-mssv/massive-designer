@@ -2,7 +2,18 @@
 
 Massive Designer (`designer-hub` in package.json) is a set of internal tools that turn spreadsheets and HTML pages
 into on-brand images for Massive. It is one React 18 + TypeScript SPA built with Vite 6, Tailwind CSS v4 and
-shadcn/Radix UI, deployed to Vercel. Each tool is one route.
+shadcn/Radix UI, deployed to Vercel. Each tool is one route. Next to the app, script pipelines render stills, GIFs,
+videos, decks and print, so this repo is where any Massive design gets made.
+
+## Designing something?
+
+**Start with the `massive-design` skill** for any request to make or change a design: a post, carousel, thumbnail,
+GIF, video, deck, poster, one-pager, card, banner or merch. It routes the request to the right pipeline and skill
+(`massive-image`, `massive-gif`, `massive-video`, `massive-deck`, `massive-print`), collects the brief, and says how
+to check and share the result. The brand guide is `brand/BRAND.md`. The person asking may not be an engineer: keep
+design work inside the project folders (`public/image-projects/`, `public/video-projects/`, `scripts/deck/`,
+`scripts/print/`) and leave `src/`, `package.json` and the shared `_brand/` files alone unless they ask. If the
+session starts with "Setup check: … missing", say so before starting work that needs it, and offer `npm run setup`.
 
 ## Rules
 
@@ -75,7 +86,8 @@ npm run preview      # serves dist/, with the image proxy
 | `scripts/merch/`, `public/merch-files/` | Button, pin and sticker artwork (`merch.html`, vendor specs in its header; sticker SVGs in `stickers/`) and its renders, for the Merch tab. |
 | `content/` | Campaign markdown for the Content tool. |
 | `docs/plans/` | One design doc per tool. Where a doc and the code disagree, the code wins. |
-| `.claude/skills/` | `massive-image`, `massive-video`, `massive-gif`, `massive-deck`, `massive-print`. Read the matching one before working on images, videos, GIFs, decks or print. |
+| `.claude/skills/` | `massive-design` (the front door: routes any design request), then `massive-image`, `massive-video`, `massive-gif`, `massive-deck`, `massive-print`. Read the matching one before working on images, videos, GIFs, decks or print. |
+| `brand/` | `BRAND.md`, the brand guide for every new design, and `assets.md`, which logo, background and font to use where. |
 | `originals/` | The first Figma Make exports. Reference only, not built. |
 
 | Tool | Route | Code | Status |

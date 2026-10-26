@@ -1,6 +1,6 @@
 ---
 name: massive-video
-description: Make, edit, port or render a Massive video in this repo's Video tool (HyperFrames projects under public/video-projects). Use when the user asks for a Massive video, explainer, launch teaser, social clip, carousel, voiceover, storyboard or script for the Video tab, or to render one. Covers the script → storyboard → video pipeline, the Massive house style, ElevenLabs narration, and where files go.
+description: Make, edit, port or render a Massive video in this repo's Video tool (HyperFrames projects under public/video-projects). Use when the user asks for a Massive video, explainer, launch teaser, social clip, narrated animation, voiceover, storyboard or script for the Video tab, or to render one. Looping GIFs are massive-gif; LinkedIn document carousels are stills (massive-image). Covers the script → storyboard → video pipeline, the Massive house style, ElevenLabs narration, and where files go.
 ---
 
 # Massive video
@@ -53,9 +53,9 @@ Inside a project folder: `npx hyperframes check` must pass before handing off, a
 1. **Scaffold**: `npm run video:new <id> "<Title>"`. This copies `frame.md`, the house style that
    HyperFrames' creative skills read first. Treat its frontmatter tokens as brand truth.
 2. **Route through `/hyperframes`**, working inside `public/video-projects/<id>`. It runs the intent
-   interview, writes `BRIEF.md`, and picks the workflow (`/faceless-explainer` for narrated explainers,
-   `/product-launch-video` for joinmassive.com or product pages, `/motion-graphics` for short unnarrated
-   hits, `/general-video` otherwise). Follow that workflow's plan → sketch → build review loop.
+   interview, writes `BRIEF.md`, and picks the workflow (a narrated explainer, a product launch from
+   joinmassive.com or a product page, a short unnarrated motion graphic, or a general video), installing
+   that workflow's skill if it's missing. Follow that workflow's plan → sketch → build review loop.
 3. **Storyboard**: `STORYBOARD.md` in HyperFrames format, with one `## Frame N — Title` per
    sub-composition (`scene`, `duration`, `voiceover`, `status`, `src: compositions/…`). This is what
    the tab's Storyboard view shows.

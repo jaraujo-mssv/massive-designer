@@ -24,6 +24,10 @@ shadcn/Radix UI, deployed to Vercel. Each tool is one route.
    dependency bumps. There's no linter or formatter here, so match the file you're in (quotes, comment density,
    naming). Leave alone unless asked: the legacy apps (`src/tools/*-legacy/`), the deprecated tools (Social Media,
    Campaign Designer, Dither) and `originals/`.
+4. **Mono only for code, in every design** (images, videos, GIFs, decks, docs, merch, banners). JetBrains Mono is
+   for commands, file paths, cron lines, API parameters and other code, set in `<code>`, `<pre>` or `.m-code`.
+   Eyebrows, labels, counters, badges and URLs are Outfit, never mono for decoration. `npm run design:mono --
+   <page...>` checks pages under `public/`. `gif:render` refuses a GIF that breaks the rule, and `image:render` warns.
 
 ## Install, run, build
 
@@ -46,7 +50,8 @@ npm run preview      # serves dist/, with the image proxy
   routes, nav entries and code drop out, and `localOnlyPublicDirs()` deletes their `public/` folders from `dist/`.
 - Script commands that render through Playwright Chromium: `image:render`, `deck`, `deck:pptx`, `docs`, `onepager`,
   `menu`, `banners`, `merch`. If Chromium is missing, run `npx playwright install chromium`. Renders go to `output/`
-  (gitignored), except `merch`, which writes to `public/merch-files/` (committed: the live Merch tab serves them).
+  (gitignored), except `merch`, which writes to `public/merch-files/` (committed: the live Merch tab serves them), and
+  `gif:render` (HyperFrames + FFmpeg), which writes each GIF to `public/video-projects/<id>/gif/` (committed).
 - **npm flags go after `--`:** `npm run image:render -- --all`. Before `--`, npm takes the flag for itself.
 
 ## Structure
@@ -61,12 +66,12 @@ npm run preview      # serves dist/, with the image proxy
 | `src/shared/utils/` | Google Sheets loading, image → data URL, Logo.dev, file saving. |
 | `src/styles/` | Design tokens and per-tool CSS (see Brand). |
 | `public/image-projects/`, `scripts/image/` | The Images tool's projects and CLI. |
-| `public/video-projects/`, `scripts/video/` | The Video tool (HyperFrames). |
+| `public/video-projects/`, `scripts/video/` | The Video tool (HyperFrames). LinkedIn GIFs are projects with `"output": "gif"` (`gif:new`, `gif:render`, loop kit in `_gif/`). |
 | `scripts/deck/`, `scripts/docs/`, `scripts/onepager/`, `scripts/menu/`, `scripts/banners/` | HTML → PDF/PNG/PPTX pipelines, no UI. |
 | `scripts/merch/`, `public/merch-files/` | Button, pin and sticker artwork (`merch.html`, vendor specs in its header; sticker SVGs in `stickers/`) and its renders, for the Merch tab. |
 | `content/` | Campaign markdown for the Content tool. |
 | `docs/plans/` | One design doc per tool. Where a doc and the code disagree, the code wins. |
-| `.claude/skills/` | `massive-image`, `massive-video`, `massive-deck`. Read the matching one before working on images, videos or decks. |
+| `.claude/skills/` | `massive-image`, `massive-video`, `massive-gif`, `massive-deck`. Read the matching one before working on images, videos, GIFs or decks. |
 | `originals/` | The first Figma Make exports. Reference only, not built. |
 
 | Tool | Route | Code | Status |
@@ -175,6 +180,12 @@ description, value, rank). `utils/splitName.ts` splits "Name · description". Do
 
 - **Only in the image and video house styles:** paper `#f1ead8` and ink `#171615`. Red-deep `#b8321f` is in the image
   style only; paper-red `#d54635` / `#f3a07a` in the video style only.
+- **Light designs: white cards on a very faint orange ground, not cream.**
+  - Ground: `#fff7f2` (`.m-ground.soft-orange` + `.m-linegrid` in video and GIF projects), a whisper of the logo
+    orange. Plain white is `.m-ground.light`.
+  - Ink type and the paper-red accent.
+  - Keep the tint subtle; stronger orange was too much.
+  - The cream paper reads too close to Claude's palette, so don't start new designs on it.
 - **The deck** (`scripts/deck/deck.css`) differs slightly: text at 72% / 48%, a page background of `#050508`, and no
   mono font.
 - **The logo gradient isn't a token:** `#F69666` → `#F16D65` in `public/logo.svg` and `PresentedBy.tsx`, `#FF9964` →
@@ -184,7 +195,9 @@ description, value, rank). `utils/splitName.ts` splits "Name · description". Do
 **Typography.**
 - **Outfit for everything.** Headings 800/700 (`theme-base.css`), canvas titles 900, rich-text body 300 with bold 900
   (`theme-market-map.css`, `theme-top-list.css`).
-- **JetBrains Mono for code and mono eyebrows** (images and video).
+- **JetBrains Mono only for code** (rule 4): commands, terminal output, file paths, cron lines, API parameters,
+  hashes, inside `<code>`, `<pre>`, `<kbd>`, `<samp>` or `.m-code`. Eyebrows, labels, counters, badges, country codes
+  and URLs are Outfit (uppercase and tracked for labels). Older images and videos break this; don't copy them.
 - **Tailwind:** `font-display` / `font-body` = Outfit, `font-mono` = JetBrains Mono.
 - **Two font loads, both needed:** Google Fonts loads Outfit in `index.html` (400–900) and in `src/styles/fonts.css`
   (300–800). Canvas text is measured in Outfit, so a font change also changes layouts.

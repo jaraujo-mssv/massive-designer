@@ -1,0 +1,10 @@
+{
+  "id": "gif-mcp-live-log",
+  "name": "MCP: live tool calls",
+  "group": "massive",
+  "kind": "native",
+  "status": "draft",
+  "source": "articleTemplates.ts (MCP_ANNOUNCEMENT_X, MCP_ANNOUNCEMENT_LINKEDIN); scripts/banners/banners.config.mjs (05-freshness)",
+  "output": "gif",
+  "alt": "Animated terminal labelled LIVE: an agent's Massive MCP tool calls (/search, /ai, /render, each with a target country) arrive one at a time and resolve with status 200. Headline: Always live. Never cached."
+}

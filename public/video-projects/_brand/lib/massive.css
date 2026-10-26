@@ -2,6 +2,9 @@
  * massive.css — Massive house style for HyperFrames compositions (see _brand/frame.md).
  * Link it from a project's index.html: <link rel="stylesheet" href="lib/massive.css" />
  * Fonts: load Outfit (100..900) and JetBrains Mono (400;600;700) from Google Fonts.
+ * Mono rule: JetBrains Mono only for code and values that need it (commands, paths, cron, parameters),
+ * inside <code>, <pre> or .m-code. Eyebrows, labels, counters and URLs are Outfit. Check a page with
+ * npm run design:mono -- video-projects/<id>.
  */
 :root {
   --m-bg: #0a0a0f;
@@ -32,6 +35,16 @@
   background-color: var(--m-paper);
   color: var(--m-ink);
 }
+/* The light register: white, ink type, paper-red accent. Use it instead of cream, which reads too close to Claude. */
+.m-ground.light {
+  background-color: #ffffff;
+  color: var(--m-ink);
+}
+/* Soft orange: a faint tint of the logo orange (#F69666, about 7% over white), so white cards stand out on it. */
+.m-ground.soft-orange {
+  background-color: #fff7f2;
+  color: var(--m-ink);
+}
 
 .m-dotgrid {
   position: absolute;
@@ -55,7 +68,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  font-family: var(--m-mono);
+  font-family: var(--m-sans);
   font-size: 14px;
   font-weight: 600;
   text-transform: uppercase;
@@ -94,12 +107,20 @@
   color: var(--m-cream-dim);
 }
 .m-label {
-  font-family: var(--m-mono);
+  font-family: var(--m-sans);
   font-size: 16px;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--m-cream-dim);
+}
+/* Code and fixed-width values: the only place for the mono face. */
+code,
+pre,
+kbd,
+samp,
+.m-code {
+  font-family: var(--m-mono);
 }
 .m-accent {
   color: var(--m-red);

@@ -1,22 +1,34 @@
 // Scaffold a new Massive HyperFrames project in public/video-projects/<id>.
 //
 //   node scripts/video/new.mjs <id> "<title>" [--format=landscape|square|portrait|vertical]
+//   node scripts/video/new.mjs --gif <id> "<title>" [--format=portrait|square|wide]   (npm run gif:new)
 //
 // Writes hyperframes.json, meta.json, frame.md (the Massive house style), an
 // index.html host with the house fonts and CSS, a STORYBOARD.md stub and an empty
 // media.json, then syncs lib/ and assets/brand/ in.
+//
+// --gif makes a looping LinkedIn GIF instead: one design in index.html (from
+// _gif/template.html), meta.json "output": "gif", no storyboard, and no
+// posterFromEnd (phase 0 of the loop is the still).
 import { spawnSync } from 'node:child_process';
-import { copyFileSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { GIF_FORMATS } from './lib/gif-spec.mjs';
 import { BRAND_DIR, PROJECTS_DIR, ROOT } from './lib/projects.mjs';
 
-const FORMATS = { landscape: [1920, 1080], square: [1080, 1080], portrait: [1080, 1350], vertical: [1080, 1920] };
+const VIDEO_FORMATS = { landscape: [1920, 1080], square: [1080, 1080], portrait: [1080, 1350], vertical: [1080, 1920] };
 
 const args = process.argv.slice(2);
+const gif = args.includes('--gif');
+const FORMATS = gif ? GIF_FORMATS : VIDEO_FORMATS;
 const [id, title] = args.filter((a) => !a.startsWith('--'));
-const format = args.find((a) => a.startsWith('--format='))?.split('=')[1] ?? 'landscape';
+const format = args.find((a) => a.startsWith('--format='))?.split('=')[1] ?? (gif ? 'portrait' : 'landscape');
 if (!id || !title || !/^[a-z0-9][a-z0-9-]*$/.test(id) || !FORMATS[format]) {
-  console.error('Usage: npm run video:new <kebab-id> "<Title>" [--format=landscape|square|portrait|vertical]');
+  console.error(
+    gif
+      ? 'Usage: npm run gif:new <kebab-id> "<Title>" -- [--format=portrait|square|wide]'
+      : 'Usage: npm run video:new <kebab-id> "<Title>" [--format=landscape|square|portrait|vertical]',
+  );
   process.exit(1);
 }
 const dir = join(PROJECTS_DIR, id);
@@ -26,7 +38,7 @@ if (existsSync(dir)) {
 }
 const [w, h] = FORMATS[format];
 
-mkdirSync(join(dir, 'compositions'), { recursive: true });
+mkdirSync(gif ? dir : join(dir, 'compositions'), { recursive: true });
 writeFileSync(
   join(dir, 'hyperframes.json'),
   `${JSON.stringify(
@@ -40,12 +52,22 @@ writeFileSync(
     2,
   )}\n`,
 );
-writeFileSync(
-  join(dir, 'meta.json'),
-  `${JSON.stringify({ id, name: title, group: 'massive', kind: 'native', status: 'draft', source: null, posterFromEnd: true }, null, 2)}\n`,
-);
+const meta = gif
+  ? { id, name: title, group: 'massive', kind: 'native', status: 'draft', source: null, output: 'gif', alt: '' }
+  : { id, name: title, group: 'massive', kind: 'native', status: 'draft', source: null, posterFromEnd: true };
+writeFileSync(join(dir, 'meta.json'), `${JSON.stringify(meta, null, 2)}\n`);
 writeFileSync(join(dir, 'media.json'), '[]\n');
 copyFileSync(join(BRAND_DIR, 'frame.md'), join(dir, 'frame.md'));
+
+if (gif) {
+  const fill = { id, title, w, h };
+  const html = readFileSync(join(PROJECTS_DIR, '_gif', 'template.html'), 'utf8').replace(/\{\{(\w+)\}\}/g, (_, k) => fill[k]);
+  writeFileSync(join(dir, 'index.html'), html);
+  spawnSync('node', ['scripts/video/sync-brand.mjs', id], { cwd: ROOT, stdio: 'inherit' });
+  console.log(`✓ public/video-projects/${id} (${w}×${h} GIF). Next: design the loop, then npm run gif:render ${id}.`);
+  process.exit(0);
+}
+
 writeFileSync(
   join(dir, 'STORYBOARD.md'),
   `---

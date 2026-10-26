@@ -13,6 +13,8 @@ interface HfPlayerProps {
   height: number;
   controls?: boolean;
   muted?: boolean;
+  loop?: boolean;
+  autoplay?: boolean;
   /** Seek here once the composition is ready (thumbnails stay paused on this frame). */
   at?: number;
   className?: string;
@@ -27,7 +29,7 @@ type PlayerElement = HTMLElement & {
 
 /** React wrapper for the <hyperframes-player> web component (loads the composition in an iframe). */
 export const HfPlayer = forwardRef<HfPlayerHandle, HfPlayerProps>(function HfPlayer(
-  { src, width, height, controls = false, muted = false, at, className },
+  { src, width, height, controls = false, muted = false, loop = false, autoplay = false, at, className },
   ref,
 ) {
   const el = useRef<PlayerElement>(null);
@@ -51,6 +53,8 @@ export const HfPlayer = forwardRef<HfPlayerHandle, HfPlayerProps>(function HfPla
   const flags = {
     ...(controls ? { controls: "" } : {}),
     ...(muted ? { muted: "" } : {}),
+    ...(loop ? { loop: "" } : {}),
+    ...(autoplay ? { autoplay: "" } : {}),
   };
 
   return (

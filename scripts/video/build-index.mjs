@@ -5,25 +5,12 @@
 // For each project it records meta.json, the root composition's size / fps /
 // duration, the parsed STORYBOARD.md (with each frame's start time taken from
 // the host clip that mounts its src), the raw SCRIPT.md and the untracked
-// media the HTML references.
+// media the HTML references. GIF projects (meta.json "output": "gif") also get
+// their alt text and, once rendered, gif/stats.json from `npm run gif:render`.
 import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { parseStoryboard } from '@hyperframes/core/storyboard';
-import { PROJECTS_DIR, listProjects, readJson } from './lib/projects.mjs';
-
-const attr = (tag, name) => tag.match(new RegExp(`${name}="([^"]*)"`))?.[1];
-const num = (v) => (v === undefined ? undefined : Number(v));
-
-function readRoot(html) {
-  const tag = html.match(/<div\b[^>]*data-composition-id="[^"]*"[^>]*>/)?.[0] ?? '';
-  return {
-    compositionId: attr(tag, 'data-composition-id'),
-    width: num(attr(tag, 'data-width')) ?? 1920,
-    height: num(attr(tag, 'data-height')) ?? 1080,
-    fps: num(attr(tag, 'data-fps')) ?? 30,
-    duration: num(attr(tag, 'data-duration')) ?? 0,
-  };
-}
+import { PROJECTS_DIR, attr, listProjects, num, readJson, readRoot } from './lib/projects.mjs';
 
 /** Map of sub-composition src → host data-start (seconds). */
 function hostStarts(html) {
@@ -51,6 +38,18 @@ function mediaRefs(dir) {
     }
   }
   return [...refs].sort();
+}
+
+/** The rendered GIF's stats and URLs (cache-busted by render time), or null before the first render. */
+function gifInfo(id) {
+  const stats = readJson(join(PROJECTS_DIR, id, 'gif', 'stats.json'), null);
+  if (!stats) return null;
+  const v = `?v=${encodeURIComponent(stats.renderedAt)}`;
+  return {
+    ...stats,
+    url: `/video-projects/${id}/gif/${id}.gif${v}`,
+    firstFrameUrl: `/video-projects/${id}/gif/first-frame.jpg${v}`,
+  };
 }
 
 const projects = listProjects().map((id) => {
@@ -89,6 +88,7 @@ const projects = listProjects().map((id) => {
   }
 
   const scriptPath = join(dir, 'SCRIPT.md');
+  const output = meta.output ?? 'mp4';
   return {
     id,
     title: meta.name ?? id,
@@ -102,6 +102,10 @@ const projects = listProjects().map((id) => {
     storyboard,
     script: existsSync(scriptPath) ? readFileSync(scriptPath, 'utf8') : null,
     media: mediaRefs(dir),
+    output,
+    series: meta.series ?? null,
+    alt: meta.alt || null,
+    gif: output === 'gif' ? gifInfo(id) : null,
   };
 });
 

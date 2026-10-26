@@ -1,0 +1,10 @@
+{
+  "id": "gif-opt-in",
+  "name": "Nothing is ticked for you",
+  "group": "massive",
+  "kind": "native",
+  "status": "draft",
+  "source": "public/video-projects/what-does-consent-look-like/SCRIPT.md (line 13); content/legends/brief.md",
+  "output": "gif",
+  "alt": "Animated settings card on cream paper: the Share idle bandwidth switch starts off. A cursor switches it on, bandwidth dots flow from this device to the Massive network, then it is switched off again. Headline: Nothing is ticked for you. You reach out and choose it. Tagline: Asked, not taken."
+}

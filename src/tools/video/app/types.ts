@@ -28,6 +28,31 @@ export interface Storyboard {
   warnings: { message: string }[];
 }
 
+/** One LinkedIn check from gif/stats.json (limits in scripts/video/lib/gif-spec.mjs). */
+export interface GifCheck {
+  label: string;
+  value: string;
+  limit: string;
+  ok: boolean;
+}
+
+/** A rendered GIF, from gif/stats.json as written by `npm run gif:render`. */
+export interface GifInfo {
+  bytes: number;
+  frames: number;
+  fps: number;
+  width: number;
+  height: number;
+  duration: number;
+  colors: number;
+  dither: string;
+  renderedAt: string;
+  checks: GifCheck[];
+  /** Cache-busted URLs of the GIF and its first frame. */
+  url: string;
+  firstFrameUrl: string;
+}
+
 export interface VideoProject {
   id: string;
   title: string;
@@ -48,6 +73,14 @@ export interface VideoProject {
   script: string | null;
   /** Untracked media the project needs (assets/…), synced locally with `npm run video:media`. */
   media: string[];
+  /** "gif" = a looping LinkedIn GIF (meta.json "output": "gif"), shown in the GIFs section. */
+  output: "mp4" | "gif";
+  /** A set of GIFs that belong together, e.g. "Archive machines" (meta.json "series"). */
+  series: string | null;
+  /** LinkedIn alt text (GIFs). */
+  alt: string | null;
+  /** The rendered GIF, or null before the first `npm run gif:render`. */
+  gif: GifInfo | null;
 }
 
 /** One person's version of a template: its composition variables, from a local JSON file (dev server only). */
@@ -72,6 +105,7 @@ type HfPlayerAttributes = DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLEle
   controls?: string;
   muted?: string;
   loop?: string;
+  autoplay?: string;
 };
 
 declare module "react" {

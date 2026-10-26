@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ChevronRight, Film, Lock, Search, User, X } from "lucide-react";
+import { ChevronRight, Film, ImagePlay, Lock, Search, User, X } from "lucide-react";
 import { BRAND_LABELS, KIND_LABELS } from "../constants";
 import type { MediaStatus } from "../hooks/useMediaStatus";
 import type { VideoProject, VideoVariant } from "../types";
@@ -15,7 +15,7 @@ interface LibraryProps {
   inDrawer?: boolean;
 }
 
-type Filter = "all" | "massive" | "templates" | "team";
+type Filter = "all" | "massive" | "gifs" | "templates" | "team";
 
 /** A project and the variants to list under it after search and filtering. */
 interface Entry {
@@ -26,6 +26,19 @@ interface Entry {
 interface Section {
   title: string;
   groups: { label: string; entries: Entry[] }[];
+}
+
+const isGif = (p: VideoProject) => p.output === "gif";
+
+const GIF_SHAPES = ["Portrait 4:5", "Square 1:1", "Wide 1.91:1"];
+
+/** LinkedIn's three GIF shapes, by aspect ratio. */
+function gifShape(p: VideoProject) {
+  const r = p.width / p.height;
+  if (Math.abs(r - 0.8) < 0.01) return "Portrait 4:5";
+  if (Math.abs(r - 1) < 0.01) return "Square 1:1";
+  if (Math.abs(r - 1.91) < 0.01) return "Wide 1.91:1";
+  return `${p.width}×${p.height}`;
 }
 
 function sections(entries: Entry[]): Section[] {
@@ -39,10 +52,17 @@ function sections(entries: Entry[]): Section[] {
       title: "Massive",
       // New videos first, then ports.
       groups: byKey(
-        entries.filter((e) => e.project.group === "massive"),
+        entries.filter((e) => e.project.group === "massive" && !isGif(e.project)),
         (p) => p.kind,
         (k) => KIND_LABELS[k] ?? k,
       ).sort((a, b) => Number(a.label !== "New") - Number(b.label !== "New")),
+    },
+    {
+      title: "GIFs",
+      // A series keeps its GIFs together (in id order); loose GIFs go under their LinkedIn shape.
+      groups: byKey(entries.filter((e) => isGif(e.project)), (p) => p.series ?? gifShape(p), (k) => k).sort(
+        (a, b) => (GIF_SHAPES.indexOf(a.label) + 1 || 0) - (GIF_SHAPES.indexOf(b.label) + 1 || 0),
+      ),
     },
     {
       title: "Templates",
@@ -58,7 +78,7 @@ function sections(entries: Entry[]): Section[] {
 const haystack = (...parts: (string | null | undefined)[]) => parts.filter(Boolean).join(" ").toLowerCase();
 
 const projectText = (p: VideoProject) =>
-  haystack(p.title, p.id, p.status, p.brand && BRAND_LABELS[p.brand], KIND_LABELS[p.kind], p.group);
+  haystack(p.title, p.id, p.status, p.brand && BRAND_LABELS[p.brand], KIND_LABELS[p.kind], p.group, isGif(p) ? "gif linkedin" : null, p.series);
 
 const variantText = (v: VideoVariant) =>
   haystack(v.title, v.subtitle, v.id, ...Object.values(v.variables).map((x) => (typeof x === "string" ? x : null)));
@@ -73,7 +93,8 @@ function filterEntries(
   const matches = (text: string) => terms.every((t) => text.includes(t));
   return projects.flatMap((project) => {
     const all = variants[project.id] ?? [];
-    if (filter === "massive" && project.group !== "massive") return [];
+    if (filter === "massive" && (project.group !== "massive" || isGif(project))) return [];
+    if (filter === "gifs" && !isGif(project)) return [];
     if (filter === "templates" && project.group !== "templates") return [];
     if (filter === "team" && all.length === 0) return [];
     if (!terms.length) return [{ project, variants: all }];
@@ -86,6 +107,11 @@ function filterEntries(
 
 const fmtDuration = (s: number) => (s >= 60 ? `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, "0")}` : `${Math.round(s * 10) / 10}s`);
 
+const fmtMeta = (p: VideoProject) =>
+  isGif(p)
+    ? `${p.width}×${p.height} · ${fmtDuration(p.duration)} · ${p.gif ? `${(p.gif.bytes / 1e6).toFixed(2)} MB` : "not rendered"} · ${p.status}`
+    : `${p.width}×${p.height} · ${p.fps}fps · ${fmtDuration(p.duration)} · ${p.status}`;
+
 export function Library({ projects, variants, selectedId, selectedVariant, media, onSelect, inDrawer = false }: LibraryProps) {
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<Filter>("all");
@@ -96,6 +122,7 @@ export function Library({ projects, variants, selectedId, selectedVariant, media
   const filters: { id: Filter; label: string }[] = [
     { id: "all", label: "All" },
     { id: "massive", label: "Massive" },
+    { id: "gifs", label: "GIFs" },
     { id: "templates", label: "Templates" },
     ...(hasVariants ? [{ id: "team" as const, label: "Team" }] : []),
   ];
@@ -215,7 +242,11 @@ export function Library({ projects, variants, selectedId, selectedVariant, media
                             active ? "bg-surface-2 border border-brand/30" : "border border-transparent hover:bg-surface-2"
                           }`}
                         >
-                          <Film className={`w-4 h-4 mt-0.5 shrink-0 ${active ? "text-brand-light" : "text-text-dim"}`} />
+                          {isGif(p) ? (
+                            <ImagePlay className={`w-4 h-4 mt-0.5 shrink-0 ${active ? "text-brand-light" : "text-text-dim"}`} />
+                          ) : (
+                            <Film className={`w-4 h-4 mt-0.5 shrink-0 ${active ? "text-brand-light" : "text-text-dim"}`} />
+                          )}
                           <span className="flex-1 min-w-0">
                             <span className="flex items-center gap-1.5">
                               <span className="text-sm text-text-primary truncate">{p.title}</span>
@@ -223,9 +254,7 @@ export function Library({ projects, variants, selectedId, selectedVariant, media
                                 <Lock className="w-3 h-3 text-text-dim shrink-0" aria-label="Media not synced" />
                               )}
                             </span>
-                            <span className="block text-[11px] text-text-dim font-mono">
-                              {p.width}×{p.height} · {p.fps}fps · {fmtDuration(p.duration)} · {p.status}
-                            </span>
+                            <span className="block text-[11px] text-text-dim font-mono">{fmtMeta(p)}</span>
                           </span>
                         </button>
                         {allCount > 0 && (

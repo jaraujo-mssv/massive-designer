@@ -1,0 +1,10 @@
+{
+  "id": "gif-195-countries",
+  "name": "195+ countries, one API",
+  "group": "massive",
+  "kind": "native",
+  "status": "draft",
+  "source": "scripts/banners/banners.config.mjs (banner 03-scale)",
+  "output": "gif",
+  "alt": "Animated map: a red \"One API\" node at the bottom sends requests along arcs to countries on a dotted world map, each lighting up as a request lands. Headline: 195+ countries. One API."
+}

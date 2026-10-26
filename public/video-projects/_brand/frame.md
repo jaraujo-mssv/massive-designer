@@ -5,7 +5,7 @@ description: >
   Massive's house style for HyperFrames videos, taken from the designer's tokens
   (src/styles/theme-base.css) and the ported brand videos. Dark register by default:
   near-black ground, cream type, one red accent. The cream register is for editorial
-  carousels (the AEO set). Outfit carries every text role; JetBrains Mono is chrome only.
+  carousels (the AEO set). Outfit carries every text role; JetBrains Mono is for code only.
 unit: the frame — 1920×1080 primary; 1080×1080, 1080×1350 and 1080×1920 documented
 principle: one accent · type does the work · every number comes from the script
 colors:
@@ -32,9 +32,9 @@ typography:
   lead: { fontFamily: "Outfit", px: 36, weight: 400, lineHeight: 1.3 }
   body: { fontFamily: "Outfit", px: 26, weight: 400, lineHeight: 1.4 }
   stat: { fontFamily: "Outfit", px: 360, weight: 900, lineHeight: 0.86, tracking: "-0.05em" }
-  eyebrow: { fontFamily: "JetBrains Mono", px: 14, weight: 600, tracking: "0.08em", upper: true }
-  label: { fontFamily: "JetBrains Mono", px: 16, weight: 600, tracking: "0.08em", upper: true }
-  code: { fontFamily: "JetBrains Mono", px: 25, weight: 400, lineHeight: 1.6 }
+  eyebrow: { fontFamily: "Outfit", px: 14, weight: 600, tracking: "0.08em", upper: true }
+  label: { fontFamily: "Outfit", px: 16, weight: 600, tracking: "0.08em", upper: true }
+  code: { fontFamily: "JetBrains Mono", px: 25, weight: 400, lineHeight: 1.6, use: "code and fixed-width values only" }
 spacing:
   pad-x: "100px"
   pad-y: "96px"
@@ -45,7 +45,8 @@ components:
   registers:
     dark: "ground {colors.bg}, text {colors.cream}, secondary {colors.cream-dim}, accent {colors.red} / {colors.red-light}"
     cream: "ground {colors.paper}, text {colors.ink}, accent {colors.paper-red}, decoration {colors.paper-red-light} at 25% opacity"
-    description: "One register per video. Dark is the default; cream is for editorial stat carousels."
+    light: "ground #fff7f2 (.m-ground.soft-orange, a faint tint of the logo orange; plain white is .m-ground.light), cards #ffffff with an ink border at 14%, text {colors.ink}, accent {colors.paper-red}, line grid {colors.paper-grid}"
+    description: "One register per video. Dark is the default. For a light design use light (.m-ground.light), not cream: cream reads too close to Claude's palette."
   dot-grid:
     background: "radial-gradient(circle, {colors.dot} 1.5px, transparent 1.5px) at 72px, opacity 0.18"
     description: "The dark register's ground texture. Paper register uses a 60px 1px line grid in {colors.paper-grid}."
@@ -80,8 +81,10 @@ components:
 Massive's videos explain infrastructure to builders, so they read like a confident technical
 brief: **near-black ground, cream type, one red accent**, and a lot of air. Outfit carries
 every text role, and weight does the talking: 900 for the line that matters, 300–400 for
-everything around it. JetBrains Mono is the only other face and appears as chrome (eyebrows,
-URLs, labels, terminal output), always uppercase and tracked when it's a label.
+everything around it. JetBrains Mono is the only other face, and **only for code**: commands,
+terminal output, file paths, cron lines, API parameters, hashes, set in `<code>`, `<pre>` or
+`.m-code`. Eyebrows, labels, counters, badges and URLs are Outfit (uppercase and tracked when it's a
+label). `npm run design:mono -- video-projects/<id>` checks a page.
 
 **Key characteristics:**
 

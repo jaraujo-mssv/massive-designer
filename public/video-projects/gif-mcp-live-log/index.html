@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1200, height=628" />
+    <title>MCP: live tool calls</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=JetBrains+Mono:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="lib/loop-kit.js"></script>
+    <link rel="stylesheet" href="lib/frame-kit.css" />
+    <link rel="stylesheet" href="lib/massive.css" />
+    <style>
+      /* No background on html, body or #stage: the GIF capture makes them transparent.
+         The ground is the .m-ground child below. */
+      html,
+      body {
+        width: 1200px;
+        height: 628px;
+        overflow: hidden;
+      }
+      #stage {
+        position: relative;
+        width: 1200px;
+        height: 628px;
+        overflow: hidden;
+        color: var(--m-cream);
+        font-family: var(--m-sans);
+      }
+      .copy {
+        position: absolute;
+        left: 56px;
+        top: 64px;
+        width: 440px;
+      }
+      .copy h1 {
+        margin-top: 24px;
+        font-size: 62px;
+        font-weight: 900;
+        line-height: 1.02;
+        letter-spacing: -0.04em;
+      }
+      .copy p {
+        margin-top: 24px;
+        font-size: 25px;
+        line-height: 1.35;
+        color: var(--m-cream-mid);
+      }
+      .copy p code {
+        font-family: var(--m-mono);
+        font-size: 22px;
+        font-weight: 600;
+        color: var(--m-red-light);
+      }
+      .logo {
+        position: absolute;
+        left: 56px;
+        bottom: 56px;
+        height: 30px;
+      }
+      .term {
+        position: absolute;
+        left: 540px;
+        top: 64px;
+        width: 604px;
+        height: 500px;
+        border-radius: 18px;
+        border: 1px solid rgba(215, 73, 57, 0.4);
+        background: var(--m-surface);
+        overflow: hidden;
+        font-family: var(--m-sans);
+      }
+      .term .bar {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        height: 52px;
+        padding: 0 22px;
+        border-bottom: 1px solid var(--m-border);
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--m-cream-dim);
+      }
+      .term .bar i {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: rgba(250, 244, 236, 0.16);
+      }
+      .term .bar .name {
+        margin-left: 10px;
+      }
+      .term .bar .live {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        letter-spacing: 0.08em;
+        color: var(--m-red-light);
+      }
+      .term .bar .live span {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--m-red);
+      }
+      .log {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 53px;
+        height: 446px; /* exactly eight rows: the ninth waits below, out of sight */
+        overflow: hidden;
+      }
+      .row {
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 54px;
+        display: flex;
+        align-items: center;
+        padding: 0 22px;
+        font-size: 19px;
+        white-space: nowrap;
+      }
+      .row .tool {
+        width: 104px;
+        font-weight: 700;
+        color: var(--m-red-light);
+      }
+      .row .arg {
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: var(--m-cream);
+      }
+      .row .geo {
+        width: 44px;
+        color: var(--m-cream-dim);
+      }
+      .row .status {
+        width: 44px;
+        text-align: right;
+        font-weight: 700;
+        color: var(--m-cream-mid);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Massive MCP's three tools as an agent calls them (copy: articleTemplates.ts, MCP_ANNOUNCEMENT_X and
+         MCP_ANNOUNCEMENT_LINKEDIN; headline: banner 05-freshness in scripts/banners/banners.config.mjs).
+         The log steps up one row at a time, eight times a loop, and the newest call resolves; it never scrolls
+         continuously, which would blow LinkedIn's 5 MB. No latencies or counts: nothing here is a stat. -->
+    <div id="stage" data-composition-id="gif-mcp-live-log" data-start="0" data-duration="5" data-fps="15" data-width="1200" data-height="628">
+      <div class="m-ground"></div>
+      <div class="copy">
+        <div class="m-eyebrow">Massive MCP</div>
+        <h1>Always live.<br />Never cached.</h1>
+        <p><code>/ai</code>, <code>/search</code> and <code>/render</code> as native tool calls inside Claude, Cursor, Windsurf, or any MCP host.</p>
+      </div>
+      <img class="logo" src="assets/brand/logo-white.svg" alt="Massive" />
+      <div class="term">
+        <div class="bar"><i></i><i></i><i></i><span class="name"><code>massive-mcp</code></span><span class="live"><span id="dot"></span>LIVE</span></div>
+        <div class="log m-code" id="log"></div>
+      </div>
+    </div>
+    <script>
+      (() => {
+        const { step, clamp, ease, wave } = LoopKit;
+        // [tool, argument, country]. The list cycles, so after eight steps the log shows what it started with.
+        const CALLS = [
+          ["/search", '"best running shoes"', "US"],
+          ["/ai", 'chatgpt "compare crm tools"', "GB"],
+          ["/render", "example.com/pricing", "DE"],
+          ["/search", '"hotel prices paris"', "FR"],
+          ["/ai", 'perplexity "ev market news"', "JP"],
+          ["/render", "example.com/products", "BR"],
+          ["/search", '"ai overviews"', "IN"],
+          ["/ai", 'gemini "summarize reviews"', "AU"],
+        ];
+        const N = CALLS.length;
+        const VISIBLE = 8;
+        const H = 54;
+        const SLIDE = 0.3; // share of a step spent sliding up
+        const RESOLVE = 0.7; // share of a step before the newest call answers
+
+        const log = document.getElementById("log");
+        const dot = document.getElementById("dot");
+        const rows = Array.from({ length: VISIBLE + 1 }, () => {
+          const row = document.createElement("div");
+          row.className = "row";
+          row.setAttribute("data-layout-allow-overflow", ""); // rows slide out of the log's clip
+          row.innerHTML = '<span class="tool"></span><span class="arg"></span><span class="geo"></span><span class="status"></span>';
+          log.appendChild(row);
+          return { row, tool: row.children[0], arg: row.children[1], geo: row.children[2], status: row.children[3] };
+        });
+
+        // Slot k shows call (i - 7 + k); slot 8 is the newest, sliding in from below during step i.
+        function render(p) {
+          const { i, u } = step(p, N);
+          const shift = ease.inOut(clamp(u / SLIDE));
+          rows.forEach((r, k) => {
+            const [tool, arg, geo] = CALLS[(((i - VISIBLE + 1 + k) % N) + N) % N];
+            r.tool.textContent = tool;
+            r.arg.textContent = arg;
+            r.geo.textContent = geo;
+            const newest = k === VISIBLE;
+            r.status.textContent = newest && u < RESOLVE ? "···" : "200";
+            const y = 7 + (k - shift) * H;
+            r.row.style.top = `${y}px`;
+            r.row.style.visibility = y + H <= 0 || y >= VISIBLE * H ? "hidden" : "visible"; // out of the log's clip
+            r.row.style.background = newest ? `rgba(215, 73, 57, ${0.12 * (1 - clamp((u - RESOLVE) / (1 - RESOLVE)))})` : "transparent";
+          });
+          dot.style.opacity = 0.3 + 0.7 * wave(p, 5, 0.5);
+        }
+
+        const tl = gsap.timeline({ paused: true });
+        LoopKit.drive(tl, document.getElementById("stage"), render);
+        window.__timelines["gif-mcp-live-log"] = tl;
+      })();
+    </script>
+  </body>
+</html>

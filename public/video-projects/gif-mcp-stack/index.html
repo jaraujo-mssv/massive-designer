@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1080" />
+    <title>MCP: one npm install</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=JetBrains+Mono:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="lib/loop-kit.js"></script>
+    <link rel="stylesheet" href="lib/frame-kit.css" />
+    <link rel="stylesheet" href="lib/massive.css" />
+    <style>
+      /* No background on html, body or #stage: the GIF capture makes them transparent.
+         The ground is the .m-ground child below. */
+      html,
+      body {
+        width: 1080px;
+        height: 1080px;
+        overflow: hidden;
+      }
+      #stage {
+        position: relative;
+        width: 1080px;
+        height: 1080px;
+        overflow: hidden;
+        color: var(--m-cream);
+        font-family: var(--m-sans);
+      }
+      .copy {
+        position: absolute;
+        left: 80px;
+        right: 80px;
+        top: 92px;
+      }
+      .copy h1 {
+        margin-top: 28px;
+        font-size: 80px;
+        font-weight: 900;
+        line-height: 1.02;
+        letter-spacing: -0.04em;
+      }
+      .copy h1 .dim {
+        color: var(--m-cream-dim);
+        font-weight: 700;
+      }
+      .state {
+        position: absolute;
+        left: 80px;
+        top: 412px;
+        font-family: var(--m-sans);
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--m-red-light);
+      }
+      .card {
+        position: absolute;
+        left: 80px;
+        top: 460px;
+        width: 920px;
+        height: 340px;
+        border-radius: 20px;
+        border: 1px solid rgba(215, 73, 57, 0.4);
+        background: var(--m-surface);
+        padding: 0 40px;
+        transform-origin: 50% 50%;
+      }
+      .card .bar {
+        display: flex;
+        gap: 10px;
+        padding: 26px 0 0;
+      }
+      .card .bar i {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: rgba(250, 244, 236, 0.16);
+      }
+      .card .cmd {
+        margin-top: 44px;
+        font-family: var(--m-mono);
+        font-size: 31px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .card .cmd b {
+        color: var(--m-red-light);
+        margin-right: 18px;
+      }
+      .card .adds {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-top: 52px;
+        font-family: var(--m-sans);
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--m-cream-dim);
+      }
+      .card .adds .tool {
+        font-family: var(--m-mono);
+        padding: 10px 18px;
+        border-radius: 12px;
+        background: rgba(215, 73, 57, 0.16);
+        color: var(--m-red-light);
+        font-size: 26px;
+        letter-spacing: 0;
+        text-transform: none;
+      }
+      .chip {
+        position: absolute;
+        left: 80px;
+        width: 920px;
+        height: 72px;
+        display: flex;
+        align-items: center;
+        gap: 22px;
+        padding: 0 32px;
+        border-radius: 16px;
+        border: 1px solid rgba(250, 244, 236, 0.12);
+        background: var(--m-card);
+        font-size: 34px;
+        font-weight: 600;
+        transform-origin: 50% 50%;
+      }
+      .chip i {
+        width: 14px;
+        height: 14px;
+        border-radius: 4px;
+        background: var(--m-red);
+        flex-shrink: 0;
+      }
+      .chip em {
+        margin-left: auto;
+        font-style: normal;
+        font-family: var(--m-sans);
+        font-size: 17px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--m-cream-dim);
+      }
+      .foot {
+        position: absolute;
+        left: 80px;
+        right: 80px;
+        bottom: 56px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .foot img {
+        height: 32px;
+      }
+      .foot span {
+        font-family: var(--m-sans);
+        font-size: 20px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        color: var(--m-cream-dim);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Massive MCP collapses the stack into one npm install (copy: MCP_ANNOUNCEMENT_LINKEDIN in
+         src/tools/campaign-designer/app/components/templates/articles/articleTemplates.ts).
+         Phase 0 is the payoff: the install card. It opens into the five things you'd otherwise
+         maintain, holds, then collapses back. -->
+    <div id="stage" data-composition-id="gif-mcp-stack" data-start="0" data-duration="5" data-fps="15" data-width="1080" data-height="1080">
+      <div class="m-ground"></div>
+      <div class="m-dotgrid"></div>
+      <div class="copy">
+        <div class="m-eyebrow">Massive MCP</div>
+        <h1>One npm install.<br /><span class="dim">Not five things<br />to maintain.</span></h1>
+      </div>
+      <div class="state" id="state">With Massive MCP</div>
+      <div class="card" id="card">
+        <div class="bar"><i></i><i></i><i></i></div>
+        <div class="cmd m-code"><b>$</b>npm install -g @joinmassive/mcp-server</div>
+        <div class="adds">Adds <code class="tool">/ai</code><code class="tool">/search</code><code class="tool">/render</code></div>
+      </div>
+      <div class="chip" data-layout-allow-overlap><i></i>Proxies<em data-layout-allow-overlap>maintain</em></div>
+      <div class="chip" data-layout-allow-overlap><i></i>Browser pools<em data-layout-allow-overlap>maintain</em></div>
+      <div class="chip" data-layout-allow-overlap><i></i>Captcha solvers<em data-layout-allow-overlap>maintain</em></div>
+      <div class="chip" data-layout-allow-overlap><i></i>Geo routing<em data-layout-allow-overlap>maintain</em></div>
+      <div class="chip" data-layout-allow-overlap><i></i>SERP parser<em data-layout-allow-overlap>maintain</em></div>
+      <div class="foot">
+        <img src="assets/brand/logo-white.svg" alt="Massive" />
+        <span>joinmassive.com</span>
+      </div>
+    </div>
+    <script>
+      (() => {
+        const { seq, ease, lerp } = LoopKit;
+        const card = document.getElementById("card");
+        const state = document.getElementById("state");
+        const chips = [...document.querySelectorAll(".chip")];
+        const TOP = 460;
+        const CARD_MID = TOP + 340 / 2; // the chips collapse into the card's middle
+        const GAP = 86; // chip height + gap
+
+        // 0 = collapsed (the install card), 1 = open (the five chips). Open 1.4–2.1 s, close 3.6–4.3 s.
+        const OPEN = [0.28, 0.42];
+        const CLOSE = [0.72, 0.86];
+        const STAGGER = 0.014;
+
+        function render(p) {
+          const whole = seq(p, [[0, 0], [OPEN[0], 0], [OPEN[1], 1], [CLOSE[0], 1], [CLOSE[1], 0], [1, 0]]);
+          card.style.opacity = 1 - Math.min(1, whole * 2.5); // gone before the chips cross its text
+          card.style.transform = `scale(${lerp(1, 0.94, whole)})`;
+          state.textContent = whole > 0.5 ? "Without it" : "With Massive MCP";
+
+          chips.forEach((chip, i) => {
+            const din = i * STAGGER;
+            const dout = (chips.length - 1 - i) * STAGGER;
+            const k = seq(p, [[0, 0], [OPEN[0] + din, 0], [OPEN[1] + din, 1], [CLOSE[0] - dout, 1], [CLOSE[1] - dout, 0], [1, 0]], ease.inOut);
+            const y = lerp(CARD_MID - 36, TOP + i * GAP, k);
+            chip.style.top = `${y}px`;
+            chip.style.opacity = Math.min(1, k * 1.6);
+            chip.style.transform = `scale(${lerp(0.7, 1, k)})`;
+          });
+        }
+
+        const tl = gsap.timeline({ paused: true });
+        LoopKit.drive(tl, document.getElementById("stage"), render);
+        window.__timelines["gif-mcp-stack"] = tl;
+      })();
+    </script>
+  </body>
+</html>

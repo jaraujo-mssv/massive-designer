@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1350" />
+    <title>Nothing is ticked for you</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=JetBrains+Mono:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="lib/loop-kit.js"></script>
+    <link rel="stylesheet" href="lib/frame-kit.css" />
+    <link rel="stylesheet" href="lib/massive.css" />
+    <style>
+      /* No background on html, body or #stage: the GIF capture makes them transparent.
+         The ground is the .m-ground.paper child below. */
+      html,
+      body {
+        width: 1080px;
+        height: 1350px;
+        overflow: hidden;
+      }
+      #stage {
+        position: relative;
+        width: 1080px;
+        height: 1350px;
+        overflow: hidden;
+        color: var(--m-ink);
+        font-family: var(--m-sans);
+      }
+      .m-eyebrow {
+        color: var(--m-ink);
+      }
+      .m-eyebrow::before {
+        background-color: var(--m-paper-red);
+      }
+      .copy {
+        position: absolute;
+        left: 80px;
+        right: 80px;
+        top: 100px;
+      }
+      .copy h1 {
+        margin-top: 30px;
+        font-size: 104px;
+        font-weight: 900;
+        line-height: 1;
+        letter-spacing: -0.04em;
+      }
+      .copy p {
+        margin-top: 30px;
+        font-size: 36px;
+        line-height: 1.3;
+        color: rgba(23, 22, 21, 0.72);
+      }
+      .card {
+        position: absolute;
+        left: 80px;
+        right: 80px;
+        top: 500px;
+        padding: 44px 48px;
+        border-radius: 24px;
+        border: 1px solid rgba(23, 22, 21, 0.14);
+        background: var(--m-cream);
+      }
+      .card h2 {
+        font-size: 36px;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+      }
+      .card .lede {
+        margin-top: 12px;
+        font-size: 26px;
+        line-height: 1.4;
+        color: rgba(23, 22, 21, 0.68);
+      }
+      .setting {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        margin-top: 34px;
+        padding-top: 34px;
+        border-top: 1px solid rgba(23, 22, 21, 0.1);
+      }
+      .setting .text {
+        flex: 1;
+      }
+      .setting .name {
+        font-size: 32px;
+        font-weight: 600;
+      }
+      .setting .sub {
+        margin-top: 6px;
+        font-size: 24px;
+        color: rgba(23, 22, 21, 0.62);
+      }
+      .toggle {
+        position: relative;
+        width: 116px;
+        height: 64px;
+        border-radius: 32px;
+        background: #d6cdbb;
+        flex-shrink: 0;
+      }
+      .toggle .on {
+        position: absolute;
+        inset: 0;
+        border-radius: 32px;
+        background: var(--m-paper-red);
+      }
+      .toggle .knob {
+        position: absolute;
+        top: 7px;
+        left: 7px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: #fff;
+      }
+      .pill {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 20px;
+        border-radius: 22px;
+        font-family: var(--m-sans);
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+      .pill i {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+      }
+      .flow {
+        position: absolute;
+        left: 80px;
+        right: 80px;
+        top: 1052px;
+        height: 40px;
+        font-family: var(--m-sans);
+        font-size: 19px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: rgba(23, 22, 21, 0.66);
+      }
+      .flow .from,
+      .flow .to {
+        position: absolute;
+        top: 8px;
+      }
+      .flow .to {
+        right: 0;
+      }
+      .flow .line {
+        position: absolute;
+        left: 190px;
+        right: 236px;
+        top: 19px;
+        border-top: 2px dashed rgba(23, 22, 21, 0.2);
+      }
+      .flow .pkt {
+        position: absolute;
+        top: 12px;
+        width: 16px;
+        height: 16px;
+        margin-left: -8px;
+        border-radius: 50%;
+        background: var(--m-paper-red);
+      }
+      .tagline {
+        position: absolute;
+        left: 80px;
+        top: 1140px;
+        font-size: 64px;
+        font-weight: 900;
+        letter-spacing: -0.03em;
+        color: var(--m-paper-red);
+      }
+      .foot {
+        position: absolute;
+        left: 80px;
+        right: 80px;
+        bottom: 56px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .foot img {
+        height: 34px;
+      }
+      .foot span {
+        font-family: var(--m-sans);
+        font-size: 20px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        color: rgba(23, 22, 21, 0.62);
+      }
+      .cursor {
+        position: absolute;
+        z-index: 2;
+        left: 0;
+        top: 0;
+        width: 46px;
+        height: 62px;
+        transform-origin: 0 0;
+      }
+      .click {
+        position: absolute;
+        z-index: 1;
+        left: 58px;
+        top: 32px;
+        width: 80px;
+        height: 80px;
+        margin: -40px 0 0 -40px;
+        border-radius: 50%;
+        border: 3px solid var(--m-paper-red);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- "Nothing is ticked for you. You reach out and choose it." (what-does-consent-look-like/SCRIPT.md,
+         line 13) and "Asked, not taken." (content/legends/brief.md). The settings card follows that video's
+         bandwidth switch (compositions/06-pc-settings.html). Phase 0 is the still: the switch is off.
+         The cursor turns sharing on, bandwidth flows, then it's switched off again, because consent can be
+         taken back. -->
+    <div id="stage" data-composition-id="gif-opt-in" data-start="0" data-duration="5" data-fps="15" data-width="1080" data-height="1350">
+      <div class="m-ground paper"></div>
+      <div class="m-linegrid"></div>
+      <div class="copy">
+        <div class="m-eyebrow">Consent</div>
+        <h1>Nothing is ticked<br />for you.</h1>
+        <p>You reach out and choose it.</p>
+      </div>
+      <div class="card">
+        <h2>Bandwidth exchange</h2>
+        <div class="lede">This app is free because it shares a portion of your idle bandwidth.</div>
+        <div class="setting">
+          <div class="text">
+            <div class="name">Share idle bandwidth</div>
+            <div class="sub" id="state">Off. Nothing is shared.</div>
+          </div>
+          <div class="toggle" id="toggle">
+            <div class="on" id="on"></div>
+            <div class="knob" id="knob"></div>
+            <!-- The cursor and its click ring live in the switch's box, so nothing is measured. -->
+            <div class="click" id="click"></div>
+            <svg class="cursor" id="cursor" viewBox="0 0 30 40" aria-hidden="true">
+              <path d="M2 2 L2 32 L10 25 L15.5 37 L21 34.5 L15.5 23 L26 23 Z" fill="#171615" stroke="#fff" stroke-width="2.4" stroke-linejoin="round" />
+            </svg>
+          </div>
+        </div>
+        <div class="setting">
+          <div class="text">
+            <div class="name">Exchange status</div>
+          </div>
+          <div class="pill" id="pill"><i id="pill-dot"></i><span id="pill-word">Paused</span></div>
+        </div>
+      </div>
+      <div class="flow">
+        <span class="from">This device</span>
+        <div class="line"></div>
+        <span class="to">Massive network</span>
+        <div id="pkts"></div>
+      </div>
+      <div class="tagline">Asked, not taken.</div>
+      <div class="foot">
+        <img src="assets/brand/logo-positive.svg" alt="Massive" />
+        <span>joinmassive.com</span>
+      </div>
+    </div>
+    <script>
+      (() => {
+        const { seq, ease, clamp, frac, lerp } = LoopKit;
+        const $ = (id) => document.getElementById(id);
+        const on = $("on"), knob = $("knob"), state = $("state");
+        const pill = $("pill"), pillDot = $("pill-dot"), pillWord = $("pill-word");
+        const cursor = $("cursor"), click = $("click");
+
+        // In the switch's box: its middle, and where the cursor waits below it.
+        const HOT = [58, 32];
+        const REST = [102, 182];
+        // The dashed line in .flow (920 wide): left 190, right 236.
+        const LINE = [190, 920 - 236];
+
+        const PKTS = 5;
+        const pkts = Array.from({ length: PKTS }, () => {
+          const d = document.createElement("div");
+          d.className = "pkt";
+          $("pkts").appendChild(d);
+          return d;
+        });
+
+        // Clicks at 1.4 s (on) and 3.7 s (off), as loop phases.
+        const ON_AT = 0.28, OFF_AT = 0.74, THROW = 0.04;
+
+        function render(p) {
+          // Cursor: rest → switch → (click on) → hold → (click off) → rest.
+          const go = seq(p, [[0, 0], [0.12, 0], [0.26, 1], [0.8, 1], [0.94, 0], [1, 0]]);
+          const x = lerp(REST[0], HOT[0], go), y = lerp(REST[1], HOT[1], go);
+          const press = Math.max(1 - Math.abs(p - ON_AT) / 0.02, 1 - Math.abs(p - OFF_AT) / 0.02, 0);
+          cursor.style.transform = `translate(${x - 4}px, ${y - 4}px) scale(${1 - 0.12 * press})`;
+
+          // The click ring, after each press.
+          const since = Math.min(frac(p - ON_AT), frac(p - OFF_AT));
+          const r = clamp(since / 0.1);
+          click.style.opacity = since < 0.1 ? 0.8 * (1 - r) : 0;
+          click.style.transform = `scale(${0.4 + 0.8 * ease.out(r)})`;
+
+          // The switch.
+          const share = seq(p, [[0, 0], [ON_AT, 0], [ON_AT + THROW, 1], [OFF_AT, 1], [OFF_AT + THROW, 0], [1, 0]]);
+          const sharing = share >= 0.5;
+          on.style.opacity = share;
+          knob.style.left = `${7 + 52 * share}px`;
+          state.textContent = sharing ? "On. You chose to share." : "Off. Nothing is shared.";
+          pill.style.background = sharing ? "rgba(213, 70, 53, 0.14)" : "rgba(23, 22, 21, 0.06)";
+          pillDot.style.background = sharing ? "var(--m-paper-red)" : "rgba(23, 22, 21, 0.35)";
+          pillWord.style.color = sharing ? "#9e2d1f" : "rgba(23, 22, 21, 0.62)";
+          pillWord.textContent = sharing ? "Sharing" : "Paused";
+
+          // Bandwidth flows only while it's on: 10 trips per loop, so the dots line up again at p = 1.
+          pkts.forEach((d, i) => {
+            const u = frac(p * 10 + i / PKTS);
+            d.style.left = `${lerp(LINE[0], LINE[1], u)}px`;
+            d.style.opacity = share * Math.min(1, u / 0.1, (1 - u) / 0.1);
+          });
+        }
+
+        const tl = gsap.timeline({ paused: true });
+        LoopKit.drive(tl, $("stage"), render);
+        window.__timelines["gif-opt-in"] = tl;
+      })();
+    </script>
+  </body>
+</html>

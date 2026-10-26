@@ -1,0 +1,10 @@
+{
+  "id": "gif-mcp-stack",
+  "name": "MCP: one npm install",
+  "group": "massive",
+  "kind": "native",
+  "status": "draft",
+  "source": "src/tools/campaign-designer/app/components/templates/articles/articleTemplates.ts (MCP_ANNOUNCEMENT_LINKEDIN)",
+  "output": "gif",
+  "alt": "Animated card: a terminal running npm install -g @joinmassive/mcp-server, which adds /ai, /search and /render. It opens into five things you would otherwise maintain (proxies, browser pools, captcha solvers, geo routing, a SERP parser) and collapses back. Headline: One npm install. Not five things to maintain."
+}

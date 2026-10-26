@@ -10,6 +10,8 @@
 //
 // Projects with "posterFromEnd": true in meta.json get their last frame copied over frame 0, so
 // players and file browsers that thumbnail the first frame show the finished shot.
+//
+// --all skips GIF projects (meta.json "output": "gif"; see gif.mjs). Name one to get an MP4 of its loop.
 import { spawnSync } from 'node:child_process';
 import { existsSync, mkdirSync, renameSync, rmSync } from 'node:fs';
 import { join, resolve } from 'node:path';
@@ -68,8 +70,10 @@ function posterFromEnd(output) {
 run('node', ['scripts/video/sync-brand.mjs', ...ids], ROOT);
 mkdirSync(OUTPUT_DIR, { recursive: true });
 
+const isGif = (id) => readJson(join(PROJECTS_DIR, id, 'meta.json'), {}).output === 'gif';
+
 let failed = false;
-for (const id of pickProjects(ids)) {
+for (const id of pickProjects(ids).filter((id) => ids.length || !isGif(id))) {
   const dir = join(PROJECTS_DIR, id);
   const missing = readJson(join(dir, 'media.json'), []).filter(({ to }) => !existsSync(join(dir, to)));
   if (missing.length) {

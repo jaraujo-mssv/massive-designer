@@ -4,6 +4,7 @@ import { FilmStrip } from "@phosphor-icons/react";
 import { Toaster } from "sonner";
 import { SidebarLayout } from "@/shared/components/SidebarLayout";
 import { useIsMobile } from "@/shared/components/ui/use-mobile";
+import { GifPane } from "./components/GifPane";
 import { Library } from "./components/Library";
 import { PreviewPane } from "./components/PreviewPane";
 import { RenderCommand } from "./components/RenderCommand";
@@ -30,6 +31,8 @@ export default function App() {
   const view = (VIEWS.some((v) => v.id === params.get("view")) ? params.get("view") : "preview") as VideoView;
   const project = projects.find((p) => p.id === params.get("v")) ?? projects[0] ?? null;
   const variant = (project && variants[project.id]?.find((x) => x.id === params.get("variant"))) || null;
+  // GIFs are one looping design: no script or storyboard, so no view switch and ?view= is ignored.
+  const isGif = project?.output === "gif";
   // A person's version is the template served with their variables injected (dev server only).
   const playerSrc = project ? (variant ? `${project.path}?variant=${encodeURIComponent(variant.id)}` : project.path) : "";
 
@@ -98,7 +101,7 @@ export default function App() {
         onDrawerOpenChange={setLibraryOpen}
         editLabel="Library"
         editIcon={FilmStrip}
-        barAction={project ? viewSwitch : undefined}
+        barAction={project && !isGif ? viewSwitch : undefined}
       >
         <div className="flex-1 min-w-0 min-h-0 flex flex-col">
           {project && (
@@ -111,8 +114,8 @@ export default function App() {
               </div>
               {!isMobile && (
                 <>
-                  {viewSwitch}
-                  <RenderCommand id={project.id} variant={variant} />
+                  {!isGif && viewSwitch}
+                  <RenderCommand id={project.id} variant={variant} gif={isGif} />
                 </>
               )}
             </div>
@@ -129,9 +132,10 @@ export default function App() {
             {index.status === "ready" && !project && (
               <p className="p-4 md:p-8 text-sm text-text-dim">No video projects yet.</p>
             )}
-            {project && view === "script" && <ScriptPane project={project} />}
-            {project && view === "storyboard" && <StoryboardPane project={project} src={playerSrc} onOpen={openAt} />}
-            {project && view === "preview" && (
+            {project && isGif && <GifPane project={project} />}
+            {project && !isGif && view === "script" && <ScriptPane project={project} />}
+            {project && !isGif && view === "storyboard" && <StoryboardPane project={project} src={playerSrc} onOpen={openAt} />}
+            {project && !isGif && view === "preview" && (
               <PreviewPane project={project} src={playerSrc} media={media[project.id]} startAt={startAt} />
             )}
           </div>

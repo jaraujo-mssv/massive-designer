@@ -8,7 +8,8 @@ description: Make, edit, port or render a Massive video in this repo's Video too
 Videos in this repo are **HyperFrames** projects (HTML + one paused GSAP timeline per
 composition), shown read-only in the Video tab (`/video`) and rendered locally. **Never add
 Remotion** or any `@remotion/*` package, including HyperFrames' Remotion interop pattern:
-Remotion's company license rules it out.
+Remotion's company license rules it out. Looping LinkedIn GIFs (one design, a few moving parts) are HyperFrames
+projects too, with their own pipeline: use the `massive-gif` skill.
 
 ## Where things live
 
@@ -23,7 +24,8 @@ Remotion's company license rules it out.
 - `meta.json`: `{ id, name, group: "massive" | "templates", kind: "native" | "port" | "template", brand, status, source }`.
   **Every video sets `"posterFromEnd": true`**: the render copies the last frame over frame 0, so the file's
   thumbnail (LinkedIn, Slack) shows the finished end screen. `video:new` writes it; add it to any project that lacks it
-  before rendering.
+  before rendering. GIF projects (`"output": "gif"`) are the exception: a seamless loop has no end screen, so their
+  phase 0 is designed as the still instead (see `massive-gif`).
 - `public/video-projects/index.json`: the tab's catalogue. **Regenerate with `npm run video:index` after any change.**
 
 ## Commands (Node 22+: run `nvm use` first; the repo's `.nvmrc` pins 24)
@@ -67,7 +69,9 @@ Inside a project folder: `npx hyperframes check` must pass before handing off, a
    short SFX, pre-mix them into one bed that spans the whole video (see the welcome template).
 6. **Build**: one sub-composition per storyboard frame (`<template>`-wrapped, root
    `data-composition-id` = host id = `window.__timelines` key). Link `lib/massive.css` and use its
-   `m-*` classes and tokens. Asset paths are root-relative even inside `compositions/`
+   `m-*` classes and tokens. **JetBrains Mono only for code** (commands, terminal output, paths), in `<code>`,
+   `<pre>` or `.m-code`; eyebrows, labels and URLs are Outfit (CLAUDE.md rule 4). Older videos use mono labels;
+   don't copy that. Check a page with `npm run design:mono -- video-projects/<id>`. Asset paths are root-relative even inside `compositions/`
    (`assets/…`, never `../assets/…`). Make ids and SVG def ids unique across the whole page.
 7. **Finish**: `npx hyperframes check` passes; snapshots inspected; `npm run video:index`; the user
    reviews it in the tab or Studio. Render only after they approve (`npm run video:render <id>`).

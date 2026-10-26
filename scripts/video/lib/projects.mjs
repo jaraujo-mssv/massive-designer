@@ -34,3 +34,18 @@ export function readJson(path, fallback) {
   if (!existsSync(path)) return fallback;
   return JSON.parse(readFileSync(path, 'utf8'));
 }
+
+export const attr = (tag, name) => tag.match(new RegExp(`${name}="([^"]*)"`))?.[1];
+export const num = (v) => (v === undefined ? undefined : Number(v));
+
+/** The root composition's id, size, fps and duration, from the first data-composition-id div. */
+export function readRoot(html) {
+  const tag = html.match(/<div\b[^>]*data-composition-id="[^"]*"[^>]*>/)?.[0] ?? '';
+  return {
+    compositionId: attr(tag, 'data-composition-id'),
+    width: num(attr(tag, 'data-width')) ?? 1920,
+    height: num(attr(tag, 'data-height')) ?? 1080,
+    fps: num(attr(tag, 'data-fps')) ?? 30,
+    duration: num(attr(tag, 'data-duration')) ?? 0,
+  };
+}

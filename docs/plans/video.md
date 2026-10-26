@@ -13,6 +13,24 @@
 - Compositions must set `window.__timelines = window.__timelines || {}`, because the embedded player injects the runtime late. FrameKit does this.
 - With media missing, the player still loads and seeks; images and audio are just absent.
 
+### LinkedIn GIFs (added 2026-10-26)
+- **What a GIF project is:** a project with `meta.json` `"output": "gif"`. It is one design in `index.html` with a
+  few moving parts and no scenes, drawn by a pure `render(p)` of the loop phase through
+  `_gif/lib/loop-kit.js`. The `.claude/skills/massive-gif/` skill has the format and the rules.
+- **Commands:**
+  - `npm run gif:new` scaffolds one from `_gif/template.html`.
+  - `npm run gif:render` (`scripts/video/gif.mjs`) captures a PNG sequence with HyperFrames.
+    - It encodes with FFmpeg, stepping the palette down until the file is under LinkedIn's 5 MB.
+    - It checks the result against `scripts/video/lib/gif-spec.mjs`.
+    - It writes `<id>/gif/{<id>.gif, first-frame.jpg, stats.json}`. Those files are committed.
+- **Why our own encode:** HyperFrames' `--format gif` has no colour cap or size check.
+- **The ground must be a child element:** the PNG and GIF capture forces `html`, `body` and the root transparent.
+- **`posterFromEnd` doesn't apply:** phase 0 of the loop is designed as the still instead.
+- **The tab:** a GIFs section, grouped by LinkedIn shape, and a GIFs filter. A GIF project opens `GifPane`
+  instead of the Script/Storyboard/Preview views. `GifPane` shows the live HTML next to the rendered GIF, plus the
+  checks, the first frame, the alt text and a download link.
+- **Demos:** `gif-195-countries`, `gif-mcp-stack`, `gif-mcp-live-log`, `gif-opt-in`.
+
 ## Context
 Massive's video work lives in two sibling repos:
 - **remotion-playground** holds 22 Massive-branded Remotion videos, each hand-built.

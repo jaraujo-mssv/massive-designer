@@ -2,10 +2,12 @@ import { Copy, Terminal } from "lucide-react";
 import { toast } from "sonner";
 import type { VideoVariant } from "../types";
 
-export function RenderCommand({ id, variant }: { id: string; variant: VideoVariant | null }) {
-  const command = variant
-    ? `npm run video:render -- ${id} --variables-file ${variant.file} --name ${variant.renderName}`
-    : `npm run video:render ${id}`;
+export function RenderCommand({ id, variant, gif = false }: { id: string; variant: VideoVariant | null; gif?: boolean }) {
+  const command = gif
+    ? `npm run gif:render ${id}`
+    : variant
+      ? `npm run video:render -- ${id} --variables-file ${variant.file} --name ${variant.renderName}`
+      : `npm run video:render ${id}`;
   const copy = async () => {
     try {
       await navigator.clipboard.writeText(command);

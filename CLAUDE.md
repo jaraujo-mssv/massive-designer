@@ -27,7 +27,8 @@ shadcn/Radix UI, deployed to Vercel. Each tool is one route.
 4. **Mono only for code, in every design** (images, videos, GIFs, decks, docs, merch, banners). JetBrains Mono is
    for commands, file paths, cron lines, API parameters and other code, set in `<code>`, `<pre>` or `.m-code`.
    Eyebrows, labels, counters, badges and URLs are Outfit, never mono for decoration. `npm run design:mono --
-   <page...>` checks pages under `public/`. `gif:render` refuses a GIF that breaks the rule, and `image:render` warns.
+   <page...>` checks pages under `public/` or `scripts/`. `gif:render` refuses a GIF that breaks the rule, and
+   `image:render` and `print` warn.
 
 ## Install, run, build
 

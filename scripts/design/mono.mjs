@@ -9,6 +9,8 @@
 //
 // A page is a path under public/, with or without the public/ prefix; a folder means its index.html:
 //   npm run design:mono -- video-projects/gif-opt-in image-projects/jason-15k-grid
+// or a page under scripts/ (decks, docs, print, merch), with or without .html:
+//   npm run design:mono -- scripts/print/meetup-poster scripts/deck/consent-sourcing.html
 //
 // gif.mjs refuses to render a GIF that breaks the rule; image/render.mjs warns.
 import { createReadStream, existsSync, statSync } from 'node:fs';
@@ -19,6 +21,7 @@ import { chromium } from 'playwright';
 
 const ROOT = resolve(fileURLToPath(import.meta.url), '../../..');
 const PUBLIC = join(ROOT, 'public');
+const SCRIPTS = join(ROOT, 'scripts');
 export const MONO_ALLOWED = 'code, pre, kbd, samp, .m-code';
 
 const TYPES = {
@@ -50,18 +53,29 @@ export function monoMisuse(page) {
   }, MONO_ALLOWED);
 }
 
-/** "video-projects/x", "public/video-projects/x/index.html" → path under public/ of an HTML file. */
+/** "video-projects/x", "public/video-projects/x/index.html" → path under public/ of an HTML file;
+ *  "scripts/print/x" → scripts/print/x.html. */
 const toPage = (p) => {
-  let rel = normalize(p).replace(/^public\//, '').replace(/\/$/, '');
+  let rel = normalize(p).replace(/\/$/, '');
+  if (rel.startsWith('scripts/')) return rel.endsWith('.html') ? rel : `${rel}.html`;
+  rel = rel.replace(/^public\//, '');
   if (!rel.endsWith('.html')) rel = `${rel}/index.html`;
   return rel;
 };
 
-/** Open each page from a local server over public/ and return { page: problems[] } for the ones that break the rule. */
+/** URL path → file: /scripts/… and /public/… from the repo root (scripts' pages link ../../public/…), else public/. */
+const toFile = (pathname) => {
+  const rel = decodeURIComponent(pathname).replace(/^\/+/, '');
+  return normalize(/^(scripts|public)\//.test(rel) ? join(ROOT, rel) : join(PUBLIC, rel));
+};
+const inside = (dir, file) => !relative(dir, file).startsWith('..');
+
+/** Open each page from a local server over public/ and scripts/ and return { page: problems[] } for the ones that
+ *  break the rule. */
 export async function checkMono(pages) {
   const server = createServer((req, res) => {
-    const file = normalize(join(PUBLIC, decodeURIComponent(new URL(req.url, 'http://x').pathname)));
-    if (relative(PUBLIC, file).startsWith('..') || !existsSync(file) || statSync(file).isDirectory()) {
+    const file = toFile(new URL(req.url, 'http://x').pathname);
+    if (!(inside(PUBLIC, file) || inside(SCRIPTS, file)) || !existsSync(file) || statSync(file).isDirectory()) {
       res.writeHead(404).end();
       return;
     }
@@ -75,7 +89,12 @@ export async function checkMono(pages) {
   try {
     for (const p of pages.map(toPage)) {
       const page = await browser.newPage({ viewport: { width: 1920, height: 1920 } });
-      await page.goto(`${base}/${p}`, { waitUntil: 'networkidle' });
+      const res = await page.goto(`${base}/${p}`, { waitUntil: 'networkidle' });
+      if (!res?.ok()) {
+        results[p] = [{ where: 'page', text: 'not found' }];
+        await page.close();
+        continue;
+      }
       await page.evaluate(() => document.fonts.ready);
       const problems = await monoMisuse(page);
       if (problems.length) results[p] = problems;
@@ -97,7 +116,7 @@ export function formatMono(results) {
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   const pages = process.argv.slice(2);
   if (!pages.length) {
-    console.error('Usage: npm run design:mono -- <page or project folder under public/...>');
+    console.error('Usage: npm run design:mono -- <page or project folder under public/, or a page under scripts/...>');
     process.exit(1);
   }
   const results = await checkMono(pages);

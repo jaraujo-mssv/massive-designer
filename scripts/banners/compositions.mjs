@@ -7,7 +7,6 @@ import { dirname, resolve } from "node:path";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(__dirname, "..", "..");
-const landingRepo = "/Users/jochi/Code/Massive/massive-new-landing";
 
 const iconDataUri = (filename) => {
   const buf = readFileSync(resolve(repoRoot, "public", "web-render-api", filename));
@@ -15,7 +14,8 @@ const iconDataUri = (filename) => {
 };
 
 const worldMapSvg = (() => {
-  const path = resolve(landingRepo, "public", "images", "brand-assets", "world-map.svg");
+  // Copied from massive-new-landing/public/images/brand-assets/world-map.svg
+  const path = resolve(__dirname, "_assets", "world-map.svg");
   if (!existsSync(path)) return null;
   return readFileSync(path, "utf8")
     .replace(/<\?xml[^?]*\?>/, "")

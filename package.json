@@ -7,6 +7,8 @@
     "build": "vite build",
     "dev": "vite",
     "preview": "vite preview",
+    "setup": "node scripts/setup/doctor.mjs --fix",
+    "doctor": "node scripts/setup/doctor.mjs",
     "banners": "node scripts/banners/render.mjs",
     "banners:html": "node scripts/banners/html.mjs",
     "onepager": "node scripts/onepager/render.mjs",

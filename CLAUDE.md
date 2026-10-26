@@ -33,6 +33,8 @@ shadcn/Radix UI, deployed to Vercel. Each tool is one route.
 
 ```bash
 npm install          # Node 24 (.nvmrc). A SessionStart hook in .claude/settings.json runs this for you.
+npm run doctor       # what this machine is missing (FFmpeg, Chromium, HyperFrames, keys), in plain language
+npm run setup        # the same check, then installs what it can
 npm run dev          # http://localhost:5173
 npm run build        # vite build → dist/
 npm run preview      # serves dist/, with the image proxy
@@ -49,7 +51,7 @@ npm run preview      # serves dist/, with the image proxy
 - **Dev server only:** Video and Content work on local files. In a build `import.meta.env.DEV` is false, so their
   routes, nav entries and code drop out, and `localOnlyPublicDirs()` deletes their `public/` folders from `dist/`.
 - Script commands that render through Playwright Chromium: `image:render`, `deck`, `deck:pptx`, `docs`, `onepager`,
-  `menu`, `banners`, `merch`. If Chromium is missing, run `npx playwright install chromium`. Renders go to `output/`
+  `menu`, `banners`, `merch`. If Chromium is missing, `npm run setup` installs it. Renders go to `output/`
   (gitignored), except `merch`, which writes to `public/merch-files/` (committed: the live Merch tab serves them), and
   `gif:render` (HyperFrames + FFmpeg), which writes each GIF to `public/video-projects/<id>/gif/` (committed).
 - **npm flags go after `--`:** `npm run image:render -- --all`. Before `--`, npm takes the flag for itself.

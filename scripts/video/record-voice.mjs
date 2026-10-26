@@ -1,6 +1,8 @@
 // Record a project's narration with ElevenLabs in ONE request (one performance).
 //
-//   ELEVENLABS_API_KEY=… node scripts/video/record-voice.mjs <project-id> [--dry-run]
+//   node scripts/video/record-voice.mjs <project-id> [--dry-run]
+//
+// Key: ELEVENLABS_API_KEY, from the environment or the repo-root .env.
 //
 // Reads the spoken (4-space indented) blocks of the project's SCRIPT.md, sends them
 // joined by blank lines to /with-timestamps, and writes:
@@ -13,6 +15,7 @@ import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { loadEnv } from '../content/lib/env.mjs';
 import { PROJECTS_DIR, pickProjects } from './lib/projects.mjs';
 
 export const VOICE_SETTINGS = {
@@ -90,8 +93,9 @@ console.log(`[voice] ${id}: ${lines.length} lines, ${text.length} characters, on
 console.log(`[voice]   ${VOICE_SETTINGS.voiceName} · ${VOICE_SETTINGS.modelId} · seed ${VOICE_SETTINGS.seed}`);
 if (args.includes('--dry-run')) process.exit(0);
 
+loadEnv();
 const KEY = process.env.ELEVENLABS_API_KEY;
-if (!KEY) die('ELEVENLABS_API_KEY is not set.');
+if (!KEY) die('ELEVENLABS_API_KEY is not set (in the environment or .env).');
 
 const res = await fetch(
   `https://api.elevenlabs.io/v1/text-to-speech/${VOICE_SETTINGS.voiceId}/with-timestamps?output_format=${VOICE_SETTINGS.outputFormat}`,

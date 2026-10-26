@@ -3,11 +3,14 @@
 //   node scripts/image/render.mjs <project-id...>
 //   node scripts/image/render.mjs --all
 //   node scripts/image/render.mjs <project-id> --fields '<json>' [--name <out>]
+//   node scripts/image/render.mjs <project-id...> --pdf <name>
 //
 // Pages are served from public/ on a local port (image-kit fetches meta.json, which file:// blocks),
 // opened in headless Chromium, and captured once image-kit marks <html data-ready="1">.
 // --fields overrides field values (e.g. '{"name":"Ana"}') and --name sets the output file;
 // overridden renders don't touch the project's thumb.jpg.
+// --pdf also joins the renders, in the order given, into output/images/<name>.pdf: one page per image,
+// for a LinkedIn document carousel. The images must all be the same size.
 //
 // Each page is also checked against the mono rule (scripts/design/mono.mjs): monospace only for code.
 // Images made before the rule only warn.
@@ -23,10 +26,11 @@ const valueOf = (flag) => {
   const i = args.indexOf(flag);
   return i === -1 ? undefined : args[i + 1];
 };
-const VALUE_FLAGS = ['--fields', '--name'];
+const VALUE_FLAGS = ['--fields', '--name', '--pdf'];
 const ids = args.filter((a, i) => !a.startsWith('--') && !VALUE_FLAGS.includes(args[i - 1]));
 const fields = valueOf('--fields');
 const outName = valueOf('--name');
+const pdfName = valueOf('--pdf');
 if ((fields || outName) && ids.length !== 1) {
   console.error('--fields and --name need exactly one project id.');
   process.exit(1);
@@ -67,6 +71,7 @@ const base = `http://127.0.0.1:${server.address().port}`;
 mkdirSync(OUTPUT_DIR, { recursive: true });
 const browser = await chromium.launch();
 let failed = 0;
+const rendered = [];
 try {
   for (const id of projects) {
     const meta = readJson(join(PROJECTS_DIR, id, 'meta.json'), {});
@@ -84,6 +89,7 @@ try {
       const out = join(OUTPUT_DIR, `${outName ?? id}.jpg`);
       const jpg = await page.locator('#canvas').screenshot({ type: 'jpeg', quality: 95 });
       writeFileSync(out, jpg);
+      rendered.push({ id, jpg, width, height });
 
       if (!fields) {
         // Thumbnail: the render drawn small in a blank page.
@@ -100,6 +106,24 @@ try {
       console.error(`✗ ${id}: ${err.message}`);
     } finally {
       await page.close();
+    }
+  }
+  if (pdfName && !failed) {
+    const [{ width, height }] = rendered;
+    const odd = rendered.filter((r) => r.width !== width || r.height !== height).map((r) => r.id);
+    if (odd.length) {
+      console.error(`✗ --pdf needs images of one size; ${odd.join(', ')} differ from ${width}×${height}.`);
+      failed++;
+    } else {
+      const page = await browser.newPage();
+      const imgs = rendered.map((r) => `<img src="data:image/jpeg;base64,${r.jpg.toString('base64')}">`).join('');
+      await page.setContent(
+        `<style>@page{size:${width}px ${height}px;margin:0}body{margin:0}img{display:block;width:${width}px;height:${height}px;break-after:page}img:last-child{break-after:auto}</style>${imgs}`,
+      );
+      const out = join(OUTPUT_DIR, `${pdfName}.pdf`);
+      await page.pdf({ path: out, preferCSSPageSize: true, printBackground: true });
+      await page.close();
+      console.log(`✓ ${relative(ROOT, out)} · ${rendered.length} pages`);
     }
   }
 } finally {

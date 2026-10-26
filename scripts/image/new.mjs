@@ -1,11 +1,14 @@
 // Scaffold a Massive image project in public/image-projects/<id>.
 //
-//   node scripts/image/new.mjs <id> "<title>" [--format=portrait|square|landscape|vertical|x] [--category=<id>]
+//   node scripts/image/new.mjs <id> "<title>" [--format=<format> | --size=<W>x<H>] [--light] [--category=<id>]
 //   node scripts/image/new.mjs <id> "<title>" --from=<existing-id> [--category=<id>]
 //   node scripts/image/new.mjs [<id> "<title>"] --plan=<planned-id>
 //
 // A blank project gets an index.html with #canvas at the format's size, the house CSS and image-kit,
-// a meta.json with one example field, and an empty assets/. --from copies an existing project
+// a meta.json with one example field, and an empty assets/. Formats: portrait 1080×1350, square, landscape,
+// vertical (story), x (1200×675), og (link previews, 1200×630), youtube (thumbnail, 1280×720) and
+// linkedin-cover (1128×191); --size=<W>x<H> takes any other size. --light starts on the light register
+// (brand/BRAND.md) instead of the dark one. --from copies an existing project
 // (page, assets and fields) as a starting point, under the new id and title, and records the layout it's
 // built on as `template`: the source itself if it's a template, else the source's own template.
 // --plan starts a Planned entry from planned.json: its id, title, category and series, its template (copied
@@ -20,6 +23,9 @@ const FORMATS = {
   landscape: [1920, 1080],
   vertical: [1080, 1920],
   x: [1200, 675],
+  og: [1200, 630],
+  youtube: [1280, 720],
+  'linkedin-cover': [1128, 191],
 };
 
 // planned.json says "story" for 1080×1920; new.mjs has always called it "vertical".
@@ -38,11 +44,13 @@ if (planId && !plan) {
 const [id = plan?.id, title = plan?.title] = args.filter((a) => !a.startsWith('--'));
 const planTemplate = plan?.template && !plan.template.startsWith('video:') && plan.template !== 'new' ? plan.template : null;
 const format = flag('format') ?? PLAN_FORMATS[plan?.formats?.[0]] ?? 'portrait';
+const size = flag('size')?.match(/^(\d+)x(\d+)$/);
+const light = args.includes('--light');
 const from = flag('from') ?? planTemplate;
 const category = flag('category') ?? plan?.category;
-if (!id || !title || !/^[a-z0-9][a-z0-9-]*$/.test(id) || !FORMATS[format]) {
+if (!id || !title || !/^[a-z0-9][a-z0-9-]*$/.test(id) || (!size && !FORMATS[format]) || (flag('size') && !size)) {
   console.error(
-    `Usage: npm run image:new <kebab-id> "<Title>" [--format=${Object.keys(FORMATS).join('|')}] [--from=<id>] [--category=<id>] [--plan=<planned-id>]`,
+    `Usage: npm run image:new <kebab-id> "<Title>" [--format=${Object.keys(FORMATS).join('|')} | --size=<W>x<H>] [--light] [--from=<id>] [--category=<id>] [--plan=<planned-id>]`,
   );
   process.exit(1);
 }
@@ -68,7 +76,10 @@ if (from) {
   writeFileSync(join(dir, 'meta.json'), `${JSON.stringify(next, null, 2)}\n`);
   console.log(`✓ public/image-projects/${id} (from ${from})`);
 } else {
-  const [w, h] = FORMATS[format];
+  const [w, h] = size ? [Number(size[1]), Number(size[2])] : FORMATS[format];
+  // The headline and margin shrink on short or narrow canvases (a LinkedIn cover is 191 px tall).
+  const fontSize = Math.round(Math.min(120, w / 9, h / 3));
+  const pad = Math.round(Math.min(80, h / 6));
   mkdirSync(join(dir, 'assets'), { recursive: true });
   writeFileSync(
     join(dir, 'meta.json'),
@@ -108,10 +119,10 @@ if (from) {
       }
       .headline {
         position: absolute;
-        left: 80px;
-        right: 80px;
-        top: 80px;
-        font-size: 120px;
+        left: ${pad}px;
+        right: ${pad}px;
+        top: ${pad}px;
+        font-size: ${fontSize}px;
         font-weight: 900;
         line-height: 1.05;
         letter-spacing: -0.045em;
@@ -119,8 +130,8 @@ if (from) {
     </style>
   </head>
   <body>
-    <div id="canvas">
-      <div class="m-dotgrid"></div>
+    <div id="canvas"${light ? ' class="soft-orange"' : ''}>
+      <div class="${light ? 'm-linegrid' : 'm-dotgrid'}"></div>
       <div class="headline" data-field="headline">${title}</div>
     </div>
     <script src="../_lib/image-kit.js"></script>

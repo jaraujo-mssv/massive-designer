@@ -1,6 +1,6 @@
 ---
 name: massive-image
-description: Make, edit or render a Massive static image in this repo's Images tool (HTML image projects under public/image-projects). Use when the user asks for a static image, still, social image, post graphic, card, banner, or a still version of a video for the Images tab, or wants an image turned into a reusable template. Covers the project format, editable fields, the Massive house style, rendering to JPG, and where files go.
+description: Make, edit or render a Massive static image in this repo's Images tool (HTML image projects under public/image-projects). Use when the user asks for a static image, still, social image, post graphic, LinkedIn or X post image, LinkedIn carousel (document post), link preview / OG image, YouTube thumbnail, LinkedIn cover, email header, web banner or ad, profile card, or a still version of a video for the Images tab, or wants an image turned into a reusable template. Not for printed pieces or roll-up banners (massive-print). Covers the project format, editable fields, the Massive house style, rendering to JPG, and where files go.
 ---
 
 # Massive image
@@ -43,12 +43,15 @@ of references and templates, so write each one to be reused: clean markup, the h
 
 | Command | Does |
 |---|---|
-| `npm run image:new <id> "<Title>" [--format=portrait\|square\|landscape\|vertical\|x]` | Scaffold a blank project (1080×1350, 1080×1080, 1920×1080, 1080×1920, 1200×675) |
+| `npm run image:new <id> "<Title>" -- [--format=portrait\|square\|landscape\|vertical\|x\|og\|youtube\|linkedin-cover]` | Scaffold a blank project (1080×1350, 1080×1080, 1920×1080, 1080×1920, 1200×675; link preview 1200×630, YouTube thumbnail 1280×720, LinkedIn company cover 1128×191) |
+| `npm run image:new <id> "<Title>" -- --size=<W>x<H>` | Any other size (email header, web banner, ad). It shows under "Other" in the tab |
+| `npm run image:new … --light` | Start on the light register (`#canvas.soft-orange` + `.m-linegrid`) instead of the dark one |
 | `npm run image:new <id> "<Title>" --from=<id>` | Start from an existing project (page, assets, fields); records it as `template` |
 | `npm run image:new … --category=<id>` | Set the category while scaffolding |
 | `npm run image:new -- --plan=<planned-id>` | Start a Planned entry: its id, title, category, series, template and first format; it leaves `planned.json` |
 | `npm run image:render <id…> \| --all` | Render to `output/images/<id>.jpg` at 2× and refresh `thumb.jpg` |
 | `npm run image:render <id> --fields '<json>' --name <out>` | Render with overridden fields (no thumb change) |
+| `npm run image:render <id…> -- --pdf <name>` | Also join the renders, in order, into `output/images/<name>.pdf` (one page each, same size): a LinkedIn document carousel |
 | `npm run image:index` | Rebuild `index.json` for the tab |
 
 ## meta.json
@@ -159,3 +162,7 @@ The tab exports in the browser with modern-screenshot; `image:render` uses Playw
 3. `npm run image:render <id>` and **look at `output/images/<id>.jpg`**. Compare it against the source if there is one
    (a video's `snapshots/`). Iterate.
 4. `npm run image:index`, then check it in `/images`: edit a field, then Download JPG.
+
+**A LinkedIn carousel** (a document post) is a series of portrait images, one project per page
+(`<name>-01`, `<name>-02`, …) with the same `series` in `meta.json`. Start page 2 onwards `--from` page 1 so they share
+the layout, then `npm run image:render <name>-01 <name>-02 … -- --pdf <name>` and post `output/images/<name>.pdf`.

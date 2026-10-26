@@ -102,6 +102,7 @@ const CHECKS = [
   {
     name: 'Video media',
     for: 're-rendering the existing videos',
+    optional: true,
     ok: () => projectsMissingMedia().length === 0,
     detail: () => `missing in ${projectsMissingMedia().join(', ')}`,
     fix: ['npm', ['run', 'video:media']],

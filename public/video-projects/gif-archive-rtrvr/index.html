@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1350" />
+    <title>rtrvr.ai · The changelogs you depend on, kept.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=JetBrains+Mono:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="lib/loop-kit.js"></script>
+    <script src="lib/scenes.js"></script>
+    <link rel="stylesheet" href="lib/frame-kit.css" />
+    <link rel="stylesheet" href="lib/massive.css" />
+    <link rel="stylesheet" href="lib/scenes.css" />
+    <style>
+      /* No background on html, body or #stage: the GIF capture makes them transparent. */
+      html,
+      body {
+        width: 1080px;
+        height: 1350px;
+        overflow: hidden;
+      }
+      #stage {
+        position: relative;
+        width: 1080px;
+        height: 1350px;
+        overflow: hidden;
+      }
+      .page .h {
+        position: absolute;
+        left: 28px;
+        top: 18px;
+        font-size: 28px;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+      }
+      .entry {
+        position: absolute;
+        left: 14px;
+        right: 14px;
+        height: 70px;
+        padding: 10px 14px;
+        border-radius: 12px;
+      }
+      .entry .glow {
+        position: absolute;
+        inset: 0;
+        border-radius: 12px;
+        background: var(--m-paper-red-light);
+        opacity: 0;
+      }
+      .entry .t {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 19px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .entry .t code {
+        font-size: 15px;
+        font-weight: 700;
+        padding: 2px 8px;
+        border-radius: 6px;
+        background: rgba(23, 22, 21, 0.07);
+      }
+      .entry .ln {
+        position: relative;
+        height: 8px;
+        margin-top: 12px;
+        border-radius: 4px;
+        background: rgba(23, 22, 21, 0.14);
+      }
+      .read {
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: var(--m-paper-red);
+      }
+      .feed .sc-head {
+        position: absolute;
+        left: 22px;
+        top: 16px;
+      }
+      .feed .grp {
+        position: absolute;
+        left: 22px;
+        font-size: 16px;
+        font-weight: 600;
+        color: rgba(23, 22, 21, 0.76);
+      }
+      .clip {
+        position: absolute;
+        width: 332px;
+        height: 76px;
+        padding: 12px 14px;
+        border-radius: 12px;
+        border: 2px solid rgba(23, 22, 21, 0.16);
+        background: #ffffff;
+      }
+      .clip.old {
+        background: #f7f6f5;
+      }
+      .clip .v code {
+        font-size: 15px;
+        font-weight: 700;
+      }
+      .clip .t {
+        margin-top: 4px;
+        font-size: 17px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .clip .brk {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+      }
+      .flying {
+        z-index: 4;
+      }
+      .req pre {
+        line-height: 1.55 !important;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Archive machines, rtrvr.ai. Your cron sends each changelog URL to rtrvr.ai's /scrape with Massive as a custom
+         proxy (rtrvr.ai/docs/scrape: settings.proxyConfig mode "custom", customProxies host/port); rtrvr returns the
+         page's text and links, and your code keeps only the new entries. The changelog is mock content on example.com. -->
+    <div id="stage" data-composition-id="gif-archive-rtrvr" data-start="0" data-duration="4" data-fps="15" data-width="1080" data-height="1350">
+      <div class="m-ground soft-orange"></div>
+      <div class="m-linegrid"></div>
+    </div>
+    <script>
+      (() => {
+        const { clamp, ease, lerp } = LoopKit;
+        const { div } = Scenes;
+        const stage = document.getElementById("stage");
+        Scenes.frame(stage, {
+          title: "The changelogs you<br />depend on, kept.",
+          why: "Fetch each changelog daily and file only what's new.",
+          stack: [
+            { icon: "assets/brand/partner-app.png", name: "rtrvr.ai", role: "AI browser agent" },
+            { icon: "assets/brand/massive-app.png", name: "Massive", role: "Residential IPs, 195+ countries" },
+            { icon: "code", name: "Your agent", role: "Diff, alerts" },
+          ],
+        });
+
+        // A tool's changelog, newest first. The top three are new since yesterday; one breaks things.
+        const ENTRIES = [
+          { v: "v4.3.0", t: "Webhooks retry with backoff", isNew: true },
+          { v: "v4.2.1", t: "Removed the legacy /v1 auth endpoint", isNew: true, breaking: true },
+          { v: "v4.2.0", t: "Faster exports for large accounts", isNew: true },
+          { v: "v4.1.0", t: "New filters in the search API" },
+          { v: "v4.0.2", t: "Fixed time zones in reports" },
+        ];
+        const EY = 72, EH = 76;
+        const win = Scenes.browser(stage, { x: 80, y: 412, w: 524, h: 540, url: "example.com/changelog", via: true });
+        const page = div("page", win.body);
+        page.style.cssText = "position:absolute;inset:0";
+        div("h", page, "Changelog");
+        const glows = ENTRIES.map((e, i) => {
+          const en = div("entry", page);
+          en.style.top = `${EY + i * EH}px`;
+          const glow = div("glow", en);
+          div("t", en, `<code>${e.v}</code><span>${e.t}</span>`);
+          div("ln", en).style.width = `${[86, 72, 80, 64, 76][i]}%`;
+          return glow;
+        });
+        const read = div("read", page);
+
+        // The feed your code keeps: today's new entries on top, earlier ones below.
+        const FX = 624, FY = 412;
+        const feed = Scenes.card(stage, { x: FX, y: FY, w: 376, h: 540 });
+        feed.classList.add("feed");
+        div("sc-head", feed, "Saved feed");
+        div("grp", feed, "Today").style.top = "60px";
+        div("grp", feed, "Earlier").style.top = "374px";
+        const clipHTML = (e) =>
+          `<div class="v"><code>${e.v}</code></div><div class="t">${e.t}</div>` + (e.breaking ? '<span class="sc-badge brk">Breaking</span>' : "");
+        const slotY = (i) => 88 + i * 92;
+        const slots = ENTRIES.slice(0, 3).map((e, i) => {
+          const c = div("clip", feed, clipHTML(e));
+          Object.assign(c.style, { left: "20px", top: `${slotY(i)}px` });
+          return c;
+        });
+        [
+          { v: "v4.1.0", t: "New filters in the search API" },
+          { v: "v4.0.2", t: "Fixed time zones in reports" },
+        ].forEach((e, i) => {
+          const c = div("clip old", feed, clipHTML(e));
+          Object.assign(c.style, { left: "20px", top: `${402 + i * 66}px`, height: "58px", padding: "8px 14px" });
+          c.querySelector(".t").style.marginTop = "0";
+        });
+        // Cards in flight from the page to the feed.
+        const flyers = ENTRIES.slice(0, 3).map((e) => div("clip flying", stage, clipHTML(e)));
+        const ring = Scenes.svg(stage, 1080, 1350);
+        const pulse = Scenes.el("rect", { x: FX + 18, y: FY + slotY(1) - 2, width: 336, height: 80, rx: 14, fill: "none", stroke: "#d54635", "stroke-width": 3, opacity: 0 }, ring);
+
+        const req = Scenes.code(stage, {
+          x: 80, y: 976, w: 920, h: 170, title: "Request <code>/scrape</code>",
+          lines: [
+            'urls   ["example.com/changelog"]',
+            'mode   "custom"',
+            'host   <span class="c">"network.joinmassive.com"</span>',
+            "port   65534",
+          ],
+        });
+        req.classList.add("req");
+
+        // Frame 0: the day is done (new entries lit and filed). At 0.15 a new day clears the feed, the reading line
+        // runs down the page, and each new entry is clipped across as the line reaches it.
+        const RESET = [0.15, 0.2];
+        const READ = [0.2, 0.75];
+        const FLY = 0.08;
+        const RANGE = [EY, EY + ENTRIES.length * EH];
+        const reachAt = (i) => READ[0] + ((EY + i * EH + EH / 2 - RANGE[0]) / (RANGE[1] - RANGE[0])) * (READ[1] - READ[0]);
+        function render(p) {
+          const fresh = p >= RESET[0];
+          const r = clamp((p - RESET[0]) / (RESET[1] - RESET[0]));
+          const rd = clamp((p - READ[0]) / (READ[1] - READ[0]));
+          read.style.top = `${lerp(RANGE[0], RANGE[1], rd)}px`;
+          read.style.opacity = p > READ[0] && p < READ[1] ? 1 : 0;
+          ENTRIES.forEach((e, i) => {
+            if (!e.isNew) return;
+            const t = reachAt(i);
+            // Lit and filed before the reset; cleared by it; lit again when the line reaches it.
+            const lit = !fresh ? 1 : p < READ[0] ? 1 - r : clamp((p - t) / 0.03);
+            glows[i].style.opacity = 0.4 * lit;
+            const f = clamp((p - t) / FLY);
+            const filed = !fresh ? true : p < READ[0] ? r < 0.5 : f >= 1;
+            slots[i].style.visibility = filed ? "visible" : "hidden";
+            const fl = flyers[i];
+            if (fresh && p >= t && f < 1) {
+              const v = ease.inOut(f);
+              Object.assign(fl.style, {
+                left: `${lerp(80 + 40, FX + 20, v)}px`,
+                top: `${lerp(412 + 46 + EY + i * EH, FY + slotY(i), v)}px`,
+                visibility: "visible",
+              });
+            } else fl.style.visibility = "hidden";
+          });
+          // The breaking change pulses when it lands.
+          const b = clamp((p - (reachAt(1) + FLY)) / 0.12);
+          pulse.setAttribute("opacity", fresh && b > 0 && b < 1 ? 1 - b : 0);
+          pulse.setAttribute("stroke-width", 3 + 6 * b);
+        }
+
+        const tl = gsap.timeline({ paused: true });
+        LoopKit.drive(tl, stage, render);
+        window.__timelines["gif-archive-rtrvr"] = tl;
+      })();
+    </script>
+  </body>
+</html>

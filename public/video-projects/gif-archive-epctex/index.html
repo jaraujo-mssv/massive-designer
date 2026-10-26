@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1350" />
+    <title>epctex · Etsy knock-offs, caught nightly.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=JetBrains+Mono:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="lib/loop-kit.js"></script>
+    <script src="lib/scenes.js"></script>
+    <link rel="stylesheet" href="lib/frame-kit.css" />
+    <link rel="stylesheet" href="lib/massive.css" />
+    <link rel="stylesheet" href="lib/scenes.css" />
+    <style>
+      /* No background on html, body or #stage: the GIF capture makes them transparent. */
+      html,
+      body {
+        width: 1080px;
+        height: 1350px;
+        overflow: hidden;
+      }
+      #stage {
+        position: relative;
+        width: 1080px;
+        height: 1350px;
+        overflow: hidden;
+      }
+      .mine .sc-head {
+        position: absolute;
+        left: 20px;
+        top: 16px;
+      }
+      .mine .sc-sub {
+        position: absolute;
+        left: 20px;
+        right: 20px;
+        bottom: 16px;
+      }
+      .input pre {
+        font-size: 15px !important;
+      }
+      .tile .bars {
+        position: absolute;
+        left: 16px;
+        right: 16px;
+        bottom: 16px;
+      }
+      .tile .bars i {
+        display: block;
+        height: 8px;
+        margin-top: 8px;
+        border-radius: 4px;
+        background: rgba(23, 22, 21, 0.14);
+      }
+      .badge {
+        position: absolute;
+        z-index: 3;
+      }
+      .strip .sc-head {
+        position: absolute;
+        left: 22px;
+        top: 14px;
+        white-space: nowrap;
+      }
+      .strip .sc-head .path {
+        margin-left: 8px;
+        font-size: 16px;
+        font-weight: 500;
+        color: rgba(23, 22, 21, 0.76);
+      }
+      .ev {
+        position: absolute;
+        top: 52px;
+        width: 196px;
+        height: 118px;
+        border-radius: 12px;
+        border: 2px solid rgba(23, 22, 21, 0.18);
+        background: #ffffff;
+        overflow: hidden;
+      }
+      .ev .new {
+        position: absolute;
+        right: 8px;
+        top: 8px;
+      }
+      .slot {
+        position: absolute;
+        top: 178px;
+        width: 196px;
+        text-align: center;
+        font-size: 16px;
+        font-weight: 600;
+        color: rgba(23, 22, 21, 0.76);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Archive machines, epctex. An Apify schedule runs epctex's Etsy Scraper nightly with your design's name;
+         the input routes through Massive as a custom proxy URL (apify.com/epctex/etsy-scraper, proxyUrls). Your code
+         compares the results and keeps likely copies in a named dataset. Listings are drawn, not real. -->
+    <div id="stage" data-composition-id="gif-archive-epctex" data-start="0" data-duration="4" data-fps="15" data-width="1080" data-height="1350">
+      <div class="m-ground soft-orange"></div>
+      <div class="m-linegrid"></div>
+    </div>
+    <script>
+      (() => {
+        const { clamp, ease, lerp } = LoopKit;
+        const { div, el, svg } = Scenes;
+        const stage = document.getElementById("stage");
+        const INK = "#171615";
+        const RED = "#d54635";
+        Scenes.frame(stage, {
+          title: "Etsy knock-offs,<br />caught nightly.",
+          why: "Search Etsy for your designs every night. Keep what turns up.",
+          stack: [
+            { icon: "assets/brand/partner-app.png", name: "epctex", role: "Etsy Scraper on Apify" },
+            { icon: "assets/brand/massive-app.png", name: "Massive", role: "Residential IPs, 195+ countries" },
+            { icon: "code", name: "Your agent", role: "Diff, alerts" },
+          ],
+        });
+
+        // Small line drawings of listings, centred in a w×h box. "moon" is your design.
+        const S = { fill: "none", stroke: INK, "stroke-width": 3, "stroke-linecap": "round", "stroke-linejoin": "round" };
+        function draw(g, kind, cx, cy, k = 1) {
+          const t = (d) => el("path", { d, ...S, transform: `translate(${cx} ${cy}) scale(${k})` }, g);
+          const red = (d) => el("path", { d, fill: RED, transform: `translate(${cx} ${cy}) scale(${k})` }, g);
+          ({
+            moon: () => {
+              t("M0 -40 L0 -22");
+              t("M8 -20 A24 24 0 1 0 8 26 A18 18 0 1 1 8 -20 Z");
+              red("M14 -2 l3 7 7 1 -5 5 1 7 -6 -3 -6 3 1 -7 -5 -5 7 -1 z");
+            },
+            mug: () => { t("M-22 -22 H18 V22 Q18 30 10 30 H-14 Q-22 30 -22 22 Z"); t("M18 -12 Q34 -12 34 4 Q34 18 18 18"); },
+            ring: () => { t("M-22 10 A22 22 0 1 0 22 10 A22 22 0 1 0 -22 10"); t("M-10 -16 L0 -30 L10 -16 Z"); },
+            leaf: () => { t("M-14 -30 L-14 -18 M14 -30 L14 -18"); t("M-14 -18 Q-28 4 -14 26 Q0 4 -14 -18 Z"); t("M14 -18 Q0 4 14 26 Q28 4 14 -18 Z"); },
+            candle: () => { t("M-14 -8 H14 V32 H-14 Z"); red("M0 -34 Q10 -20 0 -12 Q-10 -20 0 -34 Z"); },
+            tote: () => { t("M-26 -10 H26 L22 32 H-22 Z"); t("M-12 -10 Q-12 -32 0 -32 Q12 -32 12 -10"); },
+            bowl: () => { t("M-32 -4 H32 Q30 30 0 30 Q-30 30 -32 -4 Z"); t("M-20 -14 Q-14 -22 -8 -14 M4 -16 Q10 -24 16 -16"); },
+            frame: () => { t("M-28 -28 H28 V28 H-28 Z"); t("M-20 18 L-6 0 L4 10 L12 2 L20 18 Z"); },
+            star: () => { t("M0 -30 L8 -10 L30 -8 L13 6 L18 28 L0 16 L-18 28 L-13 6 L-30 -8 L-8 -10 Z"); },
+          })[kind]();
+        }
+
+        // Your design, and the Apify input that searches for it every night.
+        const mine = Scenes.card(stage, { x: 80, y: 412, w: 360, h: 300 });
+        mine.classList.add("mine");
+        div("sc-head", mine, "Your design");
+        draw(svg(mine, 360, 300), "moon", 180, 150, 1.7);
+        div("sc-sub", mine, "Searched by name, every night");
+        const input = Scenes.code(stage, {
+          x: 80, y: 732, w: 360, h: 192, title: "Apify input",
+          lines: [
+            '{"search": "your design name",',
+            ' "maxItems": 100,',
+            ' "proxy": {"useApifyProxy": false,',
+            '  "proxyUrls": [<span class="c">"$MASSIVE_PROXY"</span>]}}',
+          ],
+        });
+        input.classList.add("input");
+
+        // Tonight's listings: a 3×3 grid; tile 5 copies your design.
+        const KINDS = ["mug", "ring", "leaf", "candle", "star", "moon", "tote", "bowl", "frame"];
+        const MATCH = 5;
+        const TW = 168, TH = 160, GX = 15, GY = 14, X0 = 466, Y0 = 412;
+        const tilePos = (i) => ({ x: X0 + (i % 3) * (TW + GX), y: Y0 + Math.floor(i / 3) * (TH + GY) });
+        KINDS.forEach((kind, i) => {
+          const tile = Scenes.card(stage, { ...tilePos(i), w: TW, h: TH });
+          tile.classList.add("tile");
+          draw(svg(tile, TW, 104), kind, TW / 2, 58);
+          div("bars", tile, '<i style="width:86%"></i><i style="width:46%"></i>');
+        });
+
+        // The reticle that scans them, and the ring that locks on the copy.
+        const fx = svg(stage, 1080, 1350);
+        const reticle = el("g", {}, fx);
+        const B = 22, PAD = 8;
+        const corners = [[0, 0, 1, 1], [1, 0, -1, 1], [0, 1, 1, -1], [1, 1, -1, -1]];
+        for (const [cx, cy, sx, sy] of corners) {
+          const x = cx * (TW + 2 * PAD), y = cy * (TH + 2 * PAD);
+          el("path", { d: `M${x} ${y + sy * B} L${x} ${y} L${x + sx * B} ${y}`, fill: "none", stroke: RED, "stroke-width": 5, "stroke-linecap": "round" }, reticle);
+        }
+        const m = tilePos(MATCH);
+        const ring = el("rect", { x: m.x - 3, y: m.y - 3, width: TW + 6, height: TH + 6, rx: 20, fill: "none", stroke: RED, "stroke-width": 5, pathLength: 100, "stroke-dasharray": "100 100" }, fx);
+        const badge = div("sc-badge badge", stage, "Likely copy");
+        Object.assign(badge.style, { left: `${m.x + 14}px`, top: `${m.y + 12}px` });
+
+        // Evidence: the nightly dataset, newest on the right, under the grid's copy.
+        const strip = Scenes.card(stage, { x: 80, y: 948, w: 920, h: 214 });
+        strip.classList.add("strip");
+        div("sc-head", strip, 'Evidence<span class="path"><code>dataset: etsy-watch</code> · named datasets are kept</span>');
+        const SW = 196, SG = 22;
+        const slotX = (s) => 22 + (3 - s) * (SW + SG);
+        ["tonight", "−1 night", "−2 nights", "−3 nights"].forEach((label, s) => {
+          div("slot", strip, label).style.left = `${slotX(s)}px`;
+        });
+        const evCard = (parent) => {
+          const c = div("ev", parent);
+          draw(svg(c, SW, 118), "moon", 52, 62, 0.8);
+          const b = svg(c, SW, 118);
+          [[96, 44, 74], [96, 62, 56], [96, 80, 66]].forEach(([x, y, w]) => el("rect", { x, y, width: w, height: 8, rx: 4, fill: "rgba(23, 22, 21, 0.16)" }, b));
+          return c;
+        };
+        const cards = Array.from({ length: 5 }, () => {
+          const c = evCard(strip);
+          return { c, tab: div("sc-badge new", c, "NEW") };
+        });
+        // The card that flies from the grid to the strip.
+        const flyer = evCard(stage);
+        flyer.style.zIndex = 4;
+
+        const LOCKED = [0, 0.2];
+        const SCAN = [0.26, 0.71];
+        const STEP = (SCAN[1] - SCAN[0]) / (MATCH + 1);
+        const FLY = [0.78, 0.9];
+        const reticleAt = (i) => {
+          const t = tilePos(i);
+          return [t.x - PAD, t.y - PAD];
+        };
+
+        function render(p) {
+          // Reticle: locked on the copy, then a fresh scan from tile 0 that steps to the copy again.
+          let rx, ry, ro = 1;
+          if (p < SCAN[0]) {
+            // Fade out on the copy, then back in on tile 0 for the next night's scan.
+            if (p < 0.23) {
+              [rx, ry] = reticleAt(MATCH);
+              ro = 1 - clamp((p - LOCKED[1]) / 0.03);
+            } else {
+              [rx, ry] = reticleAt(0);
+              ro = clamp((p - 0.23) / 0.03);
+            }
+          } else {
+            const k = Math.min(MATCH, Math.floor((p - SCAN[0]) / STEP));
+            const u = clamp(((p - SCAN[0]) % STEP) / (STEP * 0.45));
+            const [ax, ay] = reticleAt(Math.max(0, k - 1));
+            const [bx, by] = reticleAt(k);
+            const v = k === 0 || p >= SCAN[1] ? 1 : ease.inOut(u);
+            rx = lerp(ax, bx, v);
+            ry = lerp(ay, by, v);
+          }
+          reticle.setAttribute("transform", `translate(${rx} ${ry})`);
+          reticle.setAttribute("opacity", ro);
+
+          // Lock: the ring draws round the copy and the badge pops.
+          const lock = p < 0.26 ? 1 - clamp((p - LOCKED[1]) / 0.03) : clamp((p - 0.71) / 0.07);
+          ring.setAttribute("stroke-dashoffset", 100 * (1 - ease.out(lock)));
+          badge.style.opacity = lock > 0.6 ? 1 : 0;
+
+          // File it: a card flies to tonight's slot while the older nights step back.
+          const f = clamp((p - FLY[0]) / (FLY[1] - FLY[0]));
+          const from = { x: m.x + (TW - SW) / 2, y: m.y + 20 };
+          const to = { x: 80 + slotX(0), y: 948 + 52 };
+          const fv = ease.inOut(f);
+          Object.assign(flyer.style, {
+            left: `${lerp(from.x, to.x, fv)}px`,
+            top: `${lerp(from.y, to.y, fv)}px`,
+            opacity: f > 0 && f < 1 ? 1 : 0,
+          });
+          const u = ease.inOut(clamp((p - (FLY[0] + 0.04)) / 0.08));
+          cards.forEach(({ c, tab }, i) => {
+            const incoming = i === 4;
+            const s = incoming ? 0 : i + u;
+            c.style.left = `${slotX(s)}px`;
+            c.style.opacity = incoming ? (f >= 1 ? 1 : 0) : 1 - clamp(s - 3);
+            tab.style.opacity = incoming ? 1 : clamp(1 - s);
+          });
+        }
+
+        const tl = gsap.timeline({ paused: true });
+        LoopKit.drive(tl, stage, render);
+        window.__timelines["gif-archive-epctex"] = tl;
+      })();
+    </script>
+  </body>
+</html>

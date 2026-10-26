@@ -1,0 +1,15 @@
+{
+  "id": "gif-archive-capturekit",
+  "name": "CaptureKit · Your landing page, as each country sees it.",
+  "group": "massive",
+  "kind": "native",
+  "status": "draft",
+  "source": "docs.capturekit.dev/capture (proxy, full_page, s3_*); docs.joinmassive.com/residential/authentication, /geotargeting (checked 2026-10-26)",
+  "output": "gif",
+  "series": "Archive machines",
+  "kits": [
+    "scenes"
+  ],
+  "partner": "CaptureKit",
+  "alt": "Animated infographic: CaptureKit, Massive and your code in a stack card, then three tall browser windows showing the same landing page as it loads in the US, Germany and Japan via Massive, each with a different layout. A new day starts and a red capture bar runs down each full page in turn as it scrolls, and each finished screenshot drops into a filmstrip of dated PNGs beside yesterday's. The request card highlights the proxy for the country being captured. Headline: Your landing page, as each country sees it."
+}

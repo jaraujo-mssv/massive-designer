@@ -1,0 +1,15 @@
+{
+  "id": "gif-archive-scrappey",
+  "name": "Scrappey · Cookie banners, EU vs US.",
+  "group": "massive",
+  "kind": "native",
+  "status": "draft",
+  "source": "docs.scrappey.com/md/request-get (proxy), docs.scrappey.com/md/screenshot; docs.joinmassive.com/residential/authentication, /geotargeting (checked 2026-10-26)",
+  "output": "gif",
+  "series": "Archive machines",
+  "kits": [
+    "scenes"
+  ],
+  "partner": "Scrappey",
+  "alt": "Animated infographic: Scrappey, Massive and your code in a stack card. Two browser windows side by side load the same site via Massive, one from the EU (Germany, then France) and one from the US. Each passes a bot check, then its cookie banner slides up: a full EU banner with Accept all, Reject all and Settings, and a thin US bar with a single OK. Each window flashes as it's captured, and the screenshot and Markdown files tick off under Saved. Headline: Cookie banners, EU vs US."
+}

@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1350" />
+    <title>05 · Price history, country by country</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=JetBrains+Mono:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="lib/loop-kit.js"></script>
+    <script src="lib/machine-kit.js"></script>
+    <link rel="stylesheet" href="lib/frame-kit.css" />
+    <link rel="stylesheet" href="lib/massive.css" />
+    <link rel="stylesheet" href="lib/machine.css" />
+    <style>
+      /* No background on html, body or #stage: the GIF capture makes them transparent. */
+      html,
+      body {
+        width: 1080px;
+        height: 1350px;
+        overflow: hidden;
+      }
+      #stage {
+        position: relative;
+        width: 1080px;
+        height: 1350px;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Archive machines 05/12 (Massive × Lightpanda). Commands checked against
+         lightpanda.io/docs/reference/cli/fetch and /common-options on 2026-10-26. -->
+    <div id="stage" data-composition-id="gif-archive-05-pricing" data-start="0" data-duration="3" data-fps="15" data-width="1080" data-height="1350">
+      <div class="m-ground soft-orange"></div>
+      <div class="m-linegrid"></div>
+    </div>
+    <script>
+      (() => {
+        const stage = document.getElementById("stage");
+        const render = MachineKit.build(stage, {
+          title: "Price history,<br />country by country.",
+          why: "Pricing can differ by country. Keep a dated copy from each one.",
+          stack: [
+            { icon: "assets/brand/partner-app.png", name: "Lightpanda", role: "Browser for AI agents" },
+            { icon: "assets/brand/massive-app.png", name: "Massive", role: "Residential IPs, 195+ countries" },
+            { icon: "code", name: "Your agent", role: "Schedule, parser, storage" },
+          ],
+          room: "proxy",
+          // One run per country; the country and locale step through the command and the network.
+          ticker: [
+            { cc: "US", loc: "en-US" },
+            { cc: "DE", loc: "de-DE" },
+            { cc: "JP", loc: "ja-JP" },
+            { cc: "BR", loc: "pt-BR" },
+            { cc: "IN", loc: "en-IN" },
+            { cc: "GB", loc: "en-GB" },
+          ],
+          stations: [
+            { kind: "clock", label: "Schedule", value: "Every day, 06:00 UTC<br /><code>0 6 * * *</code>" },
+            {
+              kind: "terminal",
+              lines: [
+                '<span class="c">$</span> lightpanda fetch --dump markdown \\',
+                '  --http-proxy <span class="c">"$PROXY_{cc}"</span> \\',
+                "  --locale {loc} \\",
+                "  https://example.com/pricing > {cc}.md",
+              ],
+            },
+            { kind: "engine", label: "Lightpanda", value: "Runs the page's JavaScript, hands back Markdown" },
+            { kind: "network", label: "Massive", value: "A residential IP in <b>{cc}</b>, one country per run" },
+            { kind: "extract", label: "Your parser", value: "Plan names and prices<br />into <code>prices.csv</code>" },
+            { kind: "alert", label: "Notify", value: "A webhook when a price moves" },
+          ],
+          archive: {
+            label: "<code>pricing/&lt;date&gt;/&lt;country&gt;.md</code>",
+            note: "six countries a day",
+            card: "table",
+            slots: ["today", "−1 d", "−2 d", "−3 d", "−4 d"],
+          },
+        });
+
+        const tl = gsap.timeline({ paused: true });
+        LoopKit.drive(tl, stage, render);
+        window.__timelines["gif-archive-05-pricing"] = tl;
+      })();
+    </script>
+  </body>
+</html>

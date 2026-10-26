@@ -1,0 +1,336 @@
+/*
+ * machine.css: the infographic "machine" for GIF series (portrait 1080×1350): white cards on a
+ * soft orange ground (.m-ground.soft-orange) with a subtle line grid, ink type, one paper-red accent.
+ * Drawn by lib/machine-kit.js; see the massive-gif skill. Master copy: public/video-projects/_gif/kits/machine/.
+ * Mono rule: JetBrains Mono only for code (the command panel's <pre>, and <code> in values and the
+ * archive path). Everything else is Outfit.
+ */
+#stage {
+  color: var(--m-ink);
+  font-family: var(--m-sans);
+}
+
+.mk-title {
+  position: absolute;
+  left: 80px;
+  right: 80px;
+  top: 96px;
+  text-align: center;
+  font-size: 64px;
+  font-weight: 900;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+}
+.mk-why {
+  position: absolute;
+  left: 110px;
+  right: 110px;
+  top: 246px;
+  text-align: center;
+  font-size: 27px;
+  line-height: 1.35;
+  color: rgba(23, 22, 21, 0.72);
+}
+
+/* Shared card look: the stack, the stations. */
+.mk-st {
+  position: absolute;
+  border-radius: 18px;
+  border: 2px solid rgba(23, 22, 21, 0.14);
+  background: #ffffff;
+}
+.mk-stack {
+  position: absolute;
+  border-radius: 18px;
+  border: 2px dashed rgba(23, 22, 21, 0.3);
+}
+/* The stack closes the frame: who does what, as app icons, in a dashed outline with no fill. */
+.mk-stack {
+  left: 80px;
+  top: 1158px;
+  width: 920px;
+  height: 108px;
+}
+.mk-stack .parts {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  top: 0;
+  bottom: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* three equal columns */
+  align-items: center;
+  gap: 18px;
+}
+.mk-stack .part {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+.mk-stack .part .ic {
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mk-stack .part .ic img,
+.mk-stack .part .ic svg {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+}
+.mk-stack .part .ic img {
+  border: 1px solid rgba(23, 22, 21, 0.12);
+}
+.mk-stack .part.wm img.wm {
+  display: block;
+  height: 30px;
+  max-width: 210px;
+  object-fit: contain;
+  object-position: left center;
+}
+.mk-stack .part.wm .role {
+  margin-top: 6px;
+}
+.mk-stack .part .name {
+  font-size: 23px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.mk-stack .part .role {
+  margin-top: 2px;
+  font-size: 17px;
+  line-height: 1.25;
+  text-wrap: balance; /* two-line roles split evenly */
+  color: rgba(23, 22, 21, 0.72);
+}
+
+/* Pipes sit under the cards. */
+.mk-pipes {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+/* Station cards. */
+.mk-st {
+  width: 420px;
+  height: 160px;
+}
+.mk-st .lit {
+  position: absolute;
+  inset: -2px;
+  border-radius: 18px;
+  border: 3px solid var(--m-paper-red);
+  opacity: 0;
+}
+.mk-st svg.part {
+  position: absolute;
+  left: 14px;
+  top: 28px;
+  width: 104px;
+  height: 104px;
+  overflow: visible;
+}
+.mk-st .txt {
+  position: absolute;
+  left: 132px;
+  right: 18px;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+/* The title carries the step number: "01 Schedule". */
+.mk-st .label {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.mk-st .label .n,
+.mk-arch .head .n {
+  margin-right: 4px;
+  font-weight: 700;
+  color: var(--m-paper-red);
+}
+.mk-st .value {
+  margin-top: 6px;
+  font-size: 19px;
+  line-height: 1.3;
+  color: rgba(23, 22, 21, 0.7);
+}
+.mk-st .value code {
+  font-family: var(--m-mono);
+  font-size: 19px; /* large text (≥18.67px bold), so red passes at 3:1 */
+  font-weight: 700;
+  color: var(--m-paper-red);
+}
+/* Red text only at 19px+ bold: paper-red on white is about 4:1. */
+.mk-st .value b {
+  font-weight: 700;
+  color: var(--m-paper-red);
+}
+
+/* The command station is an ink panel. */
+.mk-st.terminal {
+  background: var(--m-ink);
+  border-color: var(--m-ink);
+}
+.mk-st.terminal .label {
+  position: absolute;
+  left: 20px;
+  top: 14px;
+  color: #ffffff;
+}
+.mk-st.terminal .label .n {
+  color: var(--m-paper-red-light);
+}
+/* Settings or API parameters: key/value rows on the ink card. Code goes in <code> (mono). */
+.mk-st.panel {
+  background: var(--m-ink);
+  border-color: var(--m-ink);
+}
+.mk-st.panel .label {
+  position: absolute;
+  left: 20px;
+  top: 14px;
+  color: #ffffff;
+}
+.mk-st.panel .label .n {
+  color: var(--m-paper-red-light);
+}
+.mk-st.panel .rows {
+  position: absolute;
+  left: 20px;
+  right: 16px;
+  top: 54px;
+}
+.mk-st.panel .row {
+  display: flex;
+  gap: 12px;
+  font-size: 16px;
+  line-height: 24px;
+  white-space: nowrap;
+}
+.mk-st.panel .row .k {
+  min-width: 96px;
+  flex-shrink: 0;
+  color: rgba(255, 255, 255, 0.66);
+}
+.mk-st.panel .row .v {
+  color: #ffffff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mk-st.panel .row code {
+  font-family: var(--m-mono);
+  font-size: 15px;
+}
+.mk-st.panel .row code.c {
+  color: var(--m-paper-red-light);
+}
+.mk-st.terminal pre {
+  position: absolute;
+  left: 20px;
+  right: 14px;
+  top: 54px;
+  margin: 0;
+  font-family: var(--m-mono);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+  white-space: pre;
+  color: #ffffff;
+}
+.mk-st.terminal pre .c {
+  color: var(--m-paper-red-light);
+}
+.mk-st.terminal pre .caret {
+  display: inline-block;
+  width: 10px;
+  height: 18px;
+  margin-left: 4px;
+  vertical-align: -3px;
+  background: #ffffff;
+}
+
+/* The archive cabinet. */
+.mk-arch {
+  position: absolute;
+  left: 80px;
+  top: 910px;
+  width: 920px;
+  height: 196px;
+  border-radius: 20px;
+  border: 2px solid rgba(23, 22, 21, 0.14);
+  background: #fff0e8; /* a slightly deeper tray, so its white cards stand out like the stations */
+  overflow: hidden;
+}
+.mk-arch .head {
+  position: absolute;
+  left: 22px;
+  top: 10px;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+.mk-arch .head .path {
+  margin-left: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: rgba(23, 22, 21, 0.76);
+}
+.mk-arch .head code {
+  font-family: var(--m-mono);
+}
+.mk-arch .lit {
+  position: absolute;
+  inset: -2px;
+  border-radius: 20px;
+  border: 3px solid var(--m-paper-red);
+  opacity: 0;
+}
+/* When the newest card is on the left, the label moves right, out of the drop's way. */
+.mk-arch.flip .head {
+  left: auto;
+  right: 22px;
+}
+.mk-card {
+  position: absolute;
+  top: 48px;
+  width: 150px;
+  height: 104px;
+  border-radius: 10px;
+  border: 2px solid rgba(23, 22, 21, 0.18);
+  background: #ffffff;
+  overflow: hidden;
+}
+.mk-card .new {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  padding: 2px 7px;
+  border-radius: 6px;
+  background: var(--m-paper-red-light);
+  font-family: var(--m-sans);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--m-ink);
+}
+.mk-slot {
+  position: absolute;
+  top: 160px;
+  width: 150px;
+  text-align: center;
+  font-family: var(--m-sans);
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(23, 22, 21, 0.76);
+}

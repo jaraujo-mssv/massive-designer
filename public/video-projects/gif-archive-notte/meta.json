@@ -1,0 +1,15 @@
+{
+  "id": "gif-archive-notte",
+  "name": "Notte · Save an API's docs before it's retired.",
+  "group": "massive",
+  "kind": "native",
+  "status": "draft",
+  "source": "docs.notte.cc/integrations/massive (ExternalProxy), notte.cc (Browser Functions with cron scheduling); docs.joinmassive.com/residential/authentication, /geotargeting (checked 2026-10-26)",
+  "output": "gif",
+  "series": "Archive machines",
+  "kits": [
+    "scenes"
+  ],
+  "partner": "Notte",
+  "alt": "Animated infographic: Notte, Massive and your code in a stack card. On the left, the sidebar of a docs site fetched via Massive; a highlight walks it page by page, ticking each one, and every page flies right onto a pile of JSON copies saved this week. A bar counts the weekly copies left until the API's sunset, and the Notte session code sits below. Headline: Save an API's docs before it's retired."
+}

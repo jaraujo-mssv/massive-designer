@@ -1,0 +1,15 @@
+{
+  "id": "gif-archive-sequentum",
+  "name": "Sequentum · Every job posting, added or pulled.",
+  "group": "massive",
+  "kind": "native",
+  "status": "draft",
+  "source": "cloudsupport.sequentum.com/scm/change-tracking-overview, /scm/proxy-pool; docs.sequentum.com/concepts/schedules; docs.joinmassive.com/residential/authentication, /geotargeting (checked 2026-10-26)",
+  "output": "gif",
+  "series": "Archive machines",
+  "kits": [
+    "scenes"
+  ],
+  "partner": "Sequentum",
+  "alt": "Animated infographic: Sequentum, Massive and your code in a stack card, then a ledger of roles from careers pages crawled through a Massive residential proxy pool. The ledger rewinds to yesterday, then today's run replays each change: a Data Engineer row slides in as Added, a location flips from Remote to Lisbon as Updated, a Support Lead row is struck through as Deleted, and an ML Researcher row returns as Reappeared. The setup card shows the proxy pool and change tracking. Headline: Every job posting, added or pulled."
+}

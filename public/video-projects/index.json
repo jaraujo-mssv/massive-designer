@@ -81,7 +81,11 @@
         ]
       },
       "script": null,
-      "media": []
+      "media": [],
+      "output": "mp4",
+      "series": null,
+      "alt": null,
+      "gif": null
     },
     {
       "id": "biztray-how-to-merge-pdf-files",
@@ -257,7 +261,11 @@
       "script": "# SCRIPT — biztray-how-to-merge-pdf-files\n\n**Voice:** Mark (ElevenLabs, v3p1kjzUvro6S76qmYmH, eleven_v3)\n**Voice settings:** stability 0.55 · similarity 0.75 · style 0 · seed 20260806\n**Voice direction:** Plain, level and unhurried, one continuous take. A guide talking a viewer through a decision, not an ad: the concessions land as flatly as the claims.\n\nLocked: recorded as one take (`voice/biztray/guide-pdf-organizer-how-to-merge-pdf-files/take-e02d335f.mp3`, 146.24s, request dLmMbS0oBUm9qC6dsaG8). Times are the real cue points from `voice.json`, with no lead-in offset (the take starts at 0.00s).\n\n---\n\n## Line 1 — Four separate PDFs, and the… (Frame 1)\n\n**Time:** 0.00 – 6.37 s\n**Delivery:** Thoughtful, then level.\n\n    [thoughtful] Four separate PDFs, and the form you are filling in accepts exactly one attachment.\n\n## Line 2 — To merge PDF files the… (Frame 1)\n\n**Time:** 6.37 – 14.32 s\n**Delivery:** Level, carrying on from the line before.\n\n    To merge PDF files the first search result wants you to upload all four to a server you have never heard of.\n\n## Line 3 — For a contract or a… (Frame 1)\n\n**Time:** 14.32 – 22.13 s\n**Delivery:** Level, carrying on from the line before.\n\n    For a contract or a payslip, that is a decision worth making on purpose rather than by default.\n\n## Line 4 — BizTray is the small icon… (Frame 2)\n\n**Time:** 22.13 – 28.46 s\n**Delivery:** Level, carrying on from the line before.\n\n    BizTray is the small icon down in your system tray. Click it and the window opens.\n\n## Line 5 — Open PDF Organizer, the sixth… (Frame 3)\n\n**Time:** 28.46 – 34.40 s\n**Delivery:** Level, carrying on from the line before.\n\n    Open PDF Organizer, the sixth one in the list of utilities on the left.\n\n## Line 6 — Drag all four PDFs onto… (Frame 4)\n\n**Time:** 34.40 – 39.57 s\n**Delivery:** Level, carrying on from the line before.\n\n    Drag all four PDFs onto the drop zone in the middle of the window at once.\n\n## Line 7 — The order you drop them… (Frame 4)\n\n**Time:** 39.57 – 45.42 s\n**Delivery:** Level, carrying on from the line before.\n\n    The order you drop them in is the order they combine in, so drop them in the order you want.\n\n## Line 8 — The drop zone becomes a… (Frame 5)\n\n**Time:** 45.42 – 52.13 s\n**Delivery:** Level, carrying on from the line before.\n\n    The drop zone becomes a page grid. Sixteen pages here, across the files it picked up.\n\n## Line 9 — Every page is a thumbnail… (Frame 5)\n\n**Time:** 52.13 – 59.30 s\n**Delivery:** Level, carrying on from the line before.\n\n    Every page is a thumbnail, numbered, so you can see straight away whether a file came in upside down.\n\n## Line 10 — The grid is the control… (Frame 6)\n\n**Time:** 59.30 – 66.74 s\n**Delivery:** Thoughtful, then level.\n\n    [thoughtful] The grid is the control. Click a page to select it, ctrl for several, shift for a range.\n\n## Line 11 — Drag a thumbnail to move… (Frame 6)\n\n**Time:** 66.74 – 72.65 s\n**Delivery:** Level, carrying on from the line before.\n\n    Drag a thumbnail to move it. That is how you fix an order you got wrong on the way in.\n\n## Line 12 — If the last file should… (Frame 6)\n\n**Time:** 72.65 – 78.72 s\n**Delivery:** Level, carrying on from the line before.\n\n    If the last file should have been second, drag its block up and the numbering follows.\n\n## Line 13 — Nothing has changed on disk… (Frame 6)\n\n**Time:** 78.72 – 84.36 s\n**Delivery:** Level, carrying on from the line before.\n\n    Nothing has changed on disk yet. The grid is a plan, not an edit.\n\n## Line 14 — Hit the button at the… (Frame 7)\n\n**Time:** 84.36 – 88.64 s\n**Delivery:** Level, carrying on from the line before.\n\n    Hit the button at the bottom of the panel to write the merged file.\n\n## Line 15 — Job Queue shows it working… (Frame 8)\n\n**Time:** 88.64 – 95.82 s\n**Delivery:** Level, carrying on from the line before.\n\n    Job Queue shows it working. Merging is fast because the pages are copied, not re-encoded.\n\n## Line 16 — Done. One PDF containing all… (Frame 9)\n\n**Time:** 95.82 – 103.31 s\n**Delivery:** Short pause, then level.\n\n    [short pause] Done. One PDF containing all sixteen pages, written next to the originals.\n\n## Line 17 — The four source files are… (Frame 9)\n\n**Time:** 103.31 – 109.54 s\n**Delivery:** Level, carrying on from the line before.\n\n    The four source files are untouched, so a merge you got wrong costs you nothing.\n\n## Line 18 — Merging copies the pages as… (Frame 10)\n\n**Time:** 109.54 – 115.89 s\n**Delivery:** Exhales, then level.\n\n    [exhales] Merging copies the pages as they are. It does NOT re-number anything.\n\n## Line 19 — Which means if each of… (Frame 10)\n\n**Time:** 115.89 – 124.76 s\n**Delivery:** Level, carrying on from the line before.\n\n    Which means if each of the four documents had its own printed page numbers, the merged file counts to four and starts again.\n\n## Line 20 — PDF Tools adds a fresh… (Frame 10)\n\n**Time:** 124.76 – 133.02 s\n**Delivery:** Level, carrying on from the line before.\n\n    PDF Tools adds a fresh set of page numbers across the whole document, which is the usual second step on a report.\n\n## Line 21 — So that is four PDFs… (Frame 11)\n\n**Time:** 133.02 – 141.68 s\n**Delivery:** Short pause, then level.\n\n    [short pause] So that is four PDFs dropped in, the order fixed on the grid, and one merged document written out.\n\n## Line 22 — All of it on your… (Frame 11)\n\n**Time:** 141.68 – 146.24 s\n**Delivery:** Level, carrying on from the line before.\n\n    All of it on your own machine, and nothing uploaded anywhere.\n",
       "media": [
         "assets/voice/take-e02d335f.mp3"
-      ]
+      ],
+      "output": "mp4",
+      "series": null,
+      "alt": null,
+      "gif": null
     },
     {
       "id": "biztray-open-pptx-without-powerpoint",
@@ -407,7 +415,11 @@
       "script": "# SCRIPT — biztray-open-pptx-without-powerpoint\n\n**Voice:** Mark (ElevenLabs, v3p1kjzUvro6S76qmYmH, eleven_v3)\n**Voice settings:** stability 0.55 · similarity 0.75 · style 0 · seed 20260806\n**Voice direction:** Plain, level and unhurried, one continuous take. A guide talking a viewer through a decision, not an ad: the concessions land as flatly as the claims.\n\nLocked: recorded as one take (`voice/biztray/guide-office-to-pdf-how-to-open-a-pptx-file-without-powerpoint/take-da762723.mp3`, 148.56s, request EY7WqtG6SuoAGMDKzyPD). Times are the real cue points from `voice.json`, with no lead-in offset (the take starts at 0.00s).\n\n---\n\n## Line 1 — A deck arrives as PPTX… (Frame 1)\n\n**Time:** 0.00 – 5.19 s\n**Delivery:** Thoughtful, then level.\n\n    [thoughtful] A deck arrives as PPTX and there is no PowerPoint on the machine.\n\n## Line 2 — Nine times out of ten… (Frame 1)\n\n**Time:** 5.19 – 11.21 s\n**Delivery:** Level, carrying on from the line before.\n\n    Nine times out of ten you are not going to present it. You are going to read it once.\n\n## Line 3 — To open a PPTX file… (Frame 1)\n\n**Time:** 11.21 – 17.94 s\n**Delivery:** Level, carrying on from the line before.\n\n    To open a PPTX file without PowerPoint, that distinction is the whole answer.\n\n## Line 4 — If you do need to… (Frame 2)\n\n**Time:** 17.94 – 27.47 s\n**Delivery:** Short pause, then level.\n\n    [short pause] If you do need to present or edit, LibreOffice Impress is free and offline, and PowerPoint Online is free with an account.\n\n## Line 5 — Impress will move some animations… (Frame 2)\n\n**Time:** 27.47 – 34.96 s\n**Delivery:** Level, carrying on from the line before.\n\n    Impress will move some animations and occasionally a font. Online renders perfectly and uploads the file.\n\n## Line 6 — But for reading, a slide… (Frame 3)\n\n**Time:** 34.96 – 43.78 s\n**Delivery:** Thoughtful, then level.\n\n    [thoughtful] But for reading, a slide deck is a stack of pages. PDF is exactly that, and every machine opens one.\n\n## Line 7 — It also cannot be accidentally… (Frame 3)\n\n**Time:** 43.78 – 49.28 s\n**Delivery:** Level, carrying on from the line before.\n\n    It also cannot be accidentally edited, and it will look identical on the recipient's screen.\n\n## Line 8 — For circulating a deck rather… (Frame 3)\n\n**Time:** 49.28 – 55.99 s\n**Delivery:** Level, carrying on from the line before.\n\n    For circulating a deck rather than working on it, PDF is genuinely better than the original.\n\n## Line 9 — Open Office to PDF, the… (Frame 4)\n\n**Time:** 55.99 – 61.48 s\n**Delivery:** Short pause, then level.\n\n    [short pause] Open Office to PDF, the first utility in the list on the left.\n\n## Line 10 — Drop the deck onto the… (Frame 4)\n\n**Time:** 61.48 – 68.24 s\n**Delivery:** Level, carrying on from the line before.\n\n    Drop the deck onto the drop zone in the middle of the window. A folder of them works the same way.\n\n## Line 11 — Under Output, One PDF each… (Frame 5)\n\n**Time:** 68.24 – 77.42 s\n**Delivery:** Thoughtful, then level.\n\n    [thoughtful] Under Output, One PDF each keeps the decks separate. Merge into one stacks several into a single document.\n\n## Line 12 — Then Quality. Print embeds the… (Frame 5)\n\n**Time:** 77.42 – 86.86 s\n**Delivery:** Level, carrying on from the line before.\n\n    Then Quality. Print embeds the images at full resolution. Screen compresses them, which matters on a deck full of photographs.\n\n## Line 13 — Archive is the long term… (Frame 5)\n\n**Time:** 86.86 – 89.58 s\n**Delivery:** Level, carrying on from the line before.\n\n    Archive is the long term one.\n\n## Line 14 — I take Print for anything… (Frame 5)\n\n**Time:** 89.58 – 96.11 s\n**Delivery:** Level, carrying on from the line before.\n\n    I take Print for anything being sent on, and Screen only when the file has to fit an email limit.\n\n## Line 15 — Hit Convert to PDF, the… (Frame 6)\n\n**Time:** 96.11 – 100.50 s\n**Delivery:** Level, carrying on from the line before.\n\n    Hit Convert to PDF, the button at the bottom of the panel.\n\n## Line 16 — Done. One page per slide… (Frame 7)\n\n**Time:** 100.50 – 107.86 s\n**Delivery:** Short pause, then level.\n\n    [short pause] Done. One page per slide, opening in the browser that is already on the machine.\n\n## Line 17 — A PDF is a stack… (Frame 8)\n\n**Time:** 107.86 – 114.63 s\n**Delivery:** Exhales, then level.\n\n    [exhales] A PDF is a stack of pages, so everything that made it a presentation is gone.\n\n## Line 18 — Which means animations, transitions, embedded… (Frame 8)\n\n**Time:** 114.63 – 121.88 s\n**Delivery:** Level, carrying on from the line before.\n\n    Which means animations, transitions, embedded video and the speaker notes do not come across.\n\n## Line 19 — On a deck where the… (Frame 8)\n\n**Time:** 121.88 – 127.30 s\n**Delivery:** Level, carrying on from the line before.\n\n    On a deck where the build order carried the argument, the PDF reads oddly.\n\n## Line 20 — And you cannot edit it… (Frame 8)\n\n**Time:** 127.30 – 136.81 s\n**Delivery:** Level, carrying on from the line before.\n\n    And you cannot edit it back into a deck. If somebody needs to change a slide, they need the PPTX and a real editor.\n\n## Line 21 — So it is Impress or… (Frame 9)\n\n**Time:** 136.81 – 143.87 s\n**Delivery:** Short pause, then level.\n\n    [short pause] So it is Impress or PowerPoint Online to present it, and a PDF to read or circulate it.\n\n## Line 22 — The conversion runs on your… (Frame 9)\n\n**Time:** 143.87 – 148.56 s\n**Delivery:** Level, carrying on from the line before.\n\n    The conversion runs on your own machine, with nothing uploaded anywhere.\n",
       "media": [
         "assets/voice/take-da762723.mp3"
-      ]
+      ],
+      "output": "mp4",
+      "series": null,
+      "alt": null,
+      "gif": null
     },
     {
       "id": "consent-circuit-loop",
@@ -451,7 +463,1325 @@
         ]
       },
       "script": null,
-      "media": []
+      "media": [],
+      "output": "mp4",
+      "series": null,
+      "alt": null,
+      "gif": null
+    },
+    {
+      "id": "gif-195-countries",
+      "title": "195+ countries, one API",
+      "group": "massive",
+      "kind": "native",
+      "brand": null,
+      "status": "draft",
+      "source": "scripts/banners/banners.config.mjs (banner 03-scale)",
+      "compositionId": "gif-195-countries",
+      "width": 1080,
+      "height": 1350,
+      "fps": 15,
+      "duration": 5,
+      "path": "/video-projects/gif-195-countries/index.html",
+      "storyboard": null,
+      "script": null,
+      "media": [],
+      "output": "gif",
+      "series": null,
+      "alt": "Animated map: a red \"One API\" node at the bottom sends requests along arcs to countries on a dotted world map, each lighting up as a request lands. Headline: 195+ countries. One API.",
+      "gif": {
+        "bytes": 608640,
+        "frames": 75,
+        "fps": 15,
+        "width": 1080,
+        "height": 1350,
+        "duration": 5,
+        "colors": 256,
+        "dither": "sierra2_4a",
+        "loop": 0,
+        "renderedAt": "2026-10-26T17:38:20.661Z",
+        "checks": [
+          {
+            "label": "File size",
+            "value": "0.61 MB",
+            "limit": "under 5.00 MB",
+            "ok": true
+          },
+          {
+            "label": "Frames",
+            "value": "75",
+            "limit": "250 or fewer",
+            "ok": true
+          },
+          {
+            "label": "Shape",
+            "value": "4:5",
+            "limit": "1:1, 4:5 or 1.91:1",
+            "ok": true
+          },
+          {
+            "label": "Length",
+            "value": "5s",
+            "limit": "3–6s",
+            "ok": true
+          },
+          {
+            "label": "Frame rate",
+            "value": "15 fps",
+            "limit": "10–24 fps",
+            "ok": true
+          },
+          {
+            "label": "Loop seam",
+            "value": "smooth",
+            "limit": "last frame flows into the first",
+            "ok": true
+          }
+        ],
+        "url": "/video-projects/gif-195-countries/gif/gif-195-countries.gif?v=2026-10-26T17%3A38%3A20.661Z",
+        "firstFrameUrl": "/video-projects/gif-195-countries/gif/first-frame.jpg?v=2026-10-26T17%3A38%3A20.661Z"
+      }
+    },
+    {
+      "id": "gif-archive-01-terms",
+      "title": "Lightpanda · Keep every version of a terms page",
+      "group": "massive",
+      "kind": "native",
+      "brand": null,
+      "status": "draft",
+      "source": "lightpanda.io/docs/reference/cli/fetch, /common-options, /guides/configure-a-proxy (checked 2026-10-26)",
+      "compositionId": "gif-archive-01-terms",
+      "width": 1080,
+      "height": 1350,
+      "fps": 15,
+      "duration": 3,
+      "path": "/video-projects/gif-archive-01-terms/index.html",
+      "storyboard": null,
+      "script": null,
+      "media": [],
+      "output": "gif",
+      "series": "Archive machines",
+      "alt": "Animated infographic on white: Lightpanda, Massive and your code listed in a stack card, then the machine. A daily schedule runs a Lightpanda fetch of example.com/terms; the request goes out through a Massive residential IP and the page comes back as Markdown; a word diff marks the changed wording in red; a webhook rings; and the dated copy drops into an archive of daily versions. Packets move through several steps at once. Headline: Keep every version of a terms page.",
+      "gif": {
+        "bytes": 583294,
+        "frames": 45,
+        "fps": 15,
+        "width": 1080,
+        "height": 1350,
+        "duration": 3,
+        "colors": 256,
+        "dither": "sierra2_4a",
+        "loop": 0,
+        "renderedAt": "2026-10-26T19:50:40.711Z",
+        "checks": [
+          {
+            "label": "File size",
+            "value": "0.58 MB",
+            "limit": "under 5.00 MB",
+            "ok": true
+          },
+          {
+            "label": "Frames",
+            "value": "45",
+            "limit": "250 or fewer",
+            "ok": true
+          },
+          {
+            "label": "Shape",
+            "value": "4:5",
+            "limit": "1:1, 4:5 or 1.91:1",
+            "ok": true
+          },
+          {
+            "label": "Length",
+            "value": "3s",
+            "limit": "3–6s",
+            "ok": true
+          },
+          {
+            "label": "Frame rate",
+            "value": "15 fps",
+            "limit": "10–24 fps",
+            "ok": true
+          },
+          {
+            "label": "Loop seam",
+            "value": "smooth",
+            "limit": "last frame flows into the first",
+            "ok": true
+          }
+        ],
+        "url": "/video-projects/gif-archive-01-terms/gif/gif-archive-01-terms.gif?v=2026-10-26T19%3A50%3A40.711Z",
+        "firstFrameUrl": "/video-projects/gif-archive-01-terms/gif/first-frame.jpg?v=2026-10-26T19%3A50%3A40.711Z"
+      }
+    },
+    {
+      "id": "gif-archive-05-pricing",
+      "title": "Lightpanda · Price history, country by country",
+      "group": "massive",
+      "kind": "native",
+      "brand": null,
+      "status": "draft",
+      "source": "lightpanda.io/docs/reference/cli/fetch, /common-options (--locale, --http-proxy), docs.joinmassive.com/residential/routing (country in the proxy username), checked 2026-10-26",
+      "compositionId": "gif-archive-05-pricing",
+      "width": 1080,
+      "height": 1350,
+      "fps": 15,
+      "duration": 3,
+      "path": "/video-projects/gif-archive-05-pricing/index.html",
+      "storyboard": null,
+      "script": null,
+      "media": [],
+      "output": "gif",
+      "series": "Archive machines",
+      "alt": "Animated infographic on white: Lightpanda, Massive and your code listed in a stack card, then the machine. A daily schedule runs a Lightpanda fetch of example.com/pricing once per country, with the US, Germany, Japan, Brazil, India and the UK stepping through the command. Each request goes out through a Massive residential IP in that country, a parser pulls plan names and prices into a CSV, a webhook rings when a price moves, and the day's copies drop into a dated archive. Headline: Price history, country by country.",
+      "gif": {
+        "bytes": 590018,
+        "frames": 45,
+        "fps": 15,
+        "width": 1080,
+        "height": 1350,
+        "duration": 3,
+        "colors": 256,
+        "dither": "sierra2_4a",
+        "loop": 0,
+        "renderedAt": "2026-10-26T19:50:46.915Z",
+        "checks": [
+          {
+            "label": "File size",
+            "value": "0.59 MB",
+            "limit": "under 5.00 MB",
+            "ok": true
+          },
+          {
+            "label": "Frames",
+            "value": "45",
+            "limit": "250 or fewer",
+            "ok": true
+          },
+          {
+            "label": "Shape",
+            "value": "4:5",
+            "limit": "1:1, 4:5 or 1.91:1",
+            "ok": true
+          },
+          {
+            "label": "Length",
+            "value": "3s",
+            "limit": "3–6s",
+            "ok": true
+          },
+          {
+            "label": "Frame rate",
+            "value": "15 fps",
+            "limit": "10–24 fps",
+            "ok": true
+          },
+          {
+            "label": "Loop seam",
+            "value": "smooth",
+            "limit": "last frame flows into the first",
+            "ok": true
+          }
+        ],
+        "url": "/video-projects/gif-archive-05-pricing/gif/gif-archive-05-pricing.gif?v=2026-10-26T19%3A50%3A46.915Z",
+        "firstFrameUrl": "/video-projects/gif-archive-05-pricing/gif/first-frame.jpg?v=2026-10-26T19%3A50%3A46.915Z"
+      }
+    },
+    {
+      "id": "gif-archive-capturekit",
+      "title": "CaptureKit · Your landing page, as each country sees it.",
+      "group": "massive",
+      "kind": "native",
+      "brand": null,
+      "status": "draft",
+      "source": "docs.capturekit.dev/capture (proxy, full_page, s3_*); docs.joinmassive.com/residential/authentication, /geotargeting (checked 2026-10-26)",
+      "compositionId": "gif-archive-capturekit",
+      "width": 1080,
+      "height": 1350,
+      "fps": 15,
+      "duration": 4,
+      "path": "/video-projects/gif-archive-capturekit/index.html",
+      "storyboard": null,
+      "script": null,
+      "media": [],
+      "output": "gif",
+      "series": "Archive machines",
+      "alt": "Animated infographic: CaptureKit, Massive and your code in a stack card, then three tall browser windows showing the same landing page as it loads in the US, Germany and Japan via Massive, each with a different layout. A new day starts and a red capture bar runs down each full page in turn as it scrolls, and each finished screenshot drops into a filmstrip of dated PNGs beside yesterday's. The request card highlights the proxy for the country being captured. Headline: Your landing page, as each country sees it.",
+      "gif": {
+        "bytes": 343746,
+        "frames": 60,
+        "fps": 15,
+        "width": 1080,
+        "height": 1350,
+        "duration": 4,
+        "colors": 256,
+        "dither": "sierra2_4a",
+        "loop": 0,
+        "renderedAt": "2026-10-26T19:51:09.201Z",
+        "checks": [
+          {
+            "label": "File size",
+            "value": "0.34 MB",
+            "limit": "under 5.00 MB",
+            "ok": true
+          },
+          {
+            "label": "Frames",
+            "value": "60",
+            "limit": "250 or fewer",
+            "ok": true
+          },
+          {
+            "label": "Shape",
+            "value": "4:5",
+            "limit": "1:1, 4:5 or 1.91:1",
+            "ok": true
+          },
+          {
+            "label": "Length",
+            "value": "4s",
+            "limit": "3–6s",
+            "ok": true
+          },
+          {
+            "label": "Frame rate",
+            "value": "15 fps",
+            "limit": "10–24 fps",
+            "ok": true
+          },
+          {
+            "label": "Loop seam",
+            "value": "smooth",
+            "limit": "last frame flows into the first",
+            "ok": true
+          }
+        ],
+        "url": "/video-projects/gif-archive-capturekit/gif/gif-archive-capturekit.gif?v=2026-10-26T19%3A51%3A09.201Z",
+        "firstFrameUrl": "/video-projects/gif-archive-capturekit/gif/first-frame.jpg?v=2026-10-26T19%3A51%3A09.201Z"
+      }
+    },
+    {
+      "id": "gif-archive-diffbot",
+      "title": "Diffbot · Catch silent edits in published articles.",
+      "group": "massive",
+      "kind": "native",
+      "brand": null,
+      "status": "draft",
+      "source": "diffbot.com/docs/extract (raw HTML POST), diffbot.com/docs/extract/article; docs.joinmassive.com/residential/authentication, /geotargeting (checked 2026-10-26)",
+      "compositionId": "gif-archive-diffbot",
+      "width": 1080,
+      "height": 1350,
+      "fps": 15,
+      "duration": 4,
+      "path": "/video-projects/gif-archive-diffbot/index.html",
+      "storyboard": null,
+      "script": null,
+      "media": [],
+      "output": "gif",
+      "series": "Archive machines",
+      "alt": "Animated infographic: Diffbot, Massive and your code in a stack card, then a news article fetched via Massive. On day 1 it shows the original headline; on day 2 a reading line sweeps the page, the old headline is struck through in red and the rewritten one types in, Diffbot's extracted title updates, and a v2 dot joins the version timeline. Headline: Catch silent edits in published articles.",
+      "gif": {
+        "bytes": 158189,
+        "frames": 60,
+        "fps": 15,
+        "width": 1080,
+        "height": 1350,
+        "duration": 4,
+        "colors": 256,
+        "dither": "sierra2_4a",
+        "loop": 0,
+        "renderedAt": "2026-10-26T19:51:17.175Z",
+        "checks": [
+          {
+            "label": "File size",
+            "value": "0.16 MB",
+            "limit": "under 5.00 MB",
+            "ok": true
+          },
+          {
+            "label": "Frames",
+            "value": "60",
+            "limit": "250 or fewer",
+            "ok": true
+          },
+          {
+            "label": "Shape",
+            "value": "4:5",
+            "limit": "1:1, 4:5 or 1.91:1",
+            "ok": true
+          },
+          {
+            "label": "Length",
+            "value": "4s",
+            "limit": "3–6s",
+            "ok": true
+          },
+          {
+            "label": "Frame rate",
+            "value": "15 fps",
+            "limit": "10–24 fps",
+            "ok": true
+          },
+          {
+            "label": "Loop seam",
+            "value": "smooth",
+            "limit": "last frame flows into the first",
+            "ok": true
+          }
+        ],
+        "url": "/video-projects/gif-archive-diffbot/gif/gif-archive-diffbot.gif?v=2026-10-26T19%3A51%3A17.175Z",
+        "firstFrameUrl": "/video-projects/gif-archive-diffbot/gif/first-frame.jpg?v=2026-10-26T19%3A51%3A17.175Z"
+      }
+    },
+    {
+      "id": "gif-archive-epctex",
+      "title": "epctex · Etsy knock-offs, caught nightly.",
+      "group": "massive",
+      "kind": "native",
+      "brand": null,
+      "status": "draft",
+      "source": "apify.com/epctex/etsy-scraper (proxyUrls), docs.apify.com/platform/schedules, docs.apify.com/platform/storage/usage; docs.joinmassive.com/residential/authentication, /geotargeting (checked 2026-10-26)",
+      "compositionId": "gif-archive-epctex",
+      "width": 1080,
+      "height": 1350,
+      "fps": 15,
+      "duration": 4,
+      "path": "/video-projects/gif-archive-epctex/index.html",
+      "storyboard": null,
+      "script": null,
+      "media": [],
+      "output": "gif",
+      "series": "Archive machines",
+      "alt": "Animated infographic: epctex, Massive and your code in a stack card. Your design, a moon pendant, is pinned beside a grid of nine Etsy listings found by epctex's Etsy Scraper on Apify through a Massive residential IP. A red reticle steps across the listings, locks onto the one that copies your design, and files it as evidence in a nightly dataset. Headline: Etsy knock-offs, caught nightly.",
+      "gif": {
+        "bytes": 157753,
+        "frames": 60,
+        "fps": 15,
+        "width": 1080,
+        "height": 1350,
+        "duration": 4,
+        "colors": 256,
+        "dither": "sierra2_4a",
+        "loop": 0,
+        "renderedAt": "2026-10-26T19:51:46.665Z",
+        "checks": [
+          {
+            "label": "File size",
+            "value": "0.16 MB",
+            "limit": "under 5.00 MB",
+            "ok": true
+          },
+          {
+            "label": "Frames",
+            "value": "60",
+            "limit": "250 or fewer",
+            "ok": true
+          },
+          {
+            "label": "Shape",
+            "value": "4:5",
+            "limit": "1:1, 4:5 or 1.91:1",
+            "ok": true
+          },
+          {
+            "label": "Length",
+            "value": "4s",
+            "limit": "3–6s",
+            "ok": true
+          },
+          {
+            "label": "Frame rate",
+            "value": "15 fps",
+            "limit": "10–24 fps",
+            "ok": true
+          },
+          {
+            "label": "Loop seam",
+            "value": "smooth",
+            "limit": "last frame flows into the first",
+            "ok": true
+          }
+        ],
+        "url": "/video-projects/gif-archive-epctex/gif/gif-archive-epctex.gif?v=2026-10-26T19%3A51%3A46.665Z",
+        "firstFrameUrl": "/video-projects/gif-archive-epctex/gif/first-frame.jpg?v=2026-10-26T19%3A51%3A46.665Z"
+      }
+    },
+    {
+      "id": "gif-archive-jigsawstack",
+      "title": "JigsawStack · A ledger of every vendor incident.",
+      "group": "massive",
+      "kind": "native",
+      "brand": null,
+      "status": "draft",
+      "source": "jigsawstack.com/docs/api-reference/ai/scrape (element_prompts, byo_proxy); docs.joinmassive.com/residential/authentication, /geotargeting (checked 2026-10-26)",
+      "compositionId": "gif-archive-jigsawstack",
+      "width": 1080,
+      "height": 1350,
+      "fps": 15,
+      "duration": 4,
+      "path": "/video-projects/gif-archive-jigsawstack/index.html",
+      "storyboard": null,
+      "script": null,
+      "media": [],
+      "output": "gif",
+      "series": "Archive machines",
+      "alt": "Animated infographic: JigsawStack, Massive and your code in a stack card. A vendor's status page, fetched via Massive, shows daily uptime bars for its API, dashboard and webhooks. The API's latest bar turns red and the page switches to Investigating; three prompts, title, date and status, fly down to your ledger, where the older incidents step down and the new one appears on top. The JigsawStack request with its byo_proxy setting sits below. Headline: A ledger of every vendor incident.",
+      "gif": {
+        "bytes": 228420,
+        "frames": 60,
+        "fps": 15,
+        "width": 1080,
+        "height": 1350,
+        "duration": 4,
+        "colors": 256,
+        "dither": "sierra2_4a",
+        "loop": 0,
+        "renderedAt": "2026-10-26T19:51:32.264Z",
+        "checks": [
+          {
+            "label": "File size",
+            "value": "0.23 MB",
+            "limit": "under 5.00 MB",
+            "ok": true
+          },
+          {
+            "label": "Frames",
+            "value": "60",
+            "limit": "250 or fewer",
+            "ok": true
+          },
+          {
+            "label": "Shape",
+            "value": "4:5",
+            "limit": "1:1, 4:5 or 1.91:1",
+            "ok": true
+          },
+          {
+            "label": "Length",
+            "value": "4s",
+            "limit": "3–6s",
+            "ok": true
+          },
+          {
+            "label": "Frame rate",
+            "value": "15 fps",
+            "limit": "10–24 fps",
+            "ok": true
+          },
+          {
+            "label": "Loop seam",
+            "value": "smooth",
+            "limit": "last frame flows into the first",
+            "ok": true
+          }
+        ],
+        "url": "/video-projects/gif-archive-jigsawstack/gif/gif-archive-jigsawstack.gif?v=2026-10-26T19%3A51%3A32.264Z",
+        "firstFrameUrl": "/video-projects/gif-archive-jigsawstack/gif/first-frame.jpg?v=2026-10-26T19%3A51%3A32.264Z"
+      }
+    },
+    {
+      "id": "gif-archive-metal",
+      "title": "Metal · Pages behind bot walls, saved as they looked.",
+      "group": "massive",
+      "kind": "native",
+      "brand": null,
+      "status": "draft",
+      "source": "metalsecurity.io (Custom Network Routing; docs need a license key, so no proxy syntax is shown); docs.joinmassive.com/residential/authentication, /geotargeting (checked 2026-10-26)",
+      "compositionId": "gif-archive-metal",
+      "width": 1080,
+      "height": 1350,
+      "fps": 15,
+      "duration": 4,
+      "path": "/video-projects/gif-archive-metal/index.html",
+      "storyboard": null,
+      "script": null,
+      "media": [],
+      "output": "gif",
+      "series": "Archive machines",
+      "alt": "Animated infographic: Metal, Massive and your code in a stack card. A report page fetched via Massive is blocked by a bot-check wall with a Checking your browser message; Metal's stealth browser gets through as the wall dissolves brick by brick, the page flashes as it is captured, and a screenshot and HTML pair files into the archive. Metal's setup (metal-browser image, custom network routing through Massive residential IPs) sits below. Headline: Pages behind bot walls, saved as they looked.",
+      "gif": {
+        "bytes": 249048,
+        "frames": 60,
+        "fps": 15,
+        "width": 1080,
+        "height": 1350,
+        "duration": 4,
+        "colors": 256,
+        "dither": "sierra2_4a",
+        "loop": 0,
+        "renderedAt": "2026-10-26T19:52:17.393Z",
+        "checks": [
+          {
+            "label": "File size",
+            "value": "0.25 MB",
+            "limit": "under 5.00 MB",
+            "ok": true
+          },
+          {
+            "label": "Frames",
+            "value": "60",
+            "limit": "250 or fewer",
+            "ok": true
+          },
+          {
+            "label": "Shape",
+            "value": "4:5",
+            "limit": "1:1, 4:5 or 1.91:1",
+            "ok": true
+          },
+          {
+            "label": "Length",
+            "value": "4s",
+            "limit": "3–6s",
+            "ok": true
+          },
+          {
+            "label": "Frame rate",
+            "value": "15 fps",
+            "limit": "10–24 fps",
+            "ok": true
+          },
+          {
+            "label": "Loop seam",
+            "value": "smooth",
+            "limit": "last frame flows into the first",
+            "ok": true
+          }
+        ],
+        "url": "/video-projects/gif-archive-metal/gif/gif-archive-metal.gif?v=2026-10-26T19%3A52%3A17.393Z",
+        "firstFrameUrl": "/video-projects/gif-archive-metal/gif/first-frame.jpg?v=2026-10-26T19%3A52%3A17.393Z"
+      }
+    },
+    {
+      "id": "gif-archive-mrscraper",
+      "title": "MrScraper · A daily evidence locker for product pages.",
+      "group": "massive",
+      "kind": "native",
+      "brand": null,
+      "status": "draft",
+      "source": "docs.mrscraper.com/docs/features/proxy, /features/schedule, /api/scraper-api/get-screenshot; docs.joinmassive.com/residential/authentication, /geotargeting (checked 2026-10-26)",
+      "compositionId": "gif-archive-mrscraper",
+      "width": 1080,
+      "height": 1350,
+      "fps": 15,
+      "duration": 4,
+      "path": "/video-projects/gif-archive-mrscraper/index.html",
+      "storyboard": null,
+      "script": null,
+      "media": [],
+      "output": "gif",
+      "series": "Archive machines",
+      "alt": "Animated infographic: MrScraper, Massive and your code in a stack card, then a product page for a desk lamp rendered via Massive. The page rewinds to yesterday's $49 and in stock; overnight the price flips to $59 and the stock to low, a camera shutter closes over the page to take today's full-page screenshot, and the snapshot flies into today's compartment of a dated evidence locker while older days step back. The setup card shows MrScraper's custom proxy on Massive, full screenshots and the Scraping Completed webhook. Headline: A daily evidence locker for product pages.",
+      "gif": {
+        "bytes": 196393,
+        "frames": 60,
+        "fps": 15,
+        "width": 1080,
+        "height": 1350,
+        "duration": 4,
+        "colors": 256,
+        "dither": "sierra2_4a",
+        "loop": 0,
+        "renderedAt": "2026-10-26T19:51:01.085Z",
+        "checks": [
+          {
+            "label": "File size",
+            "value": "0.20 MB",
+            "limit": "under 5.00 MB",
+            "ok": true
+          },
+          {
+            "label": "Frames",
+            "value": "60",
+            "limit": "250 or fewer",
+            "ok": true
+          },
+          {
+            "label": "Shape",
+            "value": "4:5",
+            "limit": "1:1, 4:5 or 1.91:1",
+            "ok": true
+          },
+          {
+            "label": "Length",
+            "value": "4s",
+            "limit": "3–6s",
+            "ok": true
+          },
+          {
+            "label": "Frame rate",
+            "value": "15 fps",
+            "limit": "10–24 fps",
+            "ok": true
+          },
+          {
+            "label": "Loop seam",
+            "value": "smooth",
+            "limit": "last frame flows into the first",
+            "ok": true
+          }
+        ],
+        "url": "/video-projects/gif-archive-mrscraper/gif/gif-archive-mrscraper.gif?v=2026-10-26T19%3A51%3A01.085Z",
+        "firstFrameUrl": "/video-projects/gif-archive-mrscraper/gif/first-frame.jpg?v=2026-10-26T19%3A51%3A01.085Z"
+      }
+    },
+    {
+      "id": "gif-archive-notte",
+      "title": "Notte · Save an API's docs before it's retired.",
+      "group": "massive",
+      "kind": "native",
+      "brand": null,
+      "status": "draft",
+      "source": "docs.notte.cc/integrations/massive (ExternalProxy), notte.cc (Browser Functions with cron scheduling); docs.joinmassive.com/residential/authentication, /geotargeting (checked 2026-10-26)",
+      "compositionId": "gif-archive-notte",
+      "width": 1080,
+      "height": 1350,
+      "fps": 15,
+      "duration": 4,
+      "path": "/video-projects/gif-archive-notte/index.html",
+      "storyboard": null,
+      "script": null,
+      "media": [],
+      "output": "gif",
+      "series": "Archive machines",
+      "alt": "Animated infographic: Notte, Massive and your code in a stack card. On the left, the sidebar of a docs site fetched via Massive; a highlight walks it page by page, ticking each one, and every page flies right onto a pile of JSON copies saved this week. A bar counts the weekly copies left until the API's sunset, and the Notte session code sits below. Headline: Save an API's docs before it's retired.",
+      "gif": {
+        "bytes": 254718,
+        "frames": 60,
+        "fps": 15,
+        "width": 1080,
+        "height": 1350,
+        "duration": 4,
+        "colors": 256,
+        "dither": "sierra2_4a",
+        "loop": 0,
+        "renderedAt": "2026-10-26T19:52:09.283Z",
+        "checks": [
+          {
+            "label": "File size",
+            "value": "0.25 MB",
+            "limit": "under 5.00 MB",
+            "ok": true
+          },
+          {
+            "label": "Frames",
+            "value": "60",
+            "limit": "250 or fewer",
+            "ok": true
+          },
+          {
+            "label": "Shape",
+            "value": "4:5",
+            "limit": "1:1, 4:5 or 1.91:1",
+            "ok": true
+          },
+          {
+            "label": "Length",
+            "value": "4s",
+            "limit": "3–6s",
+            "ok": true
+          },
+          {
+            "label": "Frame rate",
+            "value": "15 fps",
+            "limit": "10–24 fps",
+            "ok": true
+          },
+          {
+            "label": "Loop seam",
+            "value": "smooth",
+            "limit": "last frame flows into the first",
+            "ok": true
+          }
+        ],
+        "url": "/video-projects/gif-archive-notte/gif/gif-archive-notte.gif?v=2026-10-26T19%3A52%3A09.283Z",
+        "firstFrameUrl": "/video-projects/gif-archive-notte/gif/first-frame.jpg?v=2026-10-26T19%3A52%3A09.283Z"
+      }
+    },
+    {
+      "id": "gif-archive-omnifox",
+      "title": "Omnifox · Where each country's ad click lands.",
+      "group": "massive",
+      "kind": "native",
+      "brand": null,
+      "status": "draft",
+      "source": "joinmassive.com/guides/omnifox-browser, omnifoxbrowser.com; docs.joinmassive.com/residential/authentication, /geotargeting (checked 2026-10-26)",
+      "compositionId": "gif-archive-omnifox",
+      "width": 1080,
+      "height": 1350,
+      "fps": 15,
+      "duration": 4,
+      "path": "/video-projects/gif-archive-omnifox/index.html",
+      "storyboard": null,
+      "script": null,
+      "media": [],
+      "output": "gif",
+      "series": "Archive machines",
+      "alt": "Animated infographic: Omnifox, Massive and your code in a stack card. One ad sits above an Omnifox window with five tabs, US, DE, FR, BR and JP, each on its own Massive residential IP. A red redirect path draws from the ad's button to each tab in turn, and each country's landing page appears with a different layout, while the setup panel shows the proxy login for the active country. Headline: Where each country's ad click lands.",
+      "gif": {
+        "bytes": 144336,
+        "frames": 60,
+        "fps": 15,
+        "width": 1080,
+        "height": 1350,
+        "duration": 4,
+        "colors": 256,
+        "dither": "sierra2_4a",
+        "loop": 0,
+        "renderedAt": "2026-10-26T19:52:02.086Z",
+        "checks": [
+          {
+            "label": "File size",
+            "value": "0.14 MB",
+            "limit": "under 5.00 MB",
+            "ok": true
+          },
+          {
+            "label": "Frames",
+            "value": "60",
+            "limit": "250 or fewer",
+            "ok": true
+          },
+          {
+            "label": "Shape",
+            "value": "4:5",
+            "limit": "1:1, 4:5 or 1.91:1",
+            "ok": true
+          },
+          {
+            "label": "Length",
+            "value": "4s",
+            "limit": "3–6s",
+            "ok": true
+          },
+          {
+            "label": "Frame rate",
+            "value": "15 fps",
+            "limit": "10–24 fps",
+            "ok": true
+          },
+          {
+            "label": "Loop seam",
+            "value": "smooth",
+            "limit": "last frame flows into the first",
+            "ok": true
+          }
+        ],
+        "url": "/video-projects/gif-archive-omnifox/gif/gif-archive-omnifox.gif?v=2026-10-26T19%3A52%3A02.086Z",
+        "firstFrameUrl": "/video-projects/gif-archive-omnifox/gif/first-frame.jpg?v=2026-10-26T19%3A52%3A02.086Z"
+      }
+    },
+    {
+      "id": "gif-archive-parsera",
+      "title": "Parsera · Every public tender, the day it's posted.",
+      "group": "massive",
+      "kind": "native",
+      "brand": null,
+      "status": "draft",
+      "source": "docs.parsera.org/features/proxy (proxy_settings), github.com/raznem/parsera; docs.joinmassive.com/residential/authentication, /geotargeting (checked 2026-10-26)",
+      "compositionId": "gif-archive-parsera",
+      "width": 1080,
+      "height": 1350,
+      "fps": 15,
+      "duration": 4,
+      "path": "/video-projects/gif-archive-parsera/index.html",
+      "storyboard": null,
+      "script": null,
+      "media": [],
+      "output": "gif",
+      "series": "Archive machines",
+      "alt": "Animated infographic: Parsera, Massive and your code in a stack card. A public tenders portal, fetched via Massive, shows three notices side by side. A highlighter sweeps each notice's title, deadline and agency in turn, the three fields fly down, and a new line appears in tenders.csv; the Parsera code with proxy_settings sits below. Headline: Every public tender, the day it's posted.",
+      "gif": {
+        "bytes": 162354,
+        "frames": 60,
+        "fps": 15,
+        "width": 1080,
+        "height": 1350,
+        "duration": 4,
+        "colors": 256,
+        "dither": "sierra2_4a",
+        "loop": 0,
+        "renderedAt": "2026-10-26T19:51:40.257Z",
+        "checks": [
+          {
+            "label": "File size",
+            "value": "0.16 MB",
+            "limit": "under 5.00 MB",
+            "ok": true
+          },
+          {
+            "label": "Frames",
+            "value": "60",
+            "limit": "250 or fewer",
+            "ok": true
+          },
+          {
+            "label": "Shape",
+            "value": "4:5",
+            "limit": "1:1, 4:5 or 1.91:1",
+            "ok": true
+          },
+          {
+            "label": "Length",
+            "value": "4s",
+            "limit": "3–6s",
+            "ok": true
+          },
+          {
+            "label": "Frame rate",
+            "value": "15 fps",
+            "limit": "10–24 fps",
+            "ok": true
+          },
+          {
+            "label": "Loop seam",
+            "value": "smooth",
+            "limit": "last frame flows into the first",
+            "ok": true
+          }
+        ],
+        "url": "/video-projects/gif-archive-parsera/gif/gif-archive-parsera.gif?v=2026-10-26T19%3A51%3A40.257Z",
+        "firstFrameUrl": "/video-projects/gif-archive-parsera/gif/first-frame.jpg?v=2026-10-26T19%3A51%3A40.257Z"
+      }
+    },
+    {
+      "id": "gif-archive-rtrvr",
+      "title": "rtrvr.ai · The changelogs you depend on, kept.",
+      "group": "massive",
+      "kind": "native",
+      "brand": null,
+      "status": "draft",
+      "source": "rtrvr.ai/docs/scrape (settings.proxyConfig, customProxies), rtrvr.ai/docs/schedules; docs.joinmassive.com/residential/authentication, /geotargeting (checked 2026-10-26)",
+      "compositionId": "gif-archive-rtrvr",
+      "width": 1080,
+      "height": 1350,
+      "fps": 15,
+      "duration": 4,
+      "path": "/video-projects/gif-archive-rtrvr/index.html",
+      "storyboard": null,
+      "script": null,
+      "media": [],
+      "output": "gif",
+      "series": "Archive machines",
+      "alt": "Animated infographic: rtrvr.ai, Massive and your code in a stack card. On the left, a tool's changelog page fetched via Massive; a reading line runs down it and the three entries that are new since yesterday light up and fly into a saved feed on the right, where one is tagged Breaking. The /scrape request with Massive as a custom proxy sits below. Headline: The changelogs you depend on, kept.",
+      "gif": {
+        "bytes": 234607,
+        "frames": 60,
+        "fps": 15,
+        "width": 1080,
+        "height": 1350,
+        "duration": 4,
+        "colors": 256,
+        "dither": "sierra2_4a",
+        "loop": 0,
+        "renderedAt": "2026-10-26T19:51:53.594Z",
+        "checks": [
+          {
+            "label": "File size",
+            "value": "0.23 MB",
+            "limit": "under 5.00 MB",
+            "ok": true
+          },
+          {
+            "label": "Frames",
+            "value": "60",
+            "limit": "250 or fewer",
+            "ok": true
+          },
+          {
+            "label": "Shape",
+            "value": "4:5",
+            "limit": "1:1, 4:5 or 1.91:1",
+            "ok": true
+          },
+          {
+            "label": "Length",
+            "value": "4s",
+            "limit": "3–6s",
+            "ok": true
+          },
+          {
+            "label": "Frame rate",
+            "value": "15 fps",
+            "limit": "10–24 fps",
+            "ok": true
+          },
+          {
+            "label": "Loop seam",
+            "value": "smooth",
+            "limit": "last frame flows into the first",
+            "ok": true
+          }
+        ],
+        "url": "/video-projects/gif-archive-rtrvr/gif/gif-archive-rtrvr.gif?v=2026-10-26T19%3A51%3A53.594Z",
+        "firstFrameUrl": "/video-projects/gif-archive-rtrvr/gif/first-frame.jpg?v=2026-10-26T19%3A51%3A53.594Z"
+      }
+    },
+    {
+      "id": "gif-archive-scrappey",
+      "title": "Scrappey · Cookie banners, EU vs US.",
+      "group": "massive",
+      "kind": "native",
+      "brand": null,
+      "status": "draft",
+      "source": "docs.scrappey.com/md/request-get (proxy), docs.scrappey.com/md/screenshot; docs.joinmassive.com/residential/authentication, /geotargeting (checked 2026-10-26)",
+      "compositionId": "gif-archive-scrappey",
+      "width": 1080,
+      "height": 1350,
+      "fps": 15,
+      "duration": 4,
+      "path": "/video-projects/gif-archive-scrappey/index.html",
+      "storyboard": null,
+      "script": null,
+      "media": [],
+      "output": "gif",
+      "series": "Archive machines",
+      "alt": "Animated infographic: Scrappey, Massive and your code in a stack card. Two browser windows side by side load the same site via Massive, one from the EU (Germany, then France) and one from the US. Each passes a bot check, then its cookie banner slides up: a full EU banner with Accept all, Reject all and Settings, and a thin US bar with a single OK. Each window flashes as it's captured, and the screenshot and Markdown files tick off under Saved. Headline: Cookie banners, EU vs US.",
+      "gif": {
+        "bytes": 276108,
+        "frames": 60,
+        "fps": 15,
+        "width": 1080,
+        "height": 1350,
+        "duration": 4,
+        "colors": 256,
+        "dither": "sierra2_4a",
+        "loop": 0,
+        "renderedAt": "2026-10-26T19:51:24.313Z",
+        "checks": [
+          {
+            "label": "File size",
+            "value": "0.28 MB",
+            "limit": "under 5.00 MB",
+            "ok": true
+          },
+          {
+            "label": "Frames",
+            "value": "60",
+            "limit": "250 or fewer",
+            "ok": true
+          },
+          {
+            "label": "Shape",
+            "value": "4:5",
+            "limit": "1:1, 4:5 or 1.91:1",
+            "ok": true
+          },
+          {
+            "label": "Length",
+            "value": "4s",
+            "limit": "3–6s",
+            "ok": true
+          },
+          {
+            "label": "Frame rate",
+            "value": "15 fps",
+            "limit": "10–24 fps",
+            "ok": true
+          },
+          {
+            "label": "Loop seam",
+            "value": "smooth",
+            "limit": "last frame flows into the first",
+            "ok": true
+          }
+        ],
+        "url": "/video-projects/gif-archive-scrappey/gif/gif-archive-scrappey.gif?v=2026-10-26T19%3A51%3A24.313Z",
+        "firstFrameUrl": "/video-projects/gif-archive-scrappey/gif/first-frame.jpg?v=2026-10-26T19%3A51%3A24.313Z"
+      }
+    },
+    {
+      "id": "gif-archive-sequentum",
+      "title": "Sequentum · Every job posting, added or pulled.",
+      "group": "massive",
+      "kind": "native",
+      "brand": null,
+      "status": "draft",
+      "source": "cloudsupport.sequentum.com/scm/change-tracking-overview, /scm/proxy-pool; docs.sequentum.com/concepts/schedules; docs.joinmassive.com/residential/authentication, /geotargeting (checked 2026-10-26)",
+      "compositionId": "gif-archive-sequentum",
+      "width": 1080,
+      "height": 1350,
+      "fps": 15,
+      "duration": 4,
+      "path": "/video-projects/gif-archive-sequentum/index.html",
+      "storyboard": null,
+      "script": null,
+      "media": [],
+      "output": "gif",
+      "series": "Archive machines",
+      "alt": "Animated infographic: Sequentum, Massive and your code in a stack card, then a ledger of roles from careers pages crawled through a Massive residential proxy pool. The ledger rewinds to yesterday, then today's run replays each change: a Data Engineer row slides in as Added, a location flips from Remote to Lisbon as Updated, a Support Lead row is struck through as Deleted, and an ML Researcher row returns as Reappeared. The setup card shows the proxy pool and change tracking. Headline: Every job posting, added or pulled.",
+      "gif": {
+        "bytes": 157815,
+        "frames": 60,
+        "fps": 15,
+        "width": 1080,
+        "height": 1350,
+        "duration": 4,
+        "colors": 256,
+        "dither": "sierra2_4a",
+        "loop": 0,
+        "renderedAt": "2026-10-26T19:50:53.940Z",
+        "checks": [
+          {
+            "label": "File size",
+            "value": "0.16 MB",
+            "limit": "under 5.00 MB",
+            "ok": true
+          },
+          {
+            "label": "Frames",
+            "value": "60",
+            "limit": "250 or fewer",
+            "ok": true
+          },
+          {
+            "label": "Shape",
+            "value": "4:5",
+            "limit": "1:1, 4:5 or 1.91:1",
+            "ok": true
+          },
+          {
+            "label": "Length",
+            "value": "4s",
+            "limit": "3–6s",
+            "ok": true
+          },
+          {
+            "label": "Frame rate",
+            "value": "15 fps",
+            "limit": "10–24 fps",
+            "ok": true
+          },
+          {
+            "label": "Loop seam",
+            "value": "smooth",
+            "limit": "last frame flows into the first",
+            "ok": true
+          }
+        ],
+        "url": "/video-projects/gif-archive-sequentum/gif/gif-archive-sequentum.gif?v=2026-10-26T19%3A50%3A53.940Z",
+        "firstFrameUrl": "/video-projects/gif-archive-sequentum/gif/first-frame.jpg?v=2026-10-26T19%3A50%3A53.940Z"
+      }
+    },
+    {
+      "id": "gif-mcp-live-log",
+      "title": "MCP: live tool calls",
+      "group": "massive",
+      "kind": "native",
+      "brand": null,
+      "status": "draft",
+      "source": "articleTemplates.ts (MCP_ANNOUNCEMENT_X, MCP_ANNOUNCEMENT_LINKEDIN); scripts/banners/banners.config.mjs (05-freshness)",
+      "compositionId": "gif-mcp-live-log",
+      "width": 1200,
+      "height": 628,
+      "fps": 15,
+      "duration": 5,
+      "path": "/video-projects/gif-mcp-live-log/index.html",
+      "storyboard": null,
+      "script": null,
+      "media": [],
+      "output": "gif",
+      "series": null,
+      "alt": "Animated terminal labelled LIVE: an agent's Massive MCP tool calls (/search, /ai, /render, each with a target country) arrive one at a time and resolve with status 200. Headline: Always live. Never cached.",
+      "gif": {
+        "bytes": 875575,
+        "frames": 75,
+        "fps": 15,
+        "width": 1200,
+        "height": 628,
+        "duration": 5,
+        "colors": 256,
+        "dither": "sierra2_4a",
+        "loop": 0,
+        "renderedAt": "2026-10-26T17:39:41.500Z",
+        "checks": [
+          {
+            "label": "File size",
+            "value": "0.88 MB",
+            "limit": "under 5.00 MB",
+            "ok": true
+          },
+          {
+            "label": "Frames",
+            "value": "75",
+            "limit": "250 or fewer",
+            "ok": true
+          },
+          {
+            "label": "Shape",
+            "value": "1.91:1",
+            "limit": "1:1, 4:5 or 1.91:1",
+            "ok": true
+          },
+          {
+            "label": "Length",
+            "value": "5s",
+            "limit": "3–6s",
+            "ok": true
+          },
+          {
+            "label": "Frame rate",
+            "value": "15 fps",
+            "limit": "10–24 fps",
+            "ok": true
+          },
+          {
+            "label": "Loop seam",
+            "value": "smooth",
+            "limit": "last frame flows into the first",
+            "ok": true
+          }
+        ],
+        "url": "/video-projects/gif-mcp-live-log/gif/gif-mcp-live-log.gif?v=2026-10-26T17%3A39%3A41.500Z",
+        "firstFrameUrl": "/video-projects/gif-mcp-live-log/gif/first-frame.jpg?v=2026-10-26T17%3A39%3A41.500Z"
+      }
+    },
+    {
+      "id": "gif-mcp-stack",
+      "title": "MCP: one npm install",
+      "group": "massive",
+      "kind": "native",
+      "brand": null,
+      "status": "draft",
+      "source": "src/tools/campaign-designer/app/components/templates/articles/articleTemplates.ts (MCP_ANNOUNCEMENT_LINKEDIN)",
+      "compositionId": "gif-mcp-stack",
+      "width": 1080,
+      "height": 1080,
+      "fps": 15,
+      "duration": 5,
+      "path": "/video-projects/gif-mcp-stack/index.html",
+      "storyboard": null,
+      "script": null,
+      "media": [],
+      "output": "gif",
+      "series": null,
+      "alt": "Animated card: a terminal running npm install -g @joinmassive/mcp-server, which adds /ai, /search and /render. It opens into five things you would otherwise maintain (proxies, browser pools, captcha solvers, geo routing, a SERP parser) and collapses back. Headline: One npm install. Not five things to maintain.",
+      "gif": {
+        "bytes": 446340,
+        "frames": 75,
+        "fps": 15,
+        "width": 1080,
+        "height": 1080,
+        "duration": 5,
+        "colors": 256,
+        "dither": "sierra2_4a",
+        "loop": 0,
+        "renderedAt": "2026-10-26T17:38:55.968Z",
+        "checks": [
+          {
+            "label": "File size",
+            "value": "0.45 MB",
+            "limit": "under 5.00 MB",
+            "ok": true
+          },
+          {
+            "label": "Frames",
+            "value": "75",
+            "limit": "250 or fewer",
+            "ok": true
+          },
+          {
+            "label": "Shape",
+            "value": "1:1",
+            "limit": "1:1, 4:5 or 1.91:1",
+            "ok": true
+          },
+          {
+            "label": "Length",
+            "value": "5s",
+            "limit": "3–6s",
+            "ok": true
+          },
+          {
+            "label": "Frame rate",
+            "value": "15 fps",
+            "limit": "10–24 fps",
+            "ok": true
+          },
+          {
+            "label": "Loop seam",
+            "value": "smooth",
+            "limit": "last frame flows into the first",
+            "ok": true
+          }
+        ],
+        "url": "/video-projects/gif-mcp-stack/gif/gif-mcp-stack.gif?v=2026-10-26T17%3A38%3A55.968Z",
+        "firstFrameUrl": "/video-projects/gif-mcp-stack/gif/first-frame.jpg?v=2026-10-26T17%3A38%3A55.968Z"
+      }
+    },
+    {
+      "id": "gif-opt-in",
+      "title": "Nothing is ticked for you",
+      "group": "massive",
+      "kind": "native",
+      "brand": null,
+      "status": "draft",
+      "source": "public/video-projects/what-does-consent-look-like/SCRIPT.md (line 13); content/legends/brief.md",
+      "compositionId": "gif-opt-in",
+      "width": 1080,
+      "height": 1350,
+      "fps": 15,
+      "duration": 5,
+      "path": "/video-projects/gif-opt-in/index.html",
+      "storyboard": null,
+      "script": null,
+      "media": [],
+      "output": "gif",
+      "series": null,
+      "alt": "Animated settings card on cream paper: the Share idle bandwidth switch starts off. A cursor switches it on, bandwidth dots flow from this device to the Massive network, then it is switched off again. Headline: Nothing is ticked for you. You reach out and choose it. Tagline: Asked, not taken.",
+      "gif": {
+        "bytes": 152825,
+        "frames": 75,
+        "fps": 15,
+        "width": 1080,
+        "height": 1350,
+        "duration": 5,
+        "colors": 256,
+        "dither": "sierra2_4a",
+        "loop": 0,
+        "renderedAt": "2026-10-26T17:39:04.699Z",
+        "checks": [
+          {
+            "label": "File size",
+            "value": "0.15 MB",
+            "limit": "under 5.00 MB",
+            "ok": true
+          },
+          {
+            "label": "Frames",
+            "value": "75",
+            "limit": "250 or fewer",
+            "ok": true
+          },
+          {
+            "label": "Shape",
+            "value": "4:5",
+            "limit": "1:1, 4:5 or 1.91:1",
+            "ok": true
+          },
+          {
+            "label": "Length",
+            "value": "5s",
+            "limit": "3–6s",
+            "ok": true
+          },
+          {
+            "label": "Frame rate",
+            "value": "15 fps",
+            "limit": "10–24 fps",
+            "ok": true
+          },
+          {
+            "label": "Loop seam",
+            "value": "smooth",
+            "limit": "last frame flows into the first",
+            "ok": true
+          }
+        ],
+        "url": "/video-projects/gif-opt-in/gif/gif-opt-in.gif?v=2026-10-26T17%3A39%3A04.699Z",
+        "firstFrameUrl": "/video-projects/gif-opt-in/gif/first-frame.jpg?v=2026-10-26T17%3A39%3A04.699Z"
+      }
     },
     {
       "id": "holiday-greetings",
@@ -534,7 +1864,11 @@
         ]
       },
       "script": null,
-      "media": []
+      "media": [],
+      "output": "mp4",
+      "series": null,
+      "alt": null,
+      "gif": null
     },
     {
       "id": "jason-15k-grid",
@@ -578,7 +1912,11 @@
         ]
       },
       "script": null,
-      "media": []
+      "media": [],
+      "output": "mp4",
+      "series": null,
+      "alt": null,
+      "gif": null
     },
     {
       "id": "jason-15k-milestone",
@@ -661,7 +1999,11 @@
         ]
       },
       "script": null,
-      "media": []
+      "media": [],
+      "output": "mp4",
+      "series": null,
+      "alt": null,
+      "gif": null
     },
     {
       "id": "jason-15k-network",
@@ -705,7 +2047,11 @@
         ]
       },
       "script": null,
-      "media": []
+      "media": [],
+      "output": "mp4",
+      "series": null,
+      "alt": null,
+      "gif": null
     },
     {
       "id": "launch-teaser",
@@ -814,7 +2160,11 @@
         ]
       },
       "script": null,
-      "media": []
+      "media": [],
+      "output": "mp4",
+      "series": null,
+      "alt": null,
+      "gif": null
     },
     {
       "id": "massive-brand-video",
@@ -949,7 +2299,11 @@
         ]
       },
       "script": null,
-      "media": []
+      "media": [],
+      "output": "mp4",
+      "series": null,
+      "alt": null,
+      "gif": null
     },
     {
       "id": "sparktray-can-chatgpt-transcribe-audio",
@@ -1099,7 +2453,11 @@
       "script": "# SCRIPT — sparktray-can-chatgpt-transcribe-audio\n\n**Voice:** Mark (ElevenLabs, v3p1kjzUvro6S76qmYmH, eleven_v3)\n**Voice settings:** stability 0.55 · similarity 0.75 · style 0 · seed 20260806\n**Voice direction:** Plain, level and unhurried, one continuous take. A guide talking a viewer through a decision, not an ad: the concessions land as flatly as the claims.\n\nLocked: recorded as one take (`voice/sparktray/guide-transcriber-can-chatgpt-transcribe-audio/take-63531328.mp3`, 144.96s, request S4Sd9i0rkAHEV8L8VMC0). Times are the real cue points from `voice.json`, with no lead-in offset (the take starts at 0.00s).\n\n---\n\n## Line 1 — Can ChatGPT transcribe audio? Yes… (Frame 1)\n\n**Time:** 0.00 – 8.17 s\n**Delivery:** Thoughtful, then level.\n\n    [thoughtful] Can ChatGPT transcribe audio? Yes, and it is good at it, and there are three limits worth knowing first.\n\n## Line 2 — The company that makes it… (Frame 1)\n\n**Time:** 8.17 – 14.13 s\n**Delivery:** Level, carrying on from the line before.\n\n    The company that makes it also made Whisper, which is the model most transcription tools run.\n\n## Line 3 — So this is not a… (Frame 1)\n\n**Time:** 14.13 – 21.48 s\n**Delivery:** Level, carrying on from the line before.\n\n    So this is not a question about accuracy. It is a question about file size, privacy and format.\n\n## Line 4 — First, the upload cap. There… (Frame 2)\n\n**Time:** 21.48 – 30.31 s\n**Delivery:** Short pause, then level.\n\n    [short pause] First, the upload cap. There is a ceiling on the file you can attach, and an hour of uncompressed audio goes past it.\n\n## Line 5 — Second, it hands you prose… (Frame 2)\n\n**Time:** 30.31 – 38.62 s\n**Delivery:** Level, carrying on from the line before.\n\n    Second, it hands you prose. You get the words, not a subtitle file with timings you can use in an editor.\n\n## Line 6 — Third, the recording goes to… (Frame 3)\n\n**Time:** 38.62 – 44.17 s\n**Delivery:** Thoughtful, then level.\n\n    [thoughtful] Third, the recording goes to a server. For a lecture that is nothing at all.\n\n## Line 7 — For a client call, a… (Frame 3)\n\n**Time:** 44.17 – 52.03 s\n**Delivery:** Level, carrying on from the line before.\n\n    For a client call, a medical conversation or an unpublished interview, that is a decision, and it should be a deliberate one.\n\n## Line 8 — Where it genuinely wins is… (Frame 3)\n\n**Time:** 52.03 – 56.71 s\n**Delivery:** Level, carrying on from the line before.\n\n    Where it genuinely wins is everything after the transcript.\n\n## Line 9 — Ask it to summarise the… (Frame 3)\n\n**Time:** 56.71 – 65.38 s\n**Delivery:** Level, carrying on from the line before.\n\n    Ask it to summarise the call or pull the action items and it will, immediately, which no local tool here does.\n\n## Line 10 — For the transcript itself, open… (Frame 4)\n\n**Time:** 65.38 – 71.59 s\n**Delivery:** Short pause, then level.\n\n    [short pause] For the transcript itself, open Transcriber, the last utility on the left.\n\n## Line 11 — Drop the recording onto the… (Frame 4)\n\n**Time:** 71.59 – 79.21 s\n**Delivery:** Level, carrying on from the line before.\n\n    Drop the recording onto the drop zone in the middle of the window. There is no size limit, because there is no upload.\n\n## Line 12 — Model. Tiny through Medium, and… (Frame 5)\n\n**Time:** 79.21 – 85.62 s\n**Delivery:** Thoughtful, then level.\n\n    [thoughtful] Model. Tiny through Medium, and you choose rather than being given one.\n\n## Line 13 — Under Output formats, SRT and… (Frame 5)\n\n**Time:** 85.62 – 94.67 s\n**Delivery:** Level, carrying on from the line before.\n\n    Under Output formats, SRT and VTT are the two you cannot get out of a chat window. That is the practical difference.\n\n## Line 14 — Hit Transcribe, the button at… (Frame 6)\n\n**Time:** 94.67 – 99.11 s\n**Delivery:** Level, carrying on from the line before.\n\n    Hit Transcribe, the button at the bottom of the panel.\n\n## Line 15 — Six hundred and twelve timestamped… (Frame 7)\n\n**Time:** 99.11 – 105.13 s\n**Delivery:** Short pause, then level.\n\n    [short pause] Six hundred and twelve timestamped lines, as an SRT and as plain text.\n\n## Line 16 — This gives you a transcript… (Frame 8)\n\n**Time:** 105.13 – 108.63 s\n**Delivery:** Exhales, then level.\n\n    [exhales] This gives you a transcript and stops there.\n\n## Line 17 — Which means no summary, no… (Frame 8)\n\n**Time:** 108.63 – 115.10 s\n**Delivery:** Level, carrying on from the line before.\n\n    Which means no summary, no action items and no answering questions about what was said.\n\n## Line 18 — If that is what you… (Frame 8)\n\n**Time:** 115.10 – 120.09 s\n**Delivery:** Level, carrying on from the line before.\n\n    If that is what you actually wanted, the chat window is the right tool.\n\n## Line 19 — A reasonable middle: transcribe locally… (Frame 8)\n\n**Time:** 120.09 – 127.45 s\n**Delivery:** Level, carrying on from the line before.\n\n    A reasonable middle: transcribe locally, then paste the text somewhere if you want it summarised.\n\n## Line 20 — The audio stays on your… (Frame 8)\n\n**Time:** 127.45 – 132.26 s\n**Delivery:** Level, carrying on from the line before.\n\n    The audio stays on your machine and only the words travel.\n\n## Line 21 — So yes it can, with… (Frame 9)\n\n**Time:** 132.26 – 138.60 s\n**Delivery:** Short pause, then level.\n\n    [short pause] So yes it can, with a size cap, prose output, and an upload.\n\n## Line 22 — Locally you get timestamps and… (Frame 9)\n\n**Time:** 138.60 – 144.96 s\n**Delivery:** Level, carrying on from the line before.\n\n    Locally you get timestamps and no cap, on your own machine, with nothing uploaded.\n",
       "media": [
         "assets/voice/take-63531328.mp3"
-      ]
+      ],
+      "output": "mp4",
+      "series": null,
+      "alt": null,
+      "gif": null
     },
     {
       "id": "welcome-to-massive",
@@ -1182,7 +2540,11 @@
         ]
       },
       "script": null,
-      "media": []
+      "media": [],
+      "output": "mp4",
+      "series": null,
+      "alt": null,
+      "gif": null
     },
     {
       "id": "what-does-consent-look-like",
@@ -1349,7 +2711,11 @@
         "assets/images/wallpaper.jpg",
         "assets/music/calm-lo-fi.mp3",
         "assets/voice/take-91a15da5.mp3"
-      ]
+      ],
+      "output": "mp4",
+      "series": null,
+      "alt": null,
+      "gif": null
     },
     {
       "id": "why-aeo-is-the-new-seo",
@@ -1445,7 +2811,11 @@
         ]
       },
       "script": null,
-      "media": []
+      "media": [],
+      "output": "mp4",
+      "series": null,
+      "alt": null,
+      "gif": null
     },
     {
       "id": "work-anniversary",
@@ -1528,7 +2898,11 @@
         ]
       },
       "script": null,
-      "media": []
+      "media": [],
+      "output": "mp4",
+      "series": null,
+      "alt": null,
+      "gif": null
     }
   ]
 }

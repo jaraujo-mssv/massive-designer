@@ -1,0 +1,15 @@
+{
+  "id": "gif-archive-metal",
+  "name": "Metal · Pages behind bot walls, saved as they looked.",
+  "group": "massive",
+  "kind": "native",
+  "status": "draft",
+  "source": "metalsecurity.io (Custom Network Routing; docs need a license key, so no proxy syntax is shown); docs.joinmassive.com/residential/authentication, /geotargeting (checked 2026-10-26)",
+  "output": "gif",
+  "series": "Archive machines",
+  "kits": [
+    "scenes"
+  ],
+  "partner": "Metal",
+  "alt": "Animated infographic: Metal, Massive and your code in a stack card. A report page fetched via Massive is blocked by a bot-check wall with a Checking your browser message; Metal's stealth browser gets through as the wall dissolves brick by brick, the page flashes as it is captured, and a screenshot and HTML pair files into the archive. Metal's setup (metal-browser image, custom network routing through Massive residential IPs) sits below. Headline: Pages behind bot walls, saved as they looked."
+}

@@ -1,0 +1,15 @@
+{
+  "id": "gif-archive-diffbot",
+  "name": "Diffbot · Catch silent edits in published articles.",
+  "group": "massive",
+  "kind": "native",
+  "status": "draft",
+  "source": "diffbot.com/docs/extract (raw HTML POST), diffbot.com/docs/extract/article; docs.joinmassive.com/residential/authentication, /geotargeting (checked 2026-10-26)",
+  "output": "gif",
+  "series": "Archive machines",
+  "kits": [
+    "scenes"
+  ],
+  "partner": "Diffbot",
+  "alt": "Animated infographic: Diffbot, Massive and your code in a stack card, then a news article fetched via Massive. On day 1 it shows the original headline; on day 2 a reading line sweeps the page, the old headline is struck through in red and the rewritten one types in, Diffbot's extracted title updates, and a v2 dot joins the version timeline. Headline: Catch silent edits in published articles."
+}

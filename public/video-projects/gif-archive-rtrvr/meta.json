@@ -1,0 +1,15 @@
+{
+  "id": "gif-archive-rtrvr",
+  "name": "rtrvr.ai · The changelogs you depend on, kept.",
+  "group": "massive",
+  "kind": "native",
+  "status": "draft",
+  "source": "rtrvr.ai/docs/scrape (settings.proxyConfig, customProxies), rtrvr.ai/docs/schedules; docs.joinmassive.com/residential/authentication, /geotargeting (checked 2026-10-26)",
+  "output": "gif",
+  "series": "Archive machines",
+  "kits": [
+    "scenes"
+  ],
+  "partner": "rtrvr.ai",
+  "alt": "Animated infographic: rtrvr.ai, Massive and your code in a stack card. On the left, a tool's changelog page fetched via Massive; a reading line runs down it and the three entries that are new since yesterday light up and fly into a saved feed on the right, where one is tagged Breaking. The /scrape request with Massive as a custom proxy sits below. Headline: The changelogs you depend on, kept."
+}

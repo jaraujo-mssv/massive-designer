@@ -1,0 +1,15 @@
+{
+  "id": "gif-archive-05-pricing",
+  "name": "Lightpanda · Price history, country by country",
+  "group": "massive",
+  "kind": "native",
+  "status": "draft",
+  "source": "lightpanda.io/docs/reference/cli/fetch, /common-options (--locale, --http-proxy), docs.joinmassive.com/residential/routing (country in the proxy username), checked 2026-10-26",
+  "output": "gif",
+  "series": "Archive machines",
+  "kits": [
+    "machine"
+  ],
+  "alt": "Animated infographic on white: Lightpanda, Massive and your code listed in a stack card, then the machine. A daily schedule runs a Lightpanda fetch of example.com/pricing once per country, with the US, Germany, Japan, Brazil, India and the UK stepping through the command. Each request goes out through a Massive residential IP in that country, a parser pulls plan names and prices into a CSV, a webhook rings when a price moves, and the day's copies drop into a dated archive. Headline: Price history, country by country.",
+  "partner": "Lightpanda"
+}

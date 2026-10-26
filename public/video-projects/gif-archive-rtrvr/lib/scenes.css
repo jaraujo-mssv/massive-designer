@@ -1,0 +1,215 @@
+/*
+ * scenes.css: the series frame and shared parts for bespoke GIF scenes (portrait 1080×1350): white cards on
+ * the faint orange ground (.m-ground.soft-orange) with a line grid, ink type, one paper-red accent.
+ * Each project draws its own scene between the stack card and the logo; see lib/scenes.js and the
+ * massive-gif skill. Master copy: public/video-projects/_gif/kits/scenes/.
+ * Mono rule: JetBrains Mono only inside <code>, <pre> or .m-code.
+ */
+#stage {
+  color: var(--m-ink);
+  font-family: var(--m-sans);
+}
+
+/* The frame: title and one-line why on top, the stack card in the footer. */
+.sc-title {
+  position: absolute;
+  left: 80px;
+  right: 80px;
+  top: 102px;
+  text-align: center;
+  font-size: 64px;
+  font-weight: 900;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+}
+.sc-why {
+  position: absolute;
+  left: 110px;
+  right: 110px;
+  top: 252px;
+  text-align: center;
+  font-size: 27px;
+  line-height: 1.35;
+  color: rgba(23, 22, 21, 0.72);
+}
+/* The stack closes the frame: who does what, as app icons, in a dashed outline with no fill. */
+.sc-stack {
+  position: absolute;
+  left: 80px;
+  top: 1158px;
+  width: 920px;
+  height: 108px;
+  border-radius: 18px;
+  border: 2px dashed rgba(23, 22, 21, 0.3);
+}
+/* Scenes are laid out with the body from y 412 to about 1180. With the stack in the footer, the body is lifted
+   64px so it sits between the description and the stack. */
+#stage > :not(.m-ground):not(.m-linegrid):not(.sc-title):not(.sc-why):not(.sc-stack) {
+  translate: 0 -64px;
+}
+.sc-stack .parts {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  top: 0;
+  bottom: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* three equal columns */
+  align-items: center;
+  gap: 18px;
+}
+.sc-stack .part {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+.sc-stack .ic {
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* App icons: the partner's favicon on a rounded tile. */
+.sc-stack .ic img,
+.sc-stack .ic svg {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+}
+.sc-stack .ic img {
+  border: 1px solid rgba(23, 22, 21, 0.12);
+}
+.sc-stack img.wm {
+  display: block;
+  height: 30px;
+  max-width: 210px;
+  object-fit: contain;
+  object-position: left center;
+}
+.sc-stack .name {
+  font-size: 23px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.sc-stack .role {
+  margin-top: 2px;
+  font-size: 17px;
+  line-height: 1.25;
+  text-wrap: balance; /* two-line roles split evenly */
+  color: rgba(23, 22, 21, 0.72);
+}
+.sc-stack .wm + .role {
+  margin-top: 6px;
+}
+
+/* Shared parts. */
+.sc-card {
+  position: absolute;
+  border-radius: 18px;
+  border: 2px solid rgba(23, 22, 21, 0.14);
+  background: #ffffff;
+  overflow: hidden;
+}
+.sc-head {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.sc-head .n {
+  margin-right: 4px;
+  color: var(--m-paper-red);
+}
+.sc-sub {
+  font-size: 18px;
+  color: rgba(23, 22, 21, 0.72);
+}
+.sc-browser .chrome {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px;
+  border-bottom: 2px solid rgba(23, 22, 21, 0.1);
+  background: #fbfaf9;
+}
+.sc-browser .chrome i {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: rgba(23, 22, 21, 0.18);
+}
+.sc-browser .chrome .url {
+  margin-left: 10px;
+  padding: 4px 14px;
+  border-radius: 14px;
+  background: rgba(23, 22, 21, 0.06);
+  font-size: 15px;
+  color: rgba(23, 22, 21, 0.74);
+}
+.sc-browser .chrome .via {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  color: rgba(23, 22, 21, 0.74);
+}
+.sc-browser .chrome .via img {
+  height: 16px;
+}
+.sc-browser .body {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 46px;
+  bottom: 0;
+}
+.sc-code {
+  position: absolute;
+  border-radius: 18px;
+  background: var(--m-ink);
+  color: #ffffff;
+  overflow: hidden;
+}
+.sc-code .sc-head {
+  position: absolute;
+  left: 20px;
+  top: 14px;
+  color: #ffffff;
+}
+.sc-code .sc-head .n {
+  color: var(--m-paper-red-light);
+}
+.sc-code pre {
+  position: absolute;
+  left: 20px;
+  right: 14px;
+  margin: 0;
+  font-family: var(--m-mono);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+  white-space: pre;
+  color: #ffffff;
+}
+.sc-code pre .c {
+  color: var(--m-paper-red-light);
+}
+.sc-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 8px;
+  background: var(--m-paper-red-light);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--m-ink);
+}

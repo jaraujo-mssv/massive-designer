@@ -1,0 +1,15 @@
+{
+  "id": "gif-archive-epctex",
+  "name": "epctex · Etsy knock-offs, caught nightly.",
+  "group": "massive",
+  "kind": "native",
+  "status": "draft",
+  "source": "apify.com/epctex/etsy-scraper (proxyUrls), docs.apify.com/platform/schedules, docs.apify.com/platform/storage/usage; docs.joinmassive.com/residential/authentication, /geotargeting (checked 2026-10-26)",
+  "output": "gif",
+  "series": "Archive machines",
+  "kits": [
+    "scenes"
+  ],
+  "partner": "epctex",
+  "alt": "Animated infographic: epctex, Massive and your code in a stack card. Your design, a moon pendant, is pinned beside a grid of nine Etsy listings found by epctex's Etsy Scraper on Apify through a Massive residential IP. A red reticle steps across the listings, locks onto the one that copies your design, and files it as evidence in a nightly dataset. Headline: Etsy knock-offs, caught nightly."
+}

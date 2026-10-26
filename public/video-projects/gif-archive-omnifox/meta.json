@@ -1,0 +1,15 @@
+{
+  "id": "gif-archive-omnifox",
+  "name": "Omnifox · Where each country's ad click lands.",
+  "group": "massive",
+  "kind": "native",
+  "status": "draft",
+  "source": "joinmassive.com/guides/omnifox-browser, omnifoxbrowser.com; docs.joinmassive.com/residential/authentication, /geotargeting (checked 2026-10-26)",
+  "output": "gif",
+  "series": "Archive machines",
+  "kits": [
+    "scenes"
+  ],
+  "partner": "Omnifox",
+  "alt": "Animated infographic: Omnifox, Massive and your code in a stack card. One ad sits above an Omnifox window with five tabs, US, DE, FR, BR and JP, each on its own Massive residential IP. A red redirect path draws from the ad's button to each tab in turn, and each country's landing page appears with a different layout, while the setup panel shows the proxy login for the active country. Headline: Where each country's ad click lands."
+}

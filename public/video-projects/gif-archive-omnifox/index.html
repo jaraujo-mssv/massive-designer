@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1350" />
+    <title>Omnifox · Where each country's ad click lands.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=JetBrains+Mono:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="lib/loop-kit.js"></script>
+    <script src="lib/scenes.js"></script>
+    <link rel="stylesheet" href="lib/frame-kit.css" />
+    <link rel="stylesheet" href="lib/massive.css" />
+    <link rel="stylesheet" href="lib/scenes.css" />
+    <style>
+      /* No background on html, body or #stage: the GIF capture makes them transparent. */
+      html,
+      body {
+        width: 1080px;
+        height: 1350px;
+        overflow: hidden;
+      }
+      #stage {
+        position: relative;
+        width: 1080px;
+        height: 1350px;
+        overflow: hidden;
+      }
+      .ad {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+        padding: 0 24px;
+      }
+      .ad .img {
+        width: 120px;
+        height: 70px;
+        border-radius: 10px;
+        background: rgba(23, 22, 21, 0.12);
+        flex-shrink: 0;
+      }
+      .ad .tag {
+        font-size: 15px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: rgba(23, 22, 21, 0.7);
+      }
+      .ad .hd {
+        margin-top: 2px;
+        font-size: 24px;
+        font-weight: 800;
+        letter-spacing: -0.01em;
+      }
+      .ad .u {
+        margin-top: 2px;
+        font-size: 16px;
+        color: rgba(23, 22, 21, 0.72);
+      }
+      .ad .cta {
+        margin-left: auto;
+        padding: 10px 20px;
+        border-radius: 10px;
+        background: var(--m-ink);
+        color: #ffffff;
+        font-size: 18px;
+        font-weight: 700;
+      }
+      .tabs {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        height: 50px;
+        display: flex;
+        align-items: flex-end;
+        gap: 6px;
+        padding: 0 14px;
+        background: #f3f2f1;
+        border-bottom: 2px solid rgba(23, 22, 21, 0.1);
+      }
+      .tab {
+        position: relative;
+        flex: 1;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 0 14px;
+        border-radius: 10px 10px 0 0;
+        font-size: 17px;
+        font-weight: 600;
+        color: rgba(23, 22, 21, 0.72);
+      }
+      .tab b {
+        padding: 1px 7px;
+        border-radius: 6px;
+        background: rgba(23, 22, 21, 0.08);
+        font-size: 15px;
+        color: var(--m-ink);
+      }
+      .tab .bar {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        height: 3px;
+        border-radius: 3px;
+        background: var(--m-paper-red);
+      }
+      .addr {
+        position: absolute;
+        left: 16px;
+        right: 16px;
+        top: 60px;
+        height: 34px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 0 14px;
+        border-radius: 17px;
+        background: rgba(23, 22, 21, 0.06);
+        font-size: 16px;
+        color: rgba(23, 22, 21, 0.74);
+      }
+      .addr .via {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 600;
+      }
+      .addr .via img {
+        height: 15px;
+      }
+      .land {
+        position: absolute;
+        left: 16px;
+        right: 16px;
+        top: 108px;
+        bottom: 16px;
+      }
+      .land i {
+        position: absolute;
+        border-radius: 8px;
+        background: rgba(23, 22, 21, 0.12);
+      }
+      .land i.r {
+        background: var(--m-paper-red);
+        opacity: 0.85;
+      }
+      .land i.k {
+        background: rgba(23, 22, 21, 0.75);
+      }
+      .setup .rows {
+        position: absolute;
+        left: 22px;
+        right: 22px;
+        top: 56px;
+      }
+      .setup .row {
+        display: flex;
+        font-size: 17px;
+        line-height: 27px;
+        white-space: nowrap;
+      }
+      .setup .row .k {
+        width: 160px;
+        color: rgba(255, 255, 255, 0.7);
+      }
+      .setup .row code {
+        font-size: 16px;
+      }
+      .setup .row code.c {
+        color: var(--m-paper-red-light);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Archive machines, Omnifox. One ad link opened in five Omnifox tabs at once, each tab on its own Massive
+         residential IP (joinmassive.com/guides/omnifox-browser: one proxy per tab, Quick Launch). Each landing is
+         mock content on example.com; you log where each click went. -->
+    <div id="stage" data-composition-id="gif-archive-omnifox" data-start="0" data-duration="4" data-fps="15" data-width="1080" data-height="1350">
+      <div class="m-ground soft-orange"></div>
+      <div class="m-linegrid"></div>
+    </div>
+    <script>
+      (() => {
+        const { clamp, ease, frac } = LoopKit;
+        const { div, el } = Scenes;
+        const stage = document.getElementById("stage");
+        Scenes.frame(stage, {
+          title: "Where each country's<br />ad click lands.",
+          why: "Open one link from five countries at once. Keep each landing.",
+          stack: [
+            { icon: "assets/brand/partner-app.png", name: "Omnifox", role: "Per-tab proxy browser" },
+            { icon: "assets/brand/massive-app.png", name: "Massive", role: "Residential IPs, 195+ countries" },
+            { icon: "code", name: "Your agent", role: "Saved landings" },
+          ],
+        });
+
+        // The ad everyone clicks.
+        const ad = Scenes.card(stage, { x: 80, y: 412, w: 920, h: 110 });
+        ad.classList.add("ad");
+        ad.innerHTML =
+          '<div class="img"></div><div><div class="tag">Sponsored</div><div class="hd">Plan the trip, pay less</div>' +
+          '<div class="u">ads.example.com/click</div></div><div class="cta">Book now</div>';
+
+        // One Omnifox window, five tabs, each tab on its own country's IP.
+        const TABS = [
+          { cc: "US", path: "/us/deal" },
+          { cc: "DE", path: "/de/angebot" },
+          { cc: "FR", path: "/fr/offre" },
+          { cc: "BR", path: "/br/oferta" },
+          { cc: "JP", path: "/jp/sale" },
+        ];
+        const WX = 80, WY = 556, WW = 920, WH = 412;
+        const win = Scenes.card(stage, { x: WX, y: WY, w: WW, h: WH });
+        const strip = div("tabs", win);
+        const tabs = TABS.map((t) => {
+          const tab = div("tab", strip, `<b>${t.cc}</b>example.com`);
+          return { tab, bar: div("bar", tab) };
+        });
+        const addr = div("addr", win);
+        // Each country gets a different landing: blocks only, drawn at fixed spots.
+        const LAYOUTS = [
+          [[0, 0, 420, 250, ""], [450, 10, 380, 34, "k"], [450, 64, 300, 16, ""], [450, 94, 340, 16, ""], [450, 150, 160, 50, "r"]],
+          [[0, 0, 888, 120, ""], [0, 144, 280, 130, ""], [304, 144, 280, 130, "r"], [608, 144, 280, 130, ""]],
+          [[244, 0, 400, 34, "k"], [304, 50, 280, 16, ""], [144, 84, 600, 160, ""], [384, 256, 120, 28, "r"]],
+          [[0, 0, 300, 34, "k"], [0, 56, 888, 44, ""], [0, 112, 888, 44, ""], [0, 168, 888, 44, ""], [728, 228, 160, 46, "r"]],
+          [[0, 0, 280, 130, ""], [304, 0, 280, 130, ""], [608, 0, 280, 130, ""], [0, 148, 280, 130, ""], [304, 148, 280, 130, "r"], [608, 148, 280, 130, ""]],
+        ];
+        const lands = LAYOUTS.map((blocks) => {
+          const land = div("land", win);
+          for (const [x, y, w, h, cls] of blocks) {
+            const b = document.createElement("i");
+            if (cls) b.className = cls;
+            Object.assign(b.style, { left: `${x}px`, top: `${y}px`, width: `${w}px`, height: `${h}px` });
+            land.appendChild(b);
+          }
+          return land;
+        });
+
+        // The redirect path from the ad's button to the tab it's opening in.
+        const fx = Scenes.svg(stage, 1080, 1350);
+        const path = el("path", { fill: "none", stroke: "#d54635", "stroke-width": 4, "stroke-linecap": "round", "stroke-linejoin": "round", pathLength: 100, "stroke-dasharray": "100 100" }, fx);
+        const dot = el("circle", { r: 7, fill: "#d54635" }, fx);
+        const TABW = (WW - 28 - 6 * 4) / 5;
+        const tabX = (i) => WX + 14 + i * (TABW + 6) + TABW / 2;
+        const CTA = { x: 80 + 920 - 24 - 62, y: 412 + 110 };
+
+        // Omnifox's setup for this: one link, five tabs, a Massive proxy per tab.
+        const setup = div("sc-code setup", stage);
+        Scenes.place(setup, { x: 80, y: 992, w: 920, h: 172 });
+        div("sc-head", setup, "Setup");
+        const rows = div("rows", setup);
+        const row = (k, v) => div("row", rows, `<span class="k">${k}</span><span class="v">${v}</span>`);
+        row("Proxy", '<code class="c">network.joinmassive.com:65534</code>');
+        const login = row("Login", "").querySelector(".v");
+        row("Quick Launch", "5 tabs, one link");
+        row("Tab proxy", "One country per tab");
+
+        // Each tab gets a fifth of the loop. Offsetting by half a slot makes frame 0 a finished US landing.
+        const N = TABS.length;
+        function render(p) {
+          const q = frac(p + 0.5 / N);
+          const i = Math.floor(q * N) % N;
+          const u = q * N - Math.floor(q * N);
+          tabs.forEach(({ tab, bar }, k) => {
+            const on = k === i;
+            tab.style.background = on ? "#ffffff" : "transparent";
+            tab.style.color = on ? "#171615" : "rgba(23, 22, 21, 0.72)";
+            bar.style.opacity = on ? 1 : 0;
+          });
+          addr.innerHTML = `shop.example.com${TABS[i].path}<span class="via"><img src="assets/brand/icon-massive.svg" alt="" />via Massive · ${TABS[i].cc}</span>`;
+          login.innerHTML = `<code>$USER-country-${TABS[i].cc}</code>`;
+          // The path draws in the first part of the slot; the landing appears as it arrives.
+          const draw = clamp(u / 0.2);
+          const tx = tabX(i);
+          path.setAttribute("d", `M${CTA.x} ${CTA.y} V${CTA.y + 17} H${tx} V${WY + 12}`);
+          path.setAttribute("stroke-dashoffset", 100 * (1 - ease.out(draw)));
+          path.setAttribute("opacity", u < 0.92 ? 1 : 1 - (u - 0.92) / 0.08);
+          dot.setAttribute("cx", tx);
+          dot.setAttribute("cy", WY + 12);
+          dot.setAttribute("opacity", draw >= 1 && u < 0.92 ? 1 : 0);
+          const show = clamp((u - 0.15) / 0.1);
+          lands.forEach((land, k) => {
+            land.style.opacity = k === i ? show : 0;
+          });
+        }
+
+        const tl = gsap.timeline({ paused: true });
+        LoopKit.drive(tl, stage, render);
+        window.__timelines["gif-archive-omnifox"] = tl;
+      })();
+    </script>
+  </body>
+</html>

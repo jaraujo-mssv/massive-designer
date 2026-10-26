@@ -1,0 +1,15 @@
+{
+  "id": "gif-archive-parsera",
+  "name": "Parsera · Every public tender, the day it's posted.",
+  "group": "massive",
+  "kind": "native",
+  "status": "draft",
+  "source": "docs.parsera.org/features/proxy (proxy_settings), github.com/raznem/parsera; docs.joinmassive.com/residential/authentication, /geotargeting (checked 2026-10-26)",
+  "output": "gif",
+  "series": "Archive machines",
+  "kits": [
+    "scenes"
+  ],
+  "partner": "Parsera",
+  "alt": "Animated infographic: Parsera, Massive and your code in a stack card. A public tenders portal, fetched via Massive, shows three notices side by side. A highlighter sweeps each notice's title, deadline and agency in turn, the three fields fly down, and a new line appears in tenders.csv; the Parsera code with proxy_settings sits below. Headline: Every public tender, the day it's posted."
+}

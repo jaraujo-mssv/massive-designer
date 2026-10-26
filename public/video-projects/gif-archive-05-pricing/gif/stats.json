@@ -1,0 +1,50 @@
+{
+  "bytes": 590018,
+  "frames": 45,
+  "fps": 15,
+  "width": 1080,
+  "height": 1350,
+  "duration": 3,
+  "colors": 256,
+  "dither": "sierra2_4a",
+  "loop": 0,
+  "renderedAt": "2026-10-26T19:50:46.915Z",
+  "checks": [
+    {
+      "label": "File size",
+      "value": "0.59 MB",
+      "limit": "under 5.00 MB",
+      "ok": true
+    },
+    {
+      "label": "Frames",
+      "value": "45",
+      "limit": "250 or fewer",
+      "ok": true
+    },
+    {
+      "label": "Shape",
+      "value": "4:5",
+      "limit": "1:1, 4:5 or 1.91:1",
+      "ok": true
+    },
+    {
+      "label": "Length",
+      "value": "3s",
+      "limit": "3–6s",
+      "ok": true
+    },
+    {
+      "label": "Frame rate",
+      "value": "15 fps",
+      "limit": "10–24 fps",
+      "ok": true
+    },
+    {
+      "label": "Loop seam",
+      "value": "smooth",
+      "limit": "last frame flows into the first",
+      "ok": true
+    }
+  ]
+}

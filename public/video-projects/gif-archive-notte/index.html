@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1350" />
+    <title>Notte · Save an API's docs before it's retired.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=JetBrains+Mono:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="lib/loop-kit.js"></script>
+    <script src="lib/scenes.js"></script>
+    <link rel="stylesheet" href="lib/frame-kit.css" />
+    <link rel="stylesheet" href="lib/massive.css" />
+    <link rel="stylesheet" href="lib/scenes.css" />
+    <style>
+      /* No background on html, body or #stage: the GIF capture makes them transparent. */
+      html,
+      body {
+        width: 1080px;
+        height: 1350px;
+        overflow: hidden;
+      }
+      #stage {
+        position: relative;
+        width: 1080px;
+        height: 1350px;
+        overflow: hidden;
+      }
+      .row {
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 46px;
+        display: flex;
+        align-items: center;
+        font-size: 20px;
+      }
+      .row.sec {
+        font-weight: 700;
+      }
+      .row code {
+        font-size: 18px;
+      }
+      .row .tick {
+        position: absolute;
+        right: 22px;
+        font-size: 22px;
+        font-weight: 800;
+        color: var(--m-paper-red);
+      }
+      .hi {
+        position: absolute;
+        left: 12px;
+        right: 12px;
+        height: 40px;
+        border-radius: 10px;
+        background: var(--m-paper-red-light);
+        opacity: 0.35;
+      }
+      .pile .sc-head,
+      .sun .sc-head {
+        position: absolute;
+        left: 22px;
+        top: 16px;
+      }
+      .page {
+        position: absolute;
+        left: 30px;
+        width: 384px;
+        height: 150px;
+        border-radius: 14px;
+        background: var(--m-ink);
+        border: 2px solid #ffffff;
+      }
+      .page pre {
+        position: absolute;
+        left: 18px;
+        top: 18px;
+        margin: 0;
+        font-size: 16px;
+        line-height: 1.5;
+        color: #ffffff;
+      }
+      .page pre .c {
+        color: var(--m-paper-red-light);
+      }
+      .flyer {
+        position: absolute;
+        z-index: 4;
+        padding: 8px 14px;
+        border-radius: 10px;
+        background: var(--m-ink);
+        color: #ffffff;
+        font-size: 16px;
+      }
+      .wk {
+        position: absolute;
+        top: 62px;
+        width: 40px;
+        height: 28px;
+        border-radius: 6px;
+      }
+      .sun .now {
+        position: absolute;
+        top: 98px;
+        font-size: 15px;
+        font-weight: 600;
+        color: rgba(23, 22, 21, 0.76);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Archive machines, Notte. A weekly Notte Browser Function opens each docs page in a session routed through
+         Massive (docs.notte.cc/integrations/massive, ExternalProxy) and scrapes it into a typed model; your code keeps
+         the week's copy. The docs site is mock content on docs.example.com. -->
+    <div id="stage" data-composition-id="gif-archive-notte" data-start="0" data-duration="4" data-fps="15" data-width="1080" data-height="1350">
+      <div class="m-ground soft-orange"></div>
+      <div class="m-linegrid"></div>
+    </div>
+    <script>
+      (() => {
+        const { clamp, ease, lerp, wave } = LoopKit;
+        const { div, el, svg } = Scenes;
+        const stage = document.getElementById("stage");
+        Scenes.frame(stage, {
+          title: "Save an API's docs<br />before it's retired.",
+          why: "Every week, keep a structured copy of every page.",
+          stack: [
+            { icon: "assets/brand/partner-app.png", name: "Notte", role: "Browser platform for agents" },
+            { icon: "assets/brand/massive-app.png", name: "Massive", role: "Residential IPs, 195+ countries" },
+            { icon: "code", name: "Your agent", role: "Diff, storage" },
+          ],
+        });
+
+        // The docs site's sidebar: the tree the session walks, top to bottom.
+        const NODES = [
+          { label: "Getting started", level: 0 },
+          { label: "Authentication", level: 1 },
+          { label: "Rate limits", level: 1 },
+          { label: "Endpoints", level: 0 },
+          { label: "/search", level: 1, code: true },
+          { label: "/orders", level: 1, code: true },
+          { label: "/orders/:id", level: 1, code: true },
+          { label: "/webhooks", level: 1, code: true },
+          { label: "Changelog", level: 0 },
+        ];
+        const RH = 46, RY = 20;
+        const win = Scenes.browser(stage, { x: 80, y: 412, w: 450, h: 516, url: "docs.example.com", via: true });
+        const hi = div("hi", win.body);
+        const guides = svg(win.body, 450, 470);
+        const ticks = NODES.map((n, i) => {
+          const row = div(n.level ? "row" : "row sec", win.body);
+          row.style.top = `${RY + i * RH}px`;
+          row.style.paddingLeft = `${28 + n.level * 34}px`;
+          row.innerHTML = n.code ? `<code>${n.label}</code>` : n.label;
+          if (n.level) el("path", { d: `M40 ${RY + i * RH - 18} V${RY + i * RH + 23} H54`, fill: "none", stroke: "rgba(23, 22, 21, 0.28)", "stroke-width": 2 }, guides);
+          return div("tick", row, "✓");
+        });
+
+        // The week's copy: one JSON page per docs page, piling up.
+        const pile = Scenes.card(stage, { x: 556, y: 412, w: 444, h: 360 });
+        pile.classList.add("pile");
+        div("sc-head", pile, "Saved this week");
+        const slug = (n) => (n.code ? n.label : "/" + n.label.toLowerCase().replace(/ /g, "-"));
+        const pages = NODES.map((n, i) => {
+          const pg = div("page", pile);
+          pg.style.top = `${66 + i * 13}px`;
+          pg.innerHTML = `<pre><code>{"page": <span class="c">"${slug(n)}"</span>,\n "title": "${n.label.replace(/^\//, "")}",\n "sections": [ … ]}</code></pre>`;
+          return pg;
+        });
+        const flyer = div("flyer", stage);
+
+        // Weekly copies until the sunset: past weeks filled, this week in red.
+        const sun = Scenes.card(stage, { x: 556, y: 792, w: 444, h: 136 });
+        sun.classList.add("sun");
+        div("sc-head", sun, "Until the sunset");
+        const WEEKS = 8, NOW = 5;
+        let nowCell;
+        for (let i = 0; i < WEEKS; i++) {
+          const c = div("wk", sun);
+          c.style.left = `${22 + i * 51}px`;
+          if (i < NOW) c.style.background = "#171615";
+          else if (i === NOW) {
+            c.style.background = "#d54635";
+            nowCell = c;
+          } else c.style.border = "2px dashed rgba(23, 22, 21, 0.35)";
+        }
+        div("now", sun, "this week").style.left = `${22 + NOW * 51 - 18}px`;
+
+        Scenes.code(stage, {
+          x: 80, y: 952, w: 920, h: 170, title: "Notte session",
+          lines: [
+            'p = ExternalProxy(server=<span class="c">MASSIVE</span>, ...)',
+            "with client.Session(proxies=[p]) as s:",
+            '  s.execute(type="goto", url=DOC)',
+            '  s.scrape(instructions="save page")',
+          ],
+        });
+
+        // Frame 0 is a finished week: every page ticked and piled. At 0.12 a new week starts and the walk repeats.
+        const RESET = [0.12, 0.17];
+        const WALK = [0.17, 0.87];
+        const STEP = (WALK[1] - WALK[0]) / NODES.length;
+        function render(p) {
+          const r = clamp((p - RESET[0]) / (RESET[1] - RESET[0]));
+          let at = NODES.length - 1;
+          let landed = NODES.length;
+          let fly = -1, fu = 0;
+          if (p >= RESET[0] && p < WALK[0]) {
+            landed = r < 1 ? NODES.length : 0;
+            at = r < 0.5 ? NODES.length - 1 : 0;
+          } else if (p >= WALK[0] && p < WALK[1]) {
+            const k = Math.floor((p - WALK[0]) / STEP);
+            const u = ((p - WALK[0]) % STEP) / STEP;
+            at = k;
+            landed = k + (u >= 0.85 ? 1 : 0);
+            if (u >= 0.3 && u < 0.85) {
+              fly = k;
+              fu = (u - 0.3) / 0.55;
+            }
+            // The highlight glides from the last row to this one.
+            const from = RY + Math.max(0, k - 1) * RH;
+            hi.style.top = `${lerp(from, RY + k * RH, k === 0 ? 1 : ease.inOut(clamp(u / 0.3))) + 3}px`;
+          }
+          if (!(p >= WALK[0] && p < WALK[1])) hi.style.top = `${RY + at * RH + 3}px`;
+          hi.style.opacity = p >= RESET[0] && p < WALK[0] ? 0.35 * Math.abs(1 - 2 * r) : 0.35;
+
+          ticks.forEach((t, i) => {
+            const done = p >= RESET[0] && p < WALK[0] ? 1 - r : i < landed ? 1 : 0;
+            t.style.opacity = done;
+          });
+          // Only the top page's text shows; the ones under it are covered anyway.
+          const top = (p >= RESET[0] && p < WALK[0] ? (r < 0.5 ? NODES.length : 0) : landed) - 1;
+          pages.forEach((pg, i) => {
+            pg.firstChild.style.visibility = i === top ? "visible" : "hidden";
+            // The pile clears in one step (stacked pages fading together would show through each other).
+            pg.style.opacity = p >= RESET[0] && p < WALK[0] ? (r < 0.5 ? 1 : 0) : i < landed ? 1 : 0;
+          });
+
+          // A page flies from its row to the pile.
+          if (fly >= 0) {
+            const v = ease.inOut(fu);
+            const x0 = 80 + 250, y0 = 412 + 46 + RY + fly * RH;
+            const x1 = 556 + 30, y1 = 412 + 66 + fly * 13;
+            flyer.innerHTML = `<code>${slug(NODES[fly])}</code>`;
+            Object.assign(flyer.style, { left: `${lerp(x0, x1, v)}px`, top: `${lerp(y0, y1, v)}px`, opacity: 1 });
+          } else flyer.style.opacity = 0;
+
+          nowCell.style.opacity = 0.55 + 0.45 * wave(p, 2, 0.5);
+        }
+
+        const tl = gsap.timeline({ paused: true });
+        LoopKit.drive(tl, stage, render);
+        window.__timelines["gif-archive-notte"] = tl;
+      })();
+    </script>
+  </body>
+</html>

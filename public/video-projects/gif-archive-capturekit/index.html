@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1350" />
+    <title>CaptureKit · Your landing page, as each country sees it.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=JetBrains+Mono:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="lib/loop-kit.js"></script>
+    <script src="lib/scenes.js"></script>
+    <link rel="stylesheet" href="lib/frame-kit.css" />
+    <link rel="stylesheet" href="lib/massive.css" />
+    <link rel="stylesheet" href="lib/scenes.css" />
+    <style>
+      /* No background on html, body or #stage: the GIF capture makes them transparent. */
+      html,
+      body {
+        width: 1080px;
+        height: 1350px;
+        overflow: hidden;
+      }
+      #stage {
+        position: relative;
+        width: 1080px;
+        height: 1350px;
+        overflow: hidden;
+      }
+      .bar {
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: var(--m-paper-red);
+        z-index: 2;
+      }
+      .film .sc-head {
+        position: absolute;
+        left: 22px;
+        top: 14px;
+        white-space: nowrap;
+      }
+      .film .sc-head .path {
+        margin-left: 8px;
+        font-size: 16px;
+        font-weight: 500;
+        color: rgba(23, 22, 21, 0.76);
+      }
+      .thumb {
+        position: absolute;
+        top: 50px;
+        width: 132px;
+        height: 84px;
+        border-radius: 10px;
+        border: 2px solid rgba(23, 22, 21, 0.18);
+        background: #ffffff;
+        overflow: hidden;
+      }
+      .tlab {
+        position: absolute;
+        top: 140px;
+        width: 132px;
+        text-align: center;
+        font-size: 15px;
+        font-weight: 600;
+        color: rgba(23, 22, 21, 0.76);
+      }
+      .req pre {
+        font-size: 16px !important;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Archive machines, CaptureKit. Every day CaptureKit takes a full-page screenshot of the landing page through a
+         Massive residential IP in the US, Germany and Japan (docs.capturekit.dev/capture: full_page, proxy, s3_*),
+         saved to your bucket. The three pages are drawn wireframes, not real sites. -->
+    <div id="stage" data-composition-id="gif-archive-capturekit" data-start="0" data-duration="4" data-fps="15" data-width="1080" data-height="1350">
+      <div class="m-ground soft-orange"></div>
+      <div class="m-linegrid"></div>
+    </div>
+    <script>
+      (() => {
+        const { clamp, ease, lerp } = LoopKit;
+        const { div, el, svg } = Scenes;
+        const stage = document.getElementById("stage");
+        const INK = "#171615";
+        const RED = "#d54635";
+        const SOFT = "rgba(23, 22, 21, 0.14)";
+        const WARM = "#f6f1ed";
+        Scenes.frame(stage, {
+          title: "Your landing page,<br />as each country sees it.",
+          why: "Full-page screenshots from the US, Germany and Japan, daily.",
+          stack: [
+            { icon: "assets/brand/partner-app.png", name: "CaptureKit", role: "Screenshot API" },
+            { icon: "assets/brand/massive-app.png", name: "Massive", role: "Residential IPs, 195+ countries" },
+            { icon: "code", name: "Your agent", role: "Schedule, pixel diff" },
+          ],
+        });
+
+        // Three versions of one landing page, as flat wireframes 290 wide and 720 tall.
+        const r = (g, x, y, w, h, fill, rx = 4) => el("rect", { x, y, width: w, height: h, rx, fill }, g);
+        const PAGES = {
+          US(g) {
+            r(g, 18, 16, 48, 14, INK); [0, 1, 2].forEach((i) => r(g, 150 + i * 42, 19, 30, 8, SOFT));
+            r(g, 18, 62, 220, 22, INK); r(g, 18, 92, 170, 22, INK); r(g, 18, 126, 200, 9, SOFT);
+            r(g, 18, 152, 104, 34, RED, 8);
+            r(g, 18, 206, 254, 150, WARM, 10);
+            [0, 1, 2].forEach((i) => { r(g, 18 + i * 88, 378, 78, 92, WARM, 8); r(g, 26 + i * 88, 482, 60, 7, SOFT); });
+            [0, 1].forEach((i) => { r(g, 18 + i * 132, 516, 122, 120, "none", 8).setAttribute("stroke", SOFT); r(g, 30 + i * 132, 532, 50, 12, INK); r(g, 30 + i * 132, 556, 90, 7, SOFT); });
+            r(g, 0, 660, 290, 60, INK, 0);
+          },
+          DE(g) {
+            r(g, 18, 16, 60, 14, INK); r(g, 196, 14, 76, 18, SOFT, 9);
+            r(g, 18, 56, 120, 150, WARM, 10);
+            r(g, 152, 64, 120, 18, INK); r(g, 152, 90, 100, 18, INK); r(g, 152, 120, 110, 8, SOFT); r(g, 152, 136, 90, 8, SOFT);
+            r(g, 152, 160, 90, 30, INK, 8);
+            [0, 1, 2, 3].forEach((i) => { r(g, 18, 232 + i * 54, 34, 34, RED, 17); r(g, 64, 238 + i * 54, 170, 9, INK); r(g, 64, 254 + i * 54, 130, 7, SOFT); });
+            r(g, 18, 460, 254, 110, WARM, 10); r(g, 34, 482, 180, 9, INK); r(g, 34, 500, 200, 7, SOFT); r(g, 34, 516, 150, 7, SOFT);
+            // The consent bar some visitors here get.
+            r(g, 0, 600, 290, 70, INK, 0); r(g, 18, 616, 150, 8, "rgba(255,255,255,0.5)"); r(g, 186, 628, 40, 22, "#ffffff", 6); r(g, 232, 628, 40, 22, RED, 6);
+            r(g, 0, 670, 290, 50, SOFT, 0);
+          },
+          JP(g) {
+            r(g, 18, 16, 40, 14, INK); [0, 1, 2, 3].forEach((i) => r(g, 120 + i * 40, 19, 28, 8, SOFT));
+            r(g, 18, 46, 254, 120, RED, 10); r(g, 34, 70, 120, 16, "#ffffff"); r(g, 34, 94, 90, 9, "rgba(255,255,255,0.7)");
+            [0, 1, 2].forEach((i) => el("circle", { cx: 128 + i * 16, cy: 180, r: 4, fill: i ? SOFT : INK }, g));
+            for (let i = 0; i < 6; i++) { r(g, 18 + (i % 3) * 86, 200 + Math.floor(i / 3) * 104, 78, 74, WARM, 8); r(g, 18 + (i % 3) * 86, 280 + Math.floor(i / 3) * 104, 60, 7, SOFT); }
+            [0, 1, 2, 3, 4].forEach((i) => { r(g, 18, 420 + i * 36, 48, 9, RED); r(g, 74, 420 + i * 36, 190, 9, SOFT); });
+            r(g, 18, 610, 254, 40, INK, 8);
+            r(g, 0, 670, 290, 50, SOFT, 0);
+          },
+        };
+        const CC = ["US", "DE", "JP"];
+        const PH = 720, BW = 290, BH = 450, VIEW = BH - 46;
+        const frames = CC.map((cc, i) => {
+          const x = 80 + i * (BW + 25);
+          const win = Scenes.browser(stage, { x, y: 412, w: BW, h: BH, url: "example.com", via: cc });
+          win.body.style.overflow = "hidden"; // the page scrolls under the chrome, not over it
+          const page = svg(win.body, BW, PH);
+          page.setAttribute("data-layout-allow-overflow", ""); // a full page, taller than its window
+          PAGES[cc](page);
+          return { page, bar: div("bar", win.body) };
+        });
+
+        // The filmstrip: today's three captures, then yesterday's.
+        const film = Scenes.card(stage, { x: 80, y: 884, w: 920, h: 170 });
+        film.classList.add("film");
+        div("sc-head", film, 'Filmstrip<span class="path"><code>landing/&lt;country&gt;/&lt;date&gt;.png</code></span>');
+        const TW = 132, TG = 14;
+        const thumbs = [];
+        for (let s = 0; s < 6; s++) {
+          const cc = CC[s % 3];
+          const t = div("thumb", film);
+          t.style.left = `${29 + s * (TW + TG)}px`;
+          const g = svg(t, TW, 84);
+          const inner = el("g", { transform: `scale(${TW / BW})` }, g);
+          PAGES[cc](inner);
+          div("tlab", film, `${cc} · ${s < 3 ? "today" : "−1 d"}`).style.left = `${29 + s * (TW + TG)}px`;
+          if (s < 3) thumbs.push(t);
+        }
+
+        const req = Scenes.code(stage, { x: 80, y: 1076, w: 920, h: 132, title: "Request <code>/v1/capture</code>", lines: [] });
+        req.classList.add("req");
+        const pre = req.querySelector("pre");
+        const params = (active) =>
+          [
+            "url=https://example.com   full_page=true   s3_bucket=archive",
+            "proxy=" + CC.map((cc, i) => (i === active ? `<span class="c">$PROXY_${cc}</span>` : `$PROXY_${cc}`)).join("   "),
+          ].join("\n");
+
+        // Frame 0 is a finished day: three pages at the top, three captures in the filmstrip. At 0.1 a new day
+        // starts; each country is captured in turn, the bar running down the full page as it scrolls.
+        const NEW_DAY = [0.1, 0.16];
+        const capture = (i) => [0.18 + i * 0.2, 0.5 + i * 0.2];
+        function render(p) {
+          let active = -1;
+          frames.forEach(({ page, bar }, i) => {
+            const [a, b] = capture(i);
+            const u = clamp((p - a) / (b - a));
+            const capturing = p >= a && p < b;
+            if (capturing) active = i;
+            // The page scrolls with the bar during the capture, then back to the top.
+            const back = clamp((p - b) / 0.06);
+            const scroll = capturing ? u : 1 - ease.inOut(back);
+            page.style.transform = `translateY(${(-(PH - VIEW) * (p >= a ? scroll : 0)).toFixed(1)}px)`;
+            bar.style.top = `${lerp(0, VIEW - 4, u)}px`;
+            bar.style.opacity = capturing ? 1 : 0;
+            // Today's thumbnail lands once its capture is done.
+            const landed = p < NEW_DAY[0] ? 1 : p < a ? 1 - clamp((p - NEW_DAY[0]) / (NEW_DAY[1] - NEW_DAY[0])) : clamp((p - b) / 0.05);
+            thumbs[i].style.opacity = p >= NEW_DAY[1] && p < b ? 0 : landed;
+            thumbs[i].style.transform = `translateY(${(-24 * (1 - ease.out(clamp((p - b) / 0.05)))) * (p >= b ? 1 : 0)}px)`;
+          });
+          pre.innerHTML = params(active);
+        }
+
+        const tl = gsap.timeline({ paused: true });
+        LoopKit.drive(tl, stage, render);
+        window.__timelines["gif-archive-capturekit"] = tl;
+      })();
+    </script>
+  </body>
+</html>

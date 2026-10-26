@@ -1,0 +1,15 @@
+{
+  "id": "gif-archive-mrscraper",
+  "name": "MrScraper · A daily evidence locker for product pages.",
+  "group": "massive",
+  "kind": "native",
+  "status": "draft",
+  "source": "docs.mrscraper.com/docs/features/proxy, /features/schedule, /api/scraper-api/get-screenshot; docs.joinmassive.com/residential/authentication, /geotargeting (checked 2026-10-26)",
+  "output": "gif",
+  "series": "Archive machines",
+  "kits": [
+    "scenes"
+  ],
+  "partner": "MrScraper",
+  "alt": "Animated infographic: MrScraper, Massive and your code in a stack card, then a product page for a desk lamp rendered via Massive. The page rewinds to yesterday's $49 and in stock; overnight the price flips to $59 and the stock to low, a camera shutter closes over the page to take today's full-page screenshot, and the snapshot flies into today's compartment of a dated evidence locker while older days step back. The setup card shows MrScraper's custom proxy on Massive, full screenshots and the Scraping Completed webhook. Headline: A daily evidence locker for product pages."
+}

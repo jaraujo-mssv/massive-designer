@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1350" />
+    <title>Sequentum · Every job posting, added or pulled.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=JetBrains+Mono:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="lib/loop-kit.js"></script>
+    <script src="lib/scenes.js"></script>
+    <link rel="stylesheet" href="lib/frame-kit.css" />
+    <link rel="stylesheet" href="lib/massive.css" />
+    <link rel="stylesheet" href="lib/scenes.css" />
+    <style>
+      /* No background on html, body or #stage: the GIF capture makes them transparent. */
+      html,
+      body {
+        width: 1080px;
+        height: 1350px;
+        overflow: hidden;
+      }
+      #stage {
+        position: relative;
+        width: 1080px;
+        height: 1350px;
+        overflow: hidden;
+      }
+      .ledger .sc-head {
+        position: absolute;
+        left: 28px;
+        top: 20px;
+        white-space: nowrap;
+      }
+      .ledger .sc-head .path {
+        margin-left: 8px;
+        font-size: 16px;
+        font-weight: 500;
+        color: rgba(23, 22, 21, 0.76);
+      }
+      .ledger .run {
+        position: absolute;
+        right: 26px;
+        top: 22px;
+      }
+      .cols {
+        position: absolute;
+        left: 28px;
+        right: 28px;
+        top: 74px;
+        height: 34px;
+        display: flex;
+        align-items: center;
+        border-bottom: 2px solid rgba(23, 22, 21, 0.12);
+        font-size: 15px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: rgba(23, 22, 21, 0.7);
+      }
+      .row {
+        position: absolute;
+        left: 28px;
+        right: 28px;
+        height: 62px;
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid rgba(23, 22, 21, 0.08);
+        font-size: 22px;
+      }
+      .c1 {
+        width: 400px;
+        font-weight: 600;
+        position: relative;
+      }
+      .c2 {
+        width: 260px;
+        color: rgba(23, 22, 21, 0.76);
+        position: relative;
+        transform-origin: 50% 50%;
+      }
+      .c3 {
+        margin-left: auto;
+      }
+      .c1 .t {
+        position: relative;
+        display: inline-block;
+      }
+      .strike {
+        position: absolute;
+        left: -6px;
+        top: 50%;
+        height: 4px;
+        border-radius: 2px;
+        background: var(--m-paper-red);
+      }
+      .setup {
+        position: absolute;
+        border-radius: 18px;
+        background: var(--m-ink);
+        color: #ffffff;
+      }
+      .setup .sc-head {
+        position: absolute;
+        left: 22px;
+        top: 16px;
+        color: #ffffff;
+      }
+      .setup .rows {
+        position: absolute;
+        left: 22px;
+        right: 22px;
+        top: 60px;
+      }
+      .setup .r {
+        display: flex;
+        gap: 18px;
+        font-size: 17px;
+        line-height: 30px;
+        white-space: nowrap;
+      }
+      .setup .k {
+        width: 120px;
+        flex-shrink: 0;
+        color: rgba(255, 255, 255, 0.66);
+      }
+      .setup code {
+        font-size: 16px;
+        color: var(--m-paper-red-light);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Archive machines, Sequentum. A daily agent crawls careers pages through a Massive residential proxy pool
+         (cloudsupport.sequentum.com/scm/proxy-pool); change tracking labels each row Added, Updated, Deleted or
+         Reappeared and the export keeps changed data only (/scm/change-tracking-overview). Roles are mock content. -->
+    <div id="stage" data-composition-id="gif-archive-sequentum" data-start="0" data-duration="4" data-fps="15" data-width="1080" data-height="1350">
+      <div class="m-ground soft-orange"></div>
+      <div class="m-linegrid"></div>
+    </div>
+    <script>
+      (() => {
+        const { clamp, ease, lerp } = LoopKit;
+        const { div } = Scenes;
+        const stage = document.getElementById("stage");
+        Scenes.frame(stage, {
+          title: "Every job posting,<br />added or pulled.",
+          why: "Change tracking marks each listing added, updated or deleted.",
+          stack: [
+            { icon: "assets/brand/partner-app.png", name: "Sequentum", role: "Change-tracking agents" },
+            { icon: "assets/brand/massive-app.png", name: "Massive", role: "Residential IPs, 195+ countries" },
+            { icon: "code", name: "Your agent", role: "Alerts, storage" },
+          ],
+        });
+
+        // Today's export: one row per role, labelled by change tracking.
+        const ledger = Scenes.card(stage, { x: 80, y: 412, w: 920, h: 520 });
+        ledger.classList.add("ledger");
+        div("sc-head", ledger, 'Careers pages<span class="path"><code>jobs/&lt;date&gt;.csv</code></span>');
+        const run = div("sc-badge run", ledger, "Today");
+        div("cols", ledger, '<span class="c1">Role</span><span class="c2">Location</span><span class="c3">Change</span>');
+        const ROWS = [
+          { role: "Data Engineer", loc: "Berlin", change: "Added" },
+          { role: "Product Designer", loc: "Lisbon", was: "Remote", change: "Updated" },
+          { role: "Support Lead", loc: "Austin", change: "Deleted" },
+          { role: "Account Executive", loc: "New York" },
+          { role: "ML Researcher", loc: "London", change: "Reappeared" },
+          { role: "Recruiter", loc: "Toronto" },
+        ];
+        const rows = ROWS.map((r, i) => {
+          const row = div("row", ledger);
+          row.style.top = `${116 + i * 64}px`;
+          const c1 = div("c1", row, `<span class="t">${r.role}</span>`);
+          const loc = div("c2", row, r.loc);
+          const badge = div("c3", row, r.change ? `<span class="sc-badge">${r.change}</span>` : "");
+          // The strike sits inside the role's own text, and is meant to cross it.
+          const strike = r.change === "Deleted" ? div("strike", c1.firstChild) : null;
+          if (strike) {
+            strike.setAttribute("data-layout-allow-occlusion", "");
+            c1.firstChild.setAttribute("data-layout-allow-occlusion", "");
+          }
+          return { row, c1, loc, badge, strike, r };
+        });
+
+        // How it's set up: the proxy pool points at Massive, and the export only keeps what changed.
+        const setup = div("setup", stage);
+        Scenes.place(setup, { x: 80, y: 956, w: 920, h: 170 });
+        div("sc-head", setup, "Sequentum setup");
+        div(
+          "rows",
+          setup,
+          '<div class="r"><span class="k">Proxy pool</span><code>$USER-country-US:$KEY@network.joinmassive.com:65534</code></div>' +
+            '<div class="r"><span class="k">Schedule</span><span>Every day, from an anchor time</span></div>' +
+            '<div class="r"><span class="k">Export</span><span>Change tracking on · changed data only</span></div>',
+        );
+
+        // Frame 0 is today's finished export. At 0.15 the ledger rewinds to yesterday, then today's run
+        // replays each change in turn: added, updated, deleted, reappeared.
+        const BACK = [0.15, 0.22];
+        const STEPS = { Added: [0.32, 0.42], Updated: [0.44, 0.54], Deleted: [0.56, 0.68], Reappeared: [0.7, 0.8] };
+        function render(p) {
+          const back = clamp((p - BACK[0]) / (BACK[1] - BACK[0]));
+          const rewound = p >= BACK[0] && p < STEPS.Added[0] ? back : 0;
+          run.textContent = p >= BACK[0] + 0.035 && p < 0.3 ? "Yesterday" : "Today";
+          for (const { row, loc, badge, strike, r } of rows) {
+            const win = STEPS[r.change];
+            // u: 0 = yesterday's state, 1 = today's (with the change applied).
+            let u = 1;
+            if (win) u = p < STEPS.Added[0] ? 1 - rewound : clamp((p - win[0]) / (win[1] - win[0]));
+            if (!win) continue;
+            badge.style.opacity = clamp(u * 3 - 2);
+            if (r.change === "Added" || r.change === "Reappeared") {
+              row.style.opacity = u;
+              row.style.transform = `translateX(${lerp(-40, 0, ease.out(u))}px)`;
+            } else if (r.change === "Updated") {
+              // The location cell flips: squash, swap the value, open.
+              const half = u < 0.5;
+              loc.textContent = half ? r.was : r.loc;
+              loc.style.transform = `scaleY(${Math.abs(1 - 2 * ease.inOut(u)).toFixed(3)})`;
+              loc.style.color = u > 0.5 ? "#171615" : "";
+              loc.style.fontWeight = u > 0.5 ? 700 : 400;
+            } else if (r.change === "Deleted") {
+              strike.style.width = `calc((100% + 12px) * ${ease.out(clamp(u * 1.6)).toFixed(3)})`;
+              row.querySelector(".c1").style.opacity = 1 - 0.5 * clamp(u * 1.6 - 0.6);
+              loc.style.opacity = 1 - 0.5 * clamp(u * 1.6 - 0.6);
+            }
+          }
+        }
+
+        const tl = gsap.timeline({ paused: true });
+        LoopKit.drive(tl, stage, render);
+        window.__timelines["gif-archive-sequentum"] = tl;
+      })();
+    </script>
+  </body>
+</html>

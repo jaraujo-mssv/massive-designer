@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1350" />
+    <title>Scrappey · Cookie banners, EU vs US.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=JetBrains+Mono:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="lib/loop-kit.js"></script>
+    <script src="lib/scenes.js"></script>
+    <link rel="stylesheet" href="lib/frame-kit.css" />
+    <link rel="stylesheet" href="lib/massive.css" />
+    <link rel="stylesheet" href="lib/scenes.css" />
+    <style>
+      /* No background on html, body or #stage: the GIF capture makes them transparent. */
+      html,
+      body {
+        width: 1080px;
+        height: 1350px;
+        overflow: hidden;
+      }
+      #stage {
+        position: relative;
+        width: 1080px;
+        height: 1350px;
+        overflow: hidden;
+      }
+      .tag {
+        position: absolute;
+        top: 12px;
+        right: 18px;
+      }
+      .eu {
+        position: absolute;
+        left: 14px;
+        right: 14px;
+        bottom: 14px;
+        height: 170px;
+        padding: 18px 20px;
+        border-radius: 14px;
+        border: 2px solid rgba(23, 22, 21, 0.2);
+        background: #ffffff;
+      }
+      .eu .bt {
+        font-size: 21px;
+        font-weight: 700;
+      }
+      .eu .bs {
+        margin-top: 4px;
+        font-size: 16px;
+        color: rgba(23, 22, 21, 0.74);
+      }
+      .eu .btns {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 18px;
+        font-size: 16px;
+        font-weight: 600;
+      }
+      .eu .btns span {
+        padding: 9px 14px;
+        border-radius: 9px;
+      }
+      .eu .b1 {
+        background: var(--m-ink);
+        color: #ffffff;
+      }
+      .eu .b2 {
+        border: 2px solid var(--m-ink);
+      }
+      .eu .b3 {
+        text-decoration: underline;
+      }
+      .us {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 18px;
+        background: var(--m-ink);
+        color: #ffffff;
+        font-size: 17px;
+      }
+      .us .ok {
+        padding: 6px 16px;
+        border-radius: 8px;
+        background: var(--m-paper-red-light);
+        color: var(--m-ink);
+        font-weight: 700;
+      }
+      .check {
+        position: absolute;
+        left: 105px;
+        top: 150px;
+        width: 240px;
+        height: 58px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 0 18px;
+        border-radius: 29px;
+        border: 2px solid rgba(23, 22, 21, 0.2);
+        background: #ffffff;
+        font-size: 19px;
+        font-weight: 700;
+      }
+      .flash {
+        position: absolute;
+        inset: -2px;
+        border-radius: 18px;
+        border: 5px solid var(--m-paper-red);
+        opacity: 0;
+        pointer-events: none;
+      }
+      .saved .sc-head {
+        position: absolute;
+        left: 22px;
+        top: 16px;
+      }
+      .saved .row {
+        position: absolute;
+        left: 22px;
+        right: 22px;
+        height: 34px;
+        display: flex;
+        align-items: center;
+        font-size: 17px;
+      }
+      .saved .row .tk {
+        margin-left: auto;
+        font-size: 20px;
+        font-weight: 800;
+        color: var(--m-paper-red);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Archive machines, Scrappey. Every Monday your code asks Scrappey (docs.scrappey.com/md/request-get) to load
+         the site through a Massive residential IP per country, with screenshot and markdown on; Scrappey handles the
+         bot check, and you keep each country's banner. The sites and banners are mock content on example.com. -->
+    <div id="stage" data-composition-id="gif-archive-scrappey" data-start="0" data-duration="4" data-fps="15" data-width="1080" data-height="1350">
+      <div class="m-ground soft-orange"></div>
+      <div class="m-linegrid"></div>
+    </div>
+    <script>
+      (() => {
+        const { clamp, ease, lerp, frac } = LoopKit;
+        const { div, el, svg } = Scenes;
+        const stage = document.getElementById("stage");
+        Scenes.frame(stage, {
+          title: "Cookie banners,<br />EU vs US.",
+          why: "The banner depends on where the visitor is. Keep each one.",
+          stack: [
+            { icon: "assets/brand/partner-app.png", name: "Scrappey", role: "Anti-bot browser API" },
+            { icon: "assets/brand/massive-app.png", name: "Massive", role: "Residential IPs, 195+ countries" },
+            { icon: "code", name: "Your agent", role: "Diff, storage" },
+          ],
+        });
+
+        // A mock page behind each banner: nav, headline, image, copy.
+        function page(body) {
+          const s = svg(body, 450, 414);
+          const bar = (x, y, w, h, fill) => el("rect", { x, y, width: w, height: h, rx: h / 2.5, fill }, s);
+          bar(20, 18, 70, 14, "rgba(23, 22, 21, 0.8)");
+          [0, 1, 2].forEach((i) => bar(196 + i * 56, 21, 40, 8, "rgba(23, 22, 21, 0.25)"));
+          bar(20, 56, 300, 20, "rgba(23, 22, 21, 0.55)");
+          bar(20, 84, 220, 20, "rgba(23, 22, 21, 0.55)");
+          el("rect", { x: 20, y: 120, width: 410, height: 100, rx: 10, fill: "rgba(213, 70, 53, 0.12)" }, s);
+          [0.95, 0.8, 0.9].forEach((w, i) => bar(20, 236 + i * 18, 410 * w, 8, "rgba(23, 22, 21, 0.14)"));
+        }
+
+        // One window per side. The EU side alternates Germany and France; the US side stays US.
+        function side(x, kind, label) {
+          const win = Scenes.browser(stage, { x, y: 412, w: 450, h: 460, url: "example.com", via: `via Massive · ${label}` });
+          page(win.body);
+          div("sc-badge tag", win.body, kind === "eu" ? "EU" : "US");
+          const banner = div(kind, win.body, kind === "eu"
+            ? '<div class="bt">We use cookies</div><div class="bs">Choose what you allow on this site.</div>' +
+              '<div class="btns"><span class="b1">Accept all</span><span class="b2">Reject all</span><span class="b3">Settings</span></div>'
+            : '<span>This site uses cookies.</span><span class="ok">OK</span>');
+          const check = div("check", win.body);
+          const sp = svg(check, 26, 26);
+          sp.style.position = "static";
+          const spin = el("circle", { cx: 13, cy: 13, r: 10, fill: "none", stroke: "#d54635", "stroke-width": 3.5, "stroke-dasharray": "40 100", "stroke-linecap": "round" }, sp);
+          const word = div("", check, "Bot check");
+          return { via: win.root.querySelector(".via"), banner, check, spin, word, flash: div("flash", win.root) };
+        }
+        const eu = side(80, "eu", "FR");
+        const us = side(550, "us", "US");
+        const EU = ["DE", "FR"];
+
+        Scenes.code(stage, {
+          x: 80, y: 896, w: 450, h: 214, title: "Request",
+          lines: [
+            '{"cmd": "request.get",',
+            ' "proxy": <span class="c">"$PROXY_DE"</span>,',
+            ' "screenshot": true,',
+            ' "markdown": true}',
+          ],
+        });
+        const proxyLine = stage.querySelectorAll(".sc-code pre")[0];
+        const saved = Scenes.card(stage, { x: 550, y: 896, w: 450, h: 214 });
+        saved.classList.add("saved");
+        div("sc-head", saved, "Saved");
+        const rows = [0, 1, 2, 3].map((i) => {
+          const r = div("row", saved);
+          r.style.top = `${58 + i * 36}px`;
+          return { r, name: div("", r), tk: div("tk", r, "✓") };
+        });
+
+        // Two runs per loop (DE, then FR on the EU side). Each run: hold the finished capture, clear it, pass the
+        // bot check, the banner slides up, the window flashes as it's captured, and the files tick off.
+        const at = (q, a, b) => clamp((q - a) / (b - a));
+        function render(p) {
+          const q = frac(p * 2);
+          const c = Math.floor(p * 2) % 2;
+          // Until the reset the window still shows the last run's country, so frame 0 matches the end of the loop.
+          const cc = q < 0.18 ? EU[(c + 1) % 2] : EU[c];
+          eu.via.innerHTML = `<img src="assets/brand/icon-massive.svg" alt="" />via Massive · ${cc}`;
+          proxyLine.innerHTML = proxyLine.innerHTML.replace(/\$PROXY_[A-Z]{2}/, `$PROXY_${cc}`);
+          [eu, us].forEach((w, k) => {
+            const d = k * 0.04; // the US side trails a beat
+            const reset = at(q, 0.15, 0.22);
+            const up = q < 0.22 ? 1 - reset : ease.out(at(q, 0.52 + d, 0.66 + d));
+            w.banner.style.transform = `translateY(${((1 - up) * 120).toFixed(1)}%)`;
+            w.banner.style.visibility = up > 0.01 ? "visible" : "hidden"; // parked below the window until it slides up
+            const showCheck = q >= 0.15 && q < 0.55;
+            w.check.style.opacity = showCheck ? Math.min(at(q, 0.15, 0.19), 1 - at(q, 0.48, 0.55)) : 0;
+            w.spin.setAttribute("transform", `rotate(${720 * p * 2} 13 13)`);
+            w.spin.setAttribute("opacity", q < 0.42 ? 1 : 0);
+            w.word.textContent = q < 0.42 ? "Bot check" : "Passed ✓";
+            const f = at(q, 0.7 + d, 0.8 + d);
+            w.flash.style.opacity = f > 0 && f < 1 ? 1 - f : 0;
+          });
+          const done = (k) => (q < 0.22 ? 1 - at(q, 0.15, 0.2) : at(q, 0.76 + k * 0.04, 0.8 + k * 0.04));
+          rows.forEach(({ name, tk }, i) => {
+            const k = i < 2 ? 0 : 1;
+            const country = k === 0 ? cc : "US";
+            name.innerHTML = `<code>banners/${country}/today.${i % 2 ? "md" : "png"}</code>`;
+            tk.style.opacity = done(k);
+          });
+        }
+
+        const tl = gsap.timeline({ paused: true });
+        LoopKit.drive(tl, stage, render);
+        window.__timelines["gif-archive-scrappey"] = tl;
+      })();
+    </script>
+  </body>
+</html>

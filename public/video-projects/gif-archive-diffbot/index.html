@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1350" />
+    <title>Diffbot · Catch silent edits in published articles.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=JetBrains+Mono:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="lib/loop-kit.js"></script>
+    <script src="lib/scenes.js"></script>
+    <link rel="stylesheet" href="lib/frame-kit.css" />
+    <link rel="stylesheet" href="lib/massive.css" />
+    <link rel="stylesheet" href="lib/scenes.css" />
+    <style>
+      /* No background on html, body or #stage: the GIF capture makes them transparent. */
+      html,
+      body {
+        width: 1080px;
+        height: 1350px;
+        overflow: hidden;
+      }
+      #stage {
+        position: relative;
+        width: 1080px;
+        height: 1350px;
+        overflow: hidden;
+      }
+      .art {
+        position: absolute;
+        inset: 0;
+      }
+      .art .day {
+        position: absolute;
+        right: 26px;
+        top: 22px;
+      }
+      .art .kicker {
+        position: absolute;
+        left: 40px;
+        top: 26px;
+        font-size: 16px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: rgba(23, 22, 21, 0.7);
+      }
+      .art .hl {
+        position: absolute;
+        left: 40px;
+        font-size: 40px;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        white-space: nowrap;
+      }
+      .art .hl span {
+        position: relative;
+        display: inline-block;
+        isolation: isolate; /* keeps the highlight behind the text, inside the headline */
+      }
+      .art .v1 {
+        top: 58px;
+      }
+      .art .v2 {
+        top: 112px;
+      }
+      .art .strike {
+        position: absolute;
+        left: -4px;
+        top: 52%;
+        height: 5px;
+        border-radius: 3px;
+        background: var(--m-paper-red);
+      }
+      .art .mark {
+        position: absolute;
+        left: -6px;
+        right: -6px;
+        bottom: 2px;
+        height: 16px;
+        border-radius: 4px;
+        background: var(--m-paper-red-light);
+        opacity: 0.45;
+        z-index: -1;
+      }
+      .art .by {
+        position: absolute;
+        left: 40px;
+        top: 178px;
+        font-size: 18px;
+        color: rgba(23, 22, 21, 0.72);
+      }
+      .art .scan {
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: var(--m-paper-red);
+      }
+      .ver {
+        padding: 18px 22px;
+      }
+      .ver .lab {
+        position: absolute;
+        top: 128px;
+        width: 110px;
+        margin-left: -55px;
+        text-align: center;
+        font-size: 17px;
+        font-weight: 600;
+      }
+      .ver .lab small {
+        display: block;
+        font-size: 15px;
+        font-weight: 400;
+        color: rgba(23, 22, 21, 0.72);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Archive machines, Diffbot. Your code fetches the article through Massive (curl -x) and posts the HTML to
+         Diffbot's Article API (diffbot.com/docs/extract, raw HTML), which returns title, author and text; your diff
+         against the last copy shows the silent edit. The article is mock content on news.example.com. -->
+    <div id="stage" data-composition-id="gif-archive-diffbot" data-start="0" data-duration="4" data-fps="15" data-width="1080" data-height="1350">
+      <div class="m-ground soft-orange"></div>
+      <div class="m-linegrid"></div>
+    </div>
+    <script>
+      (() => {
+        const { clamp, ease, lerp } = LoopKit;
+        const { div, el, svg } = Scenes;
+        const stage = document.getElementById("stage");
+        Scenes.frame(stage, {
+          title: "Catch silent edits<br />in published articles.",
+          why: "Re-read each article daily and keep every version of it.",
+          stack: [
+            { icon: "assets/brand/partner-app.png", name: "Diffbot", role: "Reads pages like a person" },
+            { icon: "assets/brand/massive-app.png", name: "Massive", role: "Residential IPs, 195+ countries" },
+            { icon: "code", name: "Your agent", role: "Diff, alerts" },
+          ],
+        });
+
+        // The article, fetched through Massive.
+        const V1 = "Council approves the new budget";
+        const V2 = "Council delays the budget vote";
+        const win = Scenes.browser(stage, { x: 80, y: 412, w: 920, h: 520, url: "news.example.com/world/council-budget", via: true });
+        const art = div("art", win.body);
+        const day = div("sc-badge day", art, "Day 2");
+        div("kicker", art, "World");
+        const v1 = div("hl v1", art, `<span>${V1}<i class="strike"></i></span>`).querySelector("span");
+        const strike = v1.querySelector(".strike");
+        const v2 = div("hl v2", art, `<span>${V2}<i class="mark"></i></span>`).querySelector("span");
+        div("by", art, "By Staff Writer · World desk");
+        const lines = svg(art, 920, 250, 0, 228);
+        [[0.92, 1, 0.86, 0.6], [1, 0.94, 0.9, 0.72], [0.88, 1, 0.5]].forEach((para, pi) => {
+          para.forEach((w, li) => el("rect", { x: 40, y: pi * 92 + li * 21, width: 840 * w, height: 9, rx: 4, fill: "rgba(23, 22, 21, 0.14)" }, lines));
+        });
+        const scan = div("scan", art);
+
+        // What Diffbot hands back, and the versions your code keeps.
+        const out = Scenes.code(stage, { x: 80, y: 958, w: 548, h: 214, title: "Diffbot output", lines: [] });
+        const pre = out.querySelector("pre");
+        const json = (t) =>
+          [`{ "title": <span class="c">"${t}"</span>,`, '  "author": "Staff Writer",', '  "text": "The council met on…" }'].join("\n");
+        const ver = Scenes.card(stage, { x: 652, y: 958, w: 348, h: 214 });
+        ver.classList.add("ver");
+        div("sc-head", ver, "Versions");
+        const tl = svg(ver, 348, 206);
+        el("line", { x1: 50, y1: 104, x2: 298, y2: 104, stroke: "rgba(23, 22, 21, 0.3)", "stroke-width": 3 }, tl);
+        el("circle", { cx: 66, cy: 104, r: 12, fill: "#171615" }, tl);
+        const ring = el("circle", { cx: 174, cy: 104, r: 12, fill: "none", stroke: "#d54635", "stroke-width": 3 }, tl);
+        const dot2 = el("circle", { cx: 174, cy: 104, r: 12, fill: "#d54635" }, tl);
+        el("circle", { cx: 282, cy: 104, r: 11, fill: "#ffffff", stroke: "rgba(23, 22, 21, 0.35)", "stroke-width": 3, "stroke-dasharray": "4 4" }, tl);
+        const lab = (x, t, s) => {
+          const l = div("lab", ver, `${t}<small>${s}</small>`);
+          l.style.left = `${x}px`;
+          return l;
+        };
+        lab(66, "v1", "first copy");
+        const lab2 = lab(174, "v2", "edited");
+        lab(282, "v3", "next run");
+
+        // Day 1: the original headline. Day 2: a reading pass, then the old line is struck and the new one typed.
+        // It ends on the full redline, which is also frame 0.
+        function render(p) {
+          // Frame 0 is the finished redline (day 2). The loop rewinds to day 1 at 0.28–0.34, reads again at 0.6.
+          const dayTwo = p < 0.31 || p >= 0.6;
+          day.textContent = dayTwo ? "Day 2" : "Day 1";
+          const back = 1 - clamp((p - 0.28) / 0.06);
+          // The reading pass sweeps the article.
+          const read = clamp((p - 0.6) / 0.12);
+          scan.style.top = `${lerp(20, 470, read)}px`;
+          scan.style.opacity = read > 0 && read < 1 ? 1 : 0;
+          // Strike through the old headline, then type the new one.
+          const s = p < 0.34 ? back : clamp((p - 0.72) / 0.07);
+          strike.style.width = `calc((100% + 8px) * ${ease.out(s).toFixed(3)})`;
+          v1.style.opacity = 1 - 0.45 * s;
+          const t = p < 0.34 ? back : clamp((p - 0.79) / 0.12);
+          v2.style.clipPath = `inset(-6px ${((1 - t) * 100).toFixed(1)}% -6px -8px)`;
+          v2.style.visibility = t > 0 ? "visible" : "hidden";
+          pre.innerHTML = json(t > 0.5 ? V2 : V1);
+          // v2 joins the timeline when the edit lands.
+          const v = p < 0.34 ? back : clamp((p - 0.9) / 0.05);
+          dot2.setAttribute("r", Math.max(0, 12 * ease.outBack(v)));
+          dot2.setAttribute("opacity", v);
+          lab2.style.opacity = v;
+          const pulse = clamp((p - 0.9) / 0.1);
+          ring.setAttribute("r", 12 + 14 * ease.out(pulse));
+          ring.setAttribute("opacity", p >= 0.9 ? 1 - pulse : 0);
+        }
+
+        const tl2 = gsap.timeline({ paused: true });
+        LoopKit.drive(tl2, stage, render);
+        window.__timelines["gif-archive-diffbot"] = tl2;
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1350" />
+    <title>MrScraper · A daily evidence locker for product pages.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=JetBrains+Mono:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="lib/loop-kit.js"></script>
+    <script src="lib/scenes.js"></script>
+    <link rel="stylesheet" href="lib/frame-kit.css" />
+    <link rel="stylesheet" href="lib/massive.css" />
+    <link rel="stylesheet" href="lib/scenes.css" />
+    <style>
+      /* No background on html, body or #stage: the GIF capture makes them transparent. */
+      html,
+      body {
+        width: 1080px;
+        height: 1350px;
+        overflow: hidden;
+      }
+      #stage {
+        position: relative;
+        width: 1080px;
+        height: 1350px;
+        overflow: hidden;
+      }
+      .shop .pic {
+        position: absolute;
+        left: 40px;
+        top: 26px;
+        width: 280px;
+        height: 280px;
+        border-radius: 14px;
+        background: #f6f1ed;
+      }
+      .shop .name {
+        position: absolute;
+        left: 360px;
+        top: 36px;
+        font-size: 34px;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+      }
+      .shop .sub {
+        position: absolute;
+        left: 360px;
+        top: 84px;
+        font-size: 18px;
+        color: rgba(23, 22, 21, 0.72);
+      }
+      .shop .price {
+        position: absolute;
+        left: 360px;
+        top: 120px;
+        font-size: 58px;
+        font-weight: 900;
+        letter-spacing: -0.02em;
+        transform-origin: 0 50%;
+      }
+      .shop .stock {
+        position: absolute;
+        left: 360px;
+        top: 206px;
+        padding: 4px 12px;
+        border-radius: 8px;
+        font-size: 17px;
+        font-weight: 700;
+      }
+      .shop .buy {
+        position: absolute;
+        left: 360px;
+        top: 250px;
+        width: 210px;
+        height: 50px;
+        border-radius: 12px;
+        background: var(--m-ink);
+        color: #ffffff;
+        font-size: 18px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .shop .when {
+        position: absolute;
+        right: 26px;
+        top: 24px;
+      }
+      .shutter {
+        position: absolute;
+        left: 0;
+        right: 0;
+        background: var(--m-ink);
+        z-index: 3;
+      }
+      .locker .sc-head {
+        position: absolute;
+        left: 22px;
+        top: 14px;
+        white-space: nowrap;
+      }
+      .locker .sc-head .path {
+        margin-left: 8px;
+        font-size: 16px;
+        font-weight: 500;
+        color: rgba(23, 22, 21, 0.76);
+      }
+      .cell {
+        position: absolute;
+        top: 52px;
+        width: 164px;
+        height: 118px;
+        border-radius: 12px;
+        border: 2px solid rgba(23, 22, 21, 0.18);
+        background: #ffffff;
+        overflow: hidden;
+      }
+      .cell .new {
+        position: absolute;
+        right: 8px;
+        top: 8px;
+      }
+      .slot {
+        position: absolute;
+        top: 178px;
+        width: 164px;
+        text-align: center;
+        font-size: 16px;
+        font-weight: 600;
+        color: rgba(23, 22, 21, 0.76);
+      }
+      .setup {
+        position: absolute;
+        border-radius: 18px;
+        background: var(--m-ink);
+        color: #ffffff;
+      }
+      .setup .sc-head {
+        position: absolute;
+        left: 22px;
+        top: 16px;
+        color: #ffffff;
+      }
+      .setup .grid {
+        position: absolute;
+        left: 22px;
+        right: 22px;
+        top: 60px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        row-gap: 4px;
+      }
+      .setup .r {
+        display: flex;
+        gap: 16px;
+        font-size: 17px;
+        line-height: 28px;
+        white-space: nowrap;
+      }
+      .setup .k {
+        width: 104px;
+        flex-shrink: 0;
+        color: rgba(255, 255, 255, 0.66);
+      }
+      .setup code {
+        font-size: 16px;
+        color: var(--m-paper-red-light);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Archive machines, MrScraper. MrScraper's daily schedule renders the product page through a Massive custom
+         proxy and takes a full-page screenshot (docs.mrscraper.com/docs/features/proxy, /features/schedule); a
+         "Scraping Completed" webhook hands the data and screenshot to your code. The shop is mock content. -->
+    <div id="stage" data-composition-id="gif-archive-mrscraper" data-start="0" data-duration="4" data-fps="15" data-width="1080" data-height="1350">
+      <div class="m-ground soft-orange"></div>
+      <div class="m-linegrid"></div>
+    </div>
+    <script>
+      (() => {
+        const { clamp, ease, lerp } = LoopKit;
+        const { div, el, svg } = Scenes;
+        const stage = document.getElementById("stage");
+        const INK = "#171615";
+        const RED = "#d54635";
+        Scenes.frame(stage, {
+          title: "A daily evidence locker<br />for product pages.",
+          why: "Price, stock and a full-page screenshot, every day.",
+          stack: [
+            { icon: "assets/brand/partner-app.png", name: "MrScraper", role: "Scraper with screenshots" },
+            { icon: "assets/brand/massive-app.png", name: "Massive", role: "Residential IPs, 195+ countries" },
+            { icon: "code", name: "Your agent", role: "Diff, alerts" },
+          ],
+        });
+
+        // A desk lamp, in line art.
+        const lamp = (g, x, y, k) => {
+          const t = (d) => el("path", { d, fill: "none", stroke: INK, "stroke-width": 3 / k, "stroke-linecap": "round", "stroke-linejoin": "round", transform: `translate(${x} ${y}) scale(${k})` }, g);
+          t("M-40 60 H40");
+          t("M0 60 L-20 0 L24 -40");
+          t("M24 -40 L44 -24 L20 -6 Z");
+          el("circle", { cx: x + -20 * k, cy: y, r: 5 * k, fill: RED }, g);
+        };
+
+        // The product page, rendered through Massive.
+        const win = Scenes.browser(stage, { x: 80, y: 412, w: 920, h: 380, url: "shop.example.com/p/arc-desk-lamp", via: true });
+        const shop = div("shop", win.body);
+        shop.style.cssText = "position:absolute;inset:0";
+        lamp(svg(div("pic", shop), 280, 280), 140, 150, 1.6);
+        div("name", shop, "Arc desk lamp");
+        div("sub", shop, "Matte black · LED");
+        const price = div("price", shop, "$59");
+        const stock = div("stock", shop, "Low stock");
+        div("buy", shop, "Add to cart");
+        const when = div("sc-badge when", shop, "Today");
+        const top = div("shutter", win.body);
+        const bot = div("shutter", win.body);
+        // The viewfinder that frames the capture.
+        const fx = svg(stage, 1080, 1350);
+        const finder = el("g", {}, fx);
+        const FX = 80, FY = 412, FW = 920, FH = 380, B = 34;
+        [[FX, FY, 1, 1], [FX + FW, FY, -1, 1], [FX, FY + FH, 1, -1], [FX + FW, FY + FH, -1, -1]].forEach(([x, y, sx, sy]) =>
+          el("path", { d: `M${x - sx * 10} ${y - sy * 10 + sy * B} V${y - sy * 10} H${x - sx * 10 + sx * B}`, fill: "none", stroke: RED, "stroke-width": 5, "stroke-linecap": "round" }, finder),
+        );
+
+        // The locker: one dated compartment a day, newest on the left.
+        const locker = Scenes.card(stage, { x: 80, y: 816, w: 920, h: 214 });
+        locker.classList.add("locker");
+        div("sc-head", locker, 'Evidence locker<span class="path"><code>products/&lt;sku&gt;/&lt;date&gt;/</code> · JSON + full-page screenshot</span>');
+        const CW = 164, CG = 15;
+        const slotX = (s) => 22 + s * (CW + CG);
+        ["today", "−1 d", "−2 d", "−3 d", "−4 d"].forEach((label, s) => {
+          div("slot", locker, label).style.left = `${slotX(s)}px`;
+        });
+        const shot = (parent) => {
+          const c = div("cell", parent);
+          const g = svg(c, CW, 118);
+          el("line", { x1: 0, y1: 20, x2: CW, y2: 20, stroke: "rgba(23, 22, 21, 0.18)", "stroke-width": 2 }, g);
+          [0, 1, 2].forEach((i) => el("circle", { cx: 12 + i * 8, cy: 10, r: 2.5, fill: "rgba(23, 22, 21, 0.3)" }, g));
+          el("rect", { x: 12, y: 32, width: 58, height: 58, rx: 6, fill: "#f6f1ed" }, g);
+          lamp(g, 41, 62, 0.4);
+          el("rect", { x: 80, y: 36, width: 66, height: 8, rx: 4, fill: "rgba(23, 22, 21, 0.3)" }, g);
+          el("rect", { x: 80, y: 54, width: 40, height: 14, rx: 4, fill: INK }, g);
+          el("rect", { x: 80, y: 76, width: 54, height: 8, rx: 4, fill: "rgba(23, 22, 21, 0.18)" }, g);
+          return c;
+        };
+        const cells = Array.from({ length: 6 }, () => {
+          const c = shot(locker);
+          return { c, tab: div("sc-badge new", c, "NEW") };
+        });
+        const flyer = shot(stage);
+        flyer.style.zIndex = 4;
+
+        // How MrScraper is set up.
+        const setup = div("setup", stage);
+        Scenes.place(setup, { x: 80, y: 1054, w: 920, h: 134 });
+        div("sc-head", setup, "MrScraper setup");
+        div(
+          "grid",
+          setup,
+          '<div class="r"><span class="k">Proxy</span><span>Custom proxy</span></div>' +
+            '<div class="r"><span class="k">Screenshot</span><code>full</code></div>' +
+            '<div class="r"><span class="k">Server</span><code>network.joinmassive.com:65534</code></div>' +
+            '<div class="r"><span class="k">Webhook</span><span>Scraping Completed</span></div>',
+        );
+
+        // Frame 0 is today's capture filed. At 0.15 the page rewinds to yesterday; overnight the price and stock
+        // change, the shutter takes today's full-page screenshot, and it's filed in today's compartment.
+        const BACK = [0.15, 0.22];
+        const CHANGE = [0.34, 0.44];
+        const SHUT = [0.5, 0.58];
+        const FLY = [0.58, 0.72];
+        function render(p) {
+          // u: 0 = yesterday's page, 1 = today's.
+          const u = p < CHANGE[0] ? 1 - clamp((p - BACK[0]) / (BACK[1] - BACK[0])) : clamp((p - CHANGE[0]) / (CHANGE[1] - CHANGE[0]));
+          when.textContent = p >= BACK[0] + 0.035 && p < CHANGE[0] ? "Yesterday" : "Today";
+          price.textContent = u < 0.5 ? "$49" : "$59";
+          price.style.transform = `scaleY(${Math.abs(1 - 2 * ease.inOut(u)).toFixed(3)})`;
+          const low = u >= 0.5;
+          stock.textContent = low ? "Low stock" : "In stock";
+          stock.style.background = low ? "#f3a07a" : "rgba(23, 22, 21, 0.08)";
+
+          // The shutter: two ink blades close on the page and open again.
+          const s = clamp((p - SHUT[0]) / (SHUT[1] - SHUT[0]));
+          const close = s < 0.5 ? ease.in(s * 2) : ease.out(2 - s * 2);
+          const h = (s > 0 && s < 1 ? close : 0) * 168;
+          top.style.cssText = `top:0;height:${h}px`;
+          bot.style.cssText = `bottom:0;height:${h}px`;
+          finder.setAttribute("opacity", p > SHUT[0] - 0.04 && p < SHUT[1] + 0.04 ? 1 : 0);
+
+          // Filed: the screenshot flies to today's compartment while older days step right.
+          const f = clamp((p - FLY[0]) / (FLY[1] - FLY[0]));
+          const fv = ease.inOut(f);
+          Object.assign(flyer.style, {
+            left: `${lerp(80 + 400, 80 + slotX(0), fv)}px`,
+            top: `${lerp(412 + 140, 816 + 52, fv)}px`,
+            opacity: f > 0 && f < 1 ? 1 : 0,
+          });
+          const shift = ease.inOut(clamp((p - (FLY[0] + 0.04)) / 0.1));
+          cells.forEach(({ c, tab }, i) => {
+            const incoming = i === 5;
+            const k = incoming ? 0 : i + shift;
+            c.style.left = `${slotX(k)}px`;
+            c.style.opacity = incoming ? (f >= 1 ? 1 : 0) : 1 - clamp(k - 4);
+            tab.style.opacity = incoming ? 1 : clamp(1 - k);
+          });
+        }
+
+        const tl = gsap.timeline({ paused: true });
+        LoopKit.drive(tl, stage, render);
+        window.__timelines["gif-archive-mrscraper"] = tl;
+      })();
+    </script>
+  </body>
+</html>

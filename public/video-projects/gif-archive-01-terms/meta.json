@@ -1,0 +1,15 @@
+{
+  "id": "gif-archive-01-terms",
+  "name": "Lightpanda · Keep every version of a terms page",
+  "group": "massive",
+  "kind": "native",
+  "status": "draft",
+  "source": "lightpanda.io/docs/reference/cli/fetch, /common-options, /guides/configure-a-proxy (checked 2026-10-26)",
+  "output": "gif",
+  "series": "Archive machines",
+  "kits": [
+    "machine"
+  ],
+  "alt": "Animated infographic on white: Lightpanda, Massive and your code listed in a stack card, then the machine. A daily schedule runs a Lightpanda fetch of example.com/terms; the request goes out through a Massive residential IP and the page comes back as Markdown; a word diff marks the changed wording in red; a webhook rings; and the dated copy drops into an archive of daily versions. Packets move through several steps at once. Headline: Keep every version of a terms page.",
+  "partner": "Lightpanda"
+}

@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1350" />
+    <title>Metal · Pages behind bot walls, saved as they looked.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=JetBrains+Mono:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="lib/loop-kit.js"></script>
+    <script src="lib/scenes.js"></script>
+    <link rel="stylesheet" href="lib/frame-kit.css" />
+    <link rel="stylesheet" href="lib/massive.css" />
+    <link rel="stylesheet" href="lib/scenes.css" />
+    <style>
+      /* No background on html, body or #stage: the GIF capture makes them transparent. */
+      html,
+      body {
+        width: 1080px;
+        height: 1350px;
+        overflow: hidden;
+      }
+      #stage {
+        position: relative;
+        width: 1080px;
+        height: 1350px;
+        overflow: hidden;
+      }
+      .rep .h {
+        position: absolute;
+        left: 36px;
+        top: 28px;
+        font-size: 30px;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+      }
+      .gate {
+        position: absolute;
+        left: 240px;
+        top: 160px;
+        width: 440px;
+        height: 170px;
+        border-radius: 18px;
+        border: 2px solid rgba(23, 22, 21, 0.14);
+        background: #ffffff;
+      }
+      .gate .t {
+        position: absolute;
+        left: 104px;
+        top: 46px;
+        font-size: 24px;
+        font-weight: 700;
+      }
+      .gate .s {
+        position: absolute;
+        left: 104px;
+        top: 84px;
+        font-size: 17px;
+        color: rgba(23, 22, 21, 0.72);
+      }
+      .flash {
+        position: absolute;
+        inset: -2px;
+        border-radius: 18px;
+        border: 5px solid var(--m-paper-red);
+        opacity: 0;
+        pointer-events: none;
+      }
+      .setup .rows {
+        position: absolute;
+        left: 22px;
+        right: 18px;
+        top: 56px;
+      }
+      .setup .row {
+        display: flex;
+        font-size: 17px;
+        line-height: 27px;
+        white-space: nowrap;
+      }
+      .setup .row .k {
+        width: 104px;
+        flex-shrink: 0;
+        color: rgba(255, 255, 255, 0.7);
+      }
+      .setup .row code {
+        font-size: 16px;
+        color: var(--m-paper-red-light);
+      }
+      .arch .sc-head {
+        position: absolute;
+        left: 22px;
+        top: 14px;
+        white-space: nowrap;
+      }
+      .arch .sc-head code {
+        margin-left: 8px;
+        font-size: 15px;
+        font-weight: 500;
+        color: rgba(23, 22, 21, 0.76);
+      }
+      .pair {
+        position: absolute;
+        top: 54px;
+        width: 186px;
+        height: 82px;
+        display: flex;
+        gap: 8px;
+      }
+      .pair .shot,
+      .pair .html {
+        position: relative;
+        height: 82px;
+        border-radius: 10px;
+        border: 2px solid rgba(23, 22, 21, 0.18);
+        background: #ffffff;
+        overflow: hidden;
+      }
+      .pair .shot {
+        width: 104px;
+      }
+      .pair .html {
+        width: 74px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 17px;
+        font-weight: 700;
+      }
+      .pair .new {
+        position: absolute;
+        right: -6px;
+        top: -10px;
+        z-index: 2;
+      }
+      .arch .slot {
+        position: absolute;
+        top: 146px;
+        width: 186px;
+        text-align: center;
+        font-size: 16px;
+        font-weight: 600;
+        color: rgba(23, 22, 21, 0.76);
+      }
+      .flying {
+        z-index: 5;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Archive machines, Metal. Your code drives Metal's self-hosted stealth browser (metal-browser:latest), whose
+         custom network routing sends traffic through Massive residential IPs (metalsecurity.io; its docs need a
+         license key, so no proxy syntax is shown). The report and the bot check are mock content on example.com. -->
+    <div id="stage" data-composition-id="gif-archive-metal" data-start="0" data-duration="4" data-fps="15" data-width="1080" data-height="1350">
+      <div class="m-ground soft-orange"></div>
+      <div class="m-linegrid"></div>
+    </div>
+    <script>
+      (() => {
+        const { clamp, ease, lerp, rng } = LoopKit;
+        const { div, el, svg } = Scenes;
+        const stage = document.getElementById("stage");
+        Scenes.frame(stage, {
+          title: "Pages behind bot walls,<br />saved as they looked.",
+          why: "A stealth browser loads them. You keep the screenshot and HTML.",
+          stack: [
+            { icon: "assets/brand/partner-app.png", name: "Metal", role: "Self-hosted stealth browser" },
+            { icon: "assets/brand/massive-app.png", name: "Massive", role: "Residential IPs, 195+ countries" },
+            { icon: "code", name: "Your agent", role: "Capture, diff" },
+          ],
+        });
+
+        // The page behind the wall: a report.
+        const BW = 920, BH = 494;
+        const win = Scenes.browser(stage, { x: 80, y: 412, w: BW, h: 540, url: "walled.example.com/report", via: true });
+        const rep = div("rep", win.body);
+        rep.style.cssText = "position:absolute;inset:0";
+        div("h", rep, "Quarterly market report");
+        const g = svg(rep, BW, BH);
+        [0.62, 0.48].forEach((w, i) => el("rect", { x: 36, y: 80 + i * 22, width: 840 * w, height: 10, rx: 5, fill: "rgba(23, 22, 21, 0.16)" }, g));
+        [120, 170, 140, 210, 180, 240, 200].forEach((h, i) =>
+          el("rect", { x: 36 + i * 60, y: 380 - h, width: 40, height: h, rx: 6, fill: i === 5 ? "#d54635" : "rgba(23, 22, 21, 0.75)" }, g),
+        );
+        el("line", { x1: 30, y1: 382, x2: 456, y2: 382, stroke: "rgba(23, 22, 21, 0.3)", "stroke-width": 2 }, g);
+        [1, 0.86, 0.94, 0.7, 0.9, 0.62, 0.8].forEach((w, i) => el("rect", { x: 500, y: 150 + i * 30, width: 380 * w, height: 10, rx: 5, fill: "rgba(23, 22, 21, 0.14)" }, g));
+        [1, 0.9, 0.74].forEach((w, i) => el("rect", { x: 36, y: 412 + i * 22, width: 840 * w, height: 10, rx: 5, fill: "rgba(23, 22, 21, 0.14)" }, g));
+
+        // The wall: flat bricks, each with its own moment to appear and to go.
+        const wall = svg(win.body, BW, BH);
+        const R = rng(11);
+        const bricks = [];
+        const BRW = 92, BRH = 38;
+        for (let r = 0; r * BRH < BH; r++) {
+          for (let x = r % 2 ? -BRW / 2 : 0; x < BW; x += BRW) {
+            // Bricks touch; the white outline is the mortar, so nothing behind shows through a whole wall.
+            const b = el("rect", { x, y: r * BRH, width: BRW, height: BRH, fill: "#f9d3c3", stroke: "#ffffff", "stroke-width": 4 }, wall);
+            bricks.push({ b, up: R(), down: R() });
+          }
+        }
+        // The bot check sitting on the wall.
+        const gate = div("gate", win.body);
+        const gs = svg(gate, 440, 170);
+        el("path", { d: "M58 42 L84 52 V78 Q84 104 58 116 Q32 104 32 78 V52 Z", fill: "none", stroke: "#171615", "stroke-width": 4, "stroke-linejoin": "round" }, gs);
+        const spin = el("circle", { cx: 58, cy: 80, r: 12, fill: "none", stroke: "#d54635", "stroke-width": 4, "stroke-linecap": "round", "stroke-dasharray": "40 100" }, gs);
+        div("t", gate, "Checking your browser…");
+        div("s", gate, "This takes a few seconds");
+        const flash = div("flash", win.root);
+
+        // Metal's setup: the image, and routing through Massive.
+        const setup = div("sc-code setup", stage);
+        Scenes.place(setup, { x: 80, y: 976, w: 456, h: 188 });
+        div("sc-head", setup, "Setup");
+        const rows = div("rows", setup);
+        [
+          ["Image", "<code>metal-browser:latest</code>"],
+          ["Routing", "Custom network routing"],
+          ["Network", "Massive residential IPs"],
+          ["Capture", "Screenshot + HTML"],
+        ].forEach(([k, v]) => div("row", rows, `<span class="k">${k}</span><span>${v}</span>`));
+
+        // The archive: a screenshot and the HTML for each capture, newest on the left.
+        const AX = 560, AY = 976;
+        const arch = Scenes.card(stage, { x: AX, y: AY, w: 440, h: 188 });
+        arch.classList.add("arch");
+        div("sc-head", arch, "Archive<code>walled/&lt;site&gt;/&lt;date&gt;/</code>");
+        const slotX = (s) => 22 + s * 206;
+        ["now", "−6 h"].forEach((l, s) => (div("slot", arch, l).style.left = `${slotX(s)}px`));
+        const pairHTML =
+          '<div class="shot"><svg width="104" height="82"><rect x="8" y="10" width="54" height="8" rx="4" fill="rgba(23,22,21,.6)"/>' +
+          '<rect x="8" y="30" width="10" height="34" rx="2" fill="rgba(23,22,21,.7)"/><rect x="22" y="40" width="10" height="24" rx="2" fill="rgba(23,22,21,.7)"/>' +
+          '<rect x="36" y="24" width="10" height="40" rx="2" fill="#d54635"/><rect x="54" y="30" width="40" height="6" rx="3" fill="rgba(23,22,21,.2)"/>' +
+          '<rect x="54" y="44" width="32" height="6" rx="3" fill="rgba(23,22,21,.2)"/></svg></div><div class="html"><code>&lt;/&gt;</code></div>';
+        const pairs = Array.from({ length: 3 }, () => {
+          const pr = div("pair", arch, pairHTML);
+          return { pr, tab: div("sc-badge new", pr, "NEW") };
+        });
+        const flyer = div("pair flying", stage, pairHTML);
+
+        // Frame 0: the page is through and filed. At 0.15 the next run meets the wall again; at 0.42 it dissolves.
+        function render(p) {
+          const up = clamp((p - 0.15) / 0.1);
+          const down = clamp((p - 0.42) / 0.3);
+          bricks.forEach(({ b, up: a, down: d }) => {
+            const shown = p >= 0.15 && up >= a && down < d;
+            b.setAttribute("opacity", shown ? 1 : 0);
+          });
+          const gateOn = p < 0.22 ? 0 : p < 0.5 ? clamp((p - 0.22) / 0.05) : 1 - clamp((p - 0.5) / 0.06);
+          gate.style.opacity = gateOn;
+          spin.setAttribute("transform", `rotate(${720 * p} 58 80)`);
+
+          // Capture: a flash, then the screenshot + HTML pair flies to the archive.
+          const fl = clamp((p - 0.74) / 0.06);
+          flash.style.opacity = p >= 0.74 && fl < 1 ? 1 - fl : 0;
+          const f = clamp((p - 0.76) / 0.1);
+          const v = ease.inOut(f);
+          Object.assign(flyer.style, {
+            left: `${lerp(80 + BW / 2 - 93, AX + slotX(0), v)}px`,
+            top: `${lerp(412 + 200, AY + 54, v)}px`,
+            opacity: f > 0 && f < 1 ? 1 : 0,
+          });
+          const u = ease.inOut(clamp((p - 0.8) / 0.08));
+          pairs.forEach(({ pr, tab }, i) => {
+            const incoming = i === 2;
+            const s = incoming ? 0 : i + u;
+            pr.style.left = `${slotX(s)}px`;
+            pr.style.opacity = incoming ? (f >= 1 ? 1 : 0) : 1 - clamp(s - 1);
+            tab.style.opacity = incoming ? 1 : clamp(1 - s);
+          });
+        }
+
+        const tl = gsap.timeline({ paused: true });
+        LoopKit.drive(tl, stage, render);
+        window.__timelines["gif-archive-metal"] = tl;
+      })();
+    </script>
+  </body>
+</html>

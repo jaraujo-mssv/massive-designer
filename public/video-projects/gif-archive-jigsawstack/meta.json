@@ -1,0 +1,15 @@
+{
+  "id": "gif-archive-jigsawstack",
+  "name": "JigsawStack · A ledger of every vendor incident.",
+  "group": "massive",
+  "kind": "native",
+  "status": "draft",
+  "source": "jigsawstack.com/docs/api-reference/ai/scrape (element_prompts, byo_proxy); docs.joinmassive.com/residential/authentication, /geotargeting (checked 2026-10-26)",
+  "output": "gif",
+  "series": "Archive machines",
+  "kits": [
+    "scenes"
+  ],
+  "partner": "JigsawStack",
+  "alt": "Animated infographic: JigsawStack, Massive and your code in a stack card. A vendor's status page, fetched via Massive, shows daily uptime bars for its API, dashboard and webhooks. The API's latest bar turns red and the page switches to Investigating; three prompts, title, date and status, fly down to your ledger, where the older incidents step down and the new one appears on top. The JigsawStack request with its byo_proxy setting sits below. Headline: A ledger of every vendor incident."
+}

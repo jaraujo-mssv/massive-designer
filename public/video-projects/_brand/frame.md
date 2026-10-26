@@ -4,8 +4,9 @@ name: Massive — Frame (video / frame layer)
 description: >
   Massive's house style for HyperFrames videos, taken from the designer's tokens
   (src/styles/theme-base.css) and the ported brand videos. Dark register by default:
-  near-black ground, cream type, one red accent. The cream register is for editorial
-  carousels (the AEO set). Outfit carries every text role; JetBrains Mono is for code only.
+  near-black ground, cream type, one red accent. Light designs use the light register
+  (soft orange #fff7f2); the cream register is legacy (the AEO set). Outfit carries every
+  text role; JetBrains Mono is for code only. The brand-wide guide is brand/BRAND.md.
 unit: the frame — 1920×1080 primary; 1080×1080, 1080×1350 and 1080×1920 documented
 principle: one accent · type does the work · every number comes from the script
 colors:
@@ -75,6 +76,9 @@ components:
 ---
 
 # Massive — Frame
+
+The video layer of the brand. The brand-wide rules (registers, colours, type, logo, sizes) are in the repo's
+`brand/BRAND.md`; this file adds the frame, type scale, motion and narration for HyperFrames.
 
 ## Overview
 

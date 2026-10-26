@@ -125,14 +125,18 @@ decoration. Leave structure and brand marks fixed. Use CSS `text-transform` for 
 
 ## House style
 
-Use the video house style; see `public/video-projects/_brand/frame.md`. The tokens are in `_brand/massive.css`:
-- **Colors:** ground `#0a0a0f`, cream `#faf4ec`, red `#d74939`, red-deep `#b8321f`, red-light `#ff8163`.
-- **Fonts:** Outfit (100–900) for all type, labels and eyebrows included. **JetBrains Mono only for code**: commands,
-  file paths, cron lines, API parameters, in `<code>`, `<pre>` or `.m-code` (CLAUDE.md rule 4). `image:render` warns
-  about mono anywhere else; `npm run design:mono -- image-projects/<id>` checks one page. Many older images use mono
-  eyebrows; don't copy that.
+Follow `brand/BRAND.md` (registers, colours, type, the mono rule, sizes by channel); `brand/assets.md` says which
+logo and background to use. The tokens are in `_brand/massive.css`. In an image:
+- **Dark** (the default): `#canvas` as is, with `.m-dotgrid` or `<img class="m-bg-dark" src="../_brand/bg-dark.jpg">`,
+  red accents, logo `../_brand/logo-massive.svg`.
+- **Light:** `<div id="canvas" class="soft-orange">` (or `light`) with `.m-linegrid`, white cards with an ink border,
+  ink type, `--m-paper-red` accents, logo `../_brand/logo-massive-positive.svg`. Not cream, and not `--m-red-deep`
+  (legacy).
+- **Type:** Outfit for everything, labels and eyebrows included; JetBrains Mono only for code (CLAUDE.md rule 4).
+  `image:render` warns about mono anywhere else; `npm run design:mono -- image-projects/<id>` checks one page. Many
+  older images use mono eyebrows; don't copy that.
 - **Patterns:** 900-weight display type with tight negative tracking, uppercase tracked Outfit eyebrows and labels, the
-  dot grid or a line grid, and red corner brackets.
+  dot grid or the line grid, and red corner brackets.
 
 A still of an existing video should be its final frame, held: copy the composition's CSS and set each element to where
 its timeline leaves it. Drop anything that only exists in motion (glows that fade out, shockwaves). Where a moment

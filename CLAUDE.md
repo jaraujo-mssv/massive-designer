@@ -166,7 +166,11 @@ description, value, rank). `utils/splitName.ts` splits "Name · description". Do
 
 ## Brand: colours, type, themes
 
-**Core palette.** Defined in `src/styles/theme-base.css` `:root`. The same values are in
+**`brand/BRAND.md` is the brand guide for every new design** (registers, colours, type, logo use, sizes by channel,
+and the legacy values not to copy). `brand/assets.md` lists the logos, backgrounds and fonts and which file each
+pipeline uses. Read both before designing anything. This section only covers how the app maps the brand.
+
+**App palette.** Defined in `src/styles/theme-base.css` `:root`. The same core values are in
 `public/image-projects/_brand/massive.css` and `public/video-projects/_brand/lib/massive.css` (`--m-*`).
 
 | Token | Value | Tailwind | Use |
@@ -180,32 +184,19 @@ description, value, rank). `utils/splitName.ts` splits "Name · description". Do
 | `--text-mid` / `--text-dim` | cream at 75% / 55% | `text-text-mid` / `text-text-dim` | Secondary text |
 | `--border-subtle` | cream at 8% | `border-border-subtle` | Borders |
 
-- **Only in the image and video house styles:** paper `#f1ead8` and ink `#171615`. Red-deep `#b8321f` is in the image
-  style only; paper-red `#d54635` / `#f3a07a` in the video style only.
-- **Light designs: white cards on a very faint orange ground, not cream.**
-  - Ground: `#fff7f2` (`.m-ground.soft-orange` + `.m-linegrid` in video and GIF projects), a whisper of the logo
-    orange. Plain white is `.m-ground.light`.
-  - Ink type and the paper-red accent.
-  - Keep the tint subtle; stronger orange was too much.
-  - The cream paper reads too close to Claude's palette, so don't start new designs on it.
-- **The deck** (`scripts/deck/deck.css`) differs slightly: text at 72% / 48%, a page background of `#050508`, and no
-  mono font.
-- **The logo gradient isn't a token:** `#F69666` → `#F16D65` in `public/logo.svg` and `PresentedBy.tsx`, `#FF9964` →
-  `#FF6E63` in `logo-positive.svg` / `logo-negative.svg`. Don't recolour it to `--red`.
 - **The app UI is dark only.** shadcn's variables are mapped onto the palette above.
+- **The logo gradient isn't a token:** `#F69666` → `#F16D65` in `public/logo.svg` and `PresentedBy.tsx`. Don't
+  recolour it to `--red`.
 
 **Typography.**
 - **Outfit for everything.** Headings 800/700 (`theme-base.css`), canvas titles 900, rich-text body 300 with bold 900
-  (`theme-market-map.css`, `theme-top-list.css`).
-- **JetBrains Mono only for code** (rule 4): commands, terminal output, file paths, cron lines, API parameters,
-  hashes, inside `<code>`, `<pre>`, `<kbd>`, `<samp>` or `.m-code`. Eyebrows, labels, counters, badges, country codes
-  and URLs are Outfit (uppercase and tracked for labels). Older images and videos break this; don't copy them.
+  (`theme-market-map.css`, `theme-top-list.css`). JetBrains Mono only for code (rule 4).
 - **Tailwind:** `font-display` / `font-body` = Outfit, `font-mono` = JetBrains Mono.
 - **Two font loads, both needed:** Google Fonts loads Outfit in `index.html` (400–900) and in `src/styles/fonts.css`
   (300–800). Canvas text is measured in Outfit, so a font change also changes layouts.
-- **Caveat** (handwriting) is a local font in `public/image-projects/_brand/fonts/`.
 
-**Canvas themes.** In `src/styles/theme-canvas.css`; the list is in `src/shared/canvas/themes.ts`.
+**Canvas themes.** In `src/styles/theme-canvas.css`; the list is in `src/shared/canvas/themes.ts`. The Light themes
+are on cream, which the brand guide lists as legacy for new designs; the live tools keep it.
 
 | Theme | Background | Card | Text | Accent | Export background |
 |---|---|---|---|---|---|
@@ -215,7 +206,4 @@ description, value, rank). `utils/splitName.ts` splits "Name · description". Do
 
 The legacy themes reproduce the pre-revamp look and layout. Tools branch on `theme.legacy`, never on the id.
 
-**Logos.**
-- `public/logo.svg`: white wordmark, used in the header.
-- `public/logo-negative.svg` / `logo-positive.svg`: for dark and light backgrounds.
-- Image projects use `public/image-projects/_brand/logo-massive.svg` and `icon-massive*.svg`.
+**Logos.** `public/logo.svg` (white wordmark) is the header logo. Every other logo file is in `brand/assets.md`.

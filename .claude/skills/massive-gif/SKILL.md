@@ -122,8 +122,9 @@ Inside the project folder, `npx hyperframes check` (lint, runtime, layout, contr
 
 ## House style
 
-The same as the videos (`_brand/frame.md`, `lib/massive.css`):
-- **Dark register**: `.m-ground`, cream type, one red accent.
+Follow `brand/BRAND.md` (registers, colours, type, sizes), with the video layer in `_brand/frame.md` and the classes
+in `lib/massive.css`. In a GIF:
+- **Dark register**: `.m-ground` + `.m-dotgrid`, cream type, one red accent.
 - **Light register**: `.m-ground.soft-orange` (`#fff7f2`, a faint tint of the logo orange) with `.m-linegrid`, white
   cards with an ink border, ink type, accents in `--m-paper-red`. Keep the tint that subtle; `#ffe9dc` was too much.
   Plain white is `.m-ground.light`. **Use these instead of the cream `.m-ground.paper`**: cream reads too close to

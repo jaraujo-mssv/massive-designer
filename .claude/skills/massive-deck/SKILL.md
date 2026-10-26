@@ -90,9 +90,10 @@ html, body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 
 ## House style (the Massive look)
 
-`deck.css` mirrors the landing site's dark theme:
+`brand/BRAND.md` is the brand guide; `deck.css` mirrors the landing site's dark theme on top of it:
 - **Tokens:** `--bg #0a0a0f`, `--text #faf4ec` (with `--text-mid` and `--text-dim`), `--red #d74939`,
-  `--red-light #ff8163`, `--green #8be9a1`, `--surface #121117`, `--border`.
+  `--red-light #ff8163`, `--green #8be9a1`, `--surface #121117`, `--border`. `--green` (the `.good` card) is a second
+  hue the brand guide lists as legacy: in a new deck, mark what's good with red-light or a tick instead.
 - **Type:** Outfit (300–800) for everything, labels included; there's no monospace in this deck. If a slide shows
   real code (a command, a config block), that code alone may be mono (CLAUDE.md rule 4); never labels or numbers.
 - **Frame:** slide padding `104px 128px 140px`, a red glow top-left over a 48px line grid, and the footer at the bottom.

@@ -13,14 +13,18 @@ projects too, with their own pipeline: use the `massive-gif` skill.
 
 ## Where things live
 
+- **The brand:** `brand/BRAND.md` (registers, colours, type, the mono rule, sizes) and `brand/assets.md` (which logo
+  where). The video layer on top of it (type scale, motion, narration) is `public/video-projects/_brand/frame.md`.
 - `public/video-projects/<id>/`: one project per video. Tracked: `index.html`, `compositions/*.html`,
   `STORYBOARD.md`, `SCRIPT.md`, `voice.json`, `frame.md`, `meta.json`, `media.json`, `js/`.
 - `public/video-projects/<id>/assets/`: media (voice, music, footage). **Gitignored and not deployed.**
   Only `assets/brand/` (logos) is tracked. The Video tab is dev-server only: the deployed build leaves out the tab
   and all of `public/video-projects/`.
 - `public/video-projects/_brand/`: master copies of `frame.md` (house style), `lib/` (frame-kit, massive.css)
-  and `assets/brand/`. `npm run video:brand` copies `lib/` + `assets/brand/` into every project, because the
-  CLI only serves a project's own folder. Edit the master, then sync; never edit a project's `lib/` copy.
+  and `assets/brand/`. `npm run video:brand <id>` copies `lib/` + `assets/brand/` into a project, because the
+  CLI only serves a project's own folder. Edit the master, then sync the project you're working on; never edit a
+  project's `lib/` copy. Without an id it syncs every project, and 15 older ones would switch their mono eyebrows to
+  Outfit, so don't run it bare.
 - `meta.json`: `{ id, name, group: "massive" | "templates", kind: "native" | "port" | "template", brand, status, source }`.
   **Every video sets `"posterFromEnd": true`**: the render copies the last frame over frame 0, so the file's
   thumbnail (LinkedIn, Slack) shows the finished end screen. `video:new` writes it; add it to any project that lacks it

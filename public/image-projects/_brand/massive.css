@@ -1,5 +1,5 @@
 /*
- * massive.css: Massive house style for image projects (see .claude/skills/massive-image/SKILL.md).
+ * massive.css: Massive house style for image projects (see brand/BRAND.md and .claude/skills/massive-image/SKILL.md).
  * Link it from a project's index.html: <link rel="stylesheet" href="../_brand/massive.css" />
  * Same tokens as the video house style (public/video-projects/_brand/lib/massive.css).
  */
@@ -18,6 +18,8 @@
   --m-border: rgba(250, 244, 236, 0.08);
   --m-paper: #f1ead8;
   --m-ink: #171615;
+  --m-paper-red: #d54635;
+  --m-paper-red-light: #f3a07a;
   --m-sans: Outfit, sans-serif;
   --m-mono: "JetBrains Mono", monospace; /* code and fixed-width values only: wrap them in <code>, <pre> or .m-code */
 }
@@ -43,6 +45,18 @@ body {
   font-family: var(--m-sans);
 }
 
+/* The light register (brand/BRAND.md): <div id="canvas" class="soft-orange">, white cards with an ink border, ink
+   type, --m-paper-red accents, and .m-linegrid under everything. Plain white is class="light". Logo on light grounds:
+   ../_brand/logo-massive-positive.svg. Not cream: it reads too close to Claude's palette. */
+#canvas.light {
+  background: #ffffff;
+  color: var(--m-ink);
+}
+#canvas.soft-orange {
+  background: #fff7f2;
+  color: var(--m-ink);
+}
+
 /* The Market Map's dark canvas (public/bg.jpg): near-black, a faint large grid and a red glow at the bottom.
    Use as <img class="m-bg-dark" src="../_brand/bg-dark.jpg" alt="" /> as the canvas's first child; an <img>
    rather than a CSS background so both exports pick it up like the logos. */
@@ -66,6 +80,17 @@ body {
   background-image: radial-gradient(circle, rgba(96, 118, 145, 0.7) 1.5px, transparent 1.5px);
   background-size: 72px 72px;
   opacity: 0.18;
+  pointer-events: none;
+}
+
+/* The light register's texture: a 60px ink line grid. */
+.m-linegrid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(23, 22, 21, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(23, 22, 21, 0.045) 1px, transparent 1px);
+  background-size: 60px 60px;
   pointer-events: none;
 }
 

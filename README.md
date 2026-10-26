@@ -14,7 +14,8 @@ tells you where it is.
 | **Print** | A poster, flyer, one-pager, business card, sign, menu or document, at any paper size; trade-show roll-ups; buttons, pins and stickers |
 
 Market maps and top-N rankings come from a spreadsheet, with no Claude needed: use Market Map and Top List on the
-deployed site (ask the repo owner for the link) or at `http://localhost:5173` after `npm run dev`.
+deployed site, [massive-designer.vercel.app](https://massive-designer.vercel.app/), or at `http://localhost:5173`
+after `npm run dev`.
 
 ## Set up (once)
 

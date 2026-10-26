@@ -127,9 +127,12 @@ decoration. Leave structure and brand marks fixed. Use CSS `text-transform` for 
 
 Use the video house style; see `public/video-projects/_brand/frame.md`. The tokens are in `_brand/massive.css`:
 - **Colors:** ground `#0a0a0f`, cream `#faf4ec`, red `#d74939`, red-deep `#b8321f`, red-light `#ff8163`.
-- **Fonts:** Outfit (100–900) for type and JetBrains Mono (400/600/700) for labels.
-- **Patterns:** 900-weight display type with tight negative tracking, mono uppercase eyebrows and labels, the dot grid
-  or a line grid, and red corner brackets.
+- **Fonts:** Outfit (100–900) for all type, labels and eyebrows included. **JetBrains Mono only for code**: commands,
+  file paths, cron lines, API parameters, in `<code>`, `<pre>` or `.m-code` (CLAUDE.md rule 4). `image:render` warns
+  about mono anywhere else; `npm run design:mono -- image-projects/<id>` checks one page. Many older images use mono
+  eyebrows; don't copy that.
+- **Patterns:** 900-weight display type with tight negative tracking, uppercase tracked Outfit eyebrows and labels, the
+  dot grid or a line grid, and red corner brackets.
 
 A still of an existing video should be its final frame, held: copy the composition's CSS and set each element to where
 its timeline leaves it. Drop anything that only exists in motion (glows that fade out, shockwaves). Where a moment

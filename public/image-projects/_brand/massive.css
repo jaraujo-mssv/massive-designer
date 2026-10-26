@@ -19,7 +19,7 @@
   --m-paper: #f1ead8;
   --m-ink: #171615;
   --m-sans: Outfit, sans-serif;
-  --m-mono: "JetBrains Mono", monospace;
+  --m-mono: "JetBrains Mono", monospace; /* code and fixed-width values only: wrap them in <code>, <pre> or .m-code */
 }
 
 * {
@@ -67,4 +67,14 @@ body {
   background-size: 72px 72px;
   opacity: 0.18;
   pointer-events: none;
+}
+
+/* Code and fixed-width values (commands, paths, cron, parameters): the only place for the mono face.
+   Eyebrows, labels, counters and URLs are Outfit. Check a page with npm run design:mono -- image-projects/<id>. */
+code,
+pre,
+kbd,
+samp,
+.m-code {
+  font-family: var(--m-mono);
 }

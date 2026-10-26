@@ -8,10 +8,14 @@
 // opened in headless Chromium, and captured once image-kit marks <html data-ready="1">.
 // --fields overrides field values (e.g. '{"name":"Ana"}') and --name sets the output file;
 // overridden renders don't touch the project's thumb.jpg.
+//
+// Each page is also checked against the mono rule (scripts/design/mono.mjs): monospace only for code.
+// Images made before the rule only warn.
 import { createReadStream, existsSync, mkdirSync, statSync, writeFileSync } from 'node:fs';
 import { createServer } from 'node:http';
 import { extname, join, normalize, relative } from 'node:path';
 import { chromium } from 'playwright';
+import { monoMisuse } from '../design/mono.mjs';
 import { OUTPUT_DIR, PROJECTS_DIR, PUBLIC_DIR, ROOT, pickProjects, readJson } from './lib/projects.mjs';
 
 const args = process.argv.slice(2);
@@ -74,6 +78,9 @@ try {
       await page.goto(`${base}/image-projects/${id}/index.html`, { waitUntil: 'networkidle' });
       await page.waitForSelector('html[data-ready="1"]', { timeout: 20_000 });
       if (fields) await page.evaluate((values) => window.imageKit.apply(values), JSON.parse(fields));
+      for (const { where, text } of await monoMisuse(page)) {
+        console.warn(`  ⚠ ${id}: monospace outside code at ${where} ("${text}"). Use Outfit, or <code> for real code.`);
+      }
       const out = join(OUTPUT_DIR, `${outName ?? id}.jpg`);
       const jpg = await page.locator('#canvas').screenshot({ type: 'jpeg', quality: 95 });
       writeFileSync(out, jpg);

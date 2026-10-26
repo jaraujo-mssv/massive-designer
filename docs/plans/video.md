@@ -59,7 +59,7 @@ So we drop sparktray's custom script format and code generator, and adopt HyperF
   - the BizTray `guide-pdf-organizer-how-to-merge-pdf-files`
 - **Where projects live:** `public/video-projects/<id>/` (renamed from `public/video/` so it doesn't collide with the `/video` tab route).
   - The HTML is committed and deploys.
-  - Each project's `assets/` folder is gitignored and stays out of the Vercel deploy. The only exception is a small `assets/brand/` logo folder.
+  - Each project's `assets/` folder (logos, voice takes, music, footage) is committed, so a clone renders every video, and stays out of the Vercel deploy with the rest of `public/video-projects/`. New hires' photos (`assets/hires/`) stay local.
 - **Editing** happens in Claude Code plus HyperFrames Studio (`npx hyperframes preview`). The tab is read-only: Library | Script | Storyboard | Preview.
 - **New videos** use the designer's Massive tokens: #0a0a0f / #d74939 / #ff8163 / #faf4ec, Outfit + JetBrains Mono.
 
@@ -93,7 +93,7 @@ public/video-projects/
     hyperframes.json index.html compositions/*.html
     STORYBOARD.md  SCRIPT.md (narrated only)  TRANSLATION_NOTES.md (ports only)
     media.json                        committed: [{from: "../remotion-playground/public/music/x.mp3", to: "assets/music/x.mp3"}]
-    assets/                           gitignored (except assets/brand/)
+    assets/                           committed media (except assets/hires/)
 scripts/video/ build-index.mjs sync-media.mjs render.mjs
 src/tools/video/app/
   App.tsx                             3-pane, URL state ?v=<id>&view=script|storyboard|preview
@@ -112,7 +112,7 @@ docs/plans/video.md   docs/video/making-a-video.md
   - the parsed storyboard (`@hyperframes/core/storyboard`), with each frame's start time taken from the matching host clip's `data-start` for its `src`
   - the raw `SCRIPT.md`
   - the `assets/…` references found in the HTML (the `media` list)
-- **`sync-media.mjs`** (`npm run video:media [id]`) gets the files listed in each project's `media.json`: it copies `from` `../remotion-playground` and `../sparktray-campaign` when those are checked out (override with `PLAYGROUND_DIR` and `SPARKTRAY_DIR`), else downloads the entry's public `url`. `--push <id>` uploads a project's untracked media to Vercel Blob (`BLOB_READ_WRITE_TOKEN`) and writes the URLs back. It writes a gitignored `assets/.synced` stamp.
+- **`sync-media.mjs`** (`npm run video:media [id]`) refreshes the files listed in each project's `media.json` from `../remotion-playground` and `../sparktray-campaign` when those are checked out (override with `PLAYGROUND_DIR` and `SPARKTRAY_DIR`). The media itself is committed, so a clone doesn't need it.
 - **`render.mjs`** (`npm run video:render <id…> | --all`) warns when media is missing, then runs `npx hyperframes@0.8.77 render --quality high --output output/video/<id>.mp4` inside the project folder. `--draft` switches to `--quality draft`.
 - **`npm run video:preview <id>`** opens HyperFrames Studio on that project for editing and reviewing the storyboard.
 - **Dependencies:**
@@ -132,7 +132,7 @@ docs/plans/video.md   docs/video/making-a-video.md
 - **Library (left pane):**
   - Groups: Massive (Ports, New) and Templates (SparkTray, BizTray).
   - Each row shows a status pill, size, fps and duration.
-  - A lock icon shows when media is missing, checked with a `HEAD` request to `assets/.synced`.
+  - A lock icon shows when media is missing, checked with a `HEAD` request for each file the project references (the dev server answers a missing file with `index.html`, so HTML counts as missing).
 - **Script view:**
   - Shows `SCRIPT.md`: voice, settings, direction, and each line with its delivery note and spoken text.
   - Ported videos without narration show "On-screen copy only".
@@ -143,7 +143,7 @@ docs/plans/video.md   docs/video/making-a-video.md
   - Frames still at `status: outline` show a placeholder instead.
 - **Preview view:**
   - A full `<hyperframes-player controls>` sized to the project's aspect ratio.
-  - When media is missing, a banner reads "Preview without media, which is available locally (`npm run video:media`)". The player still loads.
+  - When media is missing, a banner says which files the checkout lacks. The player still loads.
   - The Phase 2 quality check decides whether that holds up, or whether media-heavy projects should be locked instead.
 - **Render command:** every view has a copyable `npm run video:render <id>` with a sonner toast.
 
@@ -201,7 +201,7 @@ docs/plans/video.md   docs/video/making-a-video.md
   - `npx hyperframes snapshot --at <frame midpoints>` looks right on inspection.
   - Studio preview plays with media synced.
 - **Ports:** the SSIM score clears the tier threshold from `remotion-to-hyperframes/references/eval.md`. Where a video fails, `frame_strip.sh` shows which frames diverge.
-- **Tab, local** (`npm run video:media && npm run dev` → `/video`):
+- **Tab, local** (`npm run dev` → `/video`):
   - every project plays;
   - storyboard tiles match the frames seen in Studio;
   - the script pane shows `SCRIPT.md`;

@@ -6,7 +6,7 @@
 //
 // Reads the spoken (4-space indented) blocks of the project's SCRIPT.md, sends them
 // joined by blank lines to /with-timestamps, and writes:
-//   assets/voice/take-<hash>.mp3   the take (untracked media, like every asset)
+//   assets/voice/take-<hash>.mp3   the take (committed with the project)
 //   voice.json                     tracked: settings, per-line cues, per-word timings
 // Cue boundaries sit at the midpoint of the pause between two lines, so scene cuts
 // land in silence. Costs ElevenLabs credits: the character count prints first.
@@ -153,9 +153,6 @@ writeFileSync(
   join(dir, 'voice.json'),
   `${JSON.stringify({ file, seconds, ...VOICE_SETTINGS, requestId: res.headers.get('request-id'), lines: cues }, null, 2)}\n`,
 );
-// The take only exists on this machine; mark the project's media as present here.
-writeFileSync(join(dir, 'assets/.synced'), `${JSON.stringify({ files: [file] }, null, 2)}\n`);
-
 console.log(`[voice] ${seconds}s → ${id}/${file}`);
 for (const c of cues) console.log(`[voice]   line ${String(c.n).padStart(2, '0')}  ${c.from.toFixed(2)}s → ${c.to.toFixed(2)}s  ${c.heading}`);
 console.log('[voice] voice.json written; place <audio src="' + file + '"> in index.html and time frames to these cues.');

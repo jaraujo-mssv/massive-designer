@@ -16,10 +16,10 @@ dist-campaign-standalone
 design-tokens.html
 src/test.html
 
-# HyperFrames video projects: media stays local (npm run video:media), brand assets are tracked.
-public/video-projects/*/assets/*
-!public/video-projects/*/assets/brand/
-!public/video-projects/*/assets/template/
+# HyperFrames video projects: media (voice takes, music, footage) is committed, so a clone renders every video;
+# the build leaves public/video-projects out of the deploy. New hires' photos stay local.
+public/video-projects/*/assets/hires/
+public/video-projects/*/assets/.synced
 public/video-projects/*/snapshots/
 .hyperframes/
 

@@ -19,7 +19,7 @@ result. Every design follows `brand/BRAND.md`.
 | A poster, flyer, one-pager, handout, business card, sign, badge, menu, document PDF | Print & PDF | `massive-print` | `npm run print:new <slug> "<Title>" -- --size=…` | `output/print/<slug>.pdf` |
 | A trade-show roll-up banner | Print & PDF | `massive-print` (Roll-up banners) | edit `scripts/banners/banners.config.mjs`, then `npm run banners:html` | `output/banners/<slug>.pdf` |
 | Buttons, pins, stickers | Print & PDF | `massive-print` (Merch) | edit `scripts/merch/merch.html`, then `npm run merch` | `public/merch-files/` |
-| A market map or a top-N ranking from a spreadsheet | No code | none | the app's Market Map or Top List (`npm run dev`, then `/market-map` or `/top-list`) | a JPG download |
+| A market map or a top-N ranking from a spreadsheet | No code | none | Market Map or Top List at https://massive-designer.vercel.app/ (or `npm run dev`, then `/market-map` or `/top-list`) | a JPG download |
 | A partnership announcement image, or a logo as a data URL | No code | none | the app's Partnership Post or Logo Encoder | a download |
 
 **Words that could mean two things:**
@@ -80,12 +80,11 @@ can; tell them the steps it can't do (like `brew install ffmpeg`).
 Renders in `output/` stay on their machine; they post or send the file themselves. To add the design itself to the
 shared library, open a pull request for the repo owner to review:
 1. Start from the latest master: `git switch master && git pull --ff-only`, then `git switch -c design/<id>`.
-2. For a video or GIF with its own media (voiceover, footage), run `npm run video:media -- --push <id>` first. It
-   needs `BLOB_READ_WRITE_TOKEN` in `.env`, and the files become public.
-3. Rebuild the index for the family: `npm run image:index` or `npm run video:index`.
-4. Add only this design's files, by path: the project folder, its assets, and the index. Never `git add -A`.
-5. `git commit -m "design(<family>): <title>"`, then `git push -u origin design/<id>`, then
+2. Rebuild the index for the family: `npm run image:index` or `npm run video:index`.
+3. Add only this design's files, by path: the project folder with its assets (a video's voiceover and music
+   included), and the index. Never `git add -A`.
+4. `git commit -m "design(<family>): <title>"`, then `git push -u origin design/<id>`, then
    `gh pr create --base master --fill`. Say what it is and what you checked in the description.
-6. Give them the PR link. Never commit to or push `master`, and never force-push.
+5. Give them the PR link. Never commit to or push `master`, and never force-push.
 
 If the index file conflicts with someone else's PR, regenerate it instead of merging it by hand.

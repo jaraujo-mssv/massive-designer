@@ -43,5 +43,4 @@ Each pipeline reads its own copy, because each one renders from its own folder: 
 
 - **Flags:** `public/image-projects/_brand/flags/<country-code>.svg` (see the `LICENSE.txt` there).
 - **LinkedIn icon:** `public/image-projects/_brand/linkedin.svg`, `linkedin-in.png`.
-- **Partner and customer logos and screenshots:** put them in the project. That's `assets/` in an image project,
-  and `assets/brand/` in a video or GIF project, because the rest of a video's `assets/` is gitignored.
+- **Partner and customer logos and screenshots:** put them in the project's own `assets/` folder.

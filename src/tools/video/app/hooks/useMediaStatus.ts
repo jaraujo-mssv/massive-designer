@@ -1,27 +1,28 @@
 import { useEffect, useState } from "react";
 import type { VideoProject } from "../types";
 
-/** "ok" when a project needs no untracked media or its media is synced locally. */
+/** "ok" when a project needs no media or every file it needs is here. */
 export type MediaStatus = "ok" | "missing" | "checking";
 
 // `?media=off` forces the deployed (no media) state for testing.
 const forceOff = () => new URLSearchParams(window.location.search).get("media") === "off";
 
 /**
- * Media is gitignored, so only a local checkout that ran `npm run video:media`
- * has it; sync-media writes assets/.synced as the marker. The dev server's SPA
- * fallback answers missing files with index.html, so the marker must parse as JSON.
+ * Media is committed, so a checkout has it unless a file was never added. The dev
+ * server's SPA fallback answers missing files with index.html, so a file only counts
+ * when it comes back as something other than HTML.
  */
-async function hasSyncedMedia(project: VideoProject): Promise<boolean> {
+async function hasMedia(project: VideoProject): Promise<boolean> {
   const base = project.path.replace(/index\.html$/, "");
-  try {
-    const res = await fetch(`${base}assets/.synced`, { cache: "no-cache" });
-    if (!res.ok) return false;
-    const data = await res.json();
-    return Array.isArray(data?.files);
-  } catch {
-    return false;
-  }
+  const present = async (file: string) => {
+    try {
+      const res = await fetch(`${base}${file}`, { method: "HEAD", cache: "no-cache" });
+      return res.ok && !(res.headers.get("content-type") ?? "").includes("text/html");
+    } catch {
+      return false;
+    }
+  };
+  return (await Promise.all(project.media.map(present))).every(Boolean);
 }
 
 export function useMediaStatus(projects: VideoProject[]): Record<string, MediaStatus> {
@@ -35,7 +36,7 @@ export function useMediaStatus(projects: VideoProject[]): Record<string, MediaSt
 
     for (const p of projects) {
       if (initial[p.id] !== "checking") continue;
-      hasSyncedMedia(p).then((ok) => {
+      hasMedia(p).then((ok) => {
         if (!cancelled) setStatus((s) => ({ ...s, [p.id]: ok ? "ok" : "missing" }));
       });
     }

@@ -17,9 +17,9 @@ projects too, with their own pipeline: use the `massive-gif` skill.
   where). The video layer on top of it (type scale, motion, narration) is `public/video-projects/_brand/frame.md`.
 - `public/video-projects/<id>/`: one project per video. Tracked: `index.html`, `compositions/*.html`,
   `STORYBOARD.md`, `SCRIPT.md`, `voice.json`, `frame.md`, `meta.json`, `media.json`, `js/`.
-- `public/video-projects/<id>/assets/`: media (voice, music, footage). **Gitignored and not deployed.**
-  Only `assets/brand/` (logos) is tracked. The Video tab is dev-server only: the deployed build leaves out the tab
-  and all of `public/video-projects/`.
+- `public/video-projects/<id>/assets/`: media (logos in `brand/`, voice, music, footage), **committed with the
+  project** so a clone renders it, except new hires' photos in `assets/hires/`. **Not deployed:** the Video tab is
+  dev-server only, and the deployed build leaves out the tab and all of `public/video-projects/`.
 - `public/video-projects/_brand/`: master copies of `frame.md` (house style), `lib/` (frame-kit, massive.css)
   and `assets/brand/`. `npm run video:brand <id>` copies `lib/` + `assets/brand/` into a project, because the
   CLI only serves a project's own folder; `video:render`, `video:preview` and `gif:render` do it for you first. Edit
@@ -38,8 +38,7 @@ projects too, with their own pipeline: use the `massive-gif` skill.
 |---|---|
 | `npm run video:new <id> "<Title>" [--format=landscape\|square\|portrait\|vertical]` | Scaffold a Massive project |
 | `npm run video:voice <id> [--dry-run]` | Record SCRIPT.md with ElevenLabs (one take, word timings → `voice.json`) |
-| `npm run video:media [id]` | Get the media listed in `media.json`: download each `url`, or copy `from` a sibling repo |
-| `npm run video:media -- --push <id>` | Upload a project's untracked media (voice takes, footage) and record the URLs in `media.json`. Needs `BLOB_READ_WRITE_TOKEN`; the URLs are public |
+| `npm run video:media [id]` | Refresh ported media listed in `media.json` from a sibling repo (`../remotion-playground`, `../sparktray-campaign`); the media itself is committed |
 | `npm run video:preview <id>` | HyperFrames Studio for editing + storyboard review |
 | `npm run video:index` | Rebuild `index.json` for the tab |
 | `npm run video:render <id> [--draft]` | Render to `output/video/<id>.mp4` |

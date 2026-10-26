@@ -28,8 +28,8 @@ export function PreviewPane({ project, src, media, startAt }: PreviewPaneProps) 
         <div className="w-full max-w-4xl flex gap-3 rounded-xl border border-amber-400/30 bg-amber-400/5 p-4 text-sm text-text-mid">
           <AlertTriangle className="w-4 h-4 mt-0.5 shrink-0 text-amber-300" />
           <div>
-            Previewing without media. Voiceover, music and footage aren't deployed; they're available in a local
-            checkout after <span className="font-mono text-text-primary">npm run video:media {project.id}</span>.
+            Previewing without media: some files this video needs aren't in this checkout. Add them to the project's{" "}
+            <span className="font-mono text-text-primary">assets/</span> folder and commit them.
             <span className="block text-xs text-text-dim mt-1">Needs: {project.media.join(", ")}</span>
           </div>
         </div>

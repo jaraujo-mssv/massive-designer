@@ -8,7 +8,7 @@
 import { spawnSync } from 'node:child_process';
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { homedir } from 'node:os';
-import { join, relative, resolve } from 'node:path';
+import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadEnv } from '../content/lib/env.mjs';
 
@@ -28,20 +28,6 @@ async function chromiumPath() {
   } catch {
     return null;
   }
-}
-
-/** Video projects with media on disk that media.json has no `url` for, so a clone can't get it. */
-function projectsWithUnsharedMedia() {
-  return readdirSync(VIDEO_DIR, { withFileTypes: true })
-    .filter((d) => d.isDirectory() && !d.name.startsWith('_') && existsSync(join(VIDEO_DIR, d.name, 'assets')))
-    .map((d) => d.name)
-    .filter((id) => {
-      const shared = new Set(readJson(join(VIDEO_DIR, id, 'media.json'), []).filter((m) => m.url).map((m) => m.to));
-      return readdirSync(join(VIDEO_DIR, id, 'assets'), { recursive: true, withFileTypes: true })
-        .filter((f) => f.isFile() && !f.name.startsWith('.'))
-        .map((f) => relative(join(VIDEO_DIR, id), join(f.parentPath, f.name)))
-        .some((p) => !['brand', 'template'].includes(p.split('/')[1]) && !shared.has(p));
-    });
 }
 
 /** Video projects whose media.json lists files that aren't on disk. */
@@ -106,14 +92,6 @@ const CHECKS = [
     ok: () => projectsMissingMedia().length === 0,
     detail: () => `missing in ${projectsMissingMedia().join(', ')}`,
     fix: ['npm', ['run', 'video:media']],
-  },
-  {
-    name: 'Video media shared',
-    for: 'teammates rendering the videos made here',
-    optional: true,
-    ok: () => projectsWithUnsharedMedia().length === 0,
-    detail: () => `not uploaded yet in ${projectsWithUnsharedMedia().join(', ')}`,
-    todo: 'npm run video:media -- --push <id> (needs BLOB_READ_WRITE_TOKEN), then commit media.json',
   },
   {
     name: 'ELEVENLABS_API_KEY',

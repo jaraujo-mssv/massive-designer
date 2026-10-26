@@ -21,7 +21,7 @@ function hostStarts(html) {
   return starts;
 }
 
-/** Untracked media paths (assets/… outside the tracked assets/brand/ and assets/template/) referenced by the project's HTML. */
+/** Media paths (assets/… outside assets/brand/ and assets/template/) referenced by the project's HTML. */
 function mediaRefs(dir) {
   const files = [join(dir, 'index.html')];
   const comps = join(dir, 'compositions');

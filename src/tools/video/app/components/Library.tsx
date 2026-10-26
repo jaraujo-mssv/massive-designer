@@ -251,7 +251,7 @@ export function Library({ projects, variants, selectedId, selectedVariant, media
                             <span className="flex items-center gap-1.5">
                               <span className="text-sm text-text-primary truncate">{p.title}</span>
                               {media[p.id] === "missing" && (
-                                <Lock className="w-3 h-3 text-text-dim shrink-0" aria-label="Media not synced" />
+                                <Lock className="w-3 h-3 text-text-dim shrink-0" aria-label="Media missing" />
                               )}
                             </span>
                             <span className="block text-[11px] text-text-dim font-mono">{fmtMeta(p)}</span>

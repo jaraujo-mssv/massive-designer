@@ -71,7 +71,7 @@ export interface VideoProject {
   path: string;
   storyboard: Storyboard | null;
   script: string | null;
-  /** Untracked media the project needs (assets/…), synced locally with `npm run video:media`. */
+  /** Media files the project needs (assets/… outside brand/ and template/), committed with it. */
   media: string[];
   /** "gif" = a looping LinkedIn GIF (meta.json "output": "gif"), shown in the GIFs section. */
   output: "mp4" | "gif";

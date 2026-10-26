@@ -12,11 +12,9 @@ Code or HyperFrames Studio.
   - Node 22 or newer: run `nvm use` in the repo (`.nvmrc` pins 24).
   - FFmpeg on your PATH (`brew install ffmpeg`).
   - The headless Chrome the renderer uses (`npx hyperframes browser ensure`).
-  - The existing videos' media (`npm run video:media`). Voiceover, music and footage are gitignored,
-    so they never reach the deployed site; each project's `media.json` lists them with a public `url`.
+- Voiceover, music and footage are committed with each project (in `assets/`), so a clone renders every video.
+  The build leaves `public/video-projects/` out, so none of it reaches the deployed site.
 - To record narration, set `ELEVENLABS_API_KEY` in `.env`.
-- To share a new video's media, set `BLOB_READ_WRITE_TOKEN` in `.env` and run
-  `npm run video:media -- --push <id>`, then commit `media.json`.
 
 ## From idea to MP4
 
@@ -48,8 +46,8 @@ public/video-projects/
     SCRIPT.md      narration (narrated videos only)
     voice.json     line cues and word timings from the voice take
     meta.json      title, group, kind, status, source
-    media.json     where untracked media comes from
-    assets/        media (gitignored except assets/brand/)
+    media.json     where ported media came from (npm run video:media refreshes it)
+    assets/        media: brand/, voice/, music/, images/ (new hires' photos in hires/ stay local)
 ```
 
 ## What's in the library

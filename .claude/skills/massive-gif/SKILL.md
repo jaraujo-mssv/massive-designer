@@ -12,9 +12,9 @@ anything longer than about 10 seconds, or with sound, make an MP4 with the `mass
 
 ## Where things live
 
-- `public/video-projects/<id>/`: one project per GIF, with `meta.json` `"output": "gif"`. Tracked: `index.html`,
-  `meta.json`, `frame.md`, `hyperframes.json`, `media.json`, `js/` (data and helper scripts), `assets/brand/` (logos)
-  and `gif/` (the render). The rest of `assets/` is gitignored, so don't put GIF files there.
+- `public/video-projects/<id>/`: one project per GIF, with `meta.json` `"output": "gif"`. All committed: `index.html`,
+  `meta.json`, `frame.md`, `hyperframes.json`, `media.json`, `js/` (data and helper scripts), `assets/` (logos in
+  `brand/`, any images the page uses) and `gif/` (the render). Renders go in `gif/`, never in `assets/`.
 - `public/video-projects/<id>/gif/`: written by `gif:render` and committed: `<id>.gif`, `first-frame.jpg` (page 0 of
   the GIF, the still LinkedIn shows) and `stats.json` (size, frames, palette, LinkedIn checks). Frames and failed
   encodes stay in `output/gif/`.

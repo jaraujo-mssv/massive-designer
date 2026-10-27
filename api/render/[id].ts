@@ -87,6 +87,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
       return;
     }
     console.error(`render ${id} failed`, err);
-    text(res, 500, `Rendering ${id} failed. Try again, or open ${base}/images?i=${id}`);
+    const reason = String((err as Error)?.message ?? err).split('\n')[0].slice(0, 200);
+    text(res, 500, `Rendering ${id} failed (${reason}). Try again, or open ${base}/images?i=${id}`);
   }
 }

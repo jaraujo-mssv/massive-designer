@@ -6,9 +6,15 @@
 // and last update it derives, the page URL and the thumbnail written by `npm run image:render`. Planned entries
 // from planned.json join them with status "planned" and no page yet. categories.json lists the themes, in the
 // order the Library shows them. Unknown categories, templates or statuses are reported, not fatal.
+//
+// It also writes public/llms.txt: how an AI chat turns any of these images into a link that renders it
+// (/api/render/<id>.jpg?…), every template's params in full and one line per other image. The wording and
+// the link shapes are in src/tools/images/params.ts, shared with the API. Field ids that a link can't carry
+// (the reserved names there) are reported.
 import { existsSync, readdirSync, statSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { PROJECTS_DIR, listProjects, readJson } from './lib/projects.mjs';
+import { RESERVED_PARAMS, SITE_URL, agentGuide, describeProject, listProject, renderable } from '../../src/tools/images/params.ts';
+import { PROJECTS_DIR, PUBLIC_DIR, listProjects, readJson } from './lib/projects.mjs';
 
 const STATUSES = ['planned', 'draft', 'ready', 'posted'];
 const SIZES = { portrait: [1080, 1350], square: [1080, 1080], landscape: [1920, 1080], story: [1080, 1920] };
@@ -119,11 +125,43 @@ const planned = readJson(join(PROJECTS_DIR, 'planned.json'), []).map((item) => {
 const all = [...projects, ...planned];
 writeFileSync(join(PROJECTS_DIR, 'index.json'), `${JSON.stringify({ categories, projects: all }, null, 2)}\n`);
 
+for (const p of projects) {
+  for (const f of p.fields) {
+    if (RESERVED_PARAMS.includes(f.id.toLowerCase())) warnings.push(`${p.id}: field "${f.id}" is a reserved URL name (${RESERVED_PARAMS.join(', ')}); links can't set it`);
+  }
+}
+
+const live = renderable(projects);
+const templates = live.filter((p) => p.group === 'templates');
+const llms = [
+  '# Massive Designer',
+  '',
+  "> Massive's on-brand images, made from a link: put the values in the URL and it returns the finished JPG. No sign-in, no key.",
+  '',
+  agentGuide(SITE_URL, templates.find((p) => p.id === 'blog-banner') ?? templates[0]),
+  '',
+  '## Templates',
+  '',
+  templates.map((p) => describeProject(p, SITE_URL)).join('\n\n'),
+  '',
+  '## Other images',
+  '',
+  "Finished designs, which can also be re-rendered with changes. Each link lists the image's params.",
+  '',
+  live.filter((p) => p.group !== 'templates').map((p) => listProject(p, SITE_URL)).join('\n'),
+  '',
+].join('\n');
+writeFileSync(join(PUBLIC_DIR, 'llms.txt'), llms);
+// AI chats' fetch tools refuse long URLs; the listed ones must stay fetchable.
+for (const url of llms.match(/https:\/\/[^\s`)]+/g) ?? []) {
+  if (url.length > 250) warnings.push(`llms.txt: a link is ${url.length} characters (fetch tools stop at 250): ${url.slice(0, 80)}…`);
+}
+
 const count = (key) =>
   Object.entries(all.reduce((acc, p) => ({ ...acc, [p[key] ?? '—']: (acc[p[key] ?? '—'] ?? 0) + 1 }), {}))
     .map(([k, n]) => `${k} ${n}`)
     .join(', ');
-console.log(`✓ index.json · ${projects.length} project(s), ${planned.length} planned`);
+console.log(`✓ index.json · ${projects.length} project(s), ${planned.length} planned · llms.txt · ${templates.length} template(s)`);
 console.log(`  by category: ${count('category')}`);
 console.log(`  by status:   ${count('status')}`);
 for (const w of warnings) console.warn(`  ! ${w}`);

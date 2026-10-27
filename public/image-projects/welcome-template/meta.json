@@ -22,7 +22,8 @@
       "id": "photo",
       "label": "Photo",
       "type": "image",
-      "default": "assets/franklin.jpg"
+      "default": "assets/franklin.jpg",
+      "hint": "A portrait of the new teammate."
     },
     {
       "id": "badge",
@@ -40,7 +41,8 @@
       "id": "firstName",
       "label": "First name",
       "type": "text",
-      "default": "Franklin"
+      "default": "Franklin",
+      "hint": "Used in \"Welcome to the team, …!\"."
     },
     {
       "id": "status",
@@ -58,13 +60,15 @@
       "id": "country",
       "label": "Country",
       "type": "text",
-      "default": "Nigeria"
+      "default": "Nigeria",
+      "hint": "In English (e.g. Brazil); it picks the flag."
     },
     {
       "id": "hobbies",
       "label": "Abilities (comma-separated, up to 5)",
       "type": "text",
-      "default": "Playing football, Playing golf, Gardening"
+      "default": "Playing football, Playing golf, Gardening",
+      "hint": "Each one becomes a chip."
     },
     {
       "id": "food",
@@ -76,7 +80,8 @@
       "id": "confetti",
       "label": "Confetti",
       "type": "toggle",
-      "default": true
+      "default": true,
+      "hint": "Confetti over the card."
     }
   ]
 }

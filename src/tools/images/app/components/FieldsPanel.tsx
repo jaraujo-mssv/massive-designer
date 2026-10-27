@@ -89,17 +89,21 @@ export function FieldsPanel({ project, values, edited, onChange, onReset, inDraw
         {project.fields.length === 0 && <p className="text-sm text-text-dim">This image has no editable fields.</p>}
         {project.fields.map((field) => {
           const value = values[field.id] ?? field.default;
+          const hint = field.hint && <p className="text-[11px] text-text-dim leading-snug">{field.hint}</p>;
           if (field.type === "toggle") {
             return (
-              <label key={field.id} className="flex items-center justify-between gap-3 cursor-pointer">
-                <span className="text-sm text-text-primary">{field.label}</span>
-                <input
-                  type="checkbox"
-                  checked={value !== false}
-                  onChange={(e) => onChange(field.id, e.target.checked)}
-                  className="w-4 h-4 accent-[var(--red)]"
-                />
-              </label>
+              <div key={field.id} className="space-y-1">
+                <label className="flex items-center justify-between gap-3 cursor-pointer">
+                  <span className="text-sm text-text-primary">{field.label}</span>
+                  <input
+                    type="checkbox"
+                    checked={value !== false}
+                    onChange={(e) => onChange(field.id, e.target.checked)}
+                    className="w-4 h-4 accent-[var(--red)]"
+                  />
+                </label>
+                {hint}
+              </div>
             );
           }
           return (
@@ -130,6 +134,7 @@ export function FieldsPanel({ project, values, edited, onChange, onReset, inDraw
                   className={sidebarInputClass}
                 />
               )}
+              {hint}
             </div>
           );
         })}

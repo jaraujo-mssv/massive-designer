@@ -32,13 +32,15 @@
       "id": "role",
       "label": "Role (on the swipe)",
       "type": "text",
-      "default": "Writer in Residence"
+      "default": "Writer in Residence",
+      "hint": "The job title, on the red swipe. Short: it shrinks to fit two lines."
     },
     {
       "id": "details",
       "label": "Details line",
       "type": "text",
-      "default": "Remote · Part or full time"
+      "default": "Remote · Part or full time",
+      "hint": "Level, place and hours, separated by \" · \"."
     },
     {
       "id": "subline",
@@ -426,13 +428,15 @@
       "id": "aside",
       "label": "Handwritten note",
       "type": "text",
-      "default": "Pajamas: approved."
+      "default": "Pajamas: approved.",
+      "hint": "The handwritten note; a few words."
     },
     {
       "id": "showAside",
       "label": "Handwritten note",
       "type": "toggle",
-      "default": true
+      "default": true,
+      "hint": "Show the handwritten note and its arrow."
     },
     {
       "id": "experience",
@@ -444,7 +448,8 @@
       "id": "cta",
       "label": "Call to action",
       "type": "text",
-      "default": "Apply at joinmassive.com/careers"
+      "default": "Apply at joinmassive.com/careers",
+      "hint": "Where to apply."
     }
   ]
 }

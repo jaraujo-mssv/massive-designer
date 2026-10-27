@@ -6,6 +6,8 @@ export interface ImageField {
   default: string | boolean;
   /** A select's choices; `value` is what the page receives. */
   options?: { value: string; label: string }[];
+  /** How to fill it in, for people and for AI chats (shown under the field and in llms.txt). */
+  hint?: string;
 }
 
 export type FieldValues = Record<string, string | boolean>;

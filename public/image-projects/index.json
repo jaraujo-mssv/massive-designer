@@ -43,6 +43,81 @@
   ],
   "projects": [
     {
+      "id": "blog-banner",
+      "title": "Blog banner (template)",
+      "description": "The joinmassive.com blog post banner (Sanity's Banner field), 1376×768: a photo with a dark wash from the left, the Massive logo and the headline in red-light. Use Strong wash for a bright photo. The photo recipe is in assets/photo-prompt.txt.",
+      "group": "templates",
+      "category": "content",
+      "template": null,
+      "series": "Blog banners",
+      "status": "draft",
+      "tags": [
+        "blog",
+        "banner",
+        "sanity",
+        "template",
+        "photo"
+      ],
+      "source": null,
+      "width": 1376,
+      "height": 768,
+      "format": "other",
+      "formats": null,
+      "updated": "2026-10-27T18:09:34.493Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "photo",
+          "label": "Photo",
+          "type": "image",
+          "default": "assets/photo.webp",
+          "hint": "A wide photo; the headline sits over its left side."
+        },
+        {
+          "id": "headline",
+          "label": "Headline",
+          "type": "text",
+          "default": "Seltz: A Web Search API for LLMs",
+          "hint": "The post's title. Two or three lines; about 60 characters reads best."
+        },
+        {
+          "id": "position",
+          "label": "Headline position",
+          "type": "select",
+          "default": "middle",
+          "options": [
+            {
+              "value": "middle",
+              "label": "Middle"
+            },
+            {
+              "value": "bottom",
+              "label": "Bottom"
+            }
+          ]
+        },
+        {
+          "id": "wash",
+          "label": "Wash",
+          "type": "select",
+          "default": "standard",
+          "options": [
+            {
+              "value": "standard",
+              "label": "Standard (dark photo)"
+            },
+            {
+              "value": "strong",
+              "label": "Strong (bright photo)"
+            }
+          ],
+          "hint": "Use strong for a bright photo, so the headline stays readable."
+        }
+      ],
+      "path": "/image-projects/blog-banner/index.html",
+      "thumb": "/image-projects/blog-banner/thumb.jpg"
+    },
+    {
       "id": "hiring-account-executive",
       "title": "Hiring: Account Executive",
       "description": "Account Executive (Remote, European time zone): Own the full sales cycle, from first outbound to signed contract. joinmassive.com/careers/account-executive-ae",
@@ -62,7 +137,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-21T19:27:44.882Z",
+      "updated": "2026-10-21T20:03:00.884Z",
       "brief": null,
       "fields": [
         {
@@ -519,7 +594,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-21T19:27:45.397Z",
+      "updated": "2026-10-21T20:03:00.883Z",
       "brief": null,
       "fields": [
         {
@@ -976,7 +1051,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-10-21T19:27:45.662Z",
+      "updated": "2026-10-21T20:03:00.882Z",
       "brief": null,
       "fields": [
         {
@@ -1045,7 +1120,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-10-21T19:27:45.133Z",
+      "updated": "2026-10-21T20:03:00.884Z",
       "brief": null,
       "fields": [
         {
@@ -1114,7 +1189,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-21T19:27:42.555Z",
+      "updated": "2026-10-21T20:03:00.886Z",
       "brief": null,
       "fields": [
         {
@@ -1571,7 +1646,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-10-21T19:27:42.817Z",
+      "updated": "2026-10-21T20:03:00.885Z",
       "brief": null,
       "fields": [
         {
@@ -1639,7 +1714,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-21T19:30:14.113Z",
+      "updated": "2026-10-21T20:03:00.889Z",
       "brief": null,
       "fields": [
         {
@@ -2471,7 +2546,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-10-21T19:30:14.477Z",
+      "updated": "2026-10-21T20:03:00.887Z",
       "brief": null,
       "fields": [
         {
@@ -2564,7 +2639,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-21T19:27:43.095Z",
+      "updated": "2026-10-21T20:03:00.891Z",
       "brief": null,
       "fields": [
         {
@@ -3021,7 +3096,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-10-21T19:27:43.376Z",
+      "updated": "2026-10-21T20:03:00.890Z",
       "brief": null,
       "fields": [
         {
@@ -3090,7 +3165,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-21T19:27:45.933Z",
+      "updated": "2026-10-21T20:03:00.894Z",
       "brief": null,
       "fields": [
         {
@@ -3547,7 +3622,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-10-21T19:27:46.204Z",
+      "updated": "2026-10-21T20:03:00.893Z",
       "brief": null,
       "fields": [
         {
@@ -3615,7 +3690,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-21T19:30:13.473Z",
+      "updated": "2026-10-21T20:03:00.897Z",
       "brief": null,
       "fields": [
         {
@@ -3725,7 +3800,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-10-21T19:30:13.749Z",
+      "updated": "2026-10-21T20:03:00.895Z",
       "brief": null,
       "fields": [
         {
@@ -3794,7 +3869,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-21T19:27:41.706Z",
+      "updated": "2026-10-27T18:09:34.493Z",
       "brief": null,
       "fields": [
         {
@@ -3813,13 +3888,15 @@
           "id": "role",
           "label": "Role (on the swipe)",
           "type": "text",
-          "default": "Writer in Residence"
+          "default": "Writer in Residence",
+          "hint": "The job title, on the red swipe. Short: it shrinks to fit two lines."
         },
         {
           "id": "details",
           "label": "Details line",
           "type": "text",
-          "default": "Remote · Part or full time"
+          "default": "Remote · Part or full time",
+          "hint": "Level, place and hours, separated by \" · \"."
         },
         {
           "id": "subline",
@@ -4207,13 +4284,15 @@
           "id": "aside",
           "label": "Handwritten note",
           "type": "text",
-          "default": "Pajamas: approved."
+          "default": "Pajamas: approved.",
+          "hint": "The handwritten note; a few words."
         },
         {
           "id": "showAside",
           "label": "Handwritten note",
           "type": "toggle",
-          "default": true
+          "default": true,
+          "hint": "Show the handwritten note and its arrow."
         },
         {
           "id": "experience",
@@ -4225,7 +4304,8 @@
           "id": "cta",
           "label": "Call to action",
           "type": "text",
-          "default": "Apply at joinmassive.com/careers"
+          "default": "Apply at joinmassive.com/careers",
+          "hint": "Where to apply."
         }
       ],
       "path": "/image-projects/hiring-photo/index.html",
@@ -4252,7 +4332,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-10-21T19:27:41.708Z",
+      "updated": "2026-10-27T18:09:34.494Z",
       "brief": null,
       "fields": [
         {
@@ -4271,13 +4351,15 @@
           "id": "role",
           "label": "Role (on the swipe)",
           "type": "text",
-          "default": "Writer in Residence"
+          "default": "Writer in Residence",
+          "hint": "The job title, on the red swipe. Short: it shrinks to fit two lines."
         },
         {
           "id": "details",
           "label": "Details line",
           "type": "text",
-          "default": "Remote · Part or full time"
+          "default": "Remote · Part or full time",
+          "hint": "Level, place and hours, separated by \" · \"."
         },
         {
           "id": "cta",
@@ -4289,13 +4371,15 @@
           "id": "aside",
           "label": "Handwritten note",
           "type": "text",
-          "default": "Pajamas: approved."
+          "default": "Pajamas: approved.",
+          "hint": "The handwritten note; a few words."
         },
         {
           "id": "showAside",
           "label": "Handwritten note",
           "type": "toggle",
-          "default": true
+          "default": true,
+          "hint": "Show the handwritten note and its arrow."
         }
       ],
       "path": "/image-projects/hiring-photo-square/index.html",
@@ -4321,7 +4405,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-21T19:27:42.032Z",
+      "updated": "2026-10-21T20:03:00.901Z",
       "brief": null,
       "fields": [
         {
@@ -4778,7 +4862,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-10-21T19:27:42.292Z",
+      "updated": "2026-10-21T20:03:00.900Z",
       "brief": null,
       "fields": [
         {
@@ -4847,7 +4931,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-21T19:27:44.357Z",
+      "updated": "2026-10-21T20:03:00.903Z",
       "brief": null,
       "fields": [
         {
@@ -5304,7 +5388,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-10-21T19:27:44.628Z",
+      "updated": "2026-10-21T20:03:00.902Z",
       "brief": null,
       "fields": [
         {
@@ -5373,7 +5457,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-21T19:27:43.735Z",
+      "updated": "2026-10-21T20:03:00.905Z",
       "brief": null,
       "fields": [
         {
@@ -5830,7 +5914,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-10-21T19:27:44.084Z",
+      "updated": "2026-10-21T20:03:00.904Z",
       "brief": null,
       "fields": [
         {
@@ -5899,7 +5983,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-21T19:15:59.196Z",
+      "updated": "2026-10-21T20:03:00.906Z",
       "brief": null,
       "fields": [
         {
@@ -5982,7 +6066,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-21T19:15:59.196Z",
+      "updated": "2026-10-21T20:03:00.906Z",
       "brief": null,
       "fields": [
         {
@@ -6076,7 +6160,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-21T19:15:59.196Z",
+      "updated": "2026-10-21T20:03:00.907Z",
       "brief": null,
       "fields": [
         {
@@ -6188,7 +6272,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-21T19:15:59.196Z",
+      "updated": "2026-10-21T20:03:00.907Z",
       "brief": null,
       "fields": [
         {
@@ -6276,7 +6360,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-21T19:15:59.197Z",
+      "updated": "2026-10-21T20:03:00.907Z",
       "brief": null,
       "fields": [
         {
@@ -6322,7 +6406,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-21T19:15:59.197Z",
+      "updated": "2026-10-21T20:03:00.909Z",
       "brief": null,
       "fields": [
         {
@@ -6410,7 +6494,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-21T19:15:59.198Z",
+      "updated": "2026-10-21T20:03:00.911Z",
       "brief": null,
       "fields": [
         {
@@ -6498,7 +6582,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-21T19:15:59.198Z",
+      "updated": "2026-10-21T20:03:00.913Z",
       "brief": null,
       "fields": [
         {
@@ -6586,7 +6670,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-21T19:15:59.198Z",
+      "updated": "2026-10-21T20:03:00.915Z",
       "brief": null,
       "fields": [
         {
@@ -6674,7 +6758,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-21T19:15:59.198Z",
+      "updated": "2026-10-21T20:03:00.918Z",
       "brief": null,
       "fields": [
         {
@@ -6762,7 +6846,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-21T19:15:59.199Z",
+      "updated": "2026-10-21T20:03:00.920Z",
       "brief": null,
       "fields": [
         {
@@ -6850,7 +6934,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-21T19:15:59.199Z",
+      "updated": "2026-10-21T20:03:00.923Z",
       "brief": null,
       "fields": [
         {
@@ -6938,14 +7022,15 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-21T19:15:59.197Z",
+      "updated": "2026-10-27T18:13:23.210Z",
       "brief": null,
       "fields": [
         {
           "id": "photo",
           "label": "Photo",
           "type": "image",
-          "default": "assets/franklin.jpg"
+          "default": "assets/franklin.jpg",
+          "hint": "A portrait of the new teammate."
         },
         {
           "id": "badge",
@@ -6963,7 +7048,8 @@
           "id": "firstName",
           "label": "First name",
           "type": "text",
-          "default": "Franklin"
+          "default": "Franklin",
+          "hint": "Used in \"Welcome to the team, …!\"."
         },
         {
           "id": "status",
@@ -6981,13 +7067,15 @@
           "id": "country",
           "label": "Country",
           "type": "text",
-          "default": "Nigeria"
+          "default": "Nigeria",
+          "hint": "In English (e.g. Brazil); it picks the flag."
         },
         {
           "id": "hobbies",
           "label": "Abilities (comma-separated, up to 5)",
           "type": "text",
-          "default": "Playing football, Playing golf, Gardening"
+          "default": "Playing football, Playing golf, Gardening",
+          "hint": "Each one becomes a chip."
         },
         {
           "id": "food",
@@ -6999,7 +7087,8 @@
           "id": "confetti",
           "label": "Confetti",
           "type": "toggle",
-          "default": true
+          "default": true,
+          "hint": "Confetti over the card."
         }
       ],
       "path": "/image-projects/welcome-template/index.html",
@@ -7026,7 +7115,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-21T19:15:59.199Z",
+      "updated": "2026-10-21T20:03:00.928Z",
       "brief": null,
       "fields": [
         {
@@ -7113,7 +7202,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-21T19:15:59.197Z",
+      "updated": "2026-10-21T20:03:00.929Z",
       "brief": null,
       "fields": [
         {
@@ -7213,7 +7302,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-10-21T19:15:59.197Z",
+      "updated": "2026-10-21T20:03:00.929Z",
       "brief": null,
       "fields": [
         {
@@ -7270,7 +7359,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-21T19:15:59.197Z",
+      "updated": "2026-10-21T20:03:00.929Z",
       "brief": null,
       "fields": [
         {
@@ -7370,7 +7459,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-10-21T19:15:59.197Z",
+      "updated": "2026-10-21T20:03:00.929Z",
       "brief": null,
       "fields": [
         {
@@ -7427,7 +7516,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-21T19:15:59.197Z",
+      "updated": "2026-10-21T20:03:00.930Z",
       "brief": null,
       "fields": [
         {
@@ -7527,7 +7616,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-10-21T19:15:59.197Z",
+      "updated": "2026-10-21T20:03:00.929Z",
       "brief": null,
       "fields": [
         {

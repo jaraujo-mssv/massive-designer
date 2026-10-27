@@ -1,0 +1,68 @@
+{
+  "id": "blog-banner",
+  "title": "Blog banner (template)",
+  "description": "The joinmassive.com blog post banner (Sanity's Banner field), 1376×768: a photo with a dark wash from the left, the Massive logo and the headline in red-light. Use Strong wash for a bright photo. The photo recipe is in assets/photo-prompt.txt.",
+  "group": "templates",
+  "category": "content",
+  "series": "Blog banners",
+  "status": "draft",
+  "tags": [
+    "blog",
+    "banner",
+    "sanity",
+    "template",
+    "photo"
+  ],
+  "source": null,
+  "width": 1376,
+  "height": 768,
+  "fields": [
+    {
+      "id": "photo",
+      "label": "Photo",
+      "type": "image",
+      "default": "assets/photo.webp",
+      "hint": "A wide photo; the headline sits over its left side."
+    },
+    {
+      "id": "headline",
+      "label": "Headline",
+      "type": "text",
+      "default": "Seltz: A Web Search API for LLMs",
+      "hint": "The post's title. Two or three lines; about 60 characters reads best."
+    },
+    {
+      "id": "position",
+      "label": "Headline position",
+      "type": "select",
+      "default": "middle",
+      "options": [
+        {
+          "value": "middle",
+          "label": "Middle"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        }
+      ]
+    },
+    {
+      "id": "wash",
+      "label": "Wash",
+      "type": "select",
+      "default": "standard",
+      "options": [
+        {
+          "value": "standard",
+          "label": "Standard (dark photo)"
+        },
+        {
+          "value": "strong",
+          "label": "Strong (bright photo)"
+        }
+      ],
+      "hint": "Use strong for a bright photo, so the headline stays readable."
+    }
+  ]
+}

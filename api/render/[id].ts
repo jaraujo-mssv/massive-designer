@@ -36,8 +36,9 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
   const params = new URLSearchParams(url.search);
   params.delete('id');
   const { values, errors } = readParams(fields, params);
-  if (errors.length) {
-    text(res, 400, [...errors, '', `Every param for ${id}: ${base}/api/images?id=${id}`].join('\n'));
+  const problems = Object.entries(errors).map(([field, message]) => (message.startsWith(field) ? message : `${field}: ${message}`));
+  if (problems.length) {
+    text(res, 400, [...problems, '', `Every param for ${id}: ${base}/api/images?id=${id}`].join('\n'));
     return;
   }
   const scale = params.get('scale') === '1' ? 1 : 2;

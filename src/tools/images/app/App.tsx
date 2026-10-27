@@ -9,9 +9,10 @@ import { FieldsPanel } from "./components/FieldsPanel";
 import { Library } from "./components/Library";
 import { PlannedCard } from "./components/PlannedCard";
 import { PreviewPane, type PreviewHandle } from "./components/PreviewPane";
-import { useFieldValues } from "./hooks/useFieldValues";
+import { VIEW_KEYS, useFieldValues } from "./hooks/useFieldValues";
 import { useImageIndex } from "./hooks/useImageIndex";
-import { AI_PROMPT, RESERVED_PARAMS, canonicalQuery, readParams, renderPath } from "../params";
+import { SITE_URL, aiPrompt, canonicalQuery, linkable, primaryImageField, renderPath } from "../params";
+import { NOT_AN_IMAGE, fileIn, hasImageFile, readImage } from "./photo";
 import type { ImageCategory, ImageProject } from "./types";
 
 const EMPTY: ImageProject[] = [];
@@ -26,37 +27,54 @@ export default function App() {
   const [params, setParams] = useSearchParams();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [exporting, setExporting] = useState(false);
+  const [dragging, setDragging] = useState(false);
   const preview = useRef<PreviewHandle>(null);
   const isMobile = useIsMobile();
 
-  // With nothing picked, open the first real image rather than a Planned entry.
-  const project = projects.find((p) => p.id === params.get("i")) ?? projects.find((p) => p.path) ?? projects[0] ?? null;
+  // The image is ?template=<id> (?i=<id> in older links; the address bar moves it to template). With neither,
+  // the first real image opens rather than a Planned entry; an id that isn't there says so instead.
+  const wanted = params.get("template") ?? params.get("i");
+  const project = wanted
+    ? (projects.find((p) => p.id === wanted) ?? null)
+    : (projects.find((p) => p.path) ?? projects[0] ?? null);
+  const missing = index.status === "ready" && !!wanted && !project;
+  const templates = projects.filter((p) => p.group === "templates" && p.path);
   const planned = project?.status === "planned";
   const fields = useFieldValues(project);
+  const photoField = project && !planned ? primaryImageField(project.fields) : undefined;
   const categoryLabel = categories.find((c) => c.id === project?.category)?.label;
   const templateTitle = project?.template && projects.find((p) => p.id === project.template)?.title;
 
+  // A new image starts from its own values: only the Library's view stays in the URL.
   const select = (id: string) => {
-    const p = new URLSearchParams(params);
-    p.set("i", id);
-    setParams(p, { replace: true });
+    const next = new URLSearchParams({ template: id });
+    for (const k of VIEW_KEYS) if (params.has(k)) next.set(k, params.get(k)!);
+    setParams(next, { replace: true });
   };
 
-  // An edit link (/images?i=<id>&headline=…, as llms.txt teaches AI chats) fills in the fields as edits,
-  // then its values leave the URL so they don't follow you around the Library.
+  /** An uploaded, dropped or pasted file for an image field; anything that isn't an image says so under it. */
+  const takeFile = async (fieldId: string, file: File) => {
+    try {
+      fields.set(fieldId, await readImage(file), file.name);
+    } catch {
+      fields.setError(fieldId, NOT_AN_IMAGE);
+    }
+  };
+  const takeFileRef = useRef(takeFile);
+  takeFileRef.current = takeFile;
+
+  // Paste an image anywhere on the page (⌘V / Ctrl+V) to use it as the photo; text pastes are left alone.
   useEffect(() => {
-    if (!project || planned) return;
-    const keys = [...params.keys()].filter((k) => !RESERVED_PARAMS.includes(k));
-    if (!keys.length) return;
-    const { values, errors } = readParams(project.fields, params);
-    fields.merge(values);
-    if (errors.length) toast.error(errors.join(" "));
-    const next = new URLSearchParams(params);
-    for (const k of keys) next.delete(k);
-    setParams(next, { replace: true });
-    // Only when the image or the URL changes.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [project?.id, params]);
+    if (!photoField) return;
+    const onPaste = (e: ClipboardEvent) => {
+      const file = hasImageFile(e.clipboardData) ? fileIn(e.clipboardData) : null;
+      if (!file) return;
+      e.preventDefault();
+      takeFileRef.current(photoField.id, file);
+    };
+    document.addEventListener("paste", onPaste);
+    return () => document.removeEventListener("paste", onPaste);
+  }, [photoField?.id, project?.id]);
 
   const copy = async (text: string, done: string) => {
     try {
@@ -69,12 +87,12 @@ export default function App() {
 
   const copyImageLink = () => {
     if (!project) return;
-    if (project.fields.some((f) => f.type === "image" && String(fields.values[f.id] ?? "").startsWith("data:"))) {
-      toast.error("An uploaded photo can't go in a link. Use a photo that's online, or download the JPG.");
-      return;
-    }
-    const query = canonicalQuery(project.fields, fields.values);
-    copy(`${window.location.origin}${renderPath(project.id)}${query ? `?${query}` : ""}`, "Image link copied: it opens this image as a JPG.");
+    const query = canonicalQuery(project.fields, linkable(fields.values));
+    const upload = Object.keys(fields.values).length !== Object.keys(linkable(fields.values)).length;
+    copy(
+      `${window.location.origin}${renderPath(project.id)}${query ? `?${query}` : ""}`,
+      upload ? "Copied without the photo: an uploaded file can't go in a link." : "Image link copied: it opens this image as a JPG.",
+    );
   };
 
   const secondaryButtonClass =
@@ -87,7 +105,7 @@ export default function App() {
         <span className="hidden min-[1400px]:inline">Copy image link</span>
       </button>
       <button
-        onClick={() => copy(AI_PROMPT, "Prompt copied. Paste it into any AI chat and say what you need.")}
+        onClick={() => copy(aiPrompt(templates, SITE_URL), "Prompt copied. Paste it into any AI chat and say what you need.")}
         title="Copy a prompt that lets any AI chat make these images for you"
         className={secondaryButtonClass}
       >
@@ -126,8 +144,13 @@ export default function App() {
       <FieldsPanel
         project={project}
         values={fields.values}
+        names={fields.names}
+        errors={fields.errors}
+        unknown={fields.unknown}
         edited={fields.edited}
         onChange={fields.set}
+        onFile={takeFile}
+        onError={fields.setError}
         onReset={fields.reset}
         inDrawer={inDrawer}
       />
@@ -162,6 +185,7 @@ export default function App() {
         onDrawerOpenChange={setDrawerOpen}
         editLabel="Edit"
         editIcon={Images}
+        attention={Object.keys(fields.errors).length > 0 || fields.unknown.length > 0}
         barAction={project && !planned ? downloadButton : undefined}
       >
         <div className="flex-1 min-w-0 min-h-0 flex flex-col">
@@ -194,9 +218,40 @@ export default function App() {
                 <span className="font-mono text-text-primary">npm run image:index</span>.
               </p>
             )}
-            {index.status === "ready" && !project && <p className="p-4 md:p-8 text-sm text-text-dim">No image projects yet.</p>}
+            {missing && (
+              <p className="p-4 md:p-8 text-sm text-red-400">
+                No template named "{wanted}". Available: {templates.map((t) => t.id).join(", ")}.
+              </p>
+            )}
+            {index.status === "ready" && !project && !missing && <p className="p-4 md:p-8 text-sm text-text-dim">No image projects yet.</p>}
             {project && planned && <PlannedCard project={project} categories={categories} projects={projects} />}
-            {project && !planned && <PreviewPane ref={preview} project={project} values={fields.values} />}
+            {project && !planned && (
+              // Drop a photo on the preview to use it (the iframe ignores the pointer, so the drop lands here).
+              <div
+                className="relative flex-1 min-w-0 min-h-0 flex"
+                onDragOver={(e) => {
+                  if (!photoField) return;
+                  e.preventDefault();
+                  setDragging(true);
+                }}
+                onDragLeave={(e) => {
+                  if (!e.currentTarget.contains(e.relatedTarget as Node)) setDragging(false);
+                }}
+                onDrop={(e) => {
+                  e.preventDefault();
+                  setDragging(false);
+                  const file = fileIn(e.dataTransfer);
+                  if (file && photoField) takeFile(photoField.id, file);
+                }}
+              >
+                <PreviewPane ref={preview} project={project} values={fields.values} />
+                {dragging && photoField && (
+                  <div className="absolute inset-4 rounded-xl border-2 border-dashed border-brand bg-brand/10 flex items-center justify-center text-sm text-text-primary pointer-events-none">
+                    Drop to use as the {photoField.label.toLowerCase()}
+                  </div>
+                )}
+              </div>
+            )}
             {project && !isMobile && fieldsPanel(false)}
           </div>
         </div>

@@ -5,19 +5,18 @@
 ## How to make an image
 
 1. Pick an image. Templates are made to be filled in; the other images are finished designs that can be re-rendered with changes.
-2. Build the image link: `https://massive-designer.vercel.app/api/render/<id>.jpg?<param>=<value>&…`
+2. Build the link: `https://massive-designer.vercel.app/images?template=<id>&<param>=<value>&…`
    - Use only that image's params. Leave a param out to keep its default.
    - URL-encode every value (a space is %20).
    - Text: as it should read, up to 300 characters. Select: one of the listed values. Toggle: true or false.
-   - Image: a direct https:// link to the image file (JPG, PNG, WebP, GIF, AVIF or SVG), not a page that shows it. Share pages from Unsplash, Google Drive or Dropbox (`dl=0`) won't work.
-   - Optional: `scale=1` for a 1× image (the default is 2×), `download=1` to download it instead of showing it.
-3. Build the edit link from the same params: `https://massive-designer.vercel.app/images?i=<id>&<param>=<value>&…`. It opens the design in Massive Designer, filled in, to tweak it, drop in a photo and download it.
-4. Reply with both links as plain links, not as markdown images. You don't need to open the image link yourself: it renders when the person clicks it.
-5. A photo attached to the chat (not a link) can't go in a URL. Give the edit link and tell the person to drop the photo into the image field there.
+   - Photo: a public link to the image file (JPG, PNG, WebP, GIF, AVIF or SVG, up to 15 MB), not a page that shows it. Share pages from Unsplash, Google Drive or Dropbox (`dl=0`) won't work.
+3. If the person attached the photo or has it on their computer, leave the photo param out and tell them: "Open the link and paste or drop your photo into the Photo field."
+4. Give the person the link, as a plain link (not a markdown image). It opens the design in Massive Designer, filled in; they check the preview and click Download JPG.
+5. For the finished JPG straight away, the same params work on `https://massive-designer.vercel.app/api/render/<id>.jpg?<param>=<value>&…` (photo links only; `scale=1` for 1×, `download=1` to download). You don't need to open it yourself: it renders when the person clicks it.
 
 Example: "A blog banner called 'Hotel Prices Without a Browser' with this photo: https://example.com/hotel.jpg"
-- Image: https://massive-designer.vercel.app/api/render/blog-banner.jpg?headline=Hotel%20Prices%20Without%20a%20Browser&photo=https%3A%2F%2Fexample.com%2Fhotel.jpg
-- Edit: https://massive-designer.vercel.app/images?i=blog-banner&headline=Hotel%20Prices%20Without%20a%20Browser&photo=https%3A%2F%2Fexample.com%2Fhotel.jpg
+- Link: https://massive-designer.vercel.app/images?template=blog-banner&headline=Hotel%20Prices%20Without%20a%20Browser&photo=https%3A%2F%2Fexample.com%2Fhotel.jpg
+- JPG: https://massive-designer.vercel.app/api/render/blog-banner.jpg?headline=Hotel%20Prices%20Without%20a%20Browser&photo=https%3A%2F%2Fexample.com%2Fhotel.jpg
 
 Search every image: https://massive-designer.vercel.app/api/images?q=<words> (add &format=json for JSON). One image's details: https://massive-designer.vercel.app/api/images?id=<id>.
 
@@ -30,13 +29,13 @@ id `blog-banner` · 1376×768 · content · template
 The joinmassive.com blog post banner (Sanity's Banner field), 1376×768: a photo with a dark wash from the left, the Massive logo and the headline in red-light. Use Strong wash for a bright photo. The photo recipe is in assets/photo-prompt.txt.
 
 Params:
-- `photo`: Photo. A direct https:// link to an image; default: the design's own. A wide photo; the headline sits over its left side.
-- `headline`: Headline. Text; default "Seltz: A Web Search API for LLMs". The post's title. Two or three lines; about 60 characters reads best.
+- `photo`: Photo. A direct https:// link to an image; default: the design's own.
+- `headline`: Headline. Text; default "Seltz: A Web Search API for LLMs". About 60 characters
 - `position`: Headline position. One of `middle` (Middle), `bottom` (Bottom); default `middle`.
-- `wash`: Wash. One of `standard` (Standard (dark photo)), `strong` (Strong (bright photo)); default `standard`. Use strong for a bright photo, so the headline stays readable.
+- `wash`: Wash. One of `standard` (Standard (dark photo)), `strong` (Strong (bright photo)); default `standard`. Strong for bright photos
 
 Image link (defaults): https://massive-designer.vercel.app/api/render/blog-banner.jpg
-Edit link: https://massive-designer.vercel.app/images?i=blog-banner
+Edit link: https://massive-designer.vercel.app/images?template=blog-banner
 Thumbnail: https://massive-designer.vercel.app/image-projects/blog-banner/thumb.jpg
 
 ### Hiring: Photo (template)
@@ -48,8 +47,8 @@ The photo-led hiring post: a lifestyle photo, "We’re hiring" over the role on 
 Params:
 - `photo`: Photo. A direct https:// link to an image; default: the design's own.
 - `headline`: Headline. Text; default "We’re hiring".
-- `role`: Role (on the swipe). Text; default "Writer in Residence". The job title, on the red swipe. Short: it shrinks to fit two lines.
-- `details`: Details line. Text; default "Remote · Part or full time". Level, place and hours, separated by " · ".
+- `role`: Role (on the swipe). Text; default "Writer in Residence". Short; it shrinks to fit two lines
+- `details`: Details line. Text; default "Remote · Part or full time". Level · place · hours
 - `subline`: Pitch. Text; default "Some of the best benefits in corporate history.".
 - `icon1`: Row 1 icon. One of `book` (Book), `calendar` (Calendar), `chart` (Chart), `clock` (Clock), `code` (Code), `database` (Database), `dollar` (Dollar), `globe` (Globe), `handshake` (Handshake), `headset` (Headset), `heart` (Heart), `home` (Home), `map-pin` (Map pin), `megaphone` (Megaphone), `pencil` (Pencil), `server` (Server), `shield` (Shield), `shirt` (Shirt), `sparkle` (Sparkle), `sun` (Sun); default `pencil`.
 - `benefit1`: Row 1. Text; default "Do whatever you want, as long as the content is awesome".
@@ -59,13 +58,13 @@ Params:
 - `benefit3`: Row 3. Text; default "Work any hours you like".
 - `icon4`: Row 4 icon. One of `book` (Book), `calendar` (Calendar), `chart` (Chart), `clock` (Clock), `code` (Code), `database` (Database), `dollar` (Dollar), `globe` (Globe), `handshake` (Handshake), `headset` (Headset), `heart` (Heart), `home` (Home), `map-pin` (Map pin), `megaphone` (Megaphone), `pencil` (Pencil), `server` (Server), `shield` (Shield), `shirt` (Shirt), `sparkle` (Sparkle), `sun` (Sun); default `shirt`.
 - `benefit4`: Row 4. Text; default "Dress code: business up top, your choice below".
-- `aside`: Handwritten note. Text; default "Pajamas: approved.". The handwritten note; a few words.
-- `showAside`: Handwritten note. True or false; default true. Show the handwritten note and its arrow.
+- `aside`: Handwritten note. Text; default "Pajamas: approved.". A few words
+- `showAside`: Handwritten note. True or false; default true. The handwritten note and its arrow
 - `experience`: Experience. Text; default "2–4 years of writing".
-- `cta`: Call to action. Text; default "Apply at joinmassive.com/careers". Where to apply.
+- `cta`: Call to action. Text; default "Apply at joinmassive.com/careers". Where to apply
 
 Image link (defaults): https://massive-designer.vercel.app/api/render/hiring-photo.jpg
-Edit link: https://massive-designer.vercel.app/images?i=hiring-photo
+Edit link: https://massive-designer.vercel.app/images?template=hiring-photo
 Thumbnail: https://massive-designer.vercel.app/image-projects/hiring-photo/thumb.jpg
 
 ### Hiring: Photo, square (template)
@@ -77,14 +76,14 @@ The square hiring post: "We’re hiring" over the role on a red brush stroke, th
 Params:
 - `photo`: Photo. A direct https:// link to an image; default: the design's own.
 - `headline`: Headline. Text; default "We’re hiring".
-- `role`: Role (on the swipe). Text; default "Writer in Residence". The job title, on the red swipe. Short: it shrinks to fit two lines.
-- `details`: Details line. Text; default "Remote · Part or full time". Level, place and hours, separated by " · ".
+- `role`: Role (on the swipe). Text; default "Writer in Residence". Short; it shrinks to fit two lines
+- `details`: Details line. Text; default "Remote · Part or full time". Level · place · hours
 - `cta`: Call to action. Text; default "joinmassive.com/careers".
-- `aside`: Handwritten note. Text; default "Pajamas: approved.". The handwritten note; a few words.
-- `showAside`: Handwritten note. True or false; default true. Show the handwritten note and its arrow.
+- `aside`: Handwritten note. Text; default "Pajamas: approved.". A few words
+- `showAside`: Handwritten note. True or false; default true. The handwritten note and its arrow
 
 Image link (defaults): https://massive-designer.vercel.app/api/render/hiring-photo-square.jpg
-Edit link: https://massive-designer.vercel.app/images?i=hiring-photo-square
+Edit link: https://massive-designer.vercel.app/images?template=hiring-photo-square
 Thumbnail: https://massive-designer.vercel.app/image-projects/hiring-photo-square/thumb.jpg
 
 ### Welcome to Massive: Template (Franklin)
@@ -94,19 +93,19 @@ id `welcome-template` · 1080×1350 · team · template
 A new teammate's character-sheet card over the dimmed Slack desktop, with the welcome line below: the Welcome to Massive video held still in the Milestone card's layout. Fill in a new hire's details and photo.
 
 Params:
-- `photo`: Photo. A direct https:// link to an image; default: the design's own. A portrait of the new teammate.
+- `photo`: Photo. A direct https:// link to an image; default: the design's own. A portrait
 - `badge`: Badge. Text; default "New hire".
 - `name`: Full name. Text; default "Franklin Uche".
-- `firstName`: First name. Text; default "Franklin". Used in "Welcome to the team, …!".
+- `firstName`: First name. Text; default "Franklin". Used in the welcome line
 - `status`: Status. Text; default "Available".
 - `role`: Role. Text; default "Community Lead".
-- `country`: Country. Text; default "Nigeria". In English (e.g. Brazil); it picks the flag.
-- `hobbies`: Abilities (comma-separated, up to 5). Text; default "Playing football, Playing golf, Gardening". Each one becomes a chip.
+- `country`: Country. Text; default "Nigeria". In English; it picks the flag
+- `hobbies`: Abilities (comma-separated, up to 5). Text; default "Playing football, Playing golf, Gardening". Each one becomes a chip
 - `food`: Fuel (favourite food). Text; default "Medium rare steak and rice".
-- `confetti`: Confetti. True or false; default true. Confetti over the card.
+- `confetti`: Confetti. True or false; default true.
 
 Image link (defaults): https://massive-designer.vercel.app/api/render/welcome-template.jpg
-Edit link: https://massive-designer.vercel.app/images?i=welcome-template
+Edit link: https://massive-designer.vercel.app/images?template=welcome-template
 Thumbnail: https://massive-designer.vercel.app/image-projects/welcome-template/thumb.jpg
 
 ## Other images

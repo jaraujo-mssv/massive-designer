@@ -46,7 +46,7 @@ const FORMAT_LABEL: Record<ImageFormat, string> = {
   other: "Other",
 };
 
-/** URL keys for the Library's view, beside App's ?i=, so a filtered view can be linked. */
+/** URL keys for the Library's view, beside App's ?template=, so a filtered view can be linked. */
 const PARAM = { group: "g", sort: "s", view: "v", category: "c", status: "st", format: "f", type: "t" } as const;
 type ViewKey = keyof typeof PARAM;
 const DEFAULTS: Record<ViewKey, string> = {

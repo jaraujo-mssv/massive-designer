@@ -21,15 +21,14 @@
       "id": "photo",
       "label": "Photo",
       "type": "image",
-      "default": "assets/photo.webp",
-      "hint": "A wide photo; the headline sits over its left side."
+      "default": "assets/photo.webp"
     },
     {
       "id": "headline",
       "label": "Headline",
       "type": "text",
       "default": "Seltz: A Web Search API for LLMs",
-      "hint": "The post's title. Two or three lines; about 60 characters reads best."
+      "hint": "About 60 characters"
     },
     {
       "id": "position",
@@ -62,7 +61,7 @@
           "label": "Strong (bright photo)"
         }
       ],
-      "hint": "Use strong for a bright photo, so the headline stays readable."
+      "hint": "Strong for bright photos"
     }
   ]
 }

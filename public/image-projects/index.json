@@ -63,22 +63,21 @@
       "height": 768,
       "format": "other",
       "formats": null,
-      "updated": "2026-10-27T18:09:34.493Z",
+      "updated": "2026-10-27T19:11:15.911Z",
       "brief": null,
       "fields": [
         {
           "id": "photo",
           "label": "Photo",
           "type": "image",
-          "default": "assets/photo.webp",
-          "hint": "A wide photo; the headline sits over its left side."
+          "default": "assets/photo.webp"
         },
         {
           "id": "headline",
           "label": "Headline",
           "type": "text",
           "default": "Seltz: A Web Search API for LLMs",
-          "hint": "The post's title. Two or three lines; about 60 characters reads best."
+          "hint": "About 60 characters"
         },
         {
           "id": "position",
@@ -111,7 +110,7 @@
               "label": "Strong (bright photo)"
             }
           ],
-          "hint": "Use strong for a bright photo, so the headline stays readable."
+          "hint": "Strong for bright photos"
         }
       ],
       "path": "/image-projects/blog-banner/index.html",
@@ -3869,7 +3868,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-27T18:09:34.493Z",
+      "updated": "2026-10-27T19:11:15.911Z",
       "brief": null,
       "fields": [
         {
@@ -3889,14 +3888,14 @@
           "label": "Role (on the swipe)",
           "type": "text",
           "default": "Writer in Residence",
-          "hint": "The job title, on the red swipe. Short: it shrinks to fit two lines."
+          "hint": "Short; it shrinks to fit two lines"
         },
         {
           "id": "details",
           "label": "Details line",
           "type": "text",
           "default": "Remote · Part or full time",
-          "hint": "Level, place and hours, separated by \" · \"."
+          "hint": "Level · place · hours"
         },
         {
           "id": "subline",
@@ -4285,14 +4284,14 @@
           "label": "Handwritten note",
           "type": "text",
           "default": "Pajamas: approved.",
-          "hint": "The handwritten note; a few words."
+          "hint": "A few words"
         },
         {
           "id": "showAside",
           "label": "Handwritten note",
           "type": "toggle",
           "default": true,
-          "hint": "Show the handwritten note and its arrow."
+          "hint": "The handwritten note and its arrow"
         },
         {
           "id": "experience",
@@ -4305,7 +4304,7 @@
           "label": "Call to action",
           "type": "text",
           "default": "Apply at joinmassive.com/careers",
-          "hint": "Where to apply."
+          "hint": "Where to apply"
         }
       ],
       "path": "/image-projects/hiring-photo/index.html",
@@ -4332,7 +4331,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-10-27T18:09:34.494Z",
+      "updated": "2026-10-27T19:11:15.911Z",
       "brief": null,
       "fields": [
         {
@@ -4352,14 +4351,14 @@
           "label": "Role (on the swipe)",
           "type": "text",
           "default": "Writer in Residence",
-          "hint": "The job title, on the red swipe. Short: it shrinks to fit two lines."
+          "hint": "Short; it shrinks to fit two lines"
         },
         {
           "id": "details",
           "label": "Details line",
           "type": "text",
           "default": "Remote · Part or full time",
-          "hint": "Level, place and hours, separated by \" · \"."
+          "hint": "Level · place · hours"
         },
         {
           "id": "cta",
@@ -4372,14 +4371,14 @@
           "label": "Handwritten note",
           "type": "text",
           "default": "Pajamas: approved.",
-          "hint": "The handwritten note; a few words."
+          "hint": "A few words"
         },
         {
           "id": "showAside",
           "label": "Handwritten note",
           "type": "toggle",
           "default": true,
-          "hint": "Show the handwritten note and its arrow."
+          "hint": "The handwritten note and its arrow"
         }
       ],
       "path": "/image-projects/hiring-photo-square/index.html",
@@ -7022,7 +7021,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-27T18:13:23.210Z",
+      "updated": "2026-10-27T19:11:15.911Z",
       "brief": null,
       "fields": [
         {
@@ -7030,7 +7029,7 @@
           "label": "Photo",
           "type": "image",
           "default": "assets/franklin.jpg",
-          "hint": "A portrait of the new teammate."
+          "hint": "A portrait"
         },
         {
           "id": "badge",
@@ -7049,7 +7048,7 @@
           "label": "First name",
           "type": "text",
           "default": "Franklin",
-          "hint": "Used in \"Welcome to the team, …!\"."
+          "hint": "Used in the welcome line"
         },
         {
           "id": "status",
@@ -7068,14 +7067,14 @@
           "label": "Country",
           "type": "text",
           "default": "Nigeria",
-          "hint": "In English (e.g. Brazil); it picks the flag."
+          "hint": "In English; it picks the flag"
         },
         {
           "id": "hobbies",
           "label": "Abilities (comma-separated, up to 5)",
           "type": "text",
           "default": "Playing football, Playing golf, Gardening",
-          "hint": "Each one becomes a chip."
+          "hint": "Each one becomes a chip"
         },
         {
           "id": "food",
@@ -7087,8 +7086,7 @@
           "id": "confetti",
           "label": "Confetti",
           "type": "toggle",
-          "default": true,
-          "hint": "Confetti over the card."
+          "default": true
         }
       ],
       "path": "/image-projects/welcome-template/index.html",

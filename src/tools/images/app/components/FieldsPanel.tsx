@@ -1,79 +1,200 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowCounterClockwise, UploadSimple } from "@phosphor-icons/react";
-import { toast } from "sonner";
-import { sidebarHeadingClass, sidebarInputClass } from "@/shared/components/SidebarLayout";
-import { MAX_UPLOAD_EDGE } from "../constants";
+import { SidebarWarning, sidebarHeadingClass, sidebarInputClass } from "@/shared/components/SidebarLayout";
+import { proxyUrl } from "@/shared/utils/imageDataUrl";
+import { PHOTO_ERROR, unknownMessage } from "../../params";
+import { checkPhoto, fileIn, hasImageFile } from "../photo";
 import type { FieldValues, ImageField, ImageProject } from "../types";
 
 interface FieldsPanelProps {
   project: ImageProject;
   values: FieldValues;
+  /** Uploaded photos' file names, by field. */
+  names: Record<string, string>;
+  /** What a link or a photo got wrong, by field. */
+  errors: Record<string, string>;
+  /** Params in the link that the image doesn't have. */
+  unknown: string[];
   edited: boolean;
-  onChange: (id: string, value: string | boolean) => void;
+  onChange: (id: string, value: string | boolean, name?: string) => void;
+  /** An uploaded, dropped or pasted file for an image field. */
+  onFile: (id: string, file: File) => void;
+  onError: (id: string, message: string) => void;
   onReset: () => void;
   /** Phones: drawn inside the drawer, full width, without its own column frame. */
   inDrawer?: boolean;
 }
 
-/** Read an uploaded image and scale it down to a JPEG data URL, small enough to keep in localStorage. */
-async function readImage(file: File): Promise<string> {
-  const bitmap = await createImageBitmap(file);
-  const k = Math.min(1, MAX_UPLOAD_EDGE / Math.max(bitmap.width, bitmap.height));
-  const canvas = document.createElement("canvas");
-  canvas.width = Math.round(bitmap.width * k);
-  canvas.height = Math.round(bitmap.height * k);
-  canvas.getContext("2d")!.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
-  bitmap.close();
-  return canvas.toDataURL("image/jpeg", 0.9);
+const isLink = (v: string) => /^https?:\/\//i.test(v);
+
+/** Field image paths in meta.json are relative to the project page; photo links load through the image proxy. */
+const resolveSrc = (project: ImageProject, src: string) =>
+  isLink(src)
+    ? proxyUrl(src)
+    : src.startsWith("data:") || src.startsWith("/")
+      ? src
+      : new URL(src, new URL(project.path ?? "/", window.location.origin)).href;
+
+/** Where the photo came from: the file's name, the link's site, or the template. */
+function sourceOf(field: ImageField, value: string, name: string | undefined) {
+  if (value.startsWith("data:")) return name ?? "Uploaded photo";
+  if (isLink(value)) {
+    try {
+      return new URL(value).hostname;
+    } catch {
+      return value;
+    }
+  }
+  return value === field.default ? "Template photo" : value.split("/").pop();
 }
 
-/** Field image paths in meta.json are relative to the project page. */
-const resolveSrc = (project: ImageProject, src: string) =>
-  src.startsWith("data:") || src.startsWith("/") || /^https?:/.test(src) ? src : new URL(src, new URL(project.path ?? "/", window.location.origin)).href;
-
-function ImageInput({ project, field, value, onChange }: { project: ImageProject; field: ImageField; value: string; onChange: (v: string) => void }) {
+/**
+ * A photo, two ways at once: upload it yourself (the button, a drop on the field, or a paste anywhere on the page,
+ * which App handles) or paste a link to it. One photo at a time; the last one in wins.
+ */
+function ImageInput({
+  project,
+  field,
+  value,
+  name,
+  onChange,
+  onFile,
+  onError,
+}: {
+  project: ImageProject;
+  field: ImageField;
+  value: string;
+  name: string | undefined;
+  onChange: (v: string) => void;
+  onFile: (file: File) => void;
+  onError: (message: string) => void;
+}) {
   const input = useRef<HTMLInputElement>(null);
+  const [draft, setDraft] = useState(isLink(value) ? value : "");
+  const [checking, setChecking] = useState(false);
+  const [dragging, setDragging] = useState(false);
+  const pending = useRef("");
+
+  // The link box shows the photo's link, and nothing once a file or the template photo takes its place.
+  useEffect(() => setDraft(isLink(value) ? value : ""), [value]);
+
+  const applyLink = async (text: string) => {
+    const url = text.trim();
+    if (url === (isLink(value) ? value : "")) return;
+    if (!url) {
+      onChange(String(field.default));
+      return;
+    }
+    if (!isLink(url)) {
+      onError(PHOTO_ERROR);
+      return;
+    }
+    if (url === pending.current) return;
+    pending.current = url;
+    setChecking(true);
+    const ok = await checkPhoto(url);
+    pending.current = "";
+    setChecking(false);
+    if (ok) onChange(url);
+    else {
+      onError(PHOTO_ERROR);
+      if (isLink(value)) onChange(String(field.default));
+    }
+  };
+
   return (
-    <div className="flex items-center gap-3">
-      <img src={resolveSrc(project, value)} alt="" className="w-12 h-12 rounded-md object-cover bg-surface-2 border border-border-subtle shrink-0" />
-      <button
-        onClick={() => input.current?.click()}
-        className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg border border-border-subtle bg-surface-2 text-sm text-text-primary hover:border-brand hover:text-brand-light transition-colors"
-      >
-        <UploadSimple size={14} weight="bold" />
-        Upload
-      </button>
-      {value !== field.default && (
+    <div
+      className={`space-y-2 rounded-lg transition-shadow ${dragging ? "ring-2 ring-brand ring-offset-4 ring-offset-surface" : ""}`}
+      onDragOver={(e) => {
+        e.preventDefault();
+        setDragging(true);
+      }}
+      onDragLeave={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget as Node)) setDragging(false);
+      }}
+      onDrop={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setDragging(false);
+        const file = fileIn(e.dataTransfer);
+        if (file) onFile(file);
+      }}
+    >
+      <div className="flex items-center gap-3">
+        <img src={resolveSrc(project, value)} alt="" className="w-12 h-12 rounded-md object-cover bg-surface-2 border border-border-subtle shrink-0" />
         <button
-          onClick={() => onChange(String(field.default))}
-          title="Use the original"
-          aria-label={`Reset ${field.label}`}
-          className="p-2 rounded-lg text-text-dim hover:text-text-primary hover:bg-surface-2"
+          onClick={() => input.current?.click()}
+          className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg border border-border-subtle bg-surface-2 text-sm text-text-primary hover:border-brand hover:text-brand-light transition-colors"
         >
-          <ArrowCounterClockwise size={14} />
+          <UploadSimple size={14} weight="bold" />
+          Upload
         </button>
-      )}
+        {value !== field.default && (
+          <button
+            onClick={() => onChange(String(field.default))}
+            title="Use the template's photo"
+            aria-label={`Reset ${field.label}`}
+            className="p-2 rounded-lg text-text-dim hover:text-text-primary hover:bg-surface-2"
+          >
+            <ArrowCounterClockwise size={14} />
+          </button>
+        )}
+      </div>
+      <p className="text-[11px] text-text-dim truncate" title={sourceOf(field, value, name)}>
+        {checking ? "Loading photo…" : sourceOf(field, value, name)}
+      </p>
+      <input
+        type="url"
+        inputMode="url"
+        value={draft}
+        placeholder="Or paste a photo link"
+        aria-label={`${field.label} link`}
+        onChange={(e) => setDraft(e.target.value)}
+        onBlur={() => applyLink(draft)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") e.currentTarget.blur();
+        }}
+        onPaste={(e) => {
+          // An image on the clipboard is a photo (App takes it); text is a link to use right away.
+          if (hasImageFile(e.clipboardData)) return;
+          const text = e.clipboardData.getData("text");
+          if (!text) return;
+          e.preventDefault();
+          setDraft(text.trim());
+          applyLink(text);
+        }}
+        className={sidebarInputClass}
+      />
+      {/* A real file input, labelled by the field's label, so browser tools can put a file in it. */}
       <input
         ref={input}
+        id={`field-${field.id}`}
         type="file"
         accept="image/*"
-        className="hidden"
-        onChange={async (e) => {
+        className="sr-only"
+        onChange={(e) => {
           const file = e.target.files?.[0];
           e.target.value = "";
-          if (!file) return;
-          try {
-            onChange(await readImage(file));
-          } catch {
-            toast.error("Couldn't read that image.");
-          }
+          if (file) onFile(file);
         }}
       />
     </div>
   );
 }
 
-export function FieldsPanel({ project, values, edited, onChange, onReset, inDrawer = false }: FieldsPanelProps) {
+export function FieldsPanel({
+  project,
+  values,
+  names,
+  errors,
+  unknown,
+  edited,
+  onChange,
+  onFile,
+  onError,
+  onReset,
+  inDrawer = false,
+}: FieldsPanelProps) {
   return (
     <div className={inDrawer ? "flex flex-col" : "w-80 shrink-0 flex flex-col bg-surface border-l border-border-subtle"}>
       <div className="flex items-center justify-between px-4 py-3 border-b border-border-subtle shrink-0">
@@ -86,10 +207,16 @@ export function FieldsPanel({ project, values, edited, onChange, onReset, inDraw
         )}
       </div>
       <div className="flex-1 min-h-0 overflow-y-auto p-4 space-y-4">
+        {unknown.length > 0 && <SidebarWarning>{unknownMessage(unknown, project.fields)}</SidebarWarning>}
         {project.fields.length === 0 && <p className="text-sm text-text-dim">This image has no editable fields.</p>}
         {project.fields.map((field) => {
           const value = values[field.id] ?? field.default;
-          const hint = field.hint && <p className="text-[11px] text-text-dim leading-snug">{field.hint}</p>;
+          const notes = (
+            <>
+              {errors[field.id] && <p className="text-[11px] text-red-400 leading-snug">{errors[field.id]}</p>}
+              {field.hint && <p className="text-[11px] text-text-dim leading-snug">{field.hint}</p>}
+            </>
+          );
           if (field.type === "toggle") {
             return (
               <div key={field.id} className="space-y-1">
@@ -102,7 +229,7 @@ export function FieldsPanel({ project, values, edited, onChange, onReset, inDraw
                     className="w-4 h-4 accent-[var(--red)]"
                   />
                 </label>
-                {hint}
+                {notes}
               </div>
             );
           }
@@ -112,7 +239,15 @@ export function FieldsPanel({ project, values, edited, onChange, onReset, inDraw
                 {field.label}
               </label>
               {field.type === "image" ? (
-                <ImageInput project={project} field={field} value={String(value)} onChange={(v) => onChange(field.id, v)} />
+                <ImageInput
+                  project={project}
+                  field={field}
+                  value={String(value)}
+                  name={names[field.id]}
+                  onChange={(v) => onChange(field.id, v)}
+                  onFile={(file) => onFile(field.id, file)}
+                  onError={(message) => onError(field.id, message)}
+                />
               ) : field.type === "select" ? (
                 <select
                   id={`field-${field.id}`}
@@ -134,7 +269,7 @@ export function FieldsPanel({ project, values, edited, onChange, onReset, inDraw
                   className={sidebarInputClass}
                 />
               )}
-              {hint}
+              {notes}
             </div>
           );
         })}

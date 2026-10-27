@@ -1,5 +1,6 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { ImageFetchError, fetchImage } from './_lib/safe-fetch.js';
+import { shrink } from './_lib/shrink.js';
 
 export default async function handler(req: IncomingMessage & { query?: Record<string, string> }, res: ServerResponse) {
   const rawUrl = req.url ?? '';
@@ -13,8 +14,9 @@ export default async function handler(req: IncomingMessage & { query?: Record<st
   }
 
   try {
-    // Public hosts only, images only (favicons included, for the logo lookups).
-    const { bytes, type } = await fetchImage(url, { allowIcon: true });
+    // Public hosts only, images only (favicons included, for the logo lookups), and small enough to send back.
+    const fetched = await fetchImage(url, { allowIcon: true });
+    const { bytes, type } = await shrink(fetched.bytes, fetched.type);
     res.writeHead(200, {
       'Content-Type': type,
       'Access-Control-Allow-Origin': '*',

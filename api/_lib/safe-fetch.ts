@@ -1,13 +1,14 @@
 // Fetch an image from a URL someone else chose (a link's ?photo=, a sheet's logo column), safely:
 // only http(s) on the standard ports, never to a private, loopback or link-local address (checked on the
-// address actually connected to, and again after every redirect), at most 10 MB in 8 seconds, and only bytes
+// address actually connected to, and again after every redirect), at most 15 MB in 8 seconds, and only bytes
 // that really are an image.
 import { BlockList, isIP, type LookupFunction } from 'node:net';
 import { lookup } from 'node:dns';
 import http from 'node:http';
 import https from 'node:https';
+import { shrink } from './shrink.js';
 
-const MAX_BYTES = 10 * 1024 * 1024;
+const MAX_BYTES = 15 * 1024 * 1024;
 const TIMEOUT_MS = 8_000;
 const MAX_REDIRECTS = 3;
 const USER_AGENT = 'MassiveDesigner/1.0 (+https://massive-designer.vercel.app)';
@@ -102,7 +103,7 @@ async function readBody(res: http.IncomingMessage): Promise<Buffer> {
   const declared = Number(res.headers['content-length']);
   if (declared > MAX_BYTES) {
     res.destroy();
-    throw new ImageFetchError('The image is over 10 MB.', 502);
+    throw new ImageFetchError('The image is over 15 MB.', 502);
   }
   const chunks: Buffer[] = [];
   let size = 0;
@@ -110,7 +111,7 @@ async function readBody(res: http.IncomingMessage): Promise<Buffer> {
     size += chunk.length;
     if (size > MAX_BYTES) {
       res.destroy();
-      throw new ImageFetchError('The image is over 10 MB.', 502);
+      throw new ImageFetchError('The image is over 15 MB.', 502);
     }
     chunks.push(chunk);
   }
@@ -168,8 +169,9 @@ export async function fetchImage(raw: string, { allowIcon = false } = {}): Promi
   throw new ImageFetchError('That link redirects too many times.', 502);
 }
 
-/** fetchImage as a data URL, ready to drop into a page. */
+/** fetchImage as a data URL, ready to drop into a page; big photos are shrunk first. */
 export async function fetchImageDataUrl(raw: string): Promise<string> {
-  const { bytes, type } = await fetchImage(raw);
+  const fetched = await fetchImage(raw);
+  const { bytes, type } = await shrink(fetched.bytes, fetched.type);
   return `data:${type};base64,${bytes.toString('base64')}`;
 }

@@ -1,0 +1,84 @@
+{
+  "id": "prague-crawl-2027-sponsor",
+  "title": "Prague Crawl 2027: sponsor welcome",
+  "description": "Welcome a sponsor as they sign: Sponsored by, their logo straight on the black, and their tier, in the Prague Crawl look (_prague-crawl/). It's the LinkedIn co-post (Platinum, Gold) or mention (Silver, Bronze) from the deck's benefits table (scripts/deck/prague-crawl-2027.html). The default, Apify as a Gold sponsor, is only an example.",
+  "group": "templates",
+  "category": "events",
+  "series": "Prague Crawl 2027",
+  "status": "draft",
+  "tags": [
+    "prague crawl",
+    "events",
+    "sponsors",
+    "template",
+    "linkedin"
+  ],
+  "source": "scripts/deck/prague-crawl-2027.html",
+  "width": 1080,
+  "height": 1080,
+  "fields": [
+    {
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "type": "text",
+      "default": "Sponsored by",
+      "hint": "Two or three words, in capitals."
+    },
+    {
+      "id": "logo",
+      "label": "Sponsor logo",
+      "type": "image",
+      "default": "assets/logo-apify.png",
+      "hint": "The sponsor's logo for dark backgrounds (white or colour on a transparent background), PNG or SVG."
+    },
+    {
+      "id": "tier",
+      "label": "Tier",
+      "type": "select",
+      "default": "gold",
+      "options": [
+        {
+          "value": "platinum",
+          "label": "Platinum sponsor"
+        },
+        {
+          "value": "gold",
+          "label": "Gold sponsor"
+        },
+        {
+          "value": "silver",
+          "label": "Silver sponsor"
+        },
+        {
+          "value": "bronze",
+          "label": "Bronze sponsor"
+        },
+        {
+          "value": "afterparty",
+          "label": "Afterparty Partner"
+        },
+        {
+          "value": "coffee",
+          "label": "Coffee & Lunch Partner"
+        },
+        {
+          "value": "none",
+          "label": "No tier line"
+        }
+      ],
+      "hint": "The line under the logo."
+    },
+    {
+      "id": "date",
+      "label": "Date",
+      "type": "text",
+      "default": "May 13, 2027"
+    },
+    {
+      "id": "venue",
+      "label": "Venue",
+      "type": "text",
+      "default": "Spojka Events, Prague"
+    }
+  ]
+}

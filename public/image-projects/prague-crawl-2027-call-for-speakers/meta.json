@@ -1,0 +1,93 @@
+{
+  "id": "prague-crawl-2027-call-for-speakers",
+  "title": "Prague Crawl 2027: call for speakers",
+  "description": "A call for speakers over a photo, with the 2027 theme and where to apply, in the Prague Crawl look (_prague-crawl/), laid out like the 2026-in-numbers post. Theme from scripts/deck/prague-crawl-2027.html. The photo is one of the event shots, or an upload.",
+  "group": "massive",
+  "category": "events",
+  "template": null,
+  "series": "Prague Crawl 2027",
+  "status": "ready",
+  "tags": [
+    "prague crawl",
+    "events",
+    "speakers",
+    "linkedin"
+  ],
+  "source": "scripts/deck/prague-crawl-2027.html",
+  "width": 1080,
+  "height": 1350,
+  "fields": [
+    {
+      "id": "photo",
+      "label": "Photo",
+      "type": "image",
+      "default": "../_prague-crawl/photo-speaker.jpg",
+      "options": [
+        {
+          "value": "../_prague-crawl/photo-room.jpg",
+          "label": "The room"
+        },
+        {
+          "value": "../_prague-crawl/photo-stage.jpg",
+          "label": "Talk from the back"
+        },
+        {
+          "value": "../_prague-crawl/photo-speaker.jpg",
+          "label": "Speaker and audience"
+        },
+        {
+          "value": "../_prague-crawl/photo-panel.jpg",
+          "label": "Panel on stage"
+        },
+        {
+          "value": "../_prague-crawl/photo-networking.jpg",
+          "label": "Networking"
+        },
+        {
+          "value": "../_prague-crawl/photo-phone.jpg",
+          "label": "Filming a talk"
+        }
+      ],
+      "hint": "Pick one of the event photos, or upload your own; it fades into black under the title."
+    },
+    {
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "type": "text",
+      "default": "Call for speakers"
+    },
+    {
+      "id": "headline",
+      "label": "Headline",
+      "type": "text",
+      "default": "Take the stage",
+      "hint": "One line, in capitals; about 16 characters."
+    },
+    {
+      "id": "theme",
+      "label": "Theme line",
+      "type": "text",
+      "default": "Talks on agentic infrastructure and AI.",
+      "hint": "One short sentence. \"Apply at\" and the link follow it in the same paragraph, two lines in all."
+    },
+    {
+      "id": "link",
+      "label": "Link",
+      "type": "text",
+      "default": "praguecrawl.com",
+      "hint": "Follows \"Apply at\". A short URL without https://."
+    },
+    {
+      "id": "date",
+      "label": "Date",
+      "type": "text",
+      "default": "May 13, 2027"
+    },
+    {
+      "id": "venue",
+      "label": "Venue",
+      "type": "text",
+      "default": "Spojka Events, Prague"
+    }
+  ]
+}

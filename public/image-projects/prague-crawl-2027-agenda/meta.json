@@ -1,0 +1,53 @@
+{
+  "id": "prague-crawl-2027-agenda",
+  "title": "Prague Crawl 2027: agenda",
+  "description": "The day's running order, one row per session, in the Prague Crawl look (_prague-crawl/). Until the agenda is final, the times are placeholders and the order is a draft from the session types in scripts/deck/prague-crawl-2027.html (keynotes, talks and demos, lunch, lightning talks, the closing panel, the afterparty).",
+  "group": "massive",
+  "category": "events",
+  "template": null,
+  "series": "Prague Crawl 2027",
+  "status": "draft",
+  "tags": [
+    "prague crawl",
+    "events",
+    "agenda",
+    "linkedin"
+  ],
+  "source": "scripts/deck/prague-crawl-2027.html",
+  "width": 1080,
+  "height": 1350,
+  "fields": [
+    {
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "type": "text",
+      "default": "Agenda"
+    },
+    {
+      "id": "headline",
+      "label": "Headline",
+      "type": "text",
+      "default": "One day in Prague",
+      "hint": "One line; about 18 characters."
+    },
+    {
+      "id": "items",
+      "label": "Running order",
+      "type": "text",
+      "default": "[Time] Keynotes; [Time] Talks and live demos; [Time] Lunch; [Time] Lightning talks; [Time] Closing panel; [Time] Afterparty",
+      "hint": "Up to 9 items separated by semicolons, each a time then the session: \"09:30 Keynotes; 12:30–13:30 Lunch\". A time in [brackets] shows as a blue placeholder."
+    },
+    {
+      "id": "date",
+      "label": "Date",
+      "type": "text",
+      "default": "May 13, 2027"
+    },
+    {
+      "id": "venue",
+      "label": "Venue",
+      "type": "text",
+      "default": "Spojka Events, Prague"
+    }
+  ]
+}

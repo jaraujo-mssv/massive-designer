@@ -1,0 +1,128 @@
+{
+  "id": "prague-crawl-2027-last-year",
+  "title": "Prague Crawl 2026 in numbers",
+  "description": "Last year's numbers over a photo of the 2026 room, to sell 2027 tickets and sponsor slots, in the Prague Crawl look (_prague-crawl/). Numbers from scripts/deck/prague-crawl-2027.html, which cites praguecrawl.com's 2026 speakers and agenda.",
+  "group": "massive",
+  "category": "events",
+  "template": null,
+  "series": "Prague Crawl 2027",
+  "status": "ready",
+  "tags": [
+    "prague crawl",
+    "events",
+    "recap",
+    "2026",
+    "linkedin"
+  ],
+  "source": "scripts/deck/prague-crawl-2027.html",
+  "width": 1080,
+  "height": 1350,
+  "fields": [
+    {
+      "id": "photo",
+      "label": "Photo",
+      "type": "image",
+      "default": "../_prague-crawl/photo-room.jpg",
+      "options": [
+        {
+          "value": "../_prague-crawl/photo-room.jpg",
+          "label": "The room"
+        },
+        {
+          "value": "../_prague-crawl/photo-stage.jpg",
+          "label": "Talk from the back"
+        },
+        {
+          "value": "../_prague-crawl/photo-speaker.jpg",
+          "label": "Speaker and audience"
+        },
+        {
+          "value": "../_prague-crawl/photo-panel.jpg",
+          "label": "Panel on stage"
+        },
+        {
+          "value": "../_prague-crawl/photo-networking.jpg",
+          "label": "Networking"
+        },
+        {
+          "value": "../_prague-crawl/photo-phone.jpg",
+          "label": "Filming a talk"
+        }
+      ],
+      "hint": "Pick one of the event photos, or upload your own; it fades into black under the title."
+    },
+    {
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "type": "text",
+      "default": "Prague Crawl 2026"
+    },
+    {
+      "id": "headline",
+      "label": "Headline",
+      "type": "text",
+      "default": "Last year at Spojka",
+      "hint": "One line, in capitals; about 20 characters."
+    },
+    {
+      "id": "n1",
+      "label": "Number 1",
+      "type": "text",
+      "default": "250+"
+    },
+    {
+      "id": "l1",
+      "label": "Label 1",
+      "type": "text",
+      "default": "attendees"
+    },
+    {
+      "id": "n2",
+      "label": "Number 2",
+      "type": "text",
+      "default": "17"
+    },
+    {
+      "id": "l2",
+      "label": "Label 2",
+      "type": "text",
+      "default": "talks, demos and a panel"
+    },
+    {
+      "id": "n3",
+      "label": "Number 3",
+      "type": "text",
+      "default": "15"
+    },
+    {
+      "id": "l3",
+      "label": "Label 3",
+      "type": "text",
+      "default": "organizations on stage"
+    },
+    {
+      "id": "n4",
+      "label": "Number 4",
+      "type": "text",
+      "default": "1"
+    },
+    {
+      "id": "l4",
+      "label": "Label 4",
+      "type": "text",
+      "default": "full day, then the afterparty"
+    },
+    {
+      "id": "date",
+      "label": "Date",
+      "type": "text",
+      "default": "May 13, 2027"
+    },
+    {
+      "id": "venue",
+      "label": "Venue",
+      "type": "text",
+      "default": "Spojka Events, Prague"
+    }
+  ]
+}

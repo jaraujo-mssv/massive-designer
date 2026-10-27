@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1080" />
+    <title>Prague Crawl 2027: speaker card</title>
+    <link rel="stylesheet" href="../_prague-crawl/prague-crawl.css" />
+    <style>
+      #canvas {
+        width: 1080px;
+        height: 1080px;
+        --pad-y: 80px;
+      }
+      /* The cover's ASCII swirl, lower right, dimmed */
+      .pc-bg {
+        width: 1300px;
+        left: 240px;
+        top: 380px;
+        opacity: 0.6;
+      }
+      .card {
+        position: absolute;
+        left: 80px;
+        right: 80px;
+        top: 80px;
+        bottom: 140px;
+        display: flex;
+        align-items: center;
+        gap: 52px;
+      }
+      /* The avatar: a circle in a ring of the wordmark's gradient, with a black gap */
+      .ring {
+        flex: none;
+        width: 420px;
+        height: 420px;
+        padding: 8px;
+        border-radius: 50%;
+        background: var(--pc-grad);
+      }
+      .photo {
+        display: block;
+        width: 100%;
+        height: 100%;
+        border: 8px solid var(--pc-bg);
+        border-radius: 50%;
+        object-fit: cover;
+        background: #111;
+      }
+      .info {
+        flex: 1;
+        min-width: 0;
+      }
+      .name {
+        margin-top: 16px;
+        font-size: 96px;
+      }
+      .logo {
+        display: block;
+        margin-top: 28px;
+        width: auto;
+        height: auto;
+        max-width: 260px;
+        max-height: 40px;
+      }
+      .role {
+        margin-top: 14px;
+        font-size: 30px;
+        font-weight: 300;
+        line-height: 1.3;
+        color: var(--pc-mid);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas">
+      <div class="pc-bg pc-fade"><img src="../_prague-crawl/bg-cover.jpg" alt="" /></div>
+      <div class="pc-floor"></div>
+      <div class="card">
+        <div class="ring"><img class="photo" data-field-src="photo" src="assets/jason-grad.jpg" alt="" /></div>
+        <div class="info">
+          <div class="pc-eyebrow" data-field="eyebrow">Speaker</div>
+          <div class="pc-h name" data-field="name">Jason Grad</div>
+          <img class="logo" data-field-src="logo" src="assets/logo-massive.png" alt="" />
+          <div class="role" data-field="role">Co-Founder &amp; CEO</div>
+        </div>
+      </div>
+      <div class="pc-foot">
+        <span><b data-field="date">May 13, 2027</b> · <span data-field="venue">Spojka Events, Prague</span></span>
+        <img class="pc-mark" src="../_prague-crawl/wordmark-footer.png" alt="Prague Crawl 2027" />
+      </div>
+    </div>
+    <script src="../_prague-crawl/prague-crawl.js"></script>
+    <script>
+      window.onFields = () => {
+        pcPlaceholders();
+        pcFit(document.querySelector(".name"), 96, 44, 192);
+      };
+    </script>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

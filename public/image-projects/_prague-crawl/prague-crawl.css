@@ -1,0 +1,256 @@
+/*
+ * prague-crawl.css: the Prague Crawl event look for image projects, taken from scripts/deck/prague-crawl.css.
+ * Black, Inter, the Jersey 25 pixel face for headings, thin white rules, the pixel wordmark and the ASCII "u" art.
+ * Colours come from the wordmark's gradient (blue → lilac → pink). It's the event's own look, so it departs from
+ * brand/BRAND.md (Outfit, one red accent) the way the deck does. Link it instead of ../_brand/massive.css:
+ *   <link rel="stylesheet" href="../_prague-crawl/prague-crawl.css" />
+ * and load ../_prague-crawl/prague-crawl.js before ../_lib/image-kit.js.
+ */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Jersey+25&display=swap");
+
+:root {
+  --pc-bg: #000;
+  --pc-text: #fff;
+  --pc-mid: rgba(255, 255, 255, 0.72);
+  --pc-dim: rgba(255, 255, 255, 0.5);
+  --pc-rule: rgba(255, 255, 255, 0.72);
+  --pc-rule-soft: rgba(255, 255, 255, 0.18);
+  --pc-blue: #1e61f0;
+  --pc-lilac: #8a8fe6;
+  --pc-pink: #f8bedb;
+  --pc-cyan: #a7f2ed;
+  --pc-grad: linear-gradient(90deg, var(--pc-blue) 0%, var(--pc-lilac) 50%, var(--pc-pink) 100%);
+  --pc-font: "Inter", system-ui, sans-serif;
+  --pc-head: "Jersey 25", "Inter", sans-serif; /* pixel face, one weight (400) */
+  --pad: 80px; /* side margin */
+  --pad-y: 88px; /* top and bottom margin */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background: var(--pc-bg);
+  overflow: hidden;
+}
+
+/* The image. Its size is set by the page (and matches meta.json). */
+#canvas {
+  position: relative;
+  overflow: hidden;
+  background: var(--pc-bg);
+  color: var(--pc-text);
+  font-family: var(--pc-font);
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+}
+
+[data-field-show].is-hidden,
+.is-hidden {
+  display: none !important;
+}
+
+/* ASCII-art background (bg-cover, bg-sides, bg-edges, bg-blue: 1920×1080, mostly black). An <img> as the canvas's
+   first child, so both exports pick it up; the page sets its size and position. */
+.pc-bg {
+  position: absolute;
+  max-width: none;
+  pointer-events: none;
+}
+/* Where a background's art runs off the image's top or bottom edge and that edge lands inside the canvas, fade it
+   into the black: wrap the <img> in <div class="pc-bg pc-fade"> and size and place the div instead. Keep the
+   image's left and right edges outside the canvas. */
+.pc-fade img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.pc-fade::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #000, transparent 14%, transparent 86%, #000);
+}
+
+/* Footer: date and venue left, the inline Prague Crawl 2027 wordmark right. No header, and no Massive logo. */
+.pc-foot {
+  position: absolute;
+  left: var(--pad);
+  right: var(--pad);
+  bottom: var(--pad-y);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  font-size: 26px;
+  line-height: 1.2;
+  color: var(--pc-mid);
+  text-shadow: 0 0 10px #000, 0 0 4px #000; /* readable over the ASCII art */
+}
+.pc-foot b {
+  font-weight: 400;
+  color: var(--pc-text);
+}
+.pc-mark {
+  display: block;
+  height: 30px;
+  width: auto;
+  flex: none;
+}
+/* A black band rising from the bottom edge, so the footer never sits on the ASCII art. Place it after the .pc-bg. */
+.pc-floor {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 300px;
+  background: linear-gradient(0deg, #000 40%, rgba(0, 0, 0, 0));
+  pointer-events: none;
+}
+
+/* ---------- Type ---------- */
+.pc-h {
+  font-family: var(--pc-head);
+  font-weight: 400;
+  line-height: 0.98;
+  letter-spacing: 0;
+  text-transform: uppercase; /* Jersey is always set in capitals */
+  text-wrap: balance;
+}
+/* Accent text is the wordmark's blue, never pink */
+.pc-eyebrow {
+  font-family: var(--pc-head);
+  font-weight: 400;
+  font-size: 52px;
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--pc-blue);
+}
+
+/* A value we don't have yet ("[Price]"): blue, in a dashed box, so it can't go out by mistake.
+   prague-crawl.js adds the class to any field whose value is in square brackets. */
+.pc-tbc {
+  color: var(--pc-blue) !important;
+  outline: 2px dashed var(--pc-blue);
+  outline-offset: 6px;
+}
+
+/* ---------- Photo post: a full-bleed photo fading into the black, the title over its foot ---------- */
+/* The "in numbers" layout. Pages set the photo's object-position. Below the title: big values over gradient rules
+   (.pc-stat), or, with <div id="canvas" class="pc-poster">, a taller photo and one or two short lines (.pc-cta). */
+.pc-photo {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 620px;
+  object-fit: cover;
+}
+.pc-shade {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 622px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.75) 72%, #000 100%);
+}
+.pc-title {
+  position: absolute;
+  left: var(--pad);
+  right: var(--pad);
+  top: 438px;
+}
+.pc-title .pc-h {
+  margin-top: 14px;
+  font-size: 100px;
+  white-space: nowrap;
+}
+.pc-stats {
+  position: absolute;
+  left: var(--pad);
+  right: var(--pad);
+  top: 676px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 48px;
+  row-gap: 44px;
+}
+/* A big value over a gradient rule */
+.pc-stat {
+  position: relative;
+  padding-top: 32px;
+}
+.pc-stat::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 3px;
+  background: var(--pc-grad);
+}
+.pc-stat .n {
+  font-family: var(--pc-head);
+  font-weight: 400;
+  font-size: 150px;
+  line-height: 0.8;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.pc-stat .l {
+  margin-top: 18px;
+  font-size: 28px;
+  font-weight: 300;
+  line-height: 1.3;
+  color: var(--pc-mid);
+}
+.pc-stats .pc-tbc {
+  outline-offset: 0;
+}
+/* No values: a taller photo, the title lower, then the short lines */
+.pc-poster .pc-photo {
+  height: 960px;
+}
+.pc-poster .pc-shade {
+  height: 962px;
+}
+.pc-poster .pc-title {
+  top: 778px;
+}
+.pc-cta {
+  position: absolute;
+  left: var(--pad);
+  right: var(--pad);
+  top: 1000px;
+  font-size: 40px;
+  font-weight: 300;
+  line-height: 1.4;
+  color: var(--pc-mid);
+}
+.pc-cta b {
+  font-weight: 500;
+  color: var(--pc-text);
+}
+/* The theme sentence and the link as one paragraph, broken into two balanced lines (pages fit it to two lines) */
+.pc-cta.para {
+  color: var(--pc-text);
+  text-wrap: balance;
+}
+/* One short line under the values */
+.pc-line {
+  position: absolute;
+  left: var(--pad);
+  right: var(--pad);
+  top: 1150px;
+  font-size: 28px;
+  font-weight: 300;
+  color: var(--pc-mid);
+}
+.pc-line b {
+  font-weight: 400;
+  color: var(--pc-text);
+}

@@ -1,0 +1,40 @@
+{
+  "id": "prague-crawl-2027-save-the-date",
+  "title": "Prague Crawl 2027: save the date",
+  "description": "The pixel wordmark with the date and venue, after the sponsorship deck's cover, in the Prague Crawl look (_prague-crawl/). Date and venue from scripts/deck/prague-crawl-2027.html (praguecrawl.com).",
+  "group": "massive",
+  "category": "events",
+  "template": null,
+  "series": "Prague Crawl 2027",
+  "status": "ready",
+  "tags": [
+    "prague crawl",
+    "events",
+    "announcement",
+    "linkedin"
+  ],
+  "source": "scripts/deck/prague-crawl-2027.html",
+  "width": 1080,
+  "height": 1080,
+  "fields": [
+    {
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "type": "text",
+      "default": "Save the date",
+      "hint": "Two or three words, in capitals."
+    },
+    {
+      "id": "date",
+      "label": "Date",
+      "type": "text",
+      "default": "May 13, 2027"
+    },
+    {
+      "id": "venue",
+      "label": "Venue",
+      "type": "text",
+      "default": "Spojka Events, Prague"
+    }
+  ]
+}

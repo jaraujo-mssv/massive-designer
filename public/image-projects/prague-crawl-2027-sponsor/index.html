@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1080" />
+    <title>Prague Crawl 2027: sponsor welcome</title>
+    <link rel="stylesheet" href="../_prague-crawl/prague-crawl.css" />
+    <style>
+      #canvas {
+        width: 1080px;
+        height: 1080px;
+        --pad-y: 80px;
+      }
+      /* The close slide's art, kept to the edges so nothing sits behind the logo */
+      .pc-bg {
+        width: 1800px;
+        left: -360px;
+        top: 80px;
+      }
+      .card {
+        position: absolute;
+        left: 80px;
+        right: 80px;
+        top: 80px;
+        bottom: 140px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+      .card .pc-eyebrow {
+        font-size: 56px;
+      }
+      /* The sponsor's logo straight on the black: no frame, no fill */
+      .logo {
+        display: block;
+        margin-top: 60px;
+        width: auto;
+        height: auto;
+        max-width: 660px;
+        max-height: 200px;
+      }
+      .tier {
+        margin-top: 60px;
+        font-size: 38px;
+        font-weight: 300;
+        color: var(--pc-mid);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas">
+      <img class="pc-bg" src="../_prague-crawl/bg-sides.jpg" alt="" />
+      <div class="pc-floor"></div>
+      <div class="card">
+        <div class="pc-eyebrow" data-field="eyebrow">Sponsored by</div>
+        <img class="logo" data-field-src="logo" src="assets/logo-apify.png" alt="" />
+        <div class="tier">Gold sponsor</div>
+      </div>
+      <div class="pc-foot">
+        <span><b data-field="date">May 13, 2027</b> · <span data-field="venue">Spojka Events, Prague</span></span>
+        <img class="pc-mark" src="../_prague-crawl/wordmark-footer.png" alt="Prague Crawl 2027" />
+      </div>
+    </div>
+    <script src="../_prague-crawl/prague-crawl.js"></script>
+    <script>
+      // The deck's tiers and add-ons
+      const TIERS = {
+        platinum: "Platinum sponsor",
+        gold: "Gold sponsor",
+        silver: "Silver sponsor",
+        bronze: "Bronze sponsor",
+        afterparty: "Afterparty Partner",
+        coffee: "Coffee & Lunch Partner",
+        none: "",
+      };
+      window.onFields = (values) => {
+        const tier = document.querySelector(".tier");
+        tier.textContent = TIERS[values.tier] ?? "";
+        tier.classList.toggle("is-hidden", !tier.textContent);
+        pcPlaceholders();
+      };
+    </script>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

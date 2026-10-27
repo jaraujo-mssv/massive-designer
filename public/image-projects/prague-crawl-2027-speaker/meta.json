@@ -1,0 +1,68 @@
+{
+  "id": "prague-crawl-2027-speaker",
+  "title": "Prague Crawl 2027: speaker card",
+  "description": "Announce a confirmed speaker: their photo in a gradient ring on the left, and Speaker, their name, company logo and role on the right, in the Prague Crawl look (_prague-crawl/). Fill in one per speaker. The default is Jason Grad as an example.",
+  "group": "templates",
+  "category": "events",
+  "series": "Prague Crawl 2027",
+  "status": "draft",
+  "tags": [
+    "prague crawl",
+    "events",
+    "speakers",
+    "template",
+    "linkedin"
+  ],
+  "source": "scripts/deck/prague-crawl-2027.html",
+  "width": 1080,
+  "height": 1080,
+  "fields": [
+    {
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "type": "text",
+      "default": "Speaker",
+      "hint": "One or two words, in capitals: Speaker, Keynote, Panelist, Demo."
+    },
+    {
+      "id": "photo",
+      "label": "Photo",
+      "type": "image",
+      "default": "assets/jason-grad.jpg",
+      "hint": "A square portrait with the face centred, at least 900 px wide; it's cropped to a circle."
+    },
+    {
+      "id": "name",
+      "label": "Name",
+      "type": "text",
+      "default": "Jason Grad",
+      "hint": "Full name, in capitals. Wraps to two lines and shrinks to fit."
+    },
+    {
+      "id": "logo",
+      "label": "Company logo",
+      "type": "image",
+      "default": "assets/logo-massive.png",
+      "hint": "The company's logo for dark backgrounds (white or colour on black), PNG or SVG, wider than tall."
+    },
+    {
+      "id": "role",
+      "label": "Role",
+      "type": "text",
+      "default": "Co-Founder & CEO",
+      "hint": "Job title only; the logo shows the company. Up to about 40 characters."
+    },
+    {
+      "id": "date",
+      "label": "Date",
+      "type": "text",
+      "default": "May 13, 2027"
+    },
+    {
+      "id": "venue",
+      "label": "Venue",
+      "type": "text",
+      "default": "Spojka Events, Prague"
+    }
+  ]
+}

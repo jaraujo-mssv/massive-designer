@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1350" />
+    <title>Prague Crawl 2026 in numbers</title>
+    <link rel="stylesheet" href="../_prague-crawl/prague-crawl.css" />
+    <style>
+      #canvas {
+        width: 1080px;
+        height: 1350px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas">
+      <img class="pc-photo" data-field-src="photo" src="../_prague-crawl/photo-room.jpg" alt="" />
+      <div class="pc-shade"></div>
+      <div class="pc-title">
+        <div class="pc-eyebrow" data-field="eyebrow">Prague Crawl 2026</div>
+        <div class="pc-h" data-field="headline">Last year at Spojka</div>
+      </div>
+      <div class="pc-stats">
+        <div class="pc-stat"><div class="n" data-field="n1">250+</div><div class="l" data-field="l1">attendees</div></div>
+        <div class="pc-stat"><div class="n" data-field="n2">17</div><div class="l" data-field="l2">talks, demos and a panel</div></div>
+        <div class="pc-stat"><div class="n" data-field="n3">15</div><div class="l" data-field="l3">organizations on stage</div></div>
+        <div class="pc-stat"><div class="n" data-field="n4">1</div><div class="l" data-field="l4">full day, then the afterparty</div></div>
+      </div>
+      <div class="pc-foot">
+        <span><b data-field="date">May 13, 2027</b> · <span data-field="venue">Spojka Events, Prague</span></span>
+        <img class="pc-mark" src="../_prague-crawl/wordmark-footer.png" alt="Prague Crawl 2027" />
+      </div>
+    </div>
+    <script src="../_prague-crawl/prague-crawl.js"></script>
+    <script>
+      window.onFields = () => {
+        pcCrop(document.querySelector(".pc-photo"));
+        pcPlaceholders();
+        pcFit(document.querySelector(".pc-title .pc-h"), 100, 64);
+      };
+    </script>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

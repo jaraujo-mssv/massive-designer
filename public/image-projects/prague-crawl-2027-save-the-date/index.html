@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1080" />
+    <title>Prague Crawl 2027: save the date</title>
+    <link rel="stylesheet" href="../_prague-crawl/prague-crawl.css" />
+    <style>
+      #canvas {
+        width: 1080px;
+        height: 1080px;
+      }
+      /* The cover's ASCII swirl, off the right edge */
+      .pc-bg {
+        width: 1500px;
+        left: -60px;
+        top: 400px;
+      }
+      .wordmark {
+        position: absolute;
+        left: 80px;
+        top: 80px;
+        width: 560px;
+      }
+      .lead {
+        position: absolute;
+        left: 80px;
+        right: 80px;
+        bottom: 80px;
+        text-shadow: 0 0 12px #000, 0 0 4px #000; /* readable over the ASCII art */
+      }
+      .lead .pc-eyebrow {
+        font-size: 56px;
+      }
+      .date {
+        margin-top: 20px;
+        font-size: 80px;
+        font-weight: 300;
+        letter-spacing: -0.03em;
+        line-height: 1;
+      }
+      .venue {
+        margin-top: 16px;
+        font-size: 36px;
+        font-weight: 300;
+        line-height: 1.2;
+        color: var(--pc-mid);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas">
+      <img class="pc-bg" src="../_prague-crawl/bg-cover.jpg" alt="" />
+      <div class="pc-floor"></div>
+      <img class="wordmark" src="../_prague-crawl/wordmark.svg" alt="Prague Crawl 2027" />
+      <div class="lead">
+        <div class="pc-eyebrow" data-field="eyebrow">Save the date</div>
+        <div class="date" data-field="date">May 13, 2027</div>
+        <div class="venue" data-field="venue">Spojka Events, Prague</div>
+      </div>
+    </div>
+    <script src="../_prague-crawl/prague-crawl.js"></script>
+    <script>
+      window.onFields = () => pcPlaceholders();
+    </script>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

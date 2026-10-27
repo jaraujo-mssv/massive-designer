@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1350" />
+    <title>Prague Crawl 2027: agenda</title>
+    <link rel="stylesheet" href="../_prague-crawl/prague-crawl.css" />
+    <style>
+      #canvas {
+        width: 1080px;
+        height: 1350px;
+      }
+      /* The edges slides' art: a few scattered bits */
+      .pc-bg {
+        width: 2400px;
+        left: -1320px;
+        top: 0;
+      }
+      .head {
+        position: absolute;
+        left: 80px;
+        right: 80px;
+        top: 168px;
+      }
+      .head .pc-h {
+        margin-top: 20px;
+        font-size: 112px;
+        white-space: nowrap;
+      }
+      /* The running order: time, then the session, between soft rules. Row size is set from the item count. */
+      .agenda {
+        position: absolute;
+        left: 80px;
+        right: 80px;
+        top: 424px;
+        border-top: 2px solid var(--pc-rule-soft);
+        background: var(--pc-bg);
+      }
+      .agenda .row {
+        display: flex;
+        align-items: baseline;
+        gap: 32px;
+        padding: var(--row-pad, 24px) 0;
+        border-bottom: 2px solid var(--pc-rule-soft);
+      }
+      .agenda .time {
+        flex: none;
+        width: 220px;
+        font-size: calc(var(--row-size, 36px) * 0.84);
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+        color: var(--pc-blue);
+      }
+      .agenda .time.pc-tbc {
+        width: auto;
+        margin-right: 52px;
+      }
+      .agenda .title {
+        font-size: var(--row-size, 36px);
+        font-weight: 400;
+        line-height: 1.2;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas">
+      <img class="pc-bg" src="../_prague-crawl/bg-edges.jpg" alt="" />
+      <div class="pc-floor"></div>
+      <div class="head">
+        <div class="pc-eyebrow" data-field="eyebrow">Agenda</div>
+        <div class="pc-h" data-field="headline">One day in Prague</div>
+      </div>
+      <div class="agenda"></div>
+      <div class="pc-foot">
+        <span><b data-field="date">May 13, 2027</b> · <span data-field="venue">Spojka Events, Prague</span></span>
+        <img class="pc-mark" src="../_prague-crawl/wordmark-footer.png" alt="Prague Crawl 2027" />
+      </div>
+    </div>
+    <script src="../_prague-crawl/prague-crawl.js"></script>
+    <script>
+      // "09:00 Keynotes; 10:30–11:00 Coffee; [Time] Afterparty": a time (or a [placeholder]) and the session.
+      const TIME = /^\s*(\[[^\]]*\]|\d{1,2}[:.]\d{2}(?:\s*[–-]\s*\d{1,2}[:.]\d{2})?)\s+(.+)$/;
+      window.onFields = (values) => {
+        pcPlaceholders();
+        pcFit(document.querySelector(".head .pc-h"), 112, 72);
+        const items = String(values.items ?? "")
+          .split(/[;\n]/)
+          .map((s) => s.trim())
+          .filter(Boolean)
+          .slice(0, 9);
+        const agenda = document.querySelector(".agenda");
+        const [size, pad] = items.length <= 6 ? [36, 24] : items.length <= 8 ? [32, 17] : [30, 13];
+        agenda.style.setProperty("--row-size", `${size}px`);
+        agenda.style.setProperty("--row-pad", `${pad}px`);
+        agenda.replaceChildren(
+          ...items.map((item) => {
+            const [, time = "", title = item] = item.match(TIME) ?? [];
+            const row = document.createElement("div");
+            row.className = "row";
+            const t = document.createElement("div");
+            t.className = "time";
+            t.textContent = time;
+            t.classList.toggle("pc-tbc", time.startsWith("["));
+            const s = document.createElement("div");
+            s.className = "title";
+            s.textContent = title;
+            row.append(t, s);
+            return row;
+          }),
+        );
+      };
+    </script>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

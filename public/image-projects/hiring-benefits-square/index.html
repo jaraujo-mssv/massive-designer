@@ -5,10 +5,9 @@
     <meta name="viewport" content="width=1080, height=1080" />
     <title>Hiring: Benefits, square</title>
     <link rel="stylesheet" href="../_brand/massive.css" />
-    <!-- The square hiring post (from writers-hiring-home-square): the headline and the role on a cream wash beside the
-         photo, and a handwritten note with an arrow. Per image, set on #canvas: --seam (where the photo's empty left
-         side ends), --shift (slides the photo right when its subject sits too far left) and data-arrow-to (the canvas
-         point the arrow lands on). -->
+    <!-- The square hiring post: the headline and the role on a cream wash beside the
+         photo, and a handwritten note with an arrow. The photo is one of the shared hiring photos (../_hiring/) or an upload;
+         ../_hiring/hiring.js fits the wash, the photo and the arrow to it. -->
     <style>
       @font-face {
         font-family: "Caveat";
@@ -20,6 +19,7 @@
         height: 1080px;
         background: var(--m-cream);
         color: var(--m-bg);
+        --seam: 55%;
       }
       /* Narrower than the canvas and pinned right, so the whole subject fits beside the headline. */
       .photo {
@@ -133,7 +133,7 @@
         text-align: center;
         white-space: nowrap;
       }
-      /* The handwritten note, low on the left; arrow.js draws the arrow from its end to data-arrow-to. */
+      /* The handwritten note, low on the left; arrow.js draws the arrow from its end to the photo's arrow point. */
       .aside {
         position: absolute;
         inset: 0;
@@ -165,8 +165,8 @@
     </style>
   </head>
   <body>
-    <div id="canvas" style="--seam: 54.1%; --shift: 110px" data-arrow-to="750 715">
-      <img class="photo" data-field-src="photo" src="assets/photo.webp" alt="" />
+    <div id="canvas">
+      <img class="photo" data-field-src="photo" src="../_hiring/hammock.webp" alt="" />
       <div class="wash"></div>
 
       <div class="copy">
@@ -194,10 +194,13 @@
     </div>
 
     <script src="../_lib/arrow.js"></script>
+    <script src="../_hiring/hiring.js"></script>
     <script>
       const $ = (s) => document.querySelector(s);
 
       window.onFields = () => {
+        const arrowTo = hiringPhoto($("#canvas"));
+
         // The role takes at most two lines on the swipe, each clear of the photo: shrink until it does, down to 72px.
         const swipe = $(".swipe");
         for (let size = 124; size >= 72; size -= 4) {
@@ -206,8 +209,7 @@
           if (lines.length <= 2 && Math.max(...lines.map((r) => r.width)) <= 540) break;
         }
 
-        const [x, y] = $("#canvas").dataset.arrowTo.split(/\s+/).map(Number);
-        massiveArrow($(".aside svg"), $(".aside .note"), [x, y]);
+        massiveArrow($(".aside svg"), $(".aside .note"), arrowTo);
       };
     </script>
     <script src="../_lib/image-kit.js"></script>

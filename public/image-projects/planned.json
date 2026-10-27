@@ -3,9 +3,9 @@
     "id": "hiring-roundup-monthly",
     "title": "Open roles: monthly refresh",
     "category": "hiring",
-    "template": "hiring-open-roles",
+    "template": "hiring-open-roles-square",
     "series": "Open roles",
-    "formats": ["portrait", "square"],
+    "formats": ["square"],
     "brief": "Re-run the all-roles roundup each month from joinmassive.com/careers: update the role list and the count, keep or swap the photo.",
     "tags": ["hiring", "careers", "roundup"]
   },
@@ -13,8 +13,8 @@
     "id": "hiring-async-first",
     "title": "How we work: async-first",
     "category": "hiring",
-    "template": "hiring-photo",
-    "formats": ["portrait", "square"],
+    "template": "hiring-photo-square",
+    "formats": ["square"],
     "brief": "Culture card for candidates: written docs and threads, fewer meetings, a team across time zones. Pairs with any open-role post.",
     "tags": ["hiring", "culture", "remote"]
   },
@@ -23,7 +23,7 @@
     "title": "Interview process, step by step",
     "category": "hiring",
     "template": "new",
-    "formats": ["portrait"],
+    "formats": ["square"],
     "brief": "The stages from application to offer, with typical timing. Needs the real process from the hiring team before it's designed.",
     "tags": ["hiring", "process"]
   },

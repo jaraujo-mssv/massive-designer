@@ -40,51 +40,56 @@ Thumbnail: https://massive-designer.vercel.app/image-projects/blog-banner/thumb.
 
 ### Hiring: Photo (template)
 
-id `hiring-photo` · 1080×1350 · hiring · template
-
-The photo-led hiring post: a lifestyle photo, "We’re hiring" over the role on a red brush stroke, a pitch, four icon rows, a handwritten note with an arrow, and the experience and careers link in an ink footer. Per image, set --seam and data-arrow-to on #canvas.
-
-Params:
-- `photo`: Photo. A direct https:// link to an image; default: the design's own.
-- `headline`: Headline. Text; default "We’re hiring".
-- `role`: Role (on the swipe). Text; default "Writer in Residence". Short; it shrinks to fit two lines
-- `details`: Details line. Text; default "Remote · Part or full time". Level · place · hours
-- `subline`: Pitch. Text; default "Some of the best benefits in corporate history.".
-- `icon1`: Row 1 icon. One of `book` (Book), `calendar` (Calendar), `chart` (Chart), `clock` (Clock), `code` (Code), `database` (Database), `dollar` (Dollar), `globe` (Globe), `handshake` (Handshake), `headset` (Headset), `heart` (Heart), `home` (Home), `map-pin` (Map pin), `megaphone` (Megaphone), `pencil` (Pencil), `server` (Server), `shield` (Shield), `shirt` (Shirt), `sparkle` (Sparkle), `sun` (Sun); default `pencil`.
-- `benefit1`: Row 1. Text; default "Do whatever you want, as long as the content is awesome".
-- `icon2`: Row 2 icon. One of `book` (Book), `calendar` (Calendar), `chart` (Chart), `clock` (Clock), `code` (Code), `database` (Database), `dollar` (Dollar), `globe` (Globe), `handshake` (Handshake), `headset` (Headset), `heart` (Heart), `home` (Home), `map-pin` (Map pin), `megaphone` (Megaphone), `pencil` (Pencil), `server` (Server), `shield` (Shield), `shirt` (Shirt), `sparkle` (Sparkle), `sun` (Sun); default `globe`.
-- `benefit2`: Row 2. Text; default "Remote, from anywhere in the world".
-- `icon3`: Row 3 icon. One of `book` (Book), `calendar` (Calendar), `chart` (Chart), `clock` (Clock), `code` (Code), `database` (Database), `dollar` (Dollar), `globe` (Globe), `handshake` (Handshake), `headset` (Headset), `heart` (Heart), `home` (Home), `map-pin` (Map pin), `megaphone` (Megaphone), `pencil` (Pencil), `server` (Server), `shield` (Shield), `shirt` (Shirt), `sparkle` (Sparkle), `sun` (Sun); default `clock`.
-- `benefit3`: Row 3. Text; default "Work any hours you like".
-- `icon4`: Row 4 icon. One of `book` (Book), `calendar` (Calendar), `chart` (Chart), `clock` (Clock), `code` (Code), `database` (Database), `dollar` (Dollar), `globe` (Globe), `handshake` (Handshake), `headset` (Headset), `heart` (Heart), `home` (Home), `map-pin` (Map pin), `megaphone` (Megaphone), `pencil` (Pencil), `server` (Server), `shield` (Shield), `shirt` (Shirt), `sparkle` (Sparkle), `sun` (Sun); default `shirt`.
-- `benefit4`: Row 4. Text; default "Dress code: business up top, your choice below".
-- `aside`: Handwritten note. Text; default "Pajamas: approved.". A few words
-- `showAside`: Handwritten note. True or false; default true. The handwritten note and its arrow
-- `experience`: Experience. Text; default "2–4 years of writing".
-- `cta`: Call to action. Text; default "Apply at joinmassive.com/careers". Where to apply
-
-Image link (defaults): https://massive-designer.vercel.app/api/render/hiring-photo.jpg
-Edit link: https://massive-designer.vercel.app/images?template=hiring-photo
-Thumbnail: https://massive-designer.vercel.app/image-projects/hiring-photo/thumb.jpg
-
-### Hiring: Photo, square (template)
-
 id `hiring-photo-square` · 1080×1080 · hiring · template
 
-The square hiring post: "We’re hiring" over the role on a red brush stroke, the details and careers link, the photo pinned right, and a handwritten note with an arrow. Per image, set --seam and data-arrow-to on #canvas.
+The square hiring post: “We’re hiring” and the role on a red brush stroke, on a cream wash beside the photo, and a handwritten note with an arrow. Fill in the role and the note, and pick one of the hiring photos (../_hiring/) or upload one; ../_hiring/hiring.js fits the wash, the photo and the arrow to it.
 
 Params:
-- `photo`: Photo. A direct https:// link to an image; default: the design's own.
+- `photo`: Photo. A direct https:// link to an image, or one of the design's photos by name: `Home office`, `Standing call`, `Window seat (SF)`, `Standing desk`, `Coffee at the desk`, `At an event`, `Leaning back`, `Home lab`, `Café`, `On the sofa`, `Balcony abroad`, `Kitchen at sunrise`, `Hammock`; default: the design's own. Pick one of the hiring photos, or upload your own: subject on the right, an empty bright left side.
 - `headline`: Headline. Text; default "We’re hiring".
-- `role`: Role (on the swipe). Text; default "Writer in Residence". Short; it shrinks to fit two lines
-- `details`: Details line. Text; default "Remote · Part or full time". Level · place · hours
-- `cta`: Call to action. Text; default "joinmassive.com/careers".
-- `aside`: Handwritten note. Text; default "Pajamas: approved.". A few words
-- `showAside`: Handwritten note. True or false; default true. The handwritten note and its arrow
+- `role`: Role. Text; default "Writer in Residence". On the red stroke; up to two lines, it shrinks to fit.
+- `aside`: Handwritten note. Text; default "Pajamas: approved.". A short joke about the photo, like “Socks: mismatched.”; the arrow points into the photo.
+- `showAside`: Show the note. True or false; default true.
 
 Image link (defaults): https://massive-designer.vercel.app/api/render/hiring-photo-square.jpg
 Edit link: https://massive-designer.vercel.app/images?template=hiring-photo-square
 Thumbnail: https://massive-designer.vercel.app/image-projects/hiring-photo-square/thumb.jpg
+
+### Prague Crawl 2027: speaker card
+
+id `prague-crawl-2027-speaker` · 1080×1080 · events · template
+
+Announce a confirmed speaker: their photo in a gradient ring on the left, and Speaker, their name, company logo and role on the right, in the Prague Crawl look (_prague-crawl/). Fill in one per speaker. The default is Jason Grad as an example.
+
+Params:
+- `eyebrow`: Eyebrow. Text; default "Speaker". One or two words, in capitals: Speaker, Keynote, Panelist, Demo.
+- `photo`: Photo. A direct https:// link to an image; default: the design's own. A square portrait with the face centred, at least 900 px wide; it's cropped to a circle.
+- `name`: Name. Text; default "Jason Grad". Full name, in capitals. Wraps to two lines and shrinks to fit.
+- `logo`: Company logo. A direct https:// link to an image; default: the design's own. The company's logo for dark backgrounds (white or colour on black), PNG or SVG, wider than tall.
+- `role`: Role. Text; default "Co-Founder & CEO". Job title only; the logo shows the company. Up to about 40 characters.
+- `date`: Date. Text; default "May 13, 2027".
+- `venue`: Venue. Text; default "Spojka Events, Prague".
+
+Image link (defaults): https://massive-designer.vercel.app/api/render/prague-crawl-2027-speaker.jpg
+Edit link: https://massive-designer.vercel.app/images?template=prague-crawl-2027-speaker
+Thumbnail: https://massive-designer.vercel.app/image-projects/prague-crawl-2027-speaker/thumb.jpg
+
+### Prague Crawl 2027: sponsor welcome
+
+id `prague-crawl-2027-sponsor` · 1080×1080 · events · template
+
+Welcome a sponsor as they sign: Sponsored by, their logo straight on the black, and their tier, in the Prague Crawl look (_prague-crawl/). It's the LinkedIn co-post (Platinum, Gold) or mention (Silver, Bronze) from the deck's benefits table (scripts/deck/prague-crawl-2027.html). The default, Apify as a Gold sponsor, is only an example.
+
+Params:
+- `eyebrow`: Eyebrow. Text; default "Sponsored by". Two or three words, in capitals.
+- `logo`: Sponsor logo. A direct https:// link to an image; default: the design's own. The sponsor's logo for dark backgrounds (white or colour on a transparent background), PNG or SVG.
+- `tier`: Tier. One of `platinum` (Platinum sponsor), `gold` (Gold sponsor), `silver` (Silver sponsor), `bronze` (Bronze sponsor), `afterparty` (Afterparty Partner), `coffee` (Coffee & Lunch Partner), `none` (No tier line); default `gold`. The line under the logo.
+- `date`: Date. Text; default "May 13, 2027".
+- `venue`: Venue. Text; default "Spojka Events, Prague".
+
+Image link (defaults): https://massive-designer.vercel.app/api/render/prague-crawl-2027-sponsor.jpg
+Edit link: https://massive-designer.vercel.app/images?template=prague-crawl-2027-sponsor
+Thumbnail: https://massive-designer.vercel.app/image-projects/prague-crawl-2027-sponsor/thumb.jpg
 
 ### Welcome to Massive: Template (Franklin)
 
@@ -112,31 +117,31 @@ Thumbnail: https://massive-designer.vercel.app/image-projects/welcome-template/t
 
 Finished designs, which can also be re-rendered with changes. Each link lists the image's params.
 
-- Hiring: Account Executive (`hiring-account-executive`, 1080×1350): https://massive-designer.vercel.app/api/images?id=hiring-account-executive
-- Hiring: Account Executive (San Francisco) (`hiring-account-executive-sf`, 1080×1350): https://massive-designer.vercel.app/api/images?id=hiring-account-executive-sf
-- Hiring: Account Executive (San Francisco), square (`hiring-account-executive-sf-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-account-executive-sf-square
-- Hiring: Account Executive, square (`hiring-account-executive-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-account-executive-square
-- Hiring: All open roles (`hiring-open-roles`, 1080×1350): https://massive-designer.vercel.app/api/images?id=hiring-open-roles
-- Hiring: All open roles, square (`hiring-open-roles-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-open-roles-square
-- Hiring: Benefits (`hiring-benefits`, 1080×1350): https://massive-designer.vercel.app/api/images?id=hiring-benefits
-- Hiring: Benefits, square (`hiring-benefits-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-benefits-square
-- Hiring: GTM Representative (Field & Events) (`hiring-gtm-field`, 1080×1350): https://massive-designer.vercel.app/api/images?id=hiring-gtm-field
-- Hiring: GTM Representative (Field & Events), square (`hiring-gtm-field-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-gtm-field-square
-- Hiring: Security Researcher (Junior) (`hiring-security-researcher`, 1080×1350): https://massive-designer.vercel.app/api/images?id=hiring-security-researcher
-- Hiring: Security Researcher (Junior), square (`hiring-security-researcher-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-security-researcher-square
-- Hiring: Senior Backend Engineer (Proxy & Infra) (`hiring-backend-engineer`, 1080×1350): https://massive-designer.vercel.app/api/images?id=hiring-backend-engineer
-- Hiring: Senior Backend Engineer (Proxy & Infra), square (`hiring-backend-engineer-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-backend-engineer-square
-- Hiring: Senior Data Engineer (Pipelines & Architecture) (`hiring-data-engineer`, 1080×1350): https://massive-designer.vercel.app/api/images?id=hiring-data-engineer
-- Hiring: Senior Data Engineer (Pipelines & Architecture), square (`hiring-data-engineer-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-data-engineer-square
-- Hiring: Social Media Coordinator (`hiring-social-media`, 1080×1350): https://massive-designer.vercel.app/api/images?id=hiring-social-media
-- Hiring: Social Media Coordinator, square (`hiring-social-media-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-social-media-square
-- Hiring: Support Engineer (Web Scraping & Proxies) (`hiring-support-engineer`, 1080×1350): https://massive-designer.vercel.app/api/images?id=hiring-support-engineer
-- Hiring: Support Engineer (Web Scraping & Proxies), square (`hiring-support-engineer-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-support-engineer-square
+- Blog: Hotel Prices Without a Browser (`blog-radisson-hotel-prices`, 1376×768): https://massive-designer.vercel.app/api/images?id=blog-radisson-hotel-prices
+- Company card: A front door to the web (`company-card`, 1920×1080): https://massive-designer.vercel.app/api/images?id=company-card
+- Company card: Centered (`company-card-centered`, 1920×1080): https://massive-designer.vercel.app/api/images?id=company-card-centered
+- Hiring: Account Executive (`hiring-account-executive-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-account-executive-square
+- Hiring: Account Executive (San Francisco) (`hiring-account-executive-sf-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-account-executive-sf-square
+- Hiring: All open roles (`hiring-open-roles-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-open-roles-square
+- Hiring: Benefits (`hiring-benefits-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-benefits-square
+- Hiring: GTM Representative (Field & Events) (`hiring-gtm-field-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-gtm-field-square
+- Hiring: Security Researcher (Junior) (`hiring-security-researcher-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-security-researcher-square
+- Hiring: Senior Backend Engineer (Proxy & Infra) (`hiring-backend-engineer-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-backend-engineer-square
+- Hiring: Senior Data Engineer (Pipelines & Architecture) (`hiring-data-engineer-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-data-engineer-square
+- Hiring: Social Media Coordinator (`hiring-social-media-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-social-media-square
+- Hiring: Support Engineer (Web Scraping & Proxies) (`hiring-support-engineer-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-support-engineer-square
+- Hiring: Writers (`writers-hiring-abroad-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=writers-hiring-abroad-square
 - Jason 15K: Every dot a follower (`jason-15k-network`, 1080×1350): https://massive-designer.vercel.app/api/images?id=jason-15k-network
 - Jason 15K: Grid (`jason-15k-grid`, 1080×1350): https://massive-designer.vercel.app/api/images?id=jason-15k-grid
 - Jason 15K: LinkedIn profile (`jason-15k-linkedin`, 1080×1350): https://massive-designer.vercel.app/api/images?id=jason-15k-linkedin
 - Jason 15K: Milestone card (`jason-15k-milestone`, 1080×1350): https://massive-designer.vercel.app/api/images?id=jason-15k-milestone
 - Jason 15K: Very nice (`jason-15k-very-nice`, 1080×1350): https://massive-designer.vercel.app/api/images?id=jason-15k-very-nice
+- Prague Crawl 2026 in numbers (`prague-crawl-2027-last-year`, 1080×1350): https://massive-designer.vercel.app/api/images?id=prague-crawl-2027-last-year
+- Prague Crawl 2027: agenda (`prague-crawl-2027-agenda`, 1080×1350): https://massive-designer.vercel.app/api/images?id=prague-crawl-2027-agenda
+- Prague Crawl 2027: call for speakers (`prague-crawl-2027-call-for-speakers`, 1080×1350): https://massive-designer.vercel.app/api/images?id=prague-crawl-2027-call-for-speakers
+- Prague Crawl 2027: call for sponsors (`prague-crawl-2027-sponsors`, 1080×1350): https://massive-designer.vercel.app/api/images?id=prague-crawl-2027-sponsors
+- Prague Crawl 2027: save the date (`prague-crawl-2027-save-the-date`, 1080×1080): https://massive-designer.vercel.app/api/images?id=prague-crawl-2027-save-the-date
+- Prague Crawl 2027: tickets on sale (`prague-crawl-2027-tickets`, 1080×1350): https://massive-designer.vercel.app/api/images?id=prague-crawl-2027-tickets
 - Welcome to Massive: Anton Komandyr (`welcome-anton`, 1080×1350): https://massive-designer.vercel.app/api/images?id=welcome-anton
 - Welcome to Massive: Artem Shcherbatiuk (`welcome-artem`, 1080×1350): https://massive-designer.vercel.app/api/images?id=welcome-artem
 - Welcome to Massive: Marco Spagnuolo (`welcome-marco`, 1080×1350): https://massive-designer.vercel.app/api/images?id=welcome-marco
@@ -145,9 +150,3 @@ Finished designs, which can also be re-rendered with changes. Each link lists th
 - Welcome to Massive: Oreoluwa Emmanuel (`welcome-oreoluwa`, 1080×1350): https://massive-designer.vercel.app/api/images?id=welcome-oreoluwa
 - Welcome to Massive: Ryan Turner (`welcome-ryan`, 1080×1350): https://massive-designer.vercel.app/api/images?id=welcome-ryan
 - Welcome to Massive: Yunna Maksymova (`welcome-yunna`, 1080×1350): https://massive-designer.vercel.app/api/images?id=welcome-yunna
-- Writers Hiring: Abroad (`writers-hiring-abroad`, 1080×1350): https://massive-designer.vercel.app/api/images?id=writers-hiring-abroad
-- Writers Hiring: Abroad (square) (`writers-hiring-abroad-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=writers-hiring-abroad-square
-- Writers Hiring: Home office (`writers-hiring-home`, 1080×1350): https://massive-designer.vercel.app/api/images?id=writers-hiring-home
-- Writers Hiring: Home office (square) (`writers-hiring-home-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=writers-hiring-home-square
-- Writers Hiring: Sunrise (`writers-hiring-sunrise`, 1080×1350): https://massive-designer.vercel.app/api/images?id=writers-hiring-sunrise
-- Writers Hiring: Sunrise (square) (`writers-hiring-sunrise-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=writers-hiring-sunrise-square

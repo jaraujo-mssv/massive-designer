@@ -31,9 +31,11 @@ of references and templates, so write each one to be reused: clean markup, the h
   - `flags.js`: `massiveFlag("Ukraine")` → `../_brand/flags/ua.svg` (English name, short form like USA/UK, or ISO code;
     null if unknown). The `welcome-*` cards derive their country pill's flag from a `country` text field with it.
   - `icons.js`: Lucide line icons by name; `<svg data-icon="code">` then `massiveIcons(document)`. Offer them as a select
-    field (`hiring-photo` has the option list).
+    field of icon names.
   - `arrow.js`: `massiveArrow(svg, noteEl, [x, y])` draws the hand-drawn arrow from wherever a handwritten note ends to a
     canvas point; the svg covers the canvas with the canvas-size viewBox.
+- `public/image-projects/_hiring/` and `_prague-crawl/`: the photos, styles and helpers one family of images shares
+  (the hiring posts; the Prague Crawl event's own look). Link them as `../_hiring/…`, like `_brand/`.
 - `public/image-projects/categories.json`: the themes the Library groups by, in order (see Organising).
 - `public/image-projects/planned.json`: Planned entries, images to make next (see Organising).
 - `public/image-projects/index.json`: the tab's catalogue. **Regenerate with `npm run image:index` after any change.**
@@ -90,7 +92,7 @@ The Library groups, filters and sorts on these, so set them on every image:
 
 - `category`: the theme, one id from `categories.json`: `hiring`, `team`, `milestones`, `product`, `events`, `content`,
   `partners`, `seasonal`. Add a category there (with a label and a one-line description) rather than inventing one in a meta.
-- `template`: the template project the image is built on (`hiring-photo`, `welcome-template`), or null for a one-off.
+- `template`: the template project the image is built on (`hiring-photo-square`, `welcome-template`), or null for a one-off.
   `image:new --from` fills it in. Templates themselves (`group: "templates"`) leave it out.
 - `series`: one campaign or set inside a category ("Open roles", "Welcome to Massive", "Jason 15K").
 - `status`: `draft` while it's being made, `ready` once approved, `posted` once it's out. (`planned` is for Planned
@@ -104,11 +106,14 @@ The Library groups, filters and sorts on these, so set them on every image:
 `video:<id>` for a still of a video, or `new` for a layout still to design. They show in the Library as dashed
 placeholders with their brief and the `--plan` command that starts them.
 
-**The hiring templates** (`hiring-photo`, `hiring-photo-square`) take three per-image settings on `#canvas`, besides the
-fields: `--seam` (where the photo's empty left side ends, as a % of the canvas), `--shift` (px to slide the photo right
-when its subject sits too far left for the text) and `data-arrow-to="x y"` (the canvas point the note's arrow lands
-on). Generate their photos with the same recipe as their `assets/photo-prompt.txt`: subject in the right 60%, an
-empty bright left 40%, one Massive-red accent, no text.
+**The hiring posts** are square: "We’re hiring", the role on the red brush stroke and a handwritten note, built on
+`hiring-photo-square` (`hiring-benefits-square` keeps its own perks layout). They share their photos: `_hiring/<name>.webp`,
+offered as the photo field's ready-made options, and `_hiring/hiring.js`, which holds each photo's settings (`seam`:
+where its empty left side ends, as a % of the canvas; `shift`: px to slide it right when its subject sits too far left;
+`arrow`: the canvas point the note's arrow lands on) and applies them to whichever photo is picked. A new hiring photo
+goes in `_hiring/` with its prompt as `<name>.txt`, an entry in `HIRING_PHOTOS` and an option in each hiring meta.json.
+Generate it with the same recipe as the prompts there: subject in the right 60%, an empty bright left 40%, one
+Massive-red accent, no text.
 
 ## Fields
 
@@ -117,6 +122,8 @@ Still write the same text into the markup, so the page reads correctly in an edi
 
 - `data-field="name"` sets the element's text. Several elements can share one field (`15K` in a headline and a chip).
 - `data-field-src="photo"` sets an `<img>` src. Image defaults are paths relative to the page; uploads arrive as data URLs.
+  An image field can also list ready-made photos as `options` (`[{ "value": "../_hiring/cafe.webp", "label": "Café" }]`):
+  the tab shows them as thumbnails above Upload, and links accept one by its label (`photo=Café`).
 - `data-field-show="confetti"` hides the element when the toggle is off.
 - **Select** fields (`"type": "select"`, `"options": [{ "value": "map", "label": "World map" }, …]`) pass the chosen
   `value` to the page; switch layouts with it in `onFields` (e.g. set `#canvas[data-shape]` and key CSS off it).

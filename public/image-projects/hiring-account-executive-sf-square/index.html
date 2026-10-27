@@ -3,12 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1080, height=1080" />
-    <title>Hiring: Account Executive (San Francisco), square</title>
+    <title>Hiring: Account Executive (San Francisco)</title>
     <link rel="stylesheet" href="../_brand/massive.css" />
-    <!-- The square hiring post (from writers-hiring-home-square): the headline and the role on a cream wash beside the
-         photo, and a handwritten note with an arrow. Per image, set on #canvas: --seam (where the photo's empty left
-         side ends), --shift (slides the photo right when its subject sits too far left) and data-arrow-to (the canvas
-         point the arrow lands on). -->
+    <!-- The square hiring post: "We’re hiring" and the role on a red brush stroke,
+         on a cream wash beside the photo, and a handwritten note with an arrow. The photo is one of the shared hiring
+         photos (../_hiring/) or an upload; ../_hiring/hiring.js fits the wash, the photo and the arrow to it. -->
     <style>
       @font-face {
         font-family: "Caveat";
@@ -20,6 +19,7 @@
         height: 1080px;
         background: var(--m-cream);
         color: var(--m-bg);
+        --seam: 55%;
       }
       /* Narrower than the canvas and pinned right, so the whole subject fits beside the headline. */
       .photo {
@@ -31,6 +31,7 @@
         object-fit: cover;
         object-position: 50% 50%;
       }
+      /* Cream from the left and the top, so the headline sits on a clean ground and the subject stays clear. */
       .wash {
         position: absolute;
         left: 0;
@@ -66,7 +67,7 @@
         position: relative;
         z-index: 1;
         width: 560px;
-        font-size: 156px;
+        font-size: 164px;
         font-weight: 900;
         line-height: 0.9;
         letter-spacing: -0.05em;
@@ -74,18 +75,18 @@
       /* The role in cream on the red brush stroke, one stroke per line; onFields fits it to two lines. */
       .swipe-wrap {
         position: relative;
-        margin: 8px 0 0 -12px;
+        margin: -6px 0 0 -12px;
         max-width: 620px;
         transform: rotate(-2deg);
         transform-origin: left top;
       }
       .swipe {
-        font-size: 124px;
+        font-size: 144px;
         font-weight: 900;
         line-height: 1.1;
-        letter-spacing: -0.045em;
+        letter-spacing: -0.05em;
         color: var(--m-cream);
-        padding: 0 26px 6px 18px;
+        padding: 0 30px 8px 20px;
         background: url("../_brand/brush.svg") center / 100% 100% no-repeat;
         -webkit-box-decoration-break: clone;
         box-decoration-break: clone;
@@ -97,24 +98,7 @@
         width: 60px;
         height: 60px;
       }
-      .details {
-        margin-top: 26px;
-        font-family: var(--m-mono);
-        font-size: 21px;
-        font-weight: 700;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        color: var(--m-red);
-      }
-      .cta {
-        margin-top: 8px;
-        font-family: var(--m-mono);
-        font-size: 19px;
-        font-weight: 600;
-        letter-spacing: 0.06em;
-        color: rgba(10, 10, 15, 0.55);
-      }
-      /* The handwritten note, low on the left; arrow.js draws the arrow from its end to data-arrow-to. */
+      /* The handwritten note, low on the left; arrow.js draws the arrow from its end to the photo's arrow point. */
       .aside {
         position: absolute;
         inset: 0;
@@ -123,7 +107,7 @@
       .aside .note {
         position: absolute;
         left: 84px;
-        top: 900px;
+        top: 890px;
         font-family: "Caveat", cursive;
         font-size: 56px;
         font-weight: 700;
@@ -146,8 +130,8 @@
     </style>
   </head>
   <body>
-    <div id="canvas" style="--seam: 55.7%; --shift: 4px" data-arrow-to="952 376">
-      <img class="photo" data-field-src="photo" src="assets/photo.webp" alt="" />
+    <div id="canvas">
+      <img class="photo" data-field-src="photo" src="../_hiring/window-seat-sf.webp" alt="" />
       <div class="wash"></div>
 
       <div class="copy">
@@ -158,8 +142,6 @@
           </svg>
           <span class="swipe" data-field="role">Account Executive</span>
         </div>
-        <div class="details" data-field="details">San Francisco · ~<20k OTE + equity</div>
-        <div class="cta" data-field="cta">joinmassive.com/careers</div>
       </div>
 
       <div class="aside" data-field-show="showAside">
@@ -169,20 +151,22 @@
     </div>
 
     <script src="../_lib/arrow.js"></script>
+    <script src="../_hiring/hiring.js"></script>
     <script>
       const $ = (s) => document.querySelector(s);
 
       window.onFields = () => {
+        const arrowTo = hiringPhoto($("#canvas"));
+
         // The role takes at most two lines on the swipe, each clear of the photo: shrink until it does, down to 72px.
         const swipe = $(".swipe");
-        for (let size = 124; size >= 72; size -= 4) {
+        for (let size = 144; size >= 72; size -= 4) {
           swipe.style.fontSize = `${size}px`;
           const lines = [...swipe.getClientRects()];
           if (lines.length <= 2 && Math.max(...lines.map((r) => r.width)) <= 540) break;
         }
 
-        const [x, y] = $("#canvas").dataset.arrowTo.split(/\s+/).map(Number);
-        massiveArrow($(".aside svg"), $(".aside .note"), [x, y]);
+        massiveArrow($(".aside svg"), $(".aside .note"), arrowTo);
       };
     </script>
     <script src="../_lib/image-kit.js"></script>

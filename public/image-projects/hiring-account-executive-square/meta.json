@@ -1,12 +1,12 @@
 {
   "id": "hiring-account-executive-square",
-  "title": "Hiring: Account Executive, square",
+  "title": "Hiring: Account Executive",
   "description": "Account Executive (Remote, European time zone): Own the full sales cycle, from first outbound to signed contract. joinmassive.com/careers/account-executive-ae",
   "group": "massive",
   "category": "hiring",
   "template": "hiring-photo-square",
   "series": "Open roles",
-  "status": "draft",
+  "status": "ready",
   "tags": [
     "hiring",
     "careers",
@@ -21,7 +21,62 @@
       "id": "photo",
       "label": "Photo",
       "type": "image",
-      "default": "assets/photo.webp"
+      "default": "../_hiring/standing-call.webp",
+      "options": [
+        {
+          "value": "../_hiring/home-office.webp",
+          "label": "Home office"
+        },
+        {
+          "value": "../_hiring/standing-call.webp",
+          "label": "Standing call"
+        },
+        {
+          "value": "../_hiring/window-seat-sf.webp",
+          "label": "Window seat (SF)"
+        },
+        {
+          "value": "../_hiring/standing-desk.webp",
+          "label": "Standing desk"
+        },
+        {
+          "value": "../_hiring/coffee-desk.webp",
+          "label": "Coffee at the desk"
+        },
+        {
+          "value": "../_hiring/event-handshake.webp",
+          "label": "At an event"
+        },
+        {
+          "value": "../_hiring/leaning-back.webp",
+          "label": "Leaning back"
+        },
+        {
+          "value": "../_hiring/home-lab.webp",
+          "label": "Home lab"
+        },
+        {
+          "value": "../_hiring/cafe.webp",
+          "label": "Café"
+        },
+        {
+          "value": "../_hiring/sofa.webp",
+          "label": "On the sofa"
+        },
+        {
+          "value": "../_hiring/balcony-abroad.webp",
+          "label": "Balcony abroad"
+        },
+        {
+          "value": "../_hiring/kitchen-sunrise.webp",
+          "label": "Kitchen at sunrise"
+        },
+        {
+          "value": "../_hiring/hammock.webp",
+          "label": "Hammock"
+        }
+      ],
+      "hint": "Pick one of the hiring photos, or upload your own: subject on the right, an empty bright left side."
     },
     {
       "id": "headline",
@@ -31,31 +86,21 @@
     },
     {
       "id": "role",
-      "label": "Role (on the swipe)",
+      "label": "Role",
       "type": "text",
-      "default": "Account Executive"
-    },
-    {
-      "id": "details",
-      "label": "Details line",
-      "type": "text",
-      "default": "Remote · European time zone"
-    },
-    {
-      "id": "cta",
-      "label": "Call to action",
-      "type": "text",
-      "default": "joinmassive.com/careers"
+      "default": "Account Executive",
+      "hint": "On the red stroke; up to two lines, it shrinks to fit."
     },
     {
       "id": "aside",
       "label": "Handwritten note",
       "type": "text",
-      "default": "Commute: 0 min."
+      "default": "Commute: 0 min.",
+      "hint": "A short joke about the photo, like “Socks: mismatched.”; the arrow points into the photo."
     },
     {
       "id": "showAside",
-      "label": "Handwritten note",
+      "label": "Show the note",
       "type": "toggle",
       "default": true
     }

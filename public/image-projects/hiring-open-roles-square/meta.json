@@ -1,12 +1,12 @@
 {
   "id": "hiring-open-roles-square",
-  "title": "Hiring: All open roles, square",
-  "description": "The roundup as a square: \"We’re hiring\" over \"9 open roles\", the count per team, the careers link and a handwritten note.",
+  "title": "Hiring: All open roles",
+  "description": "The roundup: “We’re hiring” and “9 open roles” on a red brush stroke, on a cream wash beside the photo, and a handwritten note with an arrow. Roles at joinmassive.com/careers.",
   "group": "massive",
   "category": "hiring",
   "template": "hiring-photo-square",
   "series": "Open roles",
-  "status": "draft",
+  "status": "ready",
   "tags": [
     "hiring",
     "careers",
@@ -20,7 +20,62 @@
       "id": "photo",
       "label": "Photo",
       "type": "image",
-      "default": "assets/photo.webp"
+      "default": "../_hiring/leaning-back.webp",
+      "options": [
+        {
+          "value": "../_hiring/home-office.webp",
+          "label": "Home office"
+        },
+        {
+          "value": "../_hiring/standing-call.webp",
+          "label": "Standing call"
+        },
+        {
+          "value": "../_hiring/window-seat-sf.webp",
+          "label": "Window seat (SF)"
+        },
+        {
+          "value": "../_hiring/standing-desk.webp",
+          "label": "Standing desk"
+        },
+        {
+          "value": "../_hiring/coffee-desk.webp",
+          "label": "Coffee at the desk"
+        },
+        {
+          "value": "../_hiring/event-handshake.webp",
+          "label": "At an event"
+        },
+        {
+          "value": "../_hiring/leaning-back.webp",
+          "label": "Leaning back"
+        },
+        {
+          "value": "../_hiring/home-lab.webp",
+          "label": "Home lab"
+        },
+        {
+          "value": "../_hiring/cafe.webp",
+          "label": "Café"
+        },
+        {
+          "value": "../_hiring/sofa.webp",
+          "label": "On the sofa"
+        },
+        {
+          "value": "../_hiring/balcony-abroad.webp",
+          "label": "Balcony abroad"
+        },
+        {
+          "value": "../_hiring/kitchen-sunrise.webp",
+          "label": "Kitchen at sunrise"
+        },
+        {
+          "value": "../_hiring/hammock.webp",
+          "label": "Hammock"
+        }
+      ],
+      "hint": "Pick one of the hiring photos, or upload your own: subject on the right, an empty bright left side."
     },
     {
       "id": "headline",
@@ -30,31 +85,21 @@
     },
     {
       "id": "role",
-      "label": "Role (on the swipe)",
+      "label": "Role",
       "type": "text",
-      "default": "9 open roles"
-    },
-    {
-      "id": "details",
-      "label": "Details line",
-      "type": "text",
-      "default": "Engineering 4 · Marketing 2 · Sales 3"
-    },
-    {
-      "id": "cta",
-      "label": "Call to action",
-      "type": "text",
-      "default": "joinmassive.com/careers"
+      "default": "9 open roles",
+      "hint": "On the red stroke; up to two lines, it shrinks to fit."
     },
     {
       "id": "aside",
       "label": "Handwritten note",
       "type": "text",
-      "default": "Your desk?"
+      "default": "Your desk?",
+      "hint": "A short joke about the photo, like “Socks: mismatched.”; the arrow points into the photo."
     },
     {
       "id": "showAside",
-      "label": "Handwritten note",
+      "label": "Show the note",
       "type": "toggle",
       "default": true
     }

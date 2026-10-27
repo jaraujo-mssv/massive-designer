@@ -60,7 +60,9 @@ npm run preview      # serves dist/, with the image proxy
   permission). It costs plan credits, so `merch` doesn't run it.
 - Deploy is Vercel. `vercel.json` rewrites everything except `/api/` and `/video-projects/` to `index.html`, and
   configures the functions:
-  - `api/image-proxy.ts`: the image proxy. Public hosts and images only, through `api/_lib/safe-fetch.ts`.
+  - `api/image-proxy.ts`: the image proxy. Public hosts and images only, up to 15 MB, through
+    `api/_lib/safe-fetch.ts`; anything over 4 MB comes back shrunk to 2400 px WebP (`api/_lib/shrink.ts`, sharp),
+    since a function can't answer with more than 4.5 MB.
   - `api/render/[id].ts` and `api/images.ts`: images by link (see Images).
   - `api/render/[id].ts` runs `playwright-core` on `@sparticuz/chromium`. Both are pinned to exact versions that
     match `playwright` (1.60 ↔ Chromium 148), so upgrade the three together.
@@ -178,20 +180,34 @@ description, value, rank). `utils/splitName.ts` splits "Name · description". Do
     - Photo URLs are fetched and inlined server-side.
     - A non-canonical link 308s to its canonical form.
     - Bad values get a plain-text answer.
-  - **Edit link:** `/images?i=<id>&<field>=<value>&…` opens the same values in the tab, as edits; they then leave the
-    URL.
+  - **Edit link:** `/images?template=<id>&<field>=<value>&…`, the address bar itself.
+    - It always matches the screen.
+    - A link opens the template's defaults with its values, so a missing value is the default.
+    - Uploaded photos stay out of it.
+    - Older `?i=` links still open.
   - **Search:** `GET /api/images?q=…` (or `?id=`). Text by default, `&format=json` for JSON.
   - **`llms.txt`:** the guide an AI reads: how to build the links, every template's params, one line per other image.
   - **`src/tools/images/params.ts`:** the rules for all of these: value parsing, canonical links, reserved names, the
     guide's wording. It has no imports, so the tab, `api/` and `build-index.mjs` (via Node's type stripping) all
     share it.
-  - **Reserved names:** a field id can't be one (`i g s v c st f t id scale download`); `image:index` warns.
+  - **Reserved names:** a field id can't be one (`template i g s v c st f t id scale download`); `image:index`
+    warns.
   - **Dev:** `npm run dev` serves both endpoints through `renderApiPlugin()`; `vite preview` doesn't.
 - **UI:**
-  - `Library.tsx`: search, group, filter and sort. State lives in the URL; `?i=` is the selected image.
-  - `App.tsx`: applies an edit link's values; **Copy image link** and **Use with AI** (a prompt that points an AI
-    chat at `llms.txt`) sit beside Download.
-  - `FieldsPanel.tsx`: edits are kept in localStorage `images:fields:<id>`.
+  - `Library.tsx`: search, group, filter and sort. State lives in the URL; `?template=` is the selected image.
+  - `App.tsx`:
+    - picks the image (and says so when `template` names none);
+    - takes a pasted or dropped photo for the template's photo field;
+    - **Copy image link** (the JPG link, leaving uploads out) and **Use with AI** (a prompt listing every template's
+      fields, from `aiPrompt()`) sit beside Download.
+  - `hooks/useFieldValues.ts`:
+    - the values, kept in step with the address bar;
+    - edits in localStorage `images:fields:<id>`, upload names in `images:names:<id>`;
+    - what a link gets wrong, by field.
+  - `FieldsPanel.tsx`: the fields, each with its hint and any error under it.
+    - The Photo field takes an upload, a drop or a link (checked through the proxy first).
+    - Its file input is real and labelled "Photo", so browser tools can upload into it.
+  - `photo.ts`: reading uploads, checking photo links, files in a paste or drop.
   - `PreviewPane.tsx`: an iframe, plus the in-browser JPG export. Photo URLs go to the page through
     `/api/image-proxy`, so the export can read them.
   - `PlannedCard.tsx`: planned images.

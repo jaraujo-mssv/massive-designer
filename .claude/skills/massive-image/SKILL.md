@@ -128,7 +128,8 @@ Make a field of anything someone would plausibly change: names, roles, numbers, 
 decoration. Leave structure and brand marks fixed. Use CSS `text-transform` for case, not the field's value.
 
 **Every image can be made from a link**, by people and by AI chats:
-- `/api/render/<id>.jpg?<field>=<value>` returns the JPG, and `/images?i=<id>&<field>=<value>` opens it filled in.
+- `/images?template=<id>&<field>=<value>` opens it filled in (the tab's address bar always has this form), and
+  `/api/render/<id>.jpg?<field>=<value>` returns the JPG.
 - `public/llms.txt` teaches AI chats to build these links, from each field's `label`, `type`, `default`, `options`
   and `hint`. So for a template:
   - Give each field a short `"hint"` saying how to fill it: length, what it controls, when to pick an option. For
@@ -136,7 +137,10 @@ decoration. Leave structure and brand marks fixed. Use CSS `text-transform` for 
     the tab too.
   - Make sure a long value still fits (fit the text in `onFields`), since an AI won't see the result before the
     person does.
-- **Field ids can't be reserved URL names:** `i g s v c st f t id scale download`. `image:index` warns if one is.
+- **Field ids can't be reserved URL names:** `template i g s v c st f t id scale download`. `image:index` warns if
+  one is.
+- **The "Use with AI" prompt lists each template's fields** as `id (type, hint)`, so keep hints to a short phrase
+  ("About 60 characters", "Strong for bright photos").
 
 ## House style
 

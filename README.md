@@ -73,21 +73,23 @@ Post or send these files yourself. The `output/` folder stays on your computer.
 The image templates (blog banner, hiring post, welcome card…) also work from ChatGPT, Claude, Gemini or any chat
 that can read a web page. You don't need this repo.
 
-1. In the Images tab, click **Use with AI**. It copies this prompt:
-   `Read https://massive-designer.vercel.app/llms.txt and use it to make me a Massive image. Here's what I need:`
+1. In the Images tab, click **Use with AI**. It copies a prompt that explains how to build a link and lists
+   every template with its fields.
 2. Paste it into the chat and say what you want, e.g. *"a blog banner called 'Hotel Prices Without a Browser' with
    this photo: https://…/hotel.jpg"*.
-3. The chat gives you two links:
-   - **Image:** opens the finished JPG.
-   - **Edit:** opens the design in the Images tab, filled in, to tweak it or drop in a photo you only have as a
-     file.
+3. The chat gives you a link. It opens the design in the Images tab, filled in. Check the preview, then click
+   **Download JPG**.
 
-Photos must be a direct link to the image file. Share pages from Google Drive, Dropbox or Unsplash don't work; use
-the edit link and upload the photo instead.
+A photo can be a link to the image file (not a Google Drive, Dropbox or Unsplash page), or one you add yourself:
+upload it, drop it on the Photo field or the preview, or paste it anywhere on the page.
 
-For a Claude Project or a custom GPT, paste the contents of
-[llms.txt](https://massive-designer.vercel.app/llms.txt) into its knowledge or instructions; a link alone there
-isn't fetched. In the Images tab, **Copy image link** gives the link for the image as you've edited it.
+The address bar always holds the image as you see it, so you can copy it to share. A link opens the template with
+those values, and anything it leaves out is the template's default. An uploaded photo can't travel in a link.
+**Copy image link** gives the link to the finished JPG.
+
+For a Claude Project or a custom GPT, paste the prompt into its instructions once, so you only have to say what
+you need. [llms.txt](https://massive-designer.vercel.app/llms.txt) has the same guide for chats that read web
+pages.
 
 ## Share a design with the team
 

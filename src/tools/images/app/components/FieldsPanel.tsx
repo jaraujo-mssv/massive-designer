@@ -35,7 +35,7 @@ const resolveSrc = (project: ImageProject, src: string) =>
       ? src
       : new URL(src, new URL(project.path ?? "/", window.location.origin)).href;
 
-/** Where the photo came from: the file's name, the link's site, or the template. */
+/** Where the photo came from: the file's name, the link's site, the ready-made photo's name, or the template. */
 function sourceOf(field: ImageField, value: string, name: string | undefined) {
   if (value.startsWith("data:")) return name ?? "Uploaded photo";
   if (isLink(value)) {
@@ -45,12 +45,13 @@ function sourceOf(field: ImageField, value: string, name: string | undefined) {
       return value;
     }
   }
-  return value === field.default ? "Template photo" : value.split("/").pop();
+  return field.options?.find((o) => o.value === value)?.label ?? (value === field.default ? "Template photo" : value.split("/").pop());
 }
 
 /**
- * A photo, two ways at once: upload it yourself (the button, a drop on the field, or a paste anywhere on the page,
- * which App handles) or paste a link to it. One photo at a time; the last one in wins.
+ * A photo, three ways: pick one of the field's ready-made photos (thumbnails, when it has some), upload one
+ * yourself (the button, a drop on the field, or a paste anywhere on the page, which App handles) or paste a link
+ * to it. One photo at a time; the last one in wins.
  */
 function ImageInput({
   project,
@@ -120,6 +121,27 @@ function ImageInput({
         if (file) onFile(file);
       }}
     >
+      {!!field.options?.length && (
+        <div className="grid grid-cols-4 gap-1.5">
+          {field.options.map((o) => {
+            const picked = value === o.value;
+            return (
+              <button
+                key={o.value}
+                onClick={() => onChange(o.value)}
+                title={o.label}
+                aria-label={`${field.label}: ${o.label}`}
+                aria-pressed={picked}
+                className={`aspect-square rounded-md overflow-hidden border bg-surface-2 transition-colors ${
+                  picked ? "border-brand ring-1 ring-brand" : "border-border-subtle hover:border-brand/60"
+                }`}
+              >
+                <img src={resolveSrc(project, o.value)} alt="" loading="lazy" className="w-full h-full object-cover" />
+              </button>
+            );
+          })}
+        </div>
+      )}
       <div className="flex items-center gap-3">
         <img src={resolveSrc(project, value)} alt="" className="w-12 h-12 rounded-md object-cover bg-surface-2 border border-border-subtle shrink-0" />
         <button

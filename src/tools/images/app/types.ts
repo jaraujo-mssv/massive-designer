@@ -4,7 +4,7 @@ export interface ImageField {
   label: string;
   type: "text" | "image" | "toggle" | "select";
   default: string | boolean;
-  /** A select's choices; `value` is what the page receives. */
+  /** A select's choices, or an image field's ready-made photos (picked from thumbnails); `value` is what the page receives. */
   options?: { value: string; label: string }[];
   /** How to fill it in, for people and for AI chats (shown under the field and in llms.txt). */
   hint?: string;

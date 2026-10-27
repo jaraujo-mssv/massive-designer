@@ -13,6 +13,7 @@ export interface ParamField {
   label: string;
   type: "text" | "image" | "toggle" | "select";
   default: string | boolean;
+  /** A select's choices, or an image field's ready-made photos (`value` is the path the page loads). */
   options?: { value: string; label: string }[];
   hint?: string;
 }
@@ -59,6 +60,9 @@ export function coerce(field: ParamField, raw: string): { value: string | boolea
       if (/^https?:\/\/[^\s]+$/i.test(text)) return { value: text };
       // The project's own files, as its defaults name them.
       if (/^assets\/[^?#\\]+$/.test(text) && !text.split("/").includes("..")) return { value: text };
+      // One of the field's ready-made photos, by its path or its name.
+      const preset = field.options?.find((o) => o.value === text || o.label.toLowerCase() === text.toLowerCase());
+      if (preset) return { value: preset.value };
       return { error: PHOTO_ERROR };
     }
     default: {
@@ -133,7 +137,7 @@ function promptParam(f: ParamField): string {
       : f.type === "toggle"
         ? "true | false"
         : f.type === "image"
-          ? "URL"
+          ? ["URL", ...(f.options ?? []).map((o) => o.label)].join(" | ")
           : "text";
   const hint = f.hint ? `${f.type === "select" || f.type === "toggle" ? ";" : ","} ${f.hint[0].toLowerCase()}${f.hint.slice(1)}` : "";
   return `${f.id} (${what}${hint})`;
@@ -182,7 +186,9 @@ function describeParam(f: ParamField): string {
       : f.type === "toggle"
         ? `true or false; default ${f.default}`
         : f.type === "image"
-          ? "a direct https:// link to an image; default: the design's own"
+          ? f.options?.length
+            ? `a direct https:// link to an image, or one of the design's photos by name: ${f.options.map((o) => `\`${o.label}\``).join(", ")}; default: the design's own`
+            : "a direct https:// link to an image; default: the design's own"
           : `text; default ${quote(f.default)}`;
   return `- \`${f.id}\`: ${f.label}. ${what[0].toUpperCase()}${what.slice(1)}.${f.hint ? ` ${f.hint}` : ""}`;
 }

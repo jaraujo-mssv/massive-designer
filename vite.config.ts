@@ -4,6 +4,7 @@ import fs from 'fs'
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
 import type { Connect } from 'vite'
+import imageProxy from './api/image-proxy'
 
 /**
  * Per-person versions of video templates (dev server only, so their details never ship).
@@ -209,24 +210,11 @@ function localOnlyPublicDirs() {
   };
 }
 
+/** api/image-proxy.ts itself, in dev and preview (it only needs Node, so it bundles into the config). */
 function imageProxyPlugin() {
-  const handler: Connect.NextHandleFunction = async (req, res, next) => {
+  const handler: Connect.NextHandleFunction = (req, res, next) => {
     if (!req.url?.startsWith('/api/image-proxy')) return next();
-
-    const targetUrl = new URL(req.url, 'http://localhost').searchParams.get('url');
-    if (!targetUrl) { res.statusCode = 400; res.end('Missing url'); return; }
-
-    try {
-      const upstream = await fetch(targetUrl);
-      if (!upstream.ok) throw new Error(`${upstream.status}`);
-      const buffer = Buffer.from(await upstream.arrayBuffer());
-      res.setHeader('Content-Type', upstream.headers.get('content-type') ?? 'image/png');
-      res.setHeader('Access-Control-Allow-Origin', '*');
-      res.setHeader('Cache-Control', 'public, max-age=86400');
-      res.end(buffer);
-    } catch {
-      res.statusCode = 502; res.end('Proxy error');
-    }
+    imageProxy(req, res);
   };
 
   return {

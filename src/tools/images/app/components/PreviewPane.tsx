@@ -1,6 +1,7 @@
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from "react";
 import { domToJpeg } from "modern-screenshot";
 import { useFitScale } from "@/shared/canvas/useFitScale";
+import { proxyUrl } from "@/shared/utils/imageDataUrl";
 import type { FieldValues, ImageProject } from "../types";
 
 export interface PreviewHandle {
@@ -27,10 +28,19 @@ export const PreviewPane = forwardRef<PreviewHandle, PreviewPaneProps>(function 
   const applied = useRef<(() => void)[]>([]);
   const scale = useFitScale(areaRef, project.width, project.height);
 
+  // A photo from a link (an edit link's ?photo=https://…) goes in through the image proxy, so it's same-origin
+  // and the export can read it rather than drawing a blank. The field keeps the original URL.
   const send = useCallback(
-    (v: FieldValues) =>
-      frameRef.current?.contentWindow?.postMessage({ type: "image-kit:fields", values: v }, window.location.origin),
-    [],
+    (v: FieldValues) => {
+      const forPage = Object.fromEntries(
+        Object.entries(v).map(([id, value]) => {
+          const image = project.fields.some((f) => f.id === id && f.type === "image");
+          return [id, image && typeof value === "string" && /^https?:\/\//i.test(value) ? proxyUrl(value) : value];
+        }),
+      );
+      frameRef.current?.contentWindow?.postMessage({ type: "image-kit:fields", values: forPage }, window.location.origin);
+    },
+    [project.fields],
   );
 
   useEffect(() => {

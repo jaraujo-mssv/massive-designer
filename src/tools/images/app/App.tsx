@@ -1,6 +1,6 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router";
-import { DownloadSimple, Images } from "@phosphor-icons/react";
+import { DownloadSimple, Images, LinkSimple, Sparkle } from "@phosphor-icons/react";
 import { Toaster, toast } from "sonner";
 import { SidebarLayout } from "@/shared/components/SidebarLayout";
 import { useIsMobile } from "@/shared/components/ui/use-mobile";
@@ -11,6 +11,7 @@ import { PlannedCard } from "./components/PlannedCard";
 import { PreviewPane, type PreviewHandle } from "./components/PreviewPane";
 import { useFieldValues } from "./hooks/useFieldValues";
 import { useImageIndex } from "./hooks/useImageIndex";
+import { AI_PROMPT, RESERVED_PARAMS, canonicalQuery, readParams, renderPath } from "../params";
 import type { ImageCategory, ImageProject } from "./types";
 
 const EMPTY: ImageProject[] = [];
@@ -40,6 +41,61 @@ export default function App() {
     p.set("i", id);
     setParams(p, { replace: true });
   };
+
+  // An edit link (/images?i=<id>&headline=…, as llms.txt teaches AI chats) fills in the fields as edits,
+  // then its values leave the URL so they don't follow you around the Library.
+  useEffect(() => {
+    if (!project || planned) return;
+    const keys = [...params.keys()].filter((k) => !RESERVED_PARAMS.includes(k));
+    if (!keys.length) return;
+    const { values, errors } = readParams(project.fields, params);
+    fields.merge(values);
+    if (errors.length) toast.error(errors.join(" "));
+    const next = new URLSearchParams(params);
+    for (const k of keys) next.delete(k);
+    setParams(next, { replace: true });
+    // Only when the image or the URL changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [project?.id, params]);
+
+  const copy = async (text: string, done: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      toast.success(done);
+    } catch {
+      toast.error("Couldn't copy: the browser blocked the clipboard.");
+    }
+  };
+
+  const copyImageLink = () => {
+    if (!project) return;
+    if (project.fields.some((f) => f.type === "image" && String(fields.values[f.id] ?? "").startsWith("data:"))) {
+      toast.error("An uploaded photo can't go in a link. Use a photo that's online, or download the JPG.");
+      return;
+    }
+    const query = canonicalQuery(project.fields, fields.values);
+    copy(`${window.location.origin}${renderPath(project.id)}${query ? `?${query}` : ""}`, "Image link copied: it opens this image as a JPG.");
+  };
+
+  const secondaryButtonClass =
+    "flex items-center justify-center gap-2 px-3 py-2 rounded-lg border border-border-subtle bg-surface-2 text-sm text-text-primary hover:border-brand hover:text-brand-light transition-colors";
+
+  const linkButtons = (
+    <div className="flex items-center gap-2 shrink-0">
+      <button onClick={copyImageLink} title="Copy a link that renders this image, with these values, as a JPG" className={secondaryButtonClass}>
+        <LinkSimple size={16} weight="bold" />
+        <span className="hidden min-[1400px]:inline">Copy image link</span>
+      </button>
+      <button
+        onClick={() => copy(AI_PROMPT, "Prompt copied. Paste it into any AI chat and say what you need.")}
+        title="Copy a prompt that lets any AI chat make these images for you"
+        className={secondaryButtonClass}
+      >
+        <Sparkle size={16} weight="bold" />
+        <span className="hidden min-[1400px]:inline">Use with AI</span>
+      </button>
+    </div>
+  );
 
   const download = async () => {
     if (!project || !preview.current) return;
@@ -125,6 +181,7 @@ export default function App() {
                   </span>
                 ))}
               </div>
+              {!planned && linkButtons}
               {!isMobile && !planned && downloadButton}
             </div>
           )}

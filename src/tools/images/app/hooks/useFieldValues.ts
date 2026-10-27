@@ -57,6 +57,17 @@ export function useFieldValues(project: ImageProject | null) {
     [save],
   );
 
+  /** Lays several values over the current ones and keeps them as edits (an edit link's values). */
+  const merge = useCallback(
+    (more: FieldValues) =>
+      setValues((prev) => {
+        const next = { ...prev, ...more };
+        save(next);
+        return next;
+      }),
+    [save],
+  );
+
   const reset = useCallback(() => {
     if (!project) return;
     const defaults = defaultsOf(project);
@@ -66,5 +77,5 @@ export function useFieldValues(project: ImageProject | null) {
 
   const edited = !!project && project.fields.some((f) => values[f.id] !== undefined && values[f.id] !== f.default);
 
-  return { values, set, reset, edited };
+  return { values, set, merge, reset, edited };
 }

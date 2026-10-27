@@ -3,7 +3,7 @@ import path from 'path'
 import fs from 'fs'
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
-import type { Connect } from 'vite'
+import type { Connect, ViteDevServer } from 'vite'
 import imageProxy from './api/image-proxy'
 
 /**
@@ -210,6 +210,33 @@ function localOnlyPublicDirs() {
   };
 }
 
+/**
+ * The image-by-link API in dev: GET /api/render/<id>.jpg?… and GET /api/images?q=…, the Vercel functions
+ * themselves loaded through Vite's SSR loader, so Playwright stays out of the config bundle and `vite build`.
+ * Not in preview; there, use `vercel dev`.
+ */
+function renderApiPlugin() {
+  const routes: [RegExp, string][] = [
+    [/^\/api\/render\//, path.resolve(__dirname, 'api/render/[id].ts')],
+    [/^\/api\/images(\?|$)/, path.resolve(__dirname, 'api/images.ts')],
+  ];
+  return {
+    name: 'render-api',
+    configureServer(server: ViteDevServer) {
+      server.middlewares.use(async (req, res, next) => {
+        const file = routes.find(([pattern]) => pattern.test(req.url ?? ''))?.[1];
+        if (!file) return next();
+        try {
+          const mod = await server.ssrLoadModule(file);
+          await mod.default(req, res);
+        } catch (err) {
+          next(err);
+        }
+      });
+    },
+  };
+}
+
 /** api/image-proxy.ts itself, in dev and preview (it only needs Node, so it bundles into the config). */
 function imageProxyPlugin() {
   const handler: Connect.NextHandleFunction = (req, res, next) => {
@@ -225,7 +252,7 @@ function imageProxyPlugin() {
 }
 
 export default defineConfig({
-  plugins: [react(), tailwindcss(), imageProxyPlugin(), videoVariantsPlugin(), contentWritePlugin(), localOnlyPublicDirs()],
+  plugins: [react(), tailwindcss(), imageProxyPlugin(), renderApiPlugin(), videoVariantsPlugin(), contentWritePlugin(), localOnlyPublicDirs()],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

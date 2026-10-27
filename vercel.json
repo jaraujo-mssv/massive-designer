@@ -1,4 +1,13 @@
 {
+  "functions": {
+    "api/render/**": {
+      "maxDuration": 60,
+      "includeFiles": "{public/image-projects/**,node_modules/@sparticuz/chromium/bin/**,api/_lib/fonts/**}"
+    },
+    "api/images.ts": {
+      "includeFiles": "public/image-projects/index.json"
+    }
+  },
   "rewrites": [
     { "source": "/((?!api/|video-projects/).*)", "destination": "/index.html" }
   ]

@@ -37,6 +37,7 @@ of references and templates, so write each one to be reused: clean markup, the h
 - `public/image-projects/categories.json`: the themes the Library groups by, in order (see Organising).
 - `public/image-projects/planned.json`: Planned entries, images to make next (see Organising).
 - `public/image-projects/index.json`: the tab's catalogue. **Regenerate with `npm run image:index` after any change.**
+  The same command rewrites `public/llms.txt`, the guide AI chats read to make images by link.
 - `output/images/<id>.jpg`: renders (gitignored).
 
 ## Commands
@@ -125,6 +126,17 @@ Still write the same text into the markup, so the page reads correctly in an edi
 
 Make a field of anything someone would plausibly change: names, roles, numbers, headlines, photos, optional
 decoration. Leave structure and brand marks fixed. Use CSS `text-transform` for case, not the field's value.
+
+**Every image can be made from a link**, by people and by AI chats:
+- `/api/render/<id>.jpg?<field>=<value>` returns the JPG, and `/images?i=<id>&<field>=<value>` opens it filled in.
+- `public/llms.txt` teaches AI chats to build these links, from each field's `label`, `type`, `default`, `options`
+  and `hint`. So for a template:
+  - Give each field a short `"hint"` saying how to fill it: length, what it controls, when to pick an option. For
+    example `"The post's title. Two or three lines; about 60 characters reads best."` It shows under the field in
+    the tab too.
+  - Make sure a long value still fits (fit the text in `onFields`), since an AI won't see the result before the
+    person does.
+- **Field ids can't be reserved URL names:** `i g s v c st f t id scale download`. `image:index` warns if one is.
 
 ## House style
 

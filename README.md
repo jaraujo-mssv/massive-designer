@@ -68,6 +68,27 @@ Claude never makes up numbers. Give it the figures, or point it to where they co
 
 Post or send these files yourself. The `output/` folder stays on your computer.
 
+## Make an image from any AI chat
+
+The image templates (blog banner, hiring post, welcome card…) also work from ChatGPT, Claude, Gemini or any chat
+that can read a web page. You don't need this repo.
+
+1. In the Images tab, click **Use with AI**. It copies this prompt:
+   `Read https://massive-designer.vercel.app/llms.txt and use it to make me a Massive image. Here's what I need:`
+2. Paste it into the chat and say what you want, e.g. *"a blog banner called 'Hotel Prices Without a Browser' with
+   this photo: https://…/hotel.jpg"*.
+3. The chat gives you two links:
+   - **Image:** opens the finished JPG.
+   - **Edit:** opens the design in the Images tab, filled in, to tweak it or drop in a photo you only have as a
+     file.
+
+Photos must be a direct link to the image file. Share pages from Google Drive, Dropbox or Unsplash don't work; use
+the edit link and upload the photo instead.
+
+For a Claude Project or a custom GPT, paste the contents of
+[llms.txt](https://massive-designer.vercel.app/llms.txt) into its knowledge or instructions; a link alone there
+isn't fetched. In the Images tab, **Copy image link** gives the link for the image as you've edited it.
+
 ## Share a design with the team
 
 Say "share this design". Claude puts it on its own branch and opens a pull request, and the repo owner reviews and adds

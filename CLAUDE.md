@@ -59,7 +59,15 @@ npm run preview      # serves dist/, with the image proxy
   from the rendered designs, with `ELEVENLABS_IMAGE_API_KEY` (the general key lacks the `image_video_generation`
   permission). It costs plan credits, so `merch` doesn't run it.
 - Deploy is Vercel. `vercel.json` rewrites everything except `/api/` and `/video-projects/` to `index.html`, and
-  `api/image-proxy.ts` is the serverless image proxy.
+  configures the functions:
+  - `api/image-proxy.ts`: the image proxy. Public hosts and images only, through `api/_lib/safe-fetch.ts`.
+  - `api/render/[id].ts` and `api/images.ts`: images by link (see Images).
+  - `api/render/[id].ts` runs `playwright-core` on `@sparticuz/chromium`. Both are pinned to exact versions that
+    match `playwright` (1.60 ↔ Chromium 148), so upgrade the three together.
+  - `vercel.json` bundles `public/image-projects/**`, the Chromium `bin/` and `api/_lib/fonts/` (Noto Color Emoji,
+    since Lambda has no system fonts) into the render function.
+  - Node is `engines` 24.x, because Vercel ignores `.nvmrc`.
+  - A Vercel WAF rate limit on `/api/render/*` is set in the dashboard, not in code.
 - **Dev server only:** Video and Content work on local files. In a build `import.meta.env.DEV` is false, so their
   routes, nav entries and code drop out, and `localOnlyPublicDirs()` deletes their `public/` folders from `dist/`.
 - Script commands that render through Playwright Chromium: `image:render`, `print`, `deck`, `deck:pptx`, `docs`, `onepager`,
@@ -158,16 +166,34 @@ description, value, rank). `utils/splitName.ts` splits "Name · description". Do
   - `index.html`: `#canvas` at the exact pixel size. It links `../_brand/massive.css` and loads
     `../_lib/image-kit.js` last.
   - `meta.json`: title, category, template, series, status, `width`/`height` (must match `#canvas`), and `fields`
-    (`text | image | toggle | select`).
+    (`text | image | toggle | select`, with an optional `hint` shown under the field and to AI chats).
   - `assets/` and `thumb.jpg`.
 - **Fields** are bound in the markup with `data-field` (text), `data-field-src` (image) and `data-field-show`
   (toggle). Anything derived goes in `window.onFields(values)`.
-- **`index.json` is generated:** `npm run image:index` builds it from the folders, `categories.json` and
-  `planned.json`. Don't edit it by hand.
+- **`index.json` and `public/llms.txt` are generated:** `npm run image:index` builds both from the folders,
+  `categories.json` and `planned.json`. Don't edit them by hand.
+- **Images by link**, so any AI chat (or anyone) can make an image without the UI:
+  - **Image link:** `GET /api/render/<id>.jpg?<field>=<value>&…` renders the project with those values to a JPG.
+    - Optional `scale=1` and `download=1`.
+    - Photo URLs are fetched and inlined server-side.
+    - A non-canonical link 308s to its canonical form.
+    - Bad values get a plain-text answer.
+  - **Edit link:** `/images?i=<id>&<field>=<value>&…` opens the same values in the tab, as edits; they then leave the
+    URL.
+  - **Search:** `GET /api/images?q=…` (or `?id=`). Text by default, `&format=json` for JSON.
+  - **`llms.txt`:** the guide an AI reads: how to build the links, every template's params, one line per other image.
+  - **`src/tools/images/params.ts`:** the rules for all of these: value parsing, canonical links, reserved names, the
+    guide's wording. It has no imports, so the tab, `api/` and `build-index.mjs` (via Node's type stripping) all
+    share it.
+  - **Reserved names:** a field id can't be one (`i g s v c st f t id scale download`); `image:index` warns.
+  - **Dev:** `npm run dev` serves both endpoints through `renderApiPlugin()`; `vite preview` doesn't.
 - **UI:**
   - `Library.tsx`: search, group, filter and sort. State lives in the URL; `?i=` is the selected image.
+  - `App.tsx`: applies an edit link's values; **Copy image link** and **Use with AI** (a prompt that points an AI
+    chat at `llms.txt`) sit beside Download.
   - `FieldsPanel.tsx`: edits are kept in localStorage `images:fields:<id>`.
-  - `PreviewPane.tsx`: an iframe, plus the in-browser JPG export.
+  - `PreviewPane.tsx`: an iframe, plus the in-browser JPG export. Photo URLs go to the page through
+    `/api/image-proxy`, so the export can read them.
   - `PlannedCard.tsx`: planned images.
   - `hooks/useImageIndex.ts`: fetches `index.json`.
 - **Commands:**

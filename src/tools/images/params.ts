@@ -20,10 +20,10 @@ export interface ParamField {
 export type ParamValues = Record<string, string | boolean>;
 
 /**
- * URL keys a field id can't use: the image (`template`, and `i` from older links), the Library's view
- * (g, s, v, c, st, f, t) and the render endpoint's own.
+ * URL keys a field id can't use: the image (`template`, and `i` from older links), the Library's search and view
+ * (q, g, s, v, c, st, f, t) and the render endpoint's own.
  */
-export const RESERVED_PARAMS = ["template", "i", "g", "s", "v", "c", "st", "f", "t", "id", "scale", "download"];
+export const RESERVED_PARAMS = ["template", "i", "q", "g", "s", "v", "c", "st", "f", "t", "id", "scale", "download"];
 
 /** Longest text value a link may carry. */
 export const MAX_TEXT = 300;

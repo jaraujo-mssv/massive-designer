@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router";
-import { DownloadSimple, Images, LinkSimple, Sparkle } from "@phosphor-icons/react";
+import { ArrowLeft, DownloadSimple, Images, LinkSimple, Sparkle } from "@phosphor-icons/react";
 import { Toaster, toast } from "sonner";
 import { SidebarLayout } from "@/shared/components/SidebarLayout";
 import { useIsMobile } from "@/shared/components/ui/use-mobile";
 import { saveFile } from "@/shared/utils/saveFile";
 import { FieldsPanel } from "./components/FieldsPanel";
+import { Gallery } from "./components/Gallery";
 import { Library } from "./components/Library";
 import { PlannedCard } from "./components/PlannedCard";
 import { PreviewPane, type PreviewHandle } from "./components/PreviewPane";
@@ -32,11 +33,9 @@ export default function App() {
   const isMobile = useIsMobile();
 
   // The image is ?template=<id> (?i=<id> in older links; the address bar moves it to template). With neither,
-  // the first real image opens rather than a Planned entry; an id that isn't there says so instead.
+  // the page is the gallery of every image; an id that isn't there says so.
   const wanted = params.get("template") ?? params.get("i");
-  const project = wanted
-    ? (projects.find((p) => p.id === wanted) ?? null)
-    : (projects.find((p) => p.path) ?? projects[0] ?? null);
+  const project = wanted ? (projects.find((p) => p.id === wanted) ?? null) : null;
   const missing = index.status === "ready" && !!wanted && !project;
   const templates = projects.filter((p) => p.group === "templates" && p.path);
   const planned = project?.status === "planned";
@@ -45,12 +44,17 @@ export default function App() {
   const categoryLabel = categories.find((c) => c.id === project?.category)?.label;
   const templateTitle = project?.template && projects.find((p) => p.id === project.template)?.title;
 
-  // A new image starts from its own values: only the Library's view stays in the URL.
-  const select = (id: string) => {
-    const next = new URLSearchParams({ template: id });
+  // A new image starts from its own values: only the Library's view (search and filters) stays in the URL.
+  const viewParams = (id?: string) => {
+    const next = new URLSearchParams(id ? { template: id } : {});
     for (const k of VIEW_KEYS) if (params.has(k)) next.set(k, params.get(k)!);
-    setParams(next, { replace: true });
+    return next;
   };
+  /** From the sidebar: swap the image in place. */
+  const select = (id: string) => setParams(viewParams(id), { replace: true });
+  /** From the gallery, and back to it: new history entries, so the browser's Back goes where you were. */
+  const open = (id: string) => setParams(viewParams(id));
+  const toGallery = () => setParams(viewParams());
 
   /** An uploaded, dropped or pasted file for an image field; anything that isn't an image says so under it. */
   const takeFile = async (fieldId: string, file: File) => {
@@ -98,20 +102,24 @@ export default function App() {
   const secondaryButtonClass =
     "flex items-center justify-center gap-2 px-3 py-2 rounded-lg border border-border-subtle bg-surface-2 text-sm text-text-primary hover:border-brand hover:text-brand-light transition-colors";
 
+  const aiButton = (label: string) => (
+    <button
+      onClick={() => copy(aiPrompt(templates, SITE_URL), "Prompt copied. Paste it into any AI chat and say what you need.")}
+      title="Copy a prompt that lets any AI chat make these images for you"
+      className={secondaryButtonClass}
+    >
+      <Sparkle size={16} weight="bold" />
+      <span className={label}>Use with AI</span>
+    </button>
+  );
+
   const linkButtons = (
     <div className="flex items-center gap-2 shrink-0">
       <button onClick={copyImageLink} title="Copy a link that renders this image, with these values, as a JPG" className={secondaryButtonClass}>
         <LinkSimple size={16} weight="bold" />
         <span className="hidden min-[1400px]:inline">Copy image link</span>
       </button>
-      <button
-        onClick={() => copy(aiPrompt(templates, SITE_URL), "Prompt copied. Paste it into any AI chat and say what you need.")}
-        title="Copy a prompt that lets any AI chat make these images for you"
-        className={secondaryButtonClass}
-      >
-        <Sparkle size={16} weight="bold" />
-        <span className="hidden min-[1400px]:inline">Use with AI</span>
-      </button>
+      {aiButton("hidden min-[1400px]:inline")}
     </div>
   );
 
@@ -156,6 +164,21 @@ export default function App() {
       />
     );
 
+  // No image picked: the gallery, full width, its filters on top.
+  if (!wanted)
+    return (
+      <>
+        <Toaster position="top-center" richColors />
+        {index.status === "ready" ? (
+          <Gallery projects={projects} categories={categories} onOpen={open} action={aiButton("hidden sm:inline")} />
+        ) : (
+          <p className="p-4 md:p-8 text-sm text-text-dim bg-bg h-full">
+            {index.status === "loading" ? "Loading images…" : `Couldn't load the image index (${index.error}). Run npm run image:index.`}
+          </p>
+        )}
+      </>
+    );
+
   // Phones: the preview fills the screen; the drawer holds the Library and the fields,
   // and Download sits in the bottom bar.
   return (
@@ -191,6 +214,14 @@ export default function App() {
         <div className="flex-1 min-w-0 min-h-0 flex flex-col">
           {project && (
             <div className="flex items-center gap-4 px-4 md:px-6 py-3 border-b border-border-subtle shrink-0">
+              <button
+                onClick={toGallery}
+                title="All images"
+                aria-label="All images"
+                className="shrink-0 -ml-1.5 p-1.5 rounded-lg text-text-dim hover:text-text-primary hover:bg-surface-2 transition-colors"
+              >
+                <ArrowLeft size={18} weight="bold" />
+              </button>
               <div className="min-w-0 flex-1">
                 <h1 className="text-sm text-text-primary font-semibold truncate">{project.title}</h1>
                 <p className="text-[11px] text-text-dim font-mono truncate">
@@ -220,7 +251,10 @@ export default function App() {
             )}
             {missing && (
               <p className="p-4 md:p-8 text-sm text-red-400">
-                No template named "{wanted}". Available: {templates.map((t) => t.id).join(", ")}.
+                No template named "{wanted}". Available: {templates.map((t) => t.id).join(", ")}.{" "}
+                <button onClick={toGallery} className="text-brand-light hover:underline">
+                  See all images
+                </button>
               </p>
             )}
             {index.status === "ready" && !project && !missing && <p className="p-4 md:p-8 text-sm text-text-dim">No image projects yet.</p>}

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
 import { PHOTO_ERROR, RESERVED_PARAMS, canonicalQuery, linkable, readParams } from "../../params";
+import { PARAM } from "../library";
 import { checkPhoto } from "../photo";
 import type { FieldValues, ImageProject } from "../types";
 
@@ -8,8 +9,8 @@ const storageKey = (id: string) => `images:fields:${id}`;
 /** Uploaded photos' file names, by field, for the line under the Photo field. */
 const namesKey = (id: string) => `images:names:${id}`;
 
-/** The Library's view keys, which the address bar keeps beside the image and its values. */
-export const VIEW_KEYS = ["g", "s", "v", "c", "st", "f", "t"];
+/** The Library's view keys (search and filters), which the address bar keeps beside the image and its values. */
+export const VIEW_KEYS: string[] = Object.values(PARAM);
 
 const defaultsOf = (project: ImageProject): FieldValues =>
   Object.fromEntries(project.fields.map((f) => [f.id, f.default]));

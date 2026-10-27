@@ -1,9 +1,9 @@
 [
+  { "id": "events", "label": "Events", "description": "Conferences, talks, dinners, meetups, webinars and recaps." },
   { "id": "hiring", "label": "Hiring", "description": "Open roles, the all-roles roundup, benefits and how we work." },
   { "id": "team", "label": "Team & culture", "description": "Welcomes, anniversaries, birthdays, promotions, spotlights and offsites." },
   { "id": "milestones", "label": "Milestones", "description": "Follower counts, company anniversaries and growth numbers." },
   { "id": "product", "label": "Product", "description": "Launches, feature spotlights, changelogs and code snippets." },
-  { "id": "events", "label": "Events", "description": "Conferences, talks, dinners, meetups, webinars and recaps." },
   { "id": "content", "label": "Content & data", "description": "Blog quotes, data stories, market maps and video stills that explain things." },
   { "id": "partners", "label": "Partners & customers", "description": "Partnership announcements, customer quotes and case-study numbers." },
   { "id": "seasonal", "label": "Holidays & seasonal", "description": "Holiday greetings and the New Year." }

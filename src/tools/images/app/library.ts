@@ -229,11 +229,15 @@ export const haystack = (p: ImageProject, categories: ImageCategory[]) =>
 
 export type LibraryView = ReturnType<typeof useLibraryView>["view"];
 
+/** Planned entries stay out of the Library until the Status filter is on Planned; then they're all it shows. */
+export const inPool = (p: ImageProject, view: LibraryView) => (view.status === "planned") === (p.status === "planned");
+
 /** The projects the view's search and filters let through; every search word must match. */
 export function filterProjects(projects: ImageProject[], view: LibraryView, categories: ImageCategory[]): ImageProject[] {
   const terms = view.query.toLowerCase().split(/\s+/).filter(Boolean);
   return projects.filter(
     (p) =>
+      inPool(p, view) &&
       (view.category === "all" || (p.category ?? "") === view.category) &&
       (view.status === "all" || p.status === view.status) &&
       (view.format === "all" || p.format === view.format || p.formats?.includes(view.format)) &&

@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
-import { FORMAT_LABEL, filterProjects, groupProjects, isFiltered, useCollapsed, useLibraryView } from "../library";
+import { FORMAT_LABEL, filterProjects, groupProjects, inPool, isFiltered, useCollapsed, useLibraryView } from "../library";
 import type { ImageCategory, ImageProject } from "../types";
 import { LibraryFilters } from "./LibraryFilters";
 import { StatusBadge, Thumb } from "./ProjectThumb";
@@ -23,6 +23,7 @@ export function Gallery({ projects, categories, onOpen, action }: GalleryProps) 
   const { view, set, reset } = useLibraryView();
   const [collapsed, toggleCollapsed] = useCollapsed();
 
+  const pool = useMemo(() => projects.filter((p) => inPool(p, view)), [projects, view]);
   const visible = useMemo(() => filterProjects(projects, view, categories), [projects, categories, view]);
   const groups = useMemo(
     () => groupProjects(visible, view.group, view.sort, categories, projects),
@@ -43,7 +44,7 @@ export function Gallery({ projects, categories, onOpen, action }: GalleryProps) 
         <span className="flex items-center gap-1.5 text-[11px] text-text-dim font-mono">
           <span className="truncate">{p.formats ? p.formats.map((f) => FORMAT_LABEL[f]).join(" + ") : `${p.width}×${p.height}`}</span>
           {p.group === "templates" && <span className={`${badgeClass} shrink-0 text-brand-light border-brand/40`}>Template</span>}
-          {p.status !== "draft" && <StatusBadge status={p.status} />}
+          <StatusBadge status={p.status} />
         </span>
       </span>
     </button>
@@ -65,7 +66,9 @@ export function Gallery({ projects, categories, onOpen, action }: GalleryProps) 
       <span className="hidden sm:block w-28 shrink-0 text-[11px] text-text-dim font-mono">
         {p.formats ? p.formats.map((f) => FORMAT_LABEL[f]).join(" + ") : `${p.width}×${p.height}`}
       </span>
-      <span className="w-16 shrink-0 flex justify-end">{p.status !== "draft" && <StatusBadge status={p.status} />}</span>
+      <span className="w-16 shrink-0 flex justify-end">
+        <StatusBadge status={p.status} />
+      </span>
     </button>
   );
 
@@ -76,13 +79,13 @@ export function Gallery({ projects, categories, onOpen, action }: GalleryProps) 
           <div className="flex-1 min-w-0">
             <h1 className="text-xl md:text-2xl font-bold text-text-primary">Images</h1>
             <p className="text-xs text-text-dim">
-              {visible.length === projects.length ? `${projects.length} images` : `${visible.length} of ${projects.length} images`} · pick one to
-              fill in and download
+              {visible.length === pool.length ? `${pool.length} images` : `${visible.length} of ${pool.length} images`} · pick one to fill in
+              and download
             </p>
           </div>
           {action}
         </div>
-        <LibraryFilters projects={projects} categories={categories} view={view} set={set} variant="bar" />
+        <LibraryFilters projects={pool} categories={categories} view={view} set={set} variant="bar" />
       </div>
 
       <div className="px-4 md:px-8 py-6 space-y-8">

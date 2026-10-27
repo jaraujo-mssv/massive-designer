@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
-import { FORMAT_LABEL, filterProjects, groupProjects, isFiltered, useCollapsed, useLibraryView } from "../library";
+import { FORMAT_LABEL, filterProjects, groupProjects, inPool, isFiltered, useCollapsed, useLibraryView } from "../library";
 import type { ImageCategory, ImageProject } from "../types";
 import { LibraryFilters } from "./LibraryFilters";
 import { StatusBadge, Thumb } from "./ProjectThumb";
@@ -19,6 +19,7 @@ export function Library({ projects, categories, selectedId, onSelect, inDrawer =
   const { view, set, reset } = useLibraryView();
   const [collapsed, toggleCollapsed] = useCollapsed();
 
+  const pool = useMemo(() => projects.filter((p) => inPool(p, view)), [projects, view]);
   const visible = useMemo(() => filterProjects(projects, view, categories), [projects, categories, view]);
   const groups = useMemo(
     () => groupProjects(visible, view.group, view.sort, categories, projects),
@@ -35,7 +36,7 @@ export function Library({ projects, categories, selectedId, onSelect, inDrawer =
           <span className="text-xs text-text-primary leading-snug line-clamp-2">{p.title}</span>
           <span className="flex items-center gap-1.5 text-[10px] text-text-dim font-mono">
             {FORMAT_LABEL[p.format]}
-            {p.status !== "draft" && <StatusBadge status={p.status} />}
+            <StatusBadge status={p.status} />
           </span>
         </button>
       );
@@ -48,7 +49,7 @@ export function Library({ projects, categories, selectedId, onSelect, inDrawer =
             {p.formats ? p.formats.map((f) => FORMAT_LABEL[f]).join(" + ") : `${p.width}×${p.height}`}
           </span>
         </span>
-        {p.status !== "draft" && <StatusBadge status={p.status} />}
+        <StatusBadge status={p.status} />
       </button>
     );
   };
@@ -59,10 +60,10 @@ export function Library({ projects, categories, selectedId, onSelect, inDrawer =
         <div className="flex items-center justify-between px-1">
           <span className="text-xs font-semibold text-text-dim uppercase tracking-widest font-mono">Images</span>
           <span className="text-[11px] text-text-dim font-mono">
-            {visible.length === projects.length ? projects.length : `${visible.length} of ${projects.length}`}
+            {visible.length === pool.length ? pool.length : `${visible.length} of ${pool.length}`}
           </span>
         </div>
-        <LibraryFilters projects={projects} categories={categories} view={view} set={set} variant="sidebar" />
+        <LibraryFilters projects={pool} categories={categories} view={view} set={set} variant="sidebar" />
       </div>
 
       <div className="flex-1 overflow-y-auto min-h-0 py-2">

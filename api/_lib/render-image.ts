@@ -3,15 +3,16 @@
 // through image-kit, and #canvas captured.
 //
 // On Vercel, Chromium is @sparticuz/chromium (its version is paired with playwright-core's; upgrade both
-// together). Locally it's the Chromium `npm run setup` installs for Playwright. One browser is kept per
-// instance, with a fresh context per render and at most two renders at a time, since the Lambda build runs
-// single-process and one crash takes every page with it.
+// together). Locally it's the Chromium `npm run setup` installs for Playwright. The Lambda build runs
+// --single-process, where closing a browser context, or opening a second, kills the browser, so each instance
+// keeps one browser and one context for its life, and a render only opens and closes a page. At most two render at
+// once, since one crash takes every page with it; a render that finds the browser gone relaunches it once.
 import { copyFileSync, createReadStream, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync } from 'node:fs';
 import { createServer } from 'node:http';
 import type { AddressInfo } from 'node:net';
 import { tmpdir } from 'node:os';
 import { extname, join, normalize, relative } from 'node:path';
-import { chromium, type Browser } from 'playwright-core';
+import { chromium, type Browser, type BrowserContext } from 'playwright-core';
 
 /** public/image-projects, bundled into the function by vercel.json's includeFiles. */
 export const PROJECTS_DIR = join(process.cwd(), 'public/image-projects');
@@ -87,11 +88,17 @@ async function launch(): Promise<Browser> {
   return chromium.launch({ executablePath, args, headless: true });
 }
 
+/** Forget the browser and its context, so the next render launches a new one. */
+function reset() {
+  browserPromise = null;
+  contextPromise = null;
+}
+
 function browser(): Promise<Browser> {
   browserPromise ??= launch().then(
     (b) => {
       b.on('disconnected', () => {
-        browserPromise = null;
+        reset();
         // Profiles a crashed browser leaves behind would fill /tmp over a warm instance's life.
         for (const name of readdirSync(tmpdir())) {
           if (name.startsWith('playwright_chromiumdev_profile-')) rmSync(join(tmpdir(), name), { recursive: true, force: true });
@@ -100,11 +107,33 @@ function browser(): Promise<Browser> {
       return b;
     },
     (err) => {
-      browserPromise = null;
+      reset();
       throw err;
     },
   );
   return browserPromise;
+}
+
+let contextPromise: Promise<BrowserContext> | null = null;
+
+/**
+ * The one context, made once at 2×: a single-process browser dies when a context closes or a second one opens.
+ * 1× images come from the same context, as CSS-pixel screenshots.
+ */
+function context(base: string): Promise<BrowserContext> {
+  contextPromise ??= browser().then(async (b) => {
+    const c = await b.newContext({ deviceScaleFactor: 2 });
+    // The project's own files and Google Fonts (massive.css imports Outfit); nothing else leaves the box.
+    // Photos from links arrive already inlined as data: URLs.
+    await c.route('**/*', (route) => {
+      const url = route.request().url();
+      const ok = url.startsWith(`${base}/`) || url.startsWith('https://fonts.googleapis.com/') || url.startsWith('https://fonts.gstatic.com/');
+      return ok ? route.continue() : route.abort();
+    });
+    return c;
+  });
+  contextPromise.catch(() => (contextPromise = null));
+  return contextPromise;
 }
 
 // --- At most MAX_RENDERS at once ---
@@ -131,27 +160,30 @@ export function renderImage(opts: {
   scale: number;
   values: Record<string, string | boolean>;
 }): Promise<Buffer> {
-  return limited(async () => {
-    const [b, base] = await Promise.all([browser(), filesServer()]);
-    const context = await b.newContext({ viewport: { width: opts.width, height: opts.height }, deviceScaleFactor: opts.scale });
+  const attempt = async () => {
+    const base = await filesServer();
+    const page = await (await context(base)).newPage();
     try {
-      // The project's own files and Google Fonts (massive.css imports Outfit); nothing else leaves the box.
-      // Photos from links arrive already inlined as data: URLs.
-      await context.route('**/*', (route) => {
-        const url = route.request().url();
-        const ok = url.startsWith(`${base}/`) || url.startsWith('https://fonts.googleapis.com/') || url.startsWith('https://fonts.gstatic.com/');
-        return ok ? route.continue() : route.abort();
-      });
-      const page = await context.newPage();
+      await page.setViewportSize({ width: opts.width, height: opts.height });
       await page.goto(`${base}/image-projects/${opts.id}/index.html`, { waitUntil: 'load', timeout: 20_000 });
       await page.waitForSelector('html[data-ready="1"]', { timeout: 20_000 });
       await page.evaluate(
         (values) => (window as unknown as { imageKit: { apply: (v: unknown) => Promise<void> } }).imageKit.apply(values),
         opts.values,
       );
-      return await page.locator('#canvas').screenshot({ type: 'jpeg', quality: 95 });
+      return await page.locator('#canvas').screenshot({ type: 'jpeg', quality: 95, scale: opts.scale === 1 ? 'css' : 'device' });
     } finally {
-      await context.close();
+      await page.close().catch(() => {});
+    }
+  };
+  return limited(async () => {
+    try {
+      return await attempt();
+    } catch (err) {
+      // The browser died (a crash, or a page that took it down): start a new one and try once more.
+      if (!/has been closed|Target closed|crashed/i.test(String((err as Error)?.message))) throw err;
+      reset();
+      return attempt();
     }
   });
 }

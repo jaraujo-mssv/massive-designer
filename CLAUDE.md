@@ -162,7 +162,8 @@ description, value, rank). `utils/splitName.ts` splits "Name · description". Do
 
 ### Images
 
-`/images` (`src/tools/images/app/`) is a library of static HTML images with editable fields.
+`/images` (`src/tools/images/app/`) is a library of static HTML images with editable fields. `/images` alone is the
+gallery of every image; `/images?template=<id>` opens one in the editor.
 
 - **Each image is a folder**, `public/image-projects/<id>/`, with:
   - `index.html`: `#canvas` at the exact pixel size. It links `../_brand/massive.css` and loads
@@ -190,13 +191,20 @@ description, value, rank). `utils/splitName.ts` splits "Name · description". Do
   - **`src/tools/images/params.ts`:** the rules for all of these: value parsing, canonical links, reserved names, the
     guide's wording. It has no imports, so the tab, `api/` and `build-index.mjs` (via Node's type stripping) all
     share it.
-  - **Reserved names:** a field id can't be one (`template i g s v c st f t id scale download`); `image:index`
+  - **Reserved names:** a field id can't be one (`template i q g s v c st f t id scale download`); `image:index`
     warns.
   - **Dev:** `npm run dev` serves both endpoints through `renderApiPlugin()`; `vite preview` doesn't.
 - **UI:**
-  - `Library.tsx`: search, group, filter and sort. State lives in the URL; `?template=` is the selected image.
+  - `library.ts`: the search, filters, grouping and sorting shared by the gallery and the sidebar.
+    - The view lives in the URL: `q g s v c st f t`, which the editor keeps beside `template`.
+    - Grid is the default view; a list is `v=list`.
+  - `Gallery.tsx`: the home page, every image as a thumbnail with `LibraryFilters` (bar layout) across the top.
+  - `Library.tsx`: the same view as a sidebar beside the editor (`LibraryFilters`, sidebar layout).
+    `ProjectThumb.tsx` draws the thumbnails for both.
   - `App.tsx`:
+    - shows the gallery or the editor;
     - picks the image (and says so when `template` names none);
+    - opening from the gallery adds a history entry, so Back and "All images" return to it;
     - takes a pasted or dropped photo for the template's photo field;
     - **Copy image link** (the JPG link, leaving uploads out) and **Use with AI** (a prompt listing every template's
       fields, from `aiPrompt()`) sit beside Download.

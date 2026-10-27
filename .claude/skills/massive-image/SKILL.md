@@ -137,7 +137,7 @@ decoration. Leave structure and brand marks fixed. Use CSS `text-transform` for 
     the tab too.
   - Make sure a long value still fits (fit the text in `onFields`), since an AI won't see the result before the
     person does.
-- **Field ids can't be reserved URL names:** `template i g s v c st f t id scale download`. `image:index` warns if
+- **Field ids can't be reserved URL names:** `template i q g s v c st f t id scale download`. `image:index` warns if
   one is.
 - **The "Use with AI" prompt lists each template's fields** as `id (type, hint)`, so keep hints to a short phrase
   ("About 60 characters", "Strong for bright photos").

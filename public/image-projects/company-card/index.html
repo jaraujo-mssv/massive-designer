@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Company card: A front door to the web</title>
+    <link rel="stylesheet" href="../_brand/massive.css" />
+    <!-- A company card on the Market Map dark canvas: the pitch and its proof points on the left, four
+         award cards on the right, and the backers, customers and press in a footer band. -->
+    <style>
+      #canvas {
+        width: 1920px;
+        height: 1080px;
+      }
+      /* Everything above the footer: the logo, then the two columns centred in the space left. */
+      .top {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 250px;
+        padding: 96px 120px 0;
+        display: flex;
+        flex-direction: column;
+      }
+      .logo {
+        display: block;
+        height: 40px;
+        width: auto;
+        align-self: flex-start;
+      }
+      .cols {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 80px;
+      }
+      .pitch {
+        width: 840px;
+      }
+      .badges {
+        display: flex;
+        gap: 14px;
+      }
+      .badge,
+      .status {
+        display: flex;
+        align-items: center;
+        height: 44px;
+        padding: 0 20px;
+        border-radius: 22px;
+        font-size: 19px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .badge {
+        background: var(--m-red);
+      }
+      .status {
+        gap: 10px;
+        background: rgba(250, 244, 236, 0.06);
+        border: 1px solid rgba(250, 244, 236, 0.14);
+      }
+      .status::before {
+        content: "";
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #22c55e;
+        box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.2);
+      }
+      .headline {
+        margin-top: 34px;
+        font-size: 84px;
+        font-weight: 900;
+        line-height: 1.02;
+        letter-spacing: -0.04em;
+        word-spacing: 0.08em;
+      }
+      .headline span {
+        display: block;
+      }
+      /* The second line in the wordmark gradient, red to red-light, clipped to the text. */
+      .headline .accent {
+        display: inline-block;
+        background: linear-gradient(135deg, var(--m-red), var(--m-red-light));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .body {
+        margin-top: 28px;
+        font-size: 27px;
+        font-weight: 300;
+        line-height: 1.45;
+        color: var(--m-cream-mid);
+      }
+      .chips {
+        margin-top: 34px;
+        display: flex;
+        gap: 12px;
+      }
+      .chip {
+        display: flex;
+        align-items: center;
+        height: 46px;
+        padding: 0 18px;
+        border-radius: 10px;
+        background: rgba(250, 244, 236, 0.05);
+        border: 1px solid rgba(250, 244, 236, 0.14);
+        font-size: 19px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .chip:empty {
+        display: none;
+      }
+      .button {
+        margin-top: 44px;
+        display: inline-flex;
+        align-items: center;
+        height: 66px;
+        padding: 0 48px;
+        border-radius: 12px;
+        background: var(--m-red);
+        font-size: 23px;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+      /* Four award cards, two by two. */
+      .awards {
+        flex: 1;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+      }
+      .award {
+        padding: 40px 32px 38px;
+        border-radius: 20px;
+        background: rgba(26, 25, 32, 0.88);
+        border: 1px solid rgba(215, 73, 57, 0.27);
+      }
+      /* The issuer's logo, from joinmassive.com/press, recoloured cream and padded to one optical size. */
+      .award .mark {
+        display: block;
+        height: 72px;
+        width: auto;
+        margin: 0 auto 30px;
+        opacity: 0.85;
+      }
+      /* Two lines under the logo, the same size: the award in red-light, then what it was for. */
+      .award .big,
+      .award .what {
+        font-size: 25px;
+        font-weight: 600;
+        line-height: 1.3;
+      }
+      .award .big {
+        font-weight: 700;
+        color: var(--m-red-light);
+      }
+      .award .what {
+        margin-top: 4px;
+      }
+      /* Footer band: a mono label and a list per row. */
+      .foot {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 250px;
+        padding: 0 120px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 26px;
+        border-top: 1px solid var(--m-border);
+      }
+      .row {
+        display: flex;
+        align-items: baseline;
+      }
+      .row .label {
+        flex: none;
+        width: 210px;
+        font-family: var(--m-mono);
+        font-size: 16px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--m-red-light);
+      }
+      /* Logos from joinmassive.com (investors, customers and /press; Traject Data and Forage AI from their own
+         sites), recoloured cream and padded to one optical size, so each sits in the same 40px slot. */
+      .row {
+        align-items: center;
+      }
+      .row .logos {
+        display: flex;
+        align-items: center;
+        gap: 52px;
+        opacity: 0.8;
+      }
+      .row .logos img {
+        display: block;
+        height: 40px;
+        width: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas">
+      <img class="m-bg-dark" src="../_brand/bg-dark.jpg" alt="" />
+      <div class="top">
+        <img class="logo" src="../_brand/logo-massive.svg" alt="Massive" />
+        <div class="cols">
+          <div class="pitch">
+            <div class="badges">
+              <div class="badge" data-field="badge">Co-Founder &amp; CEO</div>
+              <div class="status" data-field-show="showStatus"><span data-field="status">Active</span></div>
+            </div>
+            <div class="headline">
+              <span data-field="headline">A front door to</span>
+              <span class="accent" data-field="headlineAccent">the entire web.</span>
+            </div>
+            <div class="body" data-field="body">
+              Massive gives AI agents and data teams real-time web access through a consent-based residential network.
+              Every connection comes from a real person, in 195+ countries, who opted in and is rewarded for it.
+            </div>
+            <div class="chips">
+              <div class="chip" data-field="chip1">99.8% success</div>
+              <div class="chip" data-field="chip2">&lt;600ms</div>
+              <div class="chip" data-field="chip3">195+ countries</div>
+              <div class="chip" data-field="chip4">SOC 2</div>
+            </div>
+            <div class="button" data-field="button" data-field-show="showButton">See More</div>
+          </div>
+          <div class="awards">
+            <div class="award">
+              <img class="mark" data-field-src="award1Logo" src="assets/awards/inc.png" alt="Inc. 5000" />
+              <div class="big" data-field="award1Big">#217</div>
+              <div class="what" data-field="award1What">Inc. 5000 · 2026</div>
+            </div>
+            <div class="award">
+              <img class="mark" data-field-src="award2Logo" src="assets/awards/proxyway.png" alt="Proxyway" />
+              <div class="big" data-field="award2Big">Newcomer of the Year</div>
+              <div class="what" data-field="award2What">Proxyway Awards · 2025</div>
+            </div>
+            <div class="award">
+              <img class="mark" data-field-src="award3Logo" src="assets/awards/proxyway.png" alt="Proxyway" />
+              <div class="big" data-field="award3Big">#1</div>
+              <div class="what" data-field="award3What">US residential success rate</div>
+            </div>
+            <div class="award">
+              <img class="mark" data-field-src="award4Logo" src="assets/awards/webbys.png" alt="The Webby Awards" />
+              <div class="big" data-field="award4Big">Webby</div>
+              <div class="what" data-field="award4What">Honoree · 2022</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="foot">
+        <div class="row">
+          <div class="label">Backed by</div>
+          <div class="logos">
+            <img data-field-src="backed1" src="assets/backed/point72.png" alt="Point72 Ventures" />
+            <img data-field-src="backed2" src="assets/backed/microsoft.png" alt="Microsoft for Startups" />
+            <img data-field-src="backed3" src="assets/backed/nvidia.png" alt="Nvidia" />
+            <img data-field-src="backed4" src="assets/backed/coinbase-ventures.png" alt="Coinbase Ventures" />
+            <img data-field-src="backed5" src="assets/backed/mozilla.png" alt="Mozilla Ventures" />
+            <img data-field-src="backed6" src="assets/backed/hustle-fund.png" alt="Hustle Fund" />
+            <img data-field-src="backed7" src="assets/backed/xoogler.png" alt="Xoogler Ventures" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="label">Trusted by</div>
+          <div class="logos">
+            <img data-field-src="trusted1" src="assets/trusted/snowflake.png" alt="Snowflake" />
+            <img data-field-src="trusted2" src="assets/trusted/shopee.png" alt="Shopee" />
+            <img data-field-src="trusted3" src="assets/trusted/tavily.png" alt="Tavily" />
+            <img data-field-src="trusted4" src="assets/trusted/traject-data.png" alt="Traject Data" />
+            <img data-field-src="trusted5" src="assets/trusted/forage-ai.png" alt="Forage AI" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="label">Featured in</div>
+          <div class="logos">
+            <img data-field-src="press1" src="assets/press/techcrunch.png" alt="TechCrunch" />
+            <img data-field-src="press2" src="assets/press/bloomberg.png" alt="Bloomberg" />
+            <img data-field-src="press3" src="assets/press/wired.png" alt="WIRED" />
+            <img data-field-src="press4" src="assets/press/businessinsider.png" alt="Business Insider" />
+            <img data-field-src="press5" src="assets/press/politico.png" alt="POLITICO" />
+            <img data-field-src="press6" src="assets/press/inc.png" alt="Inc." />
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

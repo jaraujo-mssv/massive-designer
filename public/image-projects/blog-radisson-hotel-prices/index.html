@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1376, height=768" />
+    <title>Blog: Hotel Prices Without a Browser</title>
+    <link rel="stylesheet" href="../_brand/massive.css" />
+    <!-- The joinmassive.com blog banner (the posts from October 2026 on): a 1376×768 photo, a dark wash from the left,
+         the logo top left and the headline in red-light, centred or low. onFields sizes the headline: as large as fits
+         in two lines, else in three. assets/photo-prompt.txt has the photo recipe. -->
+    <style>
+      #canvas {
+        width: 1376px;
+        height: 768px;
+      }
+      .photo {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      /* Standard: solid ground on the left quarter, eased out by the middle, as on the published banners (their
+         photos are dark already). Strong, for bright photos: a longer solid, a fade to 70% and the photo dimmed. */
+      .wash {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          90deg,
+          var(--m-bg) 0%,
+          var(--m-bg) 24%,
+          rgba(10, 10, 15, 0.8) 31%,
+          rgba(10, 10, 15, 0.5) 38%,
+          rgba(10, 10, 15, 0.24) 45%,
+          rgba(10, 10, 15, 0.07) 52%,
+          rgba(10, 10, 15, 0) 57%
+        );
+      }
+      #canvas[data-wash="strong"] .wash {
+        background:
+          linear-gradient(
+            90deg,
+            var(--m-bg) 0%,
+            rgba(10, 10, 15, 0.97) 30%,
+            rgba(10, 10, 15, 0.86) 38%,
+            rgba(10, 10, 15, 0.62) 46%,
+            rgba(10, 10, 15, 0.34) 54%,
+            rgba(10, 10, 15, 0.12) 62%,
+            rgba(10, 10, 15, 0) 70%
+          ),
+          rgba(10, 10, 15, 0.28);
+      }
+      .logo {
+        position: absolute;
+        left: 82px;
+        top: 82px;
+        height: 25px;
+      }
+      .copy {
+        position: absolute;
+        left: 80px;
+        top: 16px;
+        bottom: 0;
+        width: 640px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      #canvas[data-position="bottom"] .copy {
+        top: 0;
+        bottom: 66px;
+        justify-content: flex-end;
+      }
+      .headline {
+        font-size: 92px;
+        font-weight: 650;
+        line-height: 1.03;
+        color: var(--m-red-light);
+        text-wrap: balance;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas" data-position="middle" data-wash="strong">
+      <img class="photo" data-field-src="photo" src="assets/photo.jpg" alt="" />
+      <div class="wash"></div>
+      <img class="logo" src="../_brand/logo-massive.svg" alt="Massive" />
+      <div class="copy">
+        <div class="headline" data-field="headline">Hotel Prices Without a Browser</div>
+      </div>
+    </div>
+
+    <script>
+      const $ = (s) => document.querySelector(s);
+
+      window.onFields = (values) => {
+        const canvas = $("#canvas");
+        canvas.dataset.position = values.position ?? "middle";
+        canvas.dataset.wash = values.wash ?? "standard";
+
+        // The largest size, 92px down to 80px, that fits the headline in two lines; else the largest from 85px
+        // down that fits it in three.
+        const headline = $(".headline");
+        const fits = (size, lines) => {
+          headline.style.fontSize = `${size}px`;
+          const count = Math.round(headline.offsetHeight / (size * 1.03));
+          return count <= lines && headline.scrollWidth <= headline.clientWidth;
+        };
+        for (let size = 92; size >= 80; size--) if (fits(size, 2)) return;
+        for (let size = 85; size >= 56; size--) if (fits(size, 3)) return;
+      };
+    </script>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

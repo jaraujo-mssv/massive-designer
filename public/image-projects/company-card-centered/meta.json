@@ -1,0 +1,155 @@
+{
+  "id": "company-card-centered",
+  "title": "Company card: Centered",
+  "description": "company-card without the button and the footer band: logo, role badge, headline, pitch and four proof chips on the left, four award cards with their issuers' logos on the right, set larger and centred vertically on the Market Map dark canvas.",
+  "group": "massive",
+  "category": "content",
+  "template": "company-card",
+  "series": "Company profile",
+  "status": "draft",
+  "tags": [
+    "company",
+    "about",
+    "awards",
+    "investors",
+    "press",
+    "landscape"
+  ],
+  "source": "image-projects/company-card",
+  "width": 1920,
+  "height": 1080,
+  "fields": [
+    {
+      "id": "badge",
+      "label": "Badge",
+      "type": "text",
+      "default": "Co-Founder & CEO"
+    },
+    {
+      "id": "status",
+      "label": "Status",
+      "type": "text",
+      "default": "Active"
+    },
+    {
+      "id": "showStatus",
+      "label": "Show status",
+      "type": "toggle",
+      "default": true
+    },
+    {
+      "id": "headline",
+      "label": "Headline",
+      "type": "text",
+      "default": "A front door to"
+    },
+    {
+      "id": "headlineAccent",
+      "label": "Headline (gradient line)",
+      "type": "text",
+      "default": "the entire web."
+    },
+    {
+      "id": "body",
+      "label": "Body",
+      "type": "text",
+      "default": "Massive gives AI agents and data teams real-time web access through a consent-based residential network. Every connection comes from a real person, in 195+ countries, who opted in and is rewarded for it."
+    },
+    {
+      "id": "chip1",
+      "label": "Chip 1",
+      "type": "text",
+      "default": "99.8% success"
+    },
+    {
+      "id": "chip2",
+      "label": "Chip 2",
+      "type": "text",
+      "default": "<600ms"
+    },
+    {
+      "id": "chip3",
+      "label": "Chip 3",
+      "type": "text",
+      "default": "195+ countries"
+    },
+    {
+      "id": "chip4",
+      "label": "Chip 4",
+      "type": "text",
+      "default": "SOC 2"
+    },
+    {
+      "id": "award1Logo",
+      "label": "Award 1: logo",
+      "type": "image",
+      "default": "assets/awards/inc.png"
+    },
+    {
+      "id": "award1Big",
+      "label": "Award 1: headline",
+      "type": "text",
+      "default": "#217"
+    },
+    {
+      "id": "award1What",
+      "label": "Award 1: what",
+      "type": "text",
+      "default": "Inc. 5000 · 2026"
+    },
+    {
+      "id": "award2Logo",
+      "label": "Award 2: logo",
+      "type": "image",
+      "default": "assets/awards/proxyway.png"
+    },
+    {
+      "id": "award2Big",
+      "label": "Award 2: headline",
+      "type": "text",
+      "default": "Newcomer of the Year"
+    },
+    {
+      "id": "award2What",
+      "label": "Award 2: what",
+      "type": "text",
+      "default": "Proxyway Awards · 2025"
+    },
+    {
+      "id": "award3Logo",
+      "label": "Award 3: logo",
+      "type": "image",
+      "default": "assets/awards/proxyway.png"
+    },
+    {
+      "id": "award3Big",
+      "label": "Award 3: headline",
+      "type": "text",
+      "default": "#1"
+    },
+    {
+      "id": "award3What",
+      "label": "Award 3: what",
+      "type": "text",
+      "default": "US residential success rate"
+    },
+    {
+      "id": "award4Logo",
+      "label": "Award 4: logo",
+      "type": "image",
+      "default": "assets/awards/webbys.png"
+    },
+    {
+      "id": "award4Big",
+      "label": "Award 4: headline",
+      "type": "text",
+      "default": "Webby"
+    },
+    {
+      "id": "award4What",
+      "label": "Award 4: what",
+      "type": "text",
+      "default": "Honoree · 2022"
+    }
+  ]
+}

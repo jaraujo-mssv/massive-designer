@@ -1,0 +1,275 @@
+{
+  "id": "company-card",
+  "title": "Company card: A front door to the web",
+  "description": "Company card on the Market Map dark canvas: role badge, headline with a gradient line, pitch, four proof chips and a button on the left, four award cards with their issuers' logos on the right, and investor, customer and press logos in a footer band.",
+  "group": "massive",
+  "category": "content",
+  "template": null,
+  "series": "Company profile",
+  "status": "draft",
+  "tags": [
+    "company",
+    "about",
+    "awards",
+    "investors",
+    "press",
+    "landscape"
+  ],
+  "source": null,
+  "width": 1920,
+  "height": 1080,
+  "fields": [
+    {
+      "id": "badge",
+      "label": "Badge",
+      "type": "text",
+      "default": "Co-Founder & CEO"
+    },
+    {
+      "id": "status",
+      "label": "Status",
+      "type": "text",
+      "default": "Active"
+    },
+    {
+      "id": "showStatus",
+      "label": "Show status",
+      "type": "toggle",
+      "default": true
+    },
+    {
+      "id": "headline",
+      "label": "Headline",
+      "type": "text",
+      "default": "A front door to"
+    },
+    {
+      "id": "headlineAccent",
+      "label": "Headline (gradient line)",
+      "type": "text",
+      "default": "the entire web."
+    },
+    {
+      "id": "body",
+      "label": "Body",
+      "type": "text",
+      "default": "Massive gives AI agents and data teams real-time web access through a consent-based residential network. Every connection comes from a real person, in 195+ countries, who opted in and is rewarded for it."
+    },
+    {
+      "id": "chip1",
+      "label": "Chip 1",
+      "type": "text",
+      "default": "99.8% success"
+    },
+    {
+      "id": "chip2",
+      "label": "Chip 2",
+      "type": "text",
+      "default": "<600ms"
+    },
+    {
+      "id": "chip3",
+      "label": "Chip 3",
+      "type": "text",
+      "default": "195+ countries"
+    },
+    {
+      "id": "chip4",
+      "label": "Chip 4",
+      "type": "text",
+      "default": "SOC 2"
+    },
+    {
+      "id": "button",
+      "label": "Button",
+      "type": "text",
+      "default": "See More"
+    },
+    {
+      "id": "showButton",
+      "label": "Show button",
+      "type": "toggle",
+      "default": true
+    },
+    {
+      "id": "award1Logo",
+      "label": "Award 1: logo",
+      "type": "image",
+      "default": "assets/awards/inc.png"
+    },
+    {
+      "id": "award1Big",
+      "label": "Award 1: headline",
+      "type": "text",
+      "default": "#217"
+    },
+    {
+      "id": "award1What",
+      "label": "Award 1: what",
+      "type": "text",
+      "default": "Inc. 5000 · 2026"
+    },
+    {
+      "id": "award2Logo",
+      "label": "Award 2: logo",
+      "type": "image",
+      "default": "assets/awards/proxyway.png"
+    },
+    {
+      "id": "award2Big",
+      "label": "Award 2: headline",
+      "type": "text",
+      "default": "Newcomer of the Year"
+    },
+    {
+      "id": "award2What",
+      "label": "Award 2: what",
+      "type": "text",
+      "default": "Proxyway Awards · 2025"
+    },
+    {
+      "id": "award3Logo",
+      "label": "Award 3: logo",
+      "type": "image",
+      "default": "assets/awards/proxyway.png"
+    },
+    {
+      "id": "award3Big",
+      "label": "Award 3: headline",
+      "type": "text",
+      "default": "#1"
+    },
+    {
+      "id": "award3What",
+      "label": "Award 3: what",
+      "type": "text",
+      "default": "US residential success rate"
+    },
+    {
+      "id": "award4Logo",
+      "label": "Award 4: logo",
+      "type": "image",
+      "default": "assets/awards/webbys.png"
+    },
+    {
+      "id": "award4Big",
+      "label": "Award 4: headline",
+      "type": "text",
+      "default": "Webby"
+    },
+    {
+      "id": "award4What",
+      "label": "Award 4: what",
+      "type": "text",
+      "default": "Honoree · 2022"
+    },
+    {
+      "id": "backed1",
+      "label": "Backed-by logo 1 (Point72 Ventures)",
+      "type": "image",
+      "default": "assets/backed/point72.png"
+    },
+    {
+      "id": "backed2",
+      "label": "Backed-by logo 2 (Microsoft for Startups)",
+      "type": "image",
+      "default": "assets/backed/microsoft.png"
+    },
+    {
+      "id": "backed3",
+      "label": "Backed-by logo 3 (Nvidia)",
+      "type": "image",
+      "default": "assets/backed/nvidia.png"
+    },
+    {
+      "id": "backed4",
+      "label": "Backed-by logo 4 (Coinbase Ventures)",
+      "type": "image",
+      "default": "assets/backed/coinbase-ventures.png"
+    },
+    {
+      "id": "backed5",
+      "label": "Backed-by logo 5 (Mozilla Ventures)",
+      "type": "image",
+      "default": "assets/backed/mozilla.png"
+    },
+    {
+      "id": "backed6",
+      "label": "Backed-by logo 6 (Hustle Fund)",
+      "type": "image",
+      "default": "assets/backed/hustle-fund.png"
+    },
+    {
+      "id": "backed7",
+      "label": "Backed-by logo 7 (Xoogler Ventures)",
+      "type": "image",
+      "default": "assets/backed/xoogler.png"
+    },
+    {
+      "id": "trusted1",
+      "label": "Trusted-by logo 1 (Snowflake)",
+      "type": "image",
+      "default": "assets/trusted/snowflake.png"
+    },
+    {
+      "id": "trusted2",
+      "label": "Trusted-by logo 2 (Shopee)",
+      "type": "image",
+      "default": "assets/trusted/shopee.png"
+    },
+    {
+      "id": "trusted3",
+      "label": "Trusted-by logo 3 (Tavily)",
+      "type": "image",
+      "default": "assets/trusted/tavily.png"
+    },
+    {
+      "id": "trusted4",
+      "label": "Trusted-by logo 4 (Traject Data)",
+      "type": "image",
+      "default": "assets/trusted/traject-data.png"
+    },
+    {
+      "id": "trusted5",
+      "label": "Trusted-by logo 5 (Forage AI)",
+      "type": "image",
+      "default": "assets/trusted/forage-ai.png"
+    },
+    {
+      "id": "press1",
+      "label": "Featured logo 1 (TechCrunch)",
+      "type": "image",
+      "default": "assets/press/techcrunch.png"
+    },
+    {
+      "id": "press2",
+      "label": "Featured logo 2 (Bloomberg)",
+      "type": "image",
+      "default": "assets/press/bloomberg.png"
+    },
+    {
+      "id": "press3",
+      "label": "Featured logo 3 (WIRED)",
+      "type": "image",
+      "default": "assets/press/wired.png"
+    },
+    {
+      "id": "press4",
+      "label": "Featured logo 4 (Business Insider)",
+      "type": "image",
+      "default": "assets/press/businessinsider.png"
+    },
+    {
+      "id": "press5",
+      "label": "Featured logo 5 (POLITICO)",
+      "type": "image",
+      "default": "assets/press/politico.png"
+    },
+    {
+      "id": "press6",
+      "label": "Featured logo 6 (Inc.)",
+      "type": "image",
+      "default": "assets/press/inc.png"
+    }
+  ]
+}

@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Company card: Centered</title>
+    <link rel="stylesheet" href="../_brand/massive.css" />
+    <!-- company-card without the button and the footer band: the logo, the pitch and the four award cards,
+         set larger and centred vertically on the Market Map dark canvas. -->
+    <style>
+      #canvas {
+        width: 1920px;
+        height: 1080px;
+      }
+      /* The logo over the two columns, the whole block centred on the canvas. */
+      .stage {
+        position: absolute;
+        inset: 0;
+        padding: 0 110px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .logo {
+        display: block;
+        height: 48px;
+        width: auto;
+        align-self: flex-start;
+      }
+      .cols {
+        margin-top: 60px;
+        display: flex;
+        align-items: center;
+        gap: 80px;
+      }
+      .pitch {
+        width: 860px;
+      }
+      .badges {
+        display: flex;
+        gap: 16px;
+      }
+      .badge,
+      .status {
+        display: flex;
+        align-items: center;
+        height: 52px;
+        padding: 0 24px;
+        border-radius: 26px;
+        font-size: 22px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .badge {
+        background: var(--m-red);
+      }
+      .status {
+        gap: 12px;
+        background: rgba(250, 244, 236, 0.06);
+        border: 1px solid rgba(250, 244, 236, 0.14);
+      }
+      .status::before {
+        content: "";
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #22c55e;
+        box-shadow: 0 0 0 5px rgba(34, 197, 94, 0.2);
+      }
+      .headline {
+        margin-top: 40px;
+        font-size: 100px;
+        font-weight: 900;
+        line-height: 1.02;
+        letter-spacing: -0.04em;
+        word-spacing: 0.08em;
+      }
+      .headline span {
+        display: block;
+      }
+      /* The second line in the wordmark gradient, red to red-light, clipped to the text. */
+      .headline .accent {
+        display: inline-block;
+        background: linear-gradient(135deg, var(--m-red), var(--m-red-light));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .body {
+        margin-top: 32px;
+        font-size: 32px;
+        font-weight: 300;
+        line-height: 1.45;
+        color: var(--m-cream-mid);
+      }
+      .chips {
+        margin-top: 40px;
+        display: flex;
+        gap: 14px;
+      }
+      .chip {
+        display: flex;
+        align-items: center;
+        height: 54px;
+        padding: 0 22px;
+        border-radius: 12px;
+        background: rgba(250, 244, 236, 0.05);
+        border: 1px solid rgba(250, 244, 236, 0.14);
+        font-size: 22px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .chip:empty {
+        display: none;
+      }
+      /* Four award cards, two by two. */
+      .awards {
+        flex: 1;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+      }
+      .award {
+        padding: 40px 32px 38px;
+        border-radius: 20px;
+        background: rgba(26, 25, 32, 0.88);
+        border: 1px solid rgba(215, 73, 57, 0.27);
+      }
+      /* The issuer's logo, from joinmassive.com/press, recoloured cream and padded to one optical size. */
+      .award .mark {
+        display: block;
+        height: 72px;
+        width: auto;
+        margin: 0 auto 30px;
+        opacity: 0.85;
+      }
+      /* Two lines under the logo, the same size: the award in red-light, then what it was for. */
+      .award .big,
+      .award .what {
+        font-size: 25px;
+        font-weight: 600;
+        line-height: 1.3;
+      }
+      .award .big {
+        font-weight: 700;
+        color: var(--m-red-light);
+      }
+      .award .what {
+        margin-top: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas">
+      <img class="m-bg-dark" src="../_brand/bg-dark.jpg" alt="" />
+      <div class="stage">
+        <img class="logo" src="../_brand/logo-massive.svg" alt="Massive" />
+        <div class="cols">
+          <div class="pitch">
+            <div class="badges">
+              <div class="badge" data-field="badge">Co-Founder &amp; CEO</div>
+              <div class="status" data-field-show="showStatus"><span data-field="status">Active</span></div>
+            </div>
+            <div class="headline">
+              <span data-field="headline">A front door to</span>
+              <span class="accent" data-field="headlineAccent">the entire web.</span>
+            </div>
+            <div class="body" data-field="body">
+              Massive gives AI agents and data teams real-time web access through a consent-based residential network.
+              Every connection comes from a real person, in 195+ countries, who opted in and is rewarded for it.
+            </div>
+            <div class="chips">
+              <div class="chip" data-field="chip1">99.8% success</div>
+              <div class="chip" data-field="chip2">&lt;600ms</div>
+              <div class="chip" data-field="chip3">195+ countries</div>
+              <div class="chip" data-field="chip4">SOC 2</div>
+            </div>
+          </div>
+          <div class="awards">
+            <div class="award">
+              <img class="mark" data-field-src="award1Logo" src="assets/awards/inc.png" alt="Inc. 5000" />
+              <div class="big" data-field="award1Big">#217</div>
+              <div class="what" data-field="award1What">Inc. 5000 · 2026</div>
+            </div>
+            <div class="award">
+              <img class="mark" data-field-src="award2Logo" src="assets/awards/proxyway.png" alt="Proxyway" />
+              <div class="big" data-field="award2Big">Newcomer of the Year</div>
+              <div class="what" data-field="award2What">Proxyway Awards · 2025</div>
+            </div>
+            <div class="award">
+              <img class="mark" data-field-src="award3Logo" src="assets/awards/proxyway.png" alt="Proxyway" />
+              <div class="big" data-field="award3Big">#1</div>
+              <div class="what" data-field="award3What">US residential success rate</div>
+            </div>
+            <div class="award">
+              <img class="mark" data-field-src="award4Logo" src="assets/awards/webbys.png" alt="The Webby Awards" />
+              <div class="big" data-field="award4Big">Webby</div>
+              <div class="what" data-field="award4What">Honoree · 2022</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

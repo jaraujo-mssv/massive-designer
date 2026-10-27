@@ -1,0 +1,66 @@
+{
+  "id": "blog-radisson-hotel-prices",
+  "title": "Blog: Hotel Prices Without a Browser",
+  "description": "Banner for the Hyper Solutions guest post on scraping Radisson hotel prices without a browser (Sanity draft blog-en-radisson-request-based-scraper).",
+  "group": "massive",
+  "category": "content",
+  "series": "Blog banners",
+  "status": "draft",
+  "tags": [
+    "blog",
+    "banner",
+    "sanity",
+    "guest-post",
+    "hyper-solutions"
+  ],
+  "source": "image-projects/blog-banner",
+  "width": 1376,
+  "height": 768,
+  "fields": [
+    {
+      "id": "photo",
+      "label": "Photo",
+      "type": "image",
+      "default": "assets/photo.jpg"
+    },
+    {
+      "id": "headline",
+      "label": "Headline",
+      "type": "text",
+      "default": "Hotel Prices Without a Browser"
+    },
+    {
+      "id": "position",
+      "label": "Headline position",
+      "type": "select",
+      "default": "middle",
+      "options": [
+        {
+          "value": "middle",
+          "label": "Middle"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        }
+      ]
+    },
+    {
+      "id": "wash",
+      "label": "Wash",
+      "type": "select",
+      "default": "strong",
+      "options": [
+        {
+          "value": "standard",
+          "label": "Standard (dark photo)"
+        },
+        {
+          "value": "strong",
+          "label": "Strong (bright photo)"
+        }
+      ]
+    }
+  ],
+  "template": "blog-banner"
+}

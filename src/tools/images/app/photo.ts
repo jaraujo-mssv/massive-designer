@@ -1,8 +1,32 @@
 import { proxyUrl } from "@/shared/utils/imageDataUrl";
 import { MAX_UPLOAD_EDGE } from "./constants";
+import type { ImageField, ImageProject } from "./types";
 
 /** What the Photo field says about a file that isn't an image. */
 export const NOT_AN_IMAGE = "That file isn't an image.";
+
+export const isLink = (v: string) => /^https?:\/\//i.test(v);
+
+/** Field image paths in meta.json are relative to the project page; photo links load through the image proxy. */
+export const resolveSrc = (project: ImageProject, src: string) =>
+  isLink(src)
+    ? proxyUrl(src)
+    : src.startsWith("data:") || src.startsWith("/")
+      ? src
+      : new URL(src, new URL(project.path ?? "/", window.location.origin)).href;
+
+/** Where the photo came from: the file's name, the link's site, the ready-made photo's name, or the template. */
+export function sourceOf(field: ImageField, value: string, name: string | undefined) {
+  if (value.startsWith("data:")) return name ?? "Uploaded photo";
+  if (isLink(value)) {
+    try {
+      return new URL(value).hostname;
+    } catch {
+      return value;
+    }
+  }
+  return field.options?.find((o) => o.value === value)?.label ?? (value === field.default ? "Template photo" : value.split("/").pop());
+}
 
 /** Read an uploaded image and scale it down to a JPEG data URL, small enough to keep in localStorage. */
 export async function readImage(file: File): Promise<string> {

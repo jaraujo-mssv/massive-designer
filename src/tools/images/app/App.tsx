@@ -261,6 +261,7 @@ export default function App() {
             {project && planned && <PlannedCard project={project} categories={categories} projects={projects} />}
             {project && !planned && (
               // Drop a photo on the preview to use it (the iframe ignores the pointer, so the drop lands here).
+              // Click a text or photo on it to edit it there; a download ends that first, like Market Map's.
               <div
                 className="relative flex-1 min-w-0 min-h-0 flex"
                 onDragOver={(e) => {
@@ -278,7 +279,16 @@ export default function App() {
                   if (file && photoField) takeFile(photoField.id, file);
                 }}
               >
-                <PreviewPane ref={preview} project={project} values={fields.values} />
+                <PreviewPane
+                  ref={preview}
+                  project={project}
+                  values={fields.values}
+                  edit={
+                    exporting
+                      ? undefined
+                      : { names: fields.names, errors: fields.errors, onChange: fields.set, onFile: takeFile }
+                  }
+                />
                 {dragging && photoField && (
                   <div className="absolute inset-4 rounded-xl border-2 border-dashed border-brand bg-brand/10 flex items-center justify-center text-sm text-text-primary pointer-events-none">
                     Drop to use as the {photoField.label.toLowerCase()}

@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowCounterClockwise, UploadSimple } from "@phosphor-icons/react";
 import { SidebarWarning, sidebarHeadingClass, sidebarInputClass } from "@/shared/components/SidebarLayout";
-import { proxyUrl } from "@/shared/utils/imageDataUrl";
 import { PHOTO_ERROR, unknownMessage } from "../../params";
-import { checkPhoto, fileIn, hasImageFile } from "../photo";
+import { checkPhoto, fileIn, hasImageFile, isLink, resolveSrc, sourceOf } from "../photo";
 import type { FieldValues, ImageField, ImageProject } from "../types";
 
 interface FieldsPanelProps {
@@ -23,29 +22,6 @@ interface FieldsPanelProps {
   onReset: () => void;
   /** Phones: drawn inside the drawer, full width, without its own column frame. */
   inDrawer?: boolean;
-}
-
-const isLink = (v: string) => /^https?:\/\//i.test(v);
-
-/** Field image paths in meta.json are relative to the project page; photo links load through the image proxy. */
-const resolveSrc = (project: ImageProject, src: string) =>
-  isLink(src)
-    ? proxyUrl(src)
-    : src.startsWith("data:") || src.startsWith("/")
-      ? src
-      : new URL(src, new URL(project.path ?? "/", window.location.origin)).href;
-
-/** Where the photo came from: the file's name, the link's site, the ready-made photo's name, or the template. */
-function sourceOf(field: ImageField, value: string, name: string | undefined) {
-  if (value.startsWith("data:")) return name ?? "Uploaded photo";
-  if (isLink(value)) {
-    try {
-      return new URL(value).hostname;
-    } catch {
-      return value;
-    }
-  }
-  return field.options?.find((o) => o.value === value)?.label ?? (value === field.default ? "Template photo" : value.split("/").pop());
 }
 
 /**

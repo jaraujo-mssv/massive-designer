@@ -30,9 +30,11 @@
 
   async function apply(next) {
     values = { ...values, ...next };
+    // Text someone is typing into on the Images tab's canvas is already up to date, and an older value
+    // still on its way would undo the last keystrokes and move the caret.
     for (const el of canvas.querySelectorAll("[data-field]")) {
       const v = values[el.dataset.field];
-      if (v !== undefined && el.textContent !== String(v)) el.textContent = String(v);
+      if (v !== undefined && !el.isContentEditable && el.textContent !== String(v)) el.textContent = String(v);
     }
     for (const el of canvas.querySelectorAll("[data-field-src]")) {
       const v = values[el.dataset.fieldSrc];

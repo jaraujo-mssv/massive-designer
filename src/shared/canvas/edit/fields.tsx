@@ -33,6 +33,7 @@ export function EditForm({
   onBack,
   onDelete,
   confirmDelete,
+  submitLabel = "Apply",
   children,
 }: {
   title: string;
@@ -42,6 +43,8 @@ export function EditForm({
   onDelete?: () => void;
   /** Asks for a second click before deleting, with this text. */
   confirmDelete?: string;
+  /** "Done" where the fields apply as you go. */
+  submitLabel?: string;
   children: React.ReactNode;
 }) {
   const [confirming, setConfirming] = useState(false);
@@ -79,7 +82,7 @@ export function EditForm({
           type="submit"
           className="px-3 py-1.5 text-xs font-medium bg-brand text-white rounded-md hover:opacity-90 transition-opacity"
         >
-          Apply
+          {submitLabel}
         </button>
       </div>
     </form>

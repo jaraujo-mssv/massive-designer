@@ -3,6 +3,7 @@ import { domToJpeg } from "modern-screenshot";
 import { useFitScale } from "@/shared/canvas/useFitScale";
 import { proxyUrl } from "@/shared/utils/imageDataUrl";
 import type { FieldValues, ImageProject } from "../types";
+import { CanvasEdit, type CanvasEditHandlers } from "./CanvasEdit";
 
 export interface PreviewHandle {
   /** The image as a 2× JPEG blob, once the page has applied the current values. */
@@ -12,6 +13,8 @@ export interface PreviewHandle {
 interface PreviewPaneProps {
   project: ImageProject;
   values: FieldValues;
+  /** Click-to-edit on the image; leave out to make it read-only (e.g. while exporting). */
+  edit?: CanvasEditHandlers;
 }
 
 type KitMessage = { type: "image-kit:ready" } | { type: "image-kit:applied" };
@@ -21,10 +24,11 @@ type KitMessage = { type: "image-kit:ready" } | { type: "image-kit:applied" };
  * Field values go to the page's image-kit by postMessage; the export captures the
  * page's #canvas straight from the iframe's document, so its own fonts and styles come along.
  */
-export const PreviewPane = forwardRef<PreviewHandle, PreviewPaneProps>(function PreviewPane({ project, values }, ref) {
+export const PreviewPane = forwardRef<PreviewHandle, PreviewPaneProps>(function PreviewPane({ project, values, edit }, ref) {
   const areaRef = useRef<HTMLDivElement>(null);
   const frameRef = useRef<HTMLIFrameElement>(null);
   const [ready, setReady] = useState(false);
+  const [version, setVersion] = useState(0);
   const applied = useRef<(() => void)[]>([]);
   const scale = useFitScale(areaRef, project.width, project.height);
 
@@ -48,7 +52,10 @@ export const PreviewPane = forwardRef<PreviewHandle, PreviewPaneProps>(function 
     const onMessage = (e: MessageEvent<KitMessage>) => {
       if (e.origin !== window.location.origin || e.source !== frameRef.current?.contentWindow) return;
       if (e.data?.type === "image-kit:ready") setReady(true);
-      if (e.data?.type === "image-kit:applied") applied.current.splice(0).forEach((done) => done());
+      if (e.data?.type === "image-kit:applied") {
+        applied.current.splice(0).forEach((done) => done());
+        setVersion((v) => v + 1);
+      }
     };
     window.addEventListener("message", onMessage);
     return () => window.removeEventListener("message", onMessage);
@@ -127,6 +134,17 @@ export const PreviewPane = forwardRef<PreviewHandle, PreviewPaneProps>(function 
         />
         {!ready && (
           <div className="absolute inset-0 flex items-center justify-center text-xs font-mono text-text-dim">Loading…</div>
+        )}
+        {ready && edit && (
+          <CanvasEdit
+            key={`edit:${project.id}`}
+            frameRef={frameRef}
+            project={project}
+            values={values}
+            scale={scale}
+            version={version}
+            {...edit}
+          />
         )}
       </div>
     </div>

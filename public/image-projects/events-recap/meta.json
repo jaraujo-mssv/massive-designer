@@ -1,0 +1,139 @@
+{
+  "id": "events-recap",
+  "title": "Event recap",
+  "description": "Event recap in the house look: three photos from the event, a thank-you headline, the event line and one takeaway. Source: scripts/deck/prague-crawl-2027.html (Prague Crawl 2026, May 20, 2026; 250+ attendees; 17 talks, demos and a panel) and praguecrawl.com/agenda; photos from public/image-projects/_prague-crawl/.",
+  "group": "templates",
+  "category": "events",
+  "template": null,
+  "series": null,
+  "status": "draft",
+  "tags": [
+    "events",
+    "recap"
+  ],
+  "source": null,
+  "width": 1080,
+  "height": 1350,
+  "fields": [
+    {
+      "id": "event",
+      "label": "Event line",
+      "type": "text",
+      "default": "Prague Crawl 2026 · May 20, 2026",
+      "hint": "Event name · date, about 35 characters"
+    },
+    {
+      "id": "photo1",
+      "label": "Top photo",
+      "type": "image",
+      "default": "../_prague-crawl/photo-room.jpg",
+      "options": [
+        {
+          "value": "../_prague-crawl/photo-room.jpg",
+          "label": "The room"
+        },
+        {
+          "value": "../_prague-crawl/photo-stage.jpg",
+          "label": "Talk from the back"
+        },
+        {
+          "value": "../_prague-crawl/photo-speaker.jpg",
+          "label": "Speaker and audience"
+        },
+        {
+          "value": "../_prague-crawl/photo-panel.jpg",
+          "label": "Panel on stage"
+        },
+        {
+          "value": "../_prague-crawl/photo-networking.jpg",
+          "label": "Networking"
+        },
+        {
+          "value": "../_prague-crawl/photo-phone.jpg",
+          "label": "Filming a talk"
+        }
+      ],
+      "hint": "The wide photo on top; a landscape shot of the whole room works best"
+    },
+    {
+      "id": "photo2",
+      "label": "Left photo",
+      "type": "image",
+      "default": "../_prague-crawl/photo-stage.jpg",
+      "options": [
+        {
+          "value": "../_prague-crawl/photo-room.jpg",
+          "label": "The room"
+        },
+        {
+          "value": "../_prague-crawl/photo-stage.jpg",
+          "label": "Talk from the back"
+        },
+        {
+          "value": "../_prague-crawl/photo-speaker.jpg",
+          "label": "Speaker and audience"
+        },
+        {
+          "value": "../_prague-crawl/photo-panel.jpg",
+          "label": "Panel on stage"
+        },
+        {
+          "value": "../_prague-crawl/photo-networking.jpg",
+          "label": "Networking"
+        },
+        {
+          "value": "../_prague-crawl/photo-phone.jpg",
+          "label": "Filming a talk"
+        }
+      ],
+      "hint": "Lower left; a landscape photo"
+    },
+    {
+      "id": "photo3",
+      "label": "Right photo",
+      "type": "image",
+      "default": "../_prague-crawl/photo-networking.jpg",
+      "options": [
+        {
+          "value": "../_prague-crawl/photo-room.jpg",
+          "label": "The room"
+        },
+        {
+          "value": "../_prague-crawl/photo-stage.jpg",
+          "label": "Talk from the back"
+        },
+        {
+          "value": "../_prague-crawl/photo-speaker.jpg",
+          "label": "Speaker and audience"
+        },
+        {
+          "value": "../_prague-crawl/photo-panel.jpg",
+          "label": "Panel on stage"
+        },
+        {
+          "value": "../_prague-crawl/photo-networking.jpg",
+          "label": "Networking"
+        },
+        {
+          "value": "../_prague-crawl/photo-phone.jpg",
+          "label": "Filming a talk"
+        }
+      ],
+      "hint": "Lower right; a landscape photo"
+    },
+    {
+      "id": "headline",
+      "label": "Headline",
+      "type": "text",
+      "default": "Thank you, Prague",
+      "hint": "The thank-you line. Up to two lines; about 20 characters reads best"
+    },
+    {
+      "id": "takeaway",
+      "label": "Takeaway",
+      "type": "text",
+      "default": "250+ attendees. 17 talks, demos and a panel.",
+      "hint": "One or two sourced facts, up to two lines; about 50 characters"
+    }
+  ]
+}

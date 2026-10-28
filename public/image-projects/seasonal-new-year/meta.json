@@ -1,0 +1,40 @@
+{
+  "id": "seasonal-new-year",
+  "title": "Happy New Year",
+  "description": "A New Year card in the house look: the greeting over the year, set huge across the frame, with confetti frozen mid-burst around it and the logo and joinmassive.com in the footer. No facts on it beyond the year.",
+  "group": "massive",
+  "category": "seasonal",
+  "template": null,
+  "series": null,
+  "status": "draft",
+  "tags": [
+    "seasonal",
+    "new year"
+  ],
+  "source": null,
+  "width": 1080,
+  "height": 1350,
+  "fields": [
+    {
+      "id": "year",
+      "label": "Year",
+      "type": "text",
+      "default": "2027",
+      "hint": "The new year; it's sized to fill the width"
+    },
+    {
+      "id": "greeting",
+      "label": "Greeting",
+      "type": "text",
+      "default": "Happy New Year",
+      "hint": "One line, about 15 characters"
+    },
+    {
+      "id": "confetti",
+      "label": "Confetti",
+      "type": "toggle",
+      "default": true,
+      "hint": "The confetti burst around the year"
+    }
+  ]
+}

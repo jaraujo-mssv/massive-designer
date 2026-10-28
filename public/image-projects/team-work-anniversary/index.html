@@ -1,0 +1,526 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1350" />
+    <title>Work anniversary</title>
+    <link rel="stylesheet" href="../_brand/massive.css" />
+    <!-- public/video-projects/work-anniversary held at its final frame, in the welcome card's portrait layout: the
+         Slack desktop dimmed under the achievement toast and the character-sheet card, the anniversary line below.
+         The count-up and the pips' pop are motion only: the tenure and the pips are drawn where they land.
+         backdrop-filter is left out: it doesn't come through the export. -->
+    <style>
+      #canvas {
+        width: 1080px;
+        height: 1350px;
+      }
+
+      /* ---- Desktop (01-desktop), dimmed under the card ---- */
+      .wallpaper {
+        position: absolute;
+        inset: -40px;
+        background: #e9e7e4 url("assets/wallpaper.jpg") center / cover no-repeat;
+      }
+      .menubar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        gap: 34px;
+        padding: 0 28px;
+        background: rgba(10, 10, 15, 0.45);
+        color: rgba(250, 244, 236, 0.92);
+        font-size: 21px;
+        font-weight: 500;
+      }
+      .menubar img {
+        height: 17px;
+      }
+      .menubar .app {
+        font-weight: 700;
+      }
+      .menubar .right {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        gap: 25px;
+      }
+      .menubar svg {
+        width: 24px;
+        height: 24px;
+      }
+      .dock {
+        position: absolute;
+        left: 167px;
+        bottom: 24px;
+        width: 746px;
+        height: 134px;
+        padding: 14px;
+        display: flex;
+        gap: 16px;
+        border-radius: 38px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+      }
+      .dock .tile {
+        position: relative;
+        width: 106px;
+        height: 106px;
+        flex-shrink: 0;
+      }
+      .dock .tile img {
+        width: 106px;
+        height: 106px;
+        filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.35));
+      }
+      .dock .tile img.slack-icon {
+        padding: 9px;
+      }
+      .running {
+        position: absolute;
+        left: 596px;
+        bottom: 12px;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: rgba(250, 244, 236, 0.85);
+      }
+      .dim {
+        position: absolute;
+        inset: 0;
+        background: rgba(6, 6, 10, 0.62);
+      }
+
+      /* The toast, the card and the anniversary line, centred between the menubar and the dock. */
+      .stage {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 50px;
+        bottom: 158px;
+        --portrait: 240px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 28px;
+      }
+
+      /* Lucide icons (lucide.dev, ISC). */
+      svg.ic {
+        width: 24px;
+        height: 24px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      /* Labels: Outfit, uppercase and tracked (the video's were mono). */
+      .k {
+        font-size: 18px;
+        font-weight: 700;
+        line-height: 1.25;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--m-cream-dim);
+      }
+
+      /* ---- Achievement toast (03-card), where it lands above the card ---- */
+      .toast {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        max-width: 920px;
+        padding: 12px 34px 12px 12px;
+        border-radius: 999px;
+        background: #1a1d21;
+        border: 1px solid rgba(215, 73, 57, 0.5);
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55), 0 0 40px rgba(215, 73, 57, 0.25);
+      }
+      .toast .medal {
+        width: 68px;
+        height: 68px;
+        flex-shrink: 0;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--m-red), var(--m-red-light));
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .toast .medal svg.ic {
+        width: 34px;
+        height: 34px;
+      }
+      .toast .k {
+        color: var(--m-red-light);
+      }
+      .toast .t {
+        margin-top: 2px;
+        font-size: 30px;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        white-space: nowrap;
+      }
+
+      /* ---- Card (03-card) in the welcome card's portrait stack ---- */
+      .card {
+        position: relative;
+        width: 780px;
+        border-radius: 24px;
+        background: rgba(26, 29, 33, 0.87);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 40px 120px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(215, 73, 57, 0.12);
+        overflow: hidden;
+      }
+      .chrome {
+        height: 44px;
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        padding: 0 18px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      }
+      .chrome span {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.25);
+      }
+      .chrome .close {
+        background: #ff5f57;
+      }
+      .chrome .min {
+        background: #febc2e;
+      }
+      .chrome .max {
+        background: #28c840;
+      }
+      .body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 42px 40px 40px;
+      }
+      .portrait {
+        position: relative;
+        width: var(--portrait);
+        height: var(--portrait);
+      }
+      /* Gradient ring, clipped to a rounded frame around the photo; held where the video's spin ends (253°). */
+      .ring-frame {
+        position: absolute;
+        inset: -8px;
+        border-radius: 36px;
+        overflow: hidden;
+        box-shadow: 0 0 40px rgba(215, 73, 57, 0.35);
+      }
+      .ring {
+        position: absolute;
+        left: -50%;
+        top: -50%;
+        width: 200%;
+        height: 200%;
+        background: conic-gradient(from 0deg, #d74939, #ff8163, rgba(215, 73, 57, 0.1), #d74939);
+        transform: rotate(253deg);
+      }
+      .photo {
+        position: absolute;
+        inset: 0;
+        width: var(--portrait);
+        height: var(--portrait);
+        object-fit: cover;
+        border-radius: 30px;
+        border: 4px solid #1a1d21;
+      }
+      .badge {
+        position: absolute;
+        left: 50%;
+        bottom: -20px;
+        transform: translateX(-50%);
+        min-width: 200px;
+        text-align: center;
+        padding: 9px 22px;
+        border-radius: 999px;
+        background: var(--m-red);
+        font-size: 19px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        white-space: nowrap;
+        box-shadow: 0 8px 24px rgba(215, 73, 57, 0.45);
+      }
+      /* Fitted to the card's 700px column in onFields: one line down to 56px, then two balanced lines. */
+      .name {
+        margin-top: 44px;
+        max-width: 700px;
+        text-align: center;
+        text-wrap: balance;
+        font-size: 80px;
+        font-weight: 900;
+        line-height: 1.15;
+        padding-bottom: 4px;
+        letter-spacing: -0.035em;
+        white-space: nowrap;
+      }
+      /* Slack presence: green dot + "Available". */
+      .presence {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 24px;
+        font-weight: 500;
+        color: var(--m-cream-mid);
+      }
+      .online {
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+        background: #2bac76;
+        box-shadow: 0 0 0 4px rgba(43, 172, 118, 0.22);
+      }
+      .meta {
+        margin-top: 22px;
+        width: 700px;
+        display: flex;
+        justify-content: center;
+        font-size: 24px;
+      }
+      /* Role pill: the small Massive mark where the video has its ROLE label, then the role. */
+      .org {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        max-width: 700px;
+        padding: 7px 16px 7px 13px;
+        border-radius: 10px;
+        background: rgba(215, 73, 57, 0.14);
+        border: 1px solid rgba(215, 73, 57, 0.45);
+        color: var(--m-red-light);
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .org img {
+        height: 15px;
+      }
+      .divider {
+        align-self: stretch;
+        margin: 28px 0 20px;
+        height: 1px;
+        background: rgba(255, 255, 255, 0.1);
+      }
+      .stat {
+        align-self: stretch;
+        display: grid;
+        grid-template-columns: 50px 150px 1fr;
+        align-items: center;
+        gap: 14px;
+        min-height: 72px;
+      }
+      .stat + .stat {
+        margin-top: 8px;
+      }
+      .stat .tile {
+        width: 50px;
+        height: 50px;
+        border-radius: 13px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(215, 73, 57, 0.14);
+        color: var(--m-red-light);
+      }
+      /* Tenure: the number the video counts up to. */
+      .tenure .v {
+        font-size: 58px;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        line-height: 1;
+        white-space: nowrap;
+      }
+      .tenure .yrs {
+        color: var(--m-red-light);
+        font-variant-numeric: tabular-nums;
+      }
+      /* Year pips: one per year (up to 10), lit; a dashed one after them for next year. */
+      .pips {
+        display: grid;
+        grid-template-columns: repeat(10, 1fr);
+        gap: 6px;
+      }
+      .pip {
+        position: relative;
+        aspect-ratio: 1;
+        border-radius: 11px;
+        border: 1.5px dashed rgba(250, 244, 236, 0.28);
+        font-size: 18px;
+        font-weight: 700;
+        color: rgba(250, 244, 236, 0.35);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-variant-numeric: tabular-nums;
+      }
+      .pip.off {
+        display: none;
+      }
+      .pip.lit {
+        border: none;
+        background: linear-gradient(135deg, #d74939, #ff8163);
+        box-shadow: 0 0 18px rgba(215, 73, 57, 0.55);
+        color: #fff;
+      }
+
+      /* ---- Outro (04-outro): the wordmark over the anniversary line, fitted to the frame in onFields ----
+           Positioned so it paints above the card's drop shadow. */
+      .outro {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 18px;
+      }
+      .outro .logo {
+        height: 28px;
+      }
+      .hello {
+        font-size: 58px;
+        font-weight: 800;
+        line-height: 1.1;
+        letter-spacing: -0.03em;
+        white-space: nowrap;
+      }
+      .hello .who {
+        color: var(--m-red-light);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas">
+      <div class="wallpaper"></div>
+      <div class="menubar">
+        <img src="../_brand/icon-massive-white.svg" alt="Massive" />
+        <span class="app">Slack</span>
+        <span>File</span><span>Edit</span><span>View</span><span>Window</span><span>Help</span>
+        <div class="right">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0" /><path d="M1.42 9a16 16 0 0 1 21.16 0" /><path d="M8.53 16.11a6 6 0 0 1 6.95 0" /><line x1="12" x2="12.01" y1="20" y2="20" /></svg>
+        </div>
+      </div>
+      <div class="dock">
+        <div class="tile"><img src="assets/dock/safari.png" alt="Safari" /></div>
+        <div class="tile"><img src="assets/dock/mail.png" alt="Mail" /></div>
+        <div class="tile"><img src="assets/dock/facetime.png" alt="FaceTime" /></div>
+        <div class="tile"><img class="slack-icon" src="assets/slack.svg" alt="Slack" /></div>
+        <div class="tile"><img src="assets/dock/notes.png" alt="Notes" /></div>
+        <div class="tile"><img src="assets/dock/app-store.png" alt="App Store" /></div>
+      </div>
+      <div class="running"></div>
+      <div class="dim"></div>
+
+      <div class="stage">
+        <div class="toast">
+          <div class="medal"><svg class="ic" viewBox="0 0 24 24"><path d="M10 14.66v1.626a2 2 0 0 1-.976 1.696A5 5 0 0 0 7 21.978" /><path d="M14 14.66v1.626a2 2 0 0 0 .976 1.696A5 5 0 0 1 17 21.978" /><path d="M18 9h1.5a1 1 0 0 0 0-5H18" /><path d="M4 22h16" /><path d="M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z" /><path d="M6 9H4.5a1 1 0 0 1 0-5H6" /></svg></div>
+          <div>
+            <div class="k">Achievement unlocked</div>
+            <div class="t"><span class="tn">3</span> <span class="unit">years</span> at Massive</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="chrome"><span class="close"></span><span class="min"></span><span class="max"></span></div>
+          <div class="body">
+            <div class="portrait">
+              <div class="ring-frame"><div class="ring"></div></div>
+              <img class="photo" data-field-src="photo" src="assets/franklin.jpg" alt="" />
+              <div class="badge">Anniversary</div>
+            </div>
+            <div class="name" data-field="name">Franklin Uche</div>
+            <div class="presence"><span class="online"></span><span>Available</span></div>
+            <div class="meta">
+              <span class="org"><img src="../_brand/icon-massive.svg" alt="Massive" /><span data-field="role">Community Lead</span></span>
+            </div>
+            <div class="divider"></div>
+            <div class="stat tenure">
+              <div class="tile"><svg class="ic" viewBox="0 0 24 24"><path d="M10 14.66v1.626a2 2 0 0 1-.976 1.696A5 5 0 0 0 7 21.978" /><path d="M14 14.66v1.626a2 2 0 0 0 .976 1.696A5 5 0 0 1 17 21.978" /><path d="M18 9h1.5a1 1 0 0 0 0-5H18" /><path d="M4 22h16" /><path d="M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z" /><path d="M6 9H4.5a1 1 0 0 1 0-5H6" /></svg></div>
+              <span class="k">Time at Massive</span>
+              <div class="v"><span class="yrs">3</span> <span class="unit">years</span></div>
+            </div>
+            <div class="stat years">
+              <div class="tile"><svg class="ic" viewBox="0 0 24 24"><path d="M8 2v4" /><path d="M16 2v4" /><rect width="18" height="18" x="3" y="4" rx="2" /><path d="M3 10h18" /><path d="m9 16 2 2 4-4" /></svg></div>
+              <span class="k">Years</span>
+              <div class="pips">
+                <span class="pip lit">1</span><span class="pip lit">2</span><span class="pip lit">3</span><span class="pip">4</span><span class="pip off">5</span><span class="pip off">6</span><span class="pip off">7</span><span class="pip off">8</span><span class="pip off">9</span><span class="pip off">10</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="outro">
+          <img class="logo" src="../_brand/logo-massive.svg" alt="Massive" />
+          <div class="hello">Happy work anniversary, <span class="who" data-field="firstName">Franklin</span>!</div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const $ = (s) => document.querySelector(s);
+      const fit = (el, max, from, min) => {
+        el.style.fontSize = `${from}px`;
+        for (let size = from; el.scrollWidth > max && size > min; size -= 2) el.style.fontSize = `${size - 2}px`;
+      };
+      // The name: one line from 80px down to 56px; longer names wrap to two balanced lines, from 64px down.
+      const fitName = (el) => {
+        el.style.whiteSpace = "nowrap";
+        el.style.lineHeight = "";
+        fit(el, 700, 80, 56);
+        if (el.scrollWidth <= 700) return;
+        el.style.whiteSpace = "normal";
+        el.style.lineHeight = "1.05";
+        for (let size = 64; size >= 40; size -= 2) {
+          el.style.fontSize = `${size}px`;
+          if (el.scrollWidth <= 700 && el.offsetHeight <= size * 2.2 + 4) break;
+        }
+      };
+
+      // A long name or long answers make the card taller: the portrait gives up room, down to 180px, until the
+      // stack fits between the menubar and the dock with 24px to spare on each side.
+      const fitStage = (from) => {
+        const stage = $(".stage");
+        const gap = parseFloat(getComputedStyle(stage).rowGap) || 0;
+        const need = () => [...stage.children].reduce((h, el) => h + el.offsetHeight, 0) + gap * (stage.children.length - 1);
+        for (let p = from; p >= 180; p -= 10) {
+          stage.style.setProperty("--portrait", `${p}px`);
+          if (need() <= stage.clientHeight - 48) break;
+        }
+      };
+
+      window.onFields = (values) => {
+        // Years arrive as text ("3", "3 years"); the first whole number counts, at least 1.
+        const years = Math.max(1, parseInt(String(values.years ?? "").match(/\d+/)?.[0] ?? "1", 10) || 1);
+        document.querySelectorAll(".yrs, .tn").forEach((el) => (el.textContent = String(years)));
+        document.querySelectorAll(".unit").forEach((el) => (el.textContent = years === 1 ? "year" : "years"));
+
+        // Lit pips for the years done (up to 10), then a dashed one for next year while there's room. Past 10
+        // the last one reads "10+".
+        document.querySelectorAll(".pip").forEach((pip, i) => {
+          pip.classList.toggle("lit", i < years);
+          pip.classList.toggle("off", i >= Math.min(years + 1, 10));
+          pip.textContent = i === 9 && years > 10 ? "10+" : String(i + 1);
+        });
+
+        fitName($(".name"));
+        fit($(".org"), 700, 24, 18);
+        fit($(".toast .t"), 760, 30, 22);
+        fit($(".hello"), 920, 58, 40);
+        fitStage(240);
+      };
+    </script>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

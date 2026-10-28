@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1350" />
+    <title>Why AEO is the new SEO</title>
+    <link rel="stylesheet" href="../_brand/massive.css" />
+    <style>
+      /* The AEO explainer's last slide (video-projects/why-aeo-is-the-new-seo, compositions/slide-05.html) held at
+         17.46s, every word and the CTA settled. Moved from the video's paper ground to the light register (soft
+         orange + line grid), its mono eyebrow and URL to Outfit, and re-laid for portrait. */
+      #canvas {
+        width: 1080px;
+        height: 1350px;
+      }
+      .eyebrow {
+        position: absolute;
+        left: 80px;
+        right: 80px;
+        top: 96px;
+        display: flex;
+        align-items: baseline;
+        gap: 14px;
+        font-size: 24px;
+        font-weight: 600;
+        line-height: 1.35;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--m-paper-red);
+      }
+      .eyebrow::before {
+        content: "";
+        flex-shrink: 0;
+        width: 24px;
+        height: 2px;
+        background: var(--m-paper-red);
+        transform: translateY(-0.3em);
+      }
+      .body {
+        position: absolute;
+        left: 80px;
+        right: 80px;
+        top: 220px;
+        bottom: 200px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+      }
+      .headline {
+        font-size: 128px;
+        font-weight: 900;
+        line-height: 1.04;
+        letter-spacing: -0.035em;
+        color: var(--m-ink);
+      }
+      .headline .accent {
+        color: var(--m-paper-red);
+      }
+      .cta {
+        margin-top: 64px;
+        display: inline-flex;
+        align-items: center;
+        gap: 24px;
+        padding: 24px 28px 24px 44px;
+        border-radius: 80px;
+        background: var(--m-ink);
+      }
+      .cta-url {
+        font-size: 40px;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+        color: #fff7f2;
+        white-space: nowrap;
+      }
+      .cta-arrow {
+        flex-shrink: 0;
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background: var(--m-paper-red);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .foot {
+        position: absolute;
+        left: 80px;
+        bottom: 80px;
+      }
+      .foot img {
+        display: block;
+        height: 60px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas" class="soft-orange">
+      <div class="m-linegrid"></div>
+      <div class="eyebrow" data-field="eyebrow">Why AEO Is the New SEO: Answer Engine Optimization in 2026</div>
+      <div class="body">
+        <div class="headline">Read the <span class="accent">full breakdown</span> on our blog.</div>
+        <div class="cta">
+          <span class="cta-url" data-field="url">joinmassive.com/blog</span>
+          <div class="cta-arrow">
+            <svg width="26" height="26" viewBox="0 0 22 22" fill="none">
+              <path d="M3 11 H17 M11 5 L17 11 L11 17" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="foot"><img src="../_brand/logo-massive-positive.svg" alt="Massive" /></div>
+    </div>
+    <script src="../_lib/placeholders.js"></script>
+    <script>
+      const $ = (s) => document.querySelector(s);
+      const esc = (s) => s.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[c]);
+
+      window.onFields = (values) => {
+        massivePlaceholders();
+
+        // The headline, with its first match of the highlight field in red.
+        const headline = String(values.headline ?? "");
+        const mark = String(values.highlight ?? "").trim();
+        const at = mark ? headline.toLowerCase().indexOf(mark.toLowerCase()) : -1;
+        const h = $(".headline");
+        h.innerHTML =
+          at < 0
+            ? esc(headline)
+            : esc(headline.slice(0, at)) +
+              `<span class="accent">${esc(headline.slice(at, at + mark.length))}</span>` +
+              esc(headline.slice(at + mark.length));
+
+        // Shrink the headline until no word overflows and it fits four lines; the eyebrow until it fits two.
+        const body = $(".body");
+        for (let size = 128; size >= 72; size -= 4) {
+          h.style.fontSize = `${size}px`;
+          if (h.scrollWidth <= body.clientWidth && h.offsetHeight <= size * 1.04 * 4 + 4) break;
+        }
+        const eyebrow = $(".eyebrow");
+        for (let size = 24; size >= 18; size -= 1) {
+          eyebrow.style.fontSize = `${size}px`;
+          if (eyebrow.offsetHeight <= size * 1.35 * 2 + 2) break;
+        }
+        const url = $(".cta-url");
+        for (let size = 40; size >= 26; size -= 2) {
+          url.style.fontSize = `${size}px`;
+          if (url.scrollWidth <= 760) break;
+        }
+      };
+    </script>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

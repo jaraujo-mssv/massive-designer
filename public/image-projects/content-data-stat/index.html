@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1350" />
+    <title>Data story stat</title>
+    <link rel="stylesheet" href="../_brand/massive.css" />
+    <!-- One research finding: "42 of 47", what it counts, and its chart: one dot per item in the total, the value's
+         dots lit red and the rest cream at low opacity. onFields draws the dots (canvas at 2×), as large as the box
+         allows, and fits the number and the label. Source line over the footer. -->
+    <style>
+      #canvas {
+        width: 1080px;
+        height: 1350px;
+      }
+      .page {
+        position: absolute;
+        inset: 80px;
+        display: flex;
+        flex-direction: column;
+      }
+      .stat {
+        display: flex;
+        align-items: baseline;
+        gap: 0.22em;
+        font-size: 240px;
+        font-weight: 900;
+        line-height: 0.95;
+        letter-spacing: -0.045em;
+        white-space: nowrap;
+      }
+      .stat .value {
+        color: var(--m-red);
+      }
+      .stat .of {
+        font-size: 0.42em;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: var(--m-cream-mid);
+      }
+      .label {
+        margin-top: 28px;
+        font-size: 58px;
+        font-weight: 700;
+        line-height: 1.12;
+        letter-spacing: -0.025em;
+        text-wrap: balance;
+      }
+      /* The chart takes what's left between the label and the source. */
+      .chart {
+        flex: 1;
+        min-height: 0;
+        margin: 56px 0 48px;
+        position: relative;
+      }
+      .chart canvas {
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+      .source {
+        font-size: 24px;
+        font-weight: 400;
+        line-height: 1.35;
+        color: var(--m-cream-dim);
+      }
+      .source .link {
+        color: var(--m-cream-mid);
+        font-weight: 500;
+      }
+      .foot {
+        margin-top: 44px;
+      }
+      .foot .logo {
+        display: block;
+        height: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas">
+      <div class="m-dotgrid"></div>
+      <div class="page">
+        <div class="stat">
+          <span class="value" data-field="value">42</span>
+          <span class="of">of</span>
+          <span class="total" data-field="total">47</span>
+        </div>
+        <div class="label" data-field="label">news sites block at least one AI training crawler</div>
+        <div class="chart"><canvas id="dots"></canvas></div>
+        <div class="source">
+          Source: <span data-field="source">Massive, EDPB Web Scraping Guidelines: What the GDPR Draft Means for AI Data Collection</span><br />
+          <span class="link" data-field="link">joinmassive.com/blog/edpb-web-scraping-guidelines</span>
+        </div>
+        <div class="foot"><img class="logo" src="../_brand/logo-massive.svg" alt="Massive" /></div>
+      </div>
+    </div>
+
+    <script src="../_lib/placeholders.js"></script>
+    <script>
+      const $ = (s) => document.querySelector(s);
+      const RED = "#d74939";
+      const DIM = "rgba(250, 244, 236, 0.16)";
+      const MAX_DOTS = 400;
+      const num = (v) => {
+        const n = parseInt(String(v ?? "").replace(/[^\d]/g, ""), 10);
+        return Number.isFinite(n) ? n : 0;
+      };
+
+      // The dots: `total` of them in rows, as large as the box allows (a pitch of at most 120px), the first `value`
+      // in red. Rows fill left to right, top to bottom; the grid is left-aligned with the text.
+      function drawDots(value, total) {
+        const box = $(".chart");
+        const W = box.clientWidth;
+        const H = box.clientHeight;
+        const canvas = $("#dots");
+        canvas.width = W * 2;
+        canvas.height = H * 2;
+        canvas.style.width = `${W}px`;
+        canvas.style.height = `${H}px`;
+        const ctx = canvas.getContext("2d");
+        ctx.setTransform(2, 0, 0, 2, 0, 0);
+        ctx.clearRect(0, 0, W, H);
+        const n = Math.min(total, MAX_DOTS);
+        if (n < 1) return;
+
+        // The largest pitch p (dot 0.72p, gap 0.28p) for which the rows fit the box, at most 120px. The grid starts
+        // flush with the text on the left and sits in the middle of the box's height.
+        let best = { p: 0, cols: 1, rows: 1 };
+        for (let cols = 1; cols <= n; cols++) {
+          const rows = Math.ceil(n / cols);
+          const p = Math.min(W / (cols - 0.28), H / (rows - 0.28), 120);
+          if (p > best.p) best = { p, cols, rows };
+        }
+        const { p, cols, rows } = best;
+        const d = p * 0.72;
+        const top = (H - (rows * p - 0.28 * p)) / 2;
+        const lit = Math.min(value, n);
+        for (let i = 0; i < n; i++) {
+          const x = (i % cols) * p + d / 2;
+          const y = top + Math.floor(i / cols) * p + d / 2;
+          ctx.fillStyle = i < lit ? RED : DIM;
+          ctx.beginPath();
+          ctx.arc(x, y, d / 2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      window.onFields = (values) => {
+        massivePlaceholders();
+
+        // The number on one line; the label in at most three.
+        const stat = $(".stat");
+        for (let size = 240; size >= 120; size -= 4) {
+          stat.style.fontSize = `${size}px`;
+          if (stat.scrollWidth <= 920) break;
+        }
+        const label = $(".label");
+        for (let size = 58; size >= 36; size -= 2) {
+          label.style.fontSize = `${size}px`;
+          if (label.offsetHeight <= size * 1.12 * 3 + 1) break;
+        }
+        const source = $(".source");
+        for (let size = 24; size >= 18; size -= 1) {
+          source.style.fontSize = `${size}px`;
+          if (source.offsetHeight <= size * 1.35 * 3 + 1) break;
+        }
+
+        drawDots(num(values.value), num(values.total));
+      };
+    </script>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

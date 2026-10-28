@@ -1,0 +1,61 @@
+{
+  "id": "team-promotion",
+  "title": "Promotion announcement",
+  "description": "A teammate's promotion as a level-up: the character-sheet card with the previous role struck through beside the new one and a full XP bar, over the dimmed Slack desktop. Source: image-projects/welcome-template (the default teammate, Franklin Uche, Community Lead); the new role is a placeholder.",
+  "group": "templates",
+  "category": "team",
+  "template": null,
+  "series": null,
+  "status": "draft",
+  "tags": [
+    "team",
+    "promotion"
+  ],
+  "source": "image-projects/welcome-template",
+  "width": 1080,
+  "height": 1350,
+  "fields": [
+    {
+      "id": "photo",
+      "label": "Photo",
+      "type": "image",
+      "default": "assets/franklin.jpg",
+      "hint": "A square portrait, face centred"
+    },
+    {
+      "id": "name",
+      "label": "Full name",
+      "type": "text",
+      "default": "Franklin Uche",
+      "hint": "First and last name; long names shrink to fit"
+    },
+    {
+      "id": "firstName",
+      "label": "First name",
+      "type": "text",
+      "default": "Franklin",
+      "hint": "Used in the congrats line"
+    },
+    {
+      "id": "oldRole",
+      "label": "Previous role",
+      "type": "text",
+      "default": "Community Lead",
+      "hint": "Shown struck through; about 25 characters"
+    },
+    {
+      "id": "newRole",
+      "label": "New role",
+      "type": "text",
+      "default": "[New role]",
+      "hint": "The role in the red pill; about 25 characters"
+    },
+    {
+      "id": "confetti",
+      "label": "Confetti",
+      "type": "toggle",
+      "default": true,
+      "hint": "Frozen burst behind the photo; turn off for a calmer card"
+    }
+  ]
+}

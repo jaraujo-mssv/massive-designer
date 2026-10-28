@@ -1,0 +1,47 @@
+{
+  "id": "content-market-map-teaser",
+  "title": "Market map teaser",
+  "description": "A teaser for a new market map: the headline and the count over a cropped preview of the map, fading into the ground, and “Full map in the comments”. The default map is the AI Agents example (15 categories, 88 companies) downloaded from the Market Map tool, Dark, Vertical. Source: src/tools/market-map/app/constants.ts (the AI Agents example sheet).",
+  "group": "templates",
+  "category": "content",
+  "template": null,
+  "series": null,
+  "status": "draft",
+  "tags": [
+    "content",
+    "market map"
+  ],
+  "source": null,
+  "width": 1080,
+  "height": 1350,
+  "fields": [
+    {
+      "id": "map",
+      "label": "Map",
+      "type": "image",
+      "default": "assets/map.jpg",
+      "hint": "The Market Map tool's Download JPG, Vertical; only its top part shows."
+    },
+    {
+      "id": "headline",
+      "label": "Headline",
+      "type": "text",
+      "default": "AI agent market map",
+      "hint": "The map's name; up to two lines, about 30 characters."
+    },
+    {
+      "id": "count",
+      "label": "Count",
+      "type": "text",
+      "default": "88 companies, 15 categories",
+      "hint": "What the map holds, from the tool's sidebar; one line."
+    },
+    {
+      "id": "cta",
+      "label": "Call to action",
+      "type": "text",
+      "default": "Full map in the comments",
+      "hint": "Where the full map is; about 25 characters."
+    }
+  ]
+}

@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1350" />
+    <title>Where the team is</title>
+    <link rel="stylesheet" href="../_brand/massive.css" />
+    <!-- Where the team works from: "{N} countries, one team", a world map with the team's countries in red
+         (_lib/world-paths.js, drawn at 2×), and a flag chip for each country (_lib/flags.js). Everything comes from
+         the comma-separated countries field: the count, the red countries and the chips. onFields shrinks the chips
+         for a long list (1 to 25 countries) and fits the map to the room left. -->
+    <style>
+      #canvas {
+        width: 1080px;
+        height: 1350px;
+      }
+      .page {
+        position: absolute;
+        inset: 80px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .headline {
+        font-size: 104px;
+        font-weight: 900;
+        line-height: 1;
+        letter-spacing: -0.045em;
+        text-align: center;
+        text-wrap: balance;
+      }
+      .headline .n {
+        color: var(--m-red);
+      }
+      /* The map takes what the headline and the chips leave, a little wider than the text column. */
+      .map {
+        position: relative;
+        flex: 1;
+        min-height: 0;
+        align-self: stretch;
+        margin: 36px -60px 36px;
+      }
+      .map canvas {
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5em;
+        font-size: 26px;
+      }
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45em;
+        padding: 0.38em 0.8em 0.38em 0.5em;
+        border-radius: 999px;
+        background: rgba(250, 244, 236, 0.06);
+        border: 1px solid rgba(250, 244, 236, 0.14);
+        font-weight: 600;
+        line-height: 1.2;
+        white-space: nowrap;
+      }
+      .chip img {
+        width: 1.38em;
+        height: 1.04em;
+        border-radius: 4px;
+        object-fit: cover;
+        box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.14);
+      }
+      .chip.no-flag {
+        padding-left: 0.8em;
+      }
+      .foot {
+        margin-top: 44px;
+      }
+      .foot .logo {
+        display: block;
+        height: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas">
+      <div class="m-dotgrid"></div>
+      <div class="page">
+        <div class="headline"><span class="n">8</span> countries, one team</div>
+        <div class="map"><canvas id="world"></canvas></div>
+        <div class="chips"></div>
+        <div class="foot"><img class="logo" src="../_brand/logo-massive.svg" alt="Massive" /></div>
+      </div>
+    </div>
+
+    <script src="../_lib/world-paths.js"></script>
+    <script src="../_lib/flags.js"></script>
+    <script>
+      const $ = (s) => document.querySelector(s);
+      const LAND = "rgba(250, 244, 236, 0.09)";
+      const RED = "#d74939";
+      const MAX = 25;
+
+      // A country's ISO code (upper case, as world-paths.js keys them) from its flag file: "../_brand/flags/gb-eng.svg" → "GB".
+      const isoOf = (src) => (src ? src.split("/").pop().replace(".svg", "").split("-")[0].toUpperCase() : null);
+
+      // Each country's box on the map, for a dot where a country is too small to see.
+      const boxes = new Map();
+      for (const [iso, d] of WORLD_PATHS) {
+        let x = 0, y = 0, sx = 0, sy = 0, cmd = "";
+        const b = [Infinity, Infinity, -Infinity, -Infinity];
+        for (const t of d.match(/[a-zA-Z]|-?\d*\.?\d+/g)) {
+          if (/[a-zA-Z]/.test(t)) {
+            cmd = t;
+            if (cmd === "z") [x, y] = [sx, sy];
+            continue;
+          }
+          (boxes.pending ??= []).push(+t);
+          if (boxes.pending.length < 2) continue;
+          const [dx, dy] = boxes.pending;
+          boxes.pending = [];
+          if (cmd === "M") { [x, y] = [dx, dy]; [sx, sy] = [x, y]; cmd = "L"; }
+          else if (cmd === "m") { x += dx; y += dy; [sx, sy] = [x, y]; cmd = "l"; }
+          else if (cmd === "L") [x, y] = [dx, dy];
+          else { x += dx; y += dy; }
+          b[0] = Math.min(b[0], x); b[1] = Math.min(b[1], y); b[2] = Math.max(b[2], x); b[3] = Math.max(b[3], y);
+        }
+        boxes.pending = [];
+        const prev = boxes.get(iso);
+        boxes.set(iso, prev ? [Math.min(prev[0], b[0]), Math.min(prev[1], b[1]), Math.max(prev[2], b[2]), Math.max(prev[3], b[3])] : b);
+      }
+
+      // The map, as large as its box allows, centred; the team's countries in red, a red dot for one too small to see.
+      function drawMap(team) {
+        const box = $(".map");
+        const W = box.clientWidth;
+        const H = box.clientHeight;
+        const canvas = $("#world");
+        canvas.width = W * 2;
+        canvas.height = H * 2;
+        canvas.style.width = `${W}px`;
+        canvas.style.height = `${H}px`;
+        const ctx = canvas.getContext("2d");
+        const k = Math.min(W / WORLD_MAP.w, H / WORLD_MAP.h);
+        const ox = (W - WORLD_MAP.w * k) / 2;
+        const oy = (H - WORLD_MAP.h * k) / 2;
+        ctx.setTransform(2, 0, 0, 2, 0, 0);
+        ctx.clearRect(0, 0, W, H);
+        ctx.setTransform(2 * k, 0, 0, 2 * k, 2 * ox, 2 * oy);
+        for (const [iso, d] of WORLD_PATHS) {
+          ctx.fillStyle = team.has(iso) ? RED : LAND;
+          ctx.fill(new Path2D(d));
+        }
+        ctx.fillStyle = RED;
+        for (const iso of team) {
+          const b = boxes.get(iso);
+          if (!b || Math.max(b[2] - b[0], b[3] - b[1]) * k >= 8) continue;
+          ctx.beginPath();
+          ctx.arc((b[0] + b[2]) / 2, (b[1] + b[3]) / 2, 5 / k, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      window.onFields = async (values) => {
+        // One entry per country, in the order given, without repeats, up to 25.
+        const seen = new Set();
+        const countries = String(values.countries ?? "")
+          .split(/[,\n]/)
+          .map((s) => s.trim())
+          .filter((s) => s && !seen.has(s.toLowerCase()) && seen.add(s.toLowerCase()))
+          .slice(0, MAX);
+        const n = countries.length;
+
+        // The headline: {N} becomes the count, in red; "countries" turns singular for one.
+        let text = String(values.headline ?? "{N} countries, one team");
+        if (n === 1) text = text.replace(/\bcountries\b/, "country");
+        const headline = $(".headline");
+        headline.replaceChildren(
+          ...text.split(/(\{N\})/).map((part) => {
+            if (part !== "{N}") return document.createTextNode(part);
+            const span = document.createElement("span");
+            span.className = "n";
+            span.textContent = String(n);
+            return span;
+          }),
+        );
+
+        // The chips: a flag (when flags.js knows the name) and the name.
+        const team = new Set();
+        const decoding = [];
+        $(".chips").replaceChildren(
+          ...countries.map((name) => {
+            const chip = document.createElement("span");
+            chip.className = "chip";
+            const src = massiveFlag(name);
+            if (src) {
+              const img = document.createElement("img");
+              img.src = src;
+              img.alt = "";
+              decoding.push(img.decode().catch(() => {}));
+              chip.append(img);
+              team.add(isoOf(src));
+            } else chip.classList.add("no-flag");
+            chip.append(name);
+            return chip;
+          }),
+        );
+        await Promise.all(decoding);
+
+        // Fit: the headline in two lines, the chips in at most 250px of height.
+        for (let size = 104; size >= 64; size -= 4) {
+          headline.style.fontSize = `${size}px`;
+          if (headline.offsetHeight <= size * 2 + 1) break;
+        }
+        const chips = $(".chips");
+        for (let size = 26; size >= 18; size -= 1) {
+          chips.style.fontSize = `${size}px`;
+          if (chips.offsetHeight <= 250) break;
+        }
+
+        drawMap(team);
+      };
+    </script>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

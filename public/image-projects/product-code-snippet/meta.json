@@ -1,0 +1,41 @@
+{
+  "id": "product-code-snippet",
+  "title": "API in a few lines",
+  "description": "The Web Render /ai endpoint in code: the docs' curl request beside its example JSON response, trimmed. Source: https://docs.joinmassive.com/web-render/ai.md",
+  "group": "massive",
+  "category": "product",
+  "template": null,
+  "series": null,
+  "status": "draft",
+  "tags": [
+    "product",
+    "api",
+    "developers"
+  ],
+  "source": "https://docs.joinmassive.com/web-render/ai.md",
+  "width": 1920,
+  "height": 1080,
+  "fields": [
+    {
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "type": "text",
+      "default": "Web Render API",
+      "hint": "The product name above the title. A few words."
+    },
+    {
+      "id": "title",
+      "label": "Title",
+      "type": "text",
+      "default": "One request to /ai",
+      "hint": "One line over the code; about 25 characters. The code itself is fixed."
+    },
+    {
+      "id": "url",
+      "label": "Link",
+      "type": "text",
+      "default": "docs.joinmassive.com",
+      "hint": "The docs link in the footer, without https://."
+    }
+  ]
+}

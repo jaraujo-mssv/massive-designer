@@ -1,0 +1,108 @@
+{
+  "id": "hiring-we-hired",
+  "title": "Role filled: we hired!",
+  "description": "Closes the loop on a role post once it is filled: “We hired” and the role on the red brush stroke, beside the photo, with a handwritten note; follow it with the person’s Welcome to Massive card. Source: welcome-template (Franklin Uche, Community Lead).",
+  "group": "templates",
+  "category": "hiring",
+  "template": null,
+  "series": null,
+  "status": "draft",
+  "tags": [
+    "hiring",
+    "welcome"
+  ],
+  "source": "image-projects/hiring-photo-square",
+  "width": 1080,
+  "height": 1080,
+  "fields": [
+    {
+      "id": "photo",
+      "label": "Photo",
+      "type": "image",
+      "default": "../_hiring/leaning-back.webp",
+      "options": [
+        {
+          "value": "../_hiring/home-office.webp",
+          "label": "Home office"
+        },
+        {
+          "value": "../_hiring/standing-call.webp",
+          "label": "Standing call"
+        },
+        {
+          "value": "../_hiring/window-seat-sf.webp",
+          "label": "Window seat (SF)"
+        },
+        {
+          "value": "../_hiring/standing-desk.webp",
+          "label": "Standing desk"
+        },
+        {
+          "value": "../_hiring/coffee-desk.webp",
+          "label": "Coffee at the desk"
+        },
+        {
+          "value": "../_hiring/event-handshake.webp",
+          "label": "At an event"
+        },
+        {
+          "value": "../_hiring/leaning-back.webp",
+          "label": "Leaning back"
+        },
+        {
+          "value": "../_hiring/home-lab.webp",
+          "label": "Home lab"
+        },
+        {
+          "value": "../_hiring/cafe.webp",
+          "label": "Café"
+        },
+        {
+          "value": "../_hiring/sofa.webp",
+          "label": "On the sofa"
+        },
+        {
+          "value": "../_hiring/balcony-abroad.webp",
+          "label": "Balcony abroad"
+        },
+        {
+          "value": "../_hiring/kitchen-sunrise.webp",
+          "label": "Kitchen at sunrise"
+        },
+        {
+          "value": "../_hiring/hammock.webp",
+          "label": "Hammock"
+        }
+      ],
+      "hint": "Pick one of the hiring photos, or upload your own: subject on the right, an empty bright left side."
+    },
+    {
+      "id": "headline",
+      "label": "Headline",
+      "type": "text",
+      "default": "We hired",
+      "hint": "Keep it short; a long word shrinks to stay clear of the photo."
+    },
+    {
+      "id": "role",
+      "label": "Role",
+      "type": "text",
+      "default": "Community Lead",
+      "hint": "The role that was filled, as it was posted; on the red stroke, up to two lines, it shrinks to fit."
+    },
+    {
+      "id": "aside",
+      "label": "Handwritten note",
+      "type": "text",
+      "default": "Desk: taken.",
+      "hint": "A short joke about the photo, like “Desk: taken.”; the arrow points into the photo."
+    },
+    {
+      "id": "showAside",
+      "label": "Show the note",
+      "type": "toggle",
+      "default": true,
+      "hint": "Hide the note and its arrow."
+    }
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "id": "events-webinar",
+  "title": "Webinar",
+  "description": "Landscape webinar card in the house look: the title big, the speaker's photo, name and role beside it, and the date, time and registration link (placeholders until they're set). Source: https://www.joinmassive.com/blog/is-robots-txt-legally-binding (the default topic, by Franklin Uche, Community Lead).",
+  "group": "templates",
+  "category": "events",
+  "template": null,
+  "series": null,
+  "status": "draft",
+  "tags": [
+    "events",
+    "webinar"
+  ],
+  "source": null,
+  "width": 1920,
+  "height": 1080,
+  "fields": [
+    {
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "type": "text",
+      "default": "Webinar",
+      "hint": "One or two words: Webinar, Live session"
+    },
+    {
+      "id": "title",
+      "label": "Title",
+      "type": "text",
+      "default": "Is robots.txt legally binding?",
+      "hint": "Up to three lines; about 40 characters reads best"
+    },
+    {
+      "id": "photo",
+      "label": "Speaker photo",
+      "type": "image",
+      "default": "assets/franklin.jpg",
+      "hint": "Square portrait, face centred"
+    },
+    {
+      "id": "name",
+      "label": "Speaker name",
+      "type": "text",
+      "default": "Franklin Uche",
+      "hint": "Full name, about 20 characters"
+    },
+    {
+      "id": "role",
+      "label": "Speaker role",
+      "type": "text",
+      "default": "Community Lead",
+      "hint": "Job title, about 30 characters"
+    },
+    {
+      "id": "date",
+      "label": "Date",
+      "type": "text",
+      "default": "[Date]",
+      "hint": "e.g. Thu, November 12. Leave the brackets until it's known"
+    },
+    {
+      "id": "time",
+      "label": "Time and time zone",
+      "type": "text",
+      "default": "[Time and time zone]",
+      "hint": "e.g. 5 pm CET / 11 am ET. Leave the brackets until it's known"
+    },
+    {
+      "id": "register",
+      "label": "Registration link",
+      "type": "text",
+      "default": "[Registration link]",
+      "hint": "A short link without https://, about 30 characters. Leave the brackets until it's known"
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "id": "milestone-195-countries",
+  "title": "195+ countries",
+  "description": "The 195+ countries GIF as a still: one API reaching countries across a dotted world map, every arc drawn. Source: video-projects/gif-195-countries; https://www.joinmassive.com/ (\"Real-time web access via residential IPs in 195+ countries.\")",
+  "group": "massive",
+  "category": "milestones",
+  "template": null,
+  "series": null,
+  "status": "draft",
+  "tags": [
+    "milestone",
+    "network",
+    "map"
+  ],
+  "source": "video-projects/gif-195-countries",
+  "width": 1080,
+  "height": 1350,
+  "fields": [
+    {
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "type": "text",
+      "default": "Real-time web access for AI",
+      "hint": "The line above the headline. About 30 characters."
+    },
+    {
+      "id": "number",
+      "label": "Number",
+      "type": "text",
+      "default": "195+",
+      "hint": "The number in red that opens the headline. Keep it to a sourced figure."
+    },
+    {
+      "id": "headline",
+      "label": "Headline",
+      "type": "text",
+      "default": "countries. One API.",
+      "hint": "The rest of the headline, after the number. About 20 characters; two lines."
+    },
+    {
+      "id": "paragraph",
+      "label": "Paragraph",
+      "type": "text",
+      "default": "Every market your AI needs to reach, through a single endpoint.",
+      "hint": "One sentence under the headline. About 65 characters."
+    },
+    {
+      "id": "hub",
+      "label": "Hub",
+      "type": "text",
+      "default": "One API",
+      "hint": "The red pill the arcs start from, in capitals. One or two words."
+    }
+  ]
+}

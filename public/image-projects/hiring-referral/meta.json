@@ -1,0 +1,108 @@
+{
+  "id": "hiring-referral",
+  "title": "Know someone? Refer them",
+  "description": "A call for referrals: “Know someone?” and “Refer them” on the red brush stroke, beside the photo at an event, with the careers link as the handwritten note. Source: https://www.joinmassive.com/careers (open roles; the site mentions no referral bonus or program, so the post promises none).",
+  "group": "massive",
+  "category": "hiring",
+  "template": "hiring-photo-square",
+  "series": null,
+  "status": "draft",
+  "tags": [
+    "hiring",
+    "referral"
+  ],
+  "source": "image-projects/hiring-photo-square",
+  "width": 1080,
+  "height": 1080,
+  "fields": [
+    {
+      "id": "photo",
+      "label": "Photo",
+      "type": "image",
+      "default": "../_hiring/event-handshake.webp",
+      "options": [
+        {
+          "value": "../_hiring/home-office.webp",
+          "label": "Home office"
+        },
+        {
+          "value": "../_hiring/standing-call.webp",
+          "label": "Standing call"
+        },
+        {
+          "value": "../_hiring/window-seat-sf.webp",
+          "label": "Window seat (SF)"
+        },
+        {
+          "value": "../_hiring/standing-desk.webp",
+          "label": "Standing desk"
+        },
+        {
+          "value": "../_hiring/coffee-desk.webp",
+          "label": "Coffee at the desk"
+        },
+        {
+          "value": "../_hiring/event-handshake.webp",
+          "label": "At an event"
+        },
+        {
+          "value": "../_hiring/leaning-back.webp",
+          "label": "Leaning back"
+        },
+        {
+          "value": "../_hiring/home-lab.webp",
+          "label": "Home lab"
+        },
+        {
+          "value": "../_hiring/cafe.webp",
+          "label": "Café"
+        },
+        {
+          "value": "../_hiring/sofa.webp",
+          "label": "On the sofa"
+        },
+        {
+          "value": "../_hiring/balcony-abroad.webp",
+          "label": "Balcony abroad"
+        },
+        {
+          "value": "../_hiring/kitchen-sunrise.webp",
+          "label": "Kitchen at sunrise"
+        },
+        {
+          "value": "../_hiring/hammock.webp",
+          "label": "Hammock"
+        }
+      ],
+      "hint": "Pick one of the hiring photos, or upload your own: subject on the right, an empty bright left side."
+    },
+    {
+      "id": "headline",
+      "label": "Headline",
+      "type": "text",
+      "default": "Know someone?",
+      "hint": "A short question; it sits above the stroke."
+    },
+    {
+      "id": "role",
+      "label": "Role",
+      "type": "text",
+      "default": "Refer them",
+      "hint": "The ask; on the red stroke, up to two lines."
+    },
+    {
+      "id": "aside",
+      "label": "Handwritten note",
+      "type": "text",
+      "default": "joinmassive.com/careers",
+      "hint": "Where to send them, or a short joke about the photo; the arrow points into the photo."
+    },
+    {
+      "id": "showAside",
+      "label": "Show the note",
+      "type": "toggle",
+      "default": true,
+      "hint": "Hide the note and its arrow."
+    }
+  ]
+}

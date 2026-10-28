@@ -1,0 +1,62 @@
+{
+  "id": "content-blog-quote",
+  "title": "Blog quote card",
+  "description": "A pull quote from a Massive blog post with its author, the post's title and the blog link. Source: https://www.joinmassive.com/blog/is-robots-txt-legally-binding (quote, author, role and title as published, Oct 27, 2026).",
+  "group": "templates",
+  "category": "content",
+  "template": null,
+  "series": null,
+  "status": "draft",
+  "tags": [
+    "content",
+    "blog",
+    "quote"
+  ],
+  "source": null,
+  "width": 1080,
+  "height": 1350,
+  "fields": [
+    {
+      "id": "quote",
+      "label": "Quote",
+      "type": "text",
+      "default": "Is robots.txt legally binding? In the United States, not on its own.",
+      "hint": "Word for word from the post; up to about 200 characters, it shrinks to fit."
+    },
+    {
+      "id": "photo",
+      "label": "Author photo",
+      "type": "image",
+      "default": "assets/franklin.jpg",
+      "hint": "A square portrait; shown in a circle."
+    },
+    {
+      "id": "name",
+      "label": "Author",
+      "type": "text",
+      "default": "Franklin Uche",
+      "hint": "The author's full name."
+    },
+    {
+      "id": "role",
+      "label": "Author's role",
+      "type": "text",
+      "default": "Community Lead",
+      "hint": "A few words."
+    },
+    {
+      "id": "postTitle",
+      "label": "Post title",
+      "type": "text",
+      "default": "Is robots.txt Legally Binding? What US and EU Courts Have Ruled",
+      "hint": "As published; up to two lines, about 90 characters."
+    },
+    {
+      "id": "link",
+      "label": "Link",
+      "type": "text",
+      "default": "joinmassive.com/blog",
+      "hint": "Shown bottom right; keep it short, without https://."
+    }
+  ]
+}

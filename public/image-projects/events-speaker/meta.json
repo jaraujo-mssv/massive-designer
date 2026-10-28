@@ -1,0 +1,82 @@
+{
+  "id": "events-speaker",
+  "title": "Speaker card",
+  "description": "Speaker card in the house look: a big photo beside the event, date, time and venue, then the talk title (a placeholder until it's set), the speaker's name and role. Source: scripts/deck/prague-crawl-2027.html (Prague Crawl 2027, May 13, 2027, Spojka Events, Prague; citing praguecrawl.com).",
+  "group": "templates",
+  "category": "events",
+  "template": null,
+  "series": null,
+  "status": "draft",
+  "tags": [
+    "events",
+    "speaker"
+  ],
+  "source": null,
+  "width": 1080,
+  "height": 1350,
+  "fields": [
+    {
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "type": "text",
+      "default": "Speaker",
+      "hint": "One or two words: Speaker, Keynote, Panelist"
+    },
+    {
+      "id": "photo",
+      "label": "Photo",
+      "type": "image",
+      "default": "assets/jason-grad.jpg",
+      "hint": "Square portrait, face centred, at least 1000 px wide"
+    },
+    {
+      "id": "talk",
+      "label": "Talk title",
+      "type": "text",
+      "default": "[Talk title]",
+      "hint": "Up to two lines; about 50 characters reads best. Leave the brackets until it's known"
+    },
+    {
+      "id": "name",
+      "label": "Name",
+      "type": "text",
+      "default": "Jason Grad",
+      "hint": "Full name, about 25 characters"
+    },
+    {
+      "id": "role",
+      "label": "Role",
+      "type": "text",
+      "default": "Co-founder & CEO, Massive",
+      "hint": "Job title and company, about 40 characters"
+    },
+    {
+      "id": "event",
+      "label": "Event",
+      "type": "text",
+      "default": "Prague Crawl 2027",
+      "hint": "The event's name, about 25 characters"
+    },
+    {
+      "id": "date",
+      "label": "Date",
+      "type": "text",
+      "default": "May 13, 2027",
+      "hint": "e.g. May 13, 2027"
+    },
+    {
+      "id": "time",
+      "label": "Time",
+      "type": "text",
+      "default": "[Time]",
+      "hint": "Start time and time zone, e.g. 11:10 CET. Leave the brackets until it's known"
+    },
+    {
+      "id": "venue",
+      "label": "Venue",
+      "type": "text",
+      "default": "Spojka Events, Prague",
+      "hint": "Venue and city, about 30 characters"
+    }
+  ]
+}

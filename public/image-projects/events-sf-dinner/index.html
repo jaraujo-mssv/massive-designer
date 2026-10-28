@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1350" />
+    <title>SF dinner / meetup invite</title>
+    <link rel="stylesheet" href="../_brand/massive.css" />
+    <!-- One of the event cards (events-meet-us, -speaker, -sf-dinner, -recap, -webinar), which share the corner
+         brackets, the eyebrow, the labels and the footer logo. -->
+    <style>
+      #canvas {
+        width: 1080px;
+        height: 1350px;
+      }
+
+      /* ---- Event-card family ---- */
+      .br {
+        position: absolute;
+        width: 44px;
+        height: 44px;
+        border: 0 solid var(--m-red);
+      }
+      .br.tl {
+        left: 52px;
+        top: 52px;
+        border-top-width: 3px;
+        border-left-width: 3px;
+      }
+      .br.tr {
+        right: 52px;
+        top: 52px;
+        border-top-width: 3px;
+        border-right-width: 3px;
+      }
+      .br.bl {
+        left: 52px;
+        bottom: 52px;
+        border-bottom-width: 3px;
+        border-left-width: 3px;
+      }
+      .br.bR {
+        right: 52px;
+        bottom: 52px;
+        border-bottom-width: 3px;
+        border-right-width: 3px;
+      }
+      .eyebrow {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        font-size: 24px;
+        font-weight: 600;
+        line-height: 1.2;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--m-red);
+        white-space: nowrap;
+      }
+      .eyebrow::before {
+        content: "";
+        flex: none;
+        width: 24px;
+        height: 2px;
+        background: var(--m-red);
+      }
+      .label {
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 1.2;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--m-cream-dim);
+      }
+      .value {
+        margin-top: 12px;
+        font-size: 36px;
+        font-weight: 600;
+        line-height: 1.2;
+        letter-spacing: -0.01em;
+      }
+      .foot {
+        position: absolute;
+        left: 80px;
+        bottom: 116px;
+        height: 32px;
+      }
+
+      /* ---- This card ---- */
+      .page {
+        position: absolute;
+        left: 80px;
+        right: 80px;
+        top: 136px;
+        bottom: 200px;
+        display: flex;
+        flex-direction: column;
+      }
+      /* Fitted to three lines in onFields. */
+      .headline {
+        margin-top: 36px;
+        font-size: 150px;
+        font-weight: 900;
+        line-height: 1;
+        letter-spacing: -0.045em;
+        padding-bottom: 8px;
+      }
+      .host {
+        margin-top: 32px;
+        font-size: 40px;
+        font-weight: 300;
+        line-height: 1.3;
+        color: var(--m-cream-mid);
+      }
+      .info {
+        margin-top: auto;
+        padding-top: 48px;
+      }
+      .row {
+        display: flex;
+        align-items: center;
+        gap: 32px;
+        padding: 30px 0;
+        border-top: 1px solid rgba(250, 244, 236, 0.12);
+      }
+      .row:first-child {
+        padding-top: 0;
+        border-top: 0;
+      }
+      .row:last-child {
+        padding-bottom: 0;
+      }
+      .tile {
+        flex: none;
+        width: 76px;
+        height: 76px;
+        border-radius: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(215, 73, 57, 0.14);
+        color: var(--m-red-light);
+      }
+      /* Lucide line icons (lucide.dev, ISC). */
+      svg.ic {
+        width: 36px;
+        height: 36px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .row > div:last-child {
+        flex: 1;
+        min-width: 0;
+      }
+      .row .value {
+        margin-top: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas">
+      <div class="m-dotgrid"></div>
+      <div class="br tl"></div>
+      <div class="br tr"></div>
+      <div class="br bl"></div>
+      <div class="br bR"></div>
+
+      <div class="page">
+        <div class="eyebrow"><span data-field="eyebrow">You're invited</span></div>
+        <div class="headline" data-field="headline">Dinner in San Francisco</div>
+        <div class="host" data-field="host">Hosted by Massive</div>
+
+        <div class="info">
+          <div class="row">
+            <div class="tile"><svg class="ic" viewBox="0 0 24 24" data-icon="calendar"></svg></div>
+            <div>
+              <div class="label">When</div>
+              <div class="value fit"><span data-field="date">[Date]</span></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="tile"><svg class="ic" viewBox="0 0 24 24" data-icon="map-pin"></svg></div>
+            <div>
+              <div class="label">Where</div>
+              <div class="value fit"><span data-field="area">[Neighborhood]</span></div>
+            </div>
+          </div>
+          <div class="row">
+            <!-- Lucide "link" -->
+            <div class="tile"><svg class="ic" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" /><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" /></svg></div>
+            <div>
+              <div class="label">RSVP</div>
+              <div class="value fit"><span data-field="rsvp">[RSVP link]</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <img class="foot" src="../_brand/logo-massive.svg" alt="Massive" />
+    </div>
+
+    <script src="../_lib/placeholders.js"></script>
+    <script src="../_lib/icons.js"></script>
+    <script>
+      massiveIcons(document);
+
+      // Shrink an element's font size from `from` until it fits its width and, when given, `lines` lines.
+      const fit = (el, from, min, lines = null) => {
+        const cs = getComputedStyle(el);
+        const pad = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
+        const over = () =>
+          el.scrollWidth > el.clientWidth + 1 ||
+          (lines !== null &&
+            Math.round((el.getBoundingClientRect().height - pad) / parseFloat(getComputedStyle(el).lineHeight)) > lines);
+        let size = from;
+        el.style.fontSize = `${size}px`;
+        while (size > min && over()) {
+          size -= 2;
+          el.style.fontSize = `${size}px`;
+        }
+      };
+
+      window.onFields = () => {
+        massivePlaceholders();
+        // Keep the headline's last two words together, so it never ends on one word alone ("San Francisco").
+        const headline = document.querySelector(".headline");
+        const words = headline.textContent.trim().split(/\s+/);
+        if (words.length > 2) headline.textContent = `${words.slice(0, -1).join(" ")} ${words.at(-1)}`;
+        fit(headline, 150, 72, 3);
+        fit(document.querySelector(".host"), 40, 28, 2);
+        // The details share one size: each fits its column, then all take the smallest.
+        const values = [...document.querySelectorAll(".value.fit")];
+        values.forEach((el) => fit(el, 36, 26, 2));
+        const size = Math.min(...values.map((el) => parseFloat(el.style.fontSize)));
+        values.forEach((el) => (el.style.fontSize = `${size}px`));
+      };
+    </script>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

@@ -1,0 +1,34 @@
+{
+  "id": "team-world-map",
+  "title": "Where the team is",
+  "description": "Where the team works from: a world map with the team's countries in red, a flag chip for each, and the country count in the headline, all from one comma-separated list. The default list is the countries on the Welcome to Massive cards, only part of the team. Source: public/image-projects/welcome-* (each card's country field).",
+  "group": "templates",
+  "category": "team",
+  "template": null,
+  "series": null,
+  "status": "draft",
+  "tags": [
+    "team",
+    "remote",
+    "map"
+  ],
+  "source": null,
+  "width": 1080,
+  "height": 1350,
+  "fields": [
+    {
+      "id": "countries",
+      "label": "Countries",
+      "type": "text",
+      "default": "Ukraine, Poland, Italy, Brazil, Finland, Canada, USA, Nigeria",
+      "hint": "Every country the team works from, comma-separated, in English; 1 to 25, each one a chip and a red country."
+    },
+    {
+      "id": "headline",
+      "label": "Headline",
+      "type": "text",
+      "default": "{N} countries, one team",
+      "hint": "{N} becomes the number of countries, in red; up to two lines."
+    }
+  ]
+}

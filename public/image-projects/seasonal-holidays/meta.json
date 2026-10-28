@@ -1,0 +1,36 @@
+{
+  "id": "seasonal-holidays",
+  "title": "Holiday greetings",
+  "description": "A holiday greeting card over the dimmed Slack desktop: a lit menorah for Hanukkah or apple, honey and pomegranate for Rosh Hashanah, with the greeting and a line from the team. Source: public/video-projects/holiday-greetings.",
+  "group": "templates",
+  "category": "seasonal",
+  "template": null,
+  "series": null,
+  "status": "draft",
+  "tags": [
+    "seasonal",
+    "holidays"
+  ],
+  "source": "video-projects/holiday-greetings",
+  "width": 1080,
+  "height": 1350,
+  "fields": [
+    {
+      "id": "holiday",
+      "label": "Holiday",
+      "type": "select",
+      "default": "hanukkah",
+      "options": [
+        {
+          "value": "hanukkah",
+          "label": "Hanukkah"
+        },
+        {
+          "value": "rosh-hashanah",
+          "label": "Rosh Hashanah"
+        }
+      ],
+      "hint": "Picks the motif, the greeting and the outro line"
+    }
+  ]
+}

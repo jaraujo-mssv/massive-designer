@@ -1,0 +1,48 @@
+{
+  "id": "content-aeo-still",
+  "title": "Why AEO is the new SEO",
+  "description": "The AEO explainer video's closing slide as a still, in the light register: read the full breakdown on the blog. Source: video-projects/why-aeo-is-the-new-seo (compositions/slide-05.html)",
+  "group": "massive",
+  "category": "content",
+  "template": null,
+  "series": null,
+  "status": "draft",
+  "tags": [
+    "content",
+    "aeo",
+    "video still"
+  ],
+  "source": "video-projects/why-aeo-is-the-new-seo",
+  "width": 1080,
+  "height": 1350,
+  "fields": [
+    {
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "type": "text",
+      "default": "Why AEO Is the New SEO: Answer Engine Optimization in 2026",
+      "hint": "The post's title, above the headline. Up to two lines; about 60 characters."
+    },
+    {
+      "id": "headline",
+      "label": "Headline",
+      "type": "text",
+      "default": "Read the full breakdown on our blog.",
+      "hint": "The call to read. About 40 characters; shrinks to fit."
+    },
+    {
+      "id": "highlight",
+      "label": "Highlight",
+      "type": "text",
+      "default": "full breakdown",
+      "hint": "Words from the headline to set in red. Leave empty for none."
+    },
+    {
+      "id": "url",
+      "label": "Link",
+      "type": "text",
+      "default": "joinmassive.com/blog",
+      "hint": "The link in the button, without https://. About 25 characters."
+    }
+  ]
+}

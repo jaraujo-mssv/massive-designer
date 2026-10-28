@@ -1,0 +1,27 @@
+{
+  "id": "content-consent-still",
+  "title": "What does consent look like?",
+  "description": "The consent film's settled moment as a still: the ring closed around the user with its four ticks, under the film's title. Source: video-projects/what-does-consent-look-like (compositions/09-consent-settled.html; title from SCRIPT.md and meta.json)",
+  "group": "massive",
+  "category": "content",
+  "template": null,
+  "series": null,
+  "status": "draft",
+  "tags": [
+    "content",
+    "consent",
+    "video still"
+  ],
+  "source": "video-projects/what-does-consent-look-like",
+  "width": 1080,
+  "height": 1350,
+  "fields": [
+    {
+      "id": "title",
+      "label": "Title",
+      "type": "text",
+      "default": "What does consent look like?",
+      "hint": "The film's title, above the ring. Two lines at most; about 30 characters."
+    }
+  ]
+}

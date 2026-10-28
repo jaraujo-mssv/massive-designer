@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1350" />
+    <title>Feature spotlight: Web Render</title>
+    <link rel="stylesheet" href="../_brand/massive.css" />
+    <style>
+      /* Web Render in one post: the page's eyebrow, headline and the first clause of its subhead, a diagram of what it
+         does (a URL in, the rendered page, markdown out) and three of its benefits. Every line is from
+         https://www.joinmassive.com/web-render. */
+      #canvas {
+        width: 1080px;
+        height: 1350px;
+      }
+      .stack {
+        position: absolute;
+        inset: 96px 80px 80px;
+        display: flex;
+        flex-direction: column;
+      }
+      .eyebrow {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        font-size: 22px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--m-red);
+        white-space: nowrap;
+      }
+      .eyebrow::before {
+        content: "";
+        flex-shrink: 0;
+        width: 24px;
+        height: 2px;
+        background: var(--m-red);
+      }
+      .headline {
+        margin-top: 28px;
+        font-size: 88px;
+        font-weight: 900;
+        line-height: 1;
+        letter-spacing: -0.04em;
+      }
+      .headline .accent {
+        color: var(--m-red);
+      }
+      .subline {
+        margin-top: 28px;
+        font-size: 32px;
+        font-weight: 400;
+        line-height: 1.3;
+        color: var(--m-cream-mid);
+      }
+
+      /* The diagram: URL → rendered page → markdown. */
+      .flow {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .node {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 18px;
+      }
+      .node .label {
+        font-size: 20px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--m-cream-dim);
+      }
+      .box {
+        background: var(--m-card);
+        border: 1px solid var(--m-border);
+        border-radius: 16px;
+      }
+      /* The URL pill sits in a box as tall as the cards, so the three labels share a line. */
+      .slot {
+        height: 208px;
+        display: flex;
+        align-items: center;
+      }
+      .url {
+        width: 216px;
+        height: 64px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 0 20px;
+        border-radius: 32px;
+        border-color: rgba(215, 73, 57, 0.45);
+      }
+      .url svg {
+        flex-shrink: 0;
+      }
+      .url .scheme {
+        font-size: 20px;
+        font-weight: 500;
+        color: var(--m-cream-mid);
+      }
+      .url .bar {
+        flex: 1;
+        height: 10px;
+        border-radius: 5px;
+        background: rgba(250, 244, 236, 0.2);
+      }
+      .page,
+      .md {
+        width: 248px;
+        height: 208px;
+        overflow: hidden;
+      }
+      .page .chrome {
+        display: flex;
+        gap: 7px;
+        padding: 14px 16px;
+        border-bottom: 1px solid var(--m-border);
+      }
+      .page .chrome i {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: rgba(250, 244, 236, 0.2);
+      }
+      .page .content {
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .page .hero {
+        height: 58px;
+        border-radius: 8px;
+        background: rgba(215, 73, 57, 0.35);
+      }
+      .bar {
+        display: block;
+        height: 10px;
+        border-radius: 5px;
+        background: rgba(250, 244, 236, 0.2);
+      }
+      .bar.strong {
+        height: 14px;
+        background: rgba(250, 244, 236, 0.6);
+      }
+      .md {
+        padding: 0 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 13px;
+      }
+      .md .row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .md code {
+        width: 30px;
+        flex-shrink: 0;
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 1;
+        color: var(--m-red-light);
+      }
+      .md .row .bar {
+        flex: 1;
+      }
+      .arrow {
+        flex-shrink: 0;
+        margin-bottom: 42px;
+      }
+
+      /* The benefits: title over one line, rows split by hairlines. */
+      .benefits {
+        border-bottom: 1px solid var(--m-border);
+      }
+      .benefit {
+        padding: 22px 0;
+        border-top: 1px solid var(--m-border);
+      }
+      .benefit .t {
+        font-size: 32px;
+        font-weight: 700;
+        line-height: 1.15;
+        letter-spacing: -0.01em;
+      }
+      .benefit .d {
+        margin-top: 6px;
+        font-size: 26px;
+        font-weight: 400;
+        line-height: 1.35;
+        color: var(--m-cream-mid);
+      }
+      .foot {
+        margin-top: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .foot img {
+        display: block;
+        height: 22px;
+      }
+      .foot span {
+        font-size: 20px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        color: var(--m-cream-dim);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas">
+      <div class="m-dotgrid"></div>
+      <div class="stack">
+        <div class="eyebrow" data-field="eyebrow">Web Render API</div>
+        <div class="headline">Clean HTML and markdown, <span class="accent">anywhere</span></div>
+        <div class="subline" data-field="subline">Pull a fully rendered page from any public URL.</div>
+
+        <div class="flow">
+          <div class="node">
+            <div class="slot"><div class="box url">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ff8163" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" /><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /><path d="M2 12h20" />
+              </svg>
+              <span class="scheme">https://</span>
+              <span class="bar"></span>
+            </div></div>
+            <div class="label">URL</div>
+          </div>
+          <svg class="arrow" width="56" height="20" viewBox="0 0 56 20" fill="none" stroke="rgba(250,244,236,0.45)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 10 H52 M44 3 L52 10 L44 17" />
+          </svg>
+          <div class="node">
+            <div class="box page">
+              <div class="chrome"><i></i><i></i><i></i></div>
+              <div class="content">
+                <div class="hero"></div>
+                <span class="bar strong" style="width: 78%"></span>
+                <span class="bar" style="width: 100%"></span>
+                <span class="bar" style="width: 64%"></span>
+              </div>
+            </div>
+            <div class="label">Rendered page</div>
+          </div>
+          <svg class="arrow" width="56" height="20" viewBox="0 0 56 20" fill="none" stroke="rgba(250,244,236,0.45)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 10 H52 M44 3 L52 10 L44 17" />
+          </svg>
+          <div class="node">
+            <div class="box md">
+              <div class="row"><code>#</code><span class="bar strong" style="max-width: 70%"></span></div>
+              <div class="row"><code></code><span class="bar"></span></div>
+              <div class="row"><code>##</code><span class="bar strong" style="max-width: 55%"></span></div>
+              <div class="row"><code>-</code><span class="bar" style="max-width: 80%"></span></div>
+              <div class="row"><code>-</code><span class="bar" style="max-width: 62%"></span></div>
+            </div>
+            <div class="label">Markdown</div>
+          </div>
+        </div>
+
+        <div class="benefits">
+          <div class="benefit">
+            <div class="t" data-field="benefit1">Markdown built for LLMs</div>
+            <div class="d" data-field="benefit1Line">Return clean markdown alongside JSON, raw, and rendered HTML.</div>
+          </div>
+          <div class="benefit">
+            <div class="t" data-field="benefit2">Sync or async</div>
+            <div class="d" data-field="benefit2Line">Get the rendered page back on the same request, or queue the job.</div>
+          </div>
+          <div class="benefit">
+            <div class="t" data-field="benefit3">Hard targets, 48-hour SLA</div>
+            <div class="d" data-field="benefit3Line">48-hour unblock SLA on hard targets, backed by direct engineering support.</div>
+          </div>
+        </div>
+        <div class="foot">
+          <img src="../_brand/logo-massive.svg" alt="Massive" />
+          <span data-field="url">joinmassive.com/web-render</span>
+        </div>
+      </div>
+    </div>
+    <script src="../_lib/placeholders.js"></script>
+    <script>
+      const $ = (s) => document.querySelector(s);
+      const esc = (s) => s.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[c]);
+
+      window.onFields = (values) => {
+        massivePlaceholders();
+
+        // The headline, with its first match of the highlight field in red (the page sets "anywhere" apart).
+        const headline = String(values.headline ?? "");
+        const mark = String(values.highlight ?? "").trim();
+        const at = mark ? headline.toLowerCase().indexOf(mark.toLowerCase()) : -1;
+        const h = $(".headline");
+        h.innerHTML =
+          at < 0
+            ? esc(headline)
+            : esc(headline.slice(0, at)) +
+              `<span class="accent">${esc(headline.slice(at, at + mark.length))}</span>` +
+              esc(headline.slice(at + mark.length));
+
+        // Long values step down: the headline to two lines, the subline and each benefit line to two.
+        for (let size = 88; size >= 64; size -= 4) {
+          h.style.fontSize = `${size}px`;
+          if (h.scrollWidth <= h.clientWidth && h.offsetHeight <= size * 2 + 2) break;
+        }
+        const sub = $(".subline");
+        for (let size = 32; size >= 26; size -= 2) {
+          sub.style.fontSize = `${size}px`;
+          if (sub.offsetHeight <= size * 1.3 * 2 + 2) break;
+        }
+        for (const d of document.querySelectorAll(".benefit .d")) {
+          for (let size = 26; size >= 24; size -= 1) {
+            d.style.fontSize = `${size}px`;
+            if (d.offsetHeight <= size * 1.35 * 2 + 2) break;
+          }
+        }
+      };
+    </script>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

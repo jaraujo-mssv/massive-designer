@@ -1,0 +1,75 @@
+{
+  "id": "team-birthday",
+  "title": "Birthday card",
+  "description": "A teammate's birthday: the character-sheet card with the day's quest, a maxed-out XP bar and reward chips over the dimmed Slack desktop, confetti frozen mid-burst. Source: public/video-projects/birthday; the default teammate (Franklin Uche, Community Lead) from image-projects/welcome-template.",
+  "group": "templates",
+  "category": "team",
+  "template": null,
+  "series": null,
+  "status": "draft",
+  "tags": [
+    "team",
+    "birthday"
+  ],
+  "source": "video-projects/birthday",
+  "width": 1080,
+  "height": 1350,
+  "fields": [
+    {
+      "id": "photo",
+      "label": "Photo",
+      "type": "image",
+      "default": "assets/franklin.jpg",
+      "hint": "A square portrait, face centred"
+    },
+    {
+      "id": "name",
+      "label": "Full name",
+      "type": "text",
+      "default": "Franklin Uche",
+      "hint": "First and last name; long names shrink to fit"
+    },
+    {
+      "id": "firstName",
+      "label": "First name",
+      "type": "text",
+      "default": "Franklin",
+      "hint": "Used in the birthday line"
+    },
+    {
+      "id": "role",
+      "label": "Role",
+      "type": "text",
+      "default": "Community Lead",
+      "hint": "Job title, about 30 characters"
+    },
+    {
+      "id": "location",
+      "label": "Location",
+      "type": "text",
+      "default": "Lagos, Nigeria",
+      "hint": "City, Country"
+    },
+    {
+      "id": "quest",
+      "label": "Quest",
+      "type": "text",
+      "default": "Eat cake. Make a wish.",
+      "hint": "One short line, up to about 60 characters"
+    },
+    {
+      "id": "rewards",
+      "label": "Rewards (comma-separated, up to 5)",
+      "type": "text",
+      "default": "+1 Wisdom, +1 Cake, +100 Good vibes",
+      "hint": "Each one becomes a chip"
+    },
+    {
+      "id": "confetti",
+      "label": "Confetti",
+      "type": "toggle",
+      "default": true,
+      "hint": "Frozen burst behind the photo; turn off for a calmer card"
+    }
+  ]
+}

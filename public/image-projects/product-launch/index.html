@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1350" />
+    <title>Launch announcement</title>
+    <link rel="stylesheet" href="../_brand/massive.css" />
+    <style>
+      /* The Launch teaser's last scene (video-projects/launch-teaser, compositions/06-date-reveal.html) held at its
+         end: the black wrap fully up, the line fully typed, the cursor at full opacity, under the film's vignette.
+         The video sets the line in JetBrains Mono; here it's Outfit (the mono rule), re-laid as the product name
+         over the date for portrait. */
+      #canvas {
+        width: 1080px;
+        height: 1350px;
+        background: #000;
+      }
+      .vignette {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse at center, transparent 45%, rgba(0, 0, 0, 0.65) 100%);
+        pointer-events: none;
+      }
+      .reveal {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5em;
+        font-size: 64px;
+        font-weight: 400;
+        line-height: 1.2;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #ffffff;
+        text-shadow: 0 0 30px rgba(255, 255, 255, 0.35);
+        white-space: nowrap;
+      }
+      /* Tracking adds space after the last letter; pull it back so each line centres on its letters. */
+      .reveal .line {
+        position: relative;
+        margin-right: -0.14em;
+      }
+      /* The cursor hangs after the date, so the date itself sits on the centre line. */
+      .reveal .cursor {
+        position: absolute;
+        left: 100%;
+        color: #ff8163;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas">
+      <div class="vignette"></div>
+      <div class="reveal">
+        <div class="line" data-field="product">Massive Web Render</div>
+        <div class="line"><span data-field="date">05.05.26</span><span class="cursor">_</span></div>
+      </div>
+    </div>
+    <script src="../_lib/placeholders.js"></script>
+    <script>
+      // Size both lines together: as large as the longer one fits the 920px between the safe areas.
+      const reveal = document.querySelector(".reveal");
+      window.onFields = () => {
+        massivePlaceholders();
+        const lines = [...reveal.querySelectorAll(".line")];
+        for (let size = 72; size >= 36; size -= 2) {
+          reveal.style.fontSize = `${size}px`;
+          if (Math.max(...lines.map((l) => l.getBoundingClientRect().width)) <= 900) break;
+        }
+      };
+    </script>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

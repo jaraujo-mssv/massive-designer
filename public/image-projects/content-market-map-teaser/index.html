@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1350" />
+    <title>Market map teaser</title>
+    <link rel="stylesheet" href="../_brand/massive.css" />
+    <!-- A teaser for a new market map: the headline and the count over a cropped preview of the map (its top part,
+         a little larger than the full map would sit, fading into the ground) and "Full map in the comments" low on
+         the fade. The map is a Download JPG from the Market Map tool (Vertical, Dark). -->
+    <style>
+      #canvas {
+        width: 1080px;
+        height: 1350px;
+      }
+      .head {
+        position: absolute;
+        left: 80px;
+        right: 80px;
+        top: 80px;
+      }
+      .headline {
+        font-size: 104px;
+        font-weight: 900;
+        line-height: 1;
+        letter-spacing: -0.045em;
+        text-wrap: balance;
+      }
+      .count {
+        margin-top: 22px;
+        font-size: 36px;
+        font-weight: 500;
+        line-height: 1.2;
+        color: var(--m-cream-mid);
+        white-space: nowrap;
+      }
+      /* The preview: the map's top, in a card that runs off the bottom. onFields sets its top under the header. The map
+         is drawn a little wider than the card, which only trims the tool's own side margins. */
+      .preview {
+        position: absolute;
+        left: 80px;
+        right: 80px;
+        top: 400px;
+        bottom: -40px;
+        overflow: hidden;
+        border-radius: 20px;
+        border: 1px solid rgba(250, 244, 236, 0.14);
+        background: var(--m-card);
+      }
+      .preview img {
+        position: absolute;
+        left: 50%;
+        top: 0;
+        width: 960px;
+        margin-left: -480px;
+        height: auto;
+      }
+      /* The fade into the ground, over the lower part of the preview. */
+      .fade {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 560px;
+        background: linear-gradient(180deg, rgba(10, 10, 15, 0) 0%, rgba(10, 10, 15, 0.85) 52%, var(--m-bg) 78%);
+      }
+      .foot {
+        position: absolute;
+        left: 80px;
+        right: 80px;
+        bottom: 80px;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 40px;
+      }
+      .cta {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        font-size: 44px;
+        font-weight: 800;
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+        color: var(--m-red-light);
+        white-space: nowrap;
+      }
+      .cta svg {
+        width: 44px;
+        height: 44px;
+        flex-shrink: 0;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2.6;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .foot .logo {
+        height: 30px;
+        margin-bottom: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas">
+      <div class="m-dotgrid"></div>
+      <div class="head">
+        <div class="headline" data-field="headline">AI agent market map</div>
+        <div class="count" data-field="count">88 companies, 15 categories</div>
+      </div>
+      <div class="preview"><img data-field-src="map" src="assets/map.jpg" alt="" /></div>
+      <div class="fade"></div>
+      <div class="foot">
+        <div class="cta">
+          <span data-field="cta">Full map in the comments</span>
+          <!-- Lucide arrow-down (lucide.dev, ISC). -->
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14" /><path d="m19 12-7 7-7-7" /></svg>
+        </div>
+        <img class="logo" src="../_brand/logo-massive.svg" alt="Massive" />
+      </div>
+    </div>
+
+    <script src="../_lib/placeholders.js"></script>
+    <script>
+      const $ = (s) => document.querySelector(s);
+      const fitWidth = (el, max, from, min) => {
+        el.style.fontSize = `${from}px`;
+        for (let size = from; el.scrollWidth > max && size > min; size -= 2) el.style.fontSize = `${size - 2}px`;
+      };
+
+      window.onFields = () => {
+        massivePlaceholders();
+
+        // The headline in at most two lines, the count and the call to action on one each.
+        const headline = $(".headline");
+        for (let size = 104; size >= 64; size -= 4) {
+          headline.style.fontSize = `${size}px`;
+          if (headline.offsetHeight <= size * 2 + 1) break;
+        }
+        fitWidth($(".count"), 920, 36, 26);
+        fitWidth($(".cta"), 560, 44, 30);
+
+        // The preview starts under the header, whatever its height.
+        $(".preview").style.top = `${80 + $(".head").offsetHeight + 56}px`;
+      };
+    </script>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

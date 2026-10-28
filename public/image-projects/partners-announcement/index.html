@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1350" />
+    <title>Partnership announcement</title>
+    <link rel="stylesheet" href="../_brand/massive.css" />
+    <!-- The Partnership Post tool's "Laptop Dark" look in portrait (src/tools/partnership-post/app): the Massive ×
+         partner lockup on the laptop's screen in partner-dark.jpg, with the eyebrow and the headline above it. The
+         photo sits low and fades into the ground at its top edge. -->
+    <style>
+      #canvas {
+        width: 1080px;
+        height: 1350px;
+      }
+      /* partner-dark.jpg (1200 × 675) at 1351 × 760, centred, on the bottom edge: its screen spans about
+         x 155–928, y 686–1217. */
+      .photo {
+        position: absolute;
+        left: -136px;
+        top: 590px;
+        width: 1352px;
+        height: 760px;
+      }
+      .fade {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 589px;
+        height: 300px;
+        background: linear-gradient(180deg, var(--m-bg) 0%, rgba(10, 10, 15, 0.82) 30%, rgba(10, 10, 15, 0.4) 62%, rgba(10, 10, 15, 0) 100%);
+      }
+      .copy {
+        position: absolute;
+        left: 80px;
+        right: 80px;
+        top: 0;
+        height: 640px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .eyebrow {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        font-size: 26px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--m-red);
+      }
+      .eyebrow::before {
+        content: "";
+        width: 24px;
+        height: 2px;
+        background: var(--m-red);
+      }
+      .headline {
+        margin-top: 28px;
+        font-size: 100px;
+        font-weight: 900;
+        line-height: 1;
+        letter-spacing: -0.045em;
+        text-wrap: balance;
+      }
+      /* The lockup, as the tool sets it: two equal slots and a light × between them, centred on the screen. */
+      .lockup {
+        position: absolute;
+        left: 155px;
+        top: 686px;
+        width: 773px;
+        height: 531px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .slot {
+        width: 300px;
+        height: 130px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .slot img {
+        max-width: 100%;
+        max-height: 100%;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+      }
+      .slot.partner {
+        padding: 0 15px;
+      }
+      .times {
+        font-size: 72px;
+        font-weight: 300;
+        line-height: 1;
+        color: var(--m-cream);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas">
+      <div class="m-dotgrid"></div>
+      <img class="photo" src="assets/partner-dark.jpg" alt="" />
+      <div class="fade"></div>
+
+      <div class="copy">
+        <div class="eyebrow" data-field="eyebrow">Partnership</div>
+        <div class="headline" data-field="headline">Crawl4AI named Massive its web access partner</div>
+      </div>
+
+      <div class="lockup">
+        <div class="slot"><img src="assets/logo-negative.svg" alt="Massive" /></div>
+        <span class="times">×</span>
+        <div class="slot partner"><img data-field-src="partnerLogo" src="assets/crawl4ai-logo.png" alt="Partner" /></div>
+      </div>
+    </div>
+
+    <script src="../_lib/placeholders.js"></script>
+    <script>
+      const $ = (s) => document.querySelector(s);
+
+      window.onFields = () => {
+        massivePlaceholders();
+
+        // The headline in at most three lines.
+        const headline = $(".headline");
+        for (let size = 100; size >= 64; size -= 4) {
+          headline.style.fontSize = `${size}px`;
+          if (headline.offsetHeight <= size * 3 + 1) break;
+        }
+      };
+    </script>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

@@ -1,0 +1,54 @@
+{
+  "id": "team-work-anniversary",
+  "title": "Work anniversary",
+  "description": "A teammate's work anniversary: the achievement toast and the character-sheet card with their years at Massive as lit pips, over the dimmed Slack desktop. Source: public/video-projects/work-anniversary; the default teammate (Franklin Uche, Community Lead) from image-projects/welcome-template.",
+  "group": "templates",
+  "category": "team",
+  "template": null,
+  "series": null,
+  "status": "draft",
+  "tags": [
+    "team",
+    "anniversary"
+  ],
+  "source": "video-projects/work-anniversary",
+  "width": 1080,
+  "height": 1350,
+  "fields": [
+    {
+      "id": "photo",
+      "label": "Photo",
+      "type": "image",
+      "default": "assets/franklin.jpg",
+      "hint": "A square portrait, face centred"
+    },
+    {
+      "id": "name",
+      "label": "Full name",
+      "type": "text",
+      "default": "Franklin Uche",
+      "hint": "First and last name; long names shrink to fit"
+    },
+    {
+      "id": "firstName",
+      "label": "First name",
+      "type": "text",
+      "default": "Franklin",
+      "hint": "Used in the anniversary line"
+    },
+    {
+      "id": "role",
+      "label": "Role",
+      "type": "text",
+      "default": "Community Lead",
+      "hint": "Job title, about 30 characters"
+    },
+    {
+      "id": "years",
+      "label": "Years at Massive",
+      "type": "text",
+      "default": "3",
+      "hint": "A whole number; it sets the pips, the tenure and the toast"
+    }
+  ]
+}

@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1350" />
+    <title>Feature spotlight: Residential proxies</title>
+    <link rel="stylesheet" href="../_brand/massive.css" />
+    <style>
+      /* Residential proxies in one post: the Web Access page's eyebrow and headline, its three protocols, a diagram
+         of the route (your client → the Massive network → residential devices) and three points. Every line is from
+         https://www.joinmassive.com/web-access. No session length: the site and the docs disagree on it. */
+      #canvas {
+        width: 1080px;
+        height: 1350px;
+      }
+      .stack {
+        position: absolute;
+        inset: 96px 80px 80px;
+        display: flex;
+        flex-direction: column;
+      }
+      .eyebrow {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        font-size: 22px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--m-red);
+        white-space: nowrap;
+      }
+      .eyebrow::before {
+        content: "";
+        flex-shrink: 0;
+        width: 24px;
+        height: 2px;
+        background: var(--m-red);
+      }
+      .headline {
+        margin-top: 28px;
+        font-size: 88px;
+        font-weight: 900;
+        line-height: 1;
+        letter-spacing: -0.04em;
+      }
+      .headline .accent {
+        color: var(--m-red);
+      }
+      .chips {
+        margin-top: 36px;
+        display: flex;
+        gap: 14px;
+      }
+      .chip {
+        padding: 10px 22px;
+        border: 1.5px solid rgba(215, 73, 57, 0.6);
+        border-radius: 999px;
+        font-size: 22px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--m-cream);
+      }
+
+      /* The route. Positions are in the 920 × 300 diagram box; the lines and device dots are drawn below. */
+      .flow {
+        flex: 1;
+        display: flex;
+        align-items: center;
+      }
+      .diagram {
+        position: relative;
+        width: 920px;
+        height: 300px;
+      }
+      .diagram svg.wires {
+        position: absolute;
+        inset: 0;
+        overflow: visible;
+      }
+      .client {
+        position: absolute;
+        left: 0;
+        top: 50px;
+        width: 180px;
+        height: 150px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--m-card);
+        border: 1px solid var(--m-border);
+        border-radius: 16px;
+      }
+      .hub {
+        position: absolute;
+        left: 300px;
+        top: 55px;
+        width: 140px;
+        height: 140px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: var(--m-card);
+        border: 2px solid var(--m-red);
+      }
+      .hub img {
+        width: 72px;
+      }
+      .label {
+        position: absolute;
+        top: 262px;
+        transform: translateX(-50%);
+        font-size: 20px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--m-cream-dim);
+        white-space: nowrap;
+      }
+
+      .points {
+        border-bottom: 1px solid var(--m-border);
+      }
+      .point {
+        padding: 22px 0;
+        border-top: 1px solid var(--m-border);
+      }
+      .point .t {
+        font-size: 32px;
+        font-weight: 700;
+        line-height: 1.15;
+        letter-spacing: -0.01em;
+      }
+      .point .d {
+        margin-top: 6px;
+        font-size: 26px;
+        font-weight: 400;
+        line-height: 1.35;
+        color: var(--m-cream-mid);
+      }
+      .foot {
+        margin-top: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .foot img {
+        display: block;
+        height: 22px;
+      }
+      .foot span {
+        font-size: 20px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        color: var(--m-cream-dim);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas">
+      <div class="m-dotgrid"></div>
+      <div class="stack">
+        <div class="eyebrow" data-field="eyebrow">Web Access API</div>
+        <div class="headline">Residential proxies from <span class="accent">real devices</span></div>
+        <div class="chips"><span class="chip">HTTP</span><span class="chip">HTTPS</span><span class="chip">SOCKS5</span></div>
+
+        <div class="flow">
+          <div class="diagram">
+            <svg class="wires" width="920" height="300" viewBox="0 0 920 300" fill="none"></svg>
+            <div class="client">
+              <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="#faf4ec" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 5a2 2 0 0 1 2 2v8.526a2 2 0 0 0 .212.897l1.068 2.127a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45l1.068-2.127A2 2 0 0 0 4 15.526V7a2 2 0 0 1 2-2z" />
+                <path d="M20.054 15.987H3.973" />
+              </svg>
+            </div>
+            <div class="hub"><img src="../_brand/icon-massive.svg" alt="" /></div>
+            <div class="label" style="left: 90px" data-field="clientLabel">Your client</div>
+            <div class="label" style="left: 370px" data-field="networkLabel">Massive network</div>
+            <div class="label" style="left: 745px" data-field="devicesLabel">Residential devices</div>
+          </div>
+        </div>
+
+        <div class="points">
+          <div class="point">
+            <div class="t" data-field="point1">195+ countries</div>
+            <div class="d" data-field="point1Line">Requests route through opted-in user devices, not datacenter IPs.</div>
+          </div>
+          <div class="point">
+            <div class="t" data-field="point2">Rotate per request or hold a session</div>
+            <div class="d" data-field="point2Line">Hold the same egress device, or rotate on every request.</div>
+          </div>
+          <div class="point">
+            <div class="t" data-field="point3">Target by country, state or region, and city</div>
+            <div class="d" data-field="point3Line">Pull the version of a page a local user actually sees.</div>
+          </div>
+        </div>
+        <div class="foot">
+          <img src="../_brand/logo-massive.svg" alt="Massive" />
+          <span data-field="url">joinmassive.com/web-access</span>
+        </div>
+      </div>
+    </div>
+    <script src="../_lib/placeholders.js"></script>
+    <script>
+      const $ = (s) => document.querySelector(s);
+      const esc = (s) => s.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[c]);
+
+      // The wires: client → hub, then the hub fanning out to a cloud of residential devices. Seeded, so every render
+      // places the same dots.
+      (() => {
+        const NS = "http://www.w3.org/2000/svg";
+        const svg = $(".diagram svg.wires");
+        const el = (tag, attrs) => {
+          const e = document.createElementNS(NS, tag);
+          for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v);
+          svg.append(e);
+          return e;
+        };
+        let seed = 181;
+        const rand = () => {
+          seed = (seed + 0x6d2b79f5) | 0;
+          let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+          t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
+
+        const HUB = { x: 370, y: 125, r: 70 };
+        // Client → hub, with an arrowhead at the hub.
+        el("path", { d: `M188 125 H${HUB.x - HUB.r - 10}`, stroke: "rgba(250,244,236,0.45)", "stroke-width": 2.5, "stroke-linecap": "round" });
+        el("path", { d: `M${HUB.x - HUB.r - 20} 117 l9 8 l-9 8`, stroke: "rgba(250,244,236,0.45)", "stroke-width": 2.5, "stroke-linecap": "round", "stroke-linejoin": "round" });
+
+        // Devices: a jittered grid inside an ellipse to the right of the hub.
+        const CLOUD = { x: 750, y: 125, rx: 160, ry: 112 };
+        const dots = [];
+        for (let gy = -4; gy <= 4; gy++) {
+          for (let gx = -6; gx <= 6; gx++) {
+            const x = CLOUD.x + gx * 27 + (gy % 2 ? 13 : 0) + (rand() - 0.5) * 12;
+            const y = CLOUD.y + gy * 26 + (rand() - 0.5) * 12;
+            const d = ((x - CLOUD.x) / CLOUD.rx) ** 2 + ((y - CLOUD.y) / CLOUD.ry) ** 2;
+            if (d > 1 || rand() < 0.3) continue;
+            dots.push({ x, y, lit: rand() < 0.22 });
+          }
+        }
+        // A wire to each lit device, leaving the hub's rim.
+        for (const d of dots.filter((d) => d.lit)) {
+          const a = Math.atan2(d.y - HUB.y, d.x - HUB.x);
+          const sx = HUB.x + Math.cos(a) * (HUB.r + 4);
+          const sy = HUB.y + Math.sin(a) * (HUB.r + 4);
+          const cx = (sx + d.x) / 2;
+          el("path", { d: `M${sx} ${sy} C${cx} ${sy} ${cx} ${d.y} ${d.x} ${d.y}`, stroke: "rgba(255,129,99,0.3)", "stroke-width": 1.5 });
+        }
+        for (const d of dots) {
+          el("circle", { cx: d.x, cy: d.y, r: d.lit ? 7 : 5, fill: d.lit ? "#ff8163" : "rgba(250,244,236,0.3)" });
+        }
+      })();
+
+      window.onFields = (values) => {
+        massivePlaceholders();
+
+        // The headline, with its first match of the highlight field in red (the page sets "real devices" apart).
+        const headline = String(values.headline ?? "");
+        const mark = String(values.highlight ?? "").trim();
+        const at = mark ? headline.toLowerCase().indexOf(mark.toLowerCase()) : -1;
+        const h = $(".headline");
+        h.innerHTML =
+          at < 0
+            ? esc(headline)
+            : esc(headline.slice(0, at)) +
+              `<span class="accent">${esc(headline.slice(at, at + mark.length))}</span>` +
+              esc(headline.slice(at + mark.length));
+        for (let size = 88; size >= 64; size -= 4) {
+          h.style.fontSize = `${size}px`;
+          if (h.scrollWidth <= h.clientWidth && h.offsetHeight <= size * 2 + 2) break;
+        }
+
+        // Protocols, comma-separated: one chip each, up to five.
+        const protocols = String(values.protocols ?? "").split(",").map((s) => s.trim()).filter(Boolean);
+        const chips = $(".chips");
+        chips.replaceChildren(
+          ...protocols.slice(0, 5).map((p) => Object.assign(document.createElement("span"), { className: "chip", textContent: p })),
+        );
+
+        for (const d of document.querySelectorAll(".point .d")) {
+          for (let size = 26; size >= 24; size -= 1) {
+            d.style.fontSize = `${size}px`;
+            if (d.offsetHeight <= size * 1.35 * 2 + 2) break;
+          }
+        }
+      };
+    </script>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

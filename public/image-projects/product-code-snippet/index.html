@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>API in a few lines</title>
+    <link rel="stylesheet" href="../_brand/massive.css" />
+    <style>
+      /* The docs' Web Render /ai example (https://docs.joinmassive.com/web-render/ai.md): the curl request exactly as
+         the docs show it, and its example JSON response trimmed to model, query, the first three fanouts, country
+         and city, with "…" where fields are left out. The code is fixed in the page; mono only inside <pre><code>,
+         highlighted in cream, cream-dim and red-light. */
+      #canvas {
+        width: 1920px;
+        height: 1080px;
+      }
+      .stack {
+        position: absolute;
+        inset: 96px 100px;
+        display: flex;
+        flex-direction: column;
+      }
+      .eyebrow {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        font-size: 24px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--m-red);
+        white-space: nowrap;
+      }
+      .eyebrow::before {
+        content: "";
+        flex-shrink: 0;
+        width: 24px;
+        height: 2px;
+        background: var(--m-red);
+      }
+      .title {
+        margin-top: 24px;
+        font-size: 96px;
+        font-weight: 900;
+        line-height: 1;
+        letter-spacing: -0.04em;
+        white-space: nowrap;
+      }
+      .panels {
+        flex: 1;
+        min-height: 0;
+        margin: 52px 0 48px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+      }
+      .window {
+        display: flex;
+        flex-direction: column;
+        background: var(--m-card);
+        border: 1px solid var(--m-border);
+        border-radius: 20px;
+        overflow: hidden;
+      }
+      .window .bar {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        height: 60px;
+        padding: 0 28px;
+        border-bottom: 1px solid var(--m-border);
+      }
+      .window .bar i {
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+        background: rgba(250, 244, 236, 0.18);
+      }
+      .window .bar span {
+        margin-left: 14px;
+        font-size: 20px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--m-cream-dim);
+      }
+      pre {
+        padding: 28px 36px;
+        font-size: 24px;
+        line-height: 1.5;
+        color: var(--m-cream);
+        white-space: pre;
+      }
+      pre code {
+        font-family: var(--m-mono);
+      }
+      /* Highlighting: names in red-light, values in cream, syntax in cream-dim. */
+      .k {
+        color: var(--m-red-light);
+      }
+      .p {
+        color: var(--m-cream-dim);
+      }
+      .foot {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .foot img {
+        display: block;
+        height: 26px;
+      }
+      .foot span {
+        font-size: 24px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        color: var(--m-cream-dim);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas">
+      <div class="m-dotgrid"></div>
+      <div class="stack">
+        <div class="eyebrow" data-field="eyebrow">Web Render API</div>
+        <div class="title" data-field="title">One request to /ai</div>
+        <div class="panels">
+          <div class="window">
+            <div class="bar"><i></i><i></i><i></i><span>Request</span></div>
+<pre><code><span class="k">curl</span> <span class="p">-H</span> <span class="p">"</span>Authorization: Bearer $MASSIVE_TOKEN<span class="p">" \</span>
+<span class="p">'</span>https://render.joinmassive.com/ai<span class="p">'\</span>
+<span class="p">'?</span><span class="k">prompt</span><span class="p">=</span>best+basketball+shoes+for+2026<span class="p">'\</span>
+<span class="p">'&amp;</span><span class="k">country</span><span class="p">=</span>us<span class="p">'\</span>
+<span class="p">'&amp;</span><span class="k">city</span><span class="p">=</span>Portland<span class="p">'</span></code></pre>
+          </div>
+          <div class="window">
+            <div class="bar"><i></i><i></i><i></i><span>Response</span></div>
+<pre><code><span class="p">{</span>
+  <span class="k">"model"</span><span class="p">:</span> "chatgpt"<span class="p">,</span>
+  <span class="k">"query"</span><span class="p">:</span> "best basketball shoes for 2026"<span class="p">,</span>
+  <span class="p">...</span>
+  <span class="k">"fanouts"</span><span class="p">: [</span>
+    "best basketball shoes 2026"<span class="p">,</span>
+    "top rated basketball shoes 2026 reviews"<span class="p">,</span>
+    "best performance basketball shoes 2026"<span class="p">,</span>
+    <span class="p">...</span>
+  <span class="p">],</span>
+  <span class="k">"country"</span><span class="p">:</span> "US"<span class="p">,</span>
+  <span class="k">"city"</span><span class="p">:</span> "Portland"
+<span class="p">}</span></code></pre>
+          </div>
+        </div>
+        <div class="foot">
+          <img src="../_brand/logo-massive.svg" alt="Massive" />
+          <span data-field="url">docs.joinmassive.com</span>
+        </div>
+      </div>
+    </div>
+    <script src="../_lib/placeholders.js"></script>
+    <script>
+      window.onFields = () => {
+        massivePlaceholders();
+        // A longer title steps down so it stays on one line.
+        const title = document.querySelector(".title");
+        for (let size = 96; size >= 64; size -= 4) {
+          title.style.fontSize = `${size}px`;
+          if (title.scrollWidth <= 1720) break;
+        }
+      };
+    </script>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

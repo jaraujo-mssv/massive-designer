@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1350" />
+    <title>Blog quote card</title>
+    <link rel="stylesheet" href="../_brand/massive.css" />
+    <!-- A pull quote from a blog post: a big red quote mark, the quote, the author, and the post's title and link over
+         the footer. onFields shrinks the quote to its box (about 200 characters still fit) and the title to two lines. -->
+    <style>
+      #canvas {
+        width: 1080px;
+        height: 1350px;
+      }
+      .page {
+        position: absolute;
+        inset: 80px;
+        display: flex;
+        flex-direction: column;
+      }
+      .mark {
+        height: 150px;
+        margin-left: -8px;
+        font-size: 340px;
+        font-weight: 900;
+        line-height: 0.82;
+        color: var(--m-red);
+      }
+      /* The mark, the quote and the author, centred in what the post and the footer leave; onFields fits the quote. */
+      .main {
+        flex: 1;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .quote {
+        margin-top: 28px;
+        font-size: 112px;
+        font-weight: 800;
+        line-height: 1.08;
+        letter-spacing: -0.035em;
+        text-wrap: pretty;
+      }
+      .author {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+        margin-top: 64px;
+      }
+      .author .photo {
+        width: 120px;
+        height: 120px;
+        flex-shrink: 0;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid var(--m-bg);
+        box-shadow: 0 0 0 3px var(--m-red);
+      }
+      .author .who {
+        min-width: 0;
+      }
+      .name {
+        font-size: 44px;
+        font-weight: 800;
+        line-height: 1.1;
+        letter-spacing: -0.03em;
+        white-space: nowrap;
+      }
+      .role {
+        margin-top: 6px;
+        font-size: 30px;
+        font-weight: 400;
+        color: var(--m-cream-mid);
+        white-space: nowrap;
+      }
+      .post {
+        margin-top: 56px;
+        padding-top: 36px;
+        border-top: 1px solid rgba(250, 244, 236, 0.14);
+      }
+      .post-title {
+        font-size: 32px;
+        font-weight: 600;
+        line-height: 1.25;
+        color: var(--m-cream-mid);
+        text-wrap: balance;
+      }
+      .foot {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 40px;
+        margin-top: 44px;
+      }
+      .foot .logo {
+        height: 30px;
+      }
+      .link {
+        font-size: 28px;
+        font-weight: 600;
+        color: var(--m-red-light);
+        white-space: nowrap;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas">
+      <div class="m-dotgrid"></div>
+      <div class="page">
+        <div class="main">
+          <div class="mark" aria-hidden="true">“</div>
+          <div class="quote" data-field="quote">Is robots.txt legally binding? In the United States, not on its own.</div>
+          <div class="author">
+            <img class="photo" data-field-src="photo" src="assets/franklin.jpg" alt="" />
+            <div class="who">
+              <div class="name" data-field="name">Franklin Uche</div>
+              <div class="role" data-field="role">Community Lead</div>
+            </div>
+          </div>
+        </div>
+        <div class="post">
+          <div class="post-title" data-field="postTitle">Is robots.txt Legally Binding? What US and EU Courts Have Ruled</div>
+        </div>
+        <div class="foot">
+          <img class="logo" src="../_brand/logo-massive.svg" alt="Massive" />
+          <div class="link" data-field="link">joinmassive.com/blog</div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../_lib/placeholders.js"></script>
+    <script>
+      const $ = (s) => document.querySelector(s);
+      // Shrink until the text fits its width (one line).
+      const fitWidth = (el, max, from, min) => {
+        el.style.fontSize = `${from}px`;
+        for (let size = from; el.scrollWidth > max && size > min; size -= 2) el.style.fontSize = `${size - 2}px`;
+      };
+
+      window.onFields = () => {
+        massivePlaceholders();
+
+        // The post title takes at most two lines.
+        const title = $(".post-title");
+        for (let size = 32; size >= 24; size -= 1) {
+          title.style.fontSize = `${size}px`;
+          if (title.offsetHeight <= size * 1.25 * 2 + 1) break;
+        }
+        fitWidth($(".name"), 760, 44, 30);
+        fitWidth($(".role"), 760, 30, 22);
+        fitWidth($(".link"), 520, 28, 20);
+
+        // The quote: as large as fits the space left, from 112px down to 52px.
+        const main = $(".main");
+        const quote = $(".quote");
+        for (let size = 112; size >= 52; size -= 2) {
+          quote.style.fontSize = `${size}px`;
+          if (main.scrollHeight <= main.clientHeight) break;
+        }
+      };
+    </script>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

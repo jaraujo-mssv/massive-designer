@@ -631,6 +631,765 @@
       "thumb": "/image-projects/company-card-centered/thumb.jpg"
     },
     {
+      "id": "content-aeo-still",
+      "title": "Why AEO is the new SEO",
+      "description": "The AEO explainer video's closing slide as a still, in the light register: read the full breakdown on the blog. Source: video-projects/why-aeo-is-the-new-seo (compositions/slide-05.html)",
+      "group": "massive",
+      "category": "content",
+      "template": null,
+      "series": null,
+      "status": "draft",
+      "tags": [
+        "content",
+        "aeo",
+        "video still"
+      ],
+      "source": "video-projects/why-aeo-is-the-new-seo",
+      "width": 1080,
+      "height": 1350,
+      "format": "portrait",
+      "formats": null,
+      "updated": "2026-10-28T13:38:50.053Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "eyebrow",
+          "label": "Eyebrow",
+          "type": "text",
+          "default": "Why AEO Is the New SEO: Answer Engine Optimization in 2026",
+          "hint": "The post's title, above the headline. Up to two lines; about 60 characters."
+        },
+        {
+          "id": "headline",
+          "label": "Headline",
+          "type": "text",
+          "default": "Read the full breakdown on our blog.",
+          "hint": "The call to read. About 40 characters; shrinks to fit."
+        },
+        {
+          "id": "highlight",
+          "label": "Highlight",
+          "type": "text",
+          "default": "full breakdown",
+          "hint": "Words from the headline to set in red. Leave empty for none."
+        },
+        {
+          "id": "url",
+          "label": "Link",
+          "type": "text",
+          "default": "joinmassive.com/blog",
+          "hint": "The link in the button, without https://. About 25 characters."
+        }
+      ],
+      "path": "/image-projects/content-aeo-still/index.html",
+      "thumb": "/image-projects/content-aeo-still/thumb.jpg"
+    },
+    {
+      "id": "content-blog-quote",
+      "title": "Blog quote card",
+      "description": "A pull quote from a Massive blog post with its author, the post's title and the blog link. Source: https://www.joinmassive.com/blog/is-robots-txt-legally-binding (quote, author, role and title as published, Oct 27, 2026).",
+      "group": "templates",
+      "category": "content",
+      "template": null,
+      "series": null,
+      "status": "draft",
+      "tags": [
+        "content",
+        "blog",
+        "quote"
+      ],
+      "source": null,
+      "width": 1080,
+      "height": 1350,
+      "format": "portrait",
+      "formats": null,
+      "updated": "2026-10-28T13:38:46.563Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "quote",
+          "label": "Quote",
+          "type": "text",
+          "default": "Is robots.txt legally binding? In the United States, not on its own.",
+          "hint": "Word for word from the post; up to about 200 characters, it shrinks to fit."
+        },
+        {
+          "id": "photo",
+          "label": "Author photo",
+          "type": "image",
+          "default": "assets/franklin.jpg",
+          "hint": "A square portrait; shown in a circle."
+        },
+        {
+          "id": "name",
+          "label": "Author",
+          "type": "text",
+          "default": "Franklin Uche",
+          "hint": "The author's full name."
+        },
+        {
+          "id": "role",
+          "label": "Author's role",
+          "type": "text",
+          "default": "Community Lead",
+          "hint": "A few words."
+        },
+        {
+          "id": "postTitle",
+          "label": "Post title",
+          "type": "text",
+          "default": "Is robots.txt Legally Binding? What US and EU Courts Have Ruled",
+          "hint": "As published; up to two lines, about 90 characters."
+        },
+        {
+          "id": "link",
+          "label": "Link",
+          "type": "text",
+          "default": "joinmassive.com/blog",
+          "hint": "Shown bottom right; keep it short, without https://."
+        }
+      ],
+      "path": "/image-projects/content-blog-quote/index.html",
+      "thumb": "/image-projects/content-blog-quote/thumb.jpg"
+    },
+    {
+      "id": "content-consent-still",
+      "title": "What does consent look like?",
+      "description": "The consent film's settled moment as a still: the ring closed around the user with its four ticks, under the film's title. Source: video-projects/what-does-consent-look-like (compositions/09-consent-settled.html; title from SCRIPT.md and meta.json)",
+      "group": "massive",
+      "category": "content",
+      "template": null,
+      "series": null,
+      "status": "draft",
+      "tags": [
+        "content",
+        "consent",
+        "video still"
+      ],
+      "source": "video-projects/what-does-consent-look-like",
+      "width": 1080,
+      "height": 1350,
+      "format": "portrait",
+      "formats": null,
+      "updated": "2026-10-28T13:38:50.045Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "title",
+          "label": "Title",
+          "type": "text",
+          "default": "What does consent look like?",
+          "hint": "The film's title, above the ring. Two lines at most; about 30 characters."
+        }
+      ],
+      "path": "/image-projects/content-consent-still/index.html",
+      "thumb": "/image-projects/content-consent-still/thumb.jpg"
+    },
+    {
+      "id": "content-data-stat",
+      "title": "Data story stat",
+      "description": "One finding from Massive research, its number big and a dot chart of it: one dot per item in the total, the finding's share lit red. Source: https://www.joinmassive.com/blog/edpb-web-scraping-guidelines (Massive's robots.txt check of 47 news sites, October 26, 2026: 42 block at least one AI training crawler).",
+      "group": "templates",
+      "category": "content",
+      "template": null,
+      "series": null,
+      "status": "draft",
+      "tags": [
+        "content",
+        "data"
+      ],
+      "source": null,
+      "width": 1080,
+      "height": 1350,
+      "format": "portrait",
+      "formats": null,
+      "updated": "2026-10-28T13:39:37.138Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "value",
+          "label": "Value",
+          "type": "text",
+          "default": "42",
+          "hint": "A whole number; that many dots are lit red."
+        },
+        {
+          "id": "total",
+          "label": "Total",
+          "type": "text",
+          "default": "47",
+          "hint": "A whole number; the chart draws one dot each, up to 400."
+        },
+        {
+          "id": "label",
+          "label": "What it counts",
+          "type": "text",
+          "default": "news sites block at least one AI training crawler",
+          "hint": "Reads after “42 of 47”; up to three lines, about 60 characters."
+        },
+        {
+          "id": "source",
+          "label": "Source",
+          "type": "text",
+          "default": "Massive, EDPB Web Scraping Guidelines: What the GDPR Draft Means for AI Data Collection",
+          "hint": "Who published it and where, after “Source:”."
+        },
+        {
+          "id": "link",
+          "label": "Source link",
+          "type": "text",
+          "default": "joinmassive.com/blog/edpb-web-scraping-guidelines",
+          "hint": "The page the number comes from, without https://."
+        }
+      ],
+      "path": "/image-projects/content-data-stat/index.html",
+      "thumb": "/image-projects/content-data-stat/thumb.jpg"
+    },
+    {
+      "id": "content-market-map-teaser",
+      "title": "Market map teaser",
+      "description": "A teaser for a new market map: the headline and the count over a cropped preview of the map, fading into the ground, and “Full map in the comments”. The default map is the AI Agents example (15 categories, 88 companies) downloaded from the Market Map tool, Dark, Vertical. Source: src/tools/market-map/app/constants.ts (the AI Agents example sheet).",
+      "group": "templates",
+      "category": "content",
+      "template": null,
+      "series": null,
+      "status": "draft",
+      "tags": [
+        "content",
+        "market map"
+      ],
+      "source": null,
+      "width": 1080,
+      "height": 1350,
+      "format": "portrait",
+      "formats": null,
+      "updated": "2026-10-28T13:40:24.891Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "map",
+          "label": "Map",
+          "type": "image",
+          "default": "assets/map.jpg",
+          "hint": "The Market Map tool's Download JPG, Vertical; only its top part shows."
+        },
+        {
+          "id": "headline",
+          "label": "Headline",
+          "type": "text",
+          "default": "AI agent market map",
+          "hint": "The map's name; up to two lines, about 30 characters."
+        },
+        {
+          "id": "count",
+          "label": "Count",
+          "type": "text",
+          "default": "88 companies, 15 categories",
+          "hint": "What the map holds, from the tool's sidebar; one line."
+        },
+        {
+          "id": "cta",
+          "label": "Call to action",
+          "type": "text",
+          "default": "Full map in the comments",
+          "hint": "Where the full map is; about 25 characters."
+        }
+      ],
+      "path": "/image-projects/content-market-map-teaser/index.html",
+      "thumb": "/image-projects/content-market-map-teaser/thumb.jpg"
+    },
+    {
+      "id": "events-meet-us",
+      "title": "Meet us at …",
+      "description": "Conference card in the house look: the event's name big, when and where, where to find us there and who's going, with an optional second person. Source: scripts/deck/prague-crawl-2027.html (Prague Crawl 2027, May 13, 2027, Spojka Events, Prague; citing praguecrawl.com).",
+      "group": "templates",
+      "category": "events",
+      "template": null,
+      "series": null,
+      "status": "draft",
+      "tags": [
+        "events",
+        "conference"
+      ],
+      "source": null,
+      "width": 1080,
+      "height": 1350,
+      "format": "portrait",
+      "formats": null,
+      "updated": "2026-10-28T13:45:38.393Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "eyebrow",
+          "label": "Eyebrow",
+          "type": "text",
+          "default": "Meet us at",
+          "hint": "Two to four words: Meet us at, See you at"
+        },
+        {
+          "id": "event",
+          "label": "Event",
+          "type": "text",
+          "default": "Prague Crawl 2027",
+          "hint": "The event's name. Up to two lines; about 30 characters reads best"
+        },
+        {
+          "id": "date",
+          "label": "Date",
+          "type": "text",
+          "default": "May 13, 2027",
+          "hint": "The day or days, e.g. May 13, 2027"
+        },
+        {
+          "id": "venue",
+          "label": "City or venue",
+          "type": "text",
+          "default": "Spojka Events, Prague",
+          "hint": "Venue and city, about 30 characters"
+        },
+        {
+          "id": "spot",
+          "label": "Where to find us",
+          "type": "text",
+          "default": "[Booth or spot]",
+          "hint": "Booth number or spot at the venue, about 40 characters. Leave the brackets until it's known"
+        },
+        {
+          "id": "photo",
+          "label": "Photo",
+          "type": "image",
+          "default": "assets/jason-grad.jpg",
+          "hint": "Square portrait, face centred; cropped to a circle"
+        },
+        {
+          "id": "name",
+          "label": "Name",
+          "type": "text",
+          "default": "Jason Grad",
+          "hint": "Full name, about 25 characters"
+        },
+        {
+          "id": "role",
+          "label": "Role",
+          "type": "text",
+          "default": "Co-founder & CEO",
+          "hint": "Job title, about 40 characters"
+        },
+        {
+          "id": "second",
+          "label": "Second person",
+          "type": "toggle",
+          "default": false,
+          "hint": "Adds a second person under the first"
+        },
+        {
+          "id": "photo2",
+          "label": "Second photo",
+          "type": "image",
+          "default": "assets/franklin.jpg",
+          "hint": "Square portrait, face centred; shown when Second person is on"
+        },
+        {
+          "id": "name2",
+          "label": "Second name",
+          "type": "text",
+          "default": "Franklin Uche",
+          "hint": "Full name, about 25 characters"
+        },
+        {
+          "id": "role2",
+          "label": "Second role",
+          "type": "text",
+          "default": "Community Lead",
+          "hint": "Job title, about 40 characters"
+        }
+      ],
+      "path": "/image-projects/events-meet-us/index.html",
+      "thumb": "/image-projects/events-meet-us/thumb.jpg"
+    },
+    {
+      "id": "events-recap",
+      "title": "Event recap",
+      "description": "Event recap in the house look: three photos from the event, a thank-you headline, the event line and one takeaway. Source: scripts/deck/prague-crawl-2027.html (Prague Crawl 2026, May 20, 2026; 250+ attendees; 17 talks, demos and a panel) and praguecrawl.com/agenda; photos from public/image-projects/_prague-crawl/.",
+      "group": "templates",
+      "category": "events",
+      "template": null,
+      "series": null,
+      "status": "draft",
+      "tags": [
+        "events",
+        "recap"
+      ],
+      "source": null,
+      "width": 1080,
+      "height": 1350,
+      "format": "portrait",
+      "formats": null,
+      "updated": "2026-10-28T13:41:36.291Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "event",
+          "label": "Event line",
+          "type": "text",
+          "default": "Prague Crawl 2026 · May 20, 2026",
+          "hint": "Event name · date, about 35 characters"
+        },
+        {
+          "id": "photo1",
+          "label": "Top photo",
+          "type": "image",
+          "default": "../_prague-crawl/photo-room.jpg",
+          "options": [
+            {
+              "value": "../_prague-crawl/photo-room.jpg",
+              "label": "The room"
+            },
+            {
+              "value": "../_prague-crawl/photo-stage.jpg",
+              "label": "Talk from the back"
+            },
+            {
+              "value": "../_prague-crawl/photo-speaker.jpg",
+              "label": "Speaker and audience"
+            },
+            {
+              "value": "../_prague-crawl/photo-panel.jpg",
+              "label": "Panel on stage"
+            },
+            {
+              "value": "../_prague-crawl/photo-networking.jpg",
+              "label": "Networking"
+            },
+            {
+              "value": "../_prague-crawl/photo-phone.jpg",
+              "label": "Filming a talk"
+            }
+          ],
+          "hint": "The wide photo on top; a landscape shot of the whole room works best"
+        },
+        {
+          "id": "photo2",
+          "label": "Left photo",
+          "type": "image",
+          "default": "../_prague-crawl/photo-stage.jpg",
+          "options": [
+            {
+              "value": "../_prague-crawl/photo-room.jpg",
+              "label": "The room"
+            },
+            {
+              "value": "../_prague-crawl/photo-stage.jpg",
+              "label": "Talk from the back"
+            },
+            {
+              "value": "../_prague-crawl/photo-speaker.jpg",
+              "label": "Speaker and audience"
+            },
+            {
+              "value": "../_prague-crawl/photo-panel.jpg",
+              "label": "Panel on stage"
+            },
+            {
+              "value": "../_prague-crawl/photo-networking.jpg",
+              "label": "Networking"
+            },
+            {
+              "value": "../_prague-crawl/photo-phone.jpg",
+              "label": "Filming a talk"
+            }
+          ],
+          "hint": "Lower left; a landscape photo"
+        },
+        {
+          "id": "photo3",
+          "label": "Right photo",
+          "type": "image",
+          "default": "../_prague-crawl/photo-networking.jpg",
+          "options": [
+            {
+              "value": "../_prague-crawl/photo-room.jpg",
+              "label": "The room"
+            },
+            {
+              "value": "../_prague-crawl/photo-stage.jpg",
+              "label": "Talk from the back"
+            },
+            {
+              "value": "../_prague-crawl/photo-speaker.jpg",
+              "label": "Speaker and audience"
+            },
+            {
+              "value": "../_prague-crawl/photo-panel.jpg",
+              "label": "Panel on stage"
+            },
+            {
+              "value": "../_prague-crawl/photo-networking.jpg",
+              "label": "Networking"
+            },
+            {
+              "value": "../_prague-crawl/photo-phone.jpg",
+              "label": "Filming a talk"
+            }
+          ],
+          "hint": "Lower right; a landscape photo"
+        },
+        {
+          "id": "headline",
+          "label": "Headline",
+          "type": "text",
+          "default": "Thank you, Prague",
+          "hint": "The thank-you line. Up to two lines; about 20 characters reads best"
+        },
+        {
+          "id": "takeaway",
+          "label": "Takeaway",
+          "type": "text",
+          "default": "250+ attendees. 17 talks, demos and a panel.",
+          "hint": "One or two sourced facts, up to two lines; about 50 characters"
+        }
+      ],
+      "path": "/image-projects/events-recap/index.html",
+      "thumb": "/image-projects/events-recap/thumb.jpg"
+    },
+    {
+      "id": "events-sf-dinner",
+      "title": "SF dinner / meetup invite",
+      "description": "A type-only invite in the house look for a Bay Area dinner or meetup hosted by Massive: the headline big, who's hosting, and when, where and how to RSVP. Date, neighborhood and RSVP link are placeholders until they're set.",
+      "group": "templates",
+      "category": "events",
+      "template": null,
+      "series": null,
+      "status": "draft",
+      "tags": [
+        "events",
+        "san francisco",
+        "meetup"
+      ],
+      "source": null,
+      "width": 1080,
+      "height": 1350,
+      "format": "portrait",
+      "formats": null,
+      "updated": "2026-10-28T13:45:38.394Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "eyebrow",
+          "label": "Eyebrow",
+          "type": "text",
+          "default": "You're invited",
+          "hint": "Two or three words: You're invited, Join us"
+        },
+        {
+          "id": "headline",
+          "label": "Headline",
+          "type": "text",
+          "default": "Dinner in San Francisco",
+          "hint": "Up to three lines; about 25 characters reads best"
+        },
+        {
+          "id": "host",
+          "label": "Host line",
+          "type": "text",
+          "default": "Hosted by Massive",
+          "hint": "Who's hosting, about 40 characters"
+        },
+        {
+          "id": "date",
+          "label": "Date",
+          "type": "text",
+          "default": "[Date]",
+          "hint": "Day, date and time, e.g. Thu, March 4 · 7 pm. Leave the brackets until it's known"
+        },
+        {
+          "id": "area",
+          "label": "Neighborhood",
+          "type": "text",
+          "default": "[Neighborhood]",
+          "hint": "Neighborhood or venue, about 30 characters. Leave the brackets until it's known"
+        },
+        {
+          "id": "rsvp",
+          "label": "RSVP link",
+          "type": "text",
+          "default": "[RSVP link]",
+          "hint": "A short link without https://, about 30 characters. Leave the brackets until it's known"
+        }
+      ],
+      "path": "/image-projects/events-sf-dinner/index.html",
+      "thumb": "/image-projects/events-sf-dinner/thumb.jpg"
+    },
+    {
+      "id": "events-speaker",
+      "title": "Speaker card",
+      "description": "Speaker card in the house look: a big photo beside the event, date, time and venue, then the talk title (a placeholder until it's set), the speaker's name and role. Source: scripts/deck/prague-crawl-2027.html (Prague Crawl 2027, May 13, 2027, Spojka Events, Prague; citing praguecrawl.com).",
+      "group": "templates",
+      "category": "events",
+      "template": null,
+      "series": null,
+      "status": "draft",
+      "tags": [
+        "events",
+        "speaker"
+      ],
+      "source": null,
+      "width": 1080,
+      "height": 1350,
+      "format": "portrait",
+      "formats": null,
+      "updated": "2026-10-28T13:45:48.438Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "eyebrow",
+          "label": "Eyebrow",
+          "type": "text",
+          "default": "Speaker",
+          "hint": "One or two words: Speaker, Keynote, Panelist"
+        },
+        {
+          "id": "photo",
+          "label": "Photo",
+          "type": "image",
+          "default": "assets/jason-grad.jpg",
+          "hint": "Square portrait, face centred, at least 1000 px wide"
+        },
+        {
+          "id": "talk",
+          "label": "Talk title",
+          "type": "text",
+          "default": "[Talk title]",
+          "hint": "Up to two lines; about 50 characters reads best. Leave the brackets until it's known"
+        },
+        {
+          "id": "name",
+          "label": "Name",
+          "type": "text",
+          "default": "Jason Grad",
+          "hint": "Full name, about 25 characters"
+        },
+        {
+          "id": "role",
+          "label": "Role",
+          "type": "text",
+          "default": "Co-founder & CEO, Massive",
+          "hint": "Job title and company, about 40 characters"
+        },
+        {
+          "id": "event",
+          "label": "Event",
+          "type": "text",
+          "default": "Prague Crawl 2027",
+          "hint": "The event's name, about 25 characters"
+        },
+        {
+          "id": "date",
+          "label": "Date",
+          "type": "text",
+          "default": "May 13, 2027",
+          "hint": "e.g. May 13, 2027"
+        },
+        {
+          "id": "time",
+          "label": "Time",
+          "type": "text",
+          "default": "[Time]",
+          "hint": "Start time and time zone, e.g. 11:10 CET. Leave the brackets until it's known"
+        },
+        {
+          "id": "venue",
+          "label": "Venue",
+          "type": "text",
+          "default": "Spojka Events, Prague",
+          "hint": "Venue and city, about 30 characters"
+        }
+      ],
+      "path": "/image-projects/events-speaker/index.html",
+      "thumb": "/image-projects/events-speaker/thumb.jpg"
+    },
+    {
+      "id": "events-webinar",
+      "title": "Webinar",
+      "description": "Landscape webinar card in the house look: the title big, the speaker's photo, name and role beside it, and the date, time and registration link (placeholders until they're set). Source: https://www.joinmassive.com/blog/is-robots-txt-legally-binding (the default topic, by Franklin Uche, Community Lead).",
+      "group": "templates",
+      "category": "events",
+      "template": null,
+      "series": null,
+      "status": "draft",
+      "tags": [
+        "events",
+        "webinar"
+      ],
+      "source": null,
+      "width": 1920,
+      "height": 1080,
+      "format": "landscape",
+      "formats": null,
+      "updated": "2026-10-28T13:45:48.438Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "eyebrow",
+          "label": "Eyebrow",
+          "type": "text",
+          "default": "Webinar",
+          "hint": "One or two words: Webinar, Live session"
+        },
+        {
+          "id": "title",
+          "label": "Title",
+          "type": "text",
+          "default": "Is robots.txt legally binding?",
+          "hint": "Up to three lines; about 40 characters reads best"
+        },
+        {
+          "id": "photo",
+          "label": "Speaker photo",
+          "type": "image",
+          "default": "assets/franklin.jpg",
+          "hint": "Square portrait, face centred"
+        },
+        {
+          "id": "name",
+          "label": "Speaker name",
+          "type": "text",
+          "default": "Franklin Uche",
+          "hint": "Full name, about 20 characters"
+        },
+        {
+          "id": "role",
+          "label": "Speaker role",
+          "type": "text",
+          "default": "Community Lead",
+          "hint": "Job title, about 30 characters"
+        },
+        {
+          "id": "date",
+          "label": "Date",
+          "type": "text",
+          "default": "[Date]",
+          "hint": "e.g. Thu, November 12. Leave the brackets until it's known"
+        },
+        {
+          "id": "time",
+          "label": "Time and time zone",
+          "type": "text",
+          "default": "[Time and time zone]",
+          "hint": "e.g. 5 pm CET / 11 am ET. Leave the brackets until it's known"
+        },
+        {
+          "id": "register",
+          "label": "Registration link",
+          "type": "text",
+          "default": "[Registration link]",
+          "hint": "A short link without https://, about 30 characters. Leave the brackets until it's known"
+        }
+      ],
+      "path": "/image-projects/events-webinar/index.html",
+      "thumb": "/image-projects/events-webinar/thumb.jpg"
+    },
+    {
       "id": "hiring-account-executive-sf-square",
       "title": "Hiring: Account Executive (San Francisco)",
       "description": "Account Executive (San Francisco) (San Francisco, ~$220k OTE + equity): Own technical deals end to end: discovery, POCs, negotiation and close. joinmassive.com/careers/account-executive-san-francisco",
@@ -857,6 +1616,121 @@
       ],
       "path": "/image-projects/hiring-account-executive-square/index.html",
       "thumb": "/image-projects/hiring-account-executive-square/thumb.jpg"
+    },
+    {
+      "id": "hiring-async-first",
+      "title": "How we work: async-first",
+      "description": "A culture post for candidates: “How we work” and “Async-first” on the red brush stroke, beside the hammock photo, with a handwritten note. Source: https://www.joinmassive.com/careers/writer-in-residence (“We work across time zones, so we write things down: clear docs, thoughtful threads and fewer meetings.”).",
+      "group": "massive",
+      "category": "hiring",
+      "template": "hiring-photo-square",
+      "series": null,
+      "status": "draft",
+      "tags": [
+        "hiring",
+        "culture",
+        "remote"
+      ],
+      "source": "image-projects/hiring-photo-square",
+      "width": 1080,
+      "height": 1080,
+      "format": "square",
+      "formats": null,
+      "updated": "2026-10-28T13:42:39.090Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "photo",
+          "label": "Photo",
+          "type": "image",
+          "default": "../_hiring/hammock.webp",
+          "options": [
+            {
+              "value": "../_hiring/home-office.webp",
+              "label": "Home office"
+            },
+            {
+              "value": "../_hiring/standing-call.webp",
+              "label": "Standing call"
+            },
+            {
+              "value": "../_hiring/window-seat-sf.webp",
+              "label": "Window seat (SF)"
+            },
+            {
+              "value": "../_hiring/standing-desk.webp",
+              "label": "Standing desk"
+            },
+            {
+              "value": "../_hiring/coffee-desk.webp",
+              "label": "Coffee at the desk"
+            },
+            {
+              "value": "../_hiring/event-handshake.webp",
+              "label": "At an event"
+            },
+            {
+              "value": "../_hiring/leaning-back.webp",
+              "label": "Leaning back"
+            },
+            {
+              "value": "../_hiring/home-lab.webp",
+              "label": "Home lab"
+            },
+            {
+              "value": "../_hiring/cafe.webp",
+              "label": "Café"
+            },
+            {
+              "value": "../_hiring/sofa.webp",
+              "label": "On the sofa"
+            },
+            {
+              "value": "../_hiring/balcony-abroad.webp",
+              "label": "Balcony abroad"
+            },
+            {
+              "value": "../_hiring/kitchen-sunrise.webp",
+              "label": "Kitchen at sunrise"
+            },
+            {
+              "value": "../_hiring/hammock.webp",
+              "label": "Hammock"
+            }
+          ],
+          "hint": "Pick one of the hiring photos, or upload your own: subject on the right, an empty bright left side."
+        },
+        {
+          "id": "headline",
+          "label": "Headline",
+          "type": "text",
+          "default": "How we work",
+          "hint": "Two or three short words; it sits above the stroke."
+        },
+        {
+          "id": "role",
+          "label": "Role",
+          "type": "text",
+          "default": "Async-first",
+          "hint": "How we work, in a word or two; on the red stroke, up to two lines."
+        },
+        {
+          "id": "aside",
+          "label": "Handwritten note",
+          "type": "text",
+          "default": "Meetings: fewer.",
+          "hint": "A short joke about the photo, like “Pajamas: approved.”; the arrow points into the photo."
+        },
+        {
+          "id": "showAside",
+          "label": "Show the note",
+          "type": "toggle",
+          "default": true,
+          "hint": "Hide the note and its arrow."
+        }
+      ],
+      "path": "/image-projects/hiring-async-first/index.html",
+      "thumb": "/image-projects/hiring-async-first/thumb.jpg"
     },
     {
       "id": "hiring-backend-engineer-square",
@@ -1575,6 +2449,120 @@
       "thumb": "/image-projects/hiring-photo-square/thumb.jpg"
     },
     {
+      "id": "hiring-referral",
+      "title": "Know someone? Refer them",
+      "description": "A call for referrals: “Know someone?” and “Refer them” on the red brush stroke, beside the photo at an event, with the careers link as the handwritten note. Source: https://www.joinmassive.com/careers (open roles; the site mentions no referral bonus or program, so the post promises none).",
+      "group": "massive",
+      "category": "hiring",
+      "template": "hiring-photo-square",
+      "series": null,
+      "status": "draft",
+      "tags": [
+        "hiring",
+        "referral"
+      ],
+      "source": "image-projects/hiring-photo-square",
+      "width": 1080,
+      "height": 1080,
+      "format": "square",
+      "formats": null,
+      "updated": "2026-10-28T13:42:39.090Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "photo",
+          "label": "Photo",
+          "type": "image",
+          "default": "../_hiring/event-handshake.webp",
+          "options": [
+            {
+              "value": "../_hiring/home-office.webp",
+              "label": "Home office"
+            },
+            {
+              "value": "../_hiring/standing-call.webp",
+              "label": "Standing call"
+            },
+            {
+              "value": "../_hiring/window-seat-sf.webp",
+              "label": "Window seat (SF)"
+            },
+            {
+              "value": "../_hiring/standing-desk.webp",
+              "label": "Standing desk"
+            },
+            {
+              "value": "../_hiring/coffee-desk.webp",
+              "label": "Coffee at the desk"
+            },
+            {
+              "value": "../_hiring/event-handshake.webp",
+              "label": "At an event"
+            },
+            {
+              "value": "../_hiring/leaning-back.webp",
+              "label": "Leaning back"
+            },
+            {
+              "value": "../_hiring/home-lab.webp",
+              "label": "Home lab"
+            },
+            {
+              "value": "../_hiring/cafe.webp",
+              "label": "Café"
+            },
+            {
+              "value": "../_hiring/sofa.webp",
+              "label": "On the sofa"
+            },
+            {
+              "value": "../_hiring/balcony-abroad.webp",
+              "label": "Balcony abroad"
+            },
+            {
+              "value": "../_hiring/kitchen-sunrise.webp",
+              "label": "Kitchen at sunrise"
+            },
+            {
+              "value": "../_hiring/hammock.webp",
+              "label": "Hammock"
+            }
+          ],
+          "hint": "Pick one of the hiring photos, or upload your own: subject on the right, an empty bright left side."
+        },
+        {
+          "id": "headline",
+          "label": "Headline",
+          "type": "text",
+          "default": "Know someone?",
+          "hint": "A short question; it sits above the stroke."
+        },
+        {
+          "id": "role",
+          "label": "Role",
+          "type": "text",
+          "default": "Refer them",
+          "hint": "The ask; on the red stroke, up to two lines."
+        },
+        {
+          "id": "aside",
+          "label": "Handwritten note",
+          "type": "text",
+          "default": "joinmassive.com/careers",
+          "hint": "Where to send them, or a short joke about the photo; the arrow points into the photo."
+        },
+        {
+          "id": "showAside",
+          "label": "Show the note",
+          "type": "toggle",
+          "default": true,
+          "hint": "Hide the note and its arrow."
+        }
+      ],
+      "path": "/image-projects/hiring-referral/index.html",
+      "thumb": "/image-projects/hiring-referral/thumb.jpg"
+    },
+    {
       "id": "hiring-security-researcher-square",
       "title": "Hiring: Security Researcher (Junior)",
       "description": "Security Researcher (Junior) (Junior, Remote, Full time): Study how proxy traffic gets detected, and help harden everything we ship. joinmassive.com/careers/security-researcher-junior",
@@ -1915,6 +2903,120 @@
       ],
       "path": "/image-projects/hiring-support-engineer-square/index.html",
       "thumb": "/image-projects/hiring-support-engineer-square/thumb.jpg"
+    },
+    {
+      "id": "hiring-we-hired",
+      "title": "Role filled: we hired!",
+      "description": "Closes the loop on a role post once it is filled: “We hired” and the role on the red brush stroke, beside the photo, with a handwritten note; follow it with the person’s Welcome to Massive card. Source: welcome-template (Franklin Uche, Community Lead).",
+      "group": "templates",
+      "category": "hiring",
+      "template": null,
+      "series": null,
+      "status": "draft",
+      "tags": [
+        "hiring",
+        "welcome"
+      ],
+      "source": "image-projects/hiring-photo-square",
+      "width": 1080,
+      "height": 1080,
+      "format": "square",
+      "formats": null,
+      "updated": "2026-10-28T13:42:39.091Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "photo",
+          "label": "Photo",
+          "type": "image",
+          "default": "../_hiring/leaning-back.webp",
+          "options": [
+            {
+              "value": "../_hiring/home-office.webp",
+              "label": "Home office"
+            },
+            {
+              "value": "../_hiring/standing-call.webp",
+              "label": "Standing call"
+            },
+            {
+              "value": "../_hiring/window-seat-sf.webp",
+              "label": "Window seat (SF)"
+            },
+            {
+              "value": "../_hiring/standing-desk.webp",
+              "label": "Standing desk"
+            },
+            {
+              "value": "../_hiring/coffee-desk.webp",
+              "label": "Coffee at the desk"
+            },
+            {
+              "value": "../_hiring/event-handshake.webp",
+              "label": "At an event"
+            },
+            {
+              "value": "../_hiring/leaning-back.webp",
+              "label": "Leaning back"
+            },
+            {
+              "value": "../_hiring/home-lab.webp",
+              "label": "Home lab"
+            },
+            {
+              "value": "../_hiring/cafe.webp",
+              "label": "Café"
+            },
+            {
+              "value": "../_hiring/sofa.webp",
+              "label": "On the sofa"
+            },
+            {
+              "value": "../_hiring/balcony-abroad.webp",
+              "label": "Balcony abroad"
+            },
+            {
+              "value": "../_hiring/kitchen-sunrise.webp",
+              "label": "Kitchen at sunrise"
+            },
+            {
+              "value": "../_hiring/hammock.webp",
+              "label": "Hammock"
+            }
+          ],
+          "hint": "Pick one of the hiring photos, or upload your own: subject on the right, an empty bright left side."
+        },
+        {
+          "id": "headline",
+          "label": "Headline",
+          "type": "text",
+          "default": "We hired",
+          "hint": "Keep it short; a long word shrinks to stay clear of the photo."
+        },
+        {
+          "id": "role",
+          "label": "Role",
+          "type": "text",
+          "default": "Community Lead",
+          "hint": "The role that was filled, as it was posted; on the red stroke, up to two lines, it shrinks to fit."
+        },
+        {
+          "id": "aside",
+          "label": "Handwritten note",
+          "type": "text",
+          "default": "Desk: taken.",
+          "hint": "A short joke about the photo, like “Desk: taken.”; the arrow points into the photo."
+        },
+        {
+          "id": "showAside",
+          "label": "Show the note",
+          "type": "toggle",
+          "default": true,
+          "hint": "Hide the note and its arrow."
+        }
+      ],
+      "path": "/image-projects/hiring-we-hired/index.html",
+      "thumb": "/image-projects/hiring-we-hired/thumb.jpg"
     },
     {
       "id": "jason-15k-grid",
@@ -2339,6 +3441,202 @@
       "thumb": "/image-projects/jason-15k-very-nice/thumb.jpg"
     },
     {
+      "id": "milestone-195-countries",
+      "title": "195+ countries",
+      "description": "The 195+ countries GIF as a still: one API reaching countries across a dotted world map, every arc drawn. Source: video-projects/gif-195-countries; https://www.joinmassive.com/ (\"Real-time web access via residential IPs in 195+ countries.\")",
+      "group": "massive",
+      "category": "milestones",
+      "template": null,
+      "series": null,
+      "status": "draft",
+      "tags": [
+        "milestone",
+        "network",
+        "map"
+      ],
+      "source": "video-projects/gif-195-countries",
+      "width": 1080,
+      "height": 1350,
+      "format": "portrait",
+      "formats": null,
+      "updated": "2026-10-28T13:45:56.124Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "eyebrow",
+          "label": "Eyebrow",
+          "type": "text",
+          "default": "Real-time web access for AI",
+          "hint": "The line above the headline. About 30 characters."
+        },
+        {
+          "id": "number",
+          "label": "Number",
+          "type": "text",
+          "default": "195+",
+          "hint": "The number in red that opens the headline. Keep it to a sourced figure."
+        },
+        {
+          "id": "headline",
+          "label": "Headline",
+          "type": "text",
+          "default": "countries. One API.",
+          "hint": "The rest of the headline, after the number. About 20 characters; two lines."
+        },
+        {
+          "id": "paragraph",
+          "label": "Paragraph",
+          "type": "text",
+          "default": "Every market your AI needs to reach, through a single endpoint.",
+          "hint": "One sentence under the headline. About 65 characters."
+        },
+        {
+          "id": "hub",
+          "label": "Hub",
+          "type": "text",
+          "default": "One API",
+          "hint": "The red pill the arcs start from, in capitals. One or two words."
+        }
+      ],
+      "path": "/image-projects/milestone-195-countries/index.html",
+      "thumb": "/image-projects/milestone-195-countries/thumb.jpg"
+    },
+    {
+      "id": "milestone-company-followers",
+      "title": "Company page follower milestone",
+      "description": "The Milestone card for the Massive LinkedIn company page: the Massive mark in the character-sheet card with the follower count, reward chips and a thank-you line, over the dimmed LinkedIn desktop. Source: image-projects/jason-15k-milestone; the follower counts are placeholders until the real number is in.",
+      "group": "templates",
+      "category": "milestones",
+      "template": null,
+      "series": null,
+      "status": "draft",
+      "tags": [
+        "milestone",
+        "linkedin",
+        "followers"
+      ],
+      "source": "image-projects/jason-15k-milestone",
+      "width": 1080,
+      "height": 1350,
+      "format": "portrait",
+      "formats": null,
+      "updated": "2026-10-28T13:44:24.223Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "photo",
+          "label": "Logo or photo",
+          "type": "image",
+          "default": "../_brand/icon-massive.svg",
+          "hint": "The Massive mark by default; an SVG logo sits on the dark tile, a photo fills the frame"
+        },
+        {
+          "id": "name",
+          "label": "Name",
+          "type": "text",
+          "default": "Massive",
+          "hint": "The page's name"
+        },
+        {
+          "id": "emoji",
+          "label": "Status emoji",
+          "type": "text",
+          "default": "🎉",
+          "hint": "One emoji"
+        },
+        {
+          "id": "status",
+          "label": "Status",
+          "type": "text",
+          "default": "Celebrating a milestone",
+          "hint": "About 30 characters"
+        },
+        {
+          "id": "role",
+          "label": "Role",
+          "type": "text",
+          "default": "Company page",
+          "hint": "The red pill, a few words"
+        },
+        {
+          "id": "count",
+          "label": "Followers",
+          "type": "text",
+          "default": "[10,000]",
+          "hint": "The full count with a comma, e.g. 10,000"
+        },
+        {
+          "id": "rewards",
+          "label": "Rewards (comma-separated, up to 5)",
+          "type": "text",
+          "default": "+1 Milestone, +∞ Thank yous",
+          "hint": "Each one becomes a chip"
+        },
+        {
+          "id": "short",
+          "label": "Short count",
+          "type": "text",
+          "default": "[10K]",
+          "hint": "For the thank-you line, e.g. 10K"
+        },
+        {
+          "id": "confetti",
+          "label": "Confetti",
+          "type": "toggle",
+          "default": true,
+          "hint": "Frozen burst behind the photo; turn off for a calmer card"
+        }
+      ],
+      "path": "/image-projects/milestone-company-followers/index.html",
+      "thumb": "/image-projects/milestone-company-followers/thumb.jpg"
+    },
+    {
+      "id": "partners-announcement",
+      "title": "Partnership announcement",
+      "description": "A partnership announcement in the Partnership Post tool's Laptop Dark look: the Massive × partner lockup on the laptop screen, with an eyebrow and the headline. Source: https://www.joinmassive.com/blog/crawl4ai-partner-spotlight (“Why Crawl4AI Named Massive Its Web Access Partner”, Sep 23, 2026); Crawl4AI logo from github.com/unclecode/crawl4ai (deploy/docker/static/assets/logo.png).",
+      "group": "templates",
+      "category": "partners",
+      "template": null,
+      "series": null,
+      "status": "draft",
+      "tags": [
+        "partners",
+        "announcement"
+      ],
+      "source": null,
+      "width": 1080,
+      "height": 1350,
+      "format": "portrait",
+      "formats": null,
+      "updated": "2026-10-28T13:41:13.742Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "partnerLogo",
+          "label": "Partner logo",
+          "type": "image",
+          "default": "assets/crawl4ai-logo.png",
+          "hint": "The partner's own logo in white or light colours, PNG or SVG with a transparent background."
+        },
+        {
+          "id": "headline",
+          "label": "Headline",
+          "type": "text",
+          "default": "Crawl4AI named Massive its web access partner",
+          "hint": "What the partnership is; up to three lines, about 50 characters."
+        },
+        {
+          "id": "eyebrow",
+          "label": "Eyebrow",
+          "type": "text",
+          "default": "Partnership",
+          "hint": "One or two words above the headline."
+        }
+      ],
+      "path": "/image-projects/partners-announcement/index.html",
+      "thumb": "/image-projects/partners-announcement/thumb.jpg"
+    },
+    {
       "id": "prague-crawl-2027-agenda",
       "title": "Prague Crawl 2027: agenda",
       "description": "The day's running order, one row per session, in the Prague Crawl look (_prague-crawl/). Until the agenda is final, the times are placeholders and the order is a draft from the session types in scripts/deck/prague-crawl-2027.html (keynotes, talks and demos, lunch, lightning talks, the closing panel, the afterparty).",
@@ -2650,7 +3948,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-10-27T21:41:51.979Z",
+      "updated": "2026-10-27T21:42:09.610Z",
       "brief": null,
       "fields": [
         {
@@ -3039,6 +4337,748 @@
       ],
       "path": "/image-projects/prague-crawl-2027-tickets/index.html",
       "thumb": "/image-projects/prague-crawl-2027-tickets/thumb.jpg"
+    },
+    {
+      "id": "product-code-snippet",
+      "title": "API in a few lines",
+      "description": "The Web Render /ai endpoint in code: the docs' curl request beside its example JSON response, trimmed. Source: https://docs.joinmassive.com/web-render/ai.md",
+      "group": "massive",
+      "category": "product",
+      "template": null,
+      "series": null,
+      "status": "draft",
+      "tags": [
+        "product",
+        "api",
+        "developers"
+      ],
+      "source": "https://docs.joinmassive.com/web-render/ai.md",
+      "width": 1920,
+      "height": 1080,
+      "format": "landscape",
+      "formats": null,
+      "updated": "2026-10-28T13:43:57.064Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "eyebrow",
+          "label": "Eyebrow",
+          "type": "text",
+          "default": "Web Render API",
+          "hint": "The product name above the title. A few words."
+        },
+        {
+          "id": "title",
+          "label": "Title",
+          "type": "text",
+          "default": "One request to /ai",
+          "hint": "One line over the code; about 25 characters. The code itself is fixed."
+        },
+        {
+          "id": "url",
+          "label": "Link",
+          "type": "text",
+          "default": "docs.joinmassive.com",
+          "hint": "The docs link in the footer, without https://."
+        }
+      ],
+      "path": "/image-projects/product-code-snippet/index.html",
+      "thumb": "/image-projects/product-code-snippet/thumb.jpg"
+    },
+    {
+      "id": "product-launch",
+      "title": "Launch announcement",
+      "description": "The Launch teaser's closing frame held as a still: the product name over its launch date, typed out under a red cursor. Source: video-projects/launch-teaser (compositions/06-date-reveal.html); the launch post https://www.joinmassive.com/blog/introducing-massive-web-render-api",
+      "group": "massive",
+      "category": "product",
+      "template": null,
+      "series": null,
+      "status": "draft",
+      "tags": [
+        "product",
+        "launch"
+      ],
+      "source": "video-projects/launch-teaser",
+      "width": 1080,
+      "height": 1350,
+      "format": "portrait",
+      "formats": null,
+      "updated": "2026-10-28T13:36:47.481Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "product",
+          "label": "Product",
+          "type": "text",
+          "default": "Massive Web Render",
+          "hint": "The product name, set in capitals. Up to about 20 characters stays large."
+        },
+        {
+          "id": "date",
+          "label": "Date",
+          "type": "text",
+          "default": "05.05.26",
+          "hint": "The launch date as DD.MM.YY, after the product name."
+        }
+      ],
+      "path": "/image-projects/product-launch/index.html",
+      "thumb": "/image-projects/product-launch/thumb.jpg"
+    },
+    {
+      "id": "product-residential-proxies",
+      "title": "Feature spotlight: Residential proxies",
+      "description": "Residential proxies in one post: protocols, a diagram of the route from your client through the Massive network to residential devices, and coverage, rotation and geo-targeting. Source: https://www.joinmassive.com/web-access",
+      "group": "massive",
+      "category": "product",
+      "template": null,
+      "series": null,
+      "status": "draft",
+      "tags": [
+        "product",
+        "proxies"
+      ],
+      "source": "https://www.joinmassive.com/web-access",
+      "width": 1080,
+      "height": 1350,
+      "format": "portrait",
+      "formats": null,
+      "updated": "2026-10-28T13:43:12.465Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "eyebrow",
+          "label": "Eyebrow",
+          "type": "text",
+          "default": "Web Access API",
+          "hint": "The product name above the headline. A few words."
+        },
+        {
+          "id": "headline",
+          "label": "Headline",
+          "type": "text",
+          "default": "Residential proxies from real devices",
+          "hint": "Two lines; about 40 characters. Shrinks to fit."
+        },
+        {
+          "id": "highlight",
+          "label": "Highlight",
+          "type": "text",
+          "default": "real devices",
+          "hint": "Words from the headline to set in red. Leave empty for none."
+        },
+        {
+          "id": "protocols",
+          "label": "Protocols",
+          "type": "text",
+          "default": "HTTP, HTTPS, SOCKS5",
+          "hint": "Comma-separated. Each one becomes a chip; up to five."
+        },
+        {
+          "id": "clientLabel",
+          "label": "Client label",
+          "type": "text",
+          "default": "Your client",
+          "hint": "The diagram's left label. Two or three words."
+        },
+        {
+          "id": "networkLabel",
+          "label": "Network label",
+          "type": "text",
+          "default": "Massive network",
+          "hint": "The diagram's middle label. Two or three words."
+        },
+        {
+          "id": "devicesLabel",
+          "label": "Devices label",
+          "type": "text",
+          "default": "Residential devices",
+          "hint": "The diagram's right label. Two or three words."
+        },
+        {
+          "id": "point1",
+          "label": "Point 1",
+          "type": "text",
+          "default": "195+ countries",
+          "hint": "A short title. Up to about 45 characters."
+        },
+        {
+          "id": "point1Line",
+          "label": "Point 1 line",
+          "type": "text",
+          "default": "Requests route through opted-in user devices, not datacenter IPs.",
+          "hint": "One sentence under the title. About 65 characters."
+        },
+        {
+          "id": "point2",
+          "label": "Point 2",
+          "type": "text",
+          "default": "Rotate per request or hold a session",
+          "hint": "A short title. Up to about 45 characters."
+        },
+        {
+          "id": "point2Line",
+          "label": "Point 2 line",
+          "type": "text",
+          "default": "Hold the same egress device, or rotate on every request.",
+          "hint": "One sentence under the title. About 65 characters. Don't state a session length."
+        },
+        {
+          "id": "point3",
+          "label": "Point 3",
+          "type": "text",
+          "default": "Target by country, state or region, and city",
+          "hint": "A short title. Up to about 45 characters."
+        },
+        {
+          "id": "point3Line",
+          "label": "Point 3 line",
+          "type": "text",
+          "default": "Pull the version of a page a local user actually sees.",
+          "hint": "One sentence under the title. About 65 characters."
+        },
+        {
+          "id": "url",
+          "label": "Link",
+          "type": "text",
+          "default": "joinmassive.com/web-access",
+          "hint": "The page link in the footer, without https://."
+        }
+      ],
+      "path": "/image-projects/product-residential-proxies/index.html",
+      "thumb": "/image-projects/product-residential-proxies/thumb.jpg"
+    },
+    {
+      "id": "product-web-render",
+      "title": "Feature spotlight: Web Render",
+      "description": "Web Render in one post: what it returns, a URL → rendered page → markdown diagram, and three benefits. Source: https://www.joinmassive.com/web-render",
+      "group": "massive",
+      "category": "product",
+      "template": null,
+      "series": null,
+      "status": "draft",
+      "tags": [
+        "product",
+        "web render"
+      ],
+      "source": "https://www.joinmassive.com/web-render",
+      "width": 1080,
+      "height": 1350,
+      "format": "portrait",
+      "formats": null,
+      "updated": "2026-10-28T13:41:32.736Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "eyebrow",
+          "label": "Eyebrow",
+          "type": "text",
+          "default": "Web Render API",
+          "hint": "The product name above the headline. A few words."
+        },
+        {
+          "id": "headline",
+          "label": "Headline",
+          "type": "text",
+          "default": "Clean HTML and markdown, anywhere",
+          "hint": "Two lines; about 35 characters. Shrinks to fit."
+        },
+        {
+          "id": "highlight",
+          "label": "Highlight",
+          "type": "text",
+          "default": "anywhere",
+          "hint": "Words from the headline to set in red. Leave empty for none."
+        },
+        {
+          "id": "subline",
+          "label": "Subline",
+          "type": "text",
+          "default": "Pull a fully rendered page from any public URL.",
+          "hint": "One sentence under the headline. About 50 characters."
+        },
+        {
+          "id": "benefit1",
+          "label": "Benefit 1",
+          "type": "text",
+          "default": "Markdown built for LLMs",
+          "hint": "A short title. About 25 characters."
+        },
+        {
+          "id": "benefit1Line",
+          "label": "Benefit 1 line",
+          "type": "text",
+          "default": "Return clean markdown alongside JSON, raw, and rendered HTML.",
+          "hint": "One sentence under the title. About 65 characters."
+        },
+        {
+          "id": "benefit2",
+          "label": "Benefit 2",
+          "type": "text",
+          "default": "Sync or async",
+          "hint": "A short title. About 25 characters."
+        },
+        {
+          "id": "benefit2Line",
+          "label": "Benefit 2 line",
+          "type": "text",
+          "default": "Get the rendered page back on the same request, or queue the job.",
+          "hint": "One sentence under the title. About 65 characters."
+        },
+        {
+          "id": "benefit3",
+          "label": "Benefit 3",
+          "type": "text",
+          "default": "Hard targets, 48-hour SLA",
+          "hint": "A short title. About 25 characters."
+        },
+        {
+          "id": "benefit3Line",
+          "label": "Benefit 3 line",
+          "type": "text",
+          "default": "48-hour unblock SLA on hard targets, backed by direct engineering support.",
+          "hint": "One sentence under the title. About 65 characters."
+        },
+        {
+          "id": "url",
+          "label": "Link",
+          "type": "text",
+          "default": "joinmassive.com/web-render",
+          "hint": "The page link in the footer, without https://."
+        }
+      ],
+      "path": "/image-projects/product-web-render/index.html",
+      "thumb": "/image-projects/product-web-render/thumb.jpg"
+    },
+    {
+      "id": "seasonal-holidays",
+      "title": "Holiday greetings",
+      "description": "A holiday greeting card over the dimmed Slack desktop: a lit menorah for Hanukkah or apple, honey and pomegranate for Rosh Hashanah, with the greeting and a line from the team. Source: public/video-projects/holiday-greetings.",
+      "group": "templates",
+      "category": "seasonal",
+      "template": null,
+      "series": null,
+      "status": "draft",
+      "tags": [
+        "seasonal",
+        "holidays"
+      ],
+      "source": "video-projects/holiday-greetings",
+      "width": 1080,
+      "height": 1350,
+      "format": "portrait",
+      "formats": null,
+      "updated": "2026-10-28T13:41:50.840Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "holiday",
+          "label": "Holiday",
+          "type": "select",
+          "default": "hanukkah",
+          "options": [
+            {
+              "value": "hanukkah",
+              "label": "Hanukkah"
+            },
+            {
+              "value": "rosh-hashanah",
+              "label": "Rosh Hashanah"
+            }
+          ],
+          "hint": "Picks the motif, the greeting and the outro line"
+        }
+      ],
+      "path": "/image-projects/seasonal-holidays/index.html",
+      "thumb": "/image-projects/seasonal-holidays/thumb.jpg"
+    },
+    {
+      "id": "seasonal-new-year",
+      "title": "Happy New Year",
+      "description": "A New Year card in the house look: the greeting over the year, set huge across the frame, with confetti frozen mid-burst around it and the logo and joinmassive.com in the footer. No facts on it beyond the year.",
+      "group": "massive",
+      "category": "seasonal",
+      "template": null,
+      "series": null,
+      "status": "draft",
+      "tags": [
+        "seasonal",
+        "new year"
+      ],
+      "source": null,
+      "width": 1080,
+      "height": 1350,
+      "format": "portrait",
+      "formats": null,
+      "updated": "2026-10-28T13:44:39.387Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "year",
+          "label": "Year",
+          "type": "text",
+          "default": "2027",
+          "hint": "The new year; it's sized to fill the width"
+        },
+        {
+          "id": "greeting",
+          "label": "Greeting",
+          "type": "text",
+          "default": "Happy New Year",
+          "hint": "One line, about 15 characters"
+        },
+        {
+          "id": "confetti",
+          "label": "Confetti",
+          "type": "toggle",
+          "default": true,
+          "hint": "The confetti burst around the year"
+        }
+      ],
+      "path": "/image-projects/seasonal-new-year/index.html",
+      "thumb": "/image-projects/seasonal-new-year/thumb.jpg"
+    },
+    {
+      "id": "team-birthday",
+      "title": "Birthday card",
+      "description": "A teammate's birthday: the character-sheet card with the day's quest, a maxed-out XP bar and reward chips over the dimmed Slack desktop, confetti frozen mid-burst. Source: public/video-projects/birthday; the default teammate (Franklin Uche, Community Lead) from image-projects/welcome-template.",
+      "group": "templates",
+      "category": "team",
+      "template": null,
+      "series": null,
+      "status": "draft",
+      "tags": [
+        "team",
+        "birthday"
+      ],
+      "source": "video-projects/birthday",
+      "width": 1080,
+      "height": 1350,
+      "format": "portrait",
+      "formats": null,
+      "updated": "2026-10-28T13:44:24.163Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "photo",
+          "label": "Photo",
+          "type": "image",
+          "default": "assets/franklin.jpg",
+          "hint": "A square portrait, face centred"
+        },
+        {
+          "id": "name",
+          "label": "Full name",
+          "type": "text",
+          "default": "Franklin Uche",
+          "hint": "First and last name; long names shrink to fit"
+        },
+        {
+          "id": "firstName",
+          "label": "First name",
+          "type": "text",
+          "default": "Franklin",
+          "hint": "Used in the birthday line"
+        },
+        {
+          "id": "role",
+          "label": "Role",
+          "type": "text",
+          "default": "Community Lead",
+          "hint": "Job title, about 30 characters"
+        },
+        {
+          "id": "location",
+          "label": "Location",
+          "type": "text",
+          "default": "Lagos, Nigeria",
+          "hint": "City, Country"
+        },
+        {
+          "id": "quest",
+          "label": "Quest",
+          "type": "text",
+          "default": "Eat cake. Make a wish.",
+          "hint": "One short line, up to about 60 characters"
+        },
+        {
+          "id": "rewards",
+          "label": "Rewards (comma-separated, up to 5)",
+          "type": "text",
+          "default": "+1 Wisdom, +1 Cake, +100 Good vibes",
+          "hint": "Each one becomes a chip"
+        },
+        {
+          "id": "confetti",
+          "label": "Confetti",
+          "type": "toggle",
+          "default": true,
+          "hint": "Frozen burst behind the photo; turn off for a calmer card"
+        }
+      ],
+      "path": "/image-projects/team-birthday/index.html",
+      "thumb": "/image-projects/team-birthday/thumb.jpg"
+    },
+    {
+      "id": "team-promotion",
+      "title": "Promotion announcement",
+      "description": "A teammate's promotion as a level-up: the character-sheet card with the previous role struck through beside the new one and a full XP bar, over the dimmed Slack desktop. Source: image-projects/welcome-template (the default teammate, Franklin Uche, Community Lead); the new role is a placeholder.",
+      "group": "templates",
+      "category": "team",
+      "template": null,
+      "series": null,
+      "status": "draft",
+      "tags": [
+        "team",
+        "promotion"
+      ],
+      "source": "image-projects/welcome-template",
+      "width": 1080,
+      "height": 1350,
+      "format": "portrait",
+      "formats": null,
+      "updated": "2026-10-28T13:44:24.193Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "photo",
+          "label": "Photo",
+          "type": "image",
+          "default": "assets/franklin.jpg",
+          "hint": "A square portrait, face centred"
+        },
+        {
+          "id": "name",
+          "label": "Full name",
+          "type": "text",
+          "default": "Franklin Uche",
+          "hint": "First and last name; long names shrink to fit"
+        },
+        {
+          "id": "firstName",
+          "label": "First name",
+          "type": "text",
+          "default": "Franklin",
+          "hint": "Used in the congrats line"
+        },
+        {
+          "id": "oldRole",
+          "label": "Previous role",
+          "type": "text",
+          "default": "Community Lead",
+          "hint": "Shown struck through; about 25 characters"
+        },
+        {
+          "id": "newRole",
+          "label": "New role",
+          "type": "text",
+          "default": "[New role]",
+          "hint": "The role in the red pill; about 25 characters"
+        },
+        {
+          "id": "confetti",
+          "label": "Confetti",
+          "type": "toggle",
+          "default": true,
+          "hint": "Frozen burst behind the photo; turn off for a calmer card"
+        }
+      ],
+      "path": "/image-projects/team-promotion/index.html",
+      "thumb": "/image-projects/team-promotion/thumb.jpg"
+    },
+    {
+      "id": "team-spotlight",
+      "title": "Teammate spotlight Q&A",
+      "description": "One teammate in the character-sheet card, with three short questions and answers where the welcome card has its abilities, over the dimmed Slack desktop. Source: image-projects/welcome-template (Franklin Uche's role, hobbies and favourite food).",
+      "group": "templates",
+      "category": "team",
+      "template": null,
+      "series": null,
+      "status": "draft",
+      "tags": [
+        "team",
+        "spotlight"
+      ],
+      "source": "image-projects/welcome-template",
+      "width": 1080,
+      "height": 1350,
+      "format": "portrait",
+      "formats": null,
+      "updated": "2026-10-28T13:45:28.672Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "photo",
+          "label": "Photo",
+          "type": "image",
+          "default": "assets/franklin.jpg",
+          "hint": "A square portrait, face centred"
+        },
+        {
+          "id": "name",
+          "label": "Full name",
+          "type": "text",
+          "default": "Franklin Uche",
+          "hint": "First and last name; long names shrink to fit"
+        },
+        {
+          "id": "firstName",
+          "label": "First name",
+          "type": "text",
+          "default": "Franklin",
+          "hint": "Used in the \"Meet\" line"
+        },
+        {
+          "id": "country",
+          "label": "Country",
+          "type": "text",
+          "default": "Nigeria",
+          "hint": "In English; it picks the flag"
+        },
+        {
+          "id": "q1",
+          "label": "Question 1",
+          "type": "text",
+          "default": "Role",
+          "hint": "A short label, up to about 30 characters; the first one usually says what they do"
+        },
+        {
+          "id": "a1",
+          "label": "Answer 1",
+          "type": "text",
+          "default": "Community Lead",
+          "hint": "Up to two lines, about 70 characters"
+        },
+        {
+          "id": "q2",
+          "label": "Question 2",
+          "type": "text",
+          "default": "Outside work",
+          "hint": "A short label, up to about 30 characters"
+        },
+        {
+          "id": "a2",
+          "label": "Answer 2",
+          "type": "text",
+          "default": "Football, golf and gardening",
+          "hint": "Up to two lines, about 70 characters"
+        },
+        {
+          "id": "q3",
+          "label": "Question 3",
+          "type": "text",
+          "default": "Fuel",
+          "hint": "A short label, up to about 30 characters"
+        },
+        {
+          "id": "a3",
+          "label": "Answer 3",
+          "type": "text",
+          "default": "Medium rare steak and rice",
+          "hint": "Up to two lines, about 70 characters"
+        }
+      ],
+      "path": "/image-projects/team-spotlight/index.html",
+      "thumb": "/image-projects/team-spotlight/thumb.jpg"
+    },
+    {
+      "id": "team-work-anniversary",
+      "title": "Work anniversary",
+      "description": "A teammate's work anniversary: the achievement toast and the character-sheet card with their years at Massive as lit pips, over the dimmed Slack desktop. Source: public/video-projects/work-anniversary; the default teammate (Franklin Uche, Community Lead) from image-projects/welcome-template.",
+      "group": "templates",
+      "category": "team",
+      "template": null,
+      "series": null,
+      "status": "draft",
+      "tags": [
+        "team",
+        "anniversary"
+      ],
+      "source": "video-projects/work-anniversary",
+      "width": 1080,
+      "height": 1350,
+      "format": "portrait",
+      "formats": null,
+      "updated": "2026-10-28T13:40:18.995Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "photo",
+          "label": "Photo",
+          "type": "image",
+          "default": "assets/franklin.jpg",
+          "hint": "A square portrait, face centred"
+        },
+        {
+          "id": "name",
+          "label": "Full name",
+          "type": "text",
+          "default": "Franklin Uche",
+          "hint": "First and last name; long names shrink to fit"
+        },
+        {
+          "id": "firstName",
+          "label": "First name",
+          "type": "text",
+          "default": "Franklin",
+          "hint": "Used in the anniversary line"
+        },
+        {
+          "id": "role",
+          "label": "Role",
+          "type": "text",
+          "default": "Community Lead",
+          "hint": "Job title, about 30 characters"
+        },
+        {
+          "id": "years",
+          "label": "Years at Massive",
+          "type": "text",
+          "default": "3",
+          "hint": "A whole number; it sets the pips, the tenure and the toast"
+        }
+      ],
+      "path": "/image-projects/team-work-anniversary/index.html",
+      "thumb": "/image-projects/team-work-anniversary/thumb.jpg"
+    },
+    {
+      "id": "team-world-map",
+      "title": "Where the team is",
+      "description": "Where the team works from: a world map with the team's countries in red, a flag chip for each, and the country count in the headline, all from one comma-separated list. The default list is the countries on the Welcome to Massive cards, only part of the team. Source: public/image-projects/welcome-* (each card's country field).",
+      "group": "templates",
+      "category": "team",
+      "template": null,
+      "series": null,
+      "status": "draft",
+      "tags": [
+        "team",
+        "remote",
+        "map"
+      ],
+      "source": null,
+      "width": 1080,
+      "height": 1350,
+      "format": "portrait",
+      "formats": null,
+      "updated": "2026-10-28T13:44:19.361Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "countries",
+          "label": "Countries",
+          "type": "text",
+          "default": "Ukraine, Poland, Italy, Brazil, Finland, Canada, USA, Nigeria",
+          "hint": "Every country the team works from, comma-separated, in English; 1 to 25, each one a chip and a red country."
+        },
+        {
+          "id": "headline",
+          "label": "Headline",
+          "type": "text",
+          "default": "{N} countries, one team",
+          "hint": "{N} becomes the number of countries, in red; up to two lines."
+        }
+      ],
+      "path": "/image-projects/team-world-map/index.html",
+      "thumb": "/image-projects/team-world-map/thumb.jpg"
     },
     {
       "id": "welcome-anton",
@@ -3978,33 +6018,6 @@
       "thumb": null
     },
     {
-      "id": "hiring-async-first",
-      "title": "How we work: async-first",
-      "description": "Culture card for candidates: written docs and threads, fewer meetings, a team across time zones. Pairs with any open-role post.",
-      "group": "massive",
-      "category": "hiring",
-      "template": "hiring-photo-square",
-      "series": null,
-      "status": "planned",
-      "tags": [
-        "hiring",
-        "culture",
-        "remote"
-      ],
-      "source": null,
-      "width": 1080,
-      "height": 1080,
-      "format": "square",
-      "formats": [
-        "square"
-      ],
-      "updated": null,
-      "brief": "Culture card for candidates: written docs and threads, fewer meetings, a team across time zones. Pairs with any open-role post.",
-      "fields": [],
-      "path": null,
-      "thumb": null
-    },
-    {
       "id": "hiring-interview-steps",
       "title": "Interview process, step by step",
       "description": "The stages from application to offer, with typical timing. Needs the real process from the hiring team before it's designed.",
@@ -4026,191 +6039,6 @@
       ],
       "updated": null,
       "brief": "The stages from application to offer, with typical timing. Needs the real process from the hiring team before it's designed.",
-      "fields": [],
-      "path": null,
-      "thumb": null
-    },
-    {
-      "id": "hiring-referral",
-      "title": "Know someone? Refer them",
-      "description": "A short call for referrals pointing at the careers page; easy for teammates to reshare.",
-      "group": "massive",
-      "category": "hiring",
-      "template": "hiring-photo-square",
-      "series": null,
-      "status": "planned",
-      "tags": [
-        "hiring",
-        "referral"
-      ],
-      "source": null,
-      "width": 1080,
-      "height": 1080,
-      "format": "square",
-      "formats": [
-        "square"
-      ],
-      "updated": null,
-      "brief": "A short call for referrals pointing at the careers page; easy for teammates to reshare.",
-      "fields": [],
-      "path": null,
-      "thumb": null
-    },
-    {
-      "id": "hiring-we-hired",
-      "title": "Role filled: we hired!",
-      "description": "Close the loop on a role post once it's filled, then follow up with the person's Welcome to Massive card.",
-      "group": "massive",
-      "category": "hiring",
-      "template": "welcome-template",
-      "series": null,
-      "status": "planned",
-      "tags": [
-        "hiring",
-        "welcome"
-      ],
-      "source": null,
-      "width": 1080,
-      "height": 1350,
-      "format": "portrait",
-      "formats": [
-        "portrait"
-      ],
-      "updated": null,
-      "brief": "Close the loop on a role post once it's filled, then follow up with the person's Welcome to Massive card.",
-      "fields": [],
-      "path": null,
-      "thumb": null
-    },
-    {
-      "id": "team-work-anniversary",
-      "title": "Work anniversary",
-      "description": "A still of the Work anniversary video, per teammate: name, photo and years at Massive.",
-      "group": "massive",
-      "category": "team",
-      "template": "video:work-anniversary",
-      "series": null,
-      "status": "planned",
-      "tags": [
-        "team",
-        "anniversary"
-      ],
-      "source": null,
-      "width": 1080,
-      "height": 1350,
-      "format": "portrait",
-      "formats": [
-        "portrait"
-      ],
-      "updated": null,
-      "brief": "A still of the Work anniversary video, per teammate: name, photo and years at Massive.",
-      "fields": [],
-      "path": null,
-      "thumb": null
-    },
-    {
-      "id": "team-birthday",
-      "title": "Birthday card",
-      "description": "A still of the Birthday video for the team channel and socials.",
-      "group": "massive",
-      "category": "team",
-      "template": "video:birthday",
-      "series": null,
-      "status": "planned",
-      "tags": [
-        "team",
-        "birthday"
-      ],
-      "source": null,
-      "width": 1080,
-      "height": 1350,
-      "format": "portrait",
-      "formats": [
-        "portrait",
-        "square"
-      ],
-      "updated": null,
-      "brief": "A still of the Birthday video for the team channel and socials.",
-      "fields": [],
-      "path": null,
-      "thumb": null
-    },
-    {
-      "id": "team-promotion",
-      "title": "Promotion announcement",
-      "description": "The welcome card's character sheet as a level-up: a new-role badge with the previous role struck through.",
-      "group": "massive",
-      "category": "team",
-      "template": "welcome-template",
-      "series": null,
-      "status": "planned",
-      "tags": [
-        "team",
-        "promotion"
-      ],
-      "source": null,
-      "width": 1080,
-      "height": 1350,
-      "format": "portrait",
-      "formats": [
-        "portrait"
-      ],
-      "updated": null,
-      "brief": "The welcome card's character sheet as a level-up: a new-role badge with the previous role struck through.",
-      "fields": [],
-      "path": null,
-      "thumb": null
-    },
-    {
-      "id": "team-world-map",
-      "title": "Where the team is",
-      "description": "A world map with a flag for each country the team works from (_lib/world-paths.js and _brand/flags), plus the country count.",
-      "group": "massive",
-      "category": "team",
-      "template": "new",
-      "series": null,
-      "status": "planned",
-      "tags": [
-        "team",
-        "remote",
-        "map"
-      ],
-      "source": null,
-      "width": 1080,
-      "height": 1350,
-      "format": "portrait",
-      "formats": [
-        "portrait",
-        "landscape"
-      ],
-      "updated": null,
-      "brief": "A world map with a flag for each country the team works from (_lib/world-paths.js and _brand/flags), plus the country count.",
-      "fields": [],
-      "path": null,
-      "thumb": null
-    },
-    {
-      "id": "team-spotlight",
-      "title": "Teammate spotlight Q&A",
-      "description": "One teammate, three short answers (what they work on, a favourite tool, life outside work) and their photo.",
-      "group": "massive",
-      "category": "team",
-      "template": "new",
-      "series": null,
-      "status": "planned",
-      "tags": [
-        "team",
-        "spotlight"
-      ],
-      "source": null,
-      "width": 1080,
-      "height": 1350,
-      "format": "portrait",
-      "formats": [
-        "portrait"
-      ],
-      "updated": null,
-      "brief": "One teammate, three short answers (what they work on, a favourite tool, life outside work) and their photo.",
       "fields": [],
       "path": null,
       "thumb": null
@@ -4238,61 +6066,6 @@
       ],
       "updated": null,
       "brief": "A photo grid from a team meetup or offsite, with the place and dates. Needs the photos.",
-      "fields": [],
-      "path": null,
-      "thumb": null
-    },
-    {
-      "id": "milestone-company-followers",
-      "title": "Company page follower milestone",
-      "description": "The Milestone card for the Massive LinkedIn page when it crosses the next round number.",
-      "group": "massive",
-      "category": "milestones",
-      "template": "jason-15k-milestone",
-      "series": null,
-      "status": "planned",
-      "tags": [
-        "milestone",
-        "linkedin",
-        "followers"
-      ],
-      "source": null,
-      "width": 1080,
-      "height": 1350,
-      "format": "portrait",
-      "formats": [
-        "portrait"
-      ],
-      "updated": null,
-      "brief": "The Milestone card for the Massive LinkedIn page when it crosses the next round number.",
-      "fields": [],
-      "path": null,
-      "thumb": null
-    },
-    {
-      "id": "milestone-195-countries",
-      "title": "195+ countries",
-      "description": "Network coverage: real-time web access through residential IPs in 195+ countries, over the world map.",
-      "group": "massive",
-      "category": "milestones",
-      "template": "new",
-      "series": null,
-      "status": "planned",
-      "tags": [
-        "milestone",
-        "network",
-        "map"
-      ],
-      "source": null,
-      "width": 1080,
-      "height": 1350,
-      "format": "portrait",
-      "formats": [
-        "portrait",
-        "square"
-      ],
-      "updated": null,
-      "brief": "Network coverage: real-time web access through residential IPs in 195+ countries, over the world map.",
       "fields": [],
       "path": null,
       "thumb": null
@@ -4351,87 +6124,6 @@
       "thumb": null
     },
     {
-      "id": "product-launch",
-      "title": "Launch announcement",
-      "description": "The Launch teaser's final frame as a still for the launch post.",
-      "group": "massive",
-      "category": "product",
-      "template": "video:launch-teaser",
-      "series": null,
-      "status": "planned",
-      "tags": [
-        "product",
-        "launch"
-      ],
-      "source": null,
-      "width": 1080,
-      "height": 1350,
-      "format": "portrait",
-      "formats": [
-        "portrait",
-        "landscape"
-      ],
-      "updated": null,
-      "brief": "The Launch teaser's final frame as a still for the launch post.",
-      "fields": [],
-      "path": null,
-      "thumb": null
-    },
-    {
-      "id": "product-web-render",
-      "title": "Feature spotlight: Web Render",
-      "description": "What Web Render does in one line, three benefits, and a product visual.",
-      "group": "massive",
-      "category": "product",
-      "template": "new",
-      "series": null,
-      "status": "planned",
-      "tags": [
-        "product",
-        "web render"
-      ],
-      "source": null,
-      "width": 1080,
-      "height": 1350,
-      "format": "portrait",
-      "formats": [
-        "portrait",
-        "square"
-      ],
-      "updated": null,
-      "brief": "What Web Render does in one line, three benefits, and a product visual.",
-      "fields": [],
-      "path": null,
-      "thumb": null
-    },
-    {
-      "id": "product-residential-proxies",
-      "title": "Feature spotlight: Residential proxies",
-      "description": "Residential proxies for technical buyers: coverage, rotation and geo-targeting.",
-      "group": "massive",
-      "category": "product",
-      "template": "new",
-      "series": null,
-      "status": "planned",
-      "tags": [
-        "product",
-        "proxies"
-      ],
-      "source": null,
-      "width": 1080,
-      "height": 1350,
-      "format": "portrait",
-      "formats": [
-        "portrait",
-        "square"
-      ],
-      "updated": null,
-      "brief": "Residential proxies for technical buyers: coverage, rotation and geo-targeting.",
-      "fields": [],
-      "path": null,
-      "thumb": null
-    },
-    {
       "id": "product-changelog",
       "title": "What's new this month",
       "description": "A monthly changelog card: three to five shipped items, each with an icon.",
@@ -4453,335 +6145,6 @@
       ],
       "updated": null,
       "brief": "A monthly changelog card: three to five shipped items, each with an icon.",
-      "fields": [],
-      "path": null,
-      "thumb": null
-    },
-    {
-      "id": "product-code-snippet",
-      "title": "API in a few lines",
-      "description": "A syntax-highlighted request and its response, in the house mono type.",
-      "group": "massive",
-      "category": "product",
-      "template": "new",
-      "series": null,
-      "status": "planned",
-      "tags": [
-        "product",
-        "api",
-        "developers"
-      ],
-      "source": null,
-      "width": 1920,
-      "height": 1080,
-      "format": "landscape",
-      "formats": [
-        "landscape",
-        "square"
-      ],
-      "updated": null,
-      "brief": "A syntax-highlighted request and its response, in the house mono type.",
-      "fields": [],
-      "path": null,
-      "thumb": null
-    },
-    {
-      "id": "events-meet-us",
-      "title": "Meet us at …",
-      "description": "Conference card: event, dates, city, where to find us and who's going.",
-      "group": "massive",
-      "category": "events",
-      "template": "new",
-      "series": null,
-      "status": "planned",
-      "tags": [
-        "events",
-        "conference"
-      ],
-      "source": null,
-      "width": 1080,
-      "height": 1350,
-      "format": "portrait",
-      "formats": [
-        "portrait",
-        "square"
-      ],
-      "updated": null,
-      "brief": "Conference card: event, dates, city, where to find us and who's going.",
-      "fields": [],
-      "path": null,
-      "thumb": null
-    },
-    {
-      "id": "events-speaker",
-      "title": "Speaker card",
-      "description": "The speaker's photo, the talk title, the event, date and time.",
-      "group": "massive",
-      "category": "events",
-      "template": "new",
-      "series": null,
-      "status": "planned",
-      "tags": [
-        "events",
-        "speaker"
-      ],
-      "source": null,
-      "width": 1080,
-      "height": 1350,
-      "format": "portrait",
-      "formats": [
-        "portrait",
-        "square"
-      ],
-      "updated": null,
-      "brief": "The speaker's photo, the talk title, the event, date and time.",
-      "fields": [],
-      "path": null,
-      "thumb": null
-    },
-    {
-      "id": "events-sf-dinner",
-      "title": "SF dinner / meetup invite",
-      "description": "An invite for a Bay Area dinner or meetup hosted by the field team: date, area, RSVP link.",
-      "group": "massive",
-      "category": "events",
-      "template": "new",
-      "series": null,
-      "status": "planned",
-      "tags": [
-        "events",
-        "san francisco",
-        "meetup"
-      ],
-      "source": null,
-      "width": 1080,
-      "height": 1350,
-      "format": "portrait",
-      "formats": [
-        "portrait",
-        "square"
-      ],
-      "updated": null,
-      "brief": "An invite for a Bay Area dinner or meetup hosted by the field team: date, area, RSVP link.",
-      "fields": [],
-      "path": null,
-      "thumb": null
-    },
-    {
-      "id": "events-recap",
-      "title": "Event recap",
-      "description": "Two or three photos from the event, a thank-you line and one takeaway.",
-      "group": "massive",
-      "category": "events",
-      "template": "new",
-      "series": null,
-      "status": "planned",
-      "tags": [
-        "events",
-        "recap"
-      ],
-      "source": null,
-      "width": 1080,
-      "height": 1350,
-      "format": "portrait",
-      "formats": [
-        "portrait",
-        "square"
-      ],
-      "updated": null,
-      "brief": "Two or three photos from the event, a thank-you line and one takeaway.",
-      "fields": [],
-      "path": null,
-      "thumb": null
-    },
-    {
-      "id": "events-webinar",
-      "title": "Webinar",
-      "description": "Title, speakers, date and time zone, and the registration link.",
-      "group": "massive",
-      "category": "events",
-      "template": "new",
-      "series": null,
-      "status": "planned",
-      "tags": [
-        "events",
-        "webinar"
-      ],
-      "source": null,
-      "width": 1920,
-      "height": 1080,
-      "format": "landscape",
-      "formats": [
-        "landscape",
-        "square"
-      ],
-      "updated": null,
-      "brief": "Title, speakers, date and time zone, and the registration link.",
-      "fields": [],
-      "path": null,
-      "thumb": null
-    },
-    {
-      "id": "content-blog-quote",
-      "title": "Blog quote card",
-      "description": "A pull quote from a blog post, with the author and the post title.",
-      "group": "massive",
-      "category": "content",
-      "template": "new",
-      "series": null,
-      "status": "planned",
-      "tags": [
-        "content",
-        "blog",
-        "quote"
-      ],
-      "source": null,
-      "width": 1080,
-      "height": 1350,
-      "format": "portrait",
-      "formats": [
-        "portrait",
-        "square"
-      ],
-      "updated": null,
-      "brief": "A pull quote from a blog post, with the author and the post title.",
-      "fields": [],
-      "path": null,
-      "thumb": null
-    },
-    {
-      "id": "content-data-stat",
-      "title": "Data story stat",
-      "description": "One finding from Massive research with its chart, for the weekly social posts.",
-      "group": "massive",
-      "category": "content",
-      "template": "new",
-      "series": null,
-      "status": "planned",
-      "tags": [
-        "content",
-        "data"
-      ],
-      "source": null,
-      "width": 1080,
-      "height": 1350,
-      "format": "portrait",
-      "formats": [
-        "portrait",
-        "square"
-      ],
-      "updated": null,
-      "brief": "One finding from Massive research with its chart, for the weekly social posts.",
-      "fields": [],
-      "path": null,
-      "thumb": null
-    },
-    {
-      "id": "content-market-map-teaser",
-      "title": "Market map teaser",
-      "description": "A cropped preview of a new market map from the Market Map tool, its headline, and \"full map in the comments\".",
-      "group": "massive",
-      "category": "content",
-      "template": "new",
-      "series": null,
-      "status": "planned",
-      "tags": [
-        "content",
-        "market map"
-      ],
-      "source": null,
-      "width": 1080,
-      "height": 1350,
-      "format": "portrait",
-      "formats": [
-        "portrait",
-        "square"
-      ],
-      "updated": null,
-      "brief": "A cropped preview of a new market map from the Market Map tool, its headline, and \"full map in the comments\".",
-      "fields": [],
-      "path": null,
-      "thumb": null
-    },
-    {
-      "id": "content-aeo-still",
-      "title": "Why AEO is the new SEO",
-      "description": "A still of the AEO explainer video for the blog post and LinkedIn.",
-      "group": "massive",
-      "category": "content",
-      "template": "video:why-aeo-is-the-new-seo",
-      "series": null,
-      "status": "planned",
-      "tags": [
-        "content",
-        "aeo",
-        "video still"
-      ],
-      "source": null,
-      "width": 1080,
-      "height": 1350,
-      "format": "portrait",
-      "formats": [
-        "portrait",
-        "square"
-      ],
-      "updated": null,
-      "brief": "A still of the AEO explainer video for the blog post and LinkedIn.",
-      "fields": [],
-      "path": null,
-      "thumb": null
-    },
-    {
-      "id": "content-consent-still",
-      "title": "What does consent look like?",
-      "description": "A still of the consent explainer video.",
-      "group": "massive",
-      "category": "content",
-      "template": "video:what-does-consent-look-like",
-      "series": null,
-      "status": "planned",
-      "tags": [
-        "content",
-        "consent",
-        "video still"
-      ],
-      "source": null,
-      "width": 1080,
-      "height": 1350,
-      "format": "portrait",
-      "formats": [
-        "portrait",
-        "square"
-      ],
-      "updated": null,
-      "brief": "A still of the consent explainer video.",
-      "fields": [],
-      "path": null,
-      "thumb": null
-    },
-    {
-      "id": "partners-announcement",
-      "title": "Partnership announcement",
-      "description": "Both logos and the headline, matching the Partnership Post tool's look.",
-      "group": "massive",
-      "category": "partners",
-      "template": "new",
-      "series": null,
-      "status": "planned",
-      "tags": [
-        "partners",
-        "announcement"
-      ],
-      "source": null,
-      "width": 1080,
-      "height": 1350,
-      "format": "portrait",
-      "formats": [
-        "portrait",
-        "square"
-      ],
-      "updated": null,
-      "brief": "Both logos and the headline, matching the Partnership Post tool's look.",
       "fields": [],
       "path": null,
       "thumb": null
@@ -4836,60 +6199,6 @@
       ],
       "updated": null,
       "brief": "One result from a customer story (a success rate, a cost saved) with the customer's logo.",
-      "fields": [],
-      "path": null,
-      "thumb": null
-    },
-    {
-      "id": "seasonal-holidays",
-      "title": "Holiday greetings",
-      "description": "A still of the Holiday greetings video for December.",
-      "group": "massive",
-      "category": "seasonal",
-      "template": "video:holiday-greetings",
-      "series": null,
-      "status": "planned",
-      "tags": [
-        "seasonal",
-        "holidays"
-      ],
-      "source": null,
-      "width": 1080,
-      "height": 1350,
-      "format": "portrait",
-      "formats": [
-        "portrait",
-        "square"
-      ],
-      "updated": null,
-      "brief": "A still of the Holiday greetings video for December.",
-      "fields": [],
-      "path": null,
-      "thumb": null
-    },
-    {
-      "id": "seasonal-new-year",
-      "title": "Happy New Year",
-      "description": "A New Year card with the year big, in the house style.",
-      "group": "massive",
-      "category": "seasonal",
-      "template": "new",
-      "series": null,
-      "status": "planned",
-      "tags": [
-        "seasonal",
-        "new year"
-      ],
-      "source": null,
-      "width": 1080,
-      "height": 1350,
-      "format": "portrait",
-      "formats": [
-        "portrait",
-        "square"
-      ],
-      "updated": null,
-      "brief": "A New Year card with the year big, in the house style.",
       "fields": [],
       "path": null,
       "thumb": null

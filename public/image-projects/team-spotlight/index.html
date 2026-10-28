@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1350" />
+    <title>Teammate spotlight Q&amp;A</title>
+    <link rel="stylesheet" href="../_brand/massive.css" />
+    <!-- The welcome card (image-projects/welcome-template) as a Q&A: the Slack desktop dimmed under the
+         character-sheet card, three questions and answers where the welcome card has its abilities, fuel and XP,
+         the "Meet" line below. backdrop-filter is left out: it doesn't come through the export. -->
+    <style>
+      #canvas {
+        width: 1080px;
+        height: 1350px;
+      }
+
+      /* ---- Desktop (01-desktop), dimmed under the card ---- */
+      .wallpaper {
+        position: absolute;
+        inset: -40px;
+        background: #e9e7e4 url("assets/wallpaper.jpg") center / cover no-repeat;
+      }
+      .menubar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        gap: 34px;
+        padding: 0 28px;
+        background: rgba(10, 10, 15, 0.45);
+        color: rgba(250, 244, 236, 0.92);
+        font-size: 21px;
+        font-weight: 500;
+      }
+      .menubar img {
+        height: 17px;
+      }
+      .menubar .app {
+        font-weight: 700;
+      }
+      .menubar .right {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        gap: 25px;
+      }
+      .menubar svg {
+        width: 24px;
+        height: 24px;
+      }
+      .dock {
+        position: absolute;
+        left: 167px;
+        bottom: 24px;
+        width: 746px;
+        height: 134px;
+        padding: 14px;
+        display: flex;
+        gap: 16px;
+        border-radius: 38px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+      }
+      .dock .tile {
+        position: relative;
+        width: 106px;
+        height: 106px;
+        flex-shrink: 0;
+      }
+      .dock .tile img {
+        width: 106px;
+        height: 106px;
+        filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.35));
+      }
+      .dock .tile img.slack-icon {
+        padding: 9px;
+      }
+      .running {
+        position: absolute;
+        left: 596px;
+        bottom: 12px;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: rgba(250, 244, 236, 0.85);
+      }
+      .dim {
+        position: absolute;
+        inset: 0;
+        background: rgba(6, 6, 10, 0.62);
+      }
+
+      /* The card and the "Meet" line, centred between the menubar and the dock. */
+      .stage {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 50px;
+        bottom: 158px;
+        --portrait: 260px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 36px;
+      }
+
+      /* Lucide icons (lucide.dev, ISC). */
+      svg.ic {
+        width: 24px;
+        height: 24px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      /* Labels: Outfit, uppercase and tracked (the video's were mono). */
+      .k {
+        font-size: 18px;
+        font-weight: 700;
+        line-height: 1.25;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--m-cream-dim);
+      }
+
+      /* ---- Card (welcome-to-massive 03-card) in the welcome card's portrait stack ---- */
+      .card {
+        position: relative;
+        width: 780px;
+        border-radius: 24px;
+        background: rgba(26, 29, 33, 0.87);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 40px 120px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(215, 73, 57, 0.12);
+        overflow: hidden;
+      }
+      .chrome {
+        height: 44px;
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        padding: 0 18px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      }
+      .chrome span {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.25);
+      }
+      .chrome .close {
+        background: #ff5f57;
+      }
+      .chrome .min {
+        background: #febc2e;
+      }
+      .chrome .max {
+        background: #28c840;
+      }
+      .body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 46px 40px 40px;
+      }
+      .portrait {
+        position: relative;
+        width: var(--portrait);
+        height: var(--portrait);
+      }
+      /* Gradient ring, clipped to a rounded frame around the photo; held where the welcome video's spin ends. */
+      .ring-frame {
+        position: absolute;
+        inset: -8px;
+        border-radius: 36px;
+        overflow: hidden;
+        box-shadow: 0 0 40px rgba(215, 73, 57, 0.35);
+      }
+      .ring {
+        position: absolute;
+        left: -50%;
+        top: -50%;
+        width: 200%;
+        height: 200%;
+        background: conic-gradient(from 0deg, #d74939, #ff8163, rgba(215, 73, 57, 0.1), #d74939);
+        transform: rotate(253deg);
+      }
+      .photo {
+        position: absolute;
+        inset: 0;
+        width: var(--portrait);
+        height: var(--portrait);
+        object-fit: cover;
+        border-radius: 30px;
+        border: 4px solid #1a1d21;
+      }
+      .badge {
+        position: absolute;
+        left: 50%;
+        bottom: -20px;
+        transform: translateX(-50%);
+        min-width: 200px;
+        text-align: center;
+        padding: 9px 22px;
+        border-radius: 999px;
+        background: var(--m-red);
+        font-size: 19px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        white-space: nowrap;
+        box-shadow: 0 8px 24px rgba(215, 73, 57, 0.45);
+      }
+      /* Fitted to the card's 700px column in onFields: one line down to 56px, then two balanced lines. */
+      .name {
+        margin-top: 44px;
+        max-width: 700px;
+        text-align: center;
+        text-wrap: balance;
+        font-size: 80px;
+        font-weight: 900;
+        line-height: 1.15;
+        padding-bottom: 4px;
+        letter-spacing: -0.035em;
+        white-space: nowrap;
+      }
+      /* Slack presence: green dot + "Available". */
+      .presence {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 24px;
+        font-weight: 500;
+        color: var(--m-cream-mid);
+      }
+      .online {
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+        background: #2bac76;
+        box-shadow: 0 0 0 4px rgba(43, 172, 118, 0.22);
+      }
+      .meta {
+        margin-top: 22px;
+        width: 700px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 12px 26px;
+        font-size: 24px;
+      }
+      /* Country pill: the welcome card's pill in neutral colours, with the flag from _lib/flags.js. */
+      .loc {
+        display: inline-flex;
+        align-items: center;
+        gap: 11px;
+        padding: 7px 16px 7px 12px;
+        border-radius: 10px;
+        background: rgba(250, 244, 236, 0.07);
+        border: 1px solid rgba(250, 244, 236, 0.18);
+        color: var(--m-cream);
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .loc .flag {
+        width: 28px;
+        height: 21px;
+        border-radius: 4px;
+        object-fit: cover;
+        box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.14);
+      }
+      .loc .flag.is-missing {
+        display: none;
+      }
+      .divider {
+        align-self: stretch;
+        margin: 32px 0 24px;
+        height: 1px;
+        background: rgba(255, 255, 255, 0.1);
+      }
+      /* Q&A rows: a numbered tile, the question as the label and the answer under it (up to two lines). */
+      .qa {
+        align-self: stretch;
+        display: grid;
+        grid-template-columns: 50px 1fr;
+        align-items: center;
+        gap: 18px;
+        min-height: 60px;
+      }
+      .qa + .qa {
+        margin-top: 18px;
+      }
+      .qa .tile {
+        width: 50px;
+        height: 50px;
+        border-radius: 13px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(215, 73, 57, 0.14);
+        color: var(--m-red-light);
+        font-size: 22px;
+        font-weight: 800;
+      }
+      .qa .a {
+        margin-top: 3px;
+        font-size: 26px;
+        font-weight: 500;
+        line-height: 1.25;
+      }
+
+      /* ---- Outro (welcome-to-massive 04-outro): the wordmark over the "Meet" line, fitted to the frame in onFields ----
+           Positioned so it paints above the card's drop shadow. */
+      .outro {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 18px;
+      }
+      .outro .logo {
+        height: 28px;
+      }
+      .hello {
+        font-size: 58px;
+        font-weight: 800;
+        line-height: 1.1;
+        letter-spacing: -0.03em;
+        white-space: nowrap;
+      }
+      .hello .who {
+        color: var(--m-red-light);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas">
+      <div class="wallpaper"></div>
+      <div class="menubar">
+        <img src="../_brand/icon-massive-white.svg" alt="Massive" />
+        <span class="app">Slack</span>
+        <span>File</span><span>Edit</span><span>View</span><span>Window</span><span>Help</span>
+        <div class="right">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0" /><path d="M1.42 9a16 16 0 0 1 21.16 0" /><path d="M8.53 16.11a6 6 0 0 1 6.95 0" /><line x1="12" x2="12.01" y1="20" y2="20" /></svg>
+        </div>
+      </div>
+      <div class="dock">
+        <div class="tile"><img src="assets/dock/safari.png" alt="Safari" /></div>
+        <div class="tile"><img src="assets/dock/mail.png" alt="Mail" /></div>
+        <div class="tile"><img src="assets/dock/facetime.png" alt="FaceTime" /></div>
+        <div class="tile"><img class="slack-icon" src="assets/slack.svg" alt="Slack" /></div>
+        <div class="tile"><img src="assets/dock/notes.png" alt="Notes" /></div>
+        <div class="tile"><img src="assets/dock/app-store.png" alt="App Store" /></div>
+      </div>
+      <div class="running"></div>
+      <div class="dim"></div>
+
+      <div class="stage">
+        <div class="card">
+          <div class="chrome"><span class="close"></span><span class="min"></span><span class="max"></span></div>
+          <div class="body">
+            <div class="portrait">
+              <div class="ring-frame"><div class="ring"></div></div>
+              <img class="photo" data-field-src="photo" src="assets/franklin.jpg" alt="" />
+              <div class="badge">Spotlight</div>
+            </div>
+            <div class="name" data-field="name">Franklin Uche</div>
+            <div class="presence"><span class="online"></span><span>Available</span></div>
+            <div class="meta">
+              <span class="loc"><img class="flag" src="../_brand/flags/ng.svg" alt="" /><span data-field="country">Nigeria</span></span>
+            </div>
+            <div class="divider"></div>
+            <div class="qa">
+              <div class="tile">1</div>
+              <div><div class="k" data-field="q1">Role</div><div class="a" data-field="a1">Community Lead</div></div>
+            </div>
+            <div class="qa">
+              <div class="tile">2</div>
+              <div><div class="k" data-field="q2">Outside work</div><div class="a" data-field="a2">Football, golf and gardening</div></div>
+            </div>
+            <div class="qa">
+              <div class="tile">3</div>
+              <div><div class="k" data-field="q3">Fuel</div><div class="a" data-field="a3">Medium rare steak and rice</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="outro">
+          <img class="logo" src="../_brand/logo-massive.svg" alt="Massive" />
+          <div class="hello">Meet <span class="who" data-field="firstName">Franklin</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <script src="../_lib/flags.js"></script>
+    <script>
+      const $ = (s) => document.querySelector(s);
+      const fit = (el, max, from, min) => {
+        el.style.fontSize = `${from}px`;
+        for (let size = from; el.scrollWidth > max && size > min; size -= 2) el.style.fontSize = `${size - 2}px`;
+      };
+      // The name: one line from 80px down to 56px; longer names wrap to two balanced lines, from 64px down.
+      const fitName = (el) => {
+        el.style.whiteSpace = "nowrap";
+        el.style.lineHeight = "";
+        fit(el, 700, 80, 56);
+        if (el.scrollWidth <= 700) return;
+        el.style.whiteSpace = "normal";
+        el.style.lineHeight = "1.05";
+        for (let size = 64; size >= 40; size -= 2) {
+          el.style.fontSize = `${size}px`;
+          if (el.scrollWidth <= 700 && el.offsetHeight <= size * 2.2 + 4) break;
+        }
+      };
+      // Shrinks a wrapping block until it fits in `lines` lines.
+      const fitLines = (el, lines, from, min) => {
+        for (let size = from; size >= min; size -= 1) {
+          el.style.fontSize = `${size}px`;
+          if (el.offsetHeight <= size * 1.25 * lines + 2) break;
+        }
+      };
+
+      // A long name or long answers make the card taller: the portrait gives up room, down to 180px, until the
+      // stack fits between the menubar and the dock with 24px to spare on each side.
+      const fitStage = (from) => {
+        const stage = $(".stage");
+        const gap = parseFloat(getComputedStyle(stage).rowGap) || 0;
+        const need = () => [...stage.children].reduce((h, el) => h + el.offsetHeight, 0) + gap * (stage.children.length - 1);
+        for (let p = from; p >= 180; p -= 10) {
+          stage.style.setProperty("--portrait", `${p}px`);
+          if (need() <= stage.clientHeight - 48) break;
+        }
+      };
+
+      window.onFields = async (values) => {
+        // The country picks its flag; a name flags.js doesn't know hides it. Wait for a new one to load, so the
+        // export doesn't catch it blank.
+        const flag = $(".loc .flag");
+        const src = massiveFlag(values.country);
+        flag.classList.toggle("is-missing", !src);
+        if (src && flag.getAttribute("src") !== src) {
+          flag.setAttribute("src", src);
+          await flag.decode().catch(() => {});
+        }
+
+        fitName($(".name"));
+        // Role and country share a line, shrinking to 20px; past that they wrap.
+        const meta = $(".meta");
+        meta.style.flexWrap = "nowrap";
+        fit(meta, 700, 24, 20);
+        if (meta.scrollWidth > 700) meta.style.flexWrap = "wrap";
+        document.querySelectorAll(".qa .a").forEach((el) => fitLines(el, 2, 26, 20));
+        fit($(".hello"), 920, 58, 40);
+        fitStage(260);
+      };
+    </script>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

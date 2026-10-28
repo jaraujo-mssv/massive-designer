@@ -1,0 +1,33 @@
+{
+  "id": "product-launch",
+  "title": "Launch announcement",
+  "description": "The Launch teaser's closing frame held as a still: the product name over its launch date, typed out under a red cursor. Source: video-projects/launch-teaser (compositions/06-date-reveal.html); the launch post https://www.joinmassive.com/blog/introducing-massive-web-render-api",
+  "group": "massive",
+  "category": "product",
+  "template": null,
+  "series": null,
+  "status": "draft",
+  "tags": [
+    "product",
+    "launch"
+  ],
+  "source": "video-projects/launch-teaser",
+  "width": 1080,
+  "height": 1350,
+  "fields": [
+    {
+      "id": "product",
+      "label": "Product",
+      "type": "text",
+      "default": "Massive Web Render",
+      "hint": "The product name, set in capitals. Up to about 20 characters stays large."
+    },
+    {
+      "id": "date",
+      "label": "Date",
+      "type": "text",
+      "default": "05.05.26",
+      "hint": "The launch date as DD.MM.YY, after the product name."
+    }
+  ]
+}

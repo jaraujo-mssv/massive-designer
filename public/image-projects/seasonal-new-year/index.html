@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1350" />
+    <title>Happy New Year</title>
+    <link rel="stylesheet" href="../_brand/massive.css" />
+    <!-- The year, fitted to the width, under the greeting, with the video confetti frozen mid-burst around it. -->
+    <style>
+      #canvas {
+        width: 1080px;
+        height: 1350px;
+      }
+      .confetti {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        pointer-events: none;
+      }
+      .stage {
+        position: absolute;
+        left: 80px;
+        right: 80px;
+        top: 60px;
+        bottom: 140px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+      /* Fitted to one line in onFields. */
+      .greeting {
+        max-width: 100%;
+        font-size: 88px;
+        font-weight: 800;
+        line-height: 1.1;
+        letter-spacing: -0.03em;
+        white-space: nowrap;
+      }
+      /* Fitted to the width in onFields. */
+      .year {
+        max-width: 100%;
+        margin-top: 8px;
+        font-size: 420px;
+        font-weight: 900;
+        line-height: 0.9;
+        letter-spacing: -0.05em;
+        /* Gives back the tracking after the last digit, so the year centres on its ink. */
+        padding-right: 0.05em;
+        white-space: nowrap;
+        font-variant-numeric: lining-nums;
+        color: var(--m-red-light);
+      }
+      .foot {
+        position: absolute;
+        left: 80px;
+        right: 80px;
+        bottom: 116px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .foot img {
+        height: 32px;
+      }
+      .foot span {
+        font-size: 28px;
+        font-weight: 500;
+        letter-spacing: -0.01em;
+        color: var(--m-cream-mid);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas">
+      <div class="m-dotgrid"></div>
+      <div class="confetti" data-field-show="confetti"></div>
+
+      <div class="stage">
+        <div class="greeting" data-field="greeting">Happy New Year</div>
+        <div class="year" data-field="year">2027</div>
+      </div>
+
+      <div class="foot">
+        <img src="../_brand/logo-massive.svg" alt="Massive" />
+        <span>joinmassive.com</span>
+      </div>
+    </div>
+
+    <script src="../_lib/confetti.js"></script>
+    <script>
+      // Shrink an element's font size from `from` until it fits its width.
+      const fit = (el, from, min) => {
+        let size = from;
+        el.style.fontSize = `${size}px`;
+        while (size > min && el.scrollWidth > el.clientWidth + 1) {
+          size -= 2;
+          el.style.fontSize = `${size}px`;
+        }
+      };
+
+      // Grow the year until it fills the width (920px), so a short or long year always spans the frame.
+      const fill = (el, width) => {
+        el.style.fontSize = "100px";
+        const w = el.getBoundingClientRect().width;
+        el.style.fontSize = `${Math.min(460, Math.floor((100 * width) / w))}px`;
+        fit(el, parseFloat(el.style.fontSize), 80);
+      };
+
+      let burstAt = null;
+      window.onFields = () => {
+        fit(document.querySelector(".greeting"), 88, 48);
+        const year = document.querySelector(".year");
+        year.style.display = "inline-block";
+        fill(year, 920);
+
+        // One burst from just behind the year, frozen early, so the pieces open up around the type. Pieces that
+        // would touch the greeting, the year or the footer are dropped, so the confetti frames the type.
+        const canvas = document.getElementById("canvas").getBoundingClientRect();
+        const r = year.getBoundingClientRect();
+        const y = Math.round(r.top + r.height / 2 - canvas.top);
+        if (y !== burstAt) {
+          burstAt = y;
+          const layer = document.querySelector(".confetti");
+          massiveConfetti(layer, { mode: "burst", count: 220, at: 0.95, x: 540, y });
+          const keepOut = [".greeting", ".year", ".foot"].map((sel) => {
+            const b = document.querySelector(sel).getBoundingClientRect();
+            return { l: b.left - 24, r: b.right + 24, t: b.top - 20, b: b.bottom + 20 };
+          });
+          for (const piece of [...layer.children]) {
+            const p = piece.getBoundingClientRect();
+            if (keepOut.some((k) => p.right > k.l && p.left < k.r && p.bottom > k.t && p.top < k.b)) piece.remove();
+          }
+        }
+      };
+    </script>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

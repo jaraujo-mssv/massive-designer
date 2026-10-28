@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1350" />
+    <title>Meet us at …</title>
+    <link rel="stylesheet" href="../_brand/massive.css" />
+    <!-- One of the event cards (events-meet-us, -speaker, -sf-dinner, -recap, -webinar), which share the corner
+         brackets, the eyebrow, the labels and the footer logo. -->
+    <style>
+      #canvas {
+        width: 1080px;
+        height: 1350px;
+      }
+
+      /* ---- Event-card family ---- */
+      .br {
+        position: absolute;
+        width: 44px;
+        height: 44px;
+        border: 0 solid var(--m-red);
+      }
+      .br.tl {
+        left: 52px;
+        top: 52px;
+        border-top-width: 3px;
+        border-left-width: 3px;
+      }
+      .br.tr {
+        right: 52px;
+        top: 52px;
+        border-top-width: 3px;
+        border-right-width: 3px;
+      }
+      .br.bl {
+        left: 52px;
+        bottom: 52px;
+        border-bottom-width: 3px;
+        border-left-width: 3px;
+      }
+      .br.bR {
+        right: 52px;
+        bottom: 52px;
+        border-bottom-width: 3px;
+        border-right-width: 3px;
+      }
+      .eyebrow {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        font-size: 24px;
+        font-weight: 600;
+        line-height: 1.2;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--m-red);
+        white-space: nowrap;
+      }
+      .eyebrow::before {
+        content: "";
+        flex: none;
+        width: 24px;
+        height: 2px;
+        background: var(--m-red);
+      }
+      .label {
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 1.2;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--m-cream-dim);
+      }
+      .value {
+        margin-top: 12px;
+        font-size: 36px;
+        font-weight: 600;
+        line-height: 1.2;
+        letter-spacing: -0.01em;
+      }
+      .foot {
+        position: absolute;
+        left: 80px;
+        bottom: 116px;
+        height: 32px;
+      }
+
+      /* ---- This card ---- */
+      .page {
+        position: absolute;
+        left: 80px;
+        right: 80px;
+        top: 136px;
+        bottom: 200px;
+        display: flex;
+        flex-direction: column;
+      }
+      /* Fitted to two lines in onFields. */
+      .event {
+        margin-top: 36px;
+        font-size: 150px;
+        font-weight: 900;
+        line-height: 1;
+        letter-spacing: -0.045em;
+        padding-bottom: 8px;
+      }
+      .info {
+        margin-top: auto;
+      }
+      .row {
+        padding: 36px 0;
+        border-top: 1px solid rgba(250, 244, 236, 0.12);
+      }
+      .row:first-child {
+        padding-top: 0;
+        border-top: 0;
+      }
+      .row:last-child {
+        padding-bottom: 0;
+      }
+      .cols {
+        display: grid;
+        grid-template-columns: 340px 1fr;
+        gap: 40px;
+      }
+      .people {
+        margin-top: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+      .person {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+      }
+      .person img {
+        flex: none;
+        width: 112px;
+        height: 112px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid var(--m-bg);
+        box-shadow: 0 0 0 2px var(--m-red);
+        background: var(--m-card);
+      }
+      .person .who {
+        flex: 1;
+        min-width: 0;
+      }
+      .person .name {
+        font-size: 38px;
+        font-weight: 700;
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+        white-space: nowrap;
+      }
+      .person .role {
+        margin-top: 4px;
+        font-size: 28px;
+        font-weight: 400;
+        line-height: 1.25;
+        color: var(--m-cream-mid);
+        white-space: nowrap;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas">
+      <div class="m-dotgrid"></div>
+      <div class="br tl"></div>
+      <div class="br tr"></div>
+      <div class="br bl"></div>
+      <div class="br bR"></div>
+
+      <div class="page">
+        <div class="eyebrow"><span data-field="eyebrow">Meet us at</span></div>
+        <div class="event" data-field="event">Prague Crawl 2027</div>
+
+        <div class="info">
+          <div class="row cols">
+            <div>
+              <div class="label">When</div>
+              <div class="value fit"><span data-field="date">May 13, 2027</span></div>
+            </div>
+            <div>
+              <div class="label">Where</div>
+              <div class="value fit"><span data-field="venue">Spojka Events, Prague</span></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="label">Where to find us</div>
+            <div class="value fit"><span data-field="spot">[Booth or spot]</span></div>
+          </div>
+          <div class="row">
+            <div class="label">Who's going</div>
+            <div class="people">
+              <div class="person">
+                <img data-field-src="photo" src="assets/jason-grad.jpg" alt="" />
+                <div class="who">
+                  <div class="name" data-field="name">Jason Grad</div>
+                  <div class="role" data-field="role">Co-founder &amp; CEO</div>
+                </div>
+              </div>
+              <div class="person" data-field-show="second">
+                <img data-field-src="photo2" src="assets/franklin.jpg" alt="" />
+                <div class="who">
+                  <div class="name" data-field="name2">Franklin Uche</div>
+                  <div class="role" data-field="role2">Community Lead</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <img class="foot" src="../_brand/logo-massive.svg" alt="Massive" />
+    </div>
+
+    <script src="../_lib/placeholders.js"></script>
+    <script>
+      // Shrink an element's font size from `from` until it fits its width and, when given, `lines` lines.
+      const fit = (el, from, min, lines = null) => {
+        const cs = getComputedStyle(el);
+        const pad = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
+        const over = () =>
+          el.scrollWidth > el.clientWidth + 1 ||
+          (lines !== null &&
+            Math.round((el.getBoundingClientRect().height - pad) / parseFloat(getComputedStyle(el).lineHeight)) > lines);
+        let size = from;
+        el.style.fontSize = `${size}px`;
+        while (size > min && over()) {
+          size -= 2;
+          el.style.fontSize = `${size}px`;
+        }
+      };
+
+      window.onFields = () => {
+        massivePlaceholders();
+        fit(document.querySelector(".event"), 150, 64, 2);
+        // The details share one size: each fits its column, then all take the smallest.
+        const values = [...document.querySelectorAll(".value.fit")];
+        values.forEach((el) => fit(el, 36, 26, 2));
+        const size = Math.min(...values.map((el) => parseFloat(el.style.fontSize)));
+        values.forEach((el) => (el.style.fontSize = `${size}px`));
+        for (const el of document.querySelectorAll(".person .name")) fit(el, 38, 26);
+        for (const el of document.querySelectorAll(".person .role")) fit(el, 28, 22);
+      };
+    </script>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

@@ -1,0 +1,54 @@
+{
+  "id": "content-data-stat",
+  "title": "Data story stat",
+  "description": "One finding from Massive research, its number big and a dot chart of it: one dot per item in the total, the finding's share lit red. Source: https://www.joinmassive.com/blog/edpb-web-scraping-guidelines (Massive's robots.txt check of 47 news sites, October 26, 2026: 42 block at least one AI training crawler).",
+  "group": "templates",
+  "category": "content",
+  "template": null,
+  "series": null,
+  "status": "draft",
+  "tags": [
+    "content",
+    "data"
+  ],
+  "source": null,
+  "width": 1080,
+  "height": 1350,
+  "fields": [
+    {
+      "id": "value",
+      "label": "Value",
+      "type": "text",
+      "default": "42",
+      "hint": "A whole number; that many dots are lit red."
+    },
+    {
+      "id": "total",
+      "label": "Total",
+      "type": "text",
+      "default": "47",
+      "hint": "A whole number; the chart draws one dot each, up to 400."
+    },
+    {
+      "id": "label",
+      "label": "What it counts",
+      "type": "text",
+      "default": "news sites block at least one AI training crawler",
+      "hint": "Reads after “42 of 47”; up to three lines, about 60 characters."
+    },
+    {
+      "id": "source",
+      "label": "Source",
+      "type": "text",
+      "default": "Massive, EDPB Web Scraping Guidelines: What the GDPR Draft Means for AI Data Collection",
+      "hint": "Who published it and where, after “Source:”."
+    },
+    {
+      "id": "link",
+      "label": "Source link",
+      "type": "text",
+      "default": "joinmassive.com/blog/edpb-web-scraping-guidelines",
+      "hint": "The page the number comes from, without https://."
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "id": "events-sf-dinner",
+  "title": "SF dinner / meetup invite",
+  "description": "A type-only invite in the house look for a Bay Area dinner or meetup hosted by Massive: the headline big, who's hosting, and when, where and how to RSVP. Date, neighborhood and RSVP link are placeholders until they're set.",
+  "group": "templates",
+  "category": "events",
+  "template": null,
+  "series": null,
+  "status": "draft",
+  "tags": [
+    "events",
+    "san francisco",
+    "meetup"
+  ],
+  "source": null,
+  "width": 1080,
+  "height": 1350,
+  "fields": [
+    {
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "type": "text",
+      "default": "You're invited",
+      "hint": "Two or three words: You're invited, Join us"
+    },
+    {
+      "id": "headline",
+      "label": "Headline",
+      "type": "text",
+      "default": "Dinner in San Francisco",
+      "hint": "Up to three lines; about 25 characters reads best"
+    },
+    {
+      "id": "host",
+      "label": "Host line",
+      "type": "text",
+      "default": "Hosted by Massive",
+      "hint": "Who's hosting, about 40 characters"
+    },
+    {
+      "id": "date",
+      "label": "Date",
+      "type": "text",
+      "default": "[Date]",
+      "hint": "Day, date and time, e.g. Thu, March 4 · 7 pm. Leave the brackets until it's known"
+    },
+    {
+      "id": "area",
+      "label": "Neighborhood",
+      "type": "text",
+      "default": "[Neighborhood]",
+      "hint": "Neighborhood or venue, about 30 characters. Leave the brackets until it's known"
+    },
+    {
+      "id": "rsvp",
+      "label": "RSVP link",
+      "type": "text",
+      "default": "[RSVP link]",
+      "hint": "A short link without https://, about 30 characters. Leave the brackets until it's known"
+    }
+  ]
+}

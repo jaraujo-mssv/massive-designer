@@ -1,0 +1,40 @@
+{
+  "id": "partners-announcement",
+  "title": "Partnership announcement",
+  "description": "A partnership announcement in the Partnership Post tool's Laptop Dark look: the Massive × partner lockup on the laptop screen, with an eyebrow and the headline. Source: https://www.joinmassive.com/blog/crawl4ai-partner-spotlight (“Why Crawl4AI Named Massive Its Web Access Partner”, Sep 23, 2026); Crawl4AI logo from github.com/unclecode/crawl4ai (deploy/docker/static/assets/logo.png).",
+  "group": "templates",
+  "category": "partners",
+  "template": null,
+  "series": null,
+  "status": "draft",
+  "tags": [
+    "partners",
+    "announcement"
+  ],
+  "source": null,
+  "width": 1080,
+  "height": 1350,
+  "fields": [
+    {
+      "id": "partnerLogo",
+      "label": "Partner logo",
+      "type": "image",
+      "default": "assets/crawl4ai-logo.png",
+      "hint": "The partner's own logo in white or light colours, PNG or SVG with a transparent background."
+    },
+    {
+      "id": "headline",
+      "label": "Headline",
+      "type": "text",
+      "default": "Crawl4AI named Massive its web access partner",
+      "hint": "What the partnership is; up to three lines, about 50 characters."
+    },
+    {
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "type": "text",
+      "default": "Partnership",
+      "hint": "One or two words above the headline."
+    }
+  ]
+}

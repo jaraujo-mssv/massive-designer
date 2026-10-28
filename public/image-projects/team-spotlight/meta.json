@@ -1,0 +1,89 @@
+{
+  "id": "team-spotlight",
+  "title": "Teammate spotlight Q&A",
+  "description": "One teammate in the character-sheet card, with three short questions and answers where the welcome card has its abilities, over the dimmed Slack desktop. Source: image-projects/welcome-template (Franklin Uche's role, hobbies and favourite food).",
+  "group": "templates",
+  "category": "team",
+  "template": null,
+  "series": null,
+  "status": "draft",
+  "tags": [
+    "team",
+    "spotlight"
+  ],
+  "source": "image-projects/welcome-template",
+  "width": 1080,
+  "height": 1350,
+  "fields": [
+    {
+      "id": "photo",
+      "label": "Photo",
+      "type": "image",
+      "default": "assets/franklin.jpg",
+      "hint": "A square portrait, face centred"
+    },
+    {
+      "id": "name",
+      "label": "Full name",
+      "type": "text",
+      "default": "Franklin Uche",
+      "hint": "First and last name; long names shrink to fit"
+    },
+    {
+      "id": "firstName",
+      "label": "First name",
+      "type": "text",
+      "default": "Franklin",
+      "hint": "Used in the \"Meet\" line"
+    },
+    {
+      "id": "country",
+      "label": "Country",
+      "type": "text",
+      "default": "Nigeria",
+      "hint": "In English; it picks the flag"
+    },
+    {
+      "id": "q1",
+      "label": "Question 1",
+      "type": "text",
+      "default": "Role",
+      "hint": "A short label, up to about 30 characters; the first one usually says what they do"
+    },
+    {
+      "id": "a1",
+      "label": "Answer 1",
+      "type": "text",
+      "default": "Community Lead",
+      "hint": "Up to two lines, about 70 characters"
+    },
+    {
+      "id": "q2",
+      "label": "Question 2",
+      "type": "text",
+      "default": "Outside work",
+      "hint": "A short label, up to about 30 characters"
+    },
+    {
+      "id": "a2",
+      "label": "Answer 2",
+      "type": "text",
+      "default": "Football, golf and gardening",
+      "hint": "Up to two lines, about 70 characters"
+    },
+    {
+      "id": "q3",
+      "label": "Question 3",
+      "type": "text",
+      "default": "Fuel",
+      "hint": "A short label, up to about 30 characters"
+    },
+    {
+      "id": "a3",
+      "label": "Answer 3",
+      "type": "text",
+      "default": "Medium rare steak and rice",
+      "hint": "Up to two lines, about 70 characters"
+    }
+  ]
+}

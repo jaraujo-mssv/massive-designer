@@ -5,314 +5,116 @@
     "category": "hiring",
     "template": "hiring-open-roles-square",
     "series": "Open roles",
-    "formats": ["square"],
+    "formats": [
+      "square"
+    ],
     "brief": "Re-run the all-roles roundup each month from joinmassive.com/careers: update the role list and the count, keep or swap the photo.",
-    "tags": ["hiring", "careers", "roundup"]
-  },
-  {
-    "id": "hiring-async-first",
-    "title": "How we work: async-first",
-    "category": "hiring",
-    "template": "hiring-photo-square",
-    "formats": ["square"],
-    "brief": "Culture card for candidates: written docs and threads, fewer meetings, a team across time zones. Pairs with any open-role post.",
-    "tags": ["hiring", "culture", "remote"]
+    "tags": [
+      "hiring",
+      "careers",
+      "roundup"
+    ]
   },
   {
     "id": "hiring-interview-steps",
     "title": "Interview process, step by step",
     "category": "hiring",
     "template": "new",
-    "formats": ["square"],
+    "formats": [
+      "square"
+    ],
     "brief": "The stages from application to offer, with typical timing. Needs the real process from the hiring team before it's designed.",
-    "tags": ["hiring", "process"]
-  },
-  {
-    "id": "hiring-referral",
-    "title": "Know someone? Refer them",
-    "category": "hiring",
-    "template": "hiring-photo-square",
-    "formats": ["square"],
-    "brief": "A short call for referrals pointing at the careers page; easy for teammates to reshare.",
-    "tags": ["hiring", "referral"]
-  },
-  {
-    "id": "hiring-we-hired",
-    "title": "Role filled: we hired!",
-    "category": "hiring",
-    "template": "welcome-template",
-    "formats": ["portrait"],
-    "brief": "Close the loop on a role post once it's filled, then follow up with the person's Welcome to Massive card.",
-    "tags": ["hiring", "welcome"]
-  },
-  {
-    "id": "team-work-anniversary",
-    "title": "Work anniversary",
-    "category": "team",
-    "template": "video:work-anniversary",
-    "formats": ["portrait"],
-    "brief": "A still of the Work anniversary video, per teammate: name, photo and years at Massive.",
-    "tags": ["team", "anniversary"]
-  },
-  {
-    "id": "team-birthday",
-    "title": "Birthday card",
-    "category": "team",
-    "template": "video:birthday",
-    "formats": ["portrait", "square"],
-    "brief": "A still of the Birthday video for the team channel and socials.",
-    "tags": ["team", "birthday"]
-  },
-  {
-    "id": "team-promotion",
-    "title": "Promotion announcement",
-    "category": "team",
-    "template": "welcome-template",
-    "formats": ["portrait"],
-    "brief": "The welcome card's character sheet as a level-up: a new-role badge with the previous role struck through.",
-    "tags": ["team", "promotion"]
-  },
-  {
-    "id": "team-world-map",
-    "title": "Where the team is",
-    "category": "team",
-    "template": "new",
-    "formats": ["portrait", "landscape"],
-    "brief": "A world map with a flag for each country the team works from (_lib/world-paths.js and _brand/flags), plus the country count.",
-    "tags": ["team", "remote", "map"]
-  },
-  {
-    "id": "team-spotlight",
-    "title": "Teammate spotlight Q&A",
-    "category": "team",
-    "template": "new",
-    "formats": ["portrait"],
-    "brief": "One teammate, three short answers (what they work on, a favourite tool, life outside work) and their photo.",
-    "tags": ["team", "spotlight"]
+    "tags": [
+      "hiring",
+      "process"
+    ]
   },
   {
     "id": "team-offsite-recap",
     "title": "Offsite recap collage",
     "category": "team",
     "template": "new",
-    "formats": ["portrait", "square"],
+    "formats": [
+      "portrait",
+      "square"
+    ],
     "brief": "A photo grid from a team meetup or offsite, with the place and dates. Needs the photos.",
-    "tags": ["team", "offsite"]
-  },
-  {
-    "id": "milestone-company-followers",
-    "title": "Company page follower milestone",
-    "category": "milestones",
-    "template": "jason-15k-milestone",
-    "formats": ["portrait"],
-    "brief": "The Milestone card for the Massive LinkedIn page when it crosses the next round number.",
-    "tags": ["milestone", "linkedin", "followers"]
-  },
-  {
-    "id": "milestone-195-countries",
-    "title": "195+ countries",
-    "category": "milestones",
-    "template": "new",
-    "formats": ["portrait", "square"],
-    "brief": "Network coverage: real-time web access through residential IPs in 195+ countries, over the world map.",
-    "tags": ["milestone", "network", "map"]
+    "tags": [
+      "team",
+      "offsite"
+    ]
   },
   {
     "id": "milestone-company-anniversary",
     "title": "Company anniversary",
     "category": "milestones",
     "template": "new",
-    "formats": ["portrait", "square"],
+    "formats": [
+      "portrait",
+      "square"
+    ],
     "brief": "Years since founding, with a few highlights from the year. Needs the dates and the highlights.",
-    "tags": ["milestone", "anniversary"]
+    "tags": [
+      "milestone",
+      "anniversary"
+    ]
   },
   {
     "id": "milestone-usage-stat",
     "title": "Requests served",
     "category": "milestones",
     "template": "new",
-    "formats": ["square"],
+    "formats": [
+      "square"
+    ],
     "brief": "One big number (requests, data delivered, customers) with a line of context. Needs a number we're happy to publish.",
-    "tags": ["milestone", "data"]
-  },
-  {
-    "id": "product-launch",
-    "title": "Launch announcement",
-    "category": "product",
-    "template": "video:launch-teaser",
-    "formats": ["portrait", "landscape"],
-    "brief": "The Launch teaser's final frame as a still for the launch post.",
-    "tags": ["product", "launch"]
-  },
-  {
-    "id": "product-web-render",
-    "title": "Feature spotlight: Web Render",
-    "category": "product",
-    "template": "new",
-    "formats": ["portrait", "square"],
-    "brief": "What Web Render does in one line, three benefits, and a product visual.",
-    "tags": ["product", "web render"]
-  },
-  {
-    "id": "product-residential-proxies",
-    "title": "Feature spotlight: Residential proxies",
-    "category": "product",
-    "template": "new",
-    "formats": ["portrait", "square"],
-    "brief": "Residential proxies for technical buyers: coverage, rotation and geo-targeting.",
-    "tags": ["product", "proxies"]
+    "tags": [
+      "milestone",
+      "data"
+    ]
   },
   {
     "id": "product-changelog",
     "title": "What's new this month",
     "category": "product",
     "template": "new",
-    "formats": ["portrait"],
+    "formats": [
+      "portrait"
+    ],
     "brief": "A monthly changelog card: three to five shipped items, each with an icon.",
-    "tags": ["product", "changelog"]
-  },
-  {
-    "id": "product-code-snippet",
-    "title": "API in a few lines",
-    "category": "product",
-    "template": "new",
-    "formats": ["landscape", "square"],
-    "brief": "A syntax-highlighted request and its response, in the house mono type.",
-    "tags": ["product", "api", "developers"]
-  },
-  {
-    "id": "events-meet-us",
-    "title": "Meet us at …",
-    "category": "events",
-    "template": "new",
-    "formats": ["portrait", "square"],
-    "brief": "Conference card: event, dates, city, where to find us and who's going.",
-    "tags": ["events", "conference"]
-  },
-  {
-    "id": "events-speaker",
-    "title": "Speaker card",
-    "category": "events",
-    "template": "new",
-    "formats": ["portrait", "square"],
-    "brief": "The speaker's photo, the talk title, the event, date and time.",
-    "tags": ["events", "speaker"]
-  },
-  {
-    "id": "events-sf-dinner",
-    "title": "SF dinner / meetup invite",
-    "category": "events",
-    "template": "new",
-    "formats": ["portrait", "square"],
-    "brief": "An invite for a Bay Area dinner or meetup hosted by the field team: date, area, RSVP link.",
-    "tags": ["events", "san francisco", "meetup"]
-  },
-  {
-    "id": "events-recap",
-    "title": "Event recap",
-    "category": "events",
-    "template": "new",
-    "formats": ["portrait", "square"],
-    "brief": "Two or three photos from the event, a thank-you line and one takeaway.",
-    "tags": ["events", "recap"]
-  },
-  {
-    "id": "events-webinar",
-    "title": "Webinar",
-    "category": "events",
-    "template": "new",
-    "formats": ["landscape", "square"],
-    "brief": "Title, speakers, date and time zone, and the registration link.",
-    "tags": ["events", "webinar"]
-  },
-  {
-    "id": "content-blog-quote",
-    "title": "Blog quote card",
-    "category": "content",
-    "template": "new",
-    "formats": ["portrait", "square"],
-    "brief": "A pull quote from a blog post, with the author and the post title.",
-    "tags": ["content", "blog", "quote"]
-  },
-  {
-    "id": "content-data-stat",
-    "title": "Data story stat",
-    "category": "content",
-    "template": "new",
-    "formats": ["portrait", "square"],
-    "brief": "One finding from Massive research with its chart, for the weekly social posts.",
-    "tags": ["content", "data"]
-  },
-  {
-    "id": "content-market-map-teaser",
-    "title": "Market map teaser",
-    "category": "content",
-    "template": "new",
-    "formats": ["portrait", "square"],
-    "brief": "A cropped preview of a new market map from the Market Map tool, its headline, and \"full map in the comments\".",
-    "tags": ["content", "market map"]
-  },
-  {
-    "id": "content-aeo-still",
-    "title": "Why AEO is the new SEO",
-    "category": "content",
-    "template": "video:why-aeo-is-the-new-seo",
-    "formats": ["portrait", "square"],
-    "brief": "A still of the AEO explainer video for the blog post and LinkedIn.",
-    "tags": ["content", "aeo", "video still"]
-  },
-  {
-    "id": "content-consent-still",
-    "title": "What does consent look like?",
-    "category": "content",
-    "template": "video:what-does-consent-look-like",
-    "formats": ["portrait", "square"],
-    "brief": "A still of the consent explainer video.",
-    "tags": ["content", "consent", "video still"]
-  },
-  {
-    "id": "partners-announcement",
-    "title": "Partnership announcement",
-    "category": "partners",
-    "template": "new",
-    "formats": ["portrait", "square"],
-    "brief": "Both logos and the headline, matching the Partnership Post tool's look.",
-    "tags": ["partners", "announcement"]
+    "tags": [
+      "product",
+      "changelog"
+    ]
   },
   {
     "id": "partners-customer-quote",
     "title": "Customer quote",
     "category": "partners",
     "template": "new",
-    "formats": ["portrait", "square"],
+    "formats": [
+      "portrait",
+      "square"
+    ],
     "brief": "A customer's quote with their name, title, company logo and photo. Needs the customer's approval.",
-    "tags": ["partners", "customer", "quote"]
+    "tags": [
+      "partners",
+      "customer",
+      "quote"
+    ]
   },
   {
     "id": "partners-case-study",
     "title": "Case study number",
     "category": "partners",
     "template": "new",
-    "formats": ["square"],
+    "formats": [
+      "square"
+    ],
     "brief": "One result from a customer story (a success rate, a cost saved) with the customer's logo.",
-    "tags": ["partners", "case study"]
-  },
-  {
-    "id": "seasonal-holidays",
-    "title": "Holiday greetings",
-    "category": "seasonal",
-    "template": "video:holiday-greetings",
-    "formats": ["portrait", "square"],
-    "brief": "A still of the Holiday greetings video for December.",
-    "tags": ["seasonal", "holidays"]
-  },
-  {
-    "id": "seasonal-new-year",
-    "title": "Happy New Year",
-    "category": "seasonal",
-    "template": "new",
-    "formats": ["portrait", "square"],
-    "brief": "A New Year card with the year big, in the house style.",
-    "tags": ["seasonal", "new year"]
+    "tags": [
+      "partners",
+      "case study"
+    ]
   }
 ]

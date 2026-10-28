@@ -22,6 +22,26 @@ Search every image: https://massive-designer.vercel.app/api/images?q=<words> (ad
 
 ## Templates
 
+### Birthday card
+
+id `team-birthday` · 1080×1350 · team · template
+
+A teammate's birthday: the character-sheet card with the day's quest, a maxed-out XP bar and reward chips over the dimmed Slack desktop, confetti frozen mid-burst. Source: public/video-projects/birthday; the default teammate (Franklin Uche, Community Lead) from image-projects/welcome-template.
+
+Params:
+- `photo`: Photo. A direct https:// link to an image; default: the design's own. A square portrait, face centred
+- `name`: Full name. Text; default "Franklin Uche". First and last name; long names shrink to fit
+- `firstName`: First name. Text; default "Franklin". Used in the birthday line
+- `role`: Role. Text; default "Community Lead". Job title, about 30 characters
+- `location`: Location. Text; default "Lagos, Nigeria". City, Country
+- `quest`: Quest. Text; default "Eat cake. Make a wish.". One short line, up to about 60 characters
+- `rewards`: Rewards (comma-separated, up to 5). Text; default "+1 Wisdom, +1 Cake, +100 Good vibes". Each one becomes a chip
+- `confetti`: Confetti. True or false; default true. Frozen burst behind the photo; turn off for a calmer card
+
+Image link (defaults): https://massive-designer.vercel.app/api/render/team-birthday.jpg
+Edit link: https://massive-designer.vercel.app/images?template=team-birthday
+Thumbnail: https://massive-designer.vercel.app/image-projects/team-birthday/thumb.jpg
+
 ### Blog banner (template)
 
 id `blog-banner` · 1376×768 · content · template
@@ -37,6 +57,80 @@ Params:
 Image link (defaults): https://massive-designer.vercel.app/api/render/blog-banner.jpg
 Edit link: https://massive-designer.vercel.app/images?template=blog-banner
 Thumbnail: https://massive-designer.vercel.app/image-projects/blog-banner/thumb.jpg
+
+### Blog quote card
+
+id `content-blog-quote` · 1080×1350 · content · template
+
+A pull quote from a Massive blog post with its author, the post's title and the blog link. Source: https://www.joinmassive.com/blog/is-robots-txt-legally-binding (quote, author, role and title as published, Oct 27, 2026).
+
+Params:
+- `quote`: Quote. Text; default "Is robots.txt legally binding? In the United States, not on its own.". Word for word from the post; up to about 200 characters, it shrinks to fit.
+- `photo`: Author photo. A direct https:// link to an image; default: the design's own. A square portrait; shown in a circle.
+- `name`: Author. Text; default "Franklin Uche". The author's full name.
+- `role`: Author's role. Text; default "Community Lead". A few words.
+- `postTitle`: Post title. Text; default "Is robots.txt Legally Binding? What US and EU Courts Have Ruled". As published; up to two lines, about 90 characters.
+- `link`: Link. Text; default "joinmassive.com/blog". Shown bottom right; keep it short, without https://.
+
+Image link (defaults): https://massive-designer.vercel.app/api/render/content-blog-quote.jpg
+Edit link: https://massive-designer.vercel.app/images?template=content-blog-quote
+Thumbnail: https://massive-designer.vercel.app/image-projects/content-blog-quote/thumb.jpg
+
+### Company page follower milestone
+
+id `milestone-company-followers` · 1080×1350 · milestones · template
+
+The Milestone card for the Massive LinkedIn company page: the Massive mark in the character-sheet card with the follower count, reward chips and a thank-you line, over the dimmed LinkedIn desktop. Source: image-projects/jason-15k-milestone; the follower counts are placeholders until the real number is in.
+
+Params:
+- `photo`: Logo or photo. A direct https:// link to an image; default: the design's own. The Massive mark by default; an SVG logo sits on the dark tile, a photo fills the frame
+- `name`: Name. Text; default "Massive". The page's name
+- `emoji`: Status emoji. Text; default "🎉". One emoji
+- `status`: Status. Text; default "Celebrating a milestone". About 30 characters
+- `role`: Role. Text; default "Company page". The red pill, a few words
+- `count`: Followers. Text; default "[10,000]". The full count with a comma, e.g. 10,000
+- `rewards`: Rewards (comma-separated, up to 5). Text; default "+1 Milestone, +∞ Thank yous". Each one becomes a chip
+- `short`: Short count. Text; default "[10K]". For the thank-you line, e.g. 10K
+- `confetti`: Confetti. True or false; default true. Frozen burst behind the photo; turn off for a calmer card
+
+Image link (defaults): https://massive-designer.vercel.app/api/render/milestone-company-followers.jpg
+Edit link: https://massive-designer.vercel.app/images?template=milestone-company-followers
+Thumbnail: https://massive-designer.vercel.app/image-projects/milestone-company-followers/thumb.jpg
+
+### Data story stat
+
+id `content-data-stat` · 1080×1350 · content · template
+
+One finding from Massive research, its number big and a dot chart of it: one dot per item in the total, the finding's share lit red. Source: https://www.joinmassive.com/blog/edpb-web-scraping-guidelines (Massive's robots.txt check of 47 news sites, October 26, 2026: 42 block at least one AI training crawler).
+
+Params:
+- `value`: Value. Text; default "42". A whole number; that many dots are lit red.
+- `total`: Total. Text; default "47". A whole number; the chart draws one dot each, up to 400.
+- `label`: What it counts. Text; default "news sites block at least one AI training crawler". Reads after “42 of 47”; up to three lines, about 60 characters.
+- `source`: Source. Text; default "Massive, EDPB Web Scraping Guidelines: What the GDPR Draft Means for AI Data Collection". Who published it and where, after “Source:”.
+- `link`: Source link. Text; default "joinmassive.com/blog/edpb-web-scraping-guidelines". The page the number comes from, without https://.
+
+Image link (defaults): https://massive-designer.vercel.app/api/render/content-data-stat.jpg
+Edit link: https://massive-designer.vercel.app/images?template=content-data-stat
+Thumbnail: https://massive-designer.vercel.app/image-projects/content-data-stat/thumb.jpg
+
+### Event recap
+
+id `events-recap` · 1080×1350 · events · template
+
+Event recap in the house look: three photos from the event, a thank-you headline, the event line and one takeaway. Source: scripts/deck/prague-crawl-2027.html (Prague Crawl 2026, May 20, 2026; 250+ attendees; 17 talks, demos and a panel) and praguecrawl.com/agenda; photos from public/image-projects/_prague-crawl/.
+
+Params:
+- `event`: Event line. Text; default "Prague Crawl 2026 · May 20, 2026". Event name · date, about 35 characters
+- `photo1`: Top photo. A direct https:// link to an image, or one of the design's photos by name: `The room`, `Talk from the back`, `Speaker and audience`, `Panel on stage`, `Networking`, `Filming a talk`; default: the design's own. The wide photo on top; a landscape shot of the whole room works best
+- `photo2`: Left photo. A direct https:// link to an image, or one of the design's photos by name: `The room`, `Talk from the back`, `Speaker and audience`, `Panel on stage`, `Networking`, `Filming a talk`; default: the design's own. Lower left; a landscape photo
+- `photo3`: Right photo. A direct https:// link to an image, or one of the design's photos by name: `The room`, `Talk from the back`, `Speaker and audience`, `Panel on stage`, `Networking`, `Filming a talk`; default: the design's own. Lower right; a landscape photo
+- `headline`: Headline. Text; default "Thank you, Prague". The thank-you line. Up to two lines; about 20 characters reads best
+- `takeaway`: Takeaway. Text; default "250+ attendees. 17 talks, demos and a panel.". One or two sourced facts, up to two lines; about 50 characters
+
+Image link (defaults): https://massive-designer.vercel.app/api/render/events-recap.jpg
+Edit link: https://massive-designer.vercel.app/images?template=events-recap
+Thumbnail: https://massive-designer.vercel.app/image-projects/events-recap/thumb.jpg
 
 ### Hiring: Photo (template)
 
@@ -54,6 +148,74 @@ Params:
 Image link (defaults): https://massive-designer.vercel.app/api/render/hiring-photo-square.jpg
 Edit link: https://massive-designer.vercel.app/images?template=hiring-photo-square
 Thumbnail: https://massive-designer.vercel.app/image-projects/hiring-photo-square/thumb.jpg
+
+### Holiday greetings
+
+id `seasonal-holidays` · 1080×1350 · seasonal · template
+
+A holiday greeting card over the dimmed Slack desktop: a lit menorah for Hanukkah or apple, honey and pomegranate for Rosh Hashanah, with the greeting and a line from the team. Source: public/video-projects/holiday-greetings.
+
+Params:
+- `holiday`: Holiday. One of `hanukkah` (Hanukkah), `rosh-hashanah` (Rosh Hashanah); default `hanukkah`. Picks the motif, the greeting and the outro line
+
+Image link (defaults): https://massive-designer.vercel.app/api/render/seasonal-holidays.jpg
+Edit link: https://massive-designer.vercel.app/images?template=seasonal-holidays
+Thumbnail: https://massive-designer.vercel.app/image-projects/seasonal-holidays/thumb.jpg
+
+### Market map teaser
+
+id `content-market-map-teaser` · 1080×1350 · content · template
+
+A teaser for a new market map: the headline and the count over a cropped preview of the map, fading into the ground, and “Full map in the comments”. The default map is the AI Agents example (15 categories, 88 companies) downloaded from the Market Map tool, Dark, Vertical. Source: src/tools/market-map/app/constants.ts (the AI Agents example sheet).
+
+Params:
+- `map`: Map. A direct https:// link to an image; default: the design's own. The Market Map tool's Download JPG, Vertical; only its top part shows.
+- `headline`: Headline. Text; default "AI agent market map". The map's name; up to two lines, about 30 characters.
+- `count`: Count. Text; default "88 companies, 15 categories". What the map holds, from the tool's sidebar; one line.
+- `cta`: Call to action. Text; default "Full map in the comments". Where the full map is; about 25 characters.
+
+Image link (defaults): https://massive-designer.vercel.app/api/render/content-market-map-teaser.jpg
+Edit link: https://massive-designer.vercel.app/images?template=content-market-map-teaser
+Thumbnail: https://massive-designer.vercel.app/image-projects/content-market-map-teaser/thumb.jpg
+
+### Meet us at …
+
+id `events-meet-us` · 1080×1350 · events · template
+
+Conference card in the house look: the event's name big, when and where, where to find us there and who's going, with an optional second person. Source: scripts/deck/prague-crawl-2027.html (Prague Crawl 2027, May 13, 2027, Spojka Events, Prague; citing praguecrawl.com).
+
+Params:
+- `eyebrow`: Eyebrow. Text; default "Meet us at". Two to four words: Meet us at, See you at
+- `event`: Event. Text; default "Prague Crawl 2027". The event's name. Up to two lines; about 30 characters reads best
+- `date`: Date. Text; default "May 13, 2027". The day or days, e.g. May 13, 2027
+- `venue`: City or venue. Text; default "Spojka Events, Prague". Venue and city, about 30 characters
+- `spot`: Where to find us. Text; default "[Booth or spot]". Booth number or spot at the venue, about 40 characters. Leave the brackets until it's known
+- `photo`: Photo. A direct https:// link to an image; default: the design's own. Square portrait, face centred; cropped to a circle
+- `name`: Name. Text; default "Jason Grad". Full name, about 25 characters
+- `role`: Role. Text; default "Co-founder & CEO". Job title, about 40 characters
+- `second`: Second person. True or false; default false. Adds a second person under the first
+- `photo2`: Second photo. A direct https:// link to an image; default: the design's own. Square portrait, face centred; shown when Second person is on
+- `name2`: Second name. Text; default "Franklin Uche". Full name, about 25 characters
+- `role2`: Second role. Text; default "Community Lead". Job title, about 40 characters
+
+Image link (defaults): https://massive-designer.vercel.app/api/render/events-meet-us.jpg
+Edit link: https://massive-designer.vercel.app/images?template=events-meet-us
+Thumbnail: https://massive-designer.vercel.app/image-projects/events-meet-us/thumb.jpg
+
+### Partnership announcement
+
+id `partners-announcement` · 1080×1350 · partners · template
+
+A partnership announcement in the Partnership Post tool's Laptop Dark look: the Massive × partner lockup on the laptop screen, with an eyebrow and the headline. Source: https://www.joinmassive.com/blog/crawl4ai-partner-spotlight (“Why Crawl4AI Named Massive Its Web Access Partner”, Sep 23, 2026); Crawl4AI logo from github.com/unclecode/crawl4ai (deploy/docker/static/assets/logo.png).
+
+Params:
+- `partnerLogo`: Partner logo. A direct https:// link to an image; default: the design's own. The partner's own logo in white or light colours, PNG or SVG with a transparent background.
+- `headline`: Headline. Text; default "Crawl4AI named Massive its web access partner". What the partnership is; up to three lines, about 50 characters.
+- `eyebrow`: Eyebrow. Text; default "Partnership". One or two words above the headline.
+
+Image link (defaults): https://massive-designer.vercel.app/api/render/partners-announcement.jpg
+Edit link: https://massive-designer.vercel.app/images?template=partners-announcement
+Thumbnail: https://massive-designer.vercel.app/image-projects/partners-announcement/thumb.jpg
 
 ### Prague Crawl 2027: speaker card
 
@@ -91,6 +253,122 @@ Image link (defaults): https://massive-designer.vercel.app/api/render/prague-cra
 Edit link: https://massive-designer.vercel.app/images?template=prague-crawl-2027-sponsor
 Thumbnail: https://massive-designer.vercel.app/image-projects/prague-crawl-2027-sponsor/thumb.jpg
 
+### Promotion announcement
+
+id `team-promotion` · 1080×1350 · team · template
+
+A teammate's promotion as a level-up: the character-sheet card with the previous role struck through beside the new one and a full XP bar, over the dimmed Slack desktop. Source: image-projects/welcome-template (the default teammate, Franklin Uche, Community Lead); the new role is a placeholder.
+
+Params:
+- `photo`: Photo. A direct https:// link to an image; default: the design's own. A square portrait, face centred
+- `name`: Full name. Text; default "Franklin Uche". First and last name; long names shrink to fit
+- `firstName`: First name. Text; default "Franklin". Used in the congrats line
+- `oldRole`: Previous role. Text; default "Community Lead". Shown struck through; about 25 characters
+- `newRole`: New role. Text; default "[New role]". The role in the red pill; about 25 characters
+- `confetti`: Confetti. True or false; default true. Frozen burst behind the photo; turn off for a calmer card
+
+Image link (defaults): https://massive-designer.vercel.app/api/render/team-promotion.jpg
+Edit link: https://massive-designer.vercel.app/images?template=team-promotion
+Thumbnail: https://massive-designer.vercel.app/image-projects/team-promotion/thumb.jpg
+
+### Role filled: we hired!
+
+id `hiring-we-hired` · 1080×1080 · hiring · template
+
+Closes the loop on a role post once it is filled: “We hired” and the role on the red brush stroke, beside the photo, with a handwritten note; follow it with the person’s Welcome to Massive card. Source: welcome-template (Franklin Uche, Community Lead).
+
+Params:
+- `photo`: Photo. A direct https:// link to an image, or one of the design's photos by name: `Home office`, `Standing call`, `Window seat (SF)`, `Standing desk`, `Coffee at the desk`, `At an event`, `Leaning back`, `Home lab`, `Café`, `On the sofa`, `Balcony abroad`, `Kitchen at sunrise`, `Hammock`; default: the design's own. Pick one of the hiring photos, or upload your own: subject on the right, an empty bright left side.
+- `headline`: Headline. Text; default "We hired". Keep it short; a long word shrinks to stay clear of the photo.
+- `role`: Role. Text; default "Community Lead". The role that was filled, as it was posted; on the red stroke, up to two lines, it shrinks to fit.
+- `aside`: Handwritten note. Text; default "Desk: taken.". A short joke about the photo, like “Desk: taken.”; the arrow points into the photo.
+- `showAside`: Show the note. True or false; default true. Hide the note and its arrow.
+
+Image link (defaults): https://massive-designer.vercel.app/api/render/hiring-we-hired.jpg
+Edit link: https://massive-designer.vercel.app/images?template=hiring-we-hired
+Thumbnail: https://massive-designer.vercel.app/image-projects/hiring-we-hired/thumb.jpg
+
+### SF dinner / meetup invite
+
+id `events-sf-dinner` · 1080×1350 · events · template
+
+A type-only invite in the house look for a Bay Area dinner or meetup hosted by Massive: the headline big, who's hosting, and when, where and how to RSVP. Date, neighborhood and RSVP link are placeholders until they're set.
+
+Params:
+- `eyebrow`: Eyebrow. Text; default "You're invited". Two or three words: You're invited, Join us
+- `headline`: Headline. Text; default "Dinner in San Francisco". Up to three lines; about 25 characters reads best
+- `host`: Host line. Text; default "Hosted by Massive". Who's hosting, about 40 characters
+- `date`: Date. Text; default "[Date]". Day, date and time, e.g. Thu, March 4 · 7 pm. Leave the brackets until it's known
+- `area`: Neighborhood. Text; default "[Neighborhood]". Neighborhood or venue, about 30 characters. Leave the brackets until it's known
+- `rsvp`: RSVP link. Text; default "[RSVP link]". A short link without https://, about 30 characters. Leave the brackets until it's known
+
+Image link (defaults): https://massive-designer.vercel.app/api/render/events-sf-dinner.jpg
+Edit link: https://massive-designer.vercel.app/images?template=events-sf-dinner
+Thumbnail: https://massive-designer.vercel.app/image-projects/events-sf-dinner/thumb.jpg
+
+### Speaker card
+
+id `events-speaker` · 1080×1350 · events · template
+
+Speaker card in the house look: a big photo beside the event, date, time and venue, then the talk title (a placeholder until it's set), the speaker's name and role. Source: scripts/deck/prague-crawl-2027.html (Prague Crawl 2027, May 13, 2027, Spojka Events, Prague; citing praguecrawl.com).
+
+Params:
+- `eyebrow`: Eyebrow. Text; default "Speaker". One or two words: Speaker, Keynote, Panelist
+- `photo`: Photo. A direct https:// link to an image; default: the design's own. Square portrait, face centred, at least 1000 px wide
+- `talk`: Talk title. Text; default "[Talk title]". Up to two lines; about 50 characters reads best. Leave the brackets until it's known
+- `name`: Name. Text; default "Jason Grad". Full name, about 25 characters
+- `role`: Role. Text; default "Co-founder & CEO, Massive". Job title and company, about 40 characters
+- `event`: Event. Text; default "Prague Crawl 2027". The event's name, about 25 characters
+- `date`: Date. Text; default "May 13, 2027". e.g. May 13, 2027
+- `time`: Time. Text; default "[Time]". Start time and time zone, e.g. 11:10 CET. Leave the brackets until it's known
+- `venue`: Venue. Text; default "Spojka Events, Prague". Venue and city, about 30 characters
+
+Image link (defaults): https://massive-designer.vercel.app/api/render/events-speaker.jpg
+Edit link: https://massive-designer.vercel.app/images?template=events-speaker
+Thumbnail: https://massive-designer.vercel.app/image-projects/events-speaker/thumb.jpg
+
+### Teammate spotlight Q&A
+
+id `team-spotlight` · 1080×1350 · team · template
+
+One teammate in the character-sheet card, with three short questions and answers where the welcome card has its abilities, over the dimmed Slack desktop. Source: image-projects/welcome-template (Franklin Uche's role, hobbies and favourite food).
+
+Params:
+- `photo`: Photo. A direct https:// link to an image; default: the design's own. A square portrait, face centred
+- `name`: Full name. Text; default "Franklin Uche". First and last name; long names shrink to fit
+- `firstName`: First name. Text; default "Franklin". Used in the "Meet" line
+- `country`: Country. Text; default "Nigeria". In English; it picks the flag
+- `q1`: Question 1. Text; default "Role". A short label, up to about 30 characters; the first one usually says what they do
+- `a1`: Answer 1. Text; default "Community Lead". Up to two lines, about 70 characters
+- `q2`: Question 2. Text; default "Outside work". A short label, up to about 30 characters
+- `a2`: Answer 2. Text; default "Football, golf and gardening". Up to two lines, about 70 characters
+- `q3`: Question 3. Text; default "Fuel". A short label, up to about 30 characters
+- `a3`: Answer 3. Text; default "Medium rare steak and rice". Up to two lines, about 70 characters
+
+Image link (defaults): https://massive-designer.vercel.app/api/render/team-spotlight.jpg
+Edit link: https://massive-designer.vercel.app/images?template=team-spotlight
+Thumbnail: https://massive-designer.vercel.app/image-projects/team-spotlight/thumb.jpg
+
+### Webinar
+
+id `events-webinar` · 1920×1080 · events · template
+
+Landscape webinar card in the house look: the title big, the speaker's photo, name and role beside it, and the date, time and registration link (placeholders until they're set). Source: https://www.joinmassive.com/blog/is-robots-txt-legally-binding (the default topic, by Franklin Uche, Community Lead).
+
+Params:
+- `eyebrow`: Eyebrow. Text; default "Webinar". One or two words: Webinar, Live session
+- `title`: Title. Text; default "Is robots.txt legally binding?". Up to three lines; about 40 characters reads best
+- `photo`: Speaker photo. A direct https:// link to an image; default: the design's own. Square portrait, face centred
+- `name`: Speaker name. Text; default "Franklin Uche". Full name, about 20 characters
+- `role`: Speaker role. Text; default "Community Lead". Job title, about 30 characters
+- `date`: Date. Text; default "[Date]". e.g. Thu, November 12. Leave the brackets until it's known
+- `time`: Time and time zone. Text; default "[Time and time zone]". e.g. 5 pm CET / 11 am ET. Leave the brackets until it's known
+- `register`: Registration link. Text; default "[Registration link]". A short link without https://, about 30 characters. Leave the brackets until it's known
+
+Image link (defaults): https://massive-designer.vercel.app/api/render/events-webinar.jpg
+Edit link: https://massive-designer.vercel.app/images?template=events-webinar
+Thumbnail: https://massive-designer.vercel.app/image-projects/events-webinar/thumb.jpg
+
 ### Welcome to Massive: Template (Franklin)
 
 id `welcome-template` · 1080×1350 · team · template
@@ -113,13 +391,49 @@ Image link (defaults): https://massive-designer.vercel.app/api/render/welcome-te
 Edit link: https://massive-designer.vercel.app/images?template=welcome-template
 Thumbnail: https://massive-designer.vercel.app/image-projects/welcome-template/thumb.jpg
 
+### Where the team is
+
+id `team-world-map` · 1080×1350 · team · template
+
+Where the team works from: a world map with the team's countries in red, a flag chip for each, and the country count in the headline, all from one comma-separated list. The default list is the countries on the Welcome to Massive cards, only part of the team. Source: public/image-projects/welcome-* (each card's country field).
+
+Params:
+- `countries`: Countries. Text; default "Ukraine, Poland, Italy, Brazil, Finland, Canada, USA, Nigeria". Every country the team works from, comma-separated, in English; 1 to 25, each one a chip and a red country.
+- `headline`: Headline. Text; default "{N} countries, one team". {N} becomes the number of countries, in red; up to two lines.
+
+Image link (defaults): https://massive-designer.vercel.app/api/render/team-world-map.jpg
+Edit link: https://massive-designer.vercel.app/images?template=team-world-map
+Thumbnail: https://massive-designer.vercel.app/image-projects/team-world-map/thumb.jpg
+
+### Work anniversary
+
+id `team-work-anniversary` · 1080×1350 · team · template
+
+A teammate's work anniversary: the achievement toast and the character-sheet card with their years at Massive as lit pips, over the dimmed Slack desktop. Source: public/video-projects/work-anniversary; the default teammate (Franklin Uche, Community Lead) from image-projects/welcome-template.
+
+Params:
+- `photo`: Photo. A direct https:// link to an image; default: the design's own. A square portrait, face centred
+- `name`: Full name. Text; default "Franklin Uche". First and last name; long names shrink to fit
+- `firstName`: First name. Text; default "Franklin". Used in the anniversary line
+- `role`: Role. Text; default "Community Lead". Job title, about 30 characters
+- `years`: Years at Massive. Text; default "3". A whole number; it sets the pips, the tenure and the toast
+
+Image link (defaults): https://massive-designer.vercel.app/api/render/team-work-anniversary.jpg
+Edit link: https://massive-designer.vercel.app/images?template=team-work-anniversary
+Thumbnail: https://massive-designer.vercel.app/image-projects/team-work-anniversary/thumb.jpg
+
 ## Other images
 
 Finished designs, which can also be re-rendered with changes. Each link lists the image's params.
 
+- 195+ countries (`milestone-195-countries`, 1080×1350): https://massive-designer.vercel.app/api/images?id=milestone-195-countries
+- API in a few lines (`product-code-snippet`, 1920×1080): https://massive-designer.vercel.app/api/images?id=product-code-snippet
 - Blog: Hotel Prices Without a Browser (`blog-radisson-hotel-prices`, 1376×768): https://massive-designer.vercel.app/api/images?id=blog-radisson-hotel-prices
 - Company card: A front door to the web (`company-card`, 1920×1080): https://massive-designer.vercel.app/api/images?id=company-card
 - Company card: Centered (`company-card-centered`, 1920×1080): https://massive-designer.vercel.app/api/images?id=company-card-centered
+- Feature spotlight: Residential proxies (`product-residential-proxies`, 1080×1350): https://massive-designer.vercel.app/api/images?id=product-residential-proxies
+- Feature spotlight: Web Render (`product-web-render`, 1080×1350): https://massive-designer.vercel.app/api/images?id=product-web-render
+- Happy New Year (`seasonal-new-year`, 1080×1350): https://massive-designer.vercel.app/api/images?id=seasonal-new-year
 - Hiring: Account Executive (`hiring-account-executive-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-account-executive-square
 - Hiring: Account Executive (San Francisco) (`hiring-account-executive-sf-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-account-executive-sf-square
 - Hiring: All open roles (`hiring-open-roles-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-open-roles-square
@@ -131,11 +445,14 @@ Finished designs, which can also be re-rendered with changes. Each link lists th
 - Hiring: Social Media Coordinator (`hiring-social-media-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-social-media-square
 - Hiring: Support Engineer (Web Scraping & Proxies) (`hiring-support-engineer-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-support-engineer-square
 - Hiring: Writers (`writers-hiring-abroad-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=writers-hiring-abroad-square
+- How we work: async-first (`hiring-async-first`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-async-first
 - Jason 15K: Every dot a follower (`jason-15k-network`, 1080×1350): https://massive-designer.vercel.app/api/images?id=jason-15k-network
 - Jason 15K: Grid (`jason-15k-grid`, 1080×1350): https://massive-designer.vercel.app/api/images?id=jason-15k-grid
 - Jason 15K: LinkedIn profile (`jason-15k-linkedin`, 1080×1350): https://massive-designer.vercel.app/api/images?id=jason-15k-linkedin
 - Jason 15K: Milestone card (`jason-15k-milestone`, 1080×1350): https://massive-designer.vercel.app/api/images?id=jason-15k-milestone
 - Jason 15K: Very nice (`jason-15k-very-nice`, 1080×1350): https://massive-designer.vercel.app/api/images?id=jason-15k-very-nice
+- Know someone? Refer them (`hiring-referral`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-referral
+- Launch announcement (`product-launch`, 1080×1350): https://massive-designer.vercel.app/api/images?id=product-launch
 - Prague Crawl 2026 in numbers (`prague-crawl-2027-last-year`, 1080×1350): https://massive-designer.vercel.app/api/images?id=prague-crawl-2027-last-year
 - Prague Crawl 2027: agenda (`prague-crawl-2027-agenda`, 1080×1350): https://massive-designer.vercel.app/api/images?id=prague-crawl-2027-agenda
 - Prague Crawl 2027: call for speakers (`prague-crawl-2027-call-for-speakers`, 1080×1350): https://massive-designer.vercel.app/api/images?id=prague-crawl-2027-call-for-speakers
@@ -150,3 +467,5 @@ Finished designs, which can also be re-rendered with changes. Each link lists th
 - Welcome to Massive: Oreoluwa Emmanuel (`welcome-oreoluwa`, 1080×1350): https://massive-designer.vercel.app/api/images?id=welcome-oreoluwa
 - Welcome to Massive: Ryan Turner (`welcome-ryan`, 1080×1350): https://massive-designer.vercel.app/api/images?id=welcome-ryan
 - Welcome to Massive: Yunna Maksymova (`welcome-yunna`, 1080×1350): https://massive-designer.vercel.app/api/images?id=welcome-yunna
+- What does consent look like? (`content-consent-still`, 1080×1350): https://massive-designer.vercel.app/api/images?id=content-consent-still
+- Why AEO is the new SEO (`content-aeo-still`, 1080×1350): https://massive-designer.vercel.app/api/images?id=content-aeo-still

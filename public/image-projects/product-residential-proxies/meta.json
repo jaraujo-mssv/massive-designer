@@ -1,0 +1,117 @@
+{
+  "id": "product-residential-proxies",
+  "title": "Feature spotlight: Residential proxies",
+  "description": "Residential proxies in one post: protocols, a diagram of the route from your client through the Massive network to residential devices, and coverage, rotation and geo-targeting. Source: https://www.joinmassive.com/web-access",
+  "group": "massive",
+  "category": "product",
+  "template": null,
+  "series": null,
+  "status": "draft",
+  "tags": [
+    "product",
+    "proxies"
+  ],
+  "source": "https://www.joinmassive.com/web-access",
+  "width": 1080,
+  "height": 1350,
+  "fields": [
+    {
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "type": "text",
+      "default": "Web Access API",
+      "hint": "The product name above the headline. A few words."
+    },
+    {
+      "id": "headline",
+      "label": "Headline",
+      "type": "text",
+      "default": "Residential proxies from real devices",
+      "hint": "Two lines; about 40 characters. Shrinks to fit."
+    },
+    {
+      "id": "highlight",
+      "label": "Highlight",
+      "type": "text",
+      "default": "real devices",
+      "hint": "Words from the headline to set in red. Leave empty for none."
+    },
+    {
+      "id": "protocols",
+      "label": "Protocols",
+      "type": "text",
+      "default": "HTTP, HTTPS, SOCKS5",
+      "hint": "Comma-separated. Each one becomes a chip; up to five."
+    },
+    {
+      "id": "clientLabel",
+      "label": "Client label",
+      "type": "text",
+      "default": "Your client",
+      "hint": "The diagram's left label. Two or three words."
+    },
+    {
+      "id": "networkLabel",
+      "label": "Network label",
+      "type": "text",
+      "default": "Massive network",
+      "hint": "The diagram's middle label. Two or three words."
+    },
+    {
+      "id": "devicesLabel",
+      "label": "Devices label",
+      "type": "text",
+      "default": "Residential devices",
+      "hint": "The diagram's right label. Two or three words."
+    },
+    {
+      "id": "point1",
+      "label": "Point 1",
+      "type": "text",
+      "default": "195+ countries",
+      "hint": "A short title. Up to about 45 characters."
+    },
+    {
+      "id": "point1Line",
+      "label": "Point 1 line",
+      "type": "text",
+      "default": "Requests route through opted-in user devices, not datacenter IPs.",
+      "hint": "One sentence under the title. About 65 characters."
+    },
+    {
+      "id": "point2",
+      "label": "Point 2",
+      "type": "text",
+      "default": "Rotate per request or hold a session",
+      "hint": "A short title. Up to about 45 characters."
+    },
+    {
+      "id": "point2Line",
+      "label": "Point 2 line",
+      "type": "text",
+      "default": "Hold the same egress device, or rotate on every request.",
+      "hint": "One sentence under the title. About 65 characters. Don't state a session length."
+    },
+    {
+      "id": "point3",
+      "label": "Point 3",
+      "type": "text",
+      "default": "Target by country, state or region, and city",
+      "hint": "A short title. Up to about 45 characters."
+    },
+    {
+      "id": "point3Line",
+      "label": "Point 3 line",
+      "type": "text",
+      "default": "Pull the version of a page a local user actually sees.",
+      "hint": "One sentence under the title. About 65 characters."
+    },
+    {
+      "id": "url",
+      "label": "Link",
+      "type": "text",
+      "default": "joinmassive.com/web-access",
+      "hint": "The page link in the footer, without https://."
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "id": "events-meet-us",
+  "title": "Meet us at …",
+  "description": "Conference card in the house look: the event's name big, when and where, where to find us there and who's going, with an optional second person. Source: scripts/deck/prague-crawl-2027.html (Prague Crawl 2027, May 13, 2027, Spojka Events, Prague; citing praguecrawl.com).",
+  "group": "templates",
+  "category": "events",
+  "template": null,
+  "series": null,
+  "status": "draft",
+  "tags": [
+    "events",
+    "conference"
+  ],
+  "source": null,
+  "width": 1080,
+  "height": 1350,
+  "fields": [
+    {
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "type": "text",
+      "default": "Meet us at",
+      "hint": "Two to four words: Meet us at, See you at"
+    },
+    {
+      "id": "event",
+      "label": "Event",
+      "type": "text",
+      "default": "Prague Crawl 2027",
+      "hint": "The event's name. Up to two lines; about 30 characters reads best"
+    },
+    {
+      "id": "date",
+      "label": "Date",
+      "type": "text",
+      "default": "May 13, 2027",
+      "hint": "The day or days, e.g. May 13, 2027"
+    },
+    {
+      "id": "venue",
+      "label": "City or venue",
+      "type": "text",
+      "default": "Spojka Events, Prague",
+      "hint": "Venue and city, about 30 characters"
+    },
+    {
+      "id": "spot",
+      "label": "Where to find us",
+      "type": "text",
+      "default": "[Booth or spot]",
+      "hint": "Booth number or spot at the venue, about 40 characters. Leave the brackets until it's known"
+    },
+    {
+      "id": "photo",
+      "label": "Photo",
+      "type": "image",
+      "default": "assets/jason-grad.jpg",
+      "hint": "Square portrait, face centred; cropped to a circle"
+    },
+    {
+      "id": "name",
+      "label": "Name",
+      "type": "text",
+      "default": "Jason Grad",
+      "hint": "Full name, about 25 characters"
+    },
+    {
+      "id": "role",
+      "label": "Role",
+      "type": "text",
+      "default": "Co-founder & CEO",
+      "hint": "Job title, about 40 characters"
+    },
+    {
+      "id": "second",
+      "label": "Second person",
+      "type": "toggle",
+      "default": false,
+      "hint": "Adds a second person under the first"
+    },
+    {
+      "id": "photo2",
+      "label": "Second photo",
+      "type": "image",
+      "default": "assets/franklin.jpg",
+      "hint": "Square portrait, face centred; shown when Second person is on"
+    },
+    {
+      "id": "name2",
+      "label": "Second name",
+      "type": "text",
+      "default": "Franklin Uche",
+      "hint": "Full name, about 25 characters"
+    },
+    {
+      "id": "role2",
+      "label": "Second role",
+      "type": "text",
+      "default": "Community Lead",
+      "hint": "Job title, about 40 characters"
+    }
+  ]
+}

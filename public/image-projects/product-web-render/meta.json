@@ -1,0 +1,96 @@
+{
+  "id": "product-web-render",
+  "title": "Feature spotlight: Web Render",
+  "description": "Web Render in one post: what it returns, a URL → rendered page → markdown diagram, and three benefits. Source: https://www.joinmassive.com/web-render",
+  "group": "massive",
+  "category": "product",
+  "template": null,
+  "series": null,
+  "status": "draft",
+  "tags": [
+    "product",
+    "web render"
+  ],
+  "source": "https://www.joinmassive.com/web-render",
+  "width": 1080,
+  "height": 1350,
+  "fields": [
+    {
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "type": "text",
+      "default": "Web Render API",
+      "hint": "The product name above the headline. A few words."
+    },
+    {
+      "id": "headline",
+      "label": "Headline",
+      "type": "text",
+      "default": "Clean HTML and markdown, anywhere",
+      "hint": "Two lines; about 35 characters. Shrinks to fit."
+    },
+    {
+      "id": "highlight",
+      "label": "Highlight",
+      "type": "text",
+      "default": "anywhere",
+      "hint": "Words from the headline to set in red. Leave empty for none."
+    },
+    {
+      "id": "subline",
+      "label": "Subline",
+      "type": "text",
+      "default": "Pull a fully rendered page from any public URL.",
+      "hint": "One sentence under the headline. About 50 characters."
+    },
+    {
+      "id": "benefit1",
+      "label": "Benefit 1",
+      "type": "text",
+      "default": "Markdown built for LLMs",
+      "hint": "A short title. About 25 characters."
+    },
+    {
+      "id": "benefit1Line",
+      "label": "Benefit 1 line",
+      "type": "text",
+      "default": "Return clean markdown alongside JSON, raw, and rendered HTML.",
+      "hint": "One sentence under the title. About 65 characters."
+    },
+    {
+      "id": "benefit2",
+      "label": "Benefit 2",
+      "type": "text",
+      "default": "Sync or async",
+      "hint": "A short title. About 25 characters."
+    },
+    {
+      "id": "benefit2Line",
+      "label": "Benefit 2 line",
+      "type": "text",
+      "default": "Get the rendered page back on the same request, or queue the job.",
+      "hint": "One sentence under the title. About 65 characters."
+    },
+    {
+      "id": "benefit3",
+      "label": "Benefit 3",
+      "type": "text",
+      "default": "Hard targets, 48-hour SLA",
+      "hint": "A short title. About 25 characters."
+    },
+    {
+      "id": "benefit3Line",
+      "label": "Benefit 3 line",
+      "type": "text",
+      "default": "48-hour unblock SLA on hard targets, backed by direct engineering support.",
+      "hint": "One sentence under the title. About 65 characters."
+    },
+    {
+      "id": "url",
+      "label": "Link",
+      "type": "text",
+      "default": "joinmassive.com/web-render",
+      "hint": "The page link in the footer, without https://."
+    }
+  ]
+}

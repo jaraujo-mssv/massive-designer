@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1350" />
+    <title>What does consent look like?</title>
+    <link rel="stylesheet" href="../_brand/massive.css" />
+    <style>
+      /* The consent film's payoff (video-projects/what-does-consent-look-like, compositions/09-consent-settled.html)
+         held once the ring has closed: four ticks on it, the user at its centre, on the film's grid plate (the
+         Market Map dark canvas, ../_brand/bg-dark.jpg). The film's green is red-light here (one accent), and its
+         title sits above. Its final frame is only the logo, so this is the strongest moment instead. */
+      #canvas {
+        width: 1080px;
+        height: 1350px;
+      }
+      .stack {
+        position: absolute;
+        inset: 96px 80px 80px;
+        display: flex;
+        flex-direction: column;
+      }
+      .title {
+        font-size: 104px;
+        font-weight: 900;
+        line-height: 1;
+        letter-spacing: -0.04em;
+        color: var(--m-cream);
+        text-wrap: balance;
+      }
+      .card {
+        position: relative;
+        flex: 1;
+        min-height: 0;
+        margin: 64px 0 56px;
+        background: #121117;
+        border: 1px solid #252328;
+        border-radius: 14px;
+      }
+      .card svg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .foot img {
+        display: block;
+        height: 26px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas">
+      <img class="m-bg-dark" src="../_brand/bg-dark.jpg" alt="" />
+      <div class="stack">
+        <div class="title" data-field="title">What does consent look like?</div>
+        <div class="card">
+          <!-- The scene's own geometry: a 100-unit ring around a 46-unit core, ticks at 0, 90, 180 and 270 degrees. -->
+          <svg viewBox="4 4 292 292" fill="none">
+            <defs>
+              <radialGradient id="glow">
+                <stop offset="0%" stop-color="#ff8163" stop-opacity="0.9" />
+                <stop offset="100%" stop-color="#d74939" stop-opacity="0" />
+              </radialGradient>
+              <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="6" />
+              </filter>
+            </defs>
+            <circle cx="150" cy="150" r="100" stroke="rgba(250,244,236,0.18)" stroke-width="1" />
+            <circle cx="150" cy="150" r="100" stroke="#ff8163" stroke-width="1.8" />
+            <g stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="150" cy="50" r="7" fill="#121117" stroke="rgba(255,129,99,0.35)" stroke-width="1" />
+              <path d="M146.8 50 l2.2 2.4 l4.4 -5" stroke="#ff8163" stroke-width="1.6" />
+              <circle cx="250" cy="150" r="7" fill="#121117" stroke="rgba(255,129,99,0.35)" stroke-width="1" />
+              <path d="M246.8 150 l2.2 2.4 l4.4 -5" stroke="#ff8163" stroke-width="1.6" />
+              <circle cx="150" cy="250" r="7" fill="#121117" stroke="rgba(255,129,99,0.35)" stroke-width="1" />
+              <path d="M146.8 250 l2.2 2.4 l4.4 -5" stroke="#ff8163" stroke-width="1.6" />
+              <circle cx="50" cy="150" r="7" fill="#121117" stroke="rgba(255,129,99,0.35)" stroke-width="1" />
+              <path d="M46.8 150 l2.2 2.4 l4.4 -5" stroke="#ff8163" stroke-width="1.6" />
+            </g>
+            <circle cx="150" cy="150" r="62" fill="url(#glow)" opacity="0.16" filter="url(#soft)" />
+            <circle cx="150" cy="150" r="46" fill="#121117" stroke="rgba(255,129,99,0.35)" stroke-width="1" />
+            <g transform="translate(150,150) scale(1.35)" stroke="#ff8163" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="0" cy="-6" r="6" />
+              <path d="M-10 12c0-5 4-9 10-9s10 4 10 9" />
+            </g>
+          </svg>
+        </div>
+        <div class="foot"><img src="../_brand/logo-massive.svg" alt="Massive" /></div>
+      </div>
+    </div>
+    <script src="../_lib/placeholders.js"></script>
+    <script>
+      // The title shrinks until it fits two lines; the ring card takes whatever height is left.
+      window.onFields = () => {
+        massivePlaceholders();
+        const title = document.querySelector(".title");
+        for (let size = 104; size >= 64; size -= 4) {
+          title.style.fontSize = `${size}px`;
+          if (title.offsetHeight <= size * 2 + 2) break;
+        }
+      };
+    </script>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

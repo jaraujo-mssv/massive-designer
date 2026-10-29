@@ -220,8 +220,8 @@ export default function App() {
         <header className="space-y-3 px-3 pt-4 pb-5 md:px-6 md:pt-8 md:pb-7">
           <h1 className="text-xl md:text-2xl">Merch</h1>
           <p className="max-w-3xl text-sm text-text-dim">
-            Print files for Massive buttons, pins and stickers: the logo, the mountain and It’s Massive. Each one is
-            sized to its vendor’s template, ready to upload.
+            Print files for Massive buttons, pins, stickers and pajamas: the logo, the mountain, It’s Massive and the
+            sleepy mountains. Each one is sized to its vendor’s template, ready to upload.
           </p>
           <a
             href={PROOF_PDF}

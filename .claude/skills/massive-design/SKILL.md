@@ -18,7 +18,7 @@ result. Every design follows `brand/BRAND.md`.
 | A deck, slides, a pitch or sponsorship presentation, a PowerPoint | Slides | `massive-deck` | copy the closest deck in `scripts/deck/` | `output/deck/<slug>.pdf`, `.pptx` |
 | A poster, flyer, one-pager, handout, business card, sign, badge, menu, document PDF | Print & PDF | `massive-print` | `npm run print:new <slug> "<Title>" -- --size=…` | `output/print/<slug>.pdf` |
 | A trade-show roll-up banner | Print & PDF | `massive-print` (Roll-up banners) | edit `scripts/banners/banners.config.mjs`, then `npm run banners:html` | `output/banners/<slug>.pdf` |
-| Buttons, pins, stickers | Print & PDF | `massive-print` (Merch) | edit `scripts/merch/merch.html`, then `npm run merch` | `public/merch-files/` |
+| Buttons, pins, stickers, pajamas | Print & PDF | `massive-print` (Merch) | edit `scripts/merch/merch.html`, then `npm run merch` | `public/merch-files/` |
 | A market map or a top-N ranking from a spreadsheet | No code | none | Market Map or Top List at https://massive-designer.vercel.app/ (or `npm run dev`, then `/market-map` or `/top-list`) | a JPG download |
 | A partnership announcement image, or a logo as a data URL | No code | none | the app's Partnership Post or Logo Encoder | a download |
 

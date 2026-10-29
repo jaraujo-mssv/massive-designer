@@ -1,6 +1,6 @@
 ---
 name: massive-print
-description: Make, edit or render a Massive print piece or designed PDF in this repo. Use when the user asks for a poster, flyer, one-pager, handout, leaflet, business card, table tent, name badge, sign, certificate, event menu, document or white paper as a PDF, an A4/A5/A3/letter or custom-size sheet, a trade-show roll-up banner, or merch (buttons, pins, stickers). Not for slide decks (massive-deck) or social images (massive-image). Covers the print pipeline (scripts/print), the older docs, one-pager and menu pipelines, roll-up banners, merch, rendering and where files go.
+description: Make, edit or render a Massive print piece or designed PDF in this repo. Use when the user asks for a poster, flyer, one-pager, handout, leaflet, business card, table tent, name badge, sign, certificate, event menu, document or white paper as a PDF, an A4/A5/A3/letter or custom-size sheet, a trade-show roll-up banner, or merch (buttons, pins, stickers, pajamas). Not for slide decks (massive-deck) or social images (massive-image). Covers the print pipeline (scripts/print), the older docs, one-pager and menu pipelines, roll-up banners, merch, rendering and where files go.
 ---
 
 # Massive print
@@ -19,7 +19,7 @@ read it first.
 | The compliance one-pager | `scripts/onepager/` (cream, legacy) | `npm run onepager` | `output/onepager/` |
 | The Jaipur dinner menu | `scripts/menu/` (cream, legacy) | `npm run menu` | `output/menu/` |
 | Trade-show roll-up banners, 85 × 200 cm | `scripts/banners/` | `npm run banners:html`, `npm run banners` | `output/banners/<slug>.pdf` |
-| Buttons, pins, stickers | `scripts/merch/merch.html` | `npm run merch` | `public/merch-files/` (committed) |
+| Buttons, pins, stickers, pajamas | `scripts/merch/merch.html` | `npm run merch` | `public/merch-files/` (committed) |
 | Slides | the `massive-deck` skill | | |
 
 Edit the legacy docs, one-pager and menu in place when asked, but start new pieces in `scripts/print/`, even one that
@@ -70,9 +70,14 @@ bleed). A new composition goes in `compositions.mjs`; `scripts/banners/_assets/`
 
 `scripts/merch/merch.html` is the artwork and the print proof (Letter landscape, actual size, with guides). Its header
 comment has each vendor's spec: the 1" button, the 1" printed pin, the 1.25" soft-enamel pin and the 10 × 5 cm
-stickers (`stickers/*.svg`). Read it before changing a design. `npm run merch` writes the PDFs, PNGs and SVGs to
-`public/merch-files/`, which the live Merch tab serves, so commit them. `npm run merch:mockups` makes desk photos
-through ElevenLabs and costs credits: run it only when asked.
+stickers (`stickers/*.svg`). The pajamas are made on Printful: two 1 × 1 m seamless prints (the logo's mountain, and
+the sleepy mountains in `pajamas/sleepy/`), each on the dark ground (White trim) and on white (Black trim), laid out
+on a lattice by the script at the end of the page, with front flats of Printful's seven garments. That script also
+makes their proof pages. A design's `data-dpi` sets its PNG's resolution (the prints are 150 dpi). Read the page
+before changing a design. `npm run merch` writes the PDFs, PNGs and SVGs to `public/merch-files/`, which the live
+Merch tab serves, so commit them. `npm run merch:printful` then cuts the prints into Printful's print files, one per
+placement of each garment (listed in `src/tools/merch/app/printful.ts`), in `output/printful/`, not committed.
+`npm run merch:mockups` makes desk photos through ElevenLabs and costs credits: run it only when asked.
 
 ## Workflow
 

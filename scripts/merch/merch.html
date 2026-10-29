@@ -21,9 +21,15 @@
     one orange, the logo gradient's midpoint. Black nickel plating.
   - Sticker, die-cut, 10 × 5 cm: no vendor yet. The four designs are the sticker files as they came
     (stickers/*.svg, 10 × 5 cm at 300 dpi), each cut to its own outline. render.mjs also copies them out as SVGs.
+  - Pajamas: Printful's all-over print garments (each one's print files are in src/tools/merch/app/printful.ts).
+    Two prints, the logo's mountain and the four sleepy mountains (pajamas/sleepy/*.png), each on the dark ground
+    with Printful's White trim and on white (the bare fabric, as white doesn't print) with Black trim. A print is a
+    1 × 1 m seamless repeat (a 150 dpi PNG, data-dpi, and a PDF), which `npm run merch:printful` cuts into the files
+    Printful takes; the flats are front views of its seven garments, at 1:10 on a 145 cm square. The proof pages
+    for them are made by the script at the end of the page.
 
   The art is drawn in hundredths of an inch: the round faces in a 100 × 100 box centred on 0,0, the enamel pins
-  125 wide. The round designs stay inside 0.8 in, within both vendors' safe lines.
+  125 wide. The round designs stay inside 0.8 in, within both vendors' safe lines. The pajamas are in millimetres.
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -118,6 +124,45 @@ html, body {
 html:not([data-only]) .sticker { background: #d6d1c7; }
 .cells.wrap { flex-wrap: wrap; max-width: 8.1in; }
 
+/* Pajamas: the print at actual size (1 m), the flats at 1:10 (145 cm). On the proof, all of them at 1:25.
+   The dark ground has Printful's White trim; the white ground is the bare fabric, with Black trim. */
+.pajama {
+  --ground: #0a0a0f;
+  --piping: #ffffff;
+  --seam: rgba(255, 255, 255, 0.3);
+  --inside: #17161d;
+  --logo: #ffffff;
+  width: calc(var(--real) / 25);
+  height: calc(var(--real) / 25);
+}
+.pajama[data-ground="white"] {
+  --ground: #ffffff;
+  --piping: #171615;
+  --seam: rgba(23, 22, 21, 0.3);
+  --inside: #ecebe9;
+  --logo: #171615;
+}
+.pajama.pattern { --real: 1000mm; --file: 1; }
+.pajama.flat { --real: 1450mm; --file: 0.1; }
+.pajama svg { width: 100%; height: 100%; }
+/* A print runs on past its metre, so the edge pixels of its PNG (1 m is 5905.5 px at 150 dpi) are the next repeat,
+   not the transparent page: no line where the repeats meet. The proof cuts it to its square. */
+html:not([data-only]) .pajama.pattern svg { overflow: hidden; }
+html:not([data-only]) .pajama.pattern[data-ground="white"] { outline: 0.5pt solid #d6d1c7; }
+.pajamas .cells { flex-wrap: wrap; max-width: 10in; row-gap: 0.16in; }
+.piece { fill: var(--ground); }
+/* White on white: the outline's outer half shows, as the print covers the piece */
+.pajama[data-ground="white"] .piece { stroke: rgba(23, 22, 21, 0.45); stroke-width: 3; }
+.seam, .stitch, .piping, .cord, .cord-edge, .drawstring, .drawstring-edge { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.seam { stroke: var(--seam); stroke-width: 3; }
+.stitch { stroke: var(--seam); stroke-width: 2.5; stroke-dasharray: 8 7; }
+.piping { stroke: var(--piping); stroke-width: 7; }
+/* A drawstring in the print's fabric, and Printful's joggers' white one */
+.cord-edge { stroke: var(--seam); stroke-width: 8; }
+.cord { stroke: var(--ground); stroke-width: 5; }
+.drawstring-edge { stroke: rgba(23, 22, 21, 0.35); stroke-width: 7.5; }
+.drawstring { stroke: #ffffff; stroke-width: 5; }
+
 /* ---------- One design (render.mjs) ----------
    Centred on a page of its own size. Chromium rounds a PDF page to about 1/150 in, so a round design's ground
    runs on past its edge and an enamel pin has a hairline of margin: the rounding never cuts into the art. */
@@ -133,6 +178,9 @@ html[data-only] .row:not(:has(.is-only)),
 html[data-only] .cell:not(:has(.is-only)) { display: none; }
 html[data-only] .round::before,
 html[data-only] .round::after { display: none; }
+html[data-only] .pajama { width: calc(var(--real) * var(--file)); height: calc(var(--real) * var(--file)); }
+/* A metre is wider than the window: the page grows round it, so the screenshot isn't cut */
+html[data-only] .proof.pajamas { width: max-content; height: max-content; min-width: 100vw; min-height: 100vh; overflow: visible; }
 </style>
 </head>
 <body>
@@ -186,6 +234,143 @@ html[data-only] .round::after { display: none; }
     <g id="enamel-tagline-text" font-family="Outfit" font-weight="900" font-size="25.44" text-anchor="middle">
       <text transform="translate(60.54 21.92) skewX(-12)">IT’S</text>
       <text transform="translate(60.54 46.34) skewX(-12)">MASSIVE</text>
+    </g>
+
+    <!-- Pajamas: front flats of Printful's all-over print garments, in mm, size M. The script copies each art's parts
+         (data-flat lists them, drawn in that order) and fills every .piece (a piece cut from the fabric) with that
+         art's print. data-turn turns the print (a sleeve's grain runs down the sleeve), data-shift moves it (a piece
+         cut on its own doesn't line up with its neighbours). Buttons and piping take the trim colour. -->
+
+    <!-- The pajama tops' collar, lapels, pocket and buttons: the collar, lapels and pocket are piped -->
+    <g id="flat-top-notched">
+      <!-- Inside the back neck, with the label (Printful's Branding) -->
+      <path d="M-54 18 Q0 34 54 18 L-12 300 Z" style="fill: var(--inside)" />
+      <rect x="-22" y="36" width="44" height="15" rx="1.5" style="fill: var(--ground); stroke: var(--seam); stroke-width: 1.5" />
+      <use href="#lockup" x="-17" y="41.57" width="34" height="3.86" style="fill: var(--logo)" />
+      <!-- Collar and lapels, round the neck opening; the wearer's left front laps over at -12 -->
+      <path class="piece" data-shift="31 47" fill-rule="evenodd" d="M-12 300 Q-95 250 -132 140 L-104 118 L-122 98 L-100 10 C-92 -18 -50 -28 0 -28 C50 -28 92 -18 100 10 L122 98 L104 118 L132 140 Q95 250 -12 300 Z M-54 18 Q0 34 54 18 L-12 300 Z" />
+      <!-- Chest pocket -->
+      <path class="piece" data-shift="58 23" d="M140 330 H250 V440 Q250 455 235 455 H155 Q140 455 140 440 Z" />
+      <path class="seam" d="M54 18 L-12 300 M-54 18 L-12 300 M140 330 V440 Q140 455 155 455 H235 Q250 455 250 440 V330" />
+      <path class="piping" d="M-12 300 Q-95 250 -132 140 L-104 118 L-122 98 L-100 10 C-92 -18 -50 -28 0 -28 C50 -28 92 -18 100 10 L122 98 L104 118 L132 140 Q95 250 -12 300 M140 330 H250" />
+      <g style="fill: var(--piping); stroke: var(--seam); stroke-width: 1.5">
+        <circle cx="0" cy="330" r="8" /><circle cx="0" cy="420" r="8" /><circle cx="0" cy="510" r="8" /><circle cx="0" cy="600" r="8" />
+      </g>
+    </g>
+
+    <!-- Long-sleeve pajama top (827): the front edge and cuffs piped too -->
+    <g id="flat-top-long">
+      <!-- Sleeves, 61 cm, hanging at 42° -->
+      <path class="piece" data-turn="-48 240 45" d="M240 45 L693.3 453.2 L609.7 546.1 L285 290 C252 262 236 140 240 45 Z" />
+      <path class="piece" data-turn="48 -240 45" d="M-240 45 L-693.3 453.2 L-609.7 546.1 L-285 290 C-252 262 -236 140 -240 45 Z" />
+      <!-- Body: 57 cm across the chest, 74.5 cm long -->
+      <path class="piece" d="M-85 0 L-240 45 C-236 140 -252 262 -285 290 L-285 745 L285 745 L285 290 C252 262 236 140 240 45 L85 0 Z" />
+      <path class="seam" d="M240 45 C236 140 252 262 285 290 M-240 45 C-236 140 -252 262 -285 290 M100 4.4 L240 45 M-100 4.4 L-240 45" />
+      <path class="stitch" d="M-280 722 H-20 M-4 722 H280" />
+      <path class="piping" d="M-12 300 V745 M652.4 416.4 L566.4 511.9 M-652.4 416.4 L-566.4 511.9" />
+    </g>
+
+    <!-- Short-sleeve pajama top (828): 24 cm sleeves, a curved hem, the front edge piped -->
+    <g id="flat-top-short">
+      <path class="piece" data-turn="-60 240 45" d="M240 45 L447.8 165 L352.8 329.5 L285 290 C252 262 236 140 240 45 Z" />
+      <path class="piece" data-turn="60 -240 45" d="M-240 45 L-447.8 165 L-352.8 329.5 L-285 290 C-252 262 -236 140 -240 45 Z" />
+      <path class="piece" d="M-85 0 L-240 45 C-236 140 -252 262 -285 290 L-285 665 C-285 692 -268 708 -240 711 Q-120 724 0 726 Q120 724 240 711 C268 708 285 692 285 665 L285 290 C252 262 236 140 240 45 L85 0 Z" />
+      <path class="seam" d="M240 45 C236 140 252 262 285 290 M-240 45 C-236 140 -252 262 -285 290 M100 4.4 L240 45 M-100 4.4 L-240 45" />
+      <path class="stitch" d="M-280 648 C-280 672 -262 686 -238 689 Q-120 702 -20 704 M-4 704 Q120 702 238 689 C262 686 280 672 280 648 M434.8 157.5 L339.8 322 M-434.8 157.5 L-339.8 322" />
+      <path class="piping" d="M-12 300 V725.8" />
+    </g>
+
+    <!-- Pajama pants (829): straight legs, an elastic waistband with a drawstring, piping down the side seams -->
+    <g id="flat-pants">
+      <!-- 53 cm across the hips, 104 cm long, a 21.5 cm hem -->
+      <path class="piece" d="M-200 55 L200 55 C240 100 262 160 265 230 L250 1040 L35 1040 L8 360 Q0 342 -8 360 L-35 1040 L-250 1040 L-265 230 C-262 160 -240 100 -200 55 Z" />
+      <!-- The elastic waistband, gathered: the dashes of one wide stroke are the gathers -->
+      <path class="piece" data-shift="44 18" d="M-205 0 H205 V58 H-205 Z" />
+      <path d="M-198 29 H198" style="fill: none; stroke: var(--seam); stroke-width: 44; stroke-dasharray: 2.5 10.5; opacity: 0.6" />
+      <!-- Waistband seam, centre front, pocket openings, fly, hems -->
+      <path class="seam" d="M-205 58 H205 M0 58 V342 M160 58 L238 178 M-160 58 L-238 178" />
+      <path class="stitch" d="M-38 58 V222 Q-38 262 0 268 M34.2 1020 H250.4 M-34.2 1020 H-250.4" />
+      <path class="piping" d="M195 62 C234 105 255 165 258 232 L243 1040 M-195 62 C-234 105 -255 165 -258 232 L-243 1040" />
+      <!-- Drawstring, in the print's fabric -->
+      <path class="cord-edge" d="M-14 28 C-22 75 -42 115 -34 165 M14 28 C22 85 36 125 26 176" />
+      <path class="cord" d="M-14 28 C-22 75 -42 115 -34 165 M14 28 C22 85 36 125 26 176" />
+      <g style="fill: var(--ground); stroke: var(--seam); stroke-width: 2">
+        <circle cx="-14" cy="28" r="5" /><circle cx="14" cy="28" r="5" />
+      </g>
+    </g>
+
+    <!-- Pajama shorts (830): the pants' waistband and side piping, 40 cm long, a turned-up hem -->
+    <g id="flat-shorts">
+      <path class="piece" d="M-200 55 L200 55 C240 92 262 140 268 200 L292 392 L32 405 L8 318 Q0 302 -8 318 L-32 405 L-292 392 L-268 200 C-262 140 -240 92 -200 55 Z" />
+      <path class="piece" data-shift="44 18" d="M-205 0 H205 V58 H-205 Z" />
+      <path d="M-198 29 H198" style="fill: none; stroke: var(--seam); stroke-width: 44; stroke-dasharray: 2.5 10.5; opacity: 0.6" />
+      <path class="seam" d="M-205 58 H205 M0 58 V302 M160 58 L238 160 M-160 58 L-238 160 M288 362 L31 375 M-288 362 L-31 375" />
+      <path class="stitch" d="M-38 58 V190 Q-38 228 0 236" />
+      <path class="piping" d="M195 62 C233 98 254 143 260 200 L283 392 M-195 62 C-233 98 -254 143 -260 200 L-283 392" />
+      <path class="cord-edge" d="M-14 28 C-22 70 -40 100 -32 140 M14 28 C22 76 34 106 24 150" />
+      <path class="cord" d="M-14 28 C-22 70 -40 100 -32 140 M14 28 C22 76 34 106 24 150" />
+      <g style="fill: var(--ground); stroke: var(--seam); stroke-width: 2">
+        <circle cx="-14" cy="28" r="5" /><circle cx="14" cy="28" r="5" />
+      </g>
+    </g>
+
+    <!-- Button shirt (659): a camp collar, short sleeves, no pocket, no piping. Boxy: 58 cm across the chest, 74 cm long. -->
+    <g id="flat-shirt">
+      <!-- Sleeves, 25 cm, out at 25° -->
+      <path class="piece" data-turn="-65 235 45" d="M235 45 L461.6 150.7 L372.8 341 L290 300 C262 272 240 170 235 45 Z" />
+      <path class="piece" data-turn="65 -235 45" d="M-235 45 L-461.6 150.7 L-372.8 341 L-290 300 C-262 272 -240 170 -235 45 Z" />
+      <path class="piece" d="M-90 0 L-235 45 C-240 170 -262 272 -290 300 L-290 740 L290 740 L290 300 C262 272 240 170 235 45 L90 0 Z" />
+      <!-- Inside the back neck, with the inside label -->
+      <path d="M-52 16 Q0 34 52 16 L-15 300 Z" style="fill: var(--inside)" />
+      <rect x="-23" y="34" width="46" height="15" rx="1.5" style="fill: var(--ground); stroke: var(--seam); stroke-width: 1.5" />
+      <use href="#lockup" x="-17" y="39.57" width="34" height="3.86" style="fill: var(--logo)" />
+      <!-- Camp collar and revers, round the neck opening; the wearer's left front laps over at -15 -->
+      <path class="piece" data-shift="41 57" fill-rule="evenodd" d="M-15 300 L-120 150 L-103 131 L-150 116 L-104 6 C-96 -14 -52 -24 0 -24 C52 -24 96 -14 104 6 L150 116 L103 131 L120 150 Z M-52 16 Q0 34 52 16 L-15 300 Z" />
+      <!-- Shoulders, armholes, the collar's edge and gorge, the front edge -->
+      <path class="seam" d="M106 5 L235 45 M-106 5 L-235 45 M235 45 C240 170 262 272 290 300 M-235 45 C-240 170 -262 272 -290 300 M-103 131 L-45 70 M103 131 L45 70 M52 16 L-15 300 M-52 16 L-15 300" />
+      <path class="seam" d="M-15 300 L-120 150 L-103 131 L-150 116 L-104 6 C-96 -14 -52 -24 0 -24 C52 -24 96 -14 104 6 L150 116 L103 131 L120 150 L-15 300 V740" />
+      <path class="stitch" d="M-284 718 H-23 M-7 718 H284 M448 144.4 L359.2 334.7 M-448 144.4 L-359.2 334.7" />
+      <g style="fill: var(--ground); stroke: var(--seam); stroke-width: 2.5">
+        <circle cx="0" cy="330" r="7.5" /><circle cx="0" cy="437" r="7.5" /><circle cx="0" cy="543" r="7.5" /><circle cx="0" cy="650" r="7.5" />
+      </g>
+    </g>
+
+    <!-- Joggers (400): slim, gathered into cuffs, a white drawstring. The waistband and cuffs are the print too. -->
+    <g id="flat-joggers">
+      <!-- 56 cm across the hips, 31 cm rise, 101 cm long -->
+      <path class="piece" d="M-192 50 L192 50 C240 95 276 160 282 245 L214 912 Q201 921 188 932 L62 932 Q49 922 40 912 L8 336 Q0 318 -8 336 L-40 912 Q-49 922 -62 932 L-188 932 Q-201 921 -214 912 L-282 245 C-276 160 -240 95 -192 50 Z" />
+      <!-- Waistband, 38 cm relaxed, and 8 cm cuffs, 12.5 cm across -->
+      <path class="piece" data-shift="44 18" d="M-192 0 H192 V52 H-192 Z" />
+      <path class="piece" data-shift="20 40" d="M62 932 H188 V1004 Q188 1010 182 1010 H68 Q62 1010 62 1004 Z M-62 932 H-188 V1004 Q-188 1010 -182 1010 H-68 Q-62 1010 -62 1004 Z" />
+      <path d="M-186 26 H186" style="fill: none; stroke: var(--seam); stroke-width: 40; stroke-dasharray: 2.5 10.5; opacity: 0.6" />
+      <!-- Waistband and cuff seams, centre front, pocket openings, the gathers into the cuffs -->
+      <path class="seam" d="M-192 52 H192 M62 932 H188 M-62 932 H-188 M0 52 V318 M168 52 L274 198 M-168 52 L-274 198" />
+      <path class="seam" style="stroke-width: 2.5" d="M90 930 q-3 -8 0 -16 M125 930 q-3 -8 0 -16 M160 930 q-3 -8 0 -16 M-90 930 q-3 -8 0 -16 M-125 930 q-3 -8 0 -16 M-160 930 q-3 -8 0 -16" />
+      <path class="stitch" d="M36 52 V222 Q36 258 2 266" />
+      <!-- The drawstring, through two eyelets -->
+      <path class="drawstring-edge" d="M-18 26 C-26 80 -44 120 -36 176 M18 26 C26 90 38 130 30 188" />
+      <path class="drawstring" d="M-18 26 C-26 80 -44 120 -36 176 M18 26 C26 90 38 130 30 188" />
+      <g style="fill: var(--ground); stroke: var(--seam); stroke-width: 2">
+        <circle cx="-18" cy="26" r="5" /><circle cx="18" cy="26" r="5" />
+      </g>
+    </g>
+
+    <!-- Wide-leg joggers (784): wide straight legs, a white drawstring, the outside label on the wearer's left hip -->
+    <g id="flat-joggers-wide">
+      <!-- 60 cm across the hips, 105 cm long, a 28 cm hem -->
+      <path class="piece" d="M-205 60 L205 60 C250 105 280 170 290 250 L305 1050 L25 1050 L8 380 Q0 362 -8 380 L-25 1050 L-305 1050 L-290 250 C-280 170 -250 105 -205 60 Z" />
+      <path class="piece" data-shift="44 18" d="M-210 0 H210 V62 H-210 Z" />
+      <path d="M-203 31 H203" style="fill: none; stroke: var(--seam); stroke-width: 48; stroke-dasharray: 2.5 10.5; opacity: 0.6" />
+      <path class="seam" d="M-210 62 H210 M0 62 V362 M165 62 L262 200 M-165 62 L-262 200" />
+      <path class="stitch" d="M-40 62 V230 Q-40 270 0 276 M27 1028 H304.5 M-27 1028 H-304.5" />
+      <!-- The outside label, 3 × 3 in -->
+      <rect x="92" y="96" width="76" height="76" rx="2" style="fill: var(--ground); stroke: var(--seam); stroke-width: 1.5" />
+      <use href="#lockup" x="100" y="130.6" width="60" height="6.8" style="fill: var(--logo)" />
+      <path class="drawstring-edge" d="M-16 30 C-24 85 -46 130 -38 186 M16 30 C24 95 40 140 30 200" />
+      <path class="drawstring" d="M-16 30 C-24 85 -46 130 -38 186 M16 30 C24 95 40 140 30 200" />
+      <g style="fill: var(--ground); stroke: var(--seam); stroke-width: 2">
+        <circle cx="-16" cy="30" r="5" /><circle cx="16" cy="30" r="5" />
+      </g>
     </g>
   </defs>
 </svg>
@@ -280,6 +465,8 @@ html[data-only] .round::after { display: none; }
   </section>
 </main>
 
+<!-- The pajama pages, one per print and ground, are made by the script below -->
+
 <script>
   // The globe behind the round logos: an orthographic sphere of radius 43 (0.86 in across), tipped 20° toward the
   // viewer and turned 15°, with meridians and parallels every 30° (the front half only) and a node at some crossings.
@@ -337,6 +524,164 @@ html[data-only] .round::after { display: none; }
         r: 1.3,
         style: "fill: #f38165; stroke: var(--bg); stroke-width: 0.8; paint-order: stroke",
       });
+    }
+  })();
+
+  // The pajamas: their proof pages, the flats, and the prints that fill them. In mm.
+  (() => {
+    const SVG = "http://www.w3.org/2000/svg";
+
+    // Printful's garments, as src/tools/merch/app/printful.ts names them: the parts of each flat, and its viewBox's
+    // top (a flat is centred on a 1450 mm square)
+    const GARMENTS = [
+      { id: "top-long", name: "Long-sleeve top", parts: "flat-top-long flat-top-notched", top: -366 },
+      { id: "top-short", name: "Short-sleeve top", parts: "flat-top-short flat-top-notched", top: -376 },
+      { id: "pants", name: "Pants", parts: "flat-pants", top: -205 },
+      { id: "shorts", name: "Shorts", parts: "flat-shorts", top: -523 },
+      { id: "shirt", name: "Button shirt", parts: "flat-shirt", top: -367 },
+      { id: "joggers", name: "Joggers", parts: "flat-joggers", top: -220 },
+      { id: "joggers-wide", name: "Wide-leg joggers", parts: "flat-joggers-wide", top: -200 },
+    ];
+    const GROUNDS = { dark: "Dark · Printful’s White trim", white: "White · the bare fabric, Black trim" };
+
+    // The prints. Each sits on a lattice: point (a, b) is at a·u + b·v, and takes the motifs of rows[a mod n], each at
+    // its x, y from the point. A metre across and down are both whole steps of the lattice (and of the rows' cycle),
+    // so the 1 m files tile seamlessly.
+    const PRINTS = {
+      // The logo's mountain, 44 mm wide, in a checkerboard: 125 mm apart along a row, each row 31.25 mm below the
+      // last and moved along by half that
+      mountain: {
+        name: "Mountain",
+        u: [125, 0],
+        v: [62.5, 31.25],
+        rows: [[{ href: "#icon", x: -22, y: -8.73, width: 44, height: 17.46 }]],
+      },
+      // The four sleepy mountains where the original pattern has them, in its pixels: one repeat is 4504 × 1510 px,
+      // printed at a third of a metre across and a ninth down. Its first row takes the dream, zzz, nightcap and sheep
+      // in turn; the second is the same, moved by ROW. `px` is the original's cut of each (8 px of ground round it),
+      // `ratio` the PNG's height over its width. The motifs come out about 5 cm wide.
+      sleepy: (() => {
+        const REPEAT = [4504, 1510];
+        const ROW = [1840, 755];
+        const SIZE = [1000 / 3, 1000 / 9];
+        const MM = SIZE[0] / REPEAT[0];
+        const FIRST = [
+          { href: "pajamas/sleepy/dream.png", at: [46, 26], px: [731, 597], ratio: 652 / 800 },
+          { href: "pajamas/sleepy/zzz.png", at: [1180, 63], px: [729, 543], ratio: 591 / 800 },
+          { href: "pajamas/sleepy/cap.png", at: [2276, 151], px: [686, 461], ratio: 532 / 800 },
+          { href: "pajamas/sleepy/sheep.png", at: [3384, 231], px: [707, 443], ratio: 495 / 800 },
+        ];
+        const cell = [...FIRST, ...FIRST.map((m) => ({ ...m, at: [m.at[0] + ROW[0], m.at[1] + ROW[1]] }))].map((m) => {
+          const width = (m.px[0] - 16) * MM;
+          const height = width * m.ratio;
+          const cx = ((m.at[0] + m.px[0] / 2) * SIZE[0]) / REPEAT[0];
+          const cy = ((m.at[1] + m.px[1] / 2) * SIZE[1]) / REPEAT[1];
+          return { href: m.href, x: cx - width / 2, y: cy - height / 2, width, height };
+        });
+        return { name: "Sleepy", u: [SIZE[0], 0], v: [0, SIZE[1]], rows: [cell] };
+      })(),
+    };
+
+    const el = (tag, attrs) => {
+      const node = document.createElementNS(SVG, tag);
+      for (const [name, value] of Object.entries(attrs)) node.setAttribute(name, value);
+      return node;
+    };
+
+    // A proof page per print and ground: the print, then the garments, at 1:25
+    for (const [print, { name }] of Object.entries(PRINTS)) {
+      for (const [ground, label] of Object.entries(GROUNDS)) {
+        const art = (kind, file, dpi, svg) =>
+          `<div class="art pajama ${kind}" data-file="pajamas-${print}-${ground}-${file}" data-print="${print}" data-ground="${ground}" data-dpi="${dpi}">${svg}</div>`;
+        const cells = [
+          `<figure class="cell">${art("pattern", "print", 150, '<svg viewBox="0 0 1000 1000"><rect class="piece" x="-50" y="-50" width="1100" height="1100" /></svg>')}<figcaption>Print · 1 × 1 m</figcaption></figure>`,
+          ...GARMENTS.map(
+            (g) =>
+              `<figure class="cell">${art("flat", g.id, 300, `<svg viewBox="-725 ${g.top} 1450 1450" data-flat="${g.parts}"></svg>`)}<figcaption>${g.name}</figcaption></figure>`,
+          ),
+        ];
+        const page = document.createElement("main");
+        page.className = "proof pajamas";
+        page.innerHTML = `
+          <header class="proof-head"><h1>Massive merch</h1><p class="legend">1:25</p></header>
+          <section class="row">
+            <p class="row-label"><b>Pajamas · ${name} · ${label}</b> · the print, a 1 × 1 m seamless repeat, and Printful’s all-over print garments, front views</p>
+            <div class="cells">${cells.join("")}</div>
+          </section>`;
+        document.currentScript.before(page);
+      }
+    }
+
+    for (const svg of document.querySelectorAll("svg[data-flat]")) {
+      for (const part of svg.dataset.flat.split(" ")) {
+        const flat = document.getElementById(part).cloneNode(true);
+        flat.removeAttribute("id");
+        svg.appendChild(flat);
+      }
+    }
+
+    let clips = 0;
+    for (const piece of document.querySelectorAll(".art .piece")) {
+      const print = PRINTS[piece.closest("[data-print]").dataset.print];
+      const [turn, px, py] = (piece.dataset.turn ?? "0 0 0").split(" ").map(Number);
+      const [sx, sy] = (piece.dataset.shift ?? "0 0").split(" ").map(Number);
+
+      // The piece's centre in the print's own coordinates (undo the turn, then the shift), and a radius that covers it
+      const box = piece.getBBox();
+      const a = (-turn * Math.PI) / 180;
+      const dx = box.x + box.width / 2 - px;
+      const dy = box.y + box.height / 2 - py;
+      const cx = px + dx * Math.cos(a) - dy * Math.sin(a) - sx;
+      const cy = py + dx * Math.sin(a) + dy * Math.cos(a) - sy;
+      const r = Math.hypot(box.width, box.height) / 2 + 20;
+
+      // Every lattice point with a motif within r of the centre: the range of a and b over the corners of that
+      // square, moved by how far the motifs reach from their point
+      const { u, v, rows } = print;
+      const motifs = rows.flat();
+      const reach = [
+        Math.min(...motifs.map((m) => m.x)),
+        Math.min(...motifs.map((m) => m.y)),
+        Math.max(...motifs.map((m) => m.x + m.width)),
+        Math.max(...motifs.map((m) => m.y + m.height)),
+      ];
+      const det = u[0] * v[1] - u[1] * v[0];
+      const corners = [
+        [cx - r - reach[2], cy - r - reach[3]],
+        [cx + r - reach[0], cy - r - reach[3]],
+        [cx - r - reach[2], cy + r - reach[1]],
+        [cx + r - reach[0], cy + r - reach[1]],
+      ];
+      const as = corners.map(([x, y]) => (x * v[1] - y * v[0]) / det);
+      const bs = corners.map(([x, y]) => (u[0] * y - u[1] * x) / det);
+      const fabric = el("g", { transform: `rotate(${turn} ${px} ${py}) translate(${sx} ${sy})` });
+      for (let a = Math.floor(Math.min(...as)); a <= Math.ceil(Math.max(...as)); a++) {
+        for (let b = Math.floor(Math.min(...bs)); b <= Math.ceil(Math.max(...bs)); b++) {
+          const x = a * u[0] + b * v[0];
+          const y = a * u[1] + b * v[1];
+          for (const m of rows[((a % rows.length) + rows.length) % rows.length]) {
+            fabric.appendChild(
+              el(m.href.startsWith("#") ? "use" : "image", {
+                href: m.href,
+                x: (x + m.x).toFixed(2),
+                y: (y + m.y).toFixed(2),
+                width: m.width.toFixed(2),
+                height: m.height.toFixed(2),
+              }),
+            );
+          }
+        }
+      }
+
+      // Clipped to the piece's outline
+      const clip = el("clipPath", { id: `pajama-clip-${clips++}` });
+      const outline = piece.cloneNode();
+      outline.removeAttribute("class");
+      outline.setAttribute("clip-rule", piece.getAttribute("fill-rule") ?? "nonzero");
+      clip.appendChild(outline);
+      const clipped = el("g", { "clip-path": `url(#${clip.id})` });
+      clipped.appendChild(fabric);
+      piece.after(clip, clipped);
     }
   })();
 </script>

@@ -19,6 +19,7 @@
     "menu": "node scripts/menu/render.mjs",
     "merch": "node scripts/merch/render.mjs",
     "merch:mockups": "node scripts/merch/mockups.mjs",
+    "merch:printful": "node scripts/merch/printful.mjs",
     "print": "node scripts/print/render.mjs",
     "print:new": "node scripts/print/new.mjs",
     "deck": "node scripts/deck/render.mjs",

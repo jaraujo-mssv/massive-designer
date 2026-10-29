@@ -3,6 +3,8 @@
  * public/merch-files/ by `npm run merch`: a design's `file` is its data-file there.
  */
 
+import { PRINTFUL_GARMENTS } from "./printful";
+
 export interface MerchDesign {
   file: string;
   name: string;
@@ -48,6 +50,26 @@ function round(product: string): MerchDesign[] {
   ]);
 }
 
+/** A pajama print on both grounds, then each Printful garment, as merch.html names them: pajamas-<print>-<ground>-<file> */
+function pajamas(print: string): MerchDesign[] {
+  return ["dark", "white"].flatMap((ground) => {
+    const colour = ground === "dark" ? "Dark" : "White";
+    return [
+      { file: `pajamas-${print}-${ground}-print`, name: `Print · ${colour}` },
+      ...PRINTFUL_GARMENTS.map((garment) => ({ file: `pajamas-${print}-${ground}-${garment.id}`, name: `${garment.short} · ${colour}` })),
+    ];
+  });
+}
+
+const PRINTFUL = { name: "Printful", url: "https://www.printful.com/custom-pajamas" };
+const PAJAMA_SPECS = [
+  `${PRINTFUL_GARMENTS.length} all-over print garments`,
+  "Dark: White trim · White: Black trim",
+  "npm run merch:printful",
+];
+const PAJAMA_NOTES =
+  "Printful prints the fabric for each order, then cuts and sews it. npm run merch:printful writes every garment’s print files to output/printful/<print>-<ground>/<garment>/, one per placement: open the garment on Printful, upload each file into the placement of the same name, and pick the trim (White on dark, Black on white; the shirt’s and joggers’ thread matches the ground). The Design Maker then makes the mockups. The dark ground is printed onto white fabric, so a stretched seam can show a little white.";
+
 export const PRODUCTS: MerchProduct[] = [
   {
     id: "button",
@@ -92,5 +114,21 @@ export const PRODUCTS: MerchProduct[] = [
       { file: "sticker-halftone-black", name: "Halftone · Black" },
       { file: "sticker-halftone-white", name: "Halftone · White" },
     ],
+  },
+  {
+    id: "pajamas-mountain",
+    name: "Pajamas · Mountain",
+    vendor: PRINTFUL,
+    specs: PAJAMA_SPECS,
+    notes: `The logo’s mountain, in a checkerboard. ${PAJAMA_NOTES}`,
+    designs: pajamas("mountain"),
+  },
+  {
+    id: "pajamas-sleepy",
+    name: "Pajamas · Sleepy",
+    vendor: PRINTFUL,
+    specs: PAJAMA_SPECS,
+    notes: `The four sleepy mountains: a dream, a zzzZ, a nightcap and a sheep. ${PAJAMA_NOTES}`,
+    designs: pajamas("sleepy"),
   },
 ];

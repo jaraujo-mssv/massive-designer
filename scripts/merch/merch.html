@@ -21,6 +21,12 @@
     one orange, the logo gradient's midpoint. Black nickel plating.
   - Sticker, die-cut, 10 × 5 cm: no vendor yet. The four designs are the sticker files as they came
     (stickers/*.svg, 10 × 5 cm at 300 dpi), each cut to its own outline. render.mjs also copies them out as SVGs.
+  - T-shirt: Printful, Comfort Colors 1717 (garment-dyed heavyweight cotton) in Black (#1b1b1c) or Terracotta
+    (#ff9364, the logo's coral), printed DTG. Front and back are 12 × 16 in print areas on every size; each file
+    is the whole area (transparent, 300 dpi), with the design where it goes. The front is the halftone sticker
+    without its backing (tees/*.svg, made from stickers/sticker-halftone-black.svg: its dots are holes, so they
+    show the shirt), tilted; on Terracotta the mountain is white and the letters ink. The back is 404 / EXCUSE NOT
+    FOUND, set as the It's Massive design, the gap round the letters cut out of the mountain.
   - Pajamas: Printful's all-over print garments (each one's print files are in src/tools/merch/app/printful.ts).
     Two prints, the logo's mountain and the four sleepy mountains (pajamas/sleepy/*.png), each on the dark ground
     with Printful's White trim and on white (the bare fabric, as white doesn't print) with Black trim. A print is a
@@ -124,6 +130,17 @@ html, body {
 html:not([data-only]) .sticker { background: #d6d1c7; }
 .cells.wrap { flex-wrap: wrap; max-width: 8.1in; }
 
+/* T-shirt: the 12 × 16 in print area, at 1:5 on the proof, on the shirt's colour, its edge dashed */
+.tee { position: relative; overflow: hidden; width: calc(12in / 5); height: calc(16in / 5); }
+.tee.black { --shirt: #1b1b1c; --letters: #ffffff; }
+.tee.orange { --shirt: #ff9364; --letters: #0a0a0f; --mountain: #ffffff; }
+html:not([data-only]) .tee { background: var(--shirt); outline: 0.6pt dashed var(--guide); }
+.tee svg { width: 100%; height: 100%; }
+/* The front: the sticker's artboard 13.4 in wide, so the design is about 10.5 in; tilted 10°, its top 1 in below
+   the area's */
+.tee-front { position: absolute; left: -6%; top: 0; width: 112%; transform: rotate(-10deg); }
+.tees .cells { gap: 0.12in; }
+
 /* Pajamas: the print at actual size (1 m), the flats at 1:10 (145 cm). On the proof, all of them at 1:25.
    The dark ground has Printful's White trim; the white ground is the bare fabric, with Black trim. */
 .pajama {
@@ -179,6 +196,7 @@ html[data-only] .cell:not(:has(.is-only)) { display: none; }
 html[data-only] .round::before,
 html[data-only] .round::after { display: none; }
 html[data-only] .pajama { width: calc(var(--real) * var(--file)); height: calc(var(--real) * var(--file)); }
+html[data-only] .tee { width: 12in; height: 16in; }
 /* A metre is wider than the window: the page grows round it, so the screenshot isn't cut */
 html[data-only] .proof.pajamas { width: max-content; height: max-content; min-width: 100vw; min-height: 100vh; overflow: visible; }
 </style>
@@ -234,6 +252,24 @@ html[data-only] .proof.pajamas { width: max-content; height: max-content; min-wi
     <g id="enamel-tagline-text" font-family="Outfit" font-weight="900" font-size="25.44" text-anchor="middle">
       <text transform="translate(60.54 21.92) skewX(-12)">IT’S</text>
       <text transform="translate(60.54 46.34) skewX(-12)">MASSIVE</text>
+    </g>
+
+    <!-- The T-shirt's back, in hundredths of an inch, centred on 0 at the mountain's peak: 404 / EXCUSE NOT FOUND,
+         set as the It's Massive design (Outfit Black, slanted with a skew from each line's baseline, over the
+         mountain). The letters take --letters, the mountain --mountain; round the letters, a 0.12 in gap is cut out
+         of the mountain, so the shirt shows. -->
+    <g id="tee-back-text" font-family="Outfit" font-weight="900" text-anchor="middle">
+      <text font-size="300" transform="translate(-22 300) skewX(-12)">404</text>
+      <text font-size="96" transform="translate(-7 432) skewX(-12)">EXCUSE NOT FOUND</text>
+    </g>
+    <mask id="tee-back-gap" maskUnits="userSpaceOnUse" x="-600" y="-100" width="1200" height="700">
+      <rect x="-600" y="-100" width="1200" height="700" fill="#ffffff" />
+      <use href="#tee-back-text" style="fill: #000000; stroke: #000000; stroke-width: 24; stroke-linejoin: round" />
+    </mask>
+    <g id="tee-back">
+      <!-- The mask goes on a group: on the use, Chromium moves it by the use's x -->
+      <g mask="url(#tee-back-gap)"><use href="#icon" x="-450" y="0" width="900" height="357.2" /></g>
+      <use href="#tee-back-text" style="fill: var(--letters)" />
     </g>
 
     <!-- Pajamas: front flats of Printful's all-over print garments, in mm, size M. The script copies each art's parts
@@ -461,6 +497,23 @@ html[data-only] .proof.pajamas { width: max-content; height: max-content; min-wi
       <figure class="cell"><div class="art sticker" data-file="sticker-logo-white"><img src="stickers/sticker-logo-white.svg" alt="" /></div><figcaption>Logo · White</figcaption></figure>
       <figure class="cell"><div class="art sticker" data-file="sticker-halftone-black"><img src="stickers/sticker-halftone-black.svg" alt="" /></div><figcaption>Halftone · Black</figcaption></figure>
       <figure class="cell"><div class="art sticker" data-file="sticker-halftone-white"><img src="stickers/sticker-halftone-white.svg" alt="" /></div><figcaption>Halftone · White</figcaption></figure>
+    </div>
+  </section>
+</main>
+
+<main class="proof tees">
+  <header class="proof-head">
+    <h1>Massive merch</h1>
+    <p class="legend">1:5<span class="cut">Print area, 12 × 16 in</span></p>
+  </header>
+
+  <section class="row">
+    <p class="row-label"><b>T-shirt</b> · Printful, Comfort Colors 1717 · DTG, front and back · each file is the whole print area, on a transparent ground</p>
+    <div class="cells">
+      <figure class="cell"><div class="art tee black" data-file="tee-front-black" data-dpi="300"><img class="tee-front" src="tees/halftone-black.svg" alt="" /></div><figcaption>Front · Black</figcaption></figure>
+      <figure class="cell"><div class="art tee black" data-file="tee-back-black" data-dpi="300"><svg viewBox="0 0 1200 1600"><use href="#tee-back" x="600" y="150" /></svg></div><figcaption>Back · Black</figcaption></figure>
+      <figure class="cell"><div class="art tee orange" data-file="tee-front-orange" data-dpi="300"><img class="tee-front" src="tees/halftone-orange.svg" alt="" /></div><figcaption>Front · Terracotta</figcaption></figure>
+      <figure class="cell"><div class="art tee orange" data-file="tee-back-orange" data-dpi="300"><svg viewBox="0 0 1200 1600"><use href="#tee-back" x="600" y="150" /></svg></div><figcaption>Back · Terracotta</figcaption></figure>
     </div>
   </section>
 </main>

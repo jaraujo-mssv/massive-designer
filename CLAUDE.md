@@ -95,7 +95,7 @@ npm run preview      # serves dist/, with the image proxy
 | `public/video-projects/`, `scripts/video/` | The Video tool (HyperFrames). LinkedIn GIFs are projects with `"output": "gif"` (`gif:new`, `gif:render`, loop kit in `_gif/`). |
 | `scripts/print/` | Any print piece or designed PDF at any page size (`print:new`, `print`), on `print.css`. |
 | `scripts/deck/`, `scripts/docs/`, `scripts/onepager/`, `scripts/menu/`, `scripts/banners/` | HTML → PDF/PNG/PPTX pipelines, no UI. Docs, one-pager and menu are legacy; new print pieces go in `scripts/print/`. |
-| `scripts/merch/`, `public/merch-files/` | Button, pin, sticker and pajama artwork (`merch.html`, vendor specs in its header; sticker SVGs in `stickers/`, the sleepy pajama characters in `pajamas/sleepy/`) and its renders, for the Merch tab. |
+| `scripts/merch/`, `public/merch-files/` | Button, pin, sticker, T-shirt and pajama artwork (`merch.html`, vendor specs in its header; sticker SVGs in `stickers/`, the T-shirt fronts made from one in `tees/`, the sleepy pajama characters in `pajamas/sleepy/`) and its renders, for the Merch tab. |
 | `content/` | Campaign markdown for the Content tool. |
 | `docs/plans/` | One design doc per tool. Where a doc and the code disagree, the code wins. |
 | `.claude/skills/` | `massive-design` (the front door: routes any design request), then `massive-image`, `massive-video`, `massive-gif`, `massive-deck`, `massive-print`. Read the matching one before working on images, videos, GIFs, decks or print. |

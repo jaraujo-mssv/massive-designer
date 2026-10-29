@@ -8,6 +8,8 @@ import { PRINTFUL_GARMENTS } from "./printful";
 export interface MerchDesign {
   file: string;
   name: string;
+  /** Shown on this colour (the shirt's) instead of the checkerboard */
+  ground?: string;
 }
 
 export interface MerchProduct {
@@ -113,6 +115,23 @@ export const PRODUCTS: MerchProduct[] = [
       { file: "sticker-logo-white", name: "Logo · White" },
       { file: "sticker-halftone-black", name: "Halftone · Black" },
       { file: "sticker-halftone-white", name: "Halftone · White" },
+    ],
+  },
+  {
+    id: "tee",
+    name: "T-shirt",
+    vendor: {
+      name: "Printful, Comfort Colors 1717",
+      url: "https://www.printful.com/custom/mens/t-shirts/unisex-garment-dyed-heavyweight-shirt-comfort-colors-1717",
+    },
+    specs: ["Black or Terracotta, S–4XL", "Front and back, 12 × 16 in", "PNG at 300 dpi, DTG"],
+    notes:
+      "Heavyweight garment-dyed cotton. On Printful, pick Black or Terracotta (the logo’s coral) and upload the matching PNGs to Front print and Back print: each file is the whole 12 × 16 in area, so leave it where it lands. The front is the halftone sticker without its outline; the back is 404 / Excuse not found, set like It’s Massive. The front print is included in the price; the back adds $5.95 a shirt.",
+    designs: [
+      { file: "tee-front-black", name: "Front · Black", ground: "#1b1b1c" },
+      { file: "tee-back-black", name: "Back · Black", ground: "#1b1b1c" },
+      { file: "tee-front-orange", name: "Front · Terracotta", ground: "#ff9364" },
+      { file: "tee-back-orange", name: "Back · Terracotta", ground: "#ff9364" },
     ],
   },
   {

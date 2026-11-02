@@ -8,7 +8,7 @@
 2. Build the link: `https://massive-designer.vercel.app/images?template=<id>&<param>=<value>&…`
    - Use only that image's params. Leave a param out to keep its default.
    - URL-encode every value (a space is %20).
-   - Text: as it should read, up to 300 characters. Select: one of the listed values. Toggle: true or false.
+   - Text: as it should read, up to 300 characters; %0A is a line break. Select: one of the listed values. Toggle: true or false. Slider: a number in its range.
    - Photo: a public link to the image file (JPG, PNG, WebP, GIF, AVIF or SVG, up to 15 MB), not a page that shows it. Share pages from Unsplash, Google Drive or Dropbox (`dl=0`) won't work.
 3. If the person attached the photo or has it on their computer, leave the photo param out and tell them: "Open the link and paste or drop your photo into the Photo field."
 4. Give the person the link, as a plain link (not a markdown image). It opens the design in Massive Designer, filled in; they check the preview and click Download JPG.
@@ -139,9 +139,10 @@ id `hiring-photo-square` · 1080×1080 · hiring · template
 The square hiring post: “We’re hiring” and the role on a red brush stroke, on a cream wash beside the photo, and a handwritten note with an arrow. Fill in the role and the note, and pick one of the hiring photos (../_hiring/) or upload one; ../_hiring/hiring.js fits the wash, the photo and the arrow to it.
 
 Params:
-- `photo`: Photo. A direct https:// link to an image, or one of the design's photos by name: `Home office`, `Standing call`, `Window seat (SF)`, `Standing desk`, `Coffee at the desk`, `At an event`, `Leaning back`, `Home lab`, `Café`, `On the sofa`, `Balcony abroad`, `Kitchen at sunrise`, `Hammock`; default: the design's own. Pick one of the hiring photos, or upload your own: subject on the right, an empty bright left side.
+- `photo`: Photo. A direct https:// link to an image, or one of the design's photos by name: `Home office`, `Standing call`, `Window seat (SF)`, `Standing desk`, `Coffee at the desk`, `At an event`, `Leaning back`, `Home lab`, `Café`, `On the sofa`, `Balcony abroad`, `Kitchen at sunrise`, `Hammock`, `Event ambassador (SF)`, `Blank playbook`; default: the design's own. Pick one of the hiring photos, or upload your own: subject on the right, an empty bright left side.
 - `headline`: Headline. Text; default "We’re hiring".
-- `role`: Role. Text; default "Writer in Residence". On the red stroke; up to two lines, it shrinks to fit.
+- `role`: Role. Text; default "Writer in Residence". On the red stroke; it shrinks to fit. Enter starts a new line.
+- `gap`: Gap. A number from -40 to 100 px; default 0. Space between the headline and the red stroke.
 - `aside`: Handwritten note. Text; default "Pajamas: approved.". A short joke about the photo, like “Socks: mismatched.”; the arrow points into the photo.
 - `showAside`: Show the note. True or false; default true.
 
@@ -278,9 +279,10 @@ id `hiring-we-hired` · 1080×1080 · hiring · template
 Closes the loop on a role post once it is filled: “We hired” and the role on the red brush stroke, beside the photo, with a handwritten note; follow it with the person’s Welcome to Massive card. Source: welcome-template (Franklin Uche, Community Lead).
 
 Params:
-- `photo`: Photo. A direct https:// link to an image, or one of the design's photos by name: `Home office`, `Standing call`, `Window seat (SF)`, `Standing desk`, `Coffee at the desk`, `At an event`, `Leaning back`, `Home lab`, `Café`, `On the sofa`, `Balcony abroad`, `Kitchen at sunrise`, `Hammock`; default: the design's own. Pick one of the hiring photos, or upload your own: subject on the right, an empty bright left side.
+- `photo`: Photo. A direct https:// link to an image, or one of the design's photos by name: `Home office`, `Standing call`, `Window seat (SF)`, `Standing desk`, `Coffee at the desk`, `At an event`, `Leaning back`, `Home lab`, `Café`, `On the sofa`, `Balcony abroad`, `Kitchen at sunrise`, `Hammock`, `Event ambassador (SF)`, `Blank playbook`; default: the design's own. Pick one of the hiring photos, or upload your own: subject on the right, an empty bright left side.
 - `headline`: Headline. Text; default "We hired". Keep it short; a long word shrinks to stay clear of the photo.
 - `role`: Role. Text; default "Community Lead". The role that was filled, as it was posted; on the red stroke, up to two lines, it shrinks to fit.
+- `gap`: Gap. A number from -40 to 100 px; default 0. Space between the headline and the red stroke.
 - `aside`: Handwritten note. Text; default "Desk: taken.". A short joke about the photo, like “Desk: taken.”; the arrow points into the photo.
 - `showAside`: Show the note. True or false; default true. Hide the note and its arrow.
 
@@ -439,7 +441,9 @@ Finished designs, which can also be re-rendered with changes. Each link lists th
 - Hiring: Account Executive (San Francisco) (`hiring-account-executive-sf-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-account-executive-sf-square
 - Hiring: All open roles (`hiring-open-roles-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-open-roles-square
 - Hiring: Benefits (`hiring-benefits-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-benefits-square
+- Hiring: Event Ambassador (San Francisco) (`hiring-event-ambassador-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-event-ambassador-square
 - Hiring: GTM Representative (Field & Events) (`hiring-gtm-field-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-gtm-field-square
+- Hiring: Operations Manager (`hiring-operations-manager-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-operations-manager-square
 - Hiring: Security Researcher (Junior) (`hiring-security-researcher-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-security-researcher-square
 - Hiring: Senior Backend Engineer (Proxy & Infra) (`hiring-backend-engineer-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-backend-engineer-square
 - Hiring: Senior Data Engineer (Pipelines & Architecture) (`hiring-data-engineer-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-data-engineer-square

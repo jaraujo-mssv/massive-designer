@@ -1,0 +1,127 @@
+{
+  "id": "hiring-operations-manager-square",
+  "title": "Hiring: Operations Manager",
+  "description": "Operations Manager: Massive's first operations owner. Contracts, renewals and spend decisions, with no playbook to inherit: create the playbook and the systems.",
+  "group": "massive",
+  "category": "hiring",
+  "series": "Open roles",
+  "status": "ready",
+  "tags": [
+    "hiring",
+    "careers",
+    "open role",
+    "operations manager"
+  ],
+  "source": "https://www.joinmassive.com/careers/",
+  "width": 1080,
+  "height": 1080,
+  "fields": [
+    {
+      "id": "photo",
+      "label": "Photo",
+      "type": "image",
+      "default": "../_hiring/ops-playbook.webp",
+      "options": [
+        {
+          "value": "../_hiring/home-office.webp",
+          "label": "Home office"
+        },
+        {
+          "value": "../_hiring/standing-call.webp",
+          "label": "Standing call"
+        },
+        {
+          "value": "../_hiring/window-seat-sf.webp",
+          "label": "Window seat (SF)"
+        },
+        {
+          "value": "../_hiring/standing-desk.webp",
+          "label": "Standing desk"
+        },
+        {
+          "value": "../_hiring/coffee-desk.webp",
+          "label": "Coffee at the desk"
+        },
+        {
+          "value": "../_hiring/event-handshake.webp",
+          "label": "At an event"
+        },
+        {
+          "value": "../_hiring/leaning-back.webp",
+          "label": "Leaning back"
+        },
+        {
+          "value": "../_hiring/home-lab.webp",
+          "label": "Home lab"
+        },
+        {
+          "value": "../_hiring/cafe.webp",
+          "label": "Café"
+        },
+        {
+          "value": "../_hiring/sofa.webp",
+          "label": "On the sofa"
+        },
+        {
+          "value": "../_hiring/balcony-abroad.webp",
+          "label": "Balcony abroad"
+        },
+        {
+          "value": "../_hiring/kitchen-sunrise.webp",
+          "label": "Kitchen at sunrise"
+        },
+        {
+          "value": "../_hiring/hammock.webp",
+          "label": "Hammock"
+        },
+        {
+          "value": "../_hiring/event-ambassador-sf.webp",
+          "label": "Event ambassador (SF)"
+        },
+        {
+          "value": "../_hiring/ops-playbook.webp",
+          "label": "Blank playbook"
+        }
+      ],
+      "hint": "Pick one of the hiring photos, or upload your own: subject on the right, an empty bright left side."
+    },
+    {
+      "id": "headline",
+      "label": "Headline",
+      "type": "text",
+      "default": "We’re hiring"
+    },
+    {
+      "id": "role",
+      "label": "Role",
+      "type": "text",
+      "default": "Operations Manager",
+      "hint": "On the red stroke; it shrinks to fit. Enter starts a new line."
+    },
+    {
+      "id": "gap",
+      "label": "Gap",
+      "type": "range",
+      "min": -40,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 34,
+      "hint": "Space between the headline and the red stroke."
+    },
+    {
+      "id": "aside",
+      "label": "Handwritten note",
+      "type": "text",
+      "default": "Playbook: yours to write.",
+      "hint": "A short joke about the photo, like “Socks: mismatched.”; the arrow points into the photo."
+    },
+    {
+      "id": "showAside",
+      "label": "Show the note",
+      "type": "toggle",
+      "default": true
+    }
+  ],
+  "template": "hiring-photo-square"
+}

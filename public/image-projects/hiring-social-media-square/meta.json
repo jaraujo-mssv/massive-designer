@@ -74,6 +74,14 @@
         {
           "value": "../_hiring/hammock.webp",
           "label": "Hammock"
+        },
+        {
+          "value": "../_hiring/event-ambassador-sf.webp",
+          "label": "Event ambassador (SF)"
+        },
+        {
+          "value": "../_hiring/ops-playbook.webp",
+          "label": "Blank playbook"
         }
       ],
       "hint": "Pick one of the hiring photos, or upload your own: subject on the right, an empty bright left side."
@@ -89,7 +97,18 @@
       "label": "Role",
       "type": "text",
       "default": "Social Media Coordinator",
-      "hint": "On the red stroke; up to two lines, it shrinks to fit."
+      "hint": "On the red stroke; it shrinks to fit. Enter starts a new line."
+    },
+    {
+      "id": "gap",
+      "label": "Gap",
+      "type": "range",
+      "min": -40,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 0,
+      "hint": "Space between the headline and the red stroke."
     },
     {
       "id": "aside",

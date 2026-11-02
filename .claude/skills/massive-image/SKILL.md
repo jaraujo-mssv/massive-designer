@@ -110,7 +110,9 @@ placeholders with their brief and the `--plan` command that starts them.
 `hiring-photo-square` (`hiring-benefits-square` keeps its own perks layout). They share their photos: `_hiring/<name>.webp`,
 offered as the photo field's ready-made options, and `_hiring/hiring.js`, which holds each photo's settings (`seam`:
 where its empty left side ends, as a % of the canvas; `shift`: px to slide it right when its subject sits too far left;
-`arrow`: the canvas point the note's arrow lands on) and applies them to whichever photo is picked. A new hiring photo
+`arrow`: the canvas point the note's arrow lands on; `zoom`, optional: scales it from its bottom edge, so a head reaches
+the top of the text) and applies them to whichever photo is picked. Each post's `gap`
+slider moves the red stroke away from the headline, on top of the page's own margin. A new hiring photo
 goes in `_hiring/` with its prompt as `<name>.txt`, an entry in `HIRING_PHOTOS` and an option in each hiring meta.json.
 Generate it with the same recipe as the prompts there: subject in the right 60%, an empty bright left 40%, one
 Massive-red accent, no text.
@@ -121,12 +123,15 @@ Fields are the editable parts. **`meta.json`'s defaults are the source of truth*
 Still write the same text into the markup, so the page reads correctly in an editor. Bind them in markup:
 
 - `data-field="name"` sets the element's text. Several elements can share one field (`15K` in a headline and a chip).
+  A line break in the value shows as one: Enter in the sidebar, Shift+Enter on the canvas, `%0A` in a link.
 - `data-field-src="photo"` sets an `<img>` src. Image defaults are paths relative to the page; uploads arrive as data URLs.
   An image field can also list ready-made photos as `options` (`[{ "value": "../_hiring/cafe.webp", "label": "Café" }]`):
   the tab shows them as thumbnails above Upload, and links accept one by its label (`photo=Café`).
 - `data-field-show="confetti"` hides the element when the toggle is off.
 - **Select** fields (`"type": "select"`, `"options": [{ "value": "map", "label": "World map" }, …]`) pass the chosen
   `value` to the page; switch layouts with it in `onFields` (e.g. set `#canvas[data-shape]` and key CSS off it).
+- **Range** fields (`"type": "range"`, `"min"`, `"max"`, optional `"step"` and `"unit"`, a number as `default`) are a
+  slider in the tab and pass the page a number; use it in `onFields`, usually as a CSS variable (see `hiring-photo-square`).
 - **Derived visuals**: anything computed from values, such as a canvas drawing or a fitted layout, goes in
   `window.onFields = async (values) => { … }`. It runs after every update, after fonts and images have loaded.
   See `jason-15k-network`, which draws the dotted number from the `short` field.

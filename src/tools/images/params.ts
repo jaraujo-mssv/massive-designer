@@ -11,14 +11,19 @@
 export interface ParamField {
   id: string;
   label: string;
-  type: "text" | "image" | "toggle" | "select";
-  default: string | boolean;
+  type: "text" | "image" | "toggle" | "select" | "range";
+  default: string | boolean | number;
   /** A select's choices, or an image field's ready-made photos (`value` is the path the page loads). */
   options?: { value: string; label: string }[];
+  /** A range's slider. */
+  min?: number;
+  max?: number;
+  step?: number;
+  unit?: string;
   hint?: string;
 }
 
-export type ParamValues = Record<string, string | boolean>;
+export type ParamValues = Record<string, string | boolean | number>;
 
 /**
  * URL keys a field id can't use: the image (`template`, and `i` from older links), the Library's search and view
@@ -39,9 +44,15 @@ const FALSE = ["false", "0", "no", "off"];
 const either = (items: string[]) => (items.length < 2 ? items.join("") : `${items.slice(0, -1).join(", ")} or ${items[items.length - 1]}`);
 
 /** One raw URL value as the field's value, or why it can't be used. */
-export function coerce(field: ParamField, raw: string): { value: string | boolean } | { error: string } {
+export function coerce(field: ParamField, raw: string): { value: string | boolean | number } | { error: string } {
   const text = raw.trim();
   switch (field.type) {
+    case "range": {
+      const number = text === "" ? NaN : Number(text);
+      const { min = -Infinity, max = Infinity } = field;
+      if (number >= min && number <= max && Number.isFinite(number)) return { value: number };
+      return { error: `${field.id} must be a number from ${min} to ${max}.` };
+    }
     case "toggle": {
       if (TRUE.includes(text.toLowerCase())) return { value: true };
       if (FALSE.includes(text.toLowerCase())) return { value: false };
@@ -67,7 +78,7 @@ export function coerce(field: ParamField, raw: string): { value: string | boolea
     }
     default: {
       if (raw.length > MAX_TEXT) return { error: `${field.id} is ${raw.length} characters; the most is ${MAX_TEXT}.` };
-      return { value: raw };
+      return { value: raw.replace(/\r\n?/g, "\n") };
     }
   }
 }
@@ -136,10 +147,12 @@ function promptParam(f: ParamField): string {
       ? (f.options ?? []).map((o) => o.value).join(" | ")
       : f.type === "toggle"
         ? "true | false"
-        : f.type === "image"
-          ? ["URL", ...(f.options ?? []).map((o) => o.label)].join(" | ")
-          : "text";
-  const hint = f.hint ? `${f.type === "select" || f.type === "toggle" ? ";" : ","} ${f.hint[0].toLowerCase()}${f.hint.slice(1)}` : "";
+        : f.type === "range"
+          ? `${f.min} to ${f.max}`
+          : f.type === "image"
+            ? ["URL", ...(f.options ?? []).map((o) => o.label)].join(" | ")
+            : "text";
+  const hint = f.hint ? `${f.type === "text" || f.type === "image" ? "," : ";"} ${f.hint[0].toLowerCase()}${f.hint.slice(1)}` : "";
   return `${f.id} (${what}${hint})`;
 }
 
@@ -177,7 +190,7 @@ export interface DescribedProject {
   path: string | null;
 }
 
-const quote = (v: string | boolean) => (typeof v === "boolean" ? String(v) : JSON.stringify(v));
+const quote = (v: string | boolean | number) => (typeof v === "string" ? JSON.stringify(v) : String(v));
 
 function describeParam(f: ParamField): string {
   const what =
@@ -185,11 +198,13 @@ function describeParam(f: ParamField): string {
       ? `one of ${(f.options ?? []).map((o) => `\`${o.value}\` (${o.label})`).join(", ")}; default \`${f.default}\``
       : f.type === "toggle"
         ? `true or false; default ${f.default}`
-        : f.type === "image"
-          ? f.options?.length
-            ? `a direct https:// link to an image, or one of the design's photos by name: ${f.options.map((o) => `\`${o.label}\``).join(", ")}; default: the design's own`
-            : "a direct https:// link to an image; default: the design's own"
-          : `text; default ${quote(f.default)}`;
+        : f.type === "range"
+          ? `a number from ${f.min} to ${f.max}${f.unit ? ` ${f.unit}` : ""}; default ${f.default}`
+          : f.type === "image"
+            ? f.options?.length
+              ? `a direct https:// link to an image, or one of the design's photos by name: ${f.options.map((o) => `\`${o.label}\``).join(", ")}; default: the design's own`
+              : "a direct https:// link to an image; default: the design's own"
+            : `text; default ${quote(f.default)}`;
   return `- \`${f.id}\`: ${f.label}. ${what[0].toUpperCase()}${what.slice(1)}.${f.hint ? ` ${f.hint}` : ""}`;
 }
 
@@ -233,7 +248,7 @@ export function agentGuide(base: string, example?: DescribedProject): string {
     `2. Build the link: \`${base}/images?template=<id>&<param>=<value>&…\``,
     "   - Use only that image's params. Leave a param out to keep its default.",
     "   - URL-encode every value (a space is %20).",
-    `   - Text: as it should read, up to ${MAX_TEXT} characters. Select: one of the listed values. Toggle: true or false.`,
+    `   - Text: as it should read, up to ${MAX_TEXT} characters; %0A is a line break. Select: one of the listed values. Toggle: true or false. Slider: a number in its range.`,
     "   - Photo: a public link to the image file (JPG, PNG, WebP, GIF, AVIF or SVG, up to 15 MB), not a page that shows it. Share pages from Unsplash, Google Drive or Dropbox (`dl=0`) won't work.",
     "3. If the person attached the photo or has it on their computer, leave the photo param out and tell them: \"Open the link and paste or drop your photo into the Photo field.\"",
     "4. Give the person the link, as a plain link (not a markdown image). It opens the design in Massive Designer, filled in; they check the preview and click Download JPG.",

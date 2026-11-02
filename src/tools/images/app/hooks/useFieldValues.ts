@@ -130,7 +130,7 @@ export function useFieldValues(project: ImageProject | null) {
   }, [state]);
 
   /** Sets one value and keeps it; `name` is an uploaded photo's file name. */
-  function update(p: ImageProject, fieldId: string, value: string | boolean, name?: string) {
+  function update(p: ImageProject, fieldId: string, value: string | boolean | number, name?: string) {
     setState((prev) => {
       if (prev.id !== p.id) return prev;
       const next = { ...prev.values, [fieldId]: value };
@@ -154,7 +154,7 @@ export function useFieldValues(project: ImageProject | null) {
   }
 
   const set = useCallback(
-    (fieldId: string, value: string | boolean, name?: string) => project && update(project, fieldId, value, name),
+    (fieldId: string, value: string | boolean | number, name?: string) => project && update(project, fieldId, value, name),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [project],
   );

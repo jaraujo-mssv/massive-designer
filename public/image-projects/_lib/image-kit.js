@@ -3,7 +3,7 @@
 // Include it last in the page: <script src="../_lib/image-kit.js"></script>
 //
 // The image is #canvas. Fields come from the project's meta.json and bind in markup:
-//   data-field="name"        sets the element's text
+//   data-field="name"        sets the element's text; a line break in the value shows as one
 //   data-field-src="photo"   sets an <img> src
 //   data-field-show="confetti"  hides the element when the toggle is off
 // A page can define window.onFields(values) (sync or async) for anything derived from the values,
@@ -28,13 +28,22 @@
       }),
     );
 
+  // Line breaks in a value show; how the text otherwise wraps stays the page's.
+  function keepLineBreaks(el) {
+    const wrap = getComputedStyle(el).whiteSpace;
+    if (wrap === "normal") el.style.whiteSpace = "pre-line";
+    else if (wrap === "nowrap") el.style.whiteSpace = "pre";
+  }
+
   async function apply(next) {
     values = { ...values, ...next };
     // Text someone is typing into on the Images tab's canvas is already up to date, and an older value
     // still on its way would undo the last keystrokes and move the caret.
     for (const el of canvas.querySelectorAll("[data-field]")) {
       const v = values[el.dataset.field];
-      if (v !== undefined && !el.isContentEditable && el.textContent !== String(v)) el.textContent = String(v);
+      if (v === undefined) continue;
+      keepLineBreaks(el);
+      if (!el.isContentEditable && el.textContent !== String(v)) el.textContent = String(v);
     }
     for (const el of canvas.querySelectorAll("[data-field-src]")) {
       const v = values[el.dataset.fieldSrc];

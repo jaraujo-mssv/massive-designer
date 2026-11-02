@@ -2,15 +2,20 @@
 export interface ImageField {
   id: string;
   label: string;
-  type: "text" | "image" | "toggle" | "select";
-  default: string | boolean;
+  type: "text" | "image" | "toggle" | "select" | "range";
+  default: string | boolean | number;
   /** A select's choices, or an image field's ready-made photos (picked from thumbnails); `value` is what the page receives. */
   options?: { value: string; label: string }[];
+  /** A range's slider; the page receives a number. */
+  min?: number;
+  max?: number;
+  step?: number;
+  unit?: string;
   /** How to fill it in, for people and for AI chats (shown under the field and in llms.txt). */
   hint?: string;
 }
 
-export type FieldValues = Record<string, string | boolean>;
+export type FieldValues = Record<string, string | boolean | number>;
 
 /** A theme from public/image-projects/categories.json, in Library order. */
 export interface ImageCategory {

@@ -158,7 +158,7 @@ export function renderImage(opts: {
   width: number;
   height: number;
   scale: number;
-  values: Record<string, string | boolean>;
+  values: Record<string, string | boolean | number>;
 }): Promise<Buffer> {
   const attempt = async () => {
     const base = await filesServer();

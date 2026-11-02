@@ -171,10 +171,10 @@ gallery of every image; `/images?template=<id>` opens one in the editor.
   - `index.html`: `#canvas` at the exact pixel size. It links `../_brand/massive.css` and loads
     `../_lib/image-kit.js` last.
   - `meta.json`: title, category, template, series, status, `width`/`height` (must match `#canvas`), and `fields`
-    (`text | image | toggle | select`, with an optional `hint` shown under the field and to AI chats).
+    (`text | image | toggle | select | range`, with an optional `hint` shown under the field and to AI chats).
   - `assets/` and `thumb.jpg`.
-- **Fields** are bound in the markup with `data-field` (text), `data-field-src` (image) and `data-field-show`
-  (toggle). Anything derived goes in `window.onFields(values)`.
+- **Fields** are bound in the markup with `data-field` (text, line breaks included), `data-field-src` (image) and
+  `data-field-show` (toggle). Anything derived, ranges included, goes in `window.onFields(values)`.
 - **`index.json` and `public/llms.txt` are generated:** `npm run image:index` builds both from the folders,
   `categories.json` and `planned.json`. Don't edit them by hand.
 - **Images by link**, so any AI chat (or anyone) can make an image without the UI:

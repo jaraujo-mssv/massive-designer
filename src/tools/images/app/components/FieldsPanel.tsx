@@ -15,7 +15,7 @@ interface FieldsPanelProps {
   /** Params in the link that the image doesn't have. */
   unknown: string[];
   edited: boolean;
-  onChange: (id: string, value: string | boolean, name?: string) => void;
+  onChange: (id: string, value: string | boolean | number, name?: string) => void;
   /** An uploaded, dropped or pasted file for an image field. */
   onFile: (id: string, file: File) => void;
   onError: (id: string, message: string) => void;
@@ -231,6 +231,30 @@ export function FieldsPanel({
               </div>
             );
           }
+          if (field.type === "range") {
+            return (
+              <div key={field.id} className="space-y-1.5">
+                <label htmlFor={`field-${field.id}`} className="flex items-center justify-between gap-3 text-xs text-text-dim">
+                  {field.label}
+                  <span className="text-text-primary tabular-nums">
+                    {String(value)}
+                    {field.unit ? ` ${field.unit}` : ""}
+                  </span>
+                </label>
+                <input
+                  id={`field-${field.id}`}
+                  type="range"
+                  min={field.min}
+                  max={field.max}
+                  step={field.step}
+                  value={Number(value)}
+                  onChange={(e) => onChange(field.id, Number(e.target.value))}
+                  className="w-full accent-[var(--red)]"
+                />
+                {notes}
+              </div>
+            );
+          }
           return (
             <div key={field.id} className="space-y-1.5">
               <label htmlFor={`field-${field.id}`} className="block text-xs text-text-dim">
@@ -260,11 +284,12 @@ export function FieldsPanel({
                   ))}
                 </select>
               ) : (
-                <input
+                <textarea
                   id={`field-${field.id}`}
                   value={String(value)}
+                  rows={String(value).split("\n").length}
                   onChange={(e) => onChange(field.id, e.target.value)}
-                  className={sidebarInputClass}
+                  className={`${sidebarInputClass} block resize-none field-sizing-content`}
                 />
               )}
               {notes}

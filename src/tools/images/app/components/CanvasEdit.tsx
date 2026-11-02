@@ -8,7 +8,7 @@ export interface CanvasEditHandlers {
   /** Uploaded photos' file names, by field. */
   names: Record<string, string>;
   errors: Record<string, string>;
-  onChange: (id: string, value: string | boolean, name?: string) => void;
+  onChange: (id: string, value: string | boolean | number, name?: string) => void;
   /** An uploaded file for an image field. */
   onFile: (id: string, file: File) => void;
 }
@@ -41,7 +41,8 @@ interface Picking {
 /** Space between a text and its box, in screen px. */
 const GAP = 3;
 
-const textOf = (el: HTMLElement) => (el.textContent ?? "").replace(/ /g, " ");
+/** The text as a value; the browser keeps a spare line break at the end of a text that has any, for the caret. */
+const textOf = (el: HTMLElement) => (el.textContent ?? "").replace(/ /g, " ").replace(/\n$/, "");
 
 /** Make the page's element typeable and focus it (in the click itself, so a phone brings up its keyboard). */
 function begin(el: HTMLElement): Typing["saved"] {
@@ -134,7 +135,7 @@ export function CanvasEdit({ frameRef, project, values, scale, names, errors, on
   };
 
   // Typing: every keystroke goes to the field (the image, sidebar and address bar follow). Enter or a click
-  // elsewhere keeps it; Esc puts back what was there.
+  // elsewhere keeps it; Shift+Enter starts a new line; Esc puts back what was there.
   useEffect(() => {
     if (!typing) return;
     const { field, el, original, saved } = typing;
@@ -149,7 +150,8 @@ export function CanvasEdit({ frameRef, project, values, scale, names, errors, on
       if (e.isComposing) return;
       if (e.key === "Enter") {
         e.preventDefault();
-        finish();
+        if (e.shiftKey) doc.execCommand("insertLineBreak");
+        else finish();
       } else if (e.key === "Escape") {
         e.preventDefault();
         el.textContent = original;
@@ -157,10 +159,10 @@ export function CanvasEdit({ frameRef, project, values, scale, names, errors, on
         finish();
       }
     };
-    // Fields are one line of plain text.
+    // Fields are plain text.
     const onPaste = (e: ClipboardEvent) => {
       e.preventDefault();
-      const text = e.clipboardData?.getData("text/plain").replace(/\s*[\r\n]+\s*/g, " ");
+      const text = e.clipboardData?.getData("text/plain").replace(/\r\n?/g, "\n");
       if (text) doc.execCommand("insertText", false, text);
     };
     // A file dragged over the page would open in the iframe: stop typing and give the pointer back, so the

@@ -427,6 +427,7 @@ Thumbnail: https://massive-designer.vercel.app/image-projects/team-work-annivers
 Finished designs, which can also be re-rendered with changes. Each link lists the image's params.
 
 - 195+ countries (`milestone-195-countries`, 1080×1350): https://massive-designer.vercel.app/api/images?id=milestone-195-countries
+- AI answers: a new era (`content-ai-answers`, 1080×1350): https://massive-designer.vercel.app/api/images?id=content-ai-answers
 - API in a few lines (`product-code-snippet`, 1920×1080): https://massive-designer.vercel.app/api/images?id=product-code-snippet
 - Blog: Hotel Prices Without a Browser (`blog-radisson-hotel-prices`, 1376×768): https://massive-designer.vercel.app/api/images?id=blog-radisson-hotel-prices
 - Company card: A front door to the web (`company-card`, 1920×1080): https://massive-designer.vercel.app/api/images?id=company-card

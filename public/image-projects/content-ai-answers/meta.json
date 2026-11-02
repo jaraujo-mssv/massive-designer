@@ -1,0 +1,87 @@
+{
+  "id": "content-ai-answers",
+  "title": "AI answers: a new era",
+  "description": "A text post: a few lines of prose over one illustration. Pick the chase or the stampede, or upload another. Copy adapted from a LinkedIn post by Linas Beliūnas.",
+  "group": "massive",
+  "category": "content",
+  "template": null,
+  "series": null,
+  "status": "ready",
+  "tags": [
+    "content",
+    "ai answers",
+    "search",
+    "linkedin"
+  ],
+  "source": null,
+  "width": 1080,
+  "height": 1350,
+  "fields": [
+    {
+      "id": "photo",
+      "label": "Illustration",
+      "type": "image",
+      "default": "assets/the-chase.webp",
+      "options": [
+        {
+          "value": "assets/the-chase.webp",
+          "label": "The chase"
+        },
+        {
+          "value": "assets/the-stampede.webp",
+          "label": "The stampede"
+        }
+      ],
+      "hint": "Fills the lower two thirds, edge to edge. Landscape; its sides crop a little."
+    },
+    {
+      "id": "intro",
+      "label": "Intro",
+      "type": "text",
+      "default": "Last week we learned that:",
+      "hint": "The opening line. About 30 characters."
+    },
+    {
+      "id": "line1",
+      "label": "Line 1",
+      "type": "text",
+      "default": "Reddit stock is down because of AI answers",
+      "hint": "About 45 characters stays on one line."
+    },
+    {
+      "id": "line2",
+      "label": "Line 2",
+      "type": "text",
+      "default": "Google stock is down because of AI answers",
+      "hint": "About 45 characters stays on one line."
+    },
+    {
+      "id": "line3",
+      "label": "Line 3",
+      "type": "text",
+      "default": "Your web traffic is down because of AI answers",
+      "hint": "About 45 characters stays on one line."
+    },
+    {
+      "id": "outro",
+      "label": "Closing line",
+      "type": "text",
+      "default": "AI is eating the old internet. Google included.",
+      "hint": "The last line. About 45 characters stays on one line."
+    },
+    {
+      "id": "bold",
+      "label": "Bold words",
+      "type": "text",
+      "default": "Reddit, Google, Your web traffic",
+      "hint": "Words from the lines and the closing line to set in bold, separated by commas."
+    },
+    {
+      "id": "accent",
+      "label": "Red words",
+      "type": "text",
+      "default": "AI",
+      "hint": "Words from the lines and the closing line to set in bold red, separated by commas."
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1350" />
+    <title>AI answers: a new era</title>
+    <link rel="stylesheet" href="../_brand/massive.css" />
+    <style>
+      /* A text post: prose on top, one illustration under it. The prose is plain divs: a <p>'s browser margins can
+         come back in the tab's export. */
+      #canvas {
+        width: 1080px;
+        height: 1350px;
+      }
+      .prose {
+        position: absolute;
+        left: 80px;
+        right: 80px;
+        top: 72px;
+        font-size: 46px;
+        font-weight: 400;
+        line-height: 1.15;
+        letter-spacing: -0.03em;
+        color: var(--m-ink);
+      }
+      .prose strong {
+        font-weight: 800;
+      }
+      .prose .accent {
+        font-weight: 800;
+        color: var(--m-paper-red);
+      }
+      .lines {
+        margin: 22px 0;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .lines > div {
+        text-wrap: balance;
+      }
+      .art {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 905px;
+        overflow: hidden;
+        background: #ffffff;
+      }
+      .art img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas" class="soft-orange">
+      <div class="prose">
+        <div data-field="intro">Last week we learned that:</div>
+        <div class="lines">
+          <div data-field="line1">Reddit stock is down because of AI answers</div>
+          <div data-field="line2">Google stock is down because of AI answers</div>
+          <div data-field="line3">Your web traffic is down because of AI answers</div>
+        </div>
+        <div class="outro" data-field="outro">AI is eating the old internet. Google included.</div>
+      </div>
+      <div class="art"><img data-field-src="photo" src="assets/the-chase.webp" alt="" /></div>
+    </div>
+    <script>
+      const $ = (s) => document.querySelector(s);
+      const esc = (s) => s.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[c]);
+      const words = (list) =>
+        String(list ?? "")
+          .split(",")
+          .map((w) => w.trim())
+          .filter(Boolean);
+      const pattern = (w) => w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+      window.onFields = (values) => {
+        // The lines, with the bold and red words marked. Their text stays the same, so the field still matches
+        // it, and one being typed into on the canvas is left alone until it's done.
+        const bold = words(values.bold);
+        const accent = words(values.accent);
+        const all = [...bold, ...accent].sort((a, b) => b.length - a.length).map(pattern);
+        const re = all.length ? new RegExp(`\\b(${all.join("|")})\\b`, "g") : null;
+        for (const el of document.querySelectorAll(".lines > div, .outro")) {
+          if (el.isContentEditable) continue;
+          const text = el.textContent;
+          el.innerHTML = re
+            ? esc(text).replace(re, (m) => (accent.includes(m) ? `<span class="accent">${m}</span>` : `<strong>${m}</strong>`))
+            : esc(text);
+        }
+
+        // Shrink the type until the prose clears the illustration.
+        const prose = $(".prose");
+        const room = $(".art").offsetTop - prose.offsetTop - 36;
+        for (let size = 46; size >= 36; size -= 1) {
+          prose.style.fontSize = `${size}px`;
+          if (prose.offsetHeight <= room) break;
+        }
+      };
+    </script>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

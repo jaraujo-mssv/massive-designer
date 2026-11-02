@@ -649,7 +649,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-28T13:38:50.053Z",
+      "updated": "2026-10-28T15:26:24.174Z",
       "brief": null,
       "fields": [
         {
@@ -685,6 +685,99 @@
       "thumb": "/image-projects/content-aeo-still/thumb.jpg"
     },
     {
+      "id": "content-ai-answers",
+      "title": "AI answers: a new era",
+      "description": "A text post: a few lines of prose over one illustration. Pick the chase or the stampede, or upload another. Copy adapted from a LinkedIn post by Linas Beliūnas.",
+      "group": "massive",
+      "category": "content",
+      "template": null,
+      "series": null,
+      "status": "ready",
+      "tags": [
+        "content",
+        "ai answers",
+        "search",
+        "linkedin"
+      ],
+      "source": null,
+      "width": 1080,
+      "height": 1350,
+      "format": "portrait",
+      "formats": null,
+      "updated": "2026-11-02T13:35:09.906Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "photo",
+          "label": "Illustration",
+          "type": "image",
+          "default": "assets/the-chase.webp",
+          "options": [
+            {
+              "value": "assets/the-chase.webp",
+              "label": "The chase"
+            },
+            {
+              "value": "assets/the-stampede.webp",
+              "label": "The stampede"
+            }
+          ],
+          "hint": "Fills the lower two thirds, edge to edge. Landscape; its sides crop a little."
+        },
+        {
+          "id": "intro",
+          "label": "Intro",
+          "type": "text",
+          "default": "Last week we learned that:",
+          "hint": "The opening line. About 30 characters."
+        },
+        {
+          "id": "line1",
+          "label": "Line 1",
+          "type": "text",
+          "default": "Reddit stock is down because of AI answers",
+          "hint": "About 45 characters stays on one line."
+        },
+        {
+          "id": "line2",
+          "label": "Line 2",
+          "type": "text",
+          "default": "Google stock is down because of AI answers",
+          "hint": "About 45 characters stays on one line."
+        },
+        {
+          "id": "line3",
+          "label": "Line 3",
+          "type": "text",
+          "default": "Your web traffic is down because of AI answers",
+          "hint": "About 45 characters stays on one line."
+        },
+        {
+          "id": "outro",
+          "label": "Closing line",
+          "type": "text",
+          "default": "AI is eating the old internet. Google included.",
+          "hint": "The last line. About 45 characters stays on one line."
+        },
+        {
+          "id": "bold",
+          "label": "Bold words",
+          "type": "text",
+          "default": "Reddit, Google, Your web traffic",
+          "hint": "Words from the lines and the closing line to set in bold, separated by commas."
+        },
+        {
+          "id": "accent",
+          "label": "Red words",
+          "type": "text",
+          "default": "AI",
+          "hint": "Words from the lines and the closing line to set in bold red, separated by commas."
+        }
+      ],
+      "path": "/image-projects/content-ai-answers/index.html",
+      "thumb": "/image-projects/content-ai-answers/thumb.jpg"
+    },
+    {
       "id": "content-blog-quote",
       "title": "Blog quote card",
       "description": "A pull quote from a Massive blog post with its author, the post's title and the blog link. Source: https://www.joinmassive.com/blog/is-robots-txt-legally-binding (quote, author, role and title as published, Oct 27, 2026).",
@@ -703,7 +796,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-28T13:38:46.563Z",
+      "updated": "2026-10-28T15:26:24.175Z",
       "brief": null,
       "fields": [
         {
@@ -771,7 +864,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-28T13:38:50.045Z",
+      "updated": "2026-10-28T15:26:24.176Z",
       "brief": null,
       "fields": [
         {
@@ -803,7 +896,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-28T13:39:37.138Z",
+      "updated": "2026-10-28T15:26:24.177Z",
       "brief": null,
       "fields": [
         {
@@ -863,7 +956,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-28T13:40:24.891Z",
+      "updated": "2026-10-28T15:26:24.179Z",
       "brief": null,
       "fields": [
         {
@@ -916,7 +1009,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-28T13:45:38.393Z",
+      "updated": "2026-10-28T15:26:24.181Z",
       "brief": null,
       "fields": [
         {
@@ -1025,7 +1118,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-28T13:41:36.291Z",
+      "updated": "2026-10-28T15:26:24.181Z",
       "brief": null,
       "fields": [
         {
@@ -1171,7 +1264,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-28T13:45:38.394Z",
+      "updated": "2026-10-28T15:26:24.182Z",
       "brief": null,
       "fields": [
         {
@@ -1238,7 +1331,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-28T13:45:48.438Z",
+      "updated": "2026-10-28T15:26:24.183Z",
       "brief": null,
       "fields": [
         {
@@ -1326,7 +1419,7 @@
       "height": 1080,
       "format": "landscape",
       "formats": null,
-      "updated": "2026-10-28T13:45:48.438Z",
+      "updated": "2026-10-28T15:26:24.184Z",
       "brief": null,
       "fields": [
         {
@@ -1636,7 +1729,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-10-28T13:42:39.090Z",
+      "updated": "2026-10-28T15:26:24.185Z",
       "brief": null,
       "fields": [
         {
@@ -2466,7 +2559,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-10-28T13:42:39.090Z",
+      "updated": "2026-10-28T15:26:24.186Z",
       "brief": null,
       "fields": [
         {
@@ -2922,7 +3015,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-10-28T13:42:39.091Z",
+      "updated": "2026-10-28T15:26:24.186Z",
       "brief": null,
       "fields": [
         {
@@ -3459,7 +3552,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-28T13:45:56.124Z",
+      "updated": "2026-10-28T15:26:24.187Z",
       "brief": null,
       "fields": [
         {
@@ -3520,7 +3613,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-28T13:44:24.223Z",
+      "updated": "2026-10-28T15:26:24.191Z",
       "brief": null,
       "fields": [
         {
@@ -3608,7 +3701,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-28T13:41:13.742Z",
+      "updated": "2026-10-28T15:26:24.195Z",
       "brief": null,
       "fields": [
         {
@@ -4357,7 +4450,7 @@
       "height": 1080,
       "format": "landscape",
       "formats": null,
-      "updated": "2026-10-28T13:43:57.064Z",
+      "updated": "2026-10-28T15:26:24.195Z",
       "brief": null,
       "fields": [
         {
@@ -4403,7 +4496,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-28T13:36:47.481Z",
+      "updated": "2026-10-28T15:26:24.196Z",
       "brief": null,
       "fields": [
         {
@@ -4442,7 +4535,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-28T13:43:12.465Z",
+      "updated": "2026-10-28T15:26:24.196Z",
       "brief": null,
       "fields": [
         {
@@ -4565,7 +4658,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-28T13:41:32.736Z",
+      "updated": "2026-10-28T15:26:24.197Z",
       "brief": null,
       "fields": [
         {
@@ -4667,7 +4760,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-28T13:41:50.840Z",
+      "updated": "2026-10-28T15:26:24.199Z",
       "brief": null,
       "fields": [
         {
@@ -4709,7 +4802,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-28T13:44:39.387Z",
+      "updated": "2026-10-28T15:26:24.200Z",
       "brief": null,
       "fields": [
         {
@@ -4755,7 +4848,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-28T13:44:24.163Z",
+      "updated": "2026-10-28T15:26:24.203Z",
       "brief": null,
       "fields": [
         {
@@ -4836,7 +4929,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-28T13:44:24.193Z",
+      "updated": "2026-10-28T15:26:24.205Z",
       "brief": null,
       "fields": [
         {
@@ -4903,7 +4996,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-28T13:45:28.672Z",
+      "updated": "2026-10-28T15:26:24.208Z",
       "brief": null,
       "fields": [
         {
@@ -4998,7 +5091,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-28T13:40:18.995Z",
+      "updated": "2026-10-28T15:26:24.210Z",
       "brief": null,
       "fields": [
         {
@@ -5059,7 +5152,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-10-28T13:44:19.361Z",
+      "updated": "2026-10-28T15:26:24.210Z",
       "brief": null,
       "fields": [
         {

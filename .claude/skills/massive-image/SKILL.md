@@ -112,7 +112,8 @@ offered as the photo field's ready-made options, and `_hiring/hiring.js`, which 
 where its empty left side ends, as a % of the canvas; `shift`: px to slide it right when its subject sits too far left;
 `arrow`: the canvas point the note's arrow lands on; `zoom`, optional: scales it from its bottom edge, so a head reaches
 the top of the text) and applies them to whichever photo is picked. Each post's `gap`
-slider moves the red stroke away from the headline, on top of the page's own margin. A new hiring photo
+slider moves the red stroke away from the headline, on top of the page's own margin. `hiring-an-square` also has a
+`headlineSize` slider, and keeps lines broken by hand on one line at any size. A new hiring photo
 goes in `_hiring/` with its prompt as `<name>.txt`, an entry in `HIRING_PHOTOS` and an option in each hiring meta.json.
 Generate it with the same recipe as the prompts there: subject in the right 60%, an empty bright left 40%, one
 Massive-red accent, no text.

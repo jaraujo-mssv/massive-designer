@@ -1502,7 +1502,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-11-02T19:00:19.049Z",
+      "updated": "2026-11-04T11:17:26.955Z",
       "brief": null,
       "fields": [
         {
@@ -1570,6 +1570,10 @@
             {
               "value": "../_hiring/ops-playbook.webp",
               "label": "Blank playbook"
+            },
+            {
+              "value": "../_hiring/beach-lounger.webp",
+              "label": "On the beach"
             }
           ],
           "hint": "Pick one of the hiring photos, or upload your own: subject on the right, an empty bright left side."
@@ -1635,7 +1639,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-11-02T19:00:19.049Z",
+      "updated": "2026-11-04T11:17:26.956Z",
       "brief": null,
       "fields": [
         {
@@ -1703,6 +1707,10 @@
             {
               "value": "../_hiring/ops-playbook.webp",
               "label": "Blank playbook"
+            },
+            {
+              "value": "../_hiring/beach-lounger.webp",
+              "label": "On the beach"
             }
           ],
           "hint": "Pick one of the hiring photos, or upload your own: subject on the right, an empty bright left side."
@@ -1749,6 +1757,156 @@
       "thumb": "/image-projects/hiring-account-executive-square/thumb.jpg"
     },
     {
+      "id": "hiring-an-square",
+      "title": "Hiring: We’re hiring an (template)",
+      "description": "The square hiring post with a size you set: “We’re hiring an”, the role on a red brush stroke, a handwritten note with an arrow, on a cream wash beside the photo. Fill in the role and the note, set the headline's size and the gap under it, and pick one of the hiring photos or upload one.",
+      "group": "templates",
+      "category": "hiring",
+      "template": null,
+      "series": null,
+      "status": "ready",
+      "tags": [
+        "hiring",
+        "careers",
+        "template",
+        "photo",
+        "beach"
+      ],
+      "source": null,
+      "width": 1080,
+      "height": 1080,
+      "format": "square",
+      "formats": null,
+      "updated": "2026-11-04T11:33:35.875Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "photo",
+          "label": "Photo",
+          "type": "image",
+          "default": "../_hiring/beach-lounger.webp",
+          "options": [
+            {
+              "value": "../_hiring/home-office.webp",
+              "label": "Home office"
+            },
+            {
+              "value": "../_hiring/standing-call.webp",
+              "label": "Standing call"
+            },
+            {
+              "value": "../_hiring/window-seat-sf.webp",
+              "label": "Window seat (SF)"
+            },
+            {
+              "value": "../_hiring/standing-desk.webp",
+              "label": "Standing desk"
+            },
+            {
+              "value": "../_hiring/coffee-desk.webp",
+              "label": "Coffee at the desk"
+            },
+            {
+              "value": "../_hiring/event-handshake.webp",
+              "label": "At an event"
+            },
+            {
+              "value": "../_hiring/leaning-back.webp",
+              "label": "Leaning back"
+            },
+            {
+              "value": "../_hiring/home-lab.webp",
+              "label": "Home lab"
+            },
+            {
+              "value": "../_hiring/cafe.webp",
+              "label": "Café"
+            },
+            {
+              "value": "../_hiring/sofa.webp",
+              "label": "On the sofa"
+            },
+            {
+              "value": "../_hiring/balcony-abroad.webp",
+              "label": "Balcony abroad"
+            },
+            {
+              "value": "../_hiring/kitchen-sunrise.webp",
+              "label": "Kitchen at sunrise"
+            },
+            {
+              "value": "../_hiring/hammock.webp",
+              "label": "Hammock"
+            },
+            {
+              "value": "../_hiring/event-ambassador-sf.webp",
+              "label": "Event ambassador (SF)"
+            },
+            {
+              "value": "../_hiring/ops-playbook.webp",
+              "label": "Blank playbook"
+            },
+            {
+              "value": "../_hiring/beach-lounger.webp",
+              "label": "On the beach"
+            }
+          ],
+          "hint": "Pick one of the hiring photos, or upload your own: subject on the right, an empty bright left side."
+        },
+        {
+          "id": "headline",
+          "label": "Headline",
+          "type": "text",
+          "default": "We’re\nhiring an",
+          "hint": "Enter starts a new line, and lines you break stay on one line at any size."
+        },
+        {
+          "id": "headlineSize",
+          "label": "Headline size",
+          "type": "range",
+          "min": 72,
+          "max": 200,
+          "step": 2,
+          "unit": "px",
+          "default": 164,
+          "hint": "How big the headline is. The role fits itself to the red stroke."
+        },
+        {
+          "id": "role",
+          "label": "Role",
+          "type": "text",
+          "default": "Operations Manager",
+          "hint": "On the red stroke; it shrinks to fit. Enter starts a new line."
+        },
+        {
+          "id": "gap",
+          "label": "Gap",
+          "type": "range",
+          "min": -40,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "default": 34,
+          "hint": "Space between the headline and the red stroke."
+        },
+        {
+          "id": "aside",
+          "label": "Handwritten note",
+          "type": "text",
+          "default": "Office: wherever",
+          "hint": "A short joke about the photo, like “Socks: mismatched.”; the arrow points into the photo."
+        },
+        {
+          "id": "showAside",
+          "label": "Show the note",
+          "type": "toggle",
+          "default": true
+        }
+      ],
+      "path": "/image-projects/hiring-an-square/index.html",
+      "thumb": "/image-projects/hiring-an-square/thumb.jpg"
+    },
+    {
       "id": "hiring-async-first",
       "title": "How we work: async-first",
       "description": "A culture post for candidates: “How we work” and “Async-first” on the red brush stroke, beside the hammock photo, with a handwritten note. Source: https://www.joinmassive.com/careers/writer-in-residence (“We work across time zones, so we write things down: clear docs, thoughtful threads and fewer meetings.”).",
@@ -1767,7 +1925,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-11-02T19:00:19.049Z",
+      "updated": "2026-11-04T11:17:26.956Z",
       "brief": null,
       "fields": [
         {
@@ -1835,6 +1993,10 @@
             {
               "value": "../_hiring/ops-playbook.webp",
               "label": "Blank playbook"
+            },
+            {
+              "value": "../_hiring/beach-lounger.webp",
+              "label": "On the beach"
             }
           ],
           "hint": "Pick one of the hiring photos, or upload your own: subject on the right, an empty bright left side."
@@ -1902,7 +2064,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-11-02T19:00:19.049Z",
+      "updated": "2026-11-04T11:17:26.956Z",
       "brief": null,
       "fields": [
         {
@@ -1970,6 +2132,10 @@
             {
               "value": "../_hiring/ops-playbook.webp",
               "label": "Blank playbook"
+            },
+            {
+              "value": "../_hiring/beach-lounger.webp",
+              "label": "On the beach"
             }
           ],
           "hint": "Pick one of the hiring photos, or upload your own: subject on the right, an empty bright left side."
@@ -2034,7 +2200,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-11-02T19:00:19.049Z",
+      "updated": "2026-11-04T11:17:26.956Z",
       "brief": null,
       "fields": [
         {
@@ -2102,6 +2268,10 @@
             {
               "value": "../_hiring/ops-playbook.webp",
               "label": "Blank playbook"
+            },
+            {
+              "value": "../_hiring/beach-lounger.webp",
+              "label": "On the beach"
             }
           ],
           "hint": "Pick one of the hiring photos, or upload your own: subject on the right, an empty bright left side."
@@ -2201,7 +2371,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-11-02T19:00:19.049Z",
+      "updated": "2026-11-04T11:17:26.956Z",
       "brief": null,
       "fields": [
         {
@@ -2269,6 +2439,10 @@
             {
               "value": "../_hiring/ops-playbook.webp",
               "label": "Blank playbook"
+            },
+            {
+              "value": "../_hiring/beach-lounger.webp",
+              "label": "On the beach"
             }
           ],
           "hint": "Pick one of the hiring photos, or upload your own: subject on the right, an empty bright left side."
@@ -2334,7 +2508,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-11-02T19:24:46.367Z",
+      "updated": "2026-11-04T11:17:26.956Z",
       "brief": null,
       "fields": [
         {
@@ -2402,6 +2576,10 @@
             {
               "value": "../_hiring/ops-playbook.webp",
               "label": "Blank playbook"
+            },
+            {
+              "value": "../_hiring/beach-lounger.webp",
+              "label": "On the beach"
             }
           ],
           "hint": "Pick one of the hiring photos, or upload your own: subject on the right, an empty bright left side."
@@ -2467,7 +2645,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-11-02T19:00:19.050Z",
+      "updated": "2026-11-04T11:17:26.956Z",
       "brief": null,
       "fields": [
         {
@@ -2535,6 +2713,10 @@
             {
               "value": "../_hiring/ops-playbook.webp",
               "label": "Blank playbook"
+            },
+            {
+              "value": "../_hiring/beach-lounger.webp",
+              "label": "On the beach"
             }
           ],
           "hint": "Pick one of the hiring photos, or upload your own: subject on the right, an empty bright left side."
@@ -2599,7 +2781,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-11-02T19:00:19.051Z",
+      "updated": "2026-11-04T11:17:26.957Z",
       "brief": null,
       "fields": [
         {
@@ -2667,6 +2849,10 @@
             {
               "value": "../_hiring/ops-playbook.webp",
               "label": "Blank playbook"
+            },
+            {
+              "value": "../_hiring/beach-lounger.webp",
+              "label": "On the beach"
             }
           ],
           "hint": "Pick one of the hiring photos, or upload your own: subject on the right, an empty bright left side."
@@ -2732,7 +2918,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-11-02T19:24:47.134Z",
+      "updated": "2026-11-04T11:17:26.957Z",
       "brief": null,
       "fields": [
         {
@@ -2800,6 +2986,10 @@
             {
               "value": "../_hiring/ops-playbook.webp",
               "label": "Blank playbook"
+            },
+            {
+              "value": "../_hiring/beach-lounger.webp",
+              "label": "On the beach"
             }
           ],
           "hint": "Pick one of the hiring photos, or upload your own: subject on the right, an empty bright left side."
@@ -2865,7 +3055,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-11-02T19:00:19.051Z",
+      "updated": "2026-11-04T11:17:26.957Z",
       "brief": null,
       "fields": [
         {
@@ -2933,6 +3123,10 @@
             {
               "value": "../_hiring/ops-playbook.webp",
               "label": "Blank playbook"
+            },
+            {
+              "value": "../_hiring/beach-lounger.webp",
+              "label": "On the beach"
             }
           ],
           "hint": "Pick one of the hiring photos, or upload your own: subject on the right, an empty bright left side."
@@ -2996,7 +3190,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-11-02T19:00:19.051Z",
+      "updated": "2026-11-04T11:17:26.957Z",
       "brief": null,
       "fields": [
         {
@@ -3064,6 +3258,10 @@
             {
               "value": "../_hiring/ops-playbook.webp",
               "label": "Blank playbook"
+            },
+            {
+              "value": "../_hiring/beach-lounger.webp",
+              "label": "On the beach"
             }
           ],
           "hint": "Pick one of the hiring photos, or upload your own: subject on the right, an empty bright left side."
@@ -3131,7 +3329,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-11-02T19:00:19.052Z",
+      "updated": "2026-11-04T11:17:26.957Z",
       "brief": null,
       "fields": [
         {
@@ -3199,6 +3397,10 @@
             {
               "value": "../_hiring/ops-playbook.webp",
               "label": "Blank playbook"
+            },
+            {
+              "value": "../_hiring/beach-lounger.webp",
+              "label": "On the beach"
             }
           ],
           "hint": "Pick one of the hiring photos, or upload your own: subject on the right, an empty bright left side."
@@ -3264,7 +3466,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-11-02T19:00:19.052Z",
+      "updated": "2026-11-04T11:17:26.957Z",
       "brief": null,
       "fields": [
         {
@@ -3332,6 +3534,10 @@
             {
               "value": "../_hiring/ops-playbook.webp",
               "label": "Blank playbook"
+            },
+            {
+              "value": "../_hiring/beach-lounger.webp",
+              "label": "On the beach"
             }
           ],
           "hint": "Pick one of the hiring photos, or upload your own: subject on the right, an empty bright left side."
@@ -3397,7 +3603,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-11-02T19:00:19.052Z",
+      "updated": "2026-11-04T11:17:26.957Z",
       "brief": null,
       "fields": [
         {
@@ -3465,6 +3671,10 @@
             {
               "value": "../_hiring/ops-playbook.webp",
               "label": "Blank playbook"
+            },
+            {
+              "value": "../_hiring/beach-lounger.webp",
+              "label": "On the beach"
             }
           ],
           "hint": "Pick one of the hiring photos, or upload your own: subject on the right, an empty bright left side."
@@ -3528,7 +3738,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-11-02T19:00:19.052Z",
+      "updated": "2026-11-04T11:17:26.957Z",
       "brief": null,
       "fields": [
         {
@@ -3596,6 +3806,10 @@
             {
               "value": "../_hiring/ops-playbook.webp",
               "label": "Blank playbook"
+            },
+            {
+              "value": "../_hiring/beach-lounger.webp",
+              "label": "On the beach"
             }
           ],
           "hint": "Pick one of the hiring photos, or upload your own: subject on the right, an empty bright left side."
@@ -6521,7 +6735,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-11-02T19:00:19.055Z",
+      "updated": "2026-11-04T11:17:26.958Z",
       "brief": null,
       "fields": [
         {
@@ -6589,6 +6803,10 @@
             {
               "value": "../_hiring/ops-playbook.webp",
               "label": "Blank playbook"
+            },
+            {
+              "value": "../_hiring/beach-lounger.webp",
+              "label": "On the beach"
             }
           ],
           "hint": "Pick one of the hiring photos, or upload your own: subject on the right, an empty bright left side."

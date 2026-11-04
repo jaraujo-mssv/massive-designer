@@ -23,6 +23,7 @@ window.HIRING_PHOTOS = {
   "hammock.webp": { seam: 54.1, shift: 110, arrow: [750, 715] },
   "event-ambassador-sf.webp": { seam: 54, shift: -77, arrow: [777, 651], zoom: 1.269 },
   "ops-playbook.webp": { seam: 51, shift: -7, arrow: [830, 752], zoom: 1.2 },
+  "beach-lounger.webp": { seam: 52, shift: 76, arrow: [696, 650] },
 };
 
 // Fit the wash and the photo to the photo the post shows (an upload or a link gets middling values), and return

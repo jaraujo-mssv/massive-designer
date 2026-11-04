@@ -82,6 +82,10 @@
         {
           "value": "../_hiring/ops-playbook.webp",
           "label": "Blank playbook"
+        },
+        {
+          "value": "../_hiring/beach-lounger.webp",
+          "label": "On the beach"
         }
       ],
       "hint": "Pick one of the hiring photos, or upload your own: subject on the right, an empty bright left side."

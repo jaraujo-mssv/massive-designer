@@ -139,7 +139,7 @@ id `hiring-photo-square` · 1080×1080 · hiring · template
 The square hiring post: “We’re hiring” and the role on a red brush stroke, on a cream wash beside the photo, and a handwritten note with an arrow. Fill in the role and the note, and pick one of the hiring photos (../_hiring/) or upload one; ../_hiring/hiring.js fits the wash, the photo and the arrow to it.
 
 Params:
-- `photo`: Photo. A direct https:// link to an image, or one of the design's photos by name: `Home office`, `Standing call`, `Window seat (SF)`, `Standing desk`, `Coffee at the desk`, `At an event`, `Leaning back`, `Home lab`, `Café`, `On the sofa`, `Balcony abroad`, `Kitchen at sunrise`, `Hammock`, `Event ambassador (SF)`, `Blank playbook`; default: the design's own. Pick one of the hiring photos, or upload your own: subject on the right, an empty bright left side.
+- `photo`: Photo. A direct https:// link to an image, or one of the design's photos by name: `Home office`, `Standing call`, `Window seat (SF)`, `Standing desk`, `Coffee at the desk`, `At an event`, `Leaning back`, `Home lab`, `Café`, `On the sofa`, `Balcony abroad`, `Kitchen at sunrise`, `Hammock`, `Event ambassador (SF)`, `Blank playbook`, `On the beach`; default: the design's own. Pick one of the hiring photos, or upload your own: subject on the right, an empty bright left side.
 - `headline`: Headline. Text; default "We’re hiring".
 - `role`: Role. Text; default "Writer in Residence". On the red stroke; it shrinks to fit. Enter starts a new line.
 - `gap`: Gap. A number from -40 to 100 px; default 0. Space between the headline and the red stroke.
@@ -149,6 +149,25 @@ Params:
 Image link (defaults): https://massive-designer.vercel.app/api/render/hiring-photo-square.jpg
 Edit link: https://massive-designer.vercel.app/images?template=hiring-photo-square
 Thumbnail: https://massive-designer.vercel.app/image-projects/hiring-photo-square/thumb.jpg
+
+### Hiring: We’re hiring an (template)
+
+id `hiring-an-square` · 1080×1080 · hiring · template
+
+The square hiring post with a size you set: “We’re hiring an”, the role on a red brush stroke, a handwritten note with an arrow, on a cream wash beside the photo. Fill in the role and the note, set the headline's size and the gap under it, and pick one of the hiring photos or upload one.
+
+Params:
+- `photo`: Photo. A direct https:// link to an image, or one of the design's photos by name: `Home office`, `Standing call`, `Window seat (SF)`, `Standing desk`, `Coffee at the desk`, `At an event`, `Leaning back`, `Home lab`, `Café`, `On the sofa`, `Balcony abroad`, `Kitchen at sunrise`, `Hammock`, `Event ambassador (SF)`, `Blank playbook`, `On the beach`; default: the design's own. Pick one of the hiring photos, or upload your own: subject on the right, an empty bright left side.
+- `headline`: Headline. Text; default "We’re\nhiring an". Enter starts a new line, and lines you break stay on one line at any size.
+- `headlineSize`: Headline size. A number from 72 to 200 px; default 164. How big the headline is. The role fits itself to the red stroke.
+- `role`: Role. Text; default "Operations Manager". On the red stroke; it shrinks to fit. Enter starts a new line.
+- `gap`: Gap. A number from -40 to 100 px; default 34. Space between the headline and the red stroke.
+- `aside`: Handwritten note. Text; default "Office: wherever". A short joke about the photo, like “Socks: mismatched.”; the arrow points into the photo.
+- `showAside`: Show the note. True or false; default true.
+
+Image link (defaults): https://massive-designer.vercel.app/api/render/hiring-an-square.jpg
+Edit link: https://massive-designer.vercel.app/images?template=hiring-an-square
+Thumbnail: https://massive-designer.vercel.app/image-projects/hiring-an-square/thumb.jpg
 
 ### Holiday greetings
 
@@ -279,7 +298,7 @@ id `hiring-we-hired` · 1080×1080 · hiring · template
 Closes the loop on a role post once it is filled: “We hired” and the role on the red brush stroke, beside the photo, with a handwritten note; follow it with the person’s Welcome to Massive card. Source: welcome-template (Franklin Uche, Community Lead).
 
 Params:
-- `photo`: Photo. A direct https:// link to an image, or one of the design's photos by name: `Home office`, `Standing call`, `Window seat (SF)`, `Standing desk`, `Coffee at the desk`, `At an event`, `Leaning back`, `Home lab`, `Café`, `On the sofa`, `Balcony abroad`, `Kitchen at sunrise`, `Hammock`, `Event ambassador (SF)`, `Blank playbook`; default: the design's own. Pick one of the hiring photos, or upload your own: subject on the right, an empty bright left side.
+- `photo`: Photo. A direct https:// link to an image, or one of the design's photos by name: `Home office`, `Standing call`, `Window seat (SF)`, `Standing desk`, `Coffee at the desk`, `At an event`, `Leaning back`, `Home lab`, `Café`, `On the sofa`, `Balcony abroad`, `Kitchen at sunrise`, `Hammock`, `Event ambassador (SF)`, `Blank playbook`, `On the beach`; default: the design's own. Pick one of the hiring photos, or upload your own: subject on the right, an empty bright left side.
 - `headline`: Headline. Text; default "We hired". Keep it short; a long word shrinks to stay clear of the photo.
 - `role`: Role. Text; default "Community Lead". The role that was filled, as it was posted; on the red stroke, up to two lines, it shrinks to fit.
 - `gap`: Gap. A number from -40 to 100 px; default 0. Space between the headline and the red stroke.

@@ -19,7 +19,7 @@ read it first.
 | The compliance one-pager | `scripts/onepager/` (cream, legacy) | `npm run onepager` | `output/onepager/` |
 | The Jaipur dinner menu | `scripts/menu/` (cream, legacy) | `npm run menu` | `output/menu/` |
 | Trade-show roll-up banners, 85 × 200 cm | `scripts/banners/` | `npm run banners:html`, `npm run banners` | `output/banners/<slug>.pdf` |
-| Buttons, pins, stickers, T-shirts, pajamas | `scripts/merch/merch.html` | `npm run merch` | `public/merch-files/` (committed) |
+| Buttons, pins, stickers, T-shirts, promo cards, pajamas | `scripts/merch/merch.html` | `npm run merch` | `public/merch-files/` (committed) |
 | Slides | the `massive-deck` skill | | |
 
 Edit the legacy docs, one-pager and menu in place when asked, but start new pieces in `scripts/print/`, even one that
@@ -80,6 +80,10 @@ before changing a design. `npm run merch` writes the PDFs, PNGs and SVGs to `pub
 Merch tab serves, so commit them. `npm run merch:printful` then cuts the prints into Printful's print files, one per
 placement of each garment (listed in `src/tools/merch/app/printful.ts`), in `output/printful/`, not committed.
 `npm run merch:mockups` makes desk photos through ElevenLabs and costs credits: run it only when asked.
+The promo card (A6, for Reads) is two designs that share a `data-print`: `npm run merch -- card` renders just those and
+writes the file to upload, a two-page CMYK PDF with trim and bleed boxes (`scripts/merch/cmyk-pdf.mjs`, on a Mac, for its
+CMYK profile). After any change to the back, test the QR on that PDF. The cabinet card (A6 flat, A7 folded) works the same way:
+`npm run merch -- card-cabinet`, with its baked panels in `scripts/merch/cards/cabinet/`.
 
 ## Workflow
 

@@ -3,14 +3,17 @@ import { copyFile, mkdir, readdir } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { pathToFileURL, fileURLToPath } from "node:url";
 import sharp from "sharp";
+import { writeCmykPdf } from "./cmyk-pdf.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(__dirname, "..", "..");
 // public/, not output/: the Merch tab serves these on the live site.
 const outDir = resolve(repoRoot, "public", "merch-files");
 
-//   node scripts/merch/render.mjs
+//   node scripts/merch/render.mjs [<name>]     (npm run merch -- card)
 // merch.html is the proof sheet. Each [data-file] in it is one design, also printed on its own at its own size.
+// With a name, only the designs whose file starts with it are rendered, so the others' files stay as they are.
+const only = process.argv[2];
 await mkdir(resolve(outDir, "pdf"), { recursive: true });
 await mkdir(resolve(outDir, "png"), { recursive: true });
 await mkdir(resolve(outDir, "svg"), { recursive: true });
@@ -42,7 +45,9 @@ const proofPath = resolve(outDir, "massive-merch-proof.pdf");
 await page.pdf({ path: proofPath, format: "Letter", landscape: true, printBackground: true, margin: noMargin });
 console.log(`  ✓ proof → ${proofPath}`);
 
-const files = await page.$$eval(".art[data-file]", (els) => els.map((el) => [el.dataset.file, Number(el.dataset.dpi ?? 600)]));
+const files = (await page.$$eval(".art[data-file]", (els) => els.map((el) => [el.dataset.file, Number(el.dataset.dpi ?? 600)]))).filter(
+  ([file]) => !only || file.startsWith(only),
+);
 for (const [file, dpi] of files) {
   const page = await pageAt(dpi);
   const art = page.locator(`[data-file="${file}"]`);
@@ -74,6 +79,43 @@ for (const [file, dpi] of files) {
   });
   await size.evaluate((el) => el.remove());
   console.log(`  ✓ ${file} (${width} × ${height})`);
+}
+
+// A printer's file: every design with the same data-print, one page each, at 600 dpi in CMYK. data-trim and data-bleed
+// (in mm) set its boxes.
+// data-trim, as the pajamas' data-print is something else: the name of their print.
+const printFiles = await page.$$eval(".art[data-print][data-trim]", (els) =>
+  els.map((el) => ({ name: el.dataset.print, file: el.dataset.file, trim: el.dataset.trim, bleed: Number(el.dataset.bleed) })),
+);
+for (const name of new Set(printFiles.map((p) => p.name))) {
+  if (only && !name.startsWith(only)) continue;
+  const sides = printFiles.filter((p) => p.name === name);
+  const shots = [];
+  for (const { file } of sides) {
+    await page.evaluate((f) => {
+      document.documentElement.dataset.only = f;
+      document.querySelector(".is-only")?.classList.remove("is-only");
+      document.querySelector(`[data-file="${f}"]`).classList.add("is-only");
+    }, file);
+    // A locator's screenshot rounds out to whole CSS pixels, which would stretch the art a little over the page: this
+    // shoots a little more and cuts it to the art's own pixels.
+    const box = await page.locator(`[data-file="${file}"]`).boundingBox();
+    const clip = { x: Math.floor(box.x), y: Math.floor(box.y) };
+    clip.width = Math.ceil(box.x + box.width) - clip.x;
+    clip.height = Math.ceil(box.y + box.height) - clip.y;
+    const scale = 600 / 96;
+    const art = {
+      left: Math.round((box.x - clip.x) * scale),
+      top: Math.round((box.y - clip.y) * scale),
+      width: Math.round(box.width * scale),
+      height: Math.round(box.height * scale),
+    };
+    shots.push(await sharp(await page.screenshot({ clip })).extract(art).png().toBuffer());
+  }
+  const path = resolve(outDir, "pdf", `${name}.pdf`);
+  const [trimW, trimH] = sides[0].trim.split("x").map(Number);
+  await writeCmykPdf(path, shots, { trimW, trimH, bleed: sides[0].bleed, title: name });
+  console.log(`  ✓ ${name} (${sides.length} pages, CMYK, 600 dpi)`);
 }
 
 await browser.close();

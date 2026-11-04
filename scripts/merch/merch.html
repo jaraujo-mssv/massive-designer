@@ -33,14 +33,29 @@
     1 × 1 m seamless repeat (a 150 dpi PNG, data-dpi, and a PDF), which `npm run merch:printful` cuts into the files
     Printful takes; the flats are front views of its seven garments, at 1:10 on a 145 cm square. The proof pages
     for them are made by the script at the end of the page.
+  - Promo card, A6: Reads, Promo Cards (https://reads.ie/products/promo-cards), double-sided on 350 gsm silk. Trim
+    105 × 148 mm. They ask for 3 mm of bleed (so the art is 111 × 154 mm) and 5 mm of safe area, and their cut can
+    drift 1–3 mm, so the text stays 8 mm in. The file they take is a CMYK PDF, locked or rasterized, fonts outlined,
+    with AI images at 300 dpi or more: render.mjs writes it as card-darts-print.pdf from each side's data-print, both
+    sides at 600 dpi. The scene (cards/darts-cabinet.jpg) is 2048 px, a 2× Topaz upscale of the Gemini image, so about
+    468 dpi on the front. The back's faint board is the same image at about 220 dpi, which its 20% opacity hides. The QR (cards/qr-dartsndrinks.svg) is level H, as the mountain sits over its centre: test it on
+    the final PDF after any change. Its tile is 41 modules: the code's 33 and a quiet zone of 4 each side.
+  - Cabinet card, A6 flat, A7 folded: the same Reads product, a gatefold that closes like a dart cabinet. Trim
+    148 × 105 mm, 3 mm of bleed (art 154 × 111 mm), panels 36.5 | 75 | 36.5 mm, so the doors meet with a 2 mm gap and
+    don't buckle. Folds are at 39.5 and 114.5 mm from the art's left edge. Flip on the short edge. Laid flat, the outside
+    runs right door | back | left door. Reads doesn't list folding: ask them to crease it, as 350 gsm can crack.
+    cards/cabinet/ holds its panels at 508 dpi: the wood, plank and slate are generated (FLUX 3 on ElevenLabs, graded to
+    the scene's door), the board, its cabinet, the hinges and the darts come from the scene. They're baked in advance.
 
   The art is drawn in hundredths of an inch: the round faces in a 100 × 100 box centred on 0,0, the enamel pins
   125 wide. The round designs stay inside 0.8 in, within both vendors' safe lines. The pajamas are in millimetres.
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@900&family=JetBrains+Mono:wght@400;600&display=swap" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;900&family=JetBrains+Mono:wght@400;600&display=swap" />
 <style>
+@font-face { font-family: 'Caveat'; src: url('../../public/image-projects/_brand/fonts/Caveat.ttf') format('truetype'); font-weight: 400 700; }
+
 :root {
   --ink: #171615;
   --ink-dim: rgba(23, 22, 21, 0.55);
@@ -180,6 +195,171 @@ html:not([data-only]) .pajama.pattern[data-ground="white"] { outline: 0.5pt soli
 .drawstring-edge { stroke: rgba(23, 22, 21, 0.35); stroke-width: 7.5; }
 .drawstring { stroke: #ffffff; stroke-width: 5; }
 
+/* Promo card: 111 × 154 mm with the bleed, all in mm from the art's top left, so the trim is at 3 mm and the text
+   starts at 11 mm. On the proof, the trim is dashed and the safe line dotted. No weight under 400 on the dark. */
+.card {
+  --ground: #0a0a0f;
+  --cream: #faf4ec;
+  --coral: #ff8163;
+  position: relative;
+  overflow: hidden;
+  width: 111mm;
+  height: 154mm;
+  background: var(--ground);
+  color: var(--cream);
+  font-family: var(--font-display);
+}
+.card > * { position: absolute; }
+html:not([data-only]) .card::before,
+html:not([data-only]) .card::after { content: ''; position: absolute; z-index: 1; }
+html:not([data-only]) .card::before { inset: 3mm; border: 0.6pt dashed var(--guide); }
+html:not([data-only]) .card::after { inset: 8mm; border: 0.6pt dotted var(--guide); }
+.card-dots {
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(250, 244, 236, 0.18) 0.09mm, transparent 0.1mm);
+  background-size: 7.2mm 7.2mm;
+}
+.card-swoosh { left: 0; top: 0; width: 111mm; height: 154mm; }
+.card-swoosh path { fill: var(--coral); }
+/* A little looser than the guide's -0.04em: at this size and weight, on a press, the letters would close up */
+.card h2 { font-weight: 900; letter-spacing: -0.025em; line-height: 1; }
+
+/* Front: the scene, full width, its lower panel fading into the ground, and the copy on it. It starts 3.6 mm down
+   so the ceiling lights are inside the trim, not cut by it; the ground above is as dark as its ceiling. */
+.card-scene { left: 0; top: 3.6mm; width: 111mm; height: 111mm; display: block; }
+.card-fade { left: 0; top: 91.6mm; width: 111mm; height: 23mm; background: linear-gradient(to bottom, rgba(10, 10, 15, 0), var(--ground)); }
+.card-front-copy { left: 11mm; top: 98.8mm; width: 89mm; }
+.card-front-copy h2 { font-size: 11.6mm; }
+.card-front-copy p { margin-top: 0.4mm; font-size: 4.45mm; line-height: 1.26; font-weight: 400; }
+.card-front-copy h2 + p { margin-top: 2mm; font-weight: 700; }
+.card-front-copy .card-when { margin-top: 1.4mm; font-size: 5.3mm; font-weight: 700; color: var(--coral); }
+
+/* Back: everything on the card's centre line. Behind it, barely there, only the scene's dartboard, cut to its round
+   edge and centred on the QR, so the code is the bullseye. In the 2048 px scene the board is centred at 1030, 1165,
+   402 px in radius; 94 mm across, the whole scene is 239.5 mm. */
+.card-backdrop { left: 8.5mm; top: 56mm; width: 94mm; height: 94mm; border-radius: 50%; overflow: hidden; opacity: 0.2; }
+.card-backdrop img { position: absolute; left: -73.4mm; top: -89.2mm; width: 239.5mm; height: 239.5mm; max-width: none; display: block; }
+.card-logo { left: 30.8mm; top: 11mm; width: 49.4mm; height: 5.6mm; fill: #ffffff; overflow: visible; }
+.card-back-title { left: 11mm; top: 21.6mm; width: 89mm; font-size: 13.4mm; text-align: center; }
+.card-back-sub { left: 11mm; top: 50.6mm; width: 89mm; font-size: 4.9mm; line-height: 1.3; font-weight: 400; white-space: nowrap; text-align: center; }
+.card-back-sub span { position: relative; z-index: 0; display: inline-block; padding: 0 0.7mm; font-weight: 700; color: #ffffff; }
+.card-back-sub img { position: absolute; z-index: -1; left: -0.6mm; top: 0.2mm; width: calc(100% + 1.2mm); height: 6mm; }
+.card-hand { left: 11mm; top: 59.6mm; width: 89mm; font-family: 'Caveat', cursive; font-weight: 700; font-size: 9.4mm; line-height: 1; text-align: center; }
+.card-arrow { left: 50.5mm; top: 68.6mm; width: 10mm; height: 7mm; overflow: visible; }
+.card-arrow path { fill: none; stroke: var(--coral); stroke-width: 0.85; stroke-linecap: round; stroke-linejoin: round; }
+.card-tile { left: 28.5mm; top: 76mm; width: 54mm; height: 54mm; background: #ffffff; border-radius: 2mm; }
+/* The quiet zone is 4 of the tile's 41 modules, so 9.756% */
+.card-tile img { position: absolute; left: 9.756%; top: 9.756%; width: 80.488%; height: 80.488%; display: block; }
+/* The mountain's place, on the module grid: modules 11 to 22 across and 13 to 20 down, of 33. The SVG leaves those
+   modules out, as a white box over them leaves hairlines. */
+.card-tile div { position: absolute; left: calc(9.756% + 80.488% * 11 / 33); top: calc(9.756% + 80.488% * 13 / 33); width: calc(80.488% * 11 / 33); height: calc(80.488% * 7 / 33); background: #ffffff; display: grid; place-items: center; }
+.card-tile svg { width: 86%; height: auto; display: block; overflow: visible; }
+.card-url { left: 11mm; top: 131.4mm; width: 89mm; text-align: center; font-size: 4.9mm; font-weight: 600; }
+/* The cabinet card: all in mm from the art's top left. Folds at 39.5 and 114.5, the trim 3 in. */
+.card.cab, .cab { width: 154mm; height: 111mm; }
+.cab {
+  --ground: #0a0a0f;
+  --cream: #faf4ec;
+  --coral: #ff8163;
+  overflow: hidden;
+  background: #120c09;
+  color: var(--cream);
+  font-family: var(--font-display);
+}
+.cab > * { position: absolute; }
+.cab-panel { top: 0; height: 111mm; display: block; }
+.cab-l { left: 0; width: 39.5mm; }
+.cab-c { left: 39.5mm; width: 75mm; }
+.cab-r { left: 114.5mm; width: 39.5mm; }
+.cab-flop { transform: scaleX(-1); }
+.cab-shade { top: 0; height: 111mm; }
+/* Proof only: the folds */
+.cab-fold { top: 0; height: 111mm; width: 0; border-left: 0.6pt dashed var(--guide); z-index: 2; }
+html[data-only] .cab-fold { display: none; }
+
+/* Outside: the doors, each darker where the text sits and at the edge where it meets the other door */
+.cab-shade.door-left { left: 114.5mm; width: 39.5mm; background:
+  linear-gradient(to left, rgba(0, 0, 0, 0.6) 3mm, rgba(0, 0, 0, 0) 9mm),
+  linear-gradient(to right, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0) 4mm),
+  linear-gradient(to bottom, rgba(12, 8, 6, 0.22), rgba(12, 8, 6, 0.36) 40%, rgba(12, 8, 6, 0.26)); }
+.cab-shade.door-right { left: 0; width: 39.5mm; background:
+  linear-gradient(to right, rgba(0, 0, 0, 0.6) 3mm, rgba(0, 0, 0, 0) 9mm),
+  linear-gradient(to left, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0) 4mm),
+  linear-gradient(to bottom, rgba(12, 8, 6, 0.22), rgba(12, 8, 6, 0.36) 40%, rgba(12, 8, 6, 0.26)); }
+.cab-logo { fill: #ffffff; overflow: visible; }
+.cab-door-logo { left: 119.5mm; top: 11mm; width: 26.5mm; height: 3mm; }
+.cab-door-text { width: 26.5mm; }
+.cab-door-text.on-left { left: 119.5mm; text-align: right; }
+.cab-door-text.on-right { left: 8mm; text-align: left; }
+.cab-headline { top: 26mm; font-size: 6.7mm; font-weight: 900; letter-spacing: -0.02em; line-height: 1.04; }
+.cab-body { top: 42.4mm; font-size: 3.5mm; font-weight: 600; line-height: 1.26; }
+.cab-date { top: 73mm; font-size: 4.9mm; font-weight: 700; color: var(--coral); }
+/* A knob by the seam, and a hinge's knuckle on each fold */
+.cab-knob { width: 3.6mm; height: 3.6mm; border-radius: 50%; top: 58.5mm;
+  background: radial-gradient(circle at 36% 30%, #f6e2ae, #c0954c 42%, #6b4a20 78%, #33230f);
+  box-shadow: 0.25mm 0.5mm 0.8mm rgba(0, 0, 0, 0.75); }
+.cab-knob.on-left { left: 145.7mm; }
+.cab-knob.on-right { left: 4.7mm; }
+.cab-knuckle { width: 1.7mm; height: 8.5mm; border-radius: 0.35mm;
+  background:
+    linear-gradient(to bottom, transparent 32%, rgba(0, 0, 0, 0.7) 32% 34%, transparent 34% 66%, rgba(0, 0, 0, 0.7) 66% 68%, transparent 68%),
+    linear-gradient(to right, #24211d, #9b9387 42%, #4b4640 72%, #191714);
+  box-shadow: 0 0.2mm 0.5mm rgba(0, 0, 0, 0.7); }
+.cab-knuckle.top { top: 34mm; }
+.cab-knuckle.bottom { top: 85mm; }
+.cab-knuckle.fold-a { left: 38.65mm; }
+.cab-knuckle.fold-b { left: 113.65mm; }
+
+/* Outside, the back: the QR, big. Its tile is 41 modules, so about 1.46 mm each. */
+.cab-rsvp { left: 44.5mm; top: 9.2mm; width: 65mm; text-align: center; font-family: 'Caveat', cursive; font-weight: 700; font-size: 8.2mm; line-height: 1; }
+.cab-arrow { left: 73.4mm; top: 16.9mm; width: 7.2mm; height: 5mm; overflow: visible; }
+.cab-arrow path { fill: none; stroke: var(--coral); stroke-width: 0.85; stroke-linecap: round; stroke-linejoin: round; }
+.card-tile.cab-tile { left: 47mm; top: 22mm; width: 60mm; height: 60mm; }
+.cab-url { left: 44.5mm; top: 84mm; width: 65mm; text-align: center; font-size: 4.7mm; font-weight: 600; }
+.cab-back-logo { left: 63mm; top: 93.4mm; width: 28mm; height: 3.17mm; }
+
+/* Inside: the plaque's logo and name, a light on it, and shade on the doors where they meet the cabinet */
+.cab-glow { left: 39.5mm; top: 0; width: 75mm; height: 30mm; background: radial-gradient(ellipse 46mm 20mm at 50% 0, rgba(255, 196, 130, 0.2), rgba(255, 196, 130, 0)); }
+.cab-plaque-logo { left: 55mm; top: 9mm; width: 44mm; height: 4.99mm; filter: drop-shadow(0 0.2mm 0.25mm rgba(0, 0, 0, 0.7)); }
+.cab-plaque-name { left: 44.5mm; top: 15.1mm; width: 65mm; text-align: center; font-size: 4.3mm; font-weight: 700; letter-spacing: 0.03em; line-height: 1; color: #ffffff; text-shadow: 0 0.2mm 0.3mm rgba(0, 0, 0, 0.7); }
+.cab-shade.inside-left { left: 0; width: 39.5mm; background:
+  linear-gradient(to left, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0) 5mm),
+  linear-gradient(to bottom, rgba(12, 8, 6, 0.26), rgba(12, 8, 6, 0.08) 40%, rgba(12, 8, 6, 0.12)); }
+.cab-shade.inside-right { left: 114.5mm; width: 39.5mm; background:
+  linear-gradient(to right, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0) 5mm),
+  linear-gradient(to bottom, rgba(12, 8, 6, 0.26), rgba(12, 8, 6, 0.08) 40%, rgba(12, 8, 6, 0.12)); }
+
+/* Inside, the left door: the scoreboard */
+.cab-slate { left: 7.5mm; top: 11mm; width: 27.5mm; height: 73mm; background: url('cards/cabinet/slate.jpg') center / 100% 100%; border-radius: 0.5mm; box-shadow: 0.3mm 0.6mm 1.2mm rgba(0, 0, 0, 0.7); }
+.cab-slate > * { position: absolute; }
+.cab-chalk-frame { inset: 1mm; border: 0.2mm solid rgba(250, 244, 236, 0.5); border-radius: 0.6mm; }
+.cab-slate-logo { left: 3.75mm; top: 3.2mm; width: 20mm; height: 2.27mm; }
+.cab-chalk-line { background: rgba(250, 244, 236, 0.55); }
+.cab-chalk-line.across { left: 2.4mm; width: 22.7mm; height: 0.2mm; }
+.cab-chalk-line.down { width: 0.2mm; top: 22.9mm; height: 45.8mm; }
+.cab-slate-title { left: 0; top: 8.6mm; width: 27.5mm; text-align: center; font-size: 5.3mm; font-weight: 900; letter-spacing: -0.02em; line-height: 1.04; }
+.cab-score { left: -0.5mm; top: 24.4mm; width: 27.5mm; text-align: center; font-family: 'Caveat', cursive; font-weight: 700; font-size: 5mm; line-height: 1.26; color: rgba(250, 244, 236, 0.88); }
+.cab-chalk-ledge { left: 9.5mm; top: 83.9mm; width: 23.5mm; height: 2.2mm; border-radius: 0.2mm;
+  background: linear-gradient(to bottom, #8a5a38, #5a3420 22%, #2c180e);
+  box-shadow: 0.2mm 0.5mm 0.9mm rgba(0, 0, 0, 0.75); }
+
+/* Inside, the right door: the line, over the darts */
+.cab-note { left: 119.5mm; top: 49mm; width: 26.5mm; text-align: center; font-family: 'Caveat', cursive; font-weight: 700; font-size: 5.9mm; line-height: 1.12; }
+.cab-note span { position: relative; display: inline-block; }
+.cab-note svg { position: absolute; left: -0.3mm; bottom: -0.2mm; width: calc(100% + 0.6mm); height: 1.1mm; overflow: visible; }
+.cab-note path { fill: none; stroke: var(--coral); stroke-width: 0.5; stroke-linecap: round; }
+
+/* The closed preview: the two doors as they meet, trimmed, with the 2 mm gap */
+.card.cab-closed { width: 75mm; height: 105mm; background: #050403; }
+html:not([data-only]) .card.cab-closed::before, html:not([data-only]) .card.cab-closed::after { display: none; }
+.cab-door { top: 0; width: 36.5mm; height: 105mm; overflow: hidden; }
+.cab-door.left { left: 0; }
+.cab-door.right { left: 38.5mm; }
+.cab-door .cab-fold { display: none; }
+
+/* The mono rule: this page's labels are Outfit */
+.cards .legend, .cards .row-label, .cards figcaption { font-family: var(--font-display); }
+
 /* ---------- One design (render.mjs) ----------
    Centred on a page of its own size. Chromium rounds a PDF page to about 1/150 in, so a round design's ground
    runs on past its edge and an enamel pin has a hairline of margin: the rounding never cuts into the art. */
@@ -197,6 +377,7 @@ html[data-only] .round::before,
 html[data-only] .round::after { display: none; }
 html[data-only] .pajama { width: calc(var(--real) * var(--file)); height: calc(var(--real) * var(--file)); }
 html[data-only] .tee { width: 12in; height: 16in; }
+html[data-only] .card { box-shadow: 0 0 0 0.05in var(--ground); }
 /* A metre is wider than the window: the page grows round it, so the screenshot isn't cut */
 html[data-only] .proof.pajamas { width: max-content; height: max-content; min-width: 100vw; min-height: 100vh; overflow: visible; }
 </style>
@@ -517,6 +698,171 @@ html[data-only] .proof.pajamas { width: max-content; height: max-content; min-wi
     </div>
   </section>
 </main>
+
+<main class="proof cards">
+  <header class="proof-head">
+    <h1>Massive merch</h1>
+    <p class="legend">Actual size<span class="cut">Trim, 105 × 148 mm</span><span class="safe">Reads’ safe area, 5 mm</span></p>
+  </header>
+
+  <section class="row">
+    <p class="row-label"><b>Promo card, A6</b> · Reads · double-sided, 350 gsm silk · 3 mm bleed · upload card-darts-print.pdf</p>
+    <div class="cells">
+      <figure class="cell">
+        <div class="art card" data-file="card-darts-front" data-dpi="300" data-print="card-darts-print" data-trim="105x148" data-bleed="3">
+          <div class="card-dots"></div>
+          <img class="card-scene" src="cards/darts-cabinet.jpg" alt="" />
+          <div class="card-fade"></div>
+          <div class="card-front-copy">
+            <h2>In Dublin<br />for Extract?</h2>
+            <p>Start a night early.</p>
+            <p>Darts, pizza, pints.</p>
+            <p class="card-when">Mon 9 Nov · 19:00</p>
+          </div>
+          <svg class="card-swoosh" viewBox="0 0 111 154"><path d="M-2 151.5 C38 151.5 78 147 113 137.4 V158 H-2 Z" /></svg>
+        </div>
+        <figcaption>Front</figcaption>
+      </figure>
+      <figure class="cell">
+        <div class="art card" data-file="card-darts-back" data-dpi="300" data-print="card-darts-print" data-trim="105x148" data-bleed="3">
+          <div class="card-backdrop"><img src="cards/darts-cabinet.jpg" alt="" /></div>
+          <svg class="card-logo" viewBox="0 0 1090.16 123.62"><use href="#lockup" width="1090.16" height="123.62" /></svg>
+          <h2 class="card-back-title">Nobody’s<br />pitching.</h2>
+          <p class="card-back-sub">You’ll get a <span><img src="../../public/image-projects/_brand/brush.svg" alt="" />dart</span>, not a deck.</p>
+          <p class="card-hand">RSVP here</p>
+          <svg class="card-arrow" viewBox="0 0 10 7"><path d="M4.4 0.4 C3.2 2.4 4.2 4.4 5.4 6.2 M2.9 4.5 L5.5 6.5 L6.9 3.6" /></svg>
+          <div class="card-tile">
+            <img src="cards/qr-dartsndrinks.svg" alt="" />
+            <div><svg viewBox="0 11.12 283.38 112.47"><use href="#icon" x="0" y="11.12" width="283.38" height="112.47" /></svg></div>
+          </div>
+          <p class="card-url">luma.com/dartsndrinks</p>
+          <svg class="card-swoosh" viewBox="0 0 111 154"><path d="M-2 151.5 C38 151.5 78 147 113 137.4 V158 H-2 Z" /></svg>
+        </div>
+        <figcaption>Back</figcaption>
+      </figure>
+    </div>
+  </section>
+</main>
+
+<main class="proof cards">
+  <header class="proof-head">
+    <h1>Massive merch</h1>
+    <p class="legend">Actual size<span class="cut">Trim, 148 × 105 mm, and folds</span><span class="safe">Reads’ safe area, 5 mm</span></p>
+  </header>
+
+  <section class="row">
+    <p class="row-label"><b>Cabinet card, A6 flat, A7 folded</b> · Reads · 350 gsm silk · panels 36.5 | 75 | 36.5 mm · flip on the short edge · upload card-cabinet-print.pdf</p>
+    <div class="cells">
+      <figure class="cell">
+        <div class="art card cab" data-file="card-cabinet-outside" data-dpi="200" data-print="card-cabinet-print" data-trim="148x105" data-bleed="3">
+          <!-- Flat, the doors swap sides: the right door is on the left -->
+          <img class="cab-panel cab-l cab-flop" src="cards/cabinet/door-front.jpg" alt="" />
+          <img class="cab-panel cab-c" src="cards/cabinet/back.jpg" alt="" />
+          <img class="cab-panel cab-r" src="cards/cabinet/door-front.jpg" alt="" />
+          <div class="cab-shade door-right"></div>
+          <div class="cab-shade door-left"></div>
+          <div class="cab-knuckle top fold-a"></div><div class="cab-knuckle bottom fold-a"></div>
+          <div class="cab-knuckle top fold-b"></div><div class="cab-knuckle bottom fold-b"></div>
+
+          <!-- The left door -->
+          <svg class="cab-logo cab-door-logo" viewBox="0 0 1090.16 123.62"><use href="#lockup" width="1090.16" height="123.62" /></svg>
+          <div class="cab-door-text on-left cab-headline">In<br />Dublin</div>
+          <div class="cab-door-text on-left cab-body">Start a<br />night early.</div>
+          <div class="cab-door-text on-left cab-date">Mon 9 Nov</div>
+          <div class="cab-knob on-left"></div>
+
+          <!-- The right door -->
+          <div class="cab-door-text on-right cab-headline">for<br />Extract?</div>
+          <div class="cab-door-text on-right cab-body">Darts, pizza,<br />pints.</div>
+          <div class="cab-door-text on-right cab-date">19:00</div>
+          <div class="cab-knob on-right"></div>
+
+          <!-- The back -->
+          <p class="cab-rsvp">RSVP here</p>
+          <svg class="cab-arrow" viewBox="0 0 10 7"><path d="M4.4 0.4 C3.2 2.4 4.2 4.4 5.4 6.2 M2.9 4.5 L5.5 6.5 L6.9 3.6" /></svg>
+          <div class="card-tile cab-tile">
+            <img src="cards/qr-dartsndrinks.svg" alt="" />
+            <div><svg viewBox="0 11.12 283.38 112.47"><use href="#icon" x="0" y="11.12" width="283.38" height="112.47" /></svg></div>
+          </div>
+          <p class="cab-url">luma.com/dartsndrinks</p>
+          <svg class="cab-logo cab-back-logo" viewBox="0 0 1090.16 123.62"><use href="#lockup" width="1090.16" height="123.62" /></svg>
+
+          <div class="cab-fold" style="left: 39.5mm"></div><div class="cab-fold" style="left: 114.5mm"></div>
+        </div>
+        <figcaption>Outside: right door, back, left door</figcaption>
+      </figure>
+      <figure class="cell">
+        <div class="art card cab-closed" data-file="card-cabinet-closed" data-dpi="200"></div>
+        <figcaption>Closed, from the outside (made from it)</figcaption>
+      </figure>
+    </div>
+  </section>
+</main>
+
+<main class="proof cards">
+  <header class="proof-head">
+    <h1>Massive merch</h1>
+    <p class="legend">Actual size<span class="cut">Trim, 148 × 105 mm, and folds</span><span class="safe">Reads’ safe area, 5 mm</span></p>
+  </header>
+
+  <section class="row">
+    <p class="row-label"><b>Cabinet card, A6 flat, A7 folded</b> · the inside, open</p>
+    <div class="cells">
+      <figure class="cell">
+        <div class="art card cab" data-file="card-cabinet-inside" data-dpi="200" data-print="card-cabinet-print" data-trim="148x105" data-bleed="3">
+          <img class="cab-panel cab-l" src="cards/cabinet/door-inside-left.jpg" alt="" />
+          <img class="cab-panel cab-c" src="cards/cabinet/inside-centre.jpg" alt="" />
+          <img class="cab-panel cab-r" src="cards/cabinet/door-inside-right.jpg" alt="" />
+          <div class="cab-shade inside-left"></div>
+          <div class="cab-shade inside-right"></div>
+          <div class="cab-glow"></div>
+
+          <!-- The left door: the scoreboard -->
+          <div class="cab-chalk-ledge"></div>
+          <div class="cab-slate">
+            <div class="cab-chalk-frame"></div>
+            <svg class="cab-logo cab-slate-logo" viewBox="0 0 1090.16 123.62"><use href="#lockup" width="1090.16" height="123.62" /></svg>
+            <div class="cab-chalk-line across" style="top: 6.9mm"></div>
+            <h2 class="cab-slate-title">Nobody’s<br />pitching.</h2>
+            <div class="cab-chalk-line across" style="top: 22.7mm"></div>
+            <div class="cab-chalk-line down" style="left: 9.3mm"></div>
+            <div class="cab-chalk-line down" style="left: 18mm"></div>
+            <div class="cab-score">20<br />19<br />18<br />17<br />16<br />15<br />Bull</div>
+          </div>
+
+          <!-- The cabinet: the sign -->
+          <svg class="cab-logo cab-plaque-logo" viewBox="0 0 1090.16 123.62"><use href="#lockup" width="1090.16" height="123.62" /></svg>
+          <p class="cab-plaque-name">DARTS &amp; DRINKS</p>
+
+          <!-- The right door: the line, over the darts -->
+          <p class="cab-note">You’ll get<br />a <span>dart<svg viewBox="0 0 20 2" preserveAspectRatio="none"><path d="M0.5 1.3 C6 0.5 14 1.7 19.5 0.8" /></svg></span>,<br />not a deck.</p>
+
+          <div class="cab-fold" style="left: 39.5mm"></div><div class="cab-fold" style="left: 114.5mm"></div>
+        </div>
+        <figcaption>Inside: left door, cabinet, right door</figcaption>
+      </figure>
+    </div>
+  </section>
+</main>
+
+<script>
+  // The closed preview: the outside art, twice, each window on one door, as they meet when folded. A door only moves
+  // when it folds, it doesn't turn, so these are the same pixels.
+  (() => {
+    const closed = document.querySelector('[data-file="card-cabinet-closed"]');
+    const outside = document.querySelector('[data-file="card-cabinet-outside"]');
+    for (const [side, x] of [["left", 114.5], ["right", 3]]) {
+      const door = document.createElement("div");
+      door.className = `cab-door ${side}`;
+      const copy = outside.cloneNode(true);
+      for (const name of Object.keys(copy.dataset)) delete copy.dataset[name];
+      copy.className = "cab";
+      copy.style.cssText = `position: absolute; left: ${-x}mm; top: -3mm;`;
+      door.appendChild(copy);
+      closed.appendChild(door);
+    }
+  })();
+</script>
 
 <!-- The pajama pages, one per print and ground, are made by the script below -->
 

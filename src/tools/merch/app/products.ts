@@ -27,6 +27,8 @@ export interface MerchProduct {
   wide?: boolean;
   /** Also downloads as the source SVG (public/merch-files/svg/) */
   svg?: boolean;
+  /** The one file to send the vendor, when it isn't a design's own: its name in public/merch-files/pdf/ */
+  printFile?: string;
   designs: MerchDesign[];
 }
 
@@ -132,6 +134,33 @@ export const PRODUCTS: MerchProduct[] = [
       { file: "tee-back-black", name: "Back · Black", ground: "#1b1b1c" },
       { file: "tee-front-orange", name: "Front · Terracotta", ground: "#ff9364" },
       { file: "tee-back-orange", name: "Back · Terracotta", ground: "#ff9364" },
+    ],
+  },
+  {
+    id: "card",
+    name: "Promo card · Darts night",
+    vendor: { name: "Reads, Promo Cards", url: "https://reads.ie/products/promo-cards" },
+    specs: ["A6, 105 × 148 mm, 3 mm bleed", "Double-sided, 350 gsm silk", "CMYK PDF, 600 dpi"],
+    notes:
+      "For the darts night before Extract Summit, Mon 9 Nov. Pick A6, double-sided, 350 gsm silk, and upload the print file (two pages, front then back). Cut corners are square, as Reads lists no rounded option. Scan the QR on the final file before ordering, as Reads recharges reprints from file errors at full price, and their page asks you to review AI images yourself.",
+    printFile: "card-darts-print",
+    designs: [
+      { file: "card-darts-front", name: "Front" },
+      { file: "card-darts-back", name: "Back" },
+    ],
+  },
+  {
+    id: "card-cabinet",
+    name: "Cabinet card · Darts night",
+    vendor: { name: "Reads, Promo Cards", url: "https://reads.ie/products/promo-cards" },
+    specs: ["A6 flat, A7 folded, 3 mm bleed", "Gatefold: 36.5 | 75 | 36.5 mm", "CMYK PDF, 600 dpi"],
+    notes:
+      "The same card as a fold-out: two doors close over the dartboard, with the QR on the back. Pick A6, double-sided, 350 gsm silk, upload the print file (outside, then inside) and ask for it to flip on the short edge. Reads doesn’t list folding, so confirm it with them and ask for it to be creased, as 350 gsm can crack along the dark print. The folds are 36.5 mm in from each side; by hand, line up with the hinge pins. Print one on paper at 100% and fold it before ordering.",
+    printFile: "card-cabinet-print",
+    designs: [
+      { file: "card-cabinet-closed", name: "Closed (preview)" },
+      { file: "card-cabinet-outside", name: "Outside" },
+      { file: "card-cabinet-inside", name: "Inside" },
     ],
   },
   {

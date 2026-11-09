@@ -26,9 +26,10 @@
     (#ff9364, the logo's coral) or White, printed DTG. Front and back are 12 × 16 in print areas on every size;
     each file is the whole area (transparent, 300 dpi), with the design where it goes. The front is the halftone
     sticker without its backing (tees/*.svg, made from stickers/sticker-halftone-black.svg: its dots are holes, so
-    they show the shirt), tilted; on Terracotta the mountain is white and the letters ink, and on White (a front
-    only) the letters are ink. The back is 404 / EXCUSE NOT FOUND, set as the It's Massive design, the gap round
-    the letters cut out of the mountain.
+    they show the shirt), tilted; on Terracotta the mountain is white and the letters ink, and on White the
+    letters are ink. Two backs, each 12 cm wide, 1 in below the top of its area, over www.joinmassive.com: Mountain
+    (the logo's mountain, level, in halftone) and 404 / EXCUSE NOT FOUND, set as the It's Massive design over the
+    mountain in halftone, the gap round the letters cut out of it.
   - Pajamas: Printful's all-over print garments (each one's print files are in src/tools/merch/app/printful.ts).
     Two prints, the logo's mountain and the four sleepy mountains (pajamas/sleepy/*.png), each on the dark ground
     with Printful's White trim and on white (the bare fabric, as white doesn't print) with Black trim. A print is a
@@ -153,8 +154,9 @@ html, body {
 html:not([data-only]) .sticker { background: #d6d1c7; }
 .cells.wrap { flex-wrap: wrap; max-width: 8.1in; }
 
-/* T-shirt: the 12 × 16 in print area, at 1:5 on the proof, on the shirt's colour, its edge dashed */
-.tee { position: relative; overflow: hidden; width: calc(12in / 5); height: calc(16in / 5); }
+/* T-shirt: the 12 × 16 in print area, at 1:9 on the proof (a row per colour: front, then the two backs), on the
+   shirt's colour, its edge dashed */
+.tee { position: relative; overflow: hidden; width: calc(12in / 9); height: calc(16in / 9); }
 .tee.black, .tee-mockup.black { --shirt: #1b1b1c; --letters: #ffffff; }
 .tee.orange, .tee-mockup.orange { --shirt: #ff9364; --letters: #0a0a0f; --mountain: #ffffff; }
 .tee.white, .tee-mockup.white { --shirt: #ffffff; --letters: #0a0a0f; }
@@ -163,7 +165,7 @@ html:not([data-only]) .tee { background: var(--shirt); outline: 0.6pt dashed var
 /* The front: the sticker's artboard 13.4 in wide, so the design is about 10.5 in; tilted 10°, its top 1 in below
    the area's */
 .tee-front { position: absolute; left: -6%; top: 0; width: 112%; transform: rotate(-10deg); }
-.tees .cells { gap: 0.12in; }
+.tees .cells { display: grid; grid-template-columns: repeat(3, 1.9in); gap: 0.1in 0.16in; }
 
 /* T-shirt mockups: each front's print area, at true scale, on the #tee-shirt flat, on the light ground with its line
    grid. Not on the proof: render.mjs sets html[data-mockups] and writes each [data-mockup] to mockups/<id>.jpg,
@@ -202,6 +204,8 @@ html .tee-mockup .tee {
   background: none;
   outline: none;
 }
+/* On the back, the print area starts 2 in below the neck */
+html .tee-mockup.back .tee { top: calc(50% - 12.5 * var(--s)); }
 
 /* Pajamas: the print at actual size (1 m), the flats at 1:10 (145 cm). On the proof, all of them at 1:25.
    The dark ground has Printful's White trim; the white ground is the bare fabric, with Black trim. */
@@ -590,36 +594,77 @@ html[data-only] .proof.pajamas, html[data-only] .proof.brochure, html[data-only]
       <text transform="translate(60.54 46.34) skewX(-12)">MASSIVE</text>
     </g>
 
-    <!-- The T-shirt's back, in hundredths of an inch, centred on 0 at the mountain's peak: 404 / EXCUSE NOT FOUND,
-         set as the It's Massive design (Outfit Black, slanted with a skew from each line's baseline, over the
-         mountain). The letters take --letters, the mountain --mountain; round the letters, a 0.12 in gap is cut out
-         of the mountain, so the shirt shows. -->
-    <g id="tee-back-text" font-family="Outfit" font-weight="900" text-anchor="middle">
+    <!-- The T-shirt's two backs, in hundredths of an inch, centred on 0, the top of the design at 0. Each is drawn at
+         its own size, then scaled to 12 cm wide (472.44), so www.joinmassive.com under each comes out the same:
+         Outfit Bold, the full 12 cm wide, 0.37 in below the design. The mountains are in halftone with the front's
+         dots once scaled (0.08 in holes every 0.12 in, so the shirt shows through), on a 15° screen: the rows rise to
+         the right, so the pattern turns by -15 (SVG turns clockwise). Each pattern is drawn at 12 and 4 divided by its
+         scale. The mountains take --mountain, the letters and the address --letters. -->
+    <!-- Mountain: the logo's mountain, level, drawn 360 wide (× 1.31233), over the address. -->
+    <pattern id="tee-back-dots" patternUnits="userSpaceOnUse" width="9.144" height="9.144" patternTransform="rotate(-15)">
+      <rect width="9.144" height="9.144" fill="#ffffff" />
+      <circle cx="4.572" cy="4.572" r="3.048" fill="#000000" />
+    </pattern>
+    <mask id="tee-back-halftone" maskUnits="userSpaceOnUse" x="-200" y="-10" width="400" height="170">
+      <rect x="-200" y="-10" width="400" height="170" fill="url(#tee-back-dots)" />
+    </mask>
+    <g id="tee-back-mountain">
+      <g transform="scale(1.31233)">
+        <!-- The mask goes on a group: on the use, Chromium moves it by the use's x -->
+        <g mask="url(#tee-back-halftone)"><use href="#icon" x="-180" y="0" width="360" height="142.9" /></g>
+        <!-- x: the trailing letter-spacing pulls the centred line left -->
+        <text x="1" y="196" font-family="Outfit" font-weight="700" font-size="34.4" letter-spacing="0.53" text-anchor="middle"
+          style="fill: var(--letters)">www.joinmassive.com</text>
+      </g>
+    </g>
+    <!-- 404: 404 / EXCUSE NOT FOUND, set as the It's Massive design (Outfit Black, slanted with a skew from each
+         line's baseline, over the mountain), drawn 980 wide (× 0.48193), the top at the mountain's peak, over the
+         address. Round the letters, a gap is cut out of the mountain, so the shirt shows. -->
+    <g id="tee-back-404-text" font-family="Outfit" font-weight="900" text-anchor="middle">
       <text font-size="300" transform="translate(-22 300) skewX(-12)">404</text>
       <text font-size="96" transform="translate(-7 432) skewX(-12)">EXCUSE NOT FOUND</text>
     </g>
-    <mask id="tee-back-gap" maskUnits="userSpaceOnUse" x="-600" y="-100" width="1200" height="700">
+    <mask id="tee-back-404-gap" maskUnits="userSpaceOnUse" x="-600" y="-100" width="1200" height="700">
       <rect x="-600" y="-100" width="1200" height="700" fill="#ffffff" />
-      <use href="#tee-back-text" style="fill: #000000; stroke: #000000; stroke-width: 24; stroke-linejoin: round" />
+      <use href="#tee-back-404-text" style="fill: #000000; stroke: #000000; stroke-width: 24; stroke-linejoin: round" />
     </mask>
-    <g id="tee-back">
-      <!-- The mask goes on a group: on the use, Chromium moves it by the use's x -->
-      <g mask="url(#tee-back-gap)"><use href="#icon" x="-450" y="0" width="900" height="357.2" /></g>
-      <use href="#tee-back-text" style="fill: var(--letters)" />
+    <pattern id="tee-back-404-dots" patternUnits="userSpaceOnUse" width="24.9" height="24.9" patternTransform="rotate(-15)">
+      <rect width="24.9" height="24.9" fill="#ffffff" />
+      <circle cx="12.45" cy="12.45" r="8.3" fill="#000000" />
+    </pattern>
+    <mask id="tee-back-404-halftone" maskUnits="userSpaceOnUse" x="-470" y="-20" width="940" height="400">
+      <rect x="-470" y="-20" width="940" height="400" fill="url(#tee-back-404-dots)" />
+    </mask>
+    <g id="tee-back-404">
+      <g transform="scale(0.48193)">
+        <g mask="url(#tee-back-404-gap)"><g mask="url(#tee-back-404-halftone)"><use href="#icon" x="-450" y="0" width="900" height="357.2" /></g></g>
+        <use href="#tee-back-404-text" style="fill: var(--letters)" />
+        <!-- x: the design's centre (-1.2) and the trailing letter-spacing -->
+        <text x="1.5" y="578" font-family="Outfit" font-weight="700" font-size="93.67" letter-spacing="1.444" text-anchor="middle"
+          style="fill: var(--letters)">www.joinmassive.com</text>
+      </g>
     </g>
 
     <!-- The mockups' shirt: a flat Comfort Colors 1717, size L (22 in across the chest, 29 in long), in inches, centred
-         on 0 at the neck. The shirt takes --shirt, its outline --edge, the seams --seam, the inside of the neck --inside. -->
-    <g id="tee-shirt" stroke-linejoin="round" stroke-linecap="round">
+         on 0 at the neck. The shirt takes --shirt, its outline --edge, the seams --seam, the inside of the neck --inside.
+         The body is common to both sides; the front adds the collar dipping to the chest, the back its shallow one. -->
+    <g id="tee-shirt-body" stroke-linejoin="round" stroke-linecap="round">
       <path style="fill: var(--shirt); stroke: var(--edge)" stroke-width="0.05"
         d="M -3.8 0 C -2.5 -0.9 2.5 -0.9 3.8 0 L 10 1.2 L 16.6 4.8 L 13.34 10.77 L 11 10.2 L 11 29 Q 0 29.5 -11 29 L -11 10.2 L -13.34 10.77 L -16.6 4.8 L -10 1.2 Z" />
+      <path style="fill: none; stroke: var(--seam)" stroke-width="0.05"
+        d="M 10 1.2 C 10.6 4.5 10.9 7.5 11 10.2 M -10 1.2 C -10.6 4.5 -10.9 7.5 -11 10.2
+           M 15.81 4.37 L 12.44 10.55 M -15.81 4.37 L -12.44 10.55 M -11 28 Q 0 28.5 11 28" />
+    </g>
+    <g id="tee-shirt" stroke-linejoin="round" stroke-linecap="round">
+      <use href="#tee-shirt-body" />
       <path style="fill: var(--inside); stroke: var(--seam)" stroke-width="0.05"
         d="M -3 0.2 C -2.85 1.9 -1.5 2.55 0 2.55 C 1.5 2.55 2.85 1.9 3 0.2 C 2 -0.3 -2 -0.3 -3 0.2 Z" />
       <path style="fill: var(--shirt); stroke: var(--seam)" stroke-width="0.05"
         d="M -3.8 0 C -3.6 2.5 -1.9 3.4 0 3.4 C 1.9 3.4 3.6 2.5 3.8 0 L 3 0.2 C 2.85 1.9 1.5 2.55 0 2.55 C -1.5 2.55 -2.85 1.9 -3 0.2 Z" />
-      <path style="fill: none; stroke: var(--seam)" stroke-width="0.05"
-        d="M 10 1.2 C 10.6 4.5 10.9 7.5 11 10.2 M -10 1.2 C -10.6 4.5 -10.9 7.5 -11 10.2
-           M 15.81 4.37 L 12.44 10.55 M -15.81 4.37 L -12.44 10.55 M -11 28 Q 0 28.5 11 28" />
+    </g>
+    <g id="tee-shirt-back" stroke-linejoin="round" stroke-linecap="round">
+      <use href="#tee-shirt-body" />
+      <path style="fill: none; stroke: var(--seam)" stroke-width="0.05" d="M -3.3 0.55 C -2.2 -0.1 2.2 -0.1 3.3 0.55" />
     </g>
 
     <!-- Pajamas: front flats of Printful's all-over print garments, in mm, size M. The script copies each art's parts
@@ -854,25 +899,35 @@ html[data-only] .proof.pajamas, html[data-only] .proof.brochure, html[data-only]
 <main class="proof tees">
   <header class="proof-head">
     <h1>Massive merch</h1>
-    <p class="legend">1:5<span class="cut">Print area, 12 × 16 in</span></p>
+    <p class="legend">1:9<span class="cut">Print area, 12 × 16 in</span></p>
   </header>
 
   <section class="row">
     <p class="row-label"><b>T-shirt</b> · Printful, Comfort Colors 1717 · DTG, front and back · each file is the whole print area, on a transparent ground</p>
     <div class="cells">
       <figure class="cell"><div class="art tee black" data-file="tee-front-black" data-dpi="300"><img class="tee-front" src="tees/halftone-black.svg" alt="" /></div><figcaption>Front · Black</figcaption></figure>
-      <figure class="cell"><div class="art tee black" data-file="tee-back-black" data-dpi="300"><svg viewBox="0 0 1200 1600"><use href="#tee-back" x="600" y="150" /></svg></div><figcaption>Back · Black</figcaption></figure>
+      <figure class="cell"><div class="art tee black" data-file="tee-back-mountain-black" data-dpi="300"><svg viewBox="0 0 1200 1600"><use href="#tee-back-mountain" x="600" y="100" /></svg></div><figcaption>Back · Mountain · Black</figcaption></figure>
+      <figure class="cell"><div class="art tee black" data-file="tee-back-404-black" data-dpi="300"><svg viewBox="0 0 1200 1600"><use href="#tee-back-404" x="600" y="100" /></svg></div><figcaption>Back · 404 · Black</figcaption></figure>
       <figure class="cell"><div class="art tee orange" data-file="tee-front-orange" data-dpi="300"><img class="tee-front" src="tees/halftone-orange.svg" alt="" /></div><figcaption>Front · Terracotta</figcaption></figure>
-      <figure class="cell"><div class="art tee orange" data-file="tee-back-orange" data-dpi="300"><svg viewBox="0 0 1200 1600"><use href="#tee-back" x="600" y="150" /></svg></div><figcaption>Back · Terracotta</figcaption></figure>
+      <figure class="cell"><div class="art tee orange" data-file="tee-back-mountain-orange" data-dpi="300"><svg viewBox="0 0 1200 1600"><use href="#tee-back-mountain" x="600" y="100" /></svg></div><figcaption>Back · Mountain · Terracotta</figcaption></figure>
+      <figure class="cell"><div class="art tee orange" data-file="tee-back-404-orange" data-dpi="300"><svg viewBox="0 0 1200 1600"><use href="#tee-back-404" x="600" y="100" /></svg></div><figcaption>Back · 404 · Terracotta</figcaption></figure>
       <figure class="cell"><div class="art tee white" data-file="tee-front-white" data-dpi="300"><img class="tee-front" src="tees/halftone-white.svg" alt="" /></div><figcaption>Front · White</figcaption></figure>
+      <figure class="cell"><div class="art tee white" data-file="tee-back-mountain-white" data-dpi="300"><svg viewBox="0 0 1200 1600"><use href="#tee-back-mountain" x="600" y="100" /></svg></div><figcaption>Back · Mountain · White</figcaption></figure>
+      <figure class="cell"><div class="art tee white" data-file="tee-back-404-white" data-dpi="300"><svg viewBox="0 0 1200 1600"><use href="#tee-back-404" x="600" y="100" /></svg></div><figcaption>Back · 404 · White</figcaption></figure>
     </div>
   </section>
 </main>
 
 <main class="mockups">
   <div class="tee-mockup black" data-mockup="tee-front-black"><svg class="shirt" viewBox="-18 -1.5 36 32"><use href="#tee-shirt" /></svg><div class="tee black"><img class="tee-front" src="tees/halftone-black.svg" alt="" /></div></div>
+  <div class="tee-mockup back black" data-mockup="tee-back-mountain-black"><svg class="shirt" viewBox="-18 -1.5 36 32"><use href="#tee-shirt-back" /></svg><div class="tee black"><svg viewBox="0 0 1200 1600"><use href="#tee-back-mountain" x="600" y="100" /></svg></div></div>
+  <div class="tee-mockup back black" data-mockup="tee-back-404-black"><svg class="shirt" viewBox="-18 -1.5 36 32"><use href="#tee-shirt-back" /></svg><div class="tee black"><svg viewBox="0 0 1200 1600"><use href="#tee-back-404" x="600" y="100" /></svg></div></div>
   <div class="tee-mockup orange" data-mockup="tee-front-orange"><svg class="shirt" viewBox="-18 -1.5 36 32"><use href="#tee-shirt" /></svg><div class="tee orange"><img class="tee-front" src="tees/halftone-orange.svg" alt="" /></div></div>
+  <div class="tee-mockup back orange" data-mockup="tee-back-mountain-orange"><svg class="shirt" viewBox="-18 -1.5 36 32"><use href="#tee-shirt-back" /></svg><div class="tee orange"><svg viewBox="0 0 1200 1600"><use href="#tee-back-mountain" x="600" y="100" /></svg></div></div>
+  <div class="tee-mockup back orange" data-mockup="tee-back-404-orange"><svg class="shirt" viewBox="-18 -1.5 36 32"><use href="#tee-shirt-back" /></svg><div class="tee orange"><svg viewBox="0 0 1200 1600"><use href="#tee-back-404" x="600" y="100" /></svg></div></div>
   <div class="tee-mockup white" data-mockup="tee-front-white"><svg class="shirt" viewBox="-18 -1.5 36 32"><use href="#tee-shirt" /></svg><div class="tee white"><img class="tee-front" src="tees/halftone-white.svg" alt="" /></div></div>
+  <div class="tee-mockup back white" data-mockup="tee-back-mountain-white"><svg class="shirt" viewBox="-18 -1.5 36 32"><use href="#tee-shirt-back" /></svg><div class="tee white"><svg viewBox="0 0 1200 1600"><use href="#tee-back-mountain" x="600" y="100" /></svg></div></div>
+  <div class="tee-mockup back white" data-mockup="tee-back-404-white"><svg class="shirt" viewBox="-18 -1.5 36 32"><use href="#tee-shirt-back" /></svg><div class="tee white"><svg viewBox="0 0 1200 1600"><use href="#tee-back-404" x="600" y="100" /></svg></div></div>
 </main>
 
 <main class="proof cards">

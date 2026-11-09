@@ -131,13 +131,16 @@ function SectionList({ active, onJump }: { active: string; onJump: (id: string) 
 }
 
 function ProductSection({ product }: { product: MerchProduct }) {
-  // Wide screens: the mockups on the left, kept in view, the downloads on the right. A product that hasn't had a
-  // mockup made gives the downloads the whole width.
+  // Wide screens: the mockups on the left, kept in view, the downloads on the right. More than three mockups (the
+  // T-shirt's colours × sides) make a gallery across the top, three to a row, with the downloads below. A product
+  // that hasn't had a mockup made gives the downloads the whole width.
   const [missing, setMissing] = useState<string[]>([]);
   const mockups: MockupPhoto[] = (product.mockups ?? [{ id: product.id }]).filter((m) => !missing.includes(m.id));
   const hasMockup = mockups.length > 0;
+  const gallery = mockups.length > 3;
+  const beside = hasMockup && !gallery;
   const columns = product.wide
-    ? `grid-cols-1 sm:grid-cols-2 ${hasMockup ? "" : "lg:grid-cols-4"}`
+    ? `grid-cols-1 sm:grid-cols-2 ${beside ? "" : "lg:grid-cols-4"}`
     : `grid-cols-2 sm:grid-cols-3 ${hasMockup ? "" : "lg:grid-cols-6"}`;
   return (
     <section id={sectionId(product.id)} className="space-y-3 border-t border-border-subtle px-3 py-5 md:px-6 md:py-7">
@@ -168,9 +171,9 @@ function ProductSection({ product }: { product: MerchProduct }) {
           <FileLink href={pdfUrl(product.printFile)} download={`massive-${product.printFile}.pdf`} label="Print file (PDF)" />
         </div>
       )}
-      <div className={`grid gap-4 pt-1 lg:gap-6 ${hasMockup ? "lg:grid-cols-2 lg:items-start" : ""}`}>
+      <div className={`grid gap-4 pt-1 lg:gap-6 ${beside ? "lg:grid-cols-2 lg:items-start" : ""}`}>
         {hasMockup && (
-          <div className="space-y-4 lg:sticky lg:top-6">
+          <div className={gallery ? "grid gap-4 sm:grid-cols-3" : "space-y-4 lg:sticky lg:top-6"}>
             {mockups.map((mockup) => (
               <Mockup
                 key={mockup.id}

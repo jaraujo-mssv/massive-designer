@@ -69,6 +69,18 @@ function pajamas(print: string): MerchDesign[] {
   });
 }
 
+/** The T-shirt's colours and sides, as merch.html names their files and mockups: tee-<side>-<colour> */
+const TEE_COLOURS = [
+  { id: "black", name: "Black", ground: "#1b1b1c" },
+  { id: "orange", name: "Terracotta", ground: "#ff9364" },
+  { id: "white", name: "White", ground: "#ffffff" },
+];
+const TEE_SIDES = [
+  { id: "front", name: "Front" },
+  { id: "back-mountain", name: "Back · Mountain" },
+  { id: "back-404", name: "Back · 404" },
+];
+
 const PRINTFUL = { name: "Printful", url: "https://www.printful.com/custom-pajamas" };
 const PAJAMA_SPECS = [
   `${PRINTFUL_GARMENTS.length} all-over print garments`,
@@ -130,20 +142,15 @@ export const PRODUCTS: MerchProduct[] = [
       name: "Printful, Comfort Colors 1717",
       url: "https://www.printful.com/custom/mens/t-shirts/unisex-garment-dyed-heavyweight-shirt-comfort-colors-1717",
     },
-    specs: ["Black, Terracotta or White, S–4XL", "Front, 12 × 16 in", "PNG at 300 dpi, DTG"],
+    specs: ["Black, Terracotta or White, S–4XL", "Front and back, 12 × 16 in", "PNG at 300 dpi, DTG"],
     notes:
-      "Heavyweight garment-dyed cotton. On Printful, pick Black, Terracotta (the logo’s coral) or White and upload the matching PNG to Front print: the file is the whole 12 × 16 in area, so leave it where it lands. The front is the halftone sticker without its outline, and its print is included in the price.",
-    // The backs (tee-back-black, tee-back-orange) are still rendered, just not listed.
-    designs: [
-      { file: "tee-front-black", name: "Front · Black", ground: "#1b1b1c" },
-      { file: "tee-front-orange", name: "Front · Terracotta", ground: "#ff9364" },
-      { file: "tee-front-white", name: "Front · White", ground: "#ffffff" },
-    ],
-    mockups: [
-      { id: "tee-front-black", name: "Black" },
-      { id: "tee-front-orange", name: "Terracotta" },
-      { id: "tee-front-white", name: "White" },
-    ],
+      "Heavyweight garment-dyed cotton. On Printful, pick Black, Terracotta (the logo’s coral) or White and upload the matching PNGs to Front print and Back print: each file is the whole 12 × 16 in area, so leave it where it lands. The front is the halftone sticker without its outline. Pick one back, both 12 cm wide over www.joinmassive.com: Mountain, the mountain in the same halftone, or 404, Excuse not found set like It’s Massive over it. The front print is included in the price; the back adds $5.95 a shirt.",
+    designs: TEE_COLOURS.flatMap(({ id, name, ground }) =>
+      TEE_SIDES.map((side) => ({ file: `tee-${side.id}-${id}`, name: `${side.name} · ${name}`, ground })),
+    ),
+    mockups: TEE_COLOURS.flatMap(({ id, name }) =>
+      TEE_SIDES.map((side) => ({ id: `tee-${side.id}-${id}`, name: `${side.name} · ${name}` })),
+    ),
   },
   {
     id: "card",

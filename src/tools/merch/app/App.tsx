@@ -77,19 +77,29 @@ function DesignCard({ product, design }: { product: MerchProduct; design: MerchD
   );
 }
 
-/** The product's desk photo from `npm run merch:mockups`, kept in view beside its designs on wide screens. */
-function Mockup({ product, onMissing }: { product: MerchProduct; onMissing: () => void }) {
+type MockupPhoto = { id: string; name?: string };
+
+/** One of the product's mockups: a desk photo from `npm run merch:mockups`, or a vector one from `npm run merch`. */
+function Mockup({ product, mockup, onMissing }: { product: MerchProduct; mockup: MockupPhoto; onMissing: () => void }) {
   return (
-    <figure className="space-y-1 lg:sticky lg:top-6">
+    <figure className="space-y-1">
       <img
-        src={mockupUrl(product.id)}
-        alt={`Mockup: the ${product.name} designs on a desk, next to stationery for scale`}
+        src={mockupUrl(mockup.id)}
+        alt={
+          mockup.name
+            ? `Mockup: the ${product.name}, ${mockup.name}`
+            : `Mockup: the ${product.name} designs on a desk, next to stationery for scale`
+        }
         loading="lazy"
         onError={onMissing}
         className="block aspect-[3/2] h-auto w-full rounded-lg bg-surface-2 object-cover"
       />
       <figcaption className="-ml-1.5">
-        <FileLink href={mockupUrl(product.id)} download={`massive-${product.id}-mockup.jpg`} label="Mockup (JPG)" />
+        <FileLink
+          href={mockupUrl(mockup.id)}
+          download={`massive-${mockup.id}-mockup.jpg`}
+          label={mockup.name ? `Mockup · ${mockup.name} (JPG)` : "Mockup (JPG)"}
+        />
       </figcaption>
     </figure>
   );
@@ -121,9 +131,11 @@ function SectionList({ active, onJump }: { active: string; onJump: (id: string) 
 }
 
 function ProductSection({ product }: { product: MerchProduct }) {
-  // Wide screens: the mockup on the left, the downloads on the right. A product that hasn't had a mockup made
-  // gives the downloads the whole width.
-  const [hasMockup, setHasMockup] = useState(true);
+  // Wide screens: the mockups on the left, kept in view, the downloads on the right. A product that hasn't had a
+  // mockup made gives the downloads the whole width.
+  const [missing, setMissing] = useState<string[]>([]);
+  const mockups: MockupPhoto[] = (product.mockups ?? [{ id: product.id }]).filter((m) => !missing.includes(m.id));
+  const hasMockup = mockups.length > 0;
   const columns = product.wide
     ? `grid-cols-1 sm:grid-cols-2 ${hasMockup ? "" : "lg:grid-cols-4"}`
     : `grid-cols-2 sm:grid-cols-3 ${hasMockup ? "" : "lg:grid-cols-6"}`;
@@ -157,7 +169,18 @@ function ProductSection({ product }: { product: MerchProduct }) {
         </div>
       )}
       <div className={`grid gap-4 pt-1 lg:gap-6 ${hasMockup ? "lg:grid-cols-2 lg:items-start" : ""}`}>
-        {hasMockup && <Mockup product={product} onMissing={() => setHasMockup(false)} />}
+        {hasMockup && (
+          <div className="space-y-4 lg:sticky lg:top-6">
+            {mockups.map((mockup) => (
+              <Mockup
+                key={mockup.id}
+                product={product}
+                mockup={mockup}
+                onMissing={() => setMissing((ids) => [...ids, mockup.id])}
+              />
+            ))}
+          </div>
+        )}
         <div className={`grid gap-3 ${columns}`}>
           {product.designs.map((design) => (
             <DesignCard key={design.file} product={product} design={design} />

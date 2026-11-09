@@ -32,6 +32,8 @@ export interface MerchProduct {
   /** The one file to send the vendor, when it isn't a design's own: its name in public/merch-files/pdf/ */
   printFile?: string;
   designs: MerchDesign[];
+  /** Its mockups, when there's more than the one named after the product: each a [data-mockup] in merch.html */
+  mockups?: { id: string; name: string }[];
 }
 
 export const PROOF_PDF = "/merch-files/massive-merch-proof.pdf";
@@ -128,14 +130,19 @@ export const PRODUCTS: MerchProduct[] = [
       name: "Printful, Comfort Colors 1717",
       url: "https://www.printful.com/custom/mens/t-shirts/unisex-garment-dyed-heavyweight-shirt-comfort-colors-1717",
     },
-    specs: ["Black or Terracotta, S–4XL", "Front and back, 12 × 16 in", "PNG at 300 dpi, DTG"],
+    specs: ["Black, Terracotta or White, S–4XL", "Front, 12 × 16 in", "PNG at 300 dpi, DTG"],
     notes:
-      "Heavyweight garment-dyed cotton. On Printful, pick Black or Terracotta (the logo’s coral) and upload the matching PNGs to Front print and Back print: each file is the whole 12 × 16 in area, so leave it where it lands. The front is the halftone sticker without its outline; the back is 404 / Excuse not found, set like It’s Massive. The front print is included in the price; the back adds $5.95 a shirt.",
+      "Heavyweight garment-dyed cotton. On Printful, pick Black, Terracotta (the logo’s coral) or White and upload the matching PNG to Front print: the file is the whole 12 × 16 in area, so leave it where it lands. The front is the halftone sticker without its outline, and its print is included in the price.",
+    // The backs (tee-back-black, tee-back-orange) are still rendered, just not listed.
     designs: [
       { file: "tee-front-black", name: "Front · Black", ground: "#1b1b1c" },
-      { file: "tee-back-black", name: "Back · Black", ground: "#1b1b1c" },
       { file: "tee-front-orange", name: "Front · Terracotta", ground: "#ff9364" },
-      { file: "tee-back-orange", name: "Back · Terracotta", ground: "#ff9364" },
+      { file: "tee-front-white", name: "Front · White", ground: "#ffffff" },
+    ],
+    mockups: [
+      { id: "tee-front-black", name: "Black" },
+      { id: "tee-front-orange", name: "Terracotta" },
+      { id: "tee-front-white", name: "White" },
     ],
   },
   {
@@ -166,13 +173,6 @@ export const PRODUCTS: MerchProduct[] = [
     ],
   },
   {
-    id: "pajamas-mountain",
-    name: "Pajamas · Mountain",
-    vendor: PRINTFUL,
-    specs: PAJAMA_SPECS,
-    notes: `The logo’s mountain, in a checkerboard. ${PAJAMA_NOTES}`,
-    designs: pajamas("mountain"),
-  {
     id: "brochure-cabinet",
     name: "Tri-fold brochure · Darts night",
     vendor: { name: "Reads, Brochures Tri-fold", url: "https://reads.ie/products/brochures-tri-fold" },
@@ -187,6 +187,13 @@ export const PRODUCTS: MerchProduct[] = [
       { file: "brochure-cabinet-inside", name: "Inside" },
     ],
   },
+  {
+    id: "pajamas-mountain",
+    name: "Pajamas · Mountain",
+    vendor: PRINTFUL,
+    specs: PAJAMA_SPECS,
+    notes: `The logo’s mountain, in a checkerboard. ${PAJAMA_NOTES}`,
+    designs: pajamas("mountain"),
   },
   {
     id: "pajamas-sleepy",

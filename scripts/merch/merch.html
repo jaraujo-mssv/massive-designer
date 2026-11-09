@@ -48,6 +48,12 @@
     the scene's door), the board, its cabinet, the hinges and the darts come from the scene. They're baked in advance.
 
   The art is drawn in hundredths of an inch: the round faces in a 100 × 100 box centred on 0,0, the enamel pins
+  - Tri-fold brochure, A4 flat, DL folded: Reads, Brochures Tri-fold (https://reads.ie/products/brochures-tri-fold).
+    Trim 297 × 210 mm, 3 mm of bleed (art 303 × 216 mm), three equal panels of 99 mm, with folds at 102 and 201 mm from
+    the art's left edge. It's a letter fold: the flap folds in first and the cover closes over it. Flip on the short
+    edge. Laid flat, the outside runs flap | back | cover. Reads asks for the same bleed, safe area and CMYK PDF as the
+    promo card. Its print file is 400 dpi, as 600 would be some 60 MB. cards/brochure/ holds its panels, made like the
+    cabinet card's.
   125 wide. The round designs stay inside 0.8 in, within both vendors' safe lines. The pajamas are in millimetres.
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -352,7 +358,8 @@ html[data-only] .cab-fold { display: none; }
 /* The closed preview: the two doors as they meet, trimmed, with the 2 mm gap */
 .card.cab-closed { width: 75mm; height: 105mm; background: #050403; }
 html:not([data-only]) .card.cab-closed::before, html:not([data-only]) .card.cab-closed::after { display: none; }
-.cab-door { top: 0; width: 36.5mm; height: 105mm; overflow: hidden; }
+/* contain: Chromium counts a clone's clipped width when it fits a PDF to the page, which would shrink the whole proof */
+.cab-door { top: 0; width: 36.5mm; height: 105mm; overflow: hidden; contain: strict; }
 .cab-door.left { left: 0; }
 .cab-door.right { left: 38.5mm; }
 .cab-door .cab-fold { display: none; }
@@ -379,7 +386,7 @@ html[data-only] .pajama { width: calc(var(--real) * var(--file)); height: calc(v
 html[data-only] .tee { width: 12in; height: 16in; }
 html[data-only] .card { box-shadow: 0 0 0 0.05in var(--ground); }
 /* A metre is wider than the window: the page grows round it, so the screenshot isn't cut */
-html[data-only] .proof.pajamas { width: max-content; height: max-content; min-width: 100vw; min-height: 100vh; overflow: visible; }
+html[data-only] .proof.pajamas, html[data-only] .proof.brochure { width: max-content; height: max-content; min-width: 100vw; min-height: 100vh; overflow: visible; }
 </style>
 </head>
 <body>
@@ -398,6 +405,113 @@ html[data-only] .proof.pajamas { width: max-content; height: max-content; min-wi
     <symbol id="wordmark" viewBox="352.27 0 737.89 123.62" overflow="visible">
       <path fill-rule="evenodd" clip-rule="evenodd" d="M352.275 120.673L372.106 2.94802H402.163L425.557 65.7136L448.795 2.94802H478.853L498.684 120.668H468.47L458.399 52.9095L430.821 120.668H418.737L392.554 52.9095L382.483 120.668H352.27L352.275 120.673ZM580.668 76.5247L567.49 38.2675L554.313 76.5247H580.662H580.668ZM590.801 100.217H547.104L540.077 120.673H507.458L552.254 2.94802H585.651L630.442 120.668H597.823L590.801 100.212V100.217ZM709.88 33.2388C706.514 30.549 703.149 28.5561 699.788 27.2602C696.422 25.9643 693.166 25.3189 690.013 25.3189C686.014 25.3189 682.758 26.2482 680.232 28.1121C677.706 29.9759 676.446 32.4076 676.446 35.4124C676.446 37.4827 677.074 39.1917 678.339 40.5392C679.599 41.8867 681.259 43.0484 683.307 44.0345C685.356 45.0206 687.674 45.8725 690.246 46.5953C692.823 47.3181 695.37 48.0977 697.895 48.9238C707.987 52.2383 715.372 56.663 720.055 62.2028C724.732 67.7426 727.071 74.9603 727.071 83.8663C727.071 89.8708 726.044 95.3074 723.996 100.171C721.947 105.034 718.95 109.206 715.009 112.67C711.062 116.14 706.229 118.83 700.499 120.745C694.768 122.66 688.275 123.616 681.02 123.616C665.986 123.616 652.057 119.217 639.227 110.414L652.472 85.8799C657.098 89.9173 661.672 92.9221 666.194 94.884C670.716 96.8511 675.181 97.832 679.599 97.832C684.645 97.832 688.405 96.691 690.873 94.4142C693.347 92.1373 694.581 89.5507 694.581 86.6492C694.581 84.8886 694.265 83.3604 693.638 82.0697C693.01 80.7738 691.957 79.5863 690.484 78.4969C689.012 77.4075 687.093 76.4008 684.728 75.4715C682.363 74.5421 679.496 73.5044 676.13 72.3634C672.137 71.1191 668.216 69.7509 664.384 68.2485C660.546 66.7461 657.129 64.7533 654.131 62.2699C651.134 59.7865 648.717 56.6526 646.876 52.8734C645.035 49.0941 644.117 44.3081 644.117 38.5102C644.117 32.7122 645.092 27.4615 647.037 22.7478C648.982 18.0392 651.715 14.0018 655.236 10.6356C658.757 7.26938 663.067 4.65695 668.17 2.79314C673.267 0.929325 678.972 0 685.278 0C691.164 0 697.32 0.800252 703.729 2.40592C710.144 4.01158 716.295 6.36587 722.181 9.47394L709.88 33.2337V33.2388ZM809.439 33.2388C806.073 30.549 802.708 28.5561 799.347 27.2602C795.982 25.9643 792.725 25.3189 789.567 25.3189C785.568 25.3189 782.312 26.2482 779.786 28.1121C777.266 29.9759 776 32.4076 776 35.4124C776 37.4827 776.633 39.1917 777.893 40.5392C779.158 41.8867 780.813 43.0484 782.861 44.0345C784.91 45.0154 787.223 45.8725 789.8 46.5953C792.377 47.3181 794.929 48.0977 797.449 48.9238C807.541 52.2383 814.926 56.663 819.609 62.2028C824.286 67.7426 826.625 74.9603 826.625 83.8663C826.625 89.8708 825.598 95.3074 823.55 100.171C821.501 105.034 818.504 109.206 814.557 112.67C810.616 116.14 805.778 118.83 800.047 120.745C794.317 122.66 787.824 123.616 780.569 123.616C765.535 123.616 751.606 119.217 738.776 110.414L752.021 85.8799C756.646 89.9173 761.22 92.9221 765.742 94.884C770.265 96.8511 774.735 97.832 779.148 97.832C784.194 97.832 787.954 96.691 790.422 94.4142C792.891 92.1373 794.13 89.5507 794.13 86.6492C794.13 84.8886 793.814 83.3604 793.186 82.0697C792.554 80.7738 791.506 79.5863 790.033 78.4969C788.561 77.4075 786.642 76.4008 784.277 75.4715C781.912 74.5421 779.044 73.5044 775.684 72.3634C771.686 71.1191 767.77 69.7509 763.933 68.2485C760.095 66.7461 756.678 64.7533 753.68 62.2699C750.683 59.7865 748.266 56.6526 746.425 52.8734C744.584 49.0941 743.666 44.3081 743.666 38.5102C743.666 32.7122 744.641 27.4615 746.586 22.7478C748.53 18.0392 751.263 14.0018 754.785 10.6356C758.306 7.26938 762.621 4.65695 767.718 2.79314C772.816 0.929325 778.521 0 784.832 0C790.718 0 796.868 0.800252 803.283 2.40592C809.698 4.01158 815.849 6.36587 821.735 9.47394L809.434 33.2337L809.439 33.2388ZM873.485 2.95319V120.673H844.205V2.94802H873.485V2.95319ZM921.237 2.95319L949.531 74.6144L977.986 2.95319H1011.1L961.661 120.673H937.407L888.12 2.94802H921.237V2.95319ZM1090.16 28.871H1053.59V48.5417H1088.12V74.4595H1053.59V94.7549H1090.16V120.673H1022.82V2.94802H1090.16V28.8658V28.871Z" />
     </symbol>
+/* The tri-fold brochure: the cabinet card at A4, three equal panels. All in mm from the art's top left: the trim at 3,
+   the folds at 102 and 201. The doors are as wide as the cabinet, so one closes over the other. */
+.card.tri, .tri { width: 303mm; height: 216mm; }
+.tri {
+  --ground: #0a0a0f;
+  --cream: #faf4ec;
+  --coral: #ff8163;
+  overflow: hidden;
+  background: #120c09;
+  color: var(--cream);
+  font-family: var(--font-display);
+}
+.tri > * { position: absolute; }
+.tri-panel { top: 0; height: 216mm; display: block; }
+.tri-l { left: 0; width: 102mm; }
+.tri-c { left: 102mm; width: 99mm; }
+.tri-r { left: 201mm; width: 102mm; }
+.tri-shade { top: 0; height: 216mm; }
+/* Proof only: the folds */
+.tri-fold { top: 0; height: 216mm; width: 0; border-left: 0.6pt dashed var(--guide); z-index: 2; }
+html[data-only] .tri-fold { display: none; }
+
+/* Outside: the doors, darker on the hinge side and behind the text. A hinge's knuckle on each fold, level with the
+   hinges inside, and a knob at each door's free edge. */
+.tri-shade.cover { left: 201mm; width: 102mm; background:
+  linear-gradient(to right, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0) 5mm),
+  linear-gradient(to left, rgba(0, 0, 0, 0.5) 3mm, rgba(0, 0, 0, 0) 12mm),
+  linear-gradient(to bottom, rgba(12, 8, 6, 0.4), rgba(12, 8, 6, 0.34) 50%, rgba(12, 8, 6, 0.46)); }
+.tri-shade.flap { left: 0; width: 102mm; background:
+  linear-gradient(to left, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0) 5mm),
+  linear-gradient(to right, rgba(0, 0, 0, 0.5) 3mm, rgba(0, 0, 0, 0) 12mm),
+  linear-gradient(to bottom, rgba(12, 8, 6, 0.4), rgba(12, 8, 6, 0.34) 50%, rgba(12, 8, 6, 0.46)); }
+.tri-knob.cab-knob { width: 5mm; height: 5mm; top: 126mm; }
+.tri-knob.on-cover { left: 290mm; }
+.tri-knob.on-flap { left: 8mm; }
+.tri-knuckle.cab-knuckle { width: 2.2mm; height: 11.4mm; }
+.tri-knuckle.top { top: 78.7mm; }
+.tri-knuckle.bottom { top: 143.8mm; }
+.tri-knuckle.fold-a { left: 100.9mm; }
+.tri-knuckle.fold-b { left: 199.9mm; }
+
+/* The cover */
+.tri-cover-logo { left: 210mm; top: 15mm; width: 50mm; height: 5.67mm; }
+.tri-headline { font-weight: 900; letter-spacing: -0.02em; line-height: 1.02; white-space: nowrap; }
+.tri-headline.on-cover { left: 210mm; top: 30mm; font-size: 17.5mm; }
+.tri-sub { left: 210mm; top: 105mm; font-size: 8mm; font-weight: 700; white-space: nowrap; }
+.tri-when { left: 210mm; top: 192mm; font-size: 9mm; font-weight: 700; color: var(--coral); white-space: nowrap; }
+
+/* The flap's outside, seen when the cover opens */
+.tri-headline.on-flap { left: 12mm; top: 30mm; font-size: 22mm; }
+
+/* The back: the QR, big. Its tile is 41 modules, so about 1.95 mm each. */
+.tri-rsvp { left: 107mm; top: 31mm; width: 89mm; text-align: center; font-family: 'Caveat', cursive; font-weight: 700; font-size: 15mm; line-height: 1; }
+.tri-arrow { left: 146.5mm; top: 46.5mm; width: 10mm; height: 7mm; overflow: visible; }
+.tri-arrow path { fill: none; stroke: var(--coral); stroke-width: 0.85; stroke-linecap: round; stroke-linejoin: round; }
+.card-tile.tri-tile { left: 111.5mm; top: 56mm; width: 80mm; height: 80mm; border-radius: 3mm; }
+.tri-url { left: 107mm; top: 140mm; width: 89mm; text-align: center; font-size: 7mm; font-weight: 600; }
+.tri-back-when { left: 107mm; top: 151mm; width: 89mm; text-align: center; font-size: 8mm; font-weight: 700; color: var(--coral); }
+.tri-back-logo { left: 131.5mm; top: 192mm; width: 40mm; height: 4.54mm; }
+
+/* Inside: shade on the doors where they meet the cabinet, a light on the sign, and the date under the cabinet */
+.tri-shade.inside-left { left: 0; width: 102mm; background:
+  linear-gradient(to left, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0) 8mm),
+  linear-gradient(to bottom, rgba(12, 8, 6, 0.26), rgba(12, 8, 6, 0.08) 40%, rgba(12, 8, 6, 0.16)); }
+.tri-shade.inside-right { left: 201mm; width: 102mm; background:
+  linear-gradient(to right, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0) 8mm),
+  linear-gradient(to bottom, rgba(12, 8, 6, 0.3), rgba(12, 8, 6, 0.14) 40%, rgba(12, 8, 6, 0.16)); }
+.tri-glow { left: 102mm; top: 0; width: 99mm; height: 66mm; background: radial-gradient(ellipse 62mm 44mm at 50% 0, rgba(255, 196, 130, 0.2), rgba(255, 196, 130, 0)); }
+.tri-plaque-logo { left: 119.5mm; top: 22.5mm; width: 64mm; height: 7.26mm; filter: drop-shadow(0 0.3mm 0.35mm rgba(0, 0, 0, 0.7)); }
+.tri-plaque-name { left: 107mm; top: 34mm; width: 89mm; text-align: center; font-size: 6.4mm; font-weight: 700; letter-spacing: 0.03em; line-height: 1; color: #ffffff; text-shadow: 0 0.3mm 0.4mm rgba(0, 0, 0, 0.7); }
+.tri-centre-when { left: 107mm; top: 186mm; width: 89mm; text-align: center; font-size: 9mm; font-weight: 700; color: var(--coral); }
+
+/* Inside, the left door: the scoreboard */
+.tri-slate { left: 14.5mm; top: 20mm; width: 76mm; height: 170mm; background: url('cards/brochure/slate.jpg') center / 100% 100%; border-radius: 1mm; box-shadow: 0.6mm 1.2mm 2.4mm rgba(0, 0, 0, 0.7); }
+.tri-slate > * { position: absolute; }
+.tri-chalk-frame { inset: 2.4mm; border: 0.3mm solid rgba(250, 244, 236, 0.5); border-radius: 1mm; }
+.tri-slate-logo { left: 11mm; top: 8.4mm; width: 54mm; height: 6.12mm; }
+.tri-chalk-line { background: rgba(250, 244, 236, 0.55); }
+.tri-chalk-line.across { left: 6mm; width: 64mm; height: 0.3mm; }
+.tri-chalk-line.down { width: 0.3mm; top: 57mm; height: 104mm; }
+.tri-slate-title { left: 0; top: 22.4mm; width: 76mm; text-align: center; font-size: 14.2mm; font-weight: 900; letter-spacing: -0.02em; line-height: 1.04; }
+.tri-score { left: -1mm; top: 60mm; width: 76mm; text-align: center; font-family: 'Caveat', cursive; font-weight: 700; font-size: 13mm; line-height: 14.2mm; color: rgba(250, 244, 236, 0.88); }
+.tri-chalk-ledge { left: 19mm; top: 189.8mm; width: 67mm; height: 3.6mm; border-radius: 0.3mm;
+  background: linear-gradient(to bottom, #8a5a38, #5a3420 22%, #2c180e);
+  box-shadow: 0.3mm 0.8mm 1.4mm rgba(0, 0, 0, 0.75); }
+
+/* Inside, the right door: the line, over the darts */
+.tri-note { left: 210mm; top: 50mm; width: 81mm; text-align: center; font-family: 'Caveat', cursive; font-weight: 700; font-size: 17mm; line-height: 1.12; }
+.tri-note span { position: relative; display: inline-block; }
+.tri-note svg { position: absolute; left: -0.8mm; bottom: -0.5mm; width: calc(100% + 1.6mm); height: 2.8mm; overflow: visible; }
+.tri-note path { fill: none; stroke: var(--coral); stroke-width: 0.5; stroke-linecap: round; }
+.tri-rack-ledge { left: 216.5mm; top: 174.6mm; width: 68mm; height: 3.6mm; border-radius: 0.3mm;
+  background: linear-gradient(to bottom, #8a5a38, #5a3420 22%, #2c180e);
+  box-shadow: 0.3mm 0.8mm 1.4mm rgba(0, 0, 0, 0.75); }
+
+/* The previews, trimmed: the cover, and the cover opened with the flap still shut */
+.card.tri-closed { width: 99mm; height: 210mm; }
+.card.tri-opened { width: 198mm; height: 210mm; }
+html:not([data-only]) .card.tri-closed::before, html:not([data-only]) .card.tri-closed::after,
+html:not([data-only]) .card.tri-opened::before, html:not([data-only]) .card.tri-opened::after { display: none; }
+.tri-window { top: 0; width: 99mm; height: 210mm; overflow: hidden; contain: strict; }
+.tri-window .tri-fold { display: none; }
+.tri-opened .tri-window.flap { left: 99mm; box-shadow: -0.8mm 0 3mm rgba(0, 0, 0, 0.65); }
+
+/* A4 is wider than the proof's Letter page, so this one proof is at 72%: render.mjs's own designs stay actual size */
+html:not([data-only]) .brochure .cell > .art { zoom: 0.72; }
+
 
     <!-- The horizontal logo, laid out as in logo-massive.svg (as on the stickers). A stroke on it is in these units. -->
     <symbol id="lockup" viewBox="0 0 1090.16 123.62" overflow="visible">
@@ -925,6 +1039,146 @@ html[data-only] .proof.pajamas { width: max-content; height: max-content; min-wi
       });
     }
   })();
+
+<main class="proof cards brochure">
+  <header class="proof-head">
+    <h1>Massive merch</h1>
+    <p class="legend">Shown at 72%<span class="cut">Trim, 297 × 210 mm, and folds</span><span class="safe">Reads’ safe area, 5 mm</span></p>
+  </header>
+
+  <section class="row">
+    <p class="row-label"><b>Tri-fold brochure, A4 flat, DL folded</b> · Reads · panels 99 | 99 | 99 mm · flip on the short edge · upload brochure-cabinet-print.pdf</p>
+    <div class="cells">
+      <figure class="cell">
+        <div class="art card tri" data-file="brochure-cabinet-outside" data-dpi="150" data-print="brochure-cabinet-print" data-print-dpi="400" data-trim="297x210" data-bleed="3">
+          <img class="tri-panel tri-l" src="cards/brochure/flap.jpg" alt="" />
+          <img class="tri-panel tri-c" src="cards/brochure/back.jpg" alt="" />
+          <img class="tri-panel tri-r" src="cards/brochure/cover.jpg" alt="" />
+          <div class="tri-shade flap"></div>
+          <div class="tri-shade cover"></div>
+          <div class="cab-knuckle tri-knuckle top fold-a"></div><div class="cab-knuckle tri-knuckle bottom fold-a"></div>
+          <div class="cab-knuckle tri-knuckle top fold-b"></div><div class="cab-knuckle tri-knuckle bottom fold-b"></div>
+
+          <!-- The flap, which folds in first -->
+          <div class="tri-headline on-flap">Darts,<br />pizza,<br />pints.</div>
+          <div class="cab-knob tri-knob on-flap"></div>
+
+          <!-- The back -->
+          <p class="tri-rsvp">RSVP here</p>
+          <svg class="tri-arrow" viewBox="0 0 10 7"><path d="M4.4 0.4 C3.2 2.4 4.2 4.4 5.4 6.2 M2.9 4.5 L5.5 6.5 L6.9 3.6" /></svg>
+          <div class="card-tile tri-tile">
+            <img src="cards/qr-dartsndrinks.svg" alt="" />
+            <div><svg viewBox="0 11.12 283.38 112.47"><use href="#icon" x="0" y="11.12" width="283.38" height="112.47" /></svg></div>
+          </div>
+          <p class="tri-url">luma.com/dartsndrinks</p>
+          <p class="tri-back-when">Mon 9 Nov · 19:00</p>
+          <svg class="cab-logo tri-back-logo" viewBox="0 0 1090.16 123.62"><use href="#lockup" width="1090.16" height="123.62" /></svg>
+
+          <!-- The cover -->
+          <svg class="cab-logo tri-cover-logo" viewBox="0 0 1090.16 123.62"><use href="#lockup" width="1090.16" height="123.62" /></svg>
+          <div class="tri-headline on-cover">In<br />Dublin<br />for<br />Extract?</div>
+          <p class="tri-sub">Start a night early.</p>
+          <p class="tri-when">Mon 9 Nov · 19:00</p>
+          <div class="cab-knob tri-knob on-cover"></div>
+
+          <div class="tri-fold" style="left: 102mm"></div><div class="tri-fold" style="left: 201mm"></div>
+        </div>
+        <figcaption>Outside: the flap, the back, the cover</figcaption>
+      </figure>
+    </div>
+  </section>
+</main>
+
+<main class="proof cards brochure">
+  <header class="proof-head">
+    <h1>Massive merch</h1>
+    <p class="legend">Shown at 72%<span class="cut">Trim, 297 × 210 mm, and folds</span><span class="safe">Reads’ safe area, 5 mm</span></p>
+  </header>
+
+  <section class="row">
+    <p class="row-label"><b>Tri-fold brochure, A4 flat, DL folded</b> · the inside, open</p>
+    <div class="cells">
+      <figure class="cell">
+        <div class="art card tri" data-file="brochure-cabinet-inside" data-dpi="150" data-print="brochure-cabinet-print" data-print-dpi="400" data-trim="297x210" data-bleed="3">
+          <img class="tri-panel tri-l" src="cards/brochure/door-inside-left.jpg" alt="" />
+          <img class="tri-panel tri-c" src="cards/brochure/inside-centre.jpg" alt="" />
+          <img class="tri-panel tri-r" src="cards/brochure/door-inside-right.jpg" alt="" />
+          <div class="tri-shade inside-left"></div>
+          <div class="tri-shade inside-right"></div>
+          <div class="tri-glow"></div>
+
+          <!-- The left door: the scoreboard -->
+          <div class="tri-chalk-ledge"></div>
+          <div class="tri-slate">
+            <div class="tri-chalk-frame"></div>
+            <svg class="cab-logo tri-slate-logo" viewBox="0 0 1090.16 123.62"><use href="#lockup" width="1090.16" height="123.62" /></svg>
+            <div class="tri-chalk-line across" style="top: 18.4mm"></div>
+            <h2 class="tri-slate-title">Nobody’s<br />pitching.</h2>
+            <div class="tri-chalk-line across" style="top: 56.7mm"></div>
+            <div class="tri-chalk-line down" style="left: 25.6mm"></div>
+            <div class="tri-chalk-line down" style="left: 50mm"></div>
+            <div class="tri-score">20<br />19<br />18<br />17<br />16<br />15<br />Bull</div>
+          </div>
+
+          <!-- The cabinet: the sign, and the date -->
+          <svg class="cab-logo tri-plaque-logo" viewBox="0 0 1090.16 123.62"><use href="#lockup" width="1090.16" height="123.62" /></svg>
+          <p class="tri-plaque-name">DARTS &amp; DRINKS</p>
+          <p class="tri-centre-when">Mon 9 Nov · 19:00</p>
+
+          <!-- The right door: the line, over the darts -->
+          <p class="tri-note">You’ll get<br />a <span>dart<svg viewBox="0 0 20 2" preserveAspectRatio="none"><path d="M0.5 1.3 C6 0.5 14 1.7 19.5 0.8" /></svg></span>,<br />not a deck.</p>
+          <div class="tri-rack-ledge"></div>
+
+          <div class="tri-fold" style="left: 102mm"></div><div class="tri-fold" style="left: 201mm"></div>
+        </div>
+        <figcaption>Inside: the left door, the cabinet, the right door</figcaption>
+      </figure>
+    </div>
+  </section>
+</main>
+
+<main class="proof cards brochure">
+  <header class="proof-head">
+    <h1>Massive merch</h1>
+    <p class="legend">Shown at 72%, trimmed</p>
+  </header>
+
+  <section class="row">
+    <p class="row-label"><b>Tri-fold brochure, A4 flat, DL folded</b> · how it opens: both are made from the two sides above</p>
+    <div class="cells">
+      <figure class="cell">
+        <div class="art card tri-closed" data-file="brochure-cabinet-closed" data-dpi="150"></div>
+        <figcaption>Closed</figcaption>
+      </figure>
+      <figure class="cell">
+        <div class="art card tri-opened" data-file="brochure-cabinet-opened" data-dpi="150"></div>
+        <figcaption>The cover opened, the flap still shut</figcaption>
+      </figure>
+    </div>
+  </section>
+</main>
+
+<script>
+  // The brochure's previews: windows on the two printed sides. Folding moves a panel but doesn't turn it, so these are
+  // the same pixels.
+  (() => {
+    const art = (file) => document.querySelector(`[data-file="${file}"]`);
+    const windowOn = (side, x, name) => {
+      const win = document.createElement("div");
+      win.className = `tri-window ${name}`;
+      const copy = side.cloneNode(true);
+      for (const key of Object.keys(copy.dataset)) delete copy.dataset[key];
+      copy.className = "tri";
+      copy.style.cssText = `position: absolute; left: ${-x}mm; top: -3mm;`;
+      win.appendChild(copy);
+      return win;
+    };
+    const outside = art("brochure-cabinet-outside");
+    const inside = art("brochure-cabinet-inside");
+    art("brochure-cabinet-closed").appendChild(windowOn(outside, 201, "cover"));
+    art("brochure-cabinet-opened").append(windowOn(inside, 3, "left"), windowOn(outside, 3, "flap"));
+  })();
+</script>
 
   // The pajamas: their proof pages, the flats, and the prints that fill them. In mm.
   (() => {

@@ -55,7 +55,7 @@ function DesignCard({ product, design }: { product: MerchProduct; design: MerchD
         className={`flex items-center justify-center rounded-md p-3 ${product.wide ? "aspect-[2/1]" : "aspect-square"}`}
         style={design.ground ? { background: design.ground } : CHECKERBOARD}
       >
-        <div className="relative w-full">
+        <div className="relative w-full" style={design.previewWidth ? { width: design.previewWidth } : undefined}>
           <img
             src={pngUrl(design.file)}
             alt={`${product.name}, ${design.name}`}
@@ -225,7 +225,7 @@ export default function App() {
         <header className="space-y-3 px-3 pt-4 pb-5 md:px-6 md:pt-8 md:pb-7">
           <h1 className="text-xl md:text-2xl">Merch</h1>
           <p className="max-w-3xl text-sm text-text-dim">
-            Print files for Massive buttons, pins, stickers, T-shirts, promo cards and pajamas: the logo, the mountain,
+            Print files for Massive buttons, pins, stickers, T-shirts, promo cards, brochures and pajamas: the logo, the mountain,
             It’s Massive and the sleepy mountains. Each one is sized to its vendor’s template, ready to upload.
           </p>
           <a

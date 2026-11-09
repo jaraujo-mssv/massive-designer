@@ -81,11 +81,17 @@ for (const [file, dpi] of files) {
   console.log(`  ✓ ${file} (${width} × ${height})`);
 }
 
-// A printer's file: every design with the same data-print, one page each, at 600 dpi in CMYK. data-trim and data-bleed
-// (in mm) set its boxes.
+// A printer's file: every design with the same data-print, one page each, in CMYK, at 600 dpi or its data-print-dpi (an
+// A4 sheet at 600 would be some 60 MB). data-trim and data-bleed (in mm) set its boxes.
 // data-trim, as the pajamas' data-print is something else: the name of their print.
 const printFiles = await page.$$eval(".art[data-print][data-trim]", (els) =>
-  els.map((el) => ({ name: el.dataset.print, file: el.dataset.file, trim: el.dataset.trim, bleed: Number(el.dataset.bleed) })),
+  els.map((el) => ({
+    name: el.dataset.print,
+    file: el.dataset.file,
+    trim: el.dataset.trim,
+    bleed: Number(el.dataset.bleed),
+    dpi: Number(el.dataset.printDpi ?? 600),
+  })),
 );
 for (const name of new Set(printFiles.map((p) => p.name))) {
   if (only && !name.startsWith(only)) continue;
@@ -99,12 +105,14 @@ for (const name of new Set(printFiles.map((p) => p.name))) {
     }, file);
     // A locator's screenshot rounds out to whole CSS pixels, which would stretch the art a little over the page: this
     // shoots a little more and cuts it to the art's own pixels.
-    const box = await page.locator(`[data-file="${file}"]`).boundingBox();
+    const box = await locator.boundingBox();
     const clip = { x: Math.floor(box.x), y: Math.floor(box.y) };
     clip.width = Math.ceil(box.x + box.width) - clip.x;
     clip.height = Math.ceil(box.y + box.height) - clip.y;
-    const scale = 600 / 96;
+    const scale = dpi / 96;
     const art = {
+  const { dpi } = sides[0];
+  const page = await pageAt(dpi);
       left: Math.round((box.x - clip.x) * scale),
       top: Math.round((box.y - clip.y) * scale),
       width: Math.round(box.width * scale),
@@ -112,10 +120,14 @@ for (const name of new Set(printFiles.map((p) => p.name))) {
     };
     shots.push(await sharp(await page.screenshot({ clip })).extract(art).png().toBuffer());
   }
+    const locator = page.locator(`[data-file="${file}"]`);
+    // A clip stops at the window, and an A4 sheet is wider than it
+    const { width, height } = await locator.boundingBox();
+    await page.setViewportSize({ width: Math.max(1056, Math.ceil(width) + 8), height: Math.max(816, Math.ceil(height) + 8) });
   const path = resolve(outDir, "pdf", `${name}.pdf`);
   const [trimW, trimH] = sides[0].trim.split("x").map(Number);
   await writeCmykPdf(path, shots, { trimW, trimH, bleed: sides[0].bleed, title: name });
-  console.log(`  ✓ ${name} (${sides.length} pages, CMYK, 600 dpi)`);
+  console.log(`  ✓ ${name} (${sides.length} pages, CMYK, ${dpi} dpi)`);
 }
 
 await browser.close();

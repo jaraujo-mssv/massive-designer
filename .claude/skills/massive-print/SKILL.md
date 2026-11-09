@@ -83,7 +83,8 @@ placement of each garment (listed in `src/tools/merch/app/printful.ts`), in `out
 The promo card (A6, for Reads) is two designs that share a `data-print`: `npm run merch -- card` renders just those and
 writes the file to upload, a two-page CMYK PDF with trim and bleed boxes (`scripts/merch/cmyk-pdf.mjs`, on a Mac, for its
 CMYK profile). After any change to the back, test the QR on that PDF. The cabinet card (A6 flat, A7 folded) works the same way:
-`npm run merch -- card-cabinet`, with its baked panels in `scripts/merch/cards/cabinet/`.
+`npm run merch -- card-cabinet`, with its baked panels in `scripts/merch/cards/cabinet/`. So does the tri-fold brochure (A4
+flat, DL folded, three equal panels): `npm run merch -- brochure`, with its panels in `scripts/merch/cards/brochure/`.
 
 ## Workflow
 

@@ -10,6 +10,8 @@ export interface MerchDesign {
   name: string;
   /** Shown on this colour (the shirt's) instead of the checkerboard */
   ground?: string;
+  /** Its preview's width in the tile, for a design much taller than it is wide, so it stays in the square */
+  previewWidth?: string;
 }
 
 export interface MerchProduct {
@@ -170,6 +172,21 @@ export const PRODUCTS: MerchProduct[] = [
     specs: PAJAMA_SPECS,
     notes: `The logo’s mountain, in a checkerboard. ${PAJAMA_NOTES}`,
     designs: pajamas("mountain"),
+  {
+    id: "brochure-cabinet",
+    name: "Tri-fold brochure · Darts night",
+    vendor: { name: "Reads, Brochures Tri-fold", url: "https://reads.ie/products/brochures-tri-fold" },
+    specs: ["A4 flat, DL folded, 3 mm bleed", "Three equal panels, 99 mm each", "CMYK PDF, 400 dpi"],
+    notes:
+      "The cabinet card at A4. The doors are as wide as the cabinet, so one closes over the other: the cover opens onto the chalkboard and the flap, then the flap opens onto the board, with the QR on the back. Pick A4 and upload the print file (outside, then inside), and ask for it to flip on the short edge. The flap folds in first, so the cover ends up on top. Reads doesn’t mention creasing, so ask for it, as dark print can crack along a fold. Equal panels leave the flap no room inside the fold, so it can make the closed brochure bow a little: print one on paper at 100% and fold it before ordering.",
+    printFile: "brochure-cabinet-print",
+    designs: [
+      { file: "brochure-cabinet-closed", name: "Closed (preview)", previewWidth: "47%" },
+      { file: "brochure-cabinet-opened", name: "Cover opened (preview)", previewWidth: "94%" },
+      { file: "brochure-cabinet-outside", name: "Outside" },
+      { file: "brochure-cabinet-inside", name: "Inside" },
+    ],
+  },
   },
   {
     id: "pajamas-sleepy",

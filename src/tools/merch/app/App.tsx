@@ -1,4 +1,4 @@
-import { useEffect, useState, type CSSProperties } from "react";
+import { useEffect, useState, type CSSProperties, type MouseEvent as ReactMouseEvent } from "react";
 import { ArrowSquareOut, DownloadSimple, ListBullets } from "@phosphor-icons/react";
 import { SidebarLayout } from "@/shared/components/SidebarLayout";
 import { PRODUCTS, PROOF_PDF, mockupUrl, pdfUrl, pngUrl, svgUrl, type MerchDesign, type MerchProduct } from "./products";
@@ -29,11 +29,53 @@ function Guides({ guides }: { guides: NonNullable<MerchProduct["guides"]> }) {
   );
 }
 
+const FILE_TYPES: Record<string, string> = {
+  ".pdf": "application/pdf",
+  ".png": "image/png",
+  ".svg": "image/svg+xml",
+  ".jpg": "image/jpeg",
+};
+
+type SavePicker = (options: {
+  suggestedName: string;
+  types?: { description: string; accept: Record<string, string[]> }[];
+}) => Promise<FileSystemFileHandle>;
+
+/**
+ * Asks where to save, the same for every file type, where the browser can (Chromium's save picker): a plain download
+ * link leaves that to the browser, and some send a PDF straight to Downloads while asking for a PNG. Elsewhere, or if
+ * the picker fails, the link downloads as usual.
+ */
+async function saveWithPicker(event: ReactMouseEvent<HTMLAnchorElement>, href: string, fileName: string) {
+  const picker = (window as Window & { showSaveFilePicker?: SavePicker }).showSaveFilePicker;
+  if (!picker) return;
+  event.preventDefault();
+  const ext = fileName.slice(fileName.lastIndexOf("."));
+  const type = FILE_TYPES[ext];
+  try {
+    const handle = await picker({
+      suggestedName: fileName,
+      types: type ? [{ description: ext.slice(1).toUpperCase(), accept: { [type]: [ext] } }] : undefined,
+    });
+    const file = await (await fetch(href)).blob();
+    const writable = await handle.createWritable();
+    await writable.write(file);
+    await writable.close();
+  } catch (err) {
+    if ((err as Error).name === "AbortError") return;
+    const link = document.createElement("a");
+    link.href = href;
+    link.download = fileName;
+    link.click();
+  }
+}
+
 function FileLink({ href, download, label }: { href: string; download: string; label: string }) {
   return (
     <a
       href={href}
       download={download}
+      onClick={(event) => saveWithPicker(event, href, download)}
       className="inline-flex items-center gap-1 rounded-md px-1.5 py-1 font-mono text-[0.7rem] text-text-mid hover:bg-surface-2 hover:text-text-primary"
     >
       <DownloadSimple size={12} weight="bold" />

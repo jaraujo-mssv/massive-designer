@@ -147,6 +147,48 @@ function Mockup({ product, mockup, onMissing }: { product: MerchProduct; mockup:
   );
 }
 
+/** A product's table: a cell's first line as the value, any lines after it smaller and dimmer. */
+function NotesTable({ table }: { table: NonNullable<MerchProduct["table"]> }) {
+  return (
+    <div className="max-w-3xl space-y-1.5">
+      <h3 className="text-sm font-medium text-text-primary">{table.title}</h3>
+      {table.caption && <p className="text-sm text-text-mid">{table.caption}</p>}
+      <div className="overflow-x-auto">
+        <table className="w-full border-collapse text-left text-sm">
+          <thead>
+            <tr>
+              {table.head.map((cell) => (
+                <th key={cell} className="whitespace-nowrap border-b border-border-subtle py-1.5 pr-3 text-xs font-medium text-text-dim last:pr-0 sm:pr-4">
+                  {cell}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {table.rows.map((row) => (
+              <tr key={row[0]} className="border-b border-border-subtle last:border-0">
+                {row.map((cell, i) => {
+                  const [value, ...gloss] = cell.split("\n");
+                  return (
+                    <td key={i} className="py-2 pr-3 align-top last:pr-0 sm:pr-4">
+                      <span className={i === 0 ? "text-text-primary" : "whitespace-nowrap text-text-mid"}>{value}</span>
+                      {gloss.map((line) => (
+                        <span key={line} className={`block text-xs text-text-dim ${i === 0 ? "" : "whitespace-nowrap"}`}>
+                          {line}
+                        </span>
+                      ))}
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
 const sectionId = (id: string) => `merch-${id}`;
 
 /** One entry per product, each a jump to its section. `active` is the section in view. */
@@ -208,6 +250,17 @@ function ProductSection({ product }: { product: MerchProduct }) {
         ))}
       </ul>
       <p className="max-w-3xl text-sm text-text-mid">{product.notes}</p>
+      {product.steps && (
+        <div className="max-w-3xl space-y-1.5">
+          <h3 className="text-sm font-medium text-text-primary">How to order</h3>
+          <ol className="list-decimal space-y-1 pl-5 text-sm text-text-mid marker:text-text-dim">
+            {product.steps.map((step) => (
+              <li key={step}>{step}</li>
+            ))}
+          </ol>
+        </div>
+      )}
+      {product.table && <NotesTable table={product.table} />}
       {product.printFile && (
         <div className="-ml-1.5">
           <FileLink href={pdfUrl(product.printFile)} download={`massive-${product.printFile}.pdf`} label="Print file (PDF)" />

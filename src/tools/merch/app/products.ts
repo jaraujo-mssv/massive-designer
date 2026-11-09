@@ -23,6 +23,10 @@ export interface MerchProduct {
   specs: string[];
   /** What to tell the vendor when ordering */
   notes: string;
+  /** How to order, as numbered steps under the notes */
+  steps?: string[];
+  /** A table under the steps. A cell's lines after the first are set smaller, as a gloss. */
+  table?: { title: string; caption?: string; head: string[]; rows: string[][] };
   /** Round products, in inches: the artwork square, the face (button) or cut (pin), and the safe line */
   guides?: { art: number; face: number; safe: number };
   /** 2:1 artwork, in wider cards */
@@ -142,9 +146,38 @@ export const PRODUCTS: MerchProduct[] = [
       name: "Printful, Comfort Colors 1717",
       url: "https://www.printful.com/custom/mens/t-shirts/unisex-garment-dyed-heavyweight-shirt-comfort-colors-1717",
     },
-    specs: ["Black, Terracotta or White, S–4XL", "Front and back, 12 × 16 in", "PNG at 300 dpi, DTG"],
-    notes:
-      "Heavyweight garment-dyed cotton. On Printful, pick Black, Terracotta (the logo’s coral) or White and upload the matching PNGs to Front print and Back print: each file is the whole 12 × 16 in area, so leave it where it lands. The front is the halftone sticker without its outline. Pick one back, both 12 cm wide over www.joinmassive.com: Mountain, the mountain in the same halftone, or 404, Excuse not found set like It’s Massive over it. The front print is included in the price; the back adds $5.95 a shirt.",
+    specs: ["Black, Terracotta or White, S–4XL", "Front and back, 12 × 16 in (30.5 × 40.6 cm)", "PNG at 300 dpi, DTG"],
+    notes: "Heavyweight garment-dyed cotton. The front print is included in the price; a back adds $5.95 a shirt.",
+    steps: [
+      "On Printful, pick the colour: Black, Terracotta (the logo’s coral) or White.",
+      "Upload that colour’s Front PNG to Front print, and one of its two backs, Mountain or 404, to Back print.",
+      "Leave each file where it lands: it’s the whole print area, with the design already in place.",
+    ],
+    table: {
+      title: "Sizes",
+      caption: "The canvas is the file: the whole print area, at 300 dpi. The design is the artwork on it, centred across it, the backs over www.joinmassive.com.",
+      head: ["Print", "Canvas", "Design", "From top"],
+      rows: [
+        [
+          "Front\nThe halftone sticker, without its outline",
+          "12 × 16 in\n30.5 × 40.6 cm\n3600 × 4800 px",
+          "10.5 × 4.1 in\n26.6 × 10.5 cm",
+          "1.2 in\n3.1 cm",
+        ],
+        [
+          "Back · Mountain\nThe mountain in the same halftone, over the address",
+          "12 × 16 in\n30.5 × 40.6 cm\n3600 × 4800 px",
+          "4.7 × 2.7 in\n12 × 6.8 cm",
+          "1 in\n2.5 cm",
+        ],
+        [
+          "Back · 404\nExcuse not found over the mountain, then the address",
+          "12 × 16 in\n30.5 × 40.6 cm\n3600 × 4800 px",
+          "4.7 × 3 in\n12 × 7.6 cm",
+          "1 in\n2.5 cm",
+        ],
+      ],
+    },
     designs: TEE_COLOURS.flatMap(({ id, name, ground }) =>
       TEE_SIDES.map((side) => ({ file: `tee-${side.id}-${id}`, name: `${side.name} · ${name}`, ground })),
     ),

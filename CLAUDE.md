@@ -50,6 +50,8 @@ npm run setup        # the same check, then installs what it can
 npm run dev          # http://localhost:5173
 npm run build        # vite build → dist/
 npm run preview      # serves dist/, with the image proxy
+npm run build:server # server/index.ts → dist-server/ (after build)
+npm start            # the whole site with every API, as Railway runs it (PORT, default 3000)
 ```
 
 - No env vars are needed for the app. `.env` (see `.env.example`) only holds `ELEVENLABS_API_KEY`,
@@ -72,6 +74,20 @@ npm run preview      # serves dist/, with the image proxy
     since Lambda has no system fonts) into the render function.
   - Node is `engines` 24.x, because Vercel ignores `.nvmrc`.
   - A Vercel WAF rate limit on `/api/render/*` is set in the dashboard, not in code.
+- It also deploys to Railway, from the root `Dockerfile` (Railway builds one on its own; Vercel ignores it):
+  - **The container:** `npm run build` and `npm run build:server`, then the production dependencies, Playwright's
+    Chromium headless shell with its libraries (`playwright-core install --with-deps`, so it matches
+    `playwright-core`), and the emoji font from `api/_lib/fonts/`. It starts `node dist-server/index.mjs` on Railway's
+    `PORT`.
+  - **`server/index.ts`** (built by `server/build.mjs`, Vite's SSR build without the app's config) does what
+    `vercel.json` does: `dist/`, the same `api/` handlers, and `index.html` for any other path but `/video-projects/`.
+    It answers `/llms.txt` with its own domain in place of `SITE_URL`, and `GET /api/health` with `ok`.
+  - **No CDN or WAF in front,** so the server keeps rendered images in memory (`RENDER_CACHE_MB`, default 200) and
+    limits renders per client IP (`RENDERS_PER_MINUTE`, default 20; `X-Real-IP`, which Railway's edge sets). Neither
+    env var is required.
+  - **In Railway's settings:** set the healthcheck path to `/api/health`. Railway's `railway.json` is deprecated
+    (its replacement is `.railway/railway.ts`, applied with their CLI), so there's no config file.
+  - Docker can't run on the dev Mac, so `npm start` is the way to test the server before pushing.
 - **Dev server only:** Video and Content work on local files. In a build `import.meta.env.DEV` is false, so their
   routes, nav entries and code drop out, and `localOnlyPublicDirs()` deletes their `public/` folders from `dist/`.
 - Script commands that render through Playwright Chromium: `image:render`, `print`, `deck`, `deck:pptx`, `docs`, `onepager`,
@@ -85,6 +101,7 @@ npm run preview      # serves dist/, with the image proxy
 | Path | What |
 |---|---|
 | `src/main.tsx`, `src/router/index.tsx` | Entry and routes. `ToolLayout` wraps each tool in the header and a `tool-<name>` class. |
+| `server/`, `Dockerfile` | The Railway deploy: a Node server for `dist/` and `api/`, and the container it runs in. |
 | `src/shared/components/Header.tsx` | The nav: the `tools` list, with `localOnly` and `deprecated` flags. |
 | `src/tools/<tool>/app/App.tsx` | Each tool's entry. |
 | `src/shared/canvas/` | Shared by Market Map and Top List (see below). |
@@ -195,7 +212,8 @@ gallery of every image; `/images?template=<id>` opens one in the editor.
     share it.
   - **Reserved names:** a field id can't be one (`template i q g s v c st f t id scale download`); `image:index`
     warns.
-  - **Dev:** `npm run dev` serves both endpoints through `renderApiPlugin()`; `vite preview` doesn't.
+  - **Dev:** `npm run dev` serves both endpoints through `renderApiPlugin()`; `vite preview` doesn't; `npm start`
+    does, as on Railway.
 - **UI:**
   - `library.ts`: the search, filters, grouping and sorting shared by the gallery and the sidebar.
     - The view lives in the URL: `q g s v c st f t`, which the editor keeps beside `template`.

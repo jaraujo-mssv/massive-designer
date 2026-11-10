@@ -104,7 +104,10 @@ export default function App() {
 
   const aiButton = (label: string) => (
     <button
-      onClick={() => copy(aiPrompt(templates, SITE_URL), "Prompt copied. Paste it into any AI chat and say what you need.")}
+      onClick={() =>
+        // The live site's own links wherever it's hosted; from the dev server, the public site's, not localhost's
+        copy(aiPrompt(templates, import.meta.env.DEV ? SITE_URL : window.location.origin), "Prompt copied. Paste it into any AI chat and say what you need.")
+      }
       title="Copy a prompt that lets any AI chat make these images for you"
       className={secondaryButtonClass}
     >

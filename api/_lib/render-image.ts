@@ -3,7 +3,8 @@
 // through image-kit, and #canvas captured.
 //
 // On Vercel, Chromium is @sparticuz/chromium (its version is paired with playwright-core's; upgrade both
-// together). Locally it's the Chromium `npm run setup` installs for Playwright. The Lambda build runs
+// together). Locally it's the Chromium `npm run setup` installs for Playwright; on Railway, the one the Dockerfile
+// installs. The Lambda build runs
 // --single-process, where closing a browser context, or opening a second, kills the browser, so each instance
 // keeps one browser and one context for its life, and a render only opens and closes a page. At most two render at
 // once, since one crash takes every page with it; a render that finds the browser gone relaunches it once.
@@ -75,7 +76,9 @@ function filesServer(): Promise<string> {
 let browserPromise: Promise<Browser> | null = null;
 
 async function launch(): Promise<Browser> {
-  if (process.platform !== 'linux' || !process.env.VERCEL) return chromium.launch();
+  // In a container (Railway), /dev/shm is often 64 MB, which a render can outgrow: Chromium uses /tmp instead.
+  if (process.platform === 'linux' && !process.env.VERCEL) return chromium.launch({ args: ['--disable-dev-shm-usage'] });
+  if (process.platform !== 'linux') return chromium.launch();
   const { default: lambda } = await import('@sparticuz/chromium');
   lambda.setGraphicsMode = false; // no WebGL in any image; skips unpacking SwiftShader
   const executablePath = await lambda.executablePath();

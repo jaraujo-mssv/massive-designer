@@ -1,0 +1,15 @@
+# Kept out of the Docker build context (see Dockerfile)
+node_modules
+dist
+dist-server
+output
+.git
+.vercel
+.env
+.env.*
+!.env.example
+.DS_Store
+# Local-only: the build deletes the video projects from dist/ anyway, and nothing builds from these
+public/video-projects
+originals
+.hyperframes

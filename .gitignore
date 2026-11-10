@@ -12,6 +12,7 @@ node_modules
 !.claude/skills/massive-design/
 output
 dist
+dist-server
 dist-campaign-standalone
 design-tokens.html
 src/test.html

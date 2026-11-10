@@ -10,6 +10,8 @@
     "build": "vite build",
     "dev": "vite",
     "preview": "vite preview",
+    "build:server": "node server/build.mjs",
+    "start": "node dist-server/index.mjs",
     "setup": "node scripts/setup/doctor.mjs --fix",
     "doctor": "node scripts/setup/doctor.mjs",
     "banners": "node scripts/banners/render.mjs",

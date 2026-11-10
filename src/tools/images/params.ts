@@ -134,7 +134,7 @@ export const primaryImageField = <F extends ParamField>(fields: F[]): F | undefi
   fields.find((f) => f.type === "image" && f.id === "photo") ?? fields.find((f) => f.type === "image");
 
 /** The deployed site, for links that must work outside it (llms.txt, the "Use with AI" prompt). */
-export const SITE_URL = "https://massive-designer.vercel.app";
+export const SITE_URL = "https://brand.joinmassive.com";
 
 /** The image link's path, and the edit link's path up to its field values: one place for the URL shapes. */
 export const renderPath = (id: string) => `/api/render/${id}.jpg`;

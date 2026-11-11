@@ -11,6 +11,12 @@
 //   - the chart      → a native line chart
 // Only the slide backdrop (glow and grid) stays a flat background picture.
 //
+// A deck with <body data-layouts> (a template) also gets two slide layouts,
+// "Massive" (backdrop, footer logo, live page number) and "Massive no footer"
+// (backdrop only). Slides use them instead of carrying their own footer, so a
+// new slide in Google Slides or PowerPoint starts on-brand and the page numbers
+// stay right when slides move. Its footer numbers must be plain positions (1, 2…).
+//
 //   node scripts/deck/pptx.mjs <slug…>
 //
 // Text keeps the fonts the deck uses (Outfit, Inter, Jersey 25…), so they must be
@@ -130,14 +136,17 @@ for (let index = 0; index < count; index++) {
   slides.push(data);
 }
 const deckTitle = (await page.title()).replace(/\s+—\s+.*$/, "");
+const layouts = await page.evaluate(() => document.body.hasAttribute("data-layouts"));
 await browser.close();
 
 // ---------- In the page: read one slide into drawing ops, in paint order ----------
 
 function collect(index) {
   const slide = document.querySelector(".pptx-solo");
+  const layouts = document.body.hasAttribute("data-layouts");
   const ops = [];
   let picId = 0;
+  let foot = null;
 
   const cs = (el, pseudo) => getComputedStyle(el, pseudo);
   const rgba = (css) => {
@@ -391,6 +400,22 @@ function collect(index) {
 
   const visit = (el) => {
     if (!visible(el)) return;
+    // Template footer: the logo and page number go to the slide layout.
+    if (layouts && el.matches(".foot")) {
+      foot = {};
+      for (const c of el.children) {
+        if (c.matches("img")) {
+          const n = ops.length;
+          pic(c);
+          if (ops.length > n) ops[n].foot = true;
+        } else if (c.matches(".num")) {
+          const t = textOf(c);
+          const r = c.getBoundingClientRect();
+          if (t) foot.num = { ...t.lines[0][0].style, x: r.left, y: r.top, w: r.width, h: r.height, right: r.left > 960 };
+        } else visit(c);
+      }
+      return;
+    }
     if (el.matches(".m-chart")) {
       const b = boxOf(el);
       if (b) ops.push(...(b.fill || b.outline ? [{ type: "shape", ...b }] : []), ...b.rules);
@@ -415,7 +440,11 @@ function collect(index) {
     const before = cs(el, "::before");
     if (before.content !== "none" && before.content !== "normal" && before.position === "absolute") {
       const r = el.getBoundingClientRect();
-      pic(el, { x: r.left + parseFloat(before.left), y: r.top + parseFloat(before.top), w: parseFloat(before.width), h: parseFloat(before.height) }, "Bullet");
+      // `* { box-sizing }` doesn't reach pseudo-elements: add their border and padding.
+      const edge = (a, b) =>
+        before.boxSizing === "border-box" ? 0
+        : ["border", "padding"].reduce((t, k) => t + parseFloat(before[`${k}${a}${k === "border" ? "Width" : ""}`]) + parseFloat(before[`${k}${b}${k === "border" ? "Width" : ""}`]), 0);
+      pic(el, { x: r.left + parseFloat(before.left), y: r.top + parseFloat(before.top), w: parseFloat(before.width) + edge("Left", "Right"), h: parseFloat(before.height) + edge("Top", "Bottom") }, "Bullet");
     }
 
     if (hasText) {
@@ -438,6 +467,7 @@ function collect(index) {
     bg: rgba(s.backgroundColor).hex,
     photo: layers.urls.image ? layers : null,
     ops,
+    foot,
   };
 }
 
@@ -530,6 +560,46 @@ const shapeStyle = (b) => ({
   ...(b.radius ? { rectRadius: inch(b.radius) } : {}),
 });
 
+// Slide layouts for a template deck (<body data-layouts>, see the top of this file).
+const FOOTED = "Massive";
+const PLAIN = "Massive no footer";
+let layoutBackdrop = null;
+if (layouts) {
+  const ref = slides.find((s) => s.foot && !s.photo) || slides.find((s) => !s.photo);
+  layoutBackdrop = ref?.backdrop || null;
+  const background = layoutBackdrop ? { data: layoutBackdrop } : { color: slides[0].bg };
+  pres.defineSlideMaster({ title: PLAIN, background });
+  const footed = slides.find((s) => s.foot);
+  if (footed) {
+    const logo = footed.ops.find((o) => o.foot);
+    const num = footed.foot.num;
+    const SLOT = 96; // px: room for three digits
+    pres.defineSlideMaster({
+      title: FOOTED,
+      background,
+      objects: logo
+        ? [{ image: {
+            x: inch(logo.x), y: inch(logo.y), w: inch(logo.w), h: inch(logo.h), altText: "Logo",
+            data: logo.svg ? `image/svg+xml;base64,${Buffer.from(logo.svg).toString("base64")}` : logo.data,
+          } }]
+        : [],
+      ...(num && {
+        slideNumber: {
+          x: inch(num.right ? num.x + num.w - SLOT : num.x), y: inch(num.y), w: inch(SLOT), h: inch(num.h),
+          fontFace: num.font, fontSize: pt(num.size), color: num.hex, bold: num.weight >= 600,
+          align: num.right ? "right" : "left", valign: "middle", margin: 0,
+        },
+      }),
+    });
+    // As in addPicture: the screenshot stands in for the SVG's PNG fallback.
+    const fallback = pres.slideLayouts.at(-1)._relsMedia.findLast((r) => r.isSvgPng);
+    if (fallback) {
+      fallback.data = `image/png;base64,${logo.png}`;
+      fallback.isSvgPng = false;
+    }
+  }
+}
+
 let section = null;
 for (const s of slides) {
   const name = s.section || (s.index === 0 ? "Cover" : "Close");
@@ -537,17 +607,19 @@ for (const s of slides) {
     pres.addSection({ title: name });
     section = name;
   }
-  const slide = pres.addSlide({ sectionTitle: name });
+  const slide = pres.addSlide({ sectionTitle: name, ...(layouts && { masterName: s.foot ? FOOTED : PLAIN }) });
 
   if (s.photo) {
     slide.background = { color: s.bg };
     addPicture(slide, { x: 0, y: 0, w: W, h: H, data: s.photo.data, name: "Photo" });
     addPicture(slide, { x: 0, y: 0, w: W, h: H, data: s.photo.shadeData, name: "Shade" });
-  } else {
+  } else if (s.backdrop !== layoutBackdrop) {
+    // A template slide with the layout's own backdrop shows it through.
     slide.background = { data: s.backdrop };
   }
 
   for (const op of s.ops) {
+    if (op.foot) continue; // drawn by the layout
     if (op.type === "pic") addPicture(slide, op);
 
     if (op.type === "shape") {
@@ -580,10 +652,14 @@ for (const s of slides) {
         });
         continue;
       }
-      // Leave room for small metric differences between renderers, growing
-      // away from the aligned edge.
+      // Leave room for metric differences between renderers (at least half an
+      // em, for display numbers), growing away from the aligned edge. Google
+      // Slides ignores letter-spacing, so a line set tight also gets back the
+      // width its tracking saved.
       const w = op.box.r - op.box.l;
-      const slack = Math.max(24, w * 0.08);
+      const em = Math.max(...op.lines.flat().map((run) => run.style.size));
+      const tracking = Math.max(0, ...op.lines.map((line) => line.reduce((t, run) => t + Math.max(0, -run.style.spacing) * run.text.length, 0)));
+      const slack = Math.max(24, w * 0.08, em * 0.5) + tracking;
       const x = op.align === "center" ? op.box.l - slack / 2 : op.align === "right" ? op.box.l - slack : op.box.l;
       slide.addText(runs, {
         x: inch(x), y: inch(op.box.t), w: inch(w + slack), h: inch(op.lines.length * op.lineHeight + 4),

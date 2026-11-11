@@ -5,20 +5,20 @@
 ## How to make an image
 
 1. Pick an image. Templates are made to be filled in; the other images are finished designs that can be re-rendered with changes.
-2. Build the link: `https://brand.joinmassive.com/images?template=<id>&<param>=<value>&…`
+2. Build the link: `https://massive-designer.vercel.app/images?template=<id>&<param>=<value>&…`
    - Use only that image's params. Leave a param out to keep its default.
    - URL-encode every value (a space is %20).
    - Text: as it should read, up to 300 characters; %0A is a line break. Select: one of the listed values. Toggle: true or false. Slider: a number in its range.
    - Photo: a public link to the image file (JPG, PNG, WebP, GIF, AVIF or SVG, up to 15 MB), not a page that shows it. Share pages from Unsplash, Google Drive or Dropbox (`dl=0`) won't work.
 3. If the person attached the photo or has it on their computer, leave the photo param out and tell them: "Open the link and paste or drop your photo into the Photo field."
 4. Give the person the link, as a plain link (not a markdown image). It opens the design in Massive Designer, filled in; they check the preview and click Download JPG.
-5. For the finished JPG straight away, the same params work on `https://brand.joinmassive.com/api/render/<id>.jpg?<param>=<value>&…` (photo links only; `scale=1` for 1×, `download=1` to download). You don't need to open it yourself: it renders when the person clicks it.
+5. For the finished JPG straight away, the same params work on `https://massive-designer.vercel.app/api/render/<id>.jpg?<param>=<value>&…` (photo links only; `scale=1` for 1×, `download=1` to download). You don't need to open it yourself: it renders when the person clicks it.
 
 Example: "A blog banner called 'Hotel Prices Without a Browser' with this photo: https://example.com/hotel.jpg"
-- Link: https://brand.joinmassive.com/images?template=blog-banner&headline=Hotel%20Prices%20Without%20a%20Browser&photo=https%3A%2F%2Fexample.com%2Fhotel.jpg
-- JPG: https://brand.joinmassive.com/api/render/blog-banner.jpg?headline=Hotel%20Prices%20Without%20a%20Browser&photo=https%3A%2F%2Fexample.com%2Fhotel.jpg
+- Link: https://massive-designer.vercel.app/images?template=blog-banner&headline=Hotel%20Prices%20Without%20a%20Browser&photo=https%3A%2F%2Fexample.com%2Fhotel.jpg
+- JPG: https://massive-designer.vercel.app/api/render/blog-banner.jpg?headline=Hotel%20Prices%20Without%20a%20Browser&photo=https%3A%2F%2Fexample.com%2Fhotel.jpg
 
-Search every image: https://brand.joinmassive.com/api/images?q=<words> (add &format=json for JSON). One image's details: https://brand.joinmassive.com/api/images?id=<id>.
+Search every image: https://massive-designer.vercel.app/api/images?q=<words> (add &format=json for JSON). One image's details: https://massive-designer.vercel.app/api/images?id=<id>.
 
 ## Templates
 
@@ -38,9 +38,9 @@ Params:
 - `rewards`: Rewards (comma-separated, up to 5). Text; default "+1 Wisdom, +1 Cake, +100 Good vibes". Each one becomes a chip
 - `confetti`: Confetti. True or false; default true. Frozen burst behind the photo; turn off for a calmer card
 
-Image link (defaults): https://brand.joinmassive.com/api/render/team-birthday.jpg
-Edit link: https://brand.joinmassive.com/images?template=team-birthday
-Thumbnail: https://brand.joinmassive.com/image-projects/team-birthday/thumb.jpg
+Image link (defaults): https://massive-designer.vercel.app/api/render/team-birthday.jpg
+Edit link: https://massive-designer.vercel.app/images?template=team-birthday
+Thumbnail: https://massive-designer.vercel.app/image-projects/team-birthday/thumb.jpg
 
 ### Blog banner (template)
 
@@ -54,9 +54,9 @@ Params:
 - `position`: Headline position. One of `middle` (Middle), `bottom` (Bottom); default `middle`.
 - `wash`: Wash. One of `standard` (Standard (dark photo)), `strong` (Strong (bright photo)); default `standard`. Strong for bright photos
 
-Image link (defaults): https://brand.joinmassive.com/api/render/blog-banner.jpg
-Edit link: https://brand.joinmassive.com/images?template=blog-banner
-Thumbnail: https://brand.joinmassive.com/image-projects/blog-banner/thumb.jpg
+Image link (defaults): https://massive-designer.vercel.app/api/render/blog-banner.jpg
+Edit link: https://massive-designer.vercel.app/images?template=blog-banner
+Thumbnail: https://massive-designer.vercel.app/image-projects/blog-banner/thumb.jpg
 
 ### Blog quote card
 
@@ -72,9 +72,9 @@ Params:
 - `postTitle`: Post title. Text; default "Is robots.txt Legally Binding? What US and EU Courts Have Ruled". As published; up to two lines, about 90 characters.
 - `link`: Link. Text; default "joinmassive.com/blog". Shown bottom right; keep it short, without https://.
 
-Image link (defaults): https://brand.joinmassive.com/api/render/content-blog-quote.jpg
-Edit link: https://brand.joinmassive.com/images?template=content-blog-quote
-Thumbnail: https://brand.joinmassive.com/image-projects/content-blog-quote/thumb.jpg
+Image link (defaults): https://massive-designer.vercel.app/api/render/content-blog-quote.jpg
+Edit link: https://massive-designer.vercel.app/images?template=content-blog-quote
+Thumbnail: https://massive-designer.vercel.app/image-projects/content-blog-quote/thumb.jpg
 
 ### Company page follower milestone
 
@@ -93,9 +93,9 @@ Params:
 - `short`: Short count. Text; default "[10K]". For the thank-you line, e.g. 10K
 - `confetti`: Confetti. True or false; default true. Frozen burst behind the photo; turn off for a calmer card
 
-Image link (defaults): https://brand.joinmassive.com/api/render/milestone-company-followers.jpg
-Edit link: https://brand.joinmassive.com/images?template=milestone-company-followers
-Thumbnail: https://brand.joinmassive.com/image-projects/milestone-company-followers/thumb.jpg
+Image link (defaults): https://massive-designer.vercel.app/api/render/milestone-company-followers.jpg
+Edit link: https://massive-designer.vercel.app/images?template=milestone-company-followers
+Thumbnail: https://massive-designer.vercel.app/image-projects/milestone-company-followers/thumb.jpg
 
 ### Data story stat
 
@@ -110,9 +110,9 @@ Params:
 - `source`: Source. Text; default "Massive, EDPB Web Scraping Guidelines: What the GDPR Draft Means for AI Data Collection". Who published it and where, after “Source:”.
 - `link`: Source link. Text; default "joinmassive.com/blog/edpb-web-scraping-guidelines". The page the number comes from, without https://.
 
-Image link (defaults): https://brand.joinmassive.com/api/render/content-data-stat.jpg
-Edit link: https://brand.joinmassive.com/images?template=content-data-stat
-Thumbnail: https://brand.joinmassive.com/image-projects/content-data-stat/thumb.jpg
+Image link (defaults): https://massive-designer.vercel.app/api/render/content-data-stat.jpg
+Edit link: https://massive-designer.vercel.app/images?template=content-data-stat
+Thumbnail: https://massive-designer.vercel.app/image-projects/content-data-stat/thumb.jpg
 
 ### Event recap
 
@@ -128,9 +128,9 @@ Params:
 - `headline`: Headline. Text; default "Thank you, Prague". The thank-you line. Up to two lines; about 20 characters reads best
 - `takeaway`: Takeaway. Text; default "250+ attendees. 17 talks, demos and a panel.". One or two sourced facts, up to two lines; about 50 characters
 
-Image link (defaults): https://brand.joinmassive.com/api/render/events-recap.jpg
-Edit link: https://brand.joinmassive.com/images?template=events-recap
-Thumbnail: https://brand.joinmassive.com/image-projects/events-recap/thumb.jpg
+Image link (defaults): https://massive-designer.vercel.app/api/render/events-recap.jpg
+Edit link: https://massive-designer.vercel.app/images?template=events-recap
+Thumbnail: https://massive-designer.vercel.app/image-projects/events-recap/thumb.jpg
 
 ### Hiring: Photo (template)
 
@@ -146,9 +146,9 @@ Params:
 - `aside`: Handwritten note. Text; default "Pajamas: approved.". A short joke about the photo, like “Socks: mismatched.”; the arrow points into the photo.
 - `showAside`: Show the note. True or false; default true.
 
-Image link (defaults): https://brand.joinmassive.com/api/render/hiring-photo-square.jpg
-Edit link: https://brand.joinmassive.com/images?template=hiring-photo-square
-Thumbnail: https://brand.joinmassive.com/image-projects/hiring-photo-square/thumb.jpg
+Image link (defaults): https://massive-designer.vercel.app/api/render/hiring-photo-square.jpg
+Edit link: https://massive-designer.vercel.app/images?template=hiring-photo-square
+Thumbnail: https://massive-designer.vercel.app/image-projects/hiring-photo-square/thumb.jpg
 
 ### Hiring: We’re hiring an (template)
 
@@ -165,9 +165,9 @@ Params:
 - `aside`: Handwritten note. Text; default "Office: wherever". A short joke about the photo, like “Socks: mismatched.”; the arrow points into the photo.
 - `showAside`: Show the note. True or false; default true.
 
-Image link (defaults): https://brand.joinmassive.com/api/render/hiring-an-square.jpg
-Edit link: https://brand.joinmassive.com/images?template=hiring-an-square
-Thumbnail: https://brand.joinmassive.com/image-projects/hiring-an-square/thumb.jpg
+Image link (defaults): https://massive-designer.vercel.app/api/render/hiring-an-square.jpg
+Edit link: https://massive-designer.vercel.app/images?template=hiring-an-square
+Thumbnail: https://massive-designer.vercel.app/image-projects/hiring-an-square/thumb.jpg
 
 ### Holiday greetings
 
@@ -178,9 +178,9 @@ A holiday greeting card over the dimmed Slack desktop: a lit menorah for Hanukka
 Params:
 - `holiday`: Holiday. One of `hanukkah` (Hanukkah), `rosh-hashanah` (Rosh Hashanah); default `hanukkah`. Picks the motif, the greeting and the outro line
 
-Image link (defaults): https://brand.joinmassive.com/api/render/seasonal-holidays.jpg
-Edit link: https://brand.joinmassive.com/images?template=seasonal-holidays
-Thumbnail: https://brand.joinmassive.com/image-projects/seasonal-holidays/thumb.jpg
+Image link (defaults): https://massive-designer.vercel.app/api/render/seasonal-holidays.jpg
+Edit link: https://massive-designer.vercel.app/images?template=seasonal-holidays
+Thumbnail: https://massive-designer.vercel.app/image-projects/seasonal-holidays/thumb.jpg
 
 ### Market map teaser
 
@@ -194,9 +194,9 @@ Params:
 - `count`: Count. Text; default "88 companies, 15 categories". What the map holds, from the tool's sidebar; one line.
 - `cta`: Call to action. Text; default "Full map in the comments". Where the full map is; about 25 characters.
 
-Image link (defaults): https://brand.joinmassive.com/api/render/content-market-map-teaser.jpg
-Edit link: https://brand.joinmassive.com/images?template=content-market-map-teaser
-Thumbnail: https://brand.joinmassive.com/image-projects/content-market-map-teaser/thumb.jpg
+Image link (defaults): https://massive-designer.vercel.app/api/render/content-market-map-teaser.jpg
+Edit link: https://massive-designer.vercel.app/images?template=content-market-map-teaser
+Thumbnail: https://massive-designer.vercel.app/image-projects/content-market-map-teaser/thumb.jpg
 
 ### Meet us at …
 
@@ -218,9 +218,9 @@ Params:
 - `name2`: Second name. Text; default "Franklin Uche". Full name, about 25 characters
 - `role2`: Second role. Text; default "Community Lead". Job title, about 40 characters
 
-Image link (defaults): https://brand.joinmassive.com/api/render/events-meet-us.jpg
-Edit link: https://brand.joinmassive.com/images?template=events-meet-us
-Thumbnail: https://brand.joinmassive.com/image-projects/events-meet-us/thumb.jpg
+Image link (defaults): https://massive-designer.vercel.app/api/render/events-meet-us.jpg
+Edit link: https://massive-designer.vercel.app/images?template=events-meet-us
+Thumbnail: https://massive-designer.vercel.app/image-projects/events-meet-us/thumb.jpg
 
 ### Partnership announcement
 
@@ -233,9 +233,9 @@ Params:
 - `headline`: Headline. Text; default "Crawl4AI named Massive its web access partner". What the partnership is; up to three lines, about 50 characters.
 - `eyebrow`: Eyebrow. Text; default "Partnership". One or two words above the headline.
 
-Image link (defaults): https://brand.joinmassive.com/api/render/partners-announcement.jpg
-Edit link: https://brand.joinmassive.com/images?template=partners-announcement
-Thumbnail: https://brand.joinmassive.com/image-projects/partners-announcement/thumb.jpg
+Image link (defaults): https://massive-designer.vercel.app/api/render/partners-announcement.jpg
+Edit link: https://massive-designer.vercel.app/images?template=partners-announcement
+Thumbnail: https://massive-designer.vercel.app/image-projects/partners-announcement/thumb.jpg
 
 ### Prague Crawl 2027: speaker card
 
@@ -252,9 +252,9 @@ Params:
 - `date`: Date. Text; default "May 13, 2027".
 - `venue`: Venue. Text; default "Spojka Events, Prague".
 
-Image link (defaults): https://brand.joinmassive.com/api/render/prague-crawl-2027-speaker.jpg
-Edit link: https://brand.joinmassive.com/images?template=prague-crawl-2027-speaker
-Thumbnail: https://brand.joinmassive.com/image-projects/prague-crawl-2027-speaker/thumb.jpg
+Image link (defaults): https://massive-designer.vercel.app/api/render/prague-crawl-2027-speaker.jpg
+Edit link: https://massive-designer.vercel.app/images?template=prague-crawl-2027-speaker
+Thumbnail: https://massive-designer.vercel.app/image-projects/prague-crawl-2027-speaker/thumb.jpg
 
 ### Prague Crawl 2027: sponsor welcome
 
@@ -269,9 +269,9 @@ Params:
 - `date`: Date. Text; default "May 13, 2027".
 - `venue`: Venue. Text; default "Spojka Events, Prague".
 
-Image link (defaults): https://brand.joinmassive.com/api/render/prague-crawl-2027-sponsor.jpg
-Edit link: https://brand.joinmassive.com/images?template=prague-crawl-2027-sponsor
-Thumbnail: https://brand.joinmassive.com/image-projects/prague-crawl-2027-sponsor/thumb.jpg
+Image link (defaults): https://massive-designer.vercel.app/api/render/prague-crawl-2027-sponsor.jpg
+Edit link: https://massive-designer.vercel.app/images?template=prague-crawl-2027-sponsor
+Thumbnail: https://massive-designer.vercel.app/image-projects/prague-crawl-2027-sponsor/thumb.jpg
 
 ### Promotion announcement
 
@@ -287,9 +287,9 @@ Params:
 - `newRole`: New role. Text; default "[New role]". The role in the red pill; about 25 characters
 - `confetti`: Confetti. True or false; default true. Frozen burst behind the photo; turn off for a calmer card
 
-Image link (defaults): https://brand.joinmassive.com/api/render/team-promotion.jpg
-Edit link: https://brand.joinmassive.com/images?template=team-promotion
-Thumbnail: https://brand.joinmassive.com/image-projects/team-promotion/thumb.jpg
+Image link (defaults): https://massive-designer.vercel.app/api/render/team-promotion.jpg
+Edit link: https://massive-designer.vercel.app/images?template=team-promotion
+Thumbnail: https://massive-designer.vercel.app/image-projects/team-promotion/thumb.jpg
 
 ### Role filled: we hired!
 
@@ -305,9 +305,9 @@ Params:
 - `aside`: Handwritten note. Text; default "Desk: taken.". A short joke about the photo, like “Desk: taken.”; the arrow points into the photo.
 - `showAside`: Show the note. True or false; default true. Hide the note and its arrow.
 
-Image link (defaults): https://brand.joinmassive.com/api/render/hiring-we-hired.jpg
-Edit link: https://brand.joinmassive.com/images?template=hiring-we-hired
-Thumbnail: https://brand.joinmassive.com/image-projects/hiring-we-hired/thumb.jpg
+Image link (defaults): https://massive-designer.vercel.app/api/render/hiring-we-hired.jpg
+Edit link: https://massive-designer.vercel.app/images?template=hiring-we-hired
+Thumbnail: https://massive-designer.vercel.app/image-projects/hiring-we-hired/thumb.jpg
 
 ### SF dinner / meetup invite
 
@@ -323,9 +323,9 @@ Params:
 - `area`: Neighborhood. Text; default "[Neighborhood]". Neighborhood or venue, about 30 characters. Leave the brackets until it's known
 - `rsvp`: RSVP link. Text; default "[RSVP link]". A short link without https://, about 30 characters. Leave the brackets until it's known
 
-Image link (defaults): https://brand.joinmassive.com/api/render/events-sf-dinner.jpg
-Edit link: https://brand.joinmassive.com/images?template=events-sf-dinner
-Thumbnail: https://brand.joinmassive.com/image-projects/events-sf-dinner/thumb.jpg
+Image link (defaults): https://massive-designer.vercel.app/api/render/events-sf-dinner.jpg
+Edit link: https://massive-designer.vercel.app/images?template=events-sf-dinner
+Thumbnail: https://massive-designer.vercel.app/image-projects/events-sf-dinner/thumb.jpg
 
 ### Speaker card
 
@@ -344,9 +344,9 @@ Params:
 - `time`: Time. Text; default "[Time]". Start time and time zone, e.g. 11:10 CET. Leave the brackets until it's known
 - `venue`: Venue. Text; default "Spojka Events, Prague". Venue and city, about 30 characters
 
-Image link (defaults): https://brand.joinmassive.com/api/render/events-speaker.jpg
-Edit link: https://brand.joinmassive.com/images?template=events-speaker
-Thumbnail: https://brand.joinmassive.com/image-projects/events-speaker/thumb.jpg
+Image link (defaults): https://massive-designer.vercel.app/api/render/events-speaker.jpg
+Edit link: https://massive-designer.vercel.app/images?template=events-speaker
+Thumbnail: https://massive-designer.vercel.app/image-projects/events-speaker/thumb.jpg
 
 ### Teammate spotlight Q&A
 
@@ -366,9 +366,9 @@ Params:
 - `q3`: Question 3. Text; default "Fuel". A short label, up to about 30 characters
 - `a3`: Answer 3. Text; default "Medium rare steak and rice". Up to two lines, about 70 characters
 
-Image link (defaults): https://brand.joinmassive.com/api/render/team-spotlight.jpg
-Edit link: https://brand.joinmassive.com/images?template=team-spotlight
-Thumbnail: https://brand.joinmassive.com/image-projects/team-spotlight/thumb.jpg
+Image link (defaults): https://massive-designer.vercel.app/api/render/team-spotlight.jpg
+Edit link: https://massive-designer.vercel.app/images?template=team-spotlight
+Thumbnail: https://massive-designer.vercel.app/image-projects/team-spotlight/thumb.jpg
 
 ### Webinar
 
@@ -386,9 +386,9 @@ Params:
 - `time`: Time and time zone. Text; default "[Time and time zone]". e.g. 5 pm CET / 11 am ET. Leave the brackets until it's known
 - `register`: Registration link. Text; default "[Registration link]". A short link without https://, about 30 characters. Leave the brackets until it's known
 
-Image link (defaults): https://brand.joinmassive.com/api/render/events-webinar.jpg
-Edit link: https://brand.joinmassive.com/images?template=events-webinar
-Thumbnail: https://brand.joinmassive.com/image-projects/events-webinar/thumb.jpg
+Image link (defaults): https://massive-designer.vercel.app/api/render/events-webinar.jpg
+Edit link: https://massive-designer.vercel.app/images?template=events-webinar
+Thumbnail: https://massive-designer.vercel.app/image-projects/events-webinar/thumb.jpg
 
 ### Welcome to Massive: Template (Franklin)
 
@@ -408,9 +408,9 @@ Params:
 - `food`: Fuel (favourite food). Text; default "Medium rare steak and rice".
 - `confetti`: Confetti. True or false; default true.
 
-Image link (defaults): https://brand.joinmassive.com/api/render/welcome-template.jpg
-Edit link: https://brand.joinmassive.com/images?template=welcome-template
-Thumbnail: https://brand.joinmassive.com/image-projects/welcome-template/thumb.jpg
+Image link (defaults): https://massive-designer.vercel.app/api/render/welcome-template.jpg
+Edit link: https://massive-designer.vercel.app/images?template=welcome-template
+Thumbnail: https://massive-designer.vercel.app/image-projects/welcome-template/thumb.jpg
 
 ### Where the team is
 
@@ -422,9 +422,9 @@ Params:
 - `countries`: Countries. Text; default "Ukraine, Poland, Italy, Brazil, Finland, Canada, USA, Nigeria". Every country the team works from, comma-separated, in English; 1 to 25, each one a chip and a red country.
 - `headline`: Headline. Text; default "{N} countries, one team". {N} becomes the number of countries, in red; up to two lines.
 
-Image link (defaults): https://brand.joinmassive.com/api/render/team-world-map.jpg
-Edit link: https://brand.joinmassive.com/images?template=team-world-map
-Thumbnail: https://brand.joinmassive.com/image-projects/team-world-map/thumb.jpg
+Image link (defaults): https://massive-designer.vercel.app/api/render/team-world-map.jpg
+Edit link: https://massive-designer.vercel.app/images?template=team-world-map
+Thumbnail: https://massive-designer.vercel.app/image-projects/team-world-map/thumb.jpg
 
 ### Work anniversary
 
@@ -439,57 +439,57 @@ Params:
 - `role`: Role. Text; default "Community Lead". Job title, about 30 characters
 - `years`: Years at Massive. Text; default "3". A whole number; it sets the pips, the tenure and the toast
 
-Image link (defaults): https://brand.joinmassive.com/api/render/team-work-anniversary.jpg
-Edit link: https://brand.joinmassive.com/images?template=team-work-anniversary
-Thumbnail: https://brand.joinmassive.com/image-projects/team-work-anniversary/thumb.jpg
+Image link (defaults): https://massive-designer.vercel.app/api/render/team-work-anniversary.jpg
+Edit link: https://massive-designer.vercel.app/images?template=team-work-anniversary
+Thumbnail: https://massive-designer.vercel.app/image-projects/team-work-anniversary/thumb.jpg
 
 ## Other images
 
 Finished designs, which can also be re-rendered with changes. Each link lists the image's params.
 
-- 195+ countries (`milestone-195-countries`, 1080×1350): https://brand.joinmassive.com/api/images?id=milestone-195-countries
-- AI answers: a new era (`content-ai-answers`, 1080×1350): https://brand.joinmassive.com/api/images?id=content-ai-answers
-- API in a few lines (`product-code-snippet`, 1920×1080): https://brand.joinmassive.com/api/images?id=product-code-snippet
-- Blog: Hotel Prices Without a Browser (`blog-radisson-hotel-prices`, 1376×768): https://brand.joinmassive.com/api/images?id=blog-radisson-hotel-prices
-- Company card: A front door to the web (`company-card`, 1920×1080): https://brand.joinmassive.com/api/images?id=company-card
-- Company card: Centered (`company-card-centered`, 1920×1080): https://brand.joinmassive.com/api/images?id=company-card-centered
-- Feature spotlight: Residential proxies (`product-residential-proxies`, 1080×1350): https://brand.joinmassive.com/api/images?id=product-residential-proxies
-- Feature spotlight: Web Render (`product-web-render`, 1080×1350): https://brand.joinmassive.com/api/images?id=product-web-render
-- Happy New Year (`seasonal-new-year`, 1080×1350): https://brand.joinmassive.com/api/images?id=seasonal-new-year
-- Hiring: Account Executive (`hiring-account-executive-square`, 1080×1080): https://brand.joinmassive.com/api/images?id=hiring-account-executive-square
-- Hiring: Account Executive (San Francisco) (`hiring-account-executive-sf-square`, 1080×1080): https://brand.joinmassive.com/api/images?id=hiring-account-executive-sf-square
-- Hiring: All open roles (`hiring-open-roles-square`, 1080×1080): https://brand.joinmassive.com/api/images?id=hiring-open-roles-square
-- Hiring: Benefits (`hiring-benefits-square`, 1080×1080): https://brand.joinmassive.com/api/images?id=hiring-benefits-square
-- Hiring: Event Ambassador (San Francisco) (`hiring-event-ambassador-square`, 1080×1080): https://brand.joinmassive.com/api/images?id=hiring-event-ambassador-square
-- Hiring: GTM Representative (Field & Events) (`hiring-gtm-field-square`, 1080×1080): https://brand.joinmassive.com/api/images?id=hiring-gtm-field-square
-- Hiring: Operations Manager (`hiring-operations-manager-square`, 1080×1080): https://brand.joinmassive.com/api/images?id=hiring-operations-manager-square
-- Hiring: Security Researcher (Junior) (`hiring-security-researcher-square`, 1080×1080): https://brand.joinmassive.com/api/images?id=hiring-security-researcher-square
-- Hiring: Senior Backend Engineer (Proxy & Infra) (`hiring-backend-engineer-square`, 1080×1080): https://brand.joinmassive.com/api/images?id=hiring-backend-engineer-square
-- Hiring: Senior Data Engineer (Pipelines & Architecture) (`hiring-data-engineer-square`, 1080×1080): https://brand.joinmassive.com/api/images?id=hiring-data-engineer-square
-- Hiring: Social Media Coordinator (`hiring-social-media-square`, 1080×1080): https://brand.joinmassive.com/api/images?id=hiring-social-media-square
-- Hiring: Support Engineer (Web Scraping & Proxies) (`hiring-support-engineer-square`, 1080×1080): https://brand.joinmassive.com/api/images?id=hiring-support-engineer-square
-- Hiring: Writers (`writers-hiring-abroad-square`, 1080×1080): https://brand.joinmassive.com/api/images?id=writers-hiring-abroad-square
-- How we work: async-first (`hiring-async-first`, 1080×1080): https://brand.joinmassive.com/api/images?id=hiring-async-first
-- Jason 15K: Every dot a follower (`jason-15k-network`, 1080×1350): https://brand.joinmassive.com/api/images?id=jason-15k-network
-- Jason 15K: Grid (`jason-15k-grid`, 1080×1350): https://brand.joinmassive.com/api/images?id=jason-15k-grid
-- Jason 15K: LinkedIn profile (`jason-15k-linkedin`, 1080×1350): https://brand.joinmassive.com/api/images?id=jason-15k-linkedin
-- Jason 15K: Milestone card (`jason-15k-milestone`, 1080×1350): https://brand.joinmassive.com/api/images?id=jason-15k-milestone
-- Jason 15K: Very nice (`jason-15k-very-nice`, 1080×1350): https://brand.joinmassive.com/api/images?id=jason-15k-very-nice
-- Know someone? Refer them (`hiring-referral`, 1080×1080): https://brand.joinmassive.com/api/images?id=hiring-referral
-- Launch announcement (`product-launch`, 1080×1350): https://brand.joinmassive.com/api/images?id=product-launch
-- Prague Crawl 2026 in numbers (`prague-crawl-2027-last-year`, 1080×1350): https://brand.joinmassive.com/api/images?id=prague-crawl-2027-last-year
-- Prague Crawl 2027: agenda (`prague-crawl-2027-agenda`, 1080×1350): https://brand.joinmassive.com/api/images?id=prague-crawl-2027-agenda
-- Prague Crawl 2027: call for speakers (`prague-crawl-2027-call-for-speakers`, 1080×1350): https://brand.joinmassive.com/api/images?id=prague-crawl-2027-call-for-speakers
-- Prague Crawl 2027: call for sponsors (`prague-crawl-2027-sponsors`, 1080×1350): https://brand.joinmassive.com/api/images?id=prague-crawl-2027-sponsors
-- Prague Crawl 2027: save the date (`prague-crawl-2027-save-the-date`, 1080×1080): https://brand.joinmassive.com/api/images?id=prague-crawl-2027-save-the-date
-- Prague Crawl 2027: tickets on sale (`prague-crawl-2027-tickets`, 1080×1350): https://brand.joinmassive.com/api/images?id=prague-crawl-2027-tickets
-- Welcome to Massive: Anton Komandyr (`welcome-anton`, 1080×1350): https://brand.joinmassive.com/api/images?id=welcome-anton
-- Welcome to Massive: Artem Shcherbatiuk (`welcome-artem`, 1080×1350): https://brand.joinmassive.com/api/images?id=welcome-artem
-- Welcome to Massive: Marco Spagnuolo (`welcome-marco`, 1080×1350): https://brand.joinmassive.com/api/images?id=welcome-marco
-- Welcome to Massive: Maria Duarte (`welcome-maria`, 1080×1350): https://brand.joinmassive.com/api/images?id=welcome-maria
-- Welcome to Massive: Michael Oyeniran (`welcome-michael`, 1080×1350): https://brand.joinmassive.com/api/images?id=welcome-michael
-- Welcome to Massive: Oreoluwa Emmanuel (`welcome-oreoluwa`, 1080×1350): https://brand.joinmassive.com/api/images?id=welcome-oreoluwa
-- Welcome to Massive: Ryan Turner (`welcome-ryan`, 1080×1350): https://brand.joinmassive.com/api/images?id=welcome-ryan
-- Welcome to Massive: Yunna Maksymova (`welcome-yunna`, 1080×1350): https://brand.joinmassive.com/api/images?id=welcome-yunna
-- What does consent look like? (`content-consent-still`, 1080×1350): https://brand.joinmassive.com/api/images?id=content-consent-still
-- Why AEO is the new SEO (`content-aeo-still`, 1080×1350): https://brand.joinmassive.com/api/images?id=content-aeo-still
+- 195+ countries (`milestone-195-countries`, 1080×1350): https://massive-designer.vercel.app/api/images?id=milestone-195-countries
+- AI answers: a new era (`content-ai-answers`, 1080×1350): https://massive-designer.vercel.app/api/images?id=content-ai-answers
+- API in a few lines (`product-code-snippet`, 1920×1080): https://massive-designer.vercel.app/api/images?id=product-code-snippet
+- Blog: Hotel Prices Without a Browser (`blog-radisson-hotel-prices`, 1376×768): https://massive-designer.vercel.app/api/images?id=blog-radisson-hotel-prices
+- Company card: A front door to the web (`company-card`, 1920×1080): https://massive-designer.vercel.app/api/images?id=company-card
+- Company card: Centered (`company-card-centered`, 1920×1080): https://massive-designer.vercel.app/api/images?id=company-card-centered
+- Feature spotlight: Residential proxies (`product-residential-proxies`, 1080×1350): https://massive-designer.vercel.app/api/images?id=product-residential-proxies
+- Feature spotlight: Web Render (`product-web-render`, 1080×1350): https://massive-designer.vercel.app/api/images?id=product-web-render
+- Happy New Year (`seasonal-new-year`, 1080×1350): https://massive-designer.vercel.app/api/images?id=seasonal-new-year
+- Hiring: Account Executive (`hiring-account-executive-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-account-executive-square
+- Hiring: Account Executive (San Francisco) (`hiring-account-executive-sf-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-account-executive-sf-square
+- Hiring: All open roles (`hiring-open-roles-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-open-roles-square
+- Hiring: Benefits (`hiring-benefits-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-benefits-square
+- Hiring: Event Ambassador (San Francisco) (`hiring-event-ambassador-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-event-ambassador-square
+- Hiring: GTM Representative (Field & Events) (`hiring-gtm-field-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-gtm-field-square
+- Hiring: Operations Manager (`hiring-operations-manager-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-operations-manager-square
+- Hiring: Security Researcher (Junior) (`hiring-security-researcher-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-security-researcher-square
+- Hiring: Senior Backend Engineer (Proxy & Infra) (`hiring-backend-engineer-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-backend-engineer-square
+- Hiring: Senior Data Engineer (Pipelines & Architecture) (`hiring-data-engineer-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-data-engineer-square
+- Hiring: Social Media Coordinator (`hiring-social-media-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-social-media-square
+- Hiring: Support Engineer (Web Scraping & Proxies) (`hiring-support-engineer-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-support-engineer-square
+- Hiring: Writers (`writers-hiring-abroad-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=writers-hiring-abroad-square
+- How we work: async-first (`hiring-async-first`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-async-first
+- Jason 15K: Every dot a follower (`jason-15k-network`, 1080×1350): https://massive-designer.vercel.app/api/images?id=jason-15k-network
+- Jason 15K: Grid (`jason-15k-grid`, 1080×1350): https://massive-designer.vercel.app/api/images?id=jason-15k-grid
+- Jason 15K: LinkedIn profile (`jason-15k-linkedin`, 1080×1350): https://massive-designer.vercel.app/api/images?id=jason-15k-linkedin
+- Jason 15K: Milestone card (`jason-15k-milestone`, 1080×1350): https://massive-designer.vercel.app/api/images?id=jason-15k-milestone
+- Jason 15K: Very nice (`jason-15k-very-nice`, 1080×1350): https://massive-designer.vercel.app/api/images?id=jason-15k-very-nice
+- Know someone? Refer them (`hiring-referral`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-referral
+- Launch announcement (`product-launch`, 1080×1350): https://massive-designer.vercel.app/api/images?id=product-launch
+- Prague Crawl 2026 in numbers (`prague-crawl-2027-last-year`, 1080×1350): https://massive-designer.vercel.app/api/images?id=prague-crawl-2027-last-year
+- Prague Crawl 2027: agenda (`prague-crawl-2027-agenda`, 1080×1350): https://massive-designer.vercel.app/api/images?id=prague-crawl-2027-agenda
+- Prague Crawl 2027: call for speakers (`prague-crawl-2027-call-for-speakers`, 1080×1350): https://massive-designer.vercel.app/api/images?id=prague-crawl-2027-call-for-speakers
+- Prague Crawl 2027: call for sponsors (`prague-crawl-2027-sponsors`, 1080×1350): https://massive-designer.vercel.app/api/images?id=prague-crawl-2027-sponsors
+- Prague Crawl 2027: save the date (`prague-crawl-2027-save-the-date`, 1080×1080): https://massive-designer.vercel.app/api/images?id=prague-crawl-2027-save-the-date
+- Prague Crawl 2027: tickets on sale (`prague-crawl-2027-tickets`, 1080×1350): https://massive-designer.vercel.app/api/images?id=prague-crawl-2027-tickets
+- Welcome to Massive: Anton Komandyr (`welcome-anton`, 1080×1350): https://massive-designer.vercel.app/api/images?id=welcome-anton
+- Welcome to Massive: Artem Shcherbatiuk (`welcome-artem`, 1080×1350): https://massive-designer.vercel.app/api/images?id=welcome-artem
+- Welcome to Massive: Marco Spagnuolo (`welcome-marco`, 1080×1350): https://massive-designer.vercel.app/api/images?id=welcome-marco
+- Welcome to Massive: Maria Duarte (`welcome-maria`, 1080×1350): https://massive-designer.vercel.app/api/images?id=welcome-maria
+- Welcome to Massive: Michael Oyeniran (`welcome-michael`, 1080×1350): https://massive-designer.vercel.app/api/images?id=welcome-michael
+- Welcome to Massive: Oreoluwa Emmanuel (`welcome-oreoluwa`, 1080×1350): https://massive-designer.vercel.app/api/images?id=welcome-oreoluwa
+- Welcome to Massive: Ryan Turner (`welcome-ryan`, 1080×1350): https://massive-designer.vercel.app/api/images?id=welcome-ryan
+- Welcome to Massive: Yunna Maksymova (`welcome-yunna`, 1080×1350): https://massive-designer.vercel.app/api/images?id=welcome-yunna
+- What does consent look like? (`content-consent-still`, 1080×1350): https://massive-designer.vercel.app/api/images?id=content-consent-still
+- Why AEO is the new SEO (`content-aeo-still`, 1080×1350): https://massive-designer.vercel.app/api/images?id=content-aeo-still

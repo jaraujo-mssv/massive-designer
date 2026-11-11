@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1920">
+<title>Massive deck template — Massive</title>
+<link rel="stylesheet" href="deck.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  /* deck.css keeps the consent deck's values; a new deck follows brand/BRAND.md:
+     cream at 75% / 55%, one accent (no green), an eyebrow led by a short red rule. */
+  :root {
+    --text-mid: rgba(250, 244, 236, 0.75);
+    --text-dim: rgba(250, 244, 236, 0.55);
+  }
+  .eyebrow { position: relative; padding-left: 40px; }
+  .eyebrow::before { content: ''; position: absolute; left: 0; top: 13px; width: 24px; height: 2px; background: var(--red-light); }
+
+  .ticks.check li::before {
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ff8163' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center / contain no-repeat;
+  }
+  .ticks.big { gap: 28px; }
+  .ticks.big li { font-size: 34px; padding-left: 60px; }
+  .ticks.big li::before { top: 9px; width: 34px; height: 34px; }
+
+  /* A card with the accent rule: the "good" side, in the one accent */
+  .card.accent { border-top: 3px solid var(--red); }
+  .card.accent .k { color: var(--red-light); }
+  .card { padding: 48px 52px; }
+  .card ul { margin-top: 16px; }
+  .card .ticks li { font-size: 30px; }
+
+  .timeline .era.now { border-top-color: var(--red-light); }
+  .timeline .era.now::before { border-color: var(--red-light); background: var(--red-light); }
+  .timeline p { margin-top: 16px; }
+
+  /* Section divider */
+  .slide.divider { justify-content: center; }
+  .divider .lede { margin-top: 40px; }
+
+  /* Ruled column: a hairline over each column of a two-column slide */
+  .col.ruled { border-top: 1px solid var(--border-hover); padding-top: 36px; }
+  .col.ruled h3 + p { margin-top: 20px; }
+
+  /* Quote attribution */
+  .cite { margin-top: 64px; display: flex; flex-direction: column; gap: 8px; }
+  .cite strong { font-size: 32px; font-weight: 600; }
+  .cite span { font-size: 24px; color: var(--text-dim); }
+
+  /* Image placeholder: delete it and drop in a picture */
+  .slot {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    border: 2px dashed var(--border-hover);
+    background: rgba(250, 244, 236, 0.02);
+    text-align: center;
+    font-size: 24px;
+    line-height: 1.5;
+    color: var(--text-dim);
+  }
+
+  /* Code: JetBrains Mono, for code only */
+  pre.code {
+    width: 100%;
+    align-self: flex-start;
+    padding: 48px 56px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--red);
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 30px;
+    line-height: 1.6;
+    color: var(--text);
+    white-space: pre;
+  }
+  pre.code .c { color: var(--text-dim); }
+</style>
+</head>
+<body data-layouts>
+
+<!-- ======================================================================
+     1 · Cover, with the photo
+     ====================================================================== -->
+<section class="slide title-slide cover" data-sec="Cover" data-nofoot>
+  <img class="logo" src="_assets/logo.svg" alt="Massive">
+  <div>
+    <h1>Deck title in<br><span class="hl">two or three</span><br>short lines</h1>
+  </div>
+  <div class="meta">joinmassive.com · 2026</div>
+</section>
+
+<!-- ======================================================================
+     2 · Cover, plain
+     ====================================================================== -->
+<section class="slide title-slide" data-sec="Cover" data-nofoot>
+  <img class="logo" src="_assets/logo.svg" alt="Massive">
+  <div>
+    <div class="eyebrow">Event or audience</div>
+    <h1>Presentation title,<br><span class="hl">without a photo</span></h1>
+    <p class="lede">A subtitle that says what the audience gets from this deck.</p>
+  </div>
+  <div class="meta">Presenter name · joinmassive.com · 2026</div>
+</section>
+
+<!-- ======================================================================
+     3 · Agenda
+     ====================================================================== -->
+<section class="slide split" data-sec="Openers">
+  <div class="text" style="width:600px">
+    <h2>Agenda</h2>
+    <p class="lede">What this deck covers, in order.</p>
+  </div>
+  <div class="visual" style="display:flex; flex-direction:column; justify-content:center">
+    <div class="rows">
+      <div class="row"><div class="n">01</div><div><h3>First topic</h3><p>One line on what it covers.</p></div></div>
+      <div class="row"><div class="n">02</div><div><h3>Second topic</h3><p>One line on what it covers.</p></div></div>
+      <div class="row"><div class="n">03</div><div><h3>Third topic</h3><p>One line on what it covers.</p></div></div>
+      <div class="row"><div class="n">04</div><div><h3>Questions</h3><p>Time for the room.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     4 · Section divider
+     ====================================================================== -->
+<section class="slide divider" data-sec="Openers">
+  <div class="eyebrow">Part 01</div>
+  <h1>Section title<br><span class="hl">in one or two lines</span></h1>
+  <p class="lede">One sentence on what this part of the deck covers.</p>
+</section>
+
+<!-- ======================================================================
+     5 · Statement
+     ====================================================================== -->
+<section class="slide" data-sec="Text" style="justify-content:center">
+  <div class="quote">One statement per slide:<br><span class="hl">the line you want remembered.</span></div>
+  <p class="lede" style="margin-top:48px">A supporting sentence, only if the statement needs one.</p>
+</section>
+
+<!-- ======================================================================
+     6 · Title and bullets
+     ====================================================================== -->
+<section class="slide" data-sec="Text">
+  <h2>A title that makes the point,<br><span class="hl">not a topic label.</span></h2>
+  <p class="lede">A lede that says what the slide proves, in one or two plain sentences.</p>
+  <ul class="ticks check big" style="margin-top:72px">
+    <li>Up to three bullets, each a short sentence</li>
+    <li>Cut anything the speaker will say out loud</li>
+    <li>Cite every number with a source line</li>
+  </ul>
+</section>
+
+<!-- ======================================================================
+     7 · Two columns
+     ====================================================================== -->
+<section class="slide" data-sec="Text">
+  <h2>Two ideas, <span class="hl">side by side.</span></h2>
+  <div class="body" style="gap:96px">
+    <div class="col ruled">
+      <div class="colhead">First column</div>
+      <h3>A short subhead</h3>
+      <p>Body text at 28 px. Keep each column to a few lines, so the slide still reads from the back of the room.</p>
+      <div class="source" style="margin-top:40px">Source: publisher, title, date</div>
+    </div>
+    <div class="col ruled">
+      <div class="colhead">Second column</div>
+      <h3>A short subhead</h3>
+      <p>The second idea, set the same way. Two columns work for a contrast, a pair of options or a problem and its fix.</p>
+      <div class="source" style="margin-top:40px">Source: publisher, title, date</div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     8 · Quote
+     ====================================================================== -->
+<section class="slide" data-sec="Text" style="justify-content:center">
+  <div class="quote" style="font-size:80px; max-width:1500px">“A customer or partner quote, in their own words, <span class="hl">with the key line highlighted.</span>”</div>
+  <div class="cite"><strong>Full name</strong><span>Role, Company</span></div>
+</section>
+
+<!-- ======================================================================
+     9 · Three cards
+     ====================================================================== -->
+<section class="slide" data-sec="Cards and numbers">
+  <h2>Three points, <span class="hl">one card each.</span></h2>
+  <div class="body grid-3" style="display:grid">
+    <div class="card">
+      <div class="icon mid"><i data-i="globe"></i></div>
+      <div class="k" style="margin-top:auto">First label</div>
+      <h3>A short headline for the first point.</h3>
+      <p class="small">One or two lines of detail that back it up.</p>
+    </div>
+    <div class="card">
+      <div class="icon mid"><i data-i="shield"></i></div>
+      <div class="k" style="margin-top:auto">Second label</div>
+      <h3>A short headline for the second point.</h3>
+      <p class="small">One or two lines of detail that back it up.</p>
+    </div>
+    <div class="card">
+      <div class="icon mid"><i data-i="zap"></i></div>
+      <div class="k" style="margin-top:auto">Third label</div>
+      <h3>A short headline for the third point.</h3>
+      <p class="small">One or two lines of detail that back it up.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     10 · Three stats
+     ====================================================================== -->
+<section class="slide" data-sec="Cards and numbers">
+  <h2>Numbers that <span class="hl">carry the argument.</span></h2>
+  <div class="body" style="gap:96px; align-items:center">
+    <div class="col ruled stat">
+      <div class="v" style="font-size:200px">00%</div>
+      <div class="l">What the number measures</div>
+      <div class="source" style="margin-top:28px">Source: publisher, title, date</div>
+    </div>
+    <div class="col ruled stat">
+      <div class="v" style="font-size:200px">0.0M</div>
+      <div class="l">What the number measures</div>
+      <div class="source" style="margin-top:28px">Source: publisher, title, date</div>
+    </div>
+    <div class="col ruled stat">
+      <div class="v" style="font-size:200px">00×</div>
+      <div class="l">What the number measures</div>
+      <div class="source" style="margin-top:28px">Source: publisher, title, date</div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     11 · One big number
+     ====================================================================== -->
+<section class="slide" data-sec="Cards and numbers">
+  <div class="body" style="margin-top:0; align-items:center; gap:120px">
+    <div class="stat" style="flex-shrink:0">
+      <div class="v" style="font-size:280px; color:var(--red-light)">00%</div>
+      <div class="l" style="margin-top:24px">What the number measures</div>
+    </div>
+    <div class="col">
+      <h2 style="font-size:64px">What the number means,<br><span class="hl">in one line.</span></h2>
+      <p class="lede">Why it matters to this audience, in one or two sentences.</p>
+      <div class="source" style="margin-top:40px">Source: publisher, title, date</div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     12 · List with icons
+     ====================================================================== -->
+<section class="slide split" data-sec="Lists">
+  <div class="text" style="width:600px">
+    <div class="eyebrow">Eyebrow label</div>
+    <h2>Three steps,<br><span class="hl">in order.</span></h2>
+    <p class="lede">A lede that frames the list.</p>
+  </div>
+  <div class="visual" style="display:flex; flex-direction:column; justify-content:center">
+    <div class="rows">
+      <div class="row icon-row"><div class="icon big"><i data-i="searchCheck"></i></div><div><h3>First step</h3><p>What happens, in one line.</p></div></div>
+      <div class="row icon-row"><div class="icon big"><i data-i="activity"></i></div><div><h3>Second step</h3><p>What happens, in one line.</p></div></div>
+      <div class="row icon-row"><div class="icon big"><i data-i="checkSquare"></i></div><div><h3>Third step</h3><p>What happens, in one line.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     13 · Before and after
+     ====================================================================== -->
+<section class="slide" data-sec="Lists">
+  <h2>Before and after, <span class="hl">at a glance.</span></h2>
+  <div class="body grid-2" style="display:grid; align-items:start">
+    <div class="card ghost">
+      <div class="k">Today</div>
+      <h3>How it works now.</h3>
+      <ul class="ticks x">
+        <li>A problem, stated plainly</li>
+        <li>A second problem</li>
+        <li>A third, if it earns its place</li>
+      </ul>
+    </div>
+    <div class="card accent">
+      <div class="k">With Massive</div>
+      <h3>How it works with us.</h3>
+      <ul class="ticks check">
+        <li>What changes, stated plainly</li>
+        <li>A second change</li>
+        <li>A third, if it earns its place</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     14 · Timeline
+     ====================================================================== -->
+<section class="slide" data-sec="Lists">
+  <h2>How we got here, <span class="hl">and what's next.</span></h2>
+  <div class="body" style="flex-direction:column; justify-content:center">
+    <div class="timeline">
+      <div class="era"><div class="when">Then</div><h3>The first milestone</h3><p>One or two lines on what happened.</p></div>
+      <div class="era"><div class="when">Now</div><h3>Where things stand</h3><p>One or two lines on the present.</p></div>
+      <div class="era now"><div class="when">Next</div><h3>What comes next</h3><p>One or two lines on the plan.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     15 · Text and image
+     ====================================================================== -->
+<section class="slide split" data-sec="Image and code">
+  <div class="text" style="width:600px">
+    <div class="eyebrow">Eyebrow label</div>
+    <h2>A picture,<br><span class="hl">with a caption.</span></h2>
+    <p class="lede">What the image shows and why it matters.</p>
+    <p class="caption">Where the image comes from, if it isn't ours.</p>
+  </div>
+  <div class="visual shot">
+    <div class="slot"><i data-i="image" style="font-size:56px"></i><span>Screenshot or product image<br>Replace this box with a picture</span></div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     16 · Code
+     ====================================================================== -->
+<section class="slide" data-sec="Image and code">
+  <h2>Show the code <span class="hl">when it helps.</span></h2>
+  <p class="lede">JetBrains Mono is for code only: commands, config and API calls. Everything else stays in Outfit.</p>
+  <div class="body" style="margin-top:56px">
+    <pre class="code"><span class="c"># A command, config block or API call goes here</span>
+curl -s "https://example.com/api/items" -H "Accept: application/json"</pre>
+  </div>
+</section>
+
+<!-- ======================================================================
+     17 · Close
+     ====================================================================== -->
+<section class="slide close" data-sec="Close" data-nofoot>
+  <div class="close-text">
+    <img class="logo" src="_assets/logo.svg" alt="Massive">
+    <div>
+      <div class="eyebrow">Thank you</div>
+      <h1 style="font-size:112px">Questions?</h1>
+    </div>
+    <div class="meta">joinmassive.com</div>
+  </div>
+  <div class="close-links">
+    <div class="card link"><div class="icon"><i data-i="globe"></i></div><div><div class="k">Website</div><p><strong>joinmassive.com</strong></p></div></div>
+    <div class="card link"><div class="icon"><i data-i="mail"></i></div><div><div class="k">Get in touch</div><p><strong>name@joinmassive.com</strong></p></div></div>
+    <div class="card link"><div class="icon"><i data-i="link"></i></div><div><div class="k">Read more</div><p><strong>joinmassive.com/page</strong></p></div></div>
+  </div>
+</section>
+
+<script>
+  // Lucide-style line icons, stamped into every <i data-i="…">.
+  const P = {
+    x: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+    check: '<path d="M20 6 9 17l-5-5"/>',
+    plus: '<path d="M5 12h14"/><path d="M12 5v14"/>',
+    arrowRight: '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+    globe: '<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>',
+    shield: '<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>',
+    zap: '<path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/>',
+    image: '<rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>',
+    mail: '<rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>',
+    link: '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>',
+    users: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+    terminal: '<polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/>',
+    settings: '<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>',
+    search: '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+    searchCheck: '<path d="m8 11 2 2 4-4"/><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+    activity: '<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>',
+    power: '<path d="M12 2v10"/><path d="M18.4 6.6a9 9 0 1 1-12.77.04"/>',
+    monitor: '<rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/>',
+    checkSquare: '<rect width="18" height="18" x="3" y="3" rx="2"/><path d="m9 12 2 2 4-4"/>',
+    fileText: '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>',
+    lock: '<rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+    building: '<rect width="16" height="20" x="4" y="2" rx="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M12 6h.01"/><path d="M12 10h.01"/><path d="M12 14h.01"/><path d="M16 10h.01"/><path d="M16 14h.01"/><path d="M8 10h.01"/><path d="M8 14h.01"/>',
+    ban: '<circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/>',
+    barChart: '<path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>',
+  };
+  document.querySelectorAll('[data-i]').forEach((el) => {
+    el.innerHTML = `<svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${P[el.dataset.i] || ''}</svg>`;
+    el.style.display = 'inline-flex';
+    el.style.fontSize = el.style.fontSize || '28px';
+  });
+
+  // Footer: logo, section, page number. The number isn't zero-padded, so it
+  // matches PowerPoint's own slide number, which the PPTX uses (data-layouts).
+  // Hidden slides stay in the source but are skipped in numbering and output.
+  const slides = [...document.querySelectorAll('.slide:not([data-hidden])')];
+  slides.forEach((s, i) => {
+    if (s.hasAttribute('data-nofoot')) return;
+    const f = document.createElement('div');
+    f.className = 'foot';
+    f.innerHTML = `<img src="_assets/logo.svg" alt=""><span class="sec"></span><span class="num">${i + 1}</span>`;
+    s.appendChild(f);
+  });
+</script>
+</body>
+</html>

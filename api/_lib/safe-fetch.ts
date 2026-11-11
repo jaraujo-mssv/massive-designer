@@ -11,7 +11,7 @@ import { shrink } from './shrink.js';
 const MAX_BYTES = 15 * 1024 * 1024;
 const TIMEOUT_MS = 8_000;
 const MAX_REDIRECTS = 3;
-const USER_AGENT = 'MassiveDesigner/1.0 (+https://brand.joinmassive.com)';
+const USER_AGENT = 'MassiveDesigner/1.0 (+https://massive-designer.vercel.app)';
 
 /** A fetch that failed for a reason worth telling the person whose link it was. */
 export class ImageFetchError extends Error {

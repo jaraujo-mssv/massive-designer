@@ -13,7 +13,10 @@ editable. Write the HTML for both: it's the source of truth, and the PDF and PPT
 ## Where things live
 
 - `scripts/deck/<slug>.html`: one deck. The slug is the file name; every `.html` here is a deck.
-  - `consent-sourcing-v2.html`: the Massive look (dark, Outfit, red). Start here for a Massive deck.
+  - `massive-template.html`: the Massive template, 17 layouts with placeholder copy (covers, agenda, divider,
+    statement, bullets, columns, quote, cards, stats, big number, lists, before/after, timeline, image, code, close).
+    Start here for a Massive deck. Its PPTX is the Google Slides template (see "Slide layouts" below).
+  - `consent-sourcing-v2.html`: a finished Massive deck (dark, Outfit, red), with product mockups and a chart.
   - `prague-crawl-2027.html`: an event's own look (Inter + Jersey 25, photo backdrops). Start here for an event or partner deck.
   - `consent-sourcing.html`: v1 of the consent deck, kept for reference.
 - `scripts/deck/deck.css`: the Massive deck system (tokens, slide frame, footer, components).
@@ -69,6 +72,7 @@ Flags need the `--` so npm passes them through. Fonts load from Google Fonts, so
   Cover slide followed by a "Close" section.
 - `data-hidden`: keeps a slide in the source but leaves it out of the PDF, PNGs, PPTX and the numbering.
 - `data-nofoot`: no footer on that slide (covers and closes).
+- `<body data-layouts>` (the template): see "Slide layouts" below.
 - Number the slide comments (`1 · Title`) so slides are easy to find and talk about.
 - The Massive look stamps its footer (logo and page number) and its icons with the script at the end of
   `consent-sourcing-v2.html`. Copy it whole: `<i data-i="checkSquare"></i>` becomes a Lucide line icon, and the icon
@@ -134,10 +138,23 @@ So, when writing slides:
 - Translucent text is flattened to a solid colour, cards lose their `box-shadow` (pictures keep theirs) and transforms
   such as rotation aren't carried over.
 - Keep everything inside the 1920×1080 frame: pictures are clipped to it.
+- Google Slides ignores letter-spacing, so tight titles are a little wider there. Text boxes get that width back as
+  slack, but leave some air to the right of a title.
+
+### Slide layouts (`<body data-layouts>`)
+
+A deck with `data-layouts` on its `<body>` gets two slide layouts in its PPTX: **Massive** (backdrop, footer logo and a
+live page number) and **Massive no footer** (backdrop only, for covers and closes). Slides use them instead of
+carrying their own footer and background, so in Google Slides or PowerPoint a new slide starts on-brand and page
+numbers stay right when slides move. Its footer numbers must be plain positions (`1`, `2`…, not `01`), as the
+template's footer script writes them. The other decks don't set it and export as before.
+
+To use the template in Google Slides: File → Import slides (or open the `.pptx` from Drive), keep the original theme,
+then duplicate the layout slide you need and replace the placeholder copy.
 
 ## Workflow
 
-1. Copy the closest deck to `scripts/deck/<slug>.html` (`consent-sourcing-v2` for the Massive look, `prague-crawl-2027`
+1. Copy the closest deck to `scripts/deck/<slug>.html` (`massive-template` for the Massive look, `prague-crawl-2027`
    plus a new `<slug>.css` for an event look) and cut it down to a cover, the slides needed and a close.
 2. Write the slides, reusing the components above. Put new assets in `_assets/` (or `_assets/<slug>/`).
 3. `npm run deck <slug> -- --png` and **look at every `output/deck/<slug>/NN.png`**: overflow, collisions, footer,

@@ -142,6 +142,18 @@ function contentWritePlugin() {
       // The line must still be the one that was clicked, or the file changed underneath.
       if (!Number.isInteger(i) || lines[i] !== body.source) return fail(409, 'The file changed; try again');
       lines[i] = lines[i].replace(/\[( |x|X)\]/, body.checked ? '[x]' : '[ ]');
+    } else if (url.pathname === '/api/content/take') {
+      // Picks one of a photo's takes: its `Image:` line becomes one of the files on its `Takes:` line.
+      const i = Number(body.line) - 1;
+      if (!Number.isInteger(i) || lines[i] !== body.source) return fail(409, 'The file changed; try again');
+      let end = i + 1;
+      while (end < lines.length && /^(\s{2,}|\t)\S/.test(lines[end]) && !/^\s*[-*] \[/.test(lines[end])) end++;
+      const block = lines.slice(i + 1, end);
+      const takes = block.find((l) => /^\s*Takes:/i.test(l))?.replace(/^\s*Takes:/i, '').split(',').map((s) => s.trim()) ?? [];
+      if (typeof body.file !== 'string' || !takes.includes(body.file)) return fail(400, 'Not one of its takes');
+      const at = block.findIndex((l) => /^\s*Image:/i.test(l));
+      if (at < 0) return fail(400, 'No Image: line');
+      lines[i + 1 + at] = lines[i + 1 + at].replace(/(Image:\s*).*/i, `$1${body.file}`);
     } else if (url.pathname === '/api/content/status') {
       if (!STATUSES.includes(body.status as string)) return fail(400, 'Unknown status');
       const end = lines[0] === '---' ? lines.indexOf('---', 1) : -1;

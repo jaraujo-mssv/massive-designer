@@ -161,6 +161,11 @@ export interface PhotosDoc extends BaseDoc {
   kind: "photos";
   /** Reference images shown under the photos, such as the merch the photos dress people in. */
   refs: { file: string; use: string }[];
+  /**
+   * Photos that show the look itself (a real shoot's backdrop, light and framing), attached to
+   * every photo in the doc after the people: the model copies their look, never who is in them.
+   */
+  style: { file: string; use: string }[];
 }
 
 export interface PageDoc extends BaseDoc {

@@ -47,6 +47,13 @@ export function useContentWrite() {
     [run],
   );
 
+  /** Picks one of a photo item's takes as its image. */
+  const pickTake = useCallback(
+    (doc: ContentDoc, item: ChecklistItem, file: string) =>
+      run(`${doc.path}:${item.line}`, "take", { path: doc.path, line: item.line, source: item.source, file }),
+    [run],
+  );
+
   const setStatus = useCallback(
     (doc: ContentDoc, status: DocStatus) => run(`${doc.path}:status`, "status", { path: doc.path, status }),
     [run],
@@ -56,5 +63,5 @@ export function useContentWrite() {
   const isPending = (doc: ContentDoc, item?: ChecklistItem) =>
     pending === `${doc.path}:${item ? item.line : "status"}`;
 
-  return { canWrite: CAN_WRITE, toggle, setStatus, isPending };
+  return { canWrite: CAN_WRITE, toggle, pickTake, setStatus, isPending };
 }

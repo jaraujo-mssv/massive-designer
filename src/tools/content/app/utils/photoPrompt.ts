@@ -25,6 +25,18 @@ export const photoDocsOf = (campaign: Campaign) =>
 export const promptOf = (item: ChecklistItem) => fieldOf(item, "Prompt");
 /** The generated photo, a file in `public/content/<campaign>/photos/`, once there is one. */
 export const imageOf = (item: ChecklistItem) => fieldOf(item, "Image");
+/**
+ * Every take of the photo, in order (`Takes: a.webp, a-take-2.webp`), of which `Image:` is
+ * the one picked. Without a `Takes:` line, the image is the only take.
+ */
+export const takesOf = (item: ChecklistItem) => {
+  const listed = fieldOf(item, "Takes")
+    ?.split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+  const image = imageOf(item);
+  return listed?.length ? listed : image ? [image] : [];
+};
 /** The photo's aspect ratio: portrait when its prompt says vertical, landscape otherwise. */
 export const aspectOf = (item: ChecklistItem) => (/\bvertical\b/i.test(promptOf(item) ?? "") ? "3:4" : "3:2");
 
@@ -52,7 +64,17 @@ export const LOGOS = [
     use: `the It's Massive merch T-shirt: match its off-white cotton, crew neck, and the print exactly, ${PRINT}; ignore the hanger, the wall and its loose, flat fit`,
     note: merchNote("T-shirt"),
     who: null,
-    match: /Massive T-shirt/i,
+    // Not the black one from the team shoot, below.
+    match: /(?<!black )Massive T-shirt/i,
+  },
+  {
+    file: "massive-shoot-tee.webp",
+    label: "Shoot T-shirt",
+    mark: "black T-shirt",
+    use: "the black Massive T-shirt from the team shoot: match its black cotton, crew neck, fit and the print exactly, MASSIVE in white capitals made of halftone dots, rising slightly from left to right across the chest, over two orange halftone mountain peaks; take nothing else from this crop, not the person, their arms or their watch",
+    note: merchNote("black T-shirt"),
+    who: null,
+    match: /black Massive T-shirt/i,
   },
   {
     file: "massive-tank.webp",
@@ -99,6 +121,10 @@ const KINDS: Record<string, string> = {
   mask: "Mask",
   old: "Period",
   icon: "Icon",
+  standing: "Standing",
+  seated: "Seated",
+  side: "Side",
+  tattoo: "Tattoo",
 };
 export const refLabel = (file: string) =>
   LOGOS.find((l) => l.file === file)?.label ?? KINDS[/-(\w+)\.\w+$/.exec(file)?.[1] ?? ""] ?? file;
@@ -146,13 +172,13 @@ export function placeIn(item: ChecklistItem, campaign: Campaign): PlaceDoc | nul
 
 /**
  * The reference images to attach for a photo, in order: each person's together,
- * in cast order, then the place's when it's set in one, then the logos when the
- * scene places one. Within the 5 images
+ * in cast order, then the doc's style images when it has any, then the place's
+ * when it's set in one, then the logos when the scene places one. Within the 5 images
  * of people, everyone in frame gets their first (their portrait), then the
  * photo's own character gets the rest of theirs, then the others get more of
  * theirs in cast order.
  */
-export function refsFor(item: ChecklistItem, campaign: Campaign) {
+export function refsFor(item: ChecklistItem, campaign: Campaign, doc?: PhotosDoc) {
   const owner = OWNER.exec(item.label)?.[1];
   const cast = castIn(item, campaign);
   const priority = [
@@ -164,13 +190,14 @@ export function refsFor(item: ChecklistItem, campaign: Campaign) {
   const people = cast.flatMap((c) =>
     c.refs.filter((r) => picked.has(r)).map((r) => ({ ...r, who: c.short as string | null, kind: "person" as RefKind })),
   );
+  const styles = (doc?.style ?? []).map((r) => ({ ...r, who: null as string | null, kind: "style" as RefKind }));
   const place = placeIn(item, campaign);
   const places = (place?.refs ?? []).map((r) => ({ ...r, who: place!.short as string | null, kind: "place" as RefKind }));
   const logos = logosFor(promptOf(item)).map((l) => ({ ...l, kind: "logo" as RefKind }));
-  return [...people, ...places, ...logos].slice(0, MAX_REFS);
+  return [...people, ...styles, ...places, ...logos].slice(0, MAX_REFS);
 }
 
-type RefKind = "person" | "place" | "logo";
+type RefKind = "person" | "style" | "place" | "logo";
 
 /** A reference image as the prompt numbers it: "Image 3, John Cena, face". */
 export interface PhotoRef {
@@ -184,12 +211,14 @@ export interface PhotoRef {
   label: string;
 }
 
-/** "images 1–2" or "image 5": the references that show one person or place. */
-const imagesOf = (refs: PhotoRef[], who: string) => {
-  const ns = refs.filter((r) => r.who === who).map((r) => r.n);
+/** "images 1–2" or "image 5": a run of references, attached one after another. */
+const span = (refs: PhotoRef[]) => {
+  const ns = refs.map((r) => r.n);
   if (ns.length === 0) return null;
   return ns.length === 1 ? `image ${ns[0]}` : `images ${ns[0]}–${ns[ns.length - 1]}`;
 };
+/** The references that show one person or place. */
+const imagesOf = (refs: PhotoRef[], who: string) => span(refs.filter((r) => r.who === who));
 
 const escapeRegExp = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
@@ -229,6 +258,7 @@ const NO_OTHER_BRANDS =
 
 const LABEL: Record<RefKind, (r: { file: string; who: string | null }) => string> = {
   person: (r) => `${r.who}, ${refLabel(r.file).toLowerCase()}`,
+  style: (r) => `Style reference, ${refLabel(r.file).toLowerCase()}`,
   place: (r) => `${r.who}, the place`,
   logo: (r) => `Massive ${refLabel(r.file).toLowerCase()}`,
 };
@@ -237,7 +267,7 @@ function build(item: ChecklistItem, doc: PhotosDoc, campaign: Campaign, withFile
   const prompt = promptOf(item);
   if (!prompt) return null;
   const cast = castIn(item, campaign);
-  const refs: PhotoRef[] = refsFor(item, campaign).map((r, i) => ({
+  const refs: PhotoRef[] = refsFor(item, campaign, doc).map((r, i) => ({
     file: r.file,
     use: r.use,
     who: r.who,
@@ -273,6 +303,9 @@ function build(item: ChecklistItem, doc: PhotosDoc, campaign: Campaign, withFile
         ].join(" ")
       : `Branding: no Massive logo or name anywhere in this photo, including walls, screens and clothing. ${NO_OTHER_BRANDS}`;
   const people = refs.some((r) => r.kind === "person");
+  const styles = refs.filter((r) => r.kind === "style");
+  // With style images, which also show people, the identity line names the cast's own images.
+  const whose = styles.length > 0 ? span(refs.filter((r) => r.kind === "person")) : "the images of people";
 
   const text = [
     prompt,
@@ -298,7 +331,9 @@ function build(item: ChecklistItem, doc: PhotosDoc, campaign: Campaign, withFile
     refs.length > 0 &&
       [
         people &&
-          `Use the images of people only for who each person is: face, head, build, skin and hair. Don't copy their clothes, poses, backgrounds or lighting; clothes come from ${notes.length ? "the scene first, then" : ""} the descriptions above.`.replace("  ", " "),
+          `Use ${whose} only for who each person is: face, head, build, skin and hair. Don't copy their clothes, poses, backgrounds or lighting; clothes come from ${notes.length ? "the scene first, then" : ""} the descriptions above.`.replace("  ", " "),
+        styles.length > 0 &&
+          `${span(styles)!.replace(/^i/, "I")} ${styles.length > 1 ? "show" : "shows"} the look of this shoot: match ${styles.length > 1 ? "their" : "its"} backdrop, light, colour grade, lens and framing. Anyone in ${styles.length > 1 ? "them" : "it"} is someone else: take nothing of who they are, no face, hair, beard, skin, glasses, tattoos or build.`,
         `Reference images, in the order attached:\n${refs.map((r) => `Image ${r.n}, ${r.label}${withFiles ? ` [${r.file}]` : ""}: ${r.use}`).join("\n")}`,
       ]
         .filter(Boolean)

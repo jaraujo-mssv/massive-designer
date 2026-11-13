@@ -4,9 +4,10 @@ import { toast } from "sonner";
 import type { Campaign, ChecklistItem, PhotosDoc } from "../types";
 import { progress } from "../utils/checklist";
 import { section } from "../utils/parseDoc";
-import { photoUrl, refUrl } from "../content";
+import { photoUrl, profileUrl, refUrl } from "../content";
+import { useContentWrite } from "../hooks/useContentWrite";
 import { copyImage } from "../utils/copyImage";
-import { aspectOf, citiesIn, imageOf, OWNER, photoPrompt, promptOf, refLabel, refsFor } from "../utils/photoPrompt";
+import { aspectOf, citiesIn, imageOf, OWNER, photoPrompt, promptOf, refLabel, refsFor, takesOf } from "../utils/photoPrompt";
 import { CheckItem, Checklist, ProgressBar } from "./Checklist";
 import { ImageButton } from "./Lightbox";
 import { Markdown } from "./Markdown";
@@ -81,32 +82,87 @@ function CopyRef({ url, label, title }: { url: string; label: string; title: str
   );
 }
 
+/**
+ * A photo's square profile-picture crop, round in its corner, for photos docs with
+ * `profiles: true`. Shows nothing when the crop hasn't been made.
+ */
+function ProfileBadge({ campaign, photo, alt }: { campaign: string; photo: string; alt: string }) {
+  const [missing, setMissing] = useState(false);
+  const src = profileUrl(campaign, photo);
+  if (missing) return null;
+  return (
+    <div className="absolute bottom-2 left-2 h-14 w-14">
+      <ImageButton
+        src={src}
+        alt={`${alt}, profile picture`}
+        caption={`Profile picture: ${src.split("/").pop()}`}
+        title="Open the profile picture"
+        className="h-full overflow-hidden rounded-full shadow-md ring-2 ring-white"
+      >
+        <img src={src} alt="" loading="lazy" onError={() => setMissing(true)} className="h-full w-full object-cover" />
+      </ImageButton>
+    </div>
+  );
+}
+
+/** A photo's takes, numbered. Clicking one makes it the photo, and its crop the profile picture. */
+function TakePicker({ doc, campaign, item, takes, image }: { doc: PhotosDoc; campaign: Campaign; item: ChecklistItem; takes: string[]; image: string }) {
+  const { canWrite, pickTake, isPending } = useContentWrite();
+  const busy = isPending(doc, item);
+  return (
+    <div className="flex flex-wrap gap-1.5 px-2 pb-1 pt-1">
+      {takes.map((file, i) => {
+        const picked = file === image;
+        return (
+          <button
+            key={file}
+            type="button"
+            disabled={!canWrite || picked || busy}
+            onClick={() => pickTake(doc, item, file)}
+            title={picked ? `Take ${i + 1} is the one picked` : canWrite ? `Pick take ${i + 1}: ${file}` : file}
+            className={`flex flex-col items-center gap-1 rounded-md p-1 transition-colors ${
+              picked ? "bg-brand/15 ring-1 ring-brand" : "opacity-70 hover:bg-surface-2 hover:opacity-100 disabled:hover:bg-transparent"
+            }`}
+          >
+            <img src={photoUrl(campaign.id, file)} alt="" loading="lazy" className="aspect-[3/4] w-12 rounded object-cover" />
+            <span className={`font-mono text-[10px] ${picked ? "text-brand-light" : "text-text-dim"}`}>Take {i + 1}</span>
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
 /** One photo: the box to tick once it's shot, its prompt, and the images to attach. */
 function PhotoCard({ doc, campaign, item, title }: { doc: PhotosDoc; campaign: Campaign; item: ChecklistItem; title?: string }) {
   const [open, setOpen] = useState(false);
   const prompt = promptOf(item);
-  const refs = refsFor(item, campaign);
+  const refs = refsFor(item, campaign, doc);
   const cities = citiesIn(item);
   const image = imageOf(item);
+  const takes = takesOf(item);
   // A photo with no prompt (the trash) has no planned shape, so it shows as it came out.
   const aspect = !prompt && image ? "" : aspectOf(item) === "3:4" ? "aspect-[3/4]" : "aspect-[3/2]";
   return (
     <div className="flex flex-col rounded-xl border border-border-subtle bg-surface p-2">
       {image ? (
-        <ImageButton
-          src={photoUrl(campaign.id, image)}
-          alt={item.label.replace(OWNER, "")}
-          caption={image}
-          title={`Open ${image}`}
-          className="mb-1 overflow-hidden rounded-lg"
-        >
-          <img
+        <div className="relative mb-1">
+          <ImageButton
             src={photoUrl(campaign.id, image)}
             alt={item.label.replace(OWNER, "")}
-            loading="lazy"
-            className={`${aspect} w-full bg-surface-2 object-cover transition-transform duration-300 hover:scale-[1.02]`}
-          />
-        </ImageButton>
+            caption={image}
+            title={`Open ${image}`}
+            className="overflow-hidden rounded-lg"
+          >
+            <img
+              src={photoUrl(campaign.id, image)}
+              alt={item.label.replace(OWNER, "")}
+              loading="lazy"
+              className={`${aspect} w-full bg-surface-2 object-cover transition-transform duration-300 hover:scale-[1.02]`}
+            />
+          </ImageButton>
+          {doc.data?.profiles === true && prompt && <ProfileBadge key={image} campaign={campaign.id} photo={image} alt={item.label.replace(OWNER, "")} />}
+        </div>
       ) : (
         // The photo's frame, the size it will be, until there's one to show.
         <div className={`${aspect} mb-1 flex w-full flex-col items-center justify-center gap-2 rounded-lg bg-surface-2 text-text-dim/60`}>
@@ -114,6 +170,7 @@ function PhotoCard({ doc, campaign, item, title }: { doc: PhotosDoc; campaign: C
           <span className="font-mono text-[11px]">No photo yet</span>
         </div>
       )}
+      {image && takes.length > 1 && <TakePicker doc={doc} campaign={campaign} item={item} takes={takes} image={image} />}
       {(title || cities.length === 1) && (
         <div className="flex items-center gap-2 px-2 pt-1">
           {title && <p className="font-mono text-[11px] uppercase tracking-wider text-brand-light">{title}</p>}
@@ -220,7 +277,7 @@ export function PhotoGrid({ doc, campaign }: { doc: PhotosDoc; campaign: Campaig
 
       <Checklist doc={doc} items={production} />
 
-      <RefImages campaign={campaign.id} refs={doc.refs} />
+      <RefImages campaign={campaign.id} refs={[...doc.style, ...doc.refs]} />
     </div>
   );
 }

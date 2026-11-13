@@ -53,3 +53,5 @@ export const findCampaign = (id: string | null) => CAMPAIGNS.find((c) => c.id ==
 export const refUrl = (campaign: string, file: string) => `/content/${campaign}/refs/${file}`;
 /** A finished photo's URL: they live in `public/content/<campaign>/photos/`. */
 export const photoUrl = (campaign: string, file: string) => `/content/${campaign}/photos/${file}`;
+/** A photo's square profile-picture crop, for photos docs with `profiles: true`: `profiles/<photo>.jpg`. */
+export const profileUrl = (campaign: string, photo: string) => `/content/${campaign}/profiles/${photo.replace(/\.\w+$/, "")}.jpg`;

@@ -20,6 +20,16 @@
 // recurring place (content/<campaign>/places/), saved as its first ref in refs/, which
 // every photo set there then gets attached. Make those first.
 //
+// A photos doc with `profiles: true` (team-shoot) also gets a square profile-picture crop of each
+// new photo, in public/content/<campaign>/profiles/<name>.jpg, cut from the full-size image before
+// it's shrunk to 1080p (lib/profile.mjs; macOS only, as it finds the face with Vision).
+// --profiles (re)makes those crops for every take of the photos already made, from their WebPs, and
+// generates nothing.
+//
+// --take adds another take of a photo already made instead of replacing it: <first take>-take-<n>
+// (take 2, 3, …), listed on the item's `Takes:` line. `Image:` stays the take picked; the Content
+// tab shows the takes on the photo's card and picks one with a click. Name the photos with --only or --who.
+//
 // --print shows the prompts, --dry-run the requests; both are free and need no key.
 // A real run prints the count and cost first and asks. Key: ELEVENLABS_API_KEY in .env
 // (GOOGLE_AI_API_KEY with --provider=google). Seedream has no 3:2 preset, so landscape
@@ -32,6 +42,7 @@ import { fileURLToPath } from 'node:url';
 import { createServer } from 'vite';
 import * as elevenlabs from './lib/elevenlabs-image.mjs';
 import * as google from './lib/nanobanana.mjs';
+import { profileCrops } from './lib/profile.mjs';
 import { toWebp } from './lib/webp.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
@@ -80,7 +91,7 @@ const vite = await createServer({
   optimizeDeps: { noDiscovery: true, include: [] },
 });
 const { CAMPAIGNS } = await vite.ssrLoadModule('/src/tools/content/app/content.ts');
-const { OWNER, aspectOf, castIn, imageOf, logosFor, photoRequest, placeAspect, placePrompt, promptOf } = await vite.ssrLoadModule(
+const { OWNER, aspectOf, castIn, imageOf, logosFor, photoRequest, placeAspect, placePrompt, promptOf, takesOf } = await vite.ssrLoadModule(
   '/src/tools/content/app/utils/photoPrompt.ts',
 );
 await vite.close();
@@ -95,6 +106,8 @@ const mdPath = path.join(ROOT, doc.path);
 const refsDir = path.join(ROOT, 'public/content', campaignId, 'refs');
 const photosDir = path.join(ROOT, 'public/content', campaignId, 'photos');
 const promptsDir = path.join(ROOT, 'content', campaignId, 'prompts');
+const profilesDir = path.join(ROOT, 'public/content', campaignId, 'profiles');
+const profiles = doc.data?.profiles === true;
 
 // --- File names: <setting>-<owner>, or group-<two words of the label> --------
 
@@ -122,6 +135,18 @@ function nameFor(item) {
 const jobs = [];
 const stem = (file) => file.replace(/\.\w+$/, '');
 
+// --profiles: the profile crops of every take of the generated photos already made, and nothing else.
+if (flags.profiles) {
+  const made = doc.checklist
+    .filter((item) => promptOf(item) && imageOf(item))
+    .flatMap((item) => takesOf(item))
+    .filter((file) => !only || only.has(stem(file)));
+  const results = await profileCrops(made.map((file) => ({ src: path.join(photosDir, file), out: path.join(profilesDir, `${stem(file)}.jpg`) })));
+  for (const r of results) console.log(r.error ? `[photos] ✗ ${path.basename(r.src)}: ${r.error}` : `[photos] ✓ profiles/${path.basename(r.out)} (from a ${r.box.width} px square)`);
+  process.exit(results.some((r) => r.error) ? 1 : 0);
+}
+if (flags.take && !only && typeof flags.who !== 'string') die('--take adds a take to every photo it matches: name the photos with --only or --who');
+
 // Places: one empty reference shot each, written to refs/ under the place's first ref.
 for (const place of flags.places ? campaign.places : []) {
   const file = place.refs[0]?.file;
@@ -146,14 +171,23 @@ const items = flags.places ? [] : doc.checklist.filter((item) => promptOf(item))
 const taken = new Set(items.map(imageOf).filter(Boolean).map(stem));
 for (const item of items) {
   const existing = imageOf(item);
-  if (existing && !flags.force) continue;
+  // --take: another take of a photo already made, <first take>-take-<n>, beside the others.
+  const takes = flags.take && existing ? takesOf(item) : null;
+  if (existing && !flags.force && !takes) continue;
   let name = existing?.replace(/\.\w+$/, '') ?? nameFor(item);
+  if (takes) {
+    const first = stem(takes[0]);
+    let n = takes.length + 1;
+    while (takes.some((t) => stem(t) === `${first}-take-${n}`) || existsSync(path.join(photosDir, `${first}-take-${n}.webp`))) n++;
+    name = `${first}-take-${n}`;
+  }
   if (!existing) {
     const base = name;
     for (let n = 2; taken.has(name); n++) name = `${base}-${n}`;
     taken.add(name);
   }
-  if (only && !only.has(name)) continue;
+  // With --take, --only names the photo by any of its takes.
+  if (only && ![name, ...(takes ?? []).map(stem)].some((id) => only.has(id))) continue;
   if (typeof flags.who === 'string' && !castIn(item, campaign).some((c) => c.short === flags.who)) continue;
   const { text, refs } = photoRequest(item, doc, campaign);
   // The prompt numbers the images, so a missing one would shift every number after it.
@@ -166,6 +200,7 @@ for (const item of items) {
   jobs.push({
     item,
     name,
+    takes,
     out: path.join(photosDir, `${name}.jpg`),
     prompt: text,
     aspect: aspectOf(item),
@@ -220,11 +255,12 @@ if (!flags.yes) {
 }
 
 /**
- * Adds or replaces the item's `Image:` line and ticks it. Re-reads the file and finds
+ * Adds or replaces the item's `Image:` or `Takes:` line (`fields`, as `{ Image }` or
+ * `{ Takes }`) and ticks it. Re-reads the file and finds
  * the item by its line as written, so the other jobs' writes and edits made meanwhile
  * are kept. Reading and writing synchronously keeps concurrent jobs from interleaving.
  */
-function writeBack(item, file) {
+function writeBack(item, fields) {
   const lines = readFileSync(mdPath, 'utf8').split('\n');
   const unticked = item.source.replace(/\[[xX]\]/, '[ ]');
   const at = lines.findIndex((l) => l === item.source || l === unticked || l === unticked.replace('[ ]', '[x]'));
@@ -233,9 +269,12 @@ function writeBack(item, file) {
   let end = at + 1;
   while (end < lines.length && /^(\s{2,}|\t)\S/.test(lines[end]) && !/^\s*[-*] \[/.test(lines[end])) end++;
   const indent = /^\s*/.exec(lines[at + 1] ?? '')?.[0] || '  ';
-  const image = lines.slice(at + 1, end).findIndex((l) => /^\s*Image:/i.test(l));
-  if (image >= 0) lines[at + 1 + image] = `${indent}Image: ${file}`;
-  else lines.splice(end, 0, `${indent}Image: ${file}`);
+  for (const [name, file] of Object.entries(fields)) {
+    if (!file) continue;
+    const found = lines.slice(at + 1, end).findIndex((l) => new RegExp(`^\\s*${name}:`, 'i').test(l));
+    if (found >= 0) lines[at + 1 + found] = `${indent}${name}: ${file}`;
+    else lines.splice(end++, 0, `${indent}${name}: ${file}`);
+  }
   writeFileSync(mdPath, lines.join('\n'));
   return true;
 }
@@ -258,12 +297,19 @@ async function worker() {
         key,
       });
       const { notes } = generated;
+      // The profile crop first, from the full-size image, before the WebP replaces it.
+      if (profiles && j.item) {
+        const [crop] = await profileCrops([{ src: generated.file, out: path.join(profilesDir, `${j.name}.jpg`) }]).catch((e) => [{ error: e.message }]);
+        console.log(crop.error ? `[photos] ! ${j.name}: no profile crop (${crop.error})` : `[photos]   profiles/${j.name}.jpg (from a ${crop.box.width} px square)`);
+      }
       // Saved as a 1080p WebP like the rest; a regeneration replaces the old one.
       const webp = await toWebp(generated.file, { overwrite: true });
       const file = webp?.out ?? generated.file;
       const bytes = webp?.after ?? generated.bytes;
       // A place image is already named in its doc; a photo gets its Image: line.
-      const linked = !j.item || writeBack(j.item, path.basename(file));
+      // A new take joins the photo's Takes: and leaves the pick (Image:) as it was.
+      const fields = j.takes ? { Takes: [...j.takes, path.basename(file)].join(', ') } : { Image: path.basename(file) };
+      const linked = !j.item || writeBack(j.item, fields);
       console.log(`[photos] ✓ ${j.name} (${(bytes / 1024).toFixed(0)} KB)${linked ? '' : `: couldn't find its line, add "Image: ${path.basename(file)}" by hand`}`);
       if (notes) console.log(`  model said: ${notes}`);
       results.done.push(j.name);

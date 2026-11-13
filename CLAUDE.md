@@ -112,7 +112,7 @@ npm start            # the whole site with every API, as Railway runs it (PORT, 
 | `public/video-projects/`, `scripts/video/` | The Video tool (HyperFrames). LinkedIn GIFs are projects with `"output": "gif"` (`gif:new`, `gif:render`, loop kit in `_gif/`). |
 | `scripts/print/` | Any print piece or designed PDF at any page size (`print:new`, `print`), on `print.css`. |
 | `scripts/deck/`, `scripts/docs/`, `scripts/onepager/`, `scripts/menu/`, `scripts/banners/` | HTML → PDF/PNG/PPTX pipelines, no UI. Docs, one-pager and menu are legacy; new print pieces go in `scripts/print/`. |
-| `scripts/merch/`, `public/merch-files/` | Button, pin, sticker, T-shirt, promo card and pajama artwork (`merch.html`, vendor specs in its header; sticker SVGs in `stickers/`, the T-shirt fronts made from one in `tees/`, the promo card's scene and QR in `cards/`, the sleepy pajama characters in `pajamas/sleepy/`) and its renders, for the Merch tab. |
+| `scripts/merch/`, `public/merch-files/` | Button, pin, sticker, T-shirt, tote bag, mug, water bottle, bucket hat, hip pack, promo card and pajama artwork (`merch.html`, vendor specs in its header; sticker SVGs in `stickers/`, the T-shirt fronts made from one in `tees/`, the promo card's scene and QR in `cards/`, the sleepy pajama characters in `pajamas/sleepy/`) and its renders, for the Merch tab. |
 | `content/` | Campaign markdown for the Content tool. |
 | `docs/plans/` | One design doc per tool. Where a doc and the code disagree, the code wins. |
 | `.claude/skills/` | `massive-design` (the front door: routes any design request), then `massive-image`, `massive-video`, `massive-gif`, `massive-deck`, `massive-print`. Read the matching one before working on images, videos, GIFs, decks or print. |
@@ -126,6 +126,7 @@ npm start            # the whole site with every API, as Railway runs it (PORT, 
 | Images | `/images` | `src/tools/images/`, `public/image-projects/` | Live |
 | Partnership Post, Logo Encoder | `/partnership-post`, `/logo-encoder` | `src/tools/…` | Live |
 | Merch | `/merch` | `src/tools/merch/`, `scripts/merch/` | Live |
+| Gemini | `/gemini` | `src/tools/gemini/` (doc: `docs/plans/gemini.md`) | Live |
 | Video, Content | `/video`, `/content` | `src/tools/…` | Dev server only |
 | Trash | `/trash` | `src/tools/trash/` | URL only, not in the nav |
 | Social Media, Campaign Designer, Dither | `/social-media`, … | `src/tools/…` | Deprecated: hidden from the nav, still routable |
@@ -247,6 +248,19 @@ gallery of every image; `/images?template=<id>` opens one in the editor.
   - Then `npm run image:index`.
 - Read `.claude/skills/massive-image/SKILL.md` before making or changing an image. It has the house style and the
   export rules (no `backdrop-filter`, `#canvas` has its own background, local fonts and images only).
+
+### Gemini
+
+`/gemini` (`src/tools/gemini/app/`) helps you work in several gemini.google.com chats at once. It doesn't call any API.
+- **Windows:** it opens 2–4 Gemini windows, tiled on the side of the screen this window leaves free.
+- **Prompt:** a prompt with optional Massive style and format lines, and a library of saved prompts.
+- **Attach:** the brand kit (logos drawn as PNGs on their ground) and your reference photos, each copied with a click.
+  **Copy next** copies the prompt and then each image in the set, one per click, since the clipboard holds one thing.
+- **Saved:** images pasted or dropped back are kept in a gallery grouped by prompt, and written to a folder you pick.
+- **Limits:** Gemini can't be framed (`X-Frame-Options: DENY`), and its opener policy cuts the link to each window once
+  it loads. Windows can't be focused, moved or closed from the tab.
+- **Storage:** everything stays in the browser (localStorage `gemini:*`, IndexedDB `massive-gemini`). Doc:
+  `docs/plans/gemini.md`.
 
 ## Brand: colours, type, themes
 

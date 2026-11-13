@@ -6,6 +6,7 @@ import { VersionedTool } from '@/shared/canvas/ToolVersion'
 
 const CampaignDesignerApp = lazy(() => import('@/tools/campaign-designer/app/App'))
 const DitherApp = lazy(() => import('@/tools/dither/app/App'))
+const GeminiApp = lazy(() => import('@/tools/gemini/app/App'))
 const ImagesApp = lazy(() => import('@/tools/images/app/App'))
 const LogoEncoderApp = lazy(() => import('@/tools/logo-encoder/app/App'))
 const MarketMapApp = lazy(() => import('@/tools/market-map/app/App'))
@@ -107,6 +108,14 @@ export const router = createBrowserRouter([
     element: (
       <ToolLayout themeClass="tool-dither">
         <DitherApp />
+      </ToolLayout>
+    ),
+  },
+  {
+    path: '/gemini',
+    element: (
+      <ToolLayout themeClass="tool-gemini">
+        <GeminiApp />
       </ToolLayout>
     ),
   },

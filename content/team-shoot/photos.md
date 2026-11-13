@@ -62,7 +62,8 @@ Natural, relaxed, confident expressions, looking into the lens. True-to-life ski
   Image: studio-faustas-dovidauskas.webp
 - [x] **Josh:** On the stool, hands on knees
   Prompt: A vertical studio portrait of Josh from the team photoshoot, against the seamless white backdrop, in the black Massive T-shirt and mid-blue jeans. Josh sits on the black adjustable stool, hands resting on the knees, with a relaxed, friendly smile, looking straight into the lens. Framed from well above the head down to just below the knees, the stool's column showing between the legs.
-  Image: studio-josh.webp
+  Image: studio-josh-take-2.webp
+  Takes: studio-josh.webp, studio-josh-take-2.webp, studio-josh-take-3.webp
 - [x] **Anton Komandyr:** Standing, hands clasped
   Prompt: A vertical studio portrait of Anton Komandyr from the team photoshoot, against the seamless white backdrop, in the black Massive T-shirt and dark brown trousers. Anton stands square to the camera, arms relaxed, hands loosely clasped in front at the waist, with an easy smile, looking straight into the lens. Framed from well above the head down to mid-thigh, with plenty of white space above.
   Image: studio-anton-komandyr.webp
@@ -94,6 +95,10 @@ Natural, relaxed, confident expressions, looking into the lens. True-to-life ski
 - [x] **Stan Ragauskas:** On the stool, hands on knees
   Prompt: A vertical studio portrait of Stan Ragauskas from the team photoshoot, against the seamless white backdrop, in the black Massive T-shirt and dark grey trousers. Stan sits on the black adjustable stool, hands resting on the knees, with a slight, confident smile, looking straight into the lens. Framed from well above the head down to just below the knees, the stool's column showing between the legs.
   Image: studio-stan-ragauskas.webp
+- [x] **Ken Bechtel:** Standing, arms crossed (takes 1–2 bareheaded, 3–4 in the cowboy hat)
+  Prompt: A vertical studio portrait of Ken Bechtel from the team photoshoot, against the seamless white backdrop, in the black Massive T-shirt and black trousers with a black leather belt. Ken stands square to the camera, arms crossed over the chest as in the torso reference, the large black wristwatch showing, with a warm, closed-mouth smile, looking straight into the lens. Framed from well above the head down to mid-thigh, with plenty of white space above.
+  Image: studio-ken-bechtel-take-4.webp
+  Takes: studio-ken-bechtel.webp, studio-ken-bechtel-take-2.webp, studio-ken-bechtel-take-3.webp, studio-ken-bechtel-take-4.webp
 
 ## Checklist
 

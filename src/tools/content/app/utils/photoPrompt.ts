@@ -125,6 +125,7 @@ const KINDS: Record<string, string> = {
   seated: "Seated",
   side: "Side",
   tattoo: "Tattoo",
+  hat: "Hat",
 };
 export const refLabel = (file: string) =>
   LOGOS.find((l) => l.file === file)?.label ?? KINDS[/-(\w+)\.\w+$/.exec(file)?.[1] ?? ""] ?? file;

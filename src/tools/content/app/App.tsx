@@ -44,8 +44,14 @@ export default function App() {
     setDrawerOpen(false);
   };
 
-  // A new doc starts at the top.
-  useEffect(() => main.current?.scrollTo({ top: 0 }), [doc?.key]);
+  // A new doc starts at the top. Only a new doc: saving a file (a ticked box, a picked take)
+  // hot-reloads this module, and Fast Refresh re-runs effects, which would scroll up every time.
+  const shown = useRef<string | undefined>(undefined);
+  useEffect(() => {
+    if (shown.current === doc?.key) return;
+    shown.current = doc?.key;
+    main.current?.scrollTo({ top: 0 });
+  }, [doc?.key]);
 
   if (!campaign) {
     return (

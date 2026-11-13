@@ -29,6 +29,8 @@
 // --take adds another take of a photo already made instead of replacing it: <first take>-take-<n>
 // (take 2, 3, …), listed on the item's `Takes:` line. `Image:` stays the take picked; the Content
 // tab shows the takes on the photo's card and picks one with a click. Name the photos with --only or --who.
+// --extra="…" adds a sentence to the scene for that run only, for takes that differ (one with a hat,
+// one without); each take's prompt log in prompts/ keeps what was sent.
 //
 // --print shows the prompts, --dry-run the requests; both are free and need no key.
 // A real run prints the count and cost first and asks. Key: ELEVENLABS_API_KEY in .env
@@ -189,7 +191,10 @@ for (const item of items) {
   // With --take, --only names the photo by any of its takes.
   if (only && ![name, ...(takes ?? []).map(stem)].some((id) => only.has(id))) continue;
   if (typeof flags.who === 'string' && !castIn(item, campaign).some((c) => c.short === flags.who)) continue;
-  const { text, refs } = photoRequest(item, doc, campaign);
+  const { text: request, refs } = photoRequest(item, doc, campaign);
+  // --extra: a sentence added to the scene for this run only, like a take with a hat; the prompt log keeps it.
+  const extra = typeof flags.extra === 'string' ? flags.extra.trim() : '';
+  const text = extra ? request.replace(/^([\s\S]*?)(\n\n|$)/, (_, scene, rest) => `${scene} ${extra}${rest}`) : request;
   // The prompt numbers the images, so a missing one would shift every number after it.
   const missing = refs.filter((r) => !existsSync(path.join(refsDir, r.file)));
   if (missing.length) {

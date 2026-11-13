@@ -7,7 +7,7 @@
   Massive merch artwork, rendered by scripts/merch/render.mjs into public/merch-files/ for the Merch tab.
   Opened as is, this is the print proof: Letter landscape, everything at actual size, with guides.
   render.mjs sets html[data-only="<file>"] to print one design on its own, at its own size, without guides, and
-  html[data-mockups] to shoot the T-shirt mockups (.mockups, not on the proof) for the tab.
+  html[data-mockups] to shoot the vector mockups (.mockups, not on the proof) for the tab.
 
   Vendor specs:
   - 1" button: Affordable Buttons, r100 (https://affordablebuttons.com/product/custom-round-button-438).
@@ -30,6 +30,43 @@
     letters are ink. Two backs, each 12 cm wide, 1 in below the top of its area, over www.joinmassive.com: Mountain
     (the logo's mountain, level, in halftone) and 404 / EXCUSE NOT FOUND, set as the It's Massive design over the
     mountain in halftone, the gap round the letters cut out of it.
+  - Tote bags: Printful's All-Over Print Tote (15.75 × 15.35 in) and All-Over Print Large Tote Bag w/ Pocket (tapered,
+    19.7 in across the top, 13.8 at the bottom, 17.3 tall), polyester, Black handles. Each is cut and sewn from one
+    printed strip, folded at its middle into the bag's bottom: the file is the whole strip (17 × 33 in and 21 × 37 in,
+    150 dpi, from their templates), the front in its top half and the back, upside down, in its bottom half. Each side
+    is centred on its safe area (13 × 11 in; on the large bag a trapezoid 16.8–18.3 in wide, 12.5 tall): the world map
+    in orange outline (world/world-outline.svg), 12.5 in wide (14.5 on the large one), and under it "Access the [Massive]
+    network" with the regular logo inline, then joinmassive.com; the dark bag has the logo's dark-ground version (cream
+    letters), the white one the ink one. Dark is the #0a0a0f ground printed full bleed; white
+    is the bare fabric (white doesn't print), so its file is transparent. The large bag's inside pocket is left blank.
+  - Mug: Printful's White Ceramic Mug with Color Inside, Orange, 11 oz (the rim, inside and handle are orange; the
+    print is on the white outside), sublimation. The file is 9 × 3.5 in at 300 dpi and wraps round the 10.2 in mug,
+    its ends meeting at the handle: the sticker, 8 cm wide, sits on each side, a quarter of the way round from the
+    handle (2.55 in either side of the file's middle), so it faces you with the handle on either hand.
+  - Water bottle: Printful's Stainless Steel Water Bottle with a Straw Lid, 32 oz, white only, sublimation. The file is
+    11.34 × 6.97 in at 300 dpi, a full wrap whose ends meet at the back (a little over its 11.12 in round). In its
+    middle, so on the front: the world map in orange outline (world/world-outline.svg), 8.6 in wide, running round the
+    sides, and under it "Access the [Massive] network" (the regular logo inline, ink letters), about 3.2 in wide to stay
+    on the front, then joinmassive.com.
+  - Bucket hat: Rush Order Tees, Sportsman Bucket Hat (2050, https://www.rushordertees.com/catalog/sportsman/bucket-hat/),
+    Black (#1b151a), unstructured bio-washed cotton chino twill, one size. Embroidered (6 at least) or printed (no
+    minimum). Their hat guide puts a hat logo at about 4 × 1.75 in at most, and they place the art themselves, so the
+    file is the logo alone, 3.5 in wide (0.4 in tall), on a transparent ground: the letters white and the mountain one
+    orange, #F38165, as thread and screen ink can't do the gradient (as on the enamel pin). Embroidery and Print are the
+    same art, one file for each order.
+  - Hip pack: Rush Order Tees, Port Authority Matte Hip Pack (BG936,
+    https://www.rushordertees.com/catalog/port-authority/matte-hip-pack/?color=d57e), Deep Black (#1d1d1d), matte
+    polyester, 8 × 5 × 1.7 in. SanMar's decoration spec: a 4 × 4 in front top panel (and a back panel the same size,
+    left blank, as it faces the body), screen print or heat transfer in low-cure inks. The same 3.5 in logo, centred on
+    the front.
+  - Wooden glass, Prague Crawl afterparty: Etsy, NieVerblassen (https://www.etsy.com/listing/4424839315), a wooden
+    whiskey glass, 8.5 × 9 cm, 300 ml, laser engraved in one colour. The listing gives no engraving area: these assume
+    6 × 5 cm a side, centred on the belly (to confirm with the shop). Two options for the quote: Prague Crawl 2027 on
+    one side and Massive × NodeMaven on the other (glass-pc-side-a, -side-b), or Prague Crawl 2027 by Massive &
+    NodeMaven on one side (glass-pc-one-side). Each file is the art alone, black (the burn) on a transparent ground.
+    glass/prague-crawl-2027.svg is the event's wordmark in one colour, stacked on three lines (the flat pixel logo,
+    2027 straight, from pragecrawl-2027-exp); glass/nodemaven.svg is the logo in nodemaven.com's header, in one
+    colour. "by" and "&" are in the event's pixel face, Jersey 25; the × is drawn.
   - Pajamas: Printful's all-over print garments (each one's print files are in src/tools/merch/app/printful.ts).
     Two prints, the logo's mountain and the four sleepy mountains (pajamas/sleepy/*.png), each on the dark ground
     with Printful's White trim and on white (the bare fabric, as white doesn't print) with Black trim. A print is a
@@ -61,7 +98,7 @@
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;900&family=JetBrains+Mono:wght@400;600&display=swap" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;900&family=JetBrains+Mono:wght@400;600&family=Jersey+25&display=swap" />
 <style>
 @font-face { font-family: 'Caveat'; src: url('../../public/image-projects/_brand/fonts/Caveat.ttf') format('truetype'); font-weight: 400 700; }
 
@@ -173,7 +210,7 @@ html:not([data-only]) .tees .cells { display: grid; grid-template-columns: repea
    grid. Not on the proof: render.mjs sets html[data-mockups] and writes each [data-mockup] to mockups/<id>.jpg,
    which the Merch tab shows. */
 html:not([data-mockups]) .mockups, html[data-mockups] .proof { display: none; }
-.tee-mockup {
+.tee-mockup, .item-mockup {
   --s: 23.5px; /* an inch of shirt */
   position: relative;
   width: 1200px;
@@ -208,6 +245,180 @@ html .tee-mockup .tee {
 }
 /* On the back, the print area starts 2 in below the neck */
 html .tee-mockup.back .tee { top: calc(50% - 12.5 * var(--s)); }
+
+/* Tote bags, mug and bottle: each file is the whole print area, --w × --h inches at --in to the inch (1:9 or 1:2 on the
+   proof, actual size printed on its own, the mockup's --s in a mockup), with the white halftone sticker where it goes.
+   A tote's ground is --ground (dark), or none (the bare fabric). On the proof, the fold is dashed and the safe areas
+   dotted. */
+.tote, .mug, .bottle {
+  --in: calc(1in / 9);
+  position: relative;
+  overflow: hidden;
+  width: calc(var(--w) * var(--in));
+  height: calc(var(--h) * var(--in));
+  background: var(--ground, none);
+}
+.tote { --w: 17; --h: 33; }
+.tote.large { --w: 21; --h: 37; }
+.tote.dark { --ground: #0a0a0f; }
+.mug { --w: 9; --h: 3.5; }
+.bottle { --w: 11.34; --h: 6.97; }
+.drinkware .mug, .drinkware .bottle { --in: 0.5in; }
+html:not([data-only]) .proof .tote.white { outline: 0.5pt solid #d6d1c7; }
+html:not([data-only]) .proof :is(.mug, .bottle) { outline: 0.6pt dashed var(--guide); }
+.guides { position: absolute; inset: 0; width: 100%; height: 100%; fill: none; stroke: var(--guide); stroke-width: 0.075; }
+.guides .safe { stroke-dasharray: 0.01 0.16; stroke-linecap: round; }
+.guides .fold { stroke-dasharray: 0.3 0.2; }
+html[data-only] .guides, .mockups .guides { display: none; }
+.bags .cells { align-items: flex-end; }
+/* The sticker (stickers/sticker-halftone-white.svg), placed by its outline: --size inches wide, centred on --x, --y
+   (inches from the file's top left). In its 1181 × 591 artboard the outline is 91.36% of the width, its centre 49.8%
+   across and 43.54% down, so it's 2.77 times as wide as it is tall. A tote's back is upside down. */
+.on-sticker {
+  --art: calc(var(--size) / 0.9136 * var(--in));
+  position: absolute;
+  display: block;
+  max-width: none;
+  width: var(--art);
+  height: calc(var(--art) * 591 / 1181);
+  left: calc(var(--x) * var(--in) - var(--art) * 0.498);
+  top: calc(var(--y) * var(--in) - var(--art) * 591 / 1181 * 0.4354);
+  transform-origin: 49.8% 43.54%;
+}
+.on-sticker.back { transform: rotate(180deg); }
+/* 8 cm wide. The mug's sides are a quarter of its 10.2 in round from the handle: 2.55 in either side of the middle. */
+.mug .on-sticker { --size: 3.1496; --x: 1.95; --y: 1.75; }
+.mug .on-sticker.right { --x: 7.05; }
+/* The tote bags and the bottle: the world map in orange outline (world/world-outline.svg, every country's outline), and
+   under it "Access the [Massive] network", the regular logo inline (the gradient mark, the letters in the text colour:
+   ink, or cream on the dark tote), then joinmassive.com in the map's orange, as heavy as the phrase. One block per side, centred on --x, --y (inches from the file's
+   top left): the map --map-w inches wide, the phrase --phrase inches high, set so it stays on the bottle's front. The
+   map's 1009.67 × 665.96 canvas is 0.6596 as tall as it is wide; the logo, 1090.16 × 123.62, is the letters' cap height
+   (0.7 em in Outfit). A tote's back is upside down. */
+.on-access {
+  --map: calc(var(--map-w) * var(--in));
+  position: absolute;
+  left: calc(var(--x) * var(--in));
+  top: calc(var(--y) * var(--in));
+  width: var(--map);
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #0a0a0f;
+  font-family: var(--font-display);
+  line-height: 1;
+}
+.on-access.back { transform: translate(-50%, -50%) rotate(180deg); }
+.tote.dark .on-access { color: #faf4ec; }
+.on-access .map { display: block; max-width: none; width: 100%; height: calc(var(--map) * 0.6596); }
+.on-access .access { margin: 0.7em 0 0; font-size: calc(var(--phrase) * var(--in)); font-weight: 600; white-space: nowrap; }
+.on-access .lockup { display: inline-block; width: calc(0.7em * 1090.16 / 123.62); height: 0.7em; margin: 0 0.1em; fill: currentColor; vertical-align: baseline; overflow: visible; }
+.on-access .url { margin: 0.5em 0 0; font-size: calc(var(--phrase) * var(--url, 0.5) * var(--in)); font-weight: 600; color: #f38165; }
+/* The middle of each side's safe area, from their templates (13 × 11 in from 3.25 in down; 12.5 in from 3.58 in down) */
+.tote .on-access { --map-w: 12.5; --phrase: 0.6; --x: 8.5; --y: 8.75; }
+.tote .on-access.back { --y: 24.25; }
+.tote.large .on-access { --map-w: 14.5; --phrase: 0.7; --x: 10.5; --y: 9.85; }
+.tote.large .on-access.back { --y: 27.15; }
+/* The bottle's front is about 3.5 in across, so the phrase is about 3.2 in wide there and the map runs round past it */
+.bottle .on-access { --map-w: 8.6; --phrase: 0.2; --url: 0.66; --x: 5.67; --y: 3.485; }
+
+/* Their mockups: front views drawn from Printful's product photos, at --s to the inch, with the print files on them */
+.item-mockup { display: flex; align-items: center; justify-content: center; }
+/* A tote: the top half of its file, cut to the bag's outline (its bottom on the fold), the handles sewn on over it */
+.totes { --s: 25px; gap: 56px; }
+.bag {
+  --w: 17; --top: 1.15; --fold: 16.5; --rise: 8;
+  --stitch: rgba(23, 22, 21, 0.22);
+  position: relative;
+  width: calc(var(--w) * var(--s));
+  height: calc((var(--rise) + var(--fold) - var(--top)) * var(--s));
+  filter: drop-shadow(0 10px 18px rgba(23, 22, 21, 0.16));
+}
+.bag.large { --w: 21; --top: 1.18; --fold: 18.5; --rise: 9.5; }
+.bag.dark { --stitch: rgba(255, 255, 255, 0.22); }
+.bag.white { filter: drop-shadow(0 0 0.8px rgba(23, 22, 21, 0.5)) drop-shadow(0 10px 18px rgba(23, 22, 21, 0.16)); }
+.bag .tote { --in: var(--s); }
+.bag-face {
+  position: absolute;
+  left: 0;
+  top: calc((var(--rise) - var(--top)) * var(--s));
+  width: 100%;
+  height: calc(var(--fold) * var(--s));
+  overflow: hidden;
+  background: #ffffff;
+  /* 15.75 × 15.35 in, centred, from 1.15 in down to the fold */
+  clip-path: polygon(3.676% 6.97%, 96.324% 6.97%, 96.324% 100%, 3.676% 100%);
+}
+/* 19.69 in across the top, 13.78 at the bottom, 17.32 tall */
+.bag.large .bag-face { clip-path: polygon(3.119% 6.378%, 96.881% 6.378%, 82.81% 100%, 17.19% 100%); }
+/* The hem's stitching */
+.bag-face::after { content: ''; position: absolute; left: 0; right: 0; top: calc((var(--top) + 0.55) * var(--s)); border-top: 1.5px dashed var(--stitch); }
+.bag-handle { position: absolute; left: 0; top: 0; width: 100%; overflow: visible; fill: none; }
+.bag-handle .strap { stroke: #1b1b1c; stroke-width: 1; stroke-linejoin: round; }
+.bag-handle .box { stroke: rgba(255, 255, 255, 0.28); stroke-width: 0.045; stroke-dasharray: 0.16 0.12; }
+/* The mug and the bottle: white, the print file wrapped round (.cyl, cut into strips by the script at the end), gloss
+   over it */
+.mugs { --s: 110px; gap: 120px; }
+.bottles { --s: 68px; gap: 140px; }
+.mug-figure, .bottle-figure { position: relative; filter: drop-shadow(0 10px 18px rgba(23, 22, 21, 0.16)); }
+.mug-figure { width: calc(4.45 * var(--s)); height: calc(4 * var(--s)); }
+.bottle-figure { width: calc(3.54 * var(--s)); height: calc(9.92 * var(--s)); }
+.mug-figure > svg, .bottle-figure > svg { position: absolute; left: 0; top: 0; overflow: visible; }
+.mug-shape { width: calc(4.45 * var(--s)); height: calc(4 * var(--s)); }
+.mug-figure.left .mug-shape { transform: scaleX(-1); }
+.mug-figure > .mug-gloss, .mug-figure > .cyl { left: 0; width: calc(3.25 * var(--s)); }
+.mug-figure.left > .mug-gloss, .mug-figure.left > .cyl { left: calc(1.2 * var(--s)); }
+.mug-gloss { height: calc(4 * var(--s)); }
+.bottle-figure > svg { width: 100%; height: 100%; }
+/* The mug's 3.5 in band, centred on its 3.79 in; the bottle's 6.97 in, down its straight side */
+.cyl { position: absolute; }
+.mug-figure > .cyl { top: calc(0.265 * var(--s)); height: calc(3.5 * var(--s)); }
+.bottle-figure > .cyl { left: 0; top: calc(2.65 * var(--s)); width: calc(3.54 * var(--s)); height: calc(6.97 * var(--s)); }
+.cyl .mug, .cyl .bottle { --in: var(--s); }
+.cyl-strip { position: absolute; top: 0; height: 100%; overflow: hidden; }
+.cyl-strip > * { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
+
+/* Bucket hat and hip pack (Rush Order Tees): each file is the logo alone, 3.5 in wide, on a transparent ground, as
+   they place it themselves. On the proof it sits centred in its print area (.print-area), on the black of the hat or the
+   bag, the edge dashed: the most a hat takes (4 × 1.75 in) and the hip pack's front panel (4 × 4 in). */
+.lockup-art { --mountain: #f38165; width: 3.5in; fill: #ffffff; }
+.lockup-art svg { display: block; width: 100%; height: auto; }
+.print-area { display: grid; place-items: center; width: 4in; background: var(--fabric); outline: 0.6pt dashed var(--guide); }
+.print-area.hat { --fabric: #1b151a; height: 1.75in; }
+.print-area.pack { --fabric: #1d1d1d; height: 4in; }
+/* Their mockups: front views drawn from Rush Order Tees' product photos, at --s to the inch, the logo at 3.5 in */
+.hats { --s: 90px; }
+.packs { --s: 80px; }
+.hat-figure, .pack-figure { display: block; overflow: visible; filter: drop-shadow(0 10px 18px rgba(23, 22, 21, 0.16)); }
+.hat-figure { width: calc(10.4 * var(--s)); height: calc(7.45 * var(--s)); }
+.pack-figure { width: calc(13.6 * var(--s)); height: calc(5.5 * var(--s)); }
+
+/* Wooden glass (Prague Crawl afterparty): laser engraving in one colour, black for the burn, inside a 6 × 5 cm area.
+   Each design is drawn in --cm: a centimetre on the proof and in its file, the mockup's --s in a mockup. */
+.engrave { --cm: 1cm; --mountain: #000000; display: flex; flex-direction: column; align-items: center; fill: #000000; color: #000000; }
+.engrave > *, .engrave .logos > * { display: block; flex: none; }
+.engrave .pc { width: calc(6 * var(--cm)); height: auto; }
+.engrave .massive { width: calc(6 * var(--cm)); height: calc(6 * var(--cm) * 123.62 / 1090.16); }
+.engrave .nodemaven { width: calc(5 * var(--cm)); height: calc(5 * var(--cm) * 42 / 184); }
+.engrave .times { width: calc(0.42 * var(--cm)); height: calc(0.42 * var(--cm)); margin: calc(0.36 * var(--cm)) 0; fill: none; stroke: #000000; stroke-width: 1.4; stroke-linecap: square; }
+/* One side: the wordmark, then "by Massive & NodeMaven" on a line under it, all set left like the wordmark's own lines.
+   NodeMaven's logo a little wider than Massive's, so their words come out about the same size. */
+.engrave.one-side { align-items: flex-start; gap: calc(0.42 * var(--cm)); }
+.engrave.one-side .pc { width: calc(5.2 * var(--cm)); }
+.engrave .by, .engrave .amp { font-family: 'Jersey 25', sans-serif; line-height: 1; font-size: calc(0.6 * var(--cm)); }
+.engrave .logos { display: flex; align-items: center; gap: calc(0.2 * var(--cm)); }
+.engrave.one-side .massive { width: calc(2.05 * var(--cm)); height: calc(2.05 * var(--cm) * 123.62 / 1090.16); }
+.engrave.one-side .nodemaven { width: calc(2.35 * var(--cm)); height: calc(2.35 * var(--cm) * 42 / 184); }
+.print-area.glass { --fabric: #b8643a; width: 6cm; height: 5cm; }
+/* The mockup: the glass in cm (--s to the cm), the engraving wrapped round it (.cyl) and burned in (multiply) */
+.glasses { --s: 56px; gap: 120px; }
+.glass-figure { position: relative; width: calc(8.5 * var(--s)); height: calc(9.05 * var(--s)); filter: drop-shadow(0 12px 20px rgba(23, 22, 21, 0.2)); }
+.glass-figure > svg { position: absolute; left: 0; top: 0; width: 100%; height: 100%; overflow: visible; }
+/* The engraving band: 5 cm, centred 4.2 cm down, round the 26.7 cm the belly measures */
+.glass-figure > .cyl { left: 0; top: calc(1.7 * var(--s)); width: calc(8.5 * var(--s)); height: calc(5 * var(--s)); mix-blend-mode: multiply; opacity: 0.9; }
+.glass-wrap { position: relative; width: calc(26.704 * var(--s)); height: calc(5 * var(--s)); }
+.glass-wrap > .engrave { --cm: var(--s); position: absolute; left: calc(var(--x) * var(--s)); top: 50%; transform: translate(-50%, -50%); }
 
 /* Pajamas: the print at actual size (1 m), the flats at 1:10 (145 cm). On the proof, all of them at 1:25.
    The dark ground has Printful's White trim; the white ground is the bare fabric, with Black trim. */
@@ -519,7 +730,9 @@ html:not([data-only]) .card.tri-opened::before, html:not([data-only]) .card.tri-
 html:not([data-only]) .brochure .cell > .art { zoom: 0.72; }
 
 /* The mono rule: this page's labels are Outfit */
-.cards .legend, .cards .row-label, .cards figcaption { font-family: var(--font-display); }
+.cards .legend, .cards .row-label, .cards figcaption,
+.bags .legend, .bags .row-label, .bags figcaption,
+.wear .legend, .wear .row-label, .wear figcaption { font-family: var(--font-display); }
 
 /* ---------- One design (render.mjs) ----------
    Centred on a page of its own size. Chromium rounds a PDF page to about 1/150 in, so a round design's ground
@@ -528,6 +741,8 @@ html[data-only], html[data-only] body { background: transparent; }
 html[data-only] .proof { width: 100vw; height: 100vh; padding: 0; gap: 0; display: grid; place-items: center; }
 html[data-only] .round { box-shadow: 0 0 0 0.05in var(--bg); }
 html[data-only] .enamel { box-sizing: content-box; padding: 0.01in; }
+html[data-only] :is(.lockup-art, .engrave) { box-sizing: content-box; padding: 0.01in; }
+html[data-only] .print-area { display: contents; }
 html[data-only] .proof:not(:has(.is-only)),
 html[data-only] .proof-head,
 html[data-only] .row-label,
@@ -538,9 +753,10 @@ html[data-only] .round::before,
 html[data-only] .round::after { display: none; }
 html[data-only] .pajama { width: calc(var(--real) * var(--file)); height: calc(var(--real) * var(--file)); }
 html[data-only] .tee { width: 12in; height: 16in; }
+html[data-only] :is(.tote, .mug, .bottle) { --in: 1in; }
 html[data-only] .card { box-shadow: 0 0 0 0.05in var(--ground); }
 /* A metre (or a 12 × 16 in shirt) is bigger than the window: the page grows round it, so the screenshot isn't cut */
-html[data-only] .proof.pajamas, html[data-only] .proof.brochure, html[data-only] .proof.tees { width: max-content; height: max-content; min-width: 100vw; min-height: 100vh; overflow: visible; }
+html[data-only] .proof.pajamas, html[data-only] .proof.brochure, html[data-only] .proof.tees, html[data-only] .proof.bags { width: max-content; height: max-content; min-width: 100vw; min-height: 100vh; overflow: visible; }
 </style>
 </head>
 <body>
@@ -654,6 +870,147 @@ html[data-only] .proof.pajamas, html[data-only] .proof.brochure, html[data-only]
     <g id="tee-shirt-back" stroke-linejoin="round" stroke-linecap="round">
       <use href="#tee-shirt-body" />
       <path style="fill: none; stroke: var(--seam)" stroke-width="0.05" d="M -3.3 0.55 C -2.2 -0.1 2.2 -0.1 3.3 0.55" />
+    </g>
+
+    <!-- The mug and bottle mockups, front views in inches, after Printful's product photos. The mug (3.25 across,
+         3.79 tall) has its handle on the right, its rim's middle 0.12 down; the bottle (3.54 across, 9.92 tall) a
+         black lid and spout, its straight side from 2.65 to 9.62 down. Each body's gloss goes over the print. -->
+    <linearGradient id="cyl-gloss">
+      <stop offset="0" stop-color="#171615" stop-opacity="0.16" />
+      <stop offset="0.12" stop-color="#171615" stop-opacity="0.05" />
+      <stop offset="0.26" stop-color="#ffffff" stop-opacity="0" />
+      <stop offset="0.33" stop-color="#ffffff" stop-opacity="0.55" />
+      <stop offset="0.4" stop-color="#ffffff" stop-opacity="0" />
+      <stop offset="0.7" stop-color="#171615" stop-opacity="0.03" />
+      <stop offset="1" stop-color="#171615" stop-opacity="0.2" />
+    </linearGradient>
+    <g id="mug-shape">
+      <path d="M3.05 0.85C4.25 0.75 4.42 1.35 4.27 2.05C4.13 2.85 3.65 3.2 3.05 3.15" fill="none" stroke="#f85625" stroke-width="0.34" stroke-linecap="round" />
+      <path d="M0 0.12V3.83A1.625 0.08 0 0 0 3.25 3.83V0.12Z" fill="#ffffff" stroke="rgba(23, 22, 21, 0.16)" stroke-width="0.012" />
+      <ellipse cx="1.625" cy="0.12" rx="1.625" ry="0.1" fill="#f85625" />
+      <ellipse cx="1.625" cy="0.135" rx="1.54" ry="0.072" fill="#c9431a" />
+    </g>
+    <g id="mug-gloss">
+      <path d="M0 0.12V3.83A1.625 0.08 0 0 0 3.25 3.83V0.12A1.625 0.1 0 0 1 0 0.12Z" fill="url(#cyl-gloss)" />
+    </g>
+    <g id="bottle-shape">
+      <rect x="1.33" y="0" width="0.88" height="0.62" rx="0.14" fill="#1d1d20" />
+      <rect x="0.5" y="0.45" width="2.54" height="1.2" rx="0.1" fill="#232326" />
+      <rect x="0.5" y="0.45" width="2.54" height="1.2" rx="0.1" fill="url(#cyl-gloss)" />
+      <rect x="0.66" y="1.62" width="2.22" height="0.3" fill="#e4e4e7" />
+      <path d="M0.62 1.85H2.92C3.3 1.9 3.54 2.25 3.54 2.65V9.62Q3.54 9.92 3.24 9.92H0.3Q0 9.92 0 9.62V2.65C0 2.25 0.24 1.9 0.62 1.85Z" fill="#ffffff" stroke="rgba(23, 22, 21, 0.16)" stroke-width="0.015" />
+    </g>
+    <g id="bottle-gloss">
+      <path d="M0.62 1.85H2.92C3.3 1.9 3.54 2.25 3.54 2.65V9.62Q3.54 9.92 3.24 9.92H0.3Q0 9.92 0 9.62V2.65C0 2.25 0.24 1.9 0.62 1.85Z" fill="url(#cyl-gloss)" />
+    </g>
+
+    <!-- The bucket hat and hip pack mockups, front views in inches, after Rush Order Tees' product photos. The hat is
+         10.4 across the brim and 7.4 across the crown, whose front runs from 0.3 down to the band at 4.1 (4.7 in the
+         middle); the brim's rows of stitching follow its edge. The hip pack is 8 × 5, from 2.4 to 10.4 across and 0.3
+         to 5.3 down, its strap behind it, the buckle on the right and the zip's pull on the left. -->
+    <linearGradient id="dark-across">
+      <stop offset="0" stop-color="#000000" stop-opacity="0.35" />
+      <stop offset="0.3" stop-color="#ffffff" stop-opacity="0.03" />
+      <stop offset="0.5" stop-color="#ffffff" stop-opacity="0.06" />
+      <stop offset="0.7" stop-color="#ffffff" stop-opacity="0.03" />
+      <stop offset="1" stop-color="#000000" stop-opacity="0.35" />
+    </linearGradient>
+    <linearGradient id="dark-down" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.06" />
+      <stop offset="0.35" stop-color="#ffffff" stop-opacity="0" />
+      <stop offset="1" stop-color="#000000" stop-opacity="0.28" />
+    </linearGradient>
+    <linearGradient id="brim-down" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#000000" stop-opacity="0.45" />
+      <stop offset="0.3" stop-color="#000000" stop-opacity="0" />
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0.04" />
+    </linearGradient>
+    <clipPath id="hat-brim-clip">
+      <path d="M1.42 3.9C0.9 4.4 0.4 5.2 0.22 6C0.15 6.3 0.3 6.5 0.6 6.62Q5.2 7.75 9.8 6.62C10.1 6.5 10.25 6.3 10.18 6C10 5.2 9.5 4.4 8.98 3.9Z" />
+    </clipPath>
+    <g id="bucket-hat-shape">
+      <path d="M1.42 3.9C0.9 4.4 0.4 5.2 0.22 6C0.15 6.3 0.3 6.5 0.6 6.62Q5.2 7.75 9.8 6.62C10.1 6.5 10.25 6.3 10.18 6C10 5.2 9.5 4.4 8.98 3.9Z" fill="#211a1f" />
+      <path d="M1.42 3.9C0.9 4.4 0.4 5.2 0.22 6C0.15 6.3 0.3 6.5 0.6 6.62Q5.2 7.75 9.8 6.62C10.1 6.5 10.25 6.3 10.18 6C10 5.2 9.5 4.4 8.98 3.9Z" fill="url(#brim-down)" />
+      <g clip-path="url(#hat-brim-clip)" fill="none" stroke="rgba(255, 255, 255, 0.1)" stroke-width="0.022" stroke-dasharray="0.08 0.05">
+        <path d="M0.1 6.22L0.682 6.368Q5.2 7.498 9.718 6.368L10.3 6.22" />
+        <path d="M0.2 5.92L0.78 6.066Q5.2 7.196 9.62 6.066L10.2 5.92" />
+        <path d="M0.3 5.62L0.879 5.763Q5.2 6.893 9.521 5.763L10.1 5.62" />
+        <path d="M0.4 5.32L0.977 5.461Q5.2 6.591 9.423 5.461L10 5.32" />
+        <path d="M0.5 5.01L1.076 5.158Q5.2 6.288 9.324 5.158L9.9 5.01" />
+        <path d="M0.6 4.71L1.174 4.856Q5.2 5.986 9.226 4.856L9.8 4.71" />
+        <path d="M0.7 4.41L1.272 4.554Q5.2 5.684 9.128 4.554L9.7 4.41" />
+      </g>
+      <path d="M1.42 4.1L1.56 1.6C1.6 0.75 2.1 0.38 3 0.3Q5.2 0.12 7.4 0.3C8.3 0.38 8.8 0.75 8.84 1.6L8.98 4.1Q5.2 5.35 1.42 4.1Z" fill="#1b151a" />
+      <path d="M1.42 4.1L1.56 1.6C1.6 0.75 2.1 0.38 3 0.3Q5.2 0.12 7.4 0.3C8.3 0.38 8.8 0.75 8.84 1.6L8.98 4.1Q5.2 5.35 1.42 4.1Z" fill="url(#dark-across)" />
+      <g fill="none" stroke="rgba(255, 255, 255, 0.11)" stroke-width="0.022" stroke-dasharray="0.08 0.05">
+        <path d="M1.85 1.2C2.4 0.92 3.4 0.82 5.2 0.82C7 0.82 8 0.92 8.55 1.2" />
+        <path d="M1.8 1.32C2.38 1.04 3.4 0.94 5.2 0.94C7 0.94 8.02 1.04 8.6 1.32" />
+        <path d="M1.44 3.9Q5.2 5.15 8.96 3.9" />
+      </g>
+      <path d="M1.42 4.1Q5.2 5.35 8.98 4.1" fill="none" stroke="#0d0a0c" stroke-width="0.05" />
+    </g>
+    <g id="hip-pack-shape">
+      <g fill="#191919">
+        <rect x="0.15" y="0.85" width="2.6" height="1" rx="0.05" />
+        <rect x="10.2" y="0.95" width="1.15" height="1" />
+        <rect x="12.75" y="0.95" width="0.7" height="1" rx="0.05" />
+      </g>
+      <g fill="none" stroke="rgba(255, 255, 255, 0.045)" stroke-width="0.02">
+        <path d="M0.15 1.02H2.75M0.15 1.18H2.75M0.15 1.35H2.75M0.15 1.52H2.75M0.15 1.68H2.75" />
+        <path d="M10.2 1.12H11.35M10.2 1.28H11.35M10.2 1.45H11.35M10.2 1.62H11.35M10.2 1.78H11.35" />
+        <path d="M12.75 1.12H13.45M12.75 1.28H13.45M12.75 1.45H13.45M12.75 1.62H13.45M12.75 1.78H13.45" />
+      </g>
+      <rect x="0.45" y="0.76" width="0.22" height="1.18" rx="0.05" fill="#101010" stroke="rgba(255, 255, 255, 0.08)" stroke-width="0.02" />
+      <rect x="11.25" y="0.73" width="0.85" height="1.44" rx="0.12" fill="#121212" stroke="rgba(255, 255, 255, 0.09)" stroke-width="0.02" />
+      <rect x="12.05" y="0.83" width="0.75" height="1.24" rx="0.06" fill="#151515" stroke="rgba(255, 255, 255, 0.09)" stroke-width="0.02" />
+      <rect x="12.27" y="1.1" width="0.12" height="0.7" rx="0.03" fill="#0a0a0a" />
+      <path d="M3.75 0.3H9.05C9.8 0.3 10.4 0.85 10.4 1.65V4.45C10.4 4.95 10 5.3 9.5 5.3H3.3C2.8 5.3 2.4 4.95 2.4 4.45V1.65C2.4 0.85 3 0.3 3.75 0.3Z" fill="#1d1d1d" />
+      <path d="M3.75 0.3H9.05C9.8 0.3 10.4 0.85 10.4 1.65V4.45C10.4 4.95 10 5.3 9.5 5.3H3.3C2.8 5.3 2.4 4.95 2.4 4.45V1.65C2.4 0.85 3 0.3 3.75 0.3Z" fill="url(#dark-down)" stroke="rgba(255, 255, 255, 0.06)" stroke-width="0.03" />
+      <path d="M2.6 2.75V1.7C2.6 0.98 3.12 0.5 3.8 0.5H9C9.68 0.5 10.2 0.98 10.2 1.7V2.75" fill="none" stroke="#141414" stroke-width="0.17" />
+      <path d="M2.6 2.75V1.7C2.6 0.98 3.12 0.5 3.8 0.5H9C9.68 0.5 10.2 0.98 10.2 1.7V2.75" fill="none" stroke="#2c2c2c" stroke-width="0.08" stroke-dasharray="0.03 0.03" />
+      <rect x="2.47" y="2.62" width="0.26" height="0.34" rx="0.05" fill="#0f0f0f" stroke="rgba(255, 255, 255, 0.1)" stroke-width="0.02" />
+      <rect x="2.3" y="2.85" width="0.17" height="0.95" rx="0.08" fill="#111111" stroke="rgba(255, 255, 255, 0.1)" stroke-width="0.02" transform="rotate(8 2.385 2.85)" />
+    </g>
+
+    <!-- The wooden glass (Prague Crawl afterparty), a front view in cm after the Etsy listing's photo: 8.5 across at the
+         belly (3.6 down), 8 at the rim, 9 tall, its rim seen a little from above. Polished reddish wood with darker
+         grain; the gloss goes over the engraving. -->
+    <linearGradient id="wood-down" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#b45c2b" />
+      <stop offset="0.45" stop-color="#c8743e" />
+      <stop offset="1" stop-color="#8a421e" />
+    </linearGradient>
+    <linearGradient id="wood-across">
+      <stop offset="0" stop-color="#2a0f04" stop-opacity="0.6" />
+      <stop offset="0.12" stop-color="#2a0f04" stop-opacity="0.2" />
+      <stop offset="0.28" stop-color="#ffdcb4" stop-opacity="0.24" />
+      <stop offset="0.36" stop-color="#ffdcb4" stop-opacity="0.04" />
+      <stop offset="0.7" stop-color="#2a0f04" stop-opacity="0.08" />
+      <stop offset="1" stop-color="#2a0f04" stop-opacity="0.62" />
+    </linearGradient>
+    <linearGradient id="glass-inside" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2e1206" />
+      <stop offset="1" stop-color="#76361a" />
+    </linearGradient>
+    <clipPath id="glass-body-clip">
+      <path d="M0.25 0.55C0.05 1.5 -0.02 2.6 0 3.6C0.03 5.6 0.9 7.8 2.1 8.6Q2.6 8.95 3.3 9H5.2Q5.9 8.95 6.4 8.6C7.6 7.8 8.47 5.6 8.5 3.6C8.52 2.6 8.45 1.5 8.25 0.55A4 0.55 0 0 0 0.25 0.55Z" />
+    </clipPath>
+    <g id="wood-glass-shape">
+      <path d="M0.25 0.55C0.05 1.5 -0.02 2.6 0 3.6C0.03 5.6 0.9 7.8 2.1 8.6Q2.6 8.95 3.3 9H5.2Q5.9 8.95 6.4 8.6C7.6 7.8 8.47 5.6 8.5 3.6C8.52 2.6 8.45 1.5 8.25 0.55A4 0.55 0 0 0 0.25 0.55Z" fill="url(#wood-down)" />
+      <g clip-path="url(#glass-body-clip)" fill="none" stroke="#4e1f0a" stroke-linecap="round">
+        <path d="M-0.2 1.35C1.6 1.5 3.1 1.85 4.6 1.8S7.4 1.45 8.7 1.6" stroke-width="0.05" stroke-opacity="0.16" />
+        <path d="M-0.2 2.3C1.2 2.45 2.8 2.75 4.4 2.7S7.2 2.55 8.7 2.35" stroke-width="0.22" stroke-opacity="0.07" />
+        <path d="M-0.2 3.05C2.2 3.35 3.6 3.2 5.2 3.45S7.6 3.3 8.7 3.15" stroke-width="0.04" stroke-opacity="0.18" />
+        <path d="M-0.2 4.35C1.8 4.6 3.4 4.85 5 4.75S7.4 4.4 8.7 4.5" stroke-width="0.3" stroke-opacity="0.06" />
+        <path d="M-0.2 5.4C1.4 5.6 3.2 5.9 4.8 5.85S7.6 5.6 8.7 5.7" stroke-width="0.05" stroke-opacity="0.16" />
+        <path d="M-0.2 6.55C2 6.85 3.8 6.75 5.4 6.95S7.6 6.85 8.7 6.7" stroke-width="0.2" stroke-opacity="0.08" />
+        <path d="M-0.2 7.6C1.8 7.85 3.4 8.05 5 8S7.4 7.75 8.7 7.85" stroke-width="0.05" stroke-opacity="0.15" />
+      </g>
+      <ellipse cx="4.25" cy="0.55" rx="4" ry="0.55" fill="#cf8650" />
+      <ellipse cx="4.25" cy="0.6" rx="3.72" ry="0.44" fill="url(#glass-inside)" />
+    </g>
+    <g id="wood-glass-gloss">
+      <path d="M0.25 0.55C0.05 1.5 -0.02 2.6 0 3.6C0.03 5.6 0.9 7.8 2.1 8.6Q2.6 8.95 3.3 9H5.2Q5.9 8.95 6.4 8.6C7.6 7.8 8.47 5.6 8.5 3.6C8.52 2.6 8.45 1.5 8.25 0.55A4 0.55 0 0 0 0.25 0.55Z" fill="url(#wood-across)" />
     </g>
 
     <!-- Pajamas: front flats of Printful's all-over print garments, in mm, size M. The script copies each art's parts
@@ -907,6 +1264,82 @@ html[data-only] .proof.pajamas, html[data-only] .proof.brochure, html[data-only]
   </section>
 </main>
 
+<main class="proof bags">
+  <header class="proof-head">
+    <h1>Massive merch</h1>
+    <p class="legend">1:9<span class="cut">Fold, the bag’s bottom</span><span class="safe">Safe area</span></p>
+  </header>
+
+  <section class="row">
+    <p class="row-label"><b>Tote bags</b> · Printful, all-over print, Black handles · each file is the whole strip the bag is sewn from: the front on top, the back below it, upside down · dark on #0a0a0f, white on the bare fabric</p>
+    <div class="cells">
+      <figure class="cell"><div class="art tote large dark" data-file="tote-large-dark" data-dpi="150"><div class="on-access"><img class="map" src="world/world-outline.svg" alt="" /><p class="access">Access the <svg class="lockup" viewBox="0 0 1090.16 123.62" role="img" aria-label="Massive"><use href="#lockup" /></svg> network</p><p class="url">joinmassive.com</p></div><div class="on-access back"><img class="map" src="world/world-outline.svg" alt="" /><p class="access">Access the <svg class="lockup" viewBox="0 0 1090.16 123.62" role="img" aria-label="Massive"><use href="#lockup" /></svg> network</p><p class="url">joinmassive.com</p></div><svg class="guides" viewBox="0 0 21 37"><path class="fold" d="M0 18.5H21" /><polygon class="safe" points="1.354 3.58 19.646 3.58 18.9 16.11 2.1 16.11" /><polygon class="safe" points="2.1 20.89 18.9 20.89 19.646 33.42 1.354 33.42" /></svg></div><figcaption>Large · Dark</figcaption></figure>
+      <figure class="cell"><div class="art tote large white" data-file="tote-large-white" data-dpi="150"><div class="on-access"><img class="map" src="world/world-outline.svg" alt="" /><p class="access">Access the <svg class="lockup" viewBox="0 0 1090.16 123.62" role="img" aria-label="Massive"><use href="#lockup" /></svg> network</p><p class="url">joinmassive.com</p></div><div class="on-access back"><img class="map" src="world/world-outline.svg" alt="" /><p class="access">Access the <svg class="lockup" viewBox="0 0 1090.16 123.62" role="img" aria-label="Massive"><use href="#lockup" /></svg> network</p><p class="url">joinmassive.com</p></div><svg class="guides" viewBox="0 0 21 37"><path class="fold" d="M0 18.5H21" /><polygon class="safe" points="1.354 3.58 19.646 3.58 18.9 16.11 2.1 16.11" /><polygon class="safe" points="2.1 20.89 18.9 20.89 19.646 33.42 1.354 33.42" /></svg></div><figcaption>Large · White</figcaption></figure>
+      <figure class="cell"><div class="art tote dark" data-file="tote-dark" data-dpi="150"><div class="on-access"><img class="map" src="world/world-outline.svg" alt="" /><p class="access">Access the <svg class="lockup" viewBox="0 0 1090.16 123.62" role="img" aria-label="Massive"><use href="#lockup" /></svg> network</p><p class="url">joinmassive.com</p></div><div class="on-access back"><img class="map" src="world/world-outline.svg" alt="" /><p class="access">Access the <svg class="lockup" viewBox="0 0 1090.16 123.62" role="img" aria-label="Massive"><use href="#lockup" /></svg> network</p><p class="url">joinmassive.com</p></div><svg class="guides" viewBox="0 0 17 33"><path class="fold" d="M0 16.5H17" /><rect class="safe" x="2" y="3.25" width="13" height="11" /><rect class="safe" x="2" y="18.75" width="13" height="11" /></svg></div><figcaption>Tote · Dark</figcaption></figure>
+      <figure class="cell"><div class="art tote white" data-file="tote-white" data-dpi="150"><div class="on-access"><img class="map" src="world/world-outline.svg" alt="" /><p class="access">Access the <svg class="lockup" viewBox="0 0 1090.16 123.62" role="img" aria-label="Massive"><use href="#lockup" /></svg> network</p><p class="url">joinmassive.com</p></div><div class="on-access back"><img class="map" src="world/world-outline.svg" alt="" /><p class="access">Access the <svg class="lockup" viewBox="0 0 1090.16 123.62" role="img" aria-label="Massive"><use href="#lockup" /></svg> network</p><p class="url">joinmassive.com</p></div><svg class="guides" viewBox="0 0 17 33"><path class="fold" d="M0 16.5H17" /><rect class="safe" x="2" y="3.25" width="13" height="11" /><rect class="safe" x="2" y="18.75" width="13" height="11" /></svg></div><figcaption>Tote · White</figcaption></figure>
+    </div>
+  </section>
+</main>
+
+<main class="proof bags drinkware">
+  <header class="proof-head">
+    <h1>Massive merch</h1>
+    <p class="legend">1:2<span class="cut">Print area</span></p>
+  </header>
+
+  <section class="row">
+    <p class="row-label"><b>Mug, 11 oz</b> · Printful, white with an orange inside and handle · sublimation · the file wraps round, its ends meeting at the handle: the sticker on each side</p>
+    <div class="cells">
+      <figure class="cell"><div class="art mug" data-file="mug" data-dpi="300"><img class="on-sticker" src="stickers/sticker-halftone-white.svg" alt="" /><img class="on-sticker right" src="stickers/sticker-halftone-white.svg" alt="" /></div><figcaption>Both sides</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="row">
+    <p class="row-label"><b>Water bottle, 32 oz</b> · Printful, white stainless steel with a straw lid · sublimation · the file wraps round, its ends meeting at the back: the sticker in front</p>
+    <div class="cells">
+      <figure class="cell"><div class="art bottle" data-file="bottle" data-dpi="300"><div class="on-access"><img class="map" src="world/world-outline.svg" alt="" /><p class="access">Access the <svg class="lockup" viewBox="0 0 1090.16 123.62" role="img" aria-label="Massive"><use href="#lockup" /></svg> network</p><p class="url">joinmassive.com</p></div></div><figcaption>Front</figcaption></figure>
+    </div>
+  </section>
+</main>
+
+<main class="proof wear">
+  <header class="proof-head">
+    <h1>Massive merch</h1>
+    <p class="legend">Actual size<span class="cut">Print area</span></p>
+  </header>
+
+  <section class="row">
+    <p class="row-label"><b>Bucket hat</b> · Rush Order Tees, Sportsman, Black · embroidered or printed · each file is the logo alone, 3.5 in wide, on a transparent ground · the area is the most a hat takes</p>
+    <div class="cells">
+      <figure class="cell"><div class="print-area hat"><div class="art lockup-art" data-file="bucket-hat-embroidery"><svg viewBox="0 0 1090.16 123.62"><use href="#lockup" /></svg></div></div><figcaption>Embroidery · white and #F38165 thread</figcaption></figure>
+      <figure class="cell"><div class="print-area hat"><div class="art lockup-art" data-file="bucket-hat-print"><svg viewBox="0 0 1090.16 123.62"><use href="#lockup" /></svg></div></div><figcaption>Print · white and #F38165 ink</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="row">
+    <p class="row-label"><b>Hip pack</b> · Rush Order Tees, Port Authority BG936, Deep Black · screen print, low-cure inks · the same logo, centred on the 4 × 4 in front panel</p>
+    <div class="cells">
+      <figure class="cell"><div class="print-area pack"><div class="art lockup-art" data-file="hip-pack"><svg viewBox="0 0 1090.16 123.62"><use href="#lockup" /></svg></div></div><figcaption>Front · white and #F38165 ink</figcaption></figure>
+    </div>
+  </section>
+</main>
+
+<main class="proof wear">
+  <header class="proof-head">
+    <h1>Massive merch</h1>
+    <p class="legend">Actual size<span class="cut">Engraving area, 6 × 5 cm (to confirm)</span></p>
+  </header>
+
+  <section class="row">
+    <p class="row-label"><b>Wooden glass · Prague Crawl afterparty</b> · Etsy, NieVerblassen · 8.5 × 9 cm, 300 ml · laser engraved in one colour · each file is the art alone, black (the burn) on a transparent ground</p>
+    <div class="cells">
+      <figure class="cell"><div class="print-area glass"><div class="art engrave side-a" data-file="glass-pc-side-a"><img class="pc" src="glass/prague-crawl-2027.svg" alt="" /></div></div><figcaption>Option 1 · Side A</figcaption></figure>
+      <figure class="cell"><div class="print-area glass"><div class="art engrave side-b" data-file="glass-pc-side-b"><svg class="massive" viewBox="0 0 1090.16 123.62"><use href="#lockup" /></svg><svg class="times" viewBox="0 0 10 10"><path d="M1 1L9 9M9 1L1 9" /></svg><img class="nodemaven" src="glass/nodemaven.svg" alt="" /></div></div><figcaption>Option 1 · Side B</figcaption></figure>
+      <figure class="cell"><div class="print-area glass"><div class="art engrave one-side" data-file="glass-pc-one-side"><img class="pc" src="glass/prague-crawl-2027.svg" alt="" /><div class="logos"><span class="by">by</span><svg class="massive" viewBox="0 0 1090.16 123.62"><use href="#lockup" /></svg><span class="amp">&amp;</span><img class="nodemaven" src="glass/nodemaven.svg" alt="" /></div></div></div><figcaption>Option 2 · One side</figcaption></figure>
+    </div>
+  </section>
+</main>
+
 <main class="mockups">
   <div class="tee-mockup black" data-mockup="tee-front-black"><svg class="shirt" viewBox="-18 -1.5 36 32"><use href="#tee-shirt" /></svg><div class="tee black"><img class="tee-front" src="tees/halftone-black.svg" alt="" /></div></div>
   <div class="tee-mockup back black" data-mockup="tee-back-mountain-black"><svg class="shirt" viewBox="-18 -1.5 36 32"><use href="#tee-shirt-back" /></svg><div class="tee black"><svg viewBox="0 0 1200 1600"><use href="#tee-back-mountain" x="600" y="100" /></svg></div></div>
@@ -917,6 +1350,42 @@ html[data-only] .proof.pajamas, html[data-only] .proof.brochure, html[data-only]
   <div class="tee-mockup white" data-mockup="tee-front-white"><svg class="shirt" viewBox="-18 -1.5 36 32"><use href="#tee-shirt" /></svg><div class="tee white"><img class="tee-front" src="tees/halftone-white.svg" alt="" /></div></div>
   <div class="tee-mockup back white" data-mockup="tee-back-mountain-white"><svg class="shirt" viewBox="-18 -1.5 36 32"><use href="#tee-shirt-back" /></svg><div class="tee white"><svg viewBox="0 0 1200 1600"><use href="#tee-back-mountain" x="600" y="100" /></svg></div></div>
   <div class="tee-mockup back white" data-mockup="tee-back-404-white"><svg class="shirt" viewBox="-18 -1.5 36 32"><use href="#tee-shirt-back" /></svg><div class="tee white"><svg viewBox="0 0 1200 1600"><use href="#tee-back-404" x="600" y="100" /></svg></div></div>
+  <!-- Each tote dark and white; the mug from both sides (the handle on the left shows the file's left copy); the
+       bottle from the front and turned a little, so the sticker runs round its side -->
+  <div class="item-mockup totes" data-mockup="tote">
+    <div class="bag dark"><div class="bag-face"><div class="tote dark"><div class="on-access"><img class="map" src="world/world-outline.svg" alt="" /><p class="access">Access the <svg class="lockup" viewBox="0 0 1090.16 123.62" role="img" aria-label="Massive"><use href="#lockup" /></svg> network</p><p class="url">joinmassive.com</p></div></div></div><svg class="bag-handle" viewBox="0 0 17 10" style="height: calc(10 * var(--s))"><path class="strap" d="M3.75 9.6V1.7Q3.75 0.5 4.95 0.5H12.05Q13.25 0.5 13.25 1.7V9.6" /><rect class="box" x="3.3" y="8.2" width="0.9" height="1.25" /><rect class="box" x="12.8" y="8.2" width="0.9" height="1.25" /></svg></div>
+    <div class="bag white"><div class="bag-face"><div class="tote white"><div class="on-access"><img class="map" src="world/world-outline.svg" alt="" /><p class="access">Access the <svg class="lockup" viewBox="0 0 1090.16 123.62" role="img" aria-label="Massive"><use href="#lockup" /></svg> network</p><p class="url">joinmassive.com</p></div></div></div><svg class="bag-handle" viewBox="0 0 17 10" style="height: calc(10 * var(--s))"><path class="strap" d="M3.75 9.6V1.7Q3.75 0.5 4.95 0.5H12.05Q13.25 0.5 13.25 1.7V9.6" /><rect class="box" x="3.3" y="8.2" width="0.9" height="1.25" /><rect class="box" x="12.8" y="8.2" width="0.9" height="1.25" /></svg></div>
+  </div>
+  <div class="item-mockup totes" data-mockup="tote-large">
+    <div class="bag large dark"><div class="bag-face"><div class="tote large dark"><div class="on-access"><img class="map" src="world/world-outline.svg" alt="" /><p class="access">Access the <svg class="lockup" viewBox="0 0 1090.16 123.62" role="img" aria-label="Massive"><use href="#lockup" /></svg> network</p><p class="url">joinmassive.com</p></div></div></div><svg class="bag-handle" viewBox="0 0 21 11.6" style="height: calc(11.6 * var(--s))"><path class="strap" d="M5.25 11.3V1.7Q5.25 0.5 6.45 0.5H14.55Q15.75 0.5 15.75 1.7V11.3" /><rect class="box" x="4.8" y="9.7" width="0.9" height="1.45" /><rect class="box" x="15.3" y="9.7" width="0.9" height="1.45" /></svg></div>
+    <div class="bag large white"><div class="bag-face"><div class="tote large white"><div class="on-access"><img class="map" src="world/world-outline.svg" alt="" /><p class="access">Access the <svg class="lockup" viewBox="0 0 1090.16 123.62" role="img" aria-label="Massive"><use href="#lockup" /></svg> network</p><p class="url">joinmassive.com</p></div></div></div><svg class="bag-handle" viewBox="0 0 21 11.6" style="height: calc(11.6 * var(--s))"><path class="strap" d="M5.25 11.3V1.7Q5.25 0.5 6.45 0.5H14.55Q15.75 0.5 15.75 1.7V11.3" /><rect class="box" x="4.8" y="9.7" width="0.9" height="1.45" /><rect class="box" x="15.3" y="9.7" width="0.9" height="1.45" /></svg></div>
+  </div>
+  <div class="item-mockup mugs" data-mockup="mug">
+    <div class="mug-figure left"><svg class="mug-shape" viewBox="0 0 4.45 4"><use href="#mug-shape" /></svg><div class="cyl" data-r="1.625" data-at="1.95"><div class="mug"><img class="on-sticker" src="stickers/sticker-halftone-white.svg" alt="" /><img class="on-sticker right" src="stickers/sticker-halftone-white.svg" alt="" /></div></div><svg class="mug-gloss" viewBox="0 0 3.25 4"><use href="#mug-gloss" /></svg></div>
+    <div class="mug-figure right"><svg class="mug-shape" viewBox="0 0 4.45 4"><use href="#mug-shape" /></svg><div class="cyl" data-r="1.625" data-at="7.05"><div class="mug"><img class="on-sticker" src="stickers/sticker-halftone-white.svg" alt="" /><img class="on-sticker right" src="stickers/sticker-halftone-white.svg" alt="" /></div></div><svg class="mug-gloss" viewBox="0 0 3.25 4"><use href="#mug-gloss" /></svg></div>
+  </div>
+  <div class="item-mockup bottles" data-mockup="bottle">
+    <div class="bottle-figure"><svg viewBox="0 0 3.54 9.92"><use href="#bottle-shape" /></svg><div class="cyl" data-r="1.77" data-at="5.67"><div class="bottle"><div class="on-access"><img class="map" src="world/world-outline.svg" alt="" /><p class="access">Access the <svg class="lockup" viewBox="0 0 1090.16 123.62" role="img" aria-label="Massive"><use href="#lockup" /></svg> network</p><p class="url">joinmassive.com</p></div></div></div><svg viewBox="0 0 3.54 9.92"><use href="#bottle-gloss" /></svg></div>
+    <div class="bottle-figure"><svg viewBox="0 0 3.54 9.92"><use href="#bottle-shape" /></svg><div class="cyl" data-r="1.77" data-at="4.85"><div class="bottle"><div class="on-access"><img class="map" src="world/world-outline.svg" alt="" /><p class="access">Access the <svg class="lockup" viewBox="0 0 1090.16 123.62" role="img" aria-label="Massive"><use href="#lockup" /></svg> network</p><p class="url">joinmassive.com</p></div></div></div><svg viewBox="0 0 3.54 9.92"><use href="#bottle-gloss" /></svg></div>
+  </div>
+  <!-- The hat and the hip pack, each with the 3.5 in logo (the print file) centred on its front -->
+  <div class="item-mockup hats" data-mockup="bucket-hat">
+    <svg class="hat-figure" viewBox="0 0 10.4 7.45"><use href="#bucket-hat-shape" /><use href="#lockup" x="3.45" y="2.35" width="3.5" height="0.397" style="--mountain: #f38165; fill: #ffffff" /></svg>
+  </div>
+  <div class="item-mockup packs" data-mockup="hip-pack">
+    <svg class="pack-figure" viewBox="0 0 13.6 5.5"><use href="#hip-pack-shape" /><use href="#lockup" x="4.65" y="2.752" width="3.5" height="0.397" style="--mountain: #f38165; fill: #ffffff" /></svg>
+  </div>
+  <!-- The wooden glass: each band (.glass-wrap) runs once round the belly (26.7 cm), side A a quarter of the way along
+       it and side B three quarters; each glass faces one of them (data-at). Option 1 shows both sides; option 2 the
+       front, and the back left bare. -->
+  <div class="item-mockup glasses" data-mockup="glass-pc-two-sides">
+    <div class="glass-figure"><svg viewBox="0 0 8.5 9.05"><use href="#wood-glass-shape" /></svg><div class="cyl" data-r="4.25" data-at="6.676"><div class="glass-wrap"><div class="engrave side-a" style="--x: 6.676"><img class="pc" src="glass/prague-crawl-2027.svg" alt="" /></div><div class="engrave side-b" style="--x: 20.028"><svg class="massive" viewBox="0 0 1090.16 123.62"><use href="#lockup" /></svg><svg class="times" viewBox="0 0 10 10"><path d="M1 1L9 9M9 1L1 9" /></svg><img class="nodemaven" src="glass/nodemaven.svg" alt="" /></div></div></div><svg viewBox="0 0 8.5 9.05"><use href="#wood-glass-gloss" /></svg></div>
+    <div class="glass-figure"><svg viewBox="0 0 8.5 9.05"><use href="#wood-glass-shape" /></svg><div class="cyl" data-r="4.25" data-at="20.028"><div class="glass-wrap"><div class="engrave side-a" style="--x: 6.676"><img class="pc" src="glass/prague-crawl-2027.svg" alt="" /></div><div class="engrave side-b" style="--x: 20.028"><svg class="massive" viewBox="0 0 1090.16 123.62"><use href="#lockup" /></svg><svg class="times" viewBox="0 0 10 10"><path d="M1 1L9 9M9 1L1 9" /></svg><img class="nodemaven" src="glass/nodemaven.svg" alt="" /></div></div></div><svg viewBox="0 0 8.5 9.05"><use href="#wood-glass-gloss" /></svg></div>
+  </div>
+  <div class="item-mockup glasses" data-mockup="glass-pc-one-side">
+    <div class="glass-figure"><svg viewBox="0 0 8.5 9.05"><use href="#wood-glass-shape" /></svg><div class="cyl" data-r="4.25" data-at="6.676"><div class="glass-wrap"><div class="engrave one-side" style="--x: 6.676"><img class="pc" src="glass/prague-crawl-2027.svg" alt="" /><div class="logos"><span class="by">by</span><svg class="massive" viewBox="0 0 1090.16 123.62"><use href="#lockup" /></svg><span class="amp">&amp;</span><img class="nodemaven" src="glass/nodemaven.svg" alt="" /></div></div></div></div><svg viewBox="0 0 8.5 9.05"><use href="#wood-glass-gloss" /></svg></div>
+    <div class="glass-figure"><svg viewBox="0 0 8.5 9.05"><use href="#wood-glass-shape" /></svg><svg viewBox="0 0 8.5 9.05"><use href="#wood-glass-gloss" /></svg></div>
+  </div>
 </main>
 
 <main class="proof cards">
@@ -1468,6 +1937,37 @@ html[data-only] .proof.pajamas, html[data-only] .proof.brochure, html[data-only]
         }
       }
       clip.querySelector("path").setAttribute("d", d);
+    }
+  })();
+</script>
+
+<script>
+  // The mug and bottle mockups: a print file wrapped round a cylinder, seen from the front. Each .cyl holds its print
+  // file; this cuts it into thin upright strips across the half that faces you, each squeezed to the width its slice
+  // of the curve shows (r·sin θ), so the design runs round the sides as on the real thing. data-r is the radius and
+  // data-at the file's x that faces you, both in inches; --s is the mockup's inch.
+  (() => {
+    for (const cyl of document.querySelectorAll(".cyl[data-at]")) {
+      const inch = parseFloat(getComputedStyle(cyl).getPropertyValue("--s"));
+      const r = Number(cyl.dataset.r) * inch;
+      const at = Number(cyl.dataset.at) * inch;
+      const print = cyl.firstElementChild;
+      print.remove();
+      const n = 120;
+      for (let i = 0; i < n; i++) {
+        const [a, b] = [Math.PI * (i / n - 0.5), Math.PI * ((i + 1) / n - 0.5)];
+        const [left, right] = [r + r * Math.sin(a), r + r * Math.sin(b)];
+        const k = (right - left) / (r * (b - a));
+        const strip = document.createElement("div");
+        strip.className = "cyl-strip";
+        // A little over its width, so no hairline shows between strips
+        strip.style.left = `${left}px`;
+        strip.style.width = `${right - left + 0.4}px`;
+        const copy = print.cloneNode(true);
+        copy.style.transform = `translateX(${-(at + r * a) * k}px) scaleX(${k})`;
+        strip.append(copy);
+        cyl.append(strip);
+      }
     }
   })();
 </script>

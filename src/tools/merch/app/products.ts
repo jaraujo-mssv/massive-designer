@@ -44,6 +44,10 @@ export const PROOF_PDF = "/merch-files/massive-merch-proof.pdf";
 
 export const pdfUrl = (file: string) => `/merch-files/pdf/${file}.pdf`;
 export const pngUrl = (file: string) => `/merch-files/png/${file}.png`;
+/** A design's small preview for the sidebar, 160 px on a transparent ground (scripts/merch/thumbs.mjs) */
+export const thumbUrl = (file: string) => `/merch-files/thumbs/${file}.webp`;
+/** A mockup's small square preview for the sidebar, from its middle (scripts/merch/thumbs.mjs) */
+export const mockupThumbUrl = (id: string) => `/merch-files/thumbs/mockup-${id}.webp`;
 export const svgUrl = (file: string) => `/merch-files/svg/${file}.svg`;
 /** A product's desk photo, from `npm run merch:mockups` */
 export const mockupUrl = (id: string) => `/merch-files/mockups/${id}.jpg`;
@@ -84,6 +88,21 @@ const TEE_SIDES = [
   { id: "back-mountain", name: "Back · Mountain" },
   { id: "back-404", name: "Back · 404" },
 ];
+
+/** A tote's two files, as merch.html names them: <product>-<ground>. Dark is the ground printed; white, the bare fabric. */
+function totes(product: string, previewWidth: string): MerchDesign[] {
+  return [
+    { file: `${product}-dark`, name: "Dark", ground: "#0a0a0f", previewWidth },
+    { file: `${product}-white`, name: "White", ground: "#ffffff", previewWidth },
+  ];
+}
+const TOTE_STEPS = [
+  "On Printful, pick Black handles and Black stitching.",
+  "Upload the Dark or the White PNG to the all-over print area.",
+  "Leave it where it lands: it’s the whole strip the bag is sewn from, both sides, with the designs in place. In the mockup, check that the back is the right way up too.",
+];
+const TOTE_CAPTION =
+  "The file is the whole strip, folded at its middle into the bag’s bottom: the front is its top half, the back its bottom half, upside down. The design is the white halftone sticker, centred on each side’s safe area.";
 
 const PRINTFUL = { name: "Printful", url: "https://www.printful.com/custom-pajamas" };
 const PAJAMA_SPECS = [
@@ -184,6 +203,189 @@ export const PRODUCTS: MerchProduct[] = [
     mockups: TEE_COLOURS.flatMap(({ id, name }) =>
       TEE_SIDES.map((side) => ({ id: `tee-${side.id}-${id}`, name: `${side.name} · ${name}` })),
     ),
+  },
+  {
+    id: "tote",
+    name: "Tote bag",
+    vendor: { name: "Printful, All-Over Print Tote", url: "https://www.printful.com/custom/bags/totes/all-over-print-tote" },
+    specs: ["15.75 × 15.35 in, Black handles", "Dark or white, both sides", "PNG at 150 dpi, all-over print"],
+    notes:
+      "Polyester, printed before it’s cut and sewn, so the dark ground runs to every edge. White doesn’t print: on the white bag, the sticker’s white is the fabric. About $17.60 a bag from Printful, before shipping.",
+    steps: TOTE_STEPS,
+    table: {
+      title: "Sizes",
+      caption: TOTE_CAPTION,
+      head: ["Side", "Canvas", "Design", "Centre"],
+      rows: [
+        ["Front\nTop half", "17 × 33 in\n43.2 × 83.8 cm\n2550 × 4950 px", "10 × 3.6 in\n25.4 × 9.2 cm", "8.75 in from the top\n22.2 cm"],
+        ["Back\nBottom half, upside down", "17 × 33 in\n43.2 × 83.8 cm\n2550 × 4950 px", "10 × 3.6 in\n25.4 × 9.2 cm", "8.75 in from the bottom\n22.2 cm"],
+      ],
+    },
+    designs: totes("tote", "52%"),
+  },
+  {
+    id: "tote-large",
+    name: "Tote bag, large",
+    vendor: {
+      name: "Printful, All-Over Print Large Tote Bag",
+      url: "https://www.printful.com/custom/bags/totes/all-over-print-large-tote-bag",
+    },
+    specs: ["19.7 × 17.3 in, tapered, Black handles", "Dark or white, both sides", "PNG at 150 dpi, all-over print"],
+    notes:
+      "The bigger bag: tapered to 13.8 in at the bottom, with an inside pocket, which these files leave blank. Polyester, printed before it’s cut and sewn; on the white bag, the sticker’s white is the fabric. About $23.88 a bag from Printful, before shipping.",
+    steps: TOTE_STEPS,
+    table: {
+      title: "Sizes",
+      caption: TOTE_CAPTION,
+      head: ["Side", "Canvas", "Design", "Centre"],
+      rows: [
+        ["Front\nTop half", "21 × 37 in\n53.3 × 94 cm\n3150 × 5550 px", "12 × 4.3 in\n30.5 × 11 cm", "9.85 in from the top\n25 cm"],
+        ["Back\nBottom half, upside down", "21 × 37 in\n53.3 × 94 cm\n3150 × 5550 px", "12 × 4.3 in\n30.5 × 11 cm", "9.85 in from the bottom\n25 cm"],
+      ],
+    },
+    designs: totes("tote-large", "57%"),
+  },
+  {
+    id: "mug",
+    name: "Mug",
+    vendor: { name: "Printful, Ceramic Mug with Color Inside", url: "https://www.printful.com/custom/mugs/personalized/ceramic-mug" },
+    specs: ["11 oz, white, orange inside and handle", "The sticker on both sides", "PNG at 300 dpi, sublimation"],
+    notes:
+      "White ceramic with an orange rim, inside and handle: the print goes on the white. The sticker is on both sides, so it faces you with the handle in either hand. About $8.11 a mug from Printful, before shipping.",
+    steps: [
+      "On Printful, pick Orange, 11 oz (Orange only comes in 11 oz).",
+      "Upload the PNG and leave it where it lands: its two ends meet at the handle.",
+      "Check both sides in the mockup.",
+    ],
+    table: {
+      title: "Sizes",
+      caption: "The canvas is the file: the whole print area, at 300 dpi, wrapped round the mug.",
+      head: ["Print", "Canvas", "Design", "Centre"],
+      rows: [
+        [
+          "Both sides\nEach side of the handle",
+          "9 × 3.5 in\n22.9 × 8.9 cm\n2700 × 1050 px",
+          "3.15 × 1.1 in\n8 × 2.9 cm, each",
+          "2.55 in from the middle\n6.5 cm, either side",
+        ],
+      ],
+    },
+    wide: true,
+    designs: [{ file: "mug", name: "Both sides", ground: "#ffffff" }],
+  },
+  {
+    id: "bottle",
+    name: "Water bottle",
+    vendor: {
+      name: "Printful, Stainless Steel Water Bottle with a Straw Lid",
+      url: "https://www.printful.com/custom/drinkware/water-bottles/stainless-steel-water-bottle-with-a-straw-lid",
+    },
+    specs: ["32 oz stainless steel, white, straw lid", "The sticker on the front", "PNG at 300 dpi, sublimation"],
+    notes:
+      "Double-walled and insulated, with a black straw lid. It comes only in white and 32 oz. The print wraps all the way round, its two ends meeting at the back. About $21.80 a bottle from Printful, before shipping.",
+    steps: [
+      "On Printful, open the bottle (White, 32 oz).",
+      "Upload the PNG and leave it where it lands: the sticker is in the middle, opposite the seam.",
+    ],
+    table: {
+      title: "Sizes",
+      caption: "The canvas is the file: the whole wrap, at 300 dpi, a little longer than the bottle is round so its ends overlap.",
+      head: ["Print", "Canvas", "Design", "Centre"],
+      rows: [
+        [
+          "Front\nOpposite the seam",
+          "11.34 × 6.97 in\n28.8 × 17.7 cm\n3402 × 2091 px",
+          "3.15 × 1.1 in\n8 × 2.9 cm",
+          "In the middle\nAcross and down",
+        ],
+      ],
+    },
+    wide: true,
+    designs: [{ file: "bottle", name: "Front", ground: "#ffffff", previewWidth: "78%" }],
+  },
+  {
+    id: "bucket-hat",
+    name: "Bucket hat",
+    vendor: { name: "Rush Order Tees, Sportsman Bucket Hat", url: "https://www.rushordertees.com/catalog/sportsman/bucket-hat/?color=50" },
+    specs: ["Black, one size, cotton twill", "The logo on the front, 3.5 in wide", "Vector PDF, embroidery or print"],
+    notes:
+      "Unstructured, bio-washed cotton chino twill. Embroidered (6 hats at least) or printed (no minimum): the two files are the same logo, one for each order. Thread and screen ink can’t do the logo’s gradient, so the mountain is one orange, #F38165 (the gradient’s midpoint, as on the enamel pin), and the letters are white.",
+    steps: [
+      "On Rush Order Tees, open the bucket hat and pick Black.",
+      "Embroidery: upload the Embroidery PDF and ask for two threads, white and the one closest to #F38165. Their team digitizes it and sends a proof: check the letters and the notch in the mountain held.",
+      "Printing: upload the Print PDF, on the front only, in two colours, white and #F38165.",
+      "Set it 3.5 in wide, centred on the front of the crown.",
+    ],
+    table: {
+      title: "Sizes",
+      caption: "The file is the logo alone, at actual size, on a transparent ground: they place it. Their hat guide puts the most a hat takes at about 4 × 1.75 in.",
+      head: ["Method", "Design", "Colours", "Minimum"],
+      rows: [
+        ["Embroidery\nStitched, digitized by their team", "3.5 × 0.4 in\n8.9 × 1 cm", "White, coral thread\nThe closest to #F38165", "6 hats"],
+        ["Print\nFront only", "3.5 × 0.4 in\n8.9 × 1 cm", "White, coral ink\n#F38165", "None"],
+      ],
+    },
+    wide: true,
+    designs: [
+      { file: "bucket-hat-embroidery", name: "Embroidery", ground: "#1b151a", previewWidth: "88%" },
+      { file: "bucket-hat-print", name: "Print", ground: "#1b151a", previewWidth: "88%" },
+    ],
+  },
+  {
+    id: "hip-pack",
+    name: "Hip pack",
+    vendor: {
+      name: "Rush Order Tees, Port Authority BG936",
+      url: "https://www.rushordertees.com/catalog/port-authority/matte-hip-pack/?color=d57e",
+    },
+    specs: ["Deep Black, 8 × 5 × 1.7 in", "The logo on the front, 3.5 in wide", "Vector PDF, screen print"],
+    notes:
+      "Matte polyester, with a 4 × 4 in print area on the front panel (SanMar’s spec), printed in low-cure inks, which the printer handles. The back panel is left blank, as it faces the body. The logo is in two colours, white and #F38165, as on the hat.",
+    steps: [
+      "On Rush Order Tees, open the hip pack and pick Deep Black.",
+      "Upload the PDF to the front, in two colours, white and #F38165.",
+      "Set it 3.5 in wide, centred on the front panel.",
+    ],
+    table: {
+      title: "Sizes",
+      caption: "The file is the logo alone, at actual size, on a transparent ground: they place it.",
+      head: ["Print", "Area", "Design", "Colours"],
+      rows: [["Front\nThe top panel", "4 × 4 in\n10.2 × 10.2 cm", "3.5 × 0.4 in\n8.9 × 1 cm", "White, coral\n#F38165"]],
+    },
+    wide: true,
+    designs: [{ file: "hip-pack", name: "Front", ground: "#1d1d1d", previewWidth: "88%" }],
+  },
+  {
+    id: "glass-pc",
+    name: "Wooden glass · Prague Crawl afterparty",
+    vendor: { name: "Etsy, NieVerblassen", url: "https://www.etsy.com/listing/4424839315" },
+    specs: ["8.5 × 9 cm, 300 ml, wood", "Laser engraved, one colour", "6 × 5 cm a side (to confirm)", "Vector PDF"],
+    notes:
+      "For the Prague Crawl 2027 afterparty, two options to quote: Prague Crawl 2027 on one side and Massive × NodeMaven on the other, or Prague Crawl 2027 by Massive & NodeMaven on one side. The engraving is one colour, so the wordmark loses its gradient W and 3D edges, and the logos their gradients; black in the files is the burn. The listing gives no engraving area, so 6 × 5 cm a side is our guess from its photo. It’s listed from €22 a glass (on sale at €11 when we looked) and made in 5–7 business days.",
+    steps: [
+      "On Etsy, message NieVerblassen with both mockups and the three PDFs (the PNGs too, if they’d rather have those).",
+      "Ask for a price per glass for each option at the quantity you need, whether a second side costs more, and the largest engraving they can do on a side.",
+      "Ask whether the small logos in option 2 hold: their thinnest lines are about 0.3 mm. Then ask for a proof before they engrave.",
+    ],
+    table: {
+      title: "Sizes",
+      caption: "Each file is the art alone, at actual size, centred on the side it goes on.",
+      head: ["Engraving", "Size"],
+      rows: [
+        ["Option 1 · Side A\nPrague Crawl 2027", "6 × 4.5 cm\n2.36 × 1.77 in"],
+        ["Option 1 · Side B\nMassive × NodeMaven", "6 × 2.95 cm\n2.36 × 1.16 in"],
+        ["Option 2 · One side\nPrague Crawl 2027 by Massive & NodeMaven", "5.95 × 4.95 cm\n2.34 × 1.95 in"],
+      ],
+    },
+    designs: [
+      { file: "glass-pc-side-a", name: "Option 1 · Side A", ground: "#b8643a" },
+      { file: "glass-pc-side-b", name: "Option 1 · Side B", ground: "#b8643a" },
+      { file: "glass-pc-one-side", name: "Option 2 · One side", ground: "#b8643a" },
+    ],
+    mockups: [
+      { id: "glass-pc-two-sides", name: "Option 1 · Two sides" },
+      { id: "glass-pc-one-side", name: "Option 2 · One side" },
+    ],
   },
   {
     id: "card",

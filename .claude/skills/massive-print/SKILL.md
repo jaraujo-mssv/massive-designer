@@ -1,6 +1,6 @@
 ---
 name: massive-print
-description: Make, edit or render a Massive print piece or designed PDF in this repo. Use when the user asks for a poster, flyer, one-pager, handout, leaflet, business card, table tent, name badge, sign, certificate, event menu, document or white paper as a PDF, an A4/A5/A3/letter or custom-size sheet, a trade-show roll-up banner, or merch (buttons, pins, stickers, T-shirts, pajamas). Not for slide decks (massive-deck) or social images (massive-image). Covers the print pipeline (scripts/print), the older docs, one-pager and menu pipelines, roll-up banners, merch, rendering and where files go.
+description: Make, edit or render a Massive print piece or designed PDF in this repo. Use when the user asks for a poster, flyer, one-pager, handout, leaflet, business card, table tent, name badge, sign, certificate, event menu, document or white paper as a PDF, an A4/A5/A3/letter or custom-size sheet, a trade-show roll-up banner, or merch (buttons, pins, stickers, T-shirts, bucket hats, hip packs, pajamas). Not for slide decks (massive-deck) or social images (massive-image). Covers the print pipeline (scripts/print), the older docs, one-pager and menu pipelines, roll-up banners, merch, rendering and where files go.
 ---
 
 # Massive print
@@ -19,7 +19,7 @@ read it first.
 | The compliance one-pager | `scripts/onepager/` (cream, legacy) | `npm run onepager` | `output/onepager/` |
 | The Jaipur dinner menu | `scripts/menu/` (cream, legacy) | `npm run menu` | `output/menu/` |
 | Trade-show roll-up banners, 85 × 200 cm | `scripts/banners/` | `npm run banners:html`, `npm run banners` | `output/banners/<slug>.pdf` |
-| Buttons, pins, stickers, T-shirts, promo cards, pajamas | `scripts/merch/merch.html` | `npm run merch` | `public/merch-files/` (committed) |
+| Buttons, pins, stickers, T-shirts, tote bags, mugs, water bottles, bucket hats, hip packs, promo cards, pajamas | `scripts/merch/merch.html` | `npm run merch` | `public/merch-files/` (committed) |
 | Slides | the `massive-deck` skill | | |
 
 Edit the legacy docs, one-pager and menu in place when asked, but start new pieces in `scripts/print/`, even one that
@@ -70,13 +70,23 @@ bleed). A new composition goes in `compositions.mjs`; `scripts/banners/_assets/`
 
 `scripts/merch/merch.html` is the artwork and the print proof (Letter landscape, actual size, with guides). Its header
 comment has each vendor's spec: the 1" button, the 1" printed pin, the 1.25" soft-enamel pin and the 10 × 5 cm
-stickers (`stickers/*.svg`). The T-shirt is Printful's Comfort Colors 1717 in Black or Terracotta: a 12 × 16 in
+stickers (`stickers/*.svg`). The T-shirt is Printful's Comfort Colors 1717 in Black, Terracotta or White: a 12 × 16 in
 file for the front (the halftone sticker without its backing, `tees/*.svg`) and the back, each the whole print area
-on a transparent ground. The pajamas are made on Printful too: two 1 × 1 m seamless prints (the logo's mountain, and
+on a transparent ground. The tote bags, the mug and the water bottle are Printful's too, each file the whole print area:
+the mug with the white halftone sticker placed on it (`.on-sticker`), the totes and the bottle with the world map in
+orange outline (`world/world-outline.svg`) over "Access the [Massive] network" and joinmassive.com (`.on-access`; the
+black tote's logo has cream letters): a tote's file is the strip it's sewn from, the back upside
+down below the front; the mug and bottle files wrap round, and their mockups bend the print round the cylinder (the
+`.cyl` script at the end of the page). The bucket hat (embroidered or printed) and the hip pack come from Rush Order Tees,
+who place the art themselves: each file is the logo alone, 3.5 in wide, on a transparent ground, the mountain one orange
+(#F38165) and the letters white, as thread and screen ink can't do the gradient. The Prague Crawl wooden glass (Etsy) is laser engraved in one colour:
+its files are black art on a transparent ground, from the event's wordmark flattened to one colour and NodeMaven's
+logo, both in `scripts/merch/glass/`, and its mockups wrap the engraving round the glass. The pajamas are made on Printful too: two 1 × 1 m seamless prints (the logo's mountain, and
 the sleepy mountains in `pajamas/sleepy/`), each on the dark ground (White trim) and on white (Black trim), laid out
 on a lattice by the script at the end of the page, with front flats of Printful's seven garments. That script also
 makes their proof pages. A design's `data-dpi` sets its PNG's resolution (the prints are 150 dpi). Read the page
-before changing a design. `npm run merch` writes the PDFs, PNGs and SVGs to `public/merch-files/`, which the live
+before changing a design. `npm run merch` writes the PDFs, PNGs and SVGs to `public/merch-files/` (and the sidebar's 160 px previews to its
+`thumbs/`, `scripts/merch/thumbs.mjs`), which the live
 Merch tab serves, so commit them. `npm run merch:printful` then cuts the prints into Printful's print files, one per
 placement of each garment (listed in `src/tools/merch/app/printful.ts`), in `output/printful/`, not committed.
 `npm run merch:mockups` makes desk photos through ElevenLabs and costs credits: run it only when asked.

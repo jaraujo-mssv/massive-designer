@@ -68,6 +68,8 @@ interface SidebarLayoutProps {
   /** Phones: label of the bar button that opens the drawer. */
   editLabel?: string;
   editIcon?: Icon;
+  /** Phones: the Edit button takes the bar's whole width (for a tool with no barAction). */
+  editFullWidth?: boolean;
   /** Phones: a dot on the Edit button, for warnings waiting in the drawer. */
   attention?: boolean;
   /** Phones: the tool's main action, right of Edit in the bottom bar. */
@@ -91,6 +93,7 @@ export function SidebarLayout({
   onDrawerOpenChange,
   editLabel = "Edit",
   editIcon: EditIcon = SlidersHorizontal,
+  editFullWidth = false,
   attention = false,
   barAction,
   children,
@@ -116,7 +119,7 @@ export function SidebarLayout({
       >
         <button
           onClick={() => onDrawerOpenChange(true)}
-          className="relative flex items-center justify-center gap-2 px-4 py-2.5 bg-surface-2 border border-border-subtle text-text-primary rounded-lg text-sm font-medium"
+          className={`relative flex items-center justify-center gap-2 px-4 py-2.5 bg-surface-2 border border-border-subtle text-text-primary rounded-lg text-sm font-medium ${editFullWidth ? "flex-1" : ""}`}
         >
           <EditIcon size={16} weight="fill" />
           {editLabel}
@@ -124,7 +127,7 @@ export function SidebarLayout({
             <span aria-label="Has warnings" className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-amber-400" />
           )}
         </button>
-        <div className="flex-1 min-w-0">{barAction}</div>
+        {!editFullWidth && <div className="flex-1 min-w-0">{barAction}</div>}
       </div>
 
       <Drawer open={drawerOpen} onOpenChange={onDrawerOpenChange}>

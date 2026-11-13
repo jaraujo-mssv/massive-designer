@@ -4,6 +4,7 @@ import { dirname, resolve } from "node:path";
 import { pathToFileURL, fileURLToPath } from "node:url";
 import sharp from "sharp";
 import { writeCmykPdf } from "./cmyk-pdf.mjs";
+import { writeThumbs } from "./thumbs.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(__dirname, "..", "..");
@@ -64,8 +65,16 @@ for (const [file, dpi] of files) {
   if (dpi === 600) await art.screenshot({ path: png, omitBackground: true });
   // A design with its own dpi writes it into the PNG, so a fabric printer prints the metre at a metre
   else {
-    const shot = await art.screenshot({ omitBackground: true });
-    await sharp(shot).withMetadata({ density: dpi }).png({ compressionLevel: 9, adaptiveFiltering: true }).toFile(png);
+    let shot = sharp(await art.screenshot({ omitBackground: true }));
+    // The shot rounds out to whole CSS pixels: cut it to the design's own, so an 11.34 in bottle wrap is 3402 px (its
+    // template's), not 3403
+    const scale = dpi / 96;
+    const { width: shotW, height: shotH } = await shot.metadata();
+    const left = Math.round((box.x - Math.floor(box.x)) * scale);
+    const top = Math.round((box.y - Math.floor(box.y)) * scale);
+    const exact = { width: Math.min(Math.round(box.width * scale), shotW - left), height: Math.min(Math.round(box.height * scale), shotH - top) };
+    if (exact.width !== shotW || exact.height !== shotH) shot = sharp(await shot.extract({ left, top, ...exact }).toBuffer());
+    await shot.withMetadata({ density: dpi }).png({ compressionLevel: 9, adaptiveFiltering: true }).toFile(png);
   }
   // The page size goes in @page: page.pdf's width and height round further off.
   // pageRanges: a rounding overflow would otherwise add a blank second page.
@@ -146,4 +155,6 @@ for (const name of new Set(printFiles.map((p) => p.name))) {
 }
 
 await browser.close();
+// The sidebar's previews (thumbs.mjs), for whatever PNG just changed
+console.log(`  ✓ ${await writeThumbs()} thumbnail(s)`);
 console.log(`\nDone. The proof and ${files.length} designs in ${outDir}`);

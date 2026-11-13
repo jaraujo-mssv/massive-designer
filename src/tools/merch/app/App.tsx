@@ -1,7 +1,8 @@
 import { useEffect, useState, type CSSProperties, type MouseEvent as ReactMouseEvent } from "react";
 import { ArrowSquareOut, DownloadSimple, ListBullets } from "@phosphor-icons/react";
 import { SidebarLayout } from "@/shared/components/SidebarLayout";
-import { PRODUCTS, PROOF_PDF, mockupUrl, pdfUrl, pngUrl, svgUrl, type MerchDesign, type MerchProduct } from "./products";
+import { ImageButton } from "@/tools/content/app/components/Lightbox";
+import { PRODUCTS, PROOF_PDF, mockupThumbUrl, mockupUrl, pdfUrl, pngUrl, svgUrl, thumbUrl, type MerchDesign, type MerchProduct } from "./products";
 
 /** A round design's guides over its print file: the bleed dimmed, the face dashed, the safe line dotted. */
 function Guides({ guides }: { guides: NonNullable<MerchProduct["guides"]> }) {
@@ -89,24 +90,36 @@ const CHECKERBOARD: CSSProperties = {
   backgroundImage: "conic-gradient(#b8b8bd 25%, #9e9ea4 0 50%, #b8b8bd 0 75%, #9e9ea4 0)",
   backgroundSize: "16px 16px",
 };
+/** A design's ground as one CSS background, for the lightbox: its colour, or the checkerboard. */
+const groundOf = (design: MerchDesign) =>
+  design.ground ?? `${CHECKERBOARD.backgroundImage} 0 0 / ${CHECKERBOARD.backgroundSize}`;
 
 function DesignCard({ product, design }: { product: MerchProduct; design: MerchDesign }) {
   return (
     <figure className="flex flex-col gap-2 rounded-lg border border-border-subtle bg-surface p-2">
-      <div
-        className={`flex items-center justify-center rounded-md p-3 ${product.wide ? "aspect-[2/1]" : "aspect-square"}`}
-        style={design.ground ? { background: design.ground } : CHECKERBOARD}
+      <ImageButton
+        src={pngUrl(design.file)}
+        alt={`${product.name}, ${design.name}`}
+        caption={`${product.name} · ${design.name}`}
+        ground={groundOf(design)}
+        title="Open it larger"
+        className="rounded-md"
       >
-        <div className="relative w-full" style={design.previewWidth ? { width: design.previewWidth } : undefined}>
-          <img
-            src={pngUrl(design.file)}
-            alt={`${product.name}, ${design.name}`}
-            loading="lazy"
-            className="block h-auto w-full"
-          />
-          {product.guides && <Guides guides={product.guides} />}
-        </div>
-      </div>
+        <span
+          className={`flex items-center justify-center rounded-md p-3 ${product.wide ? "aspect-[2/1]" : "aspect-square"}`}
+          style={design.ground ? { background: design.ground } : CHECKERBOARD}
+        >
+          <span className="relative block w-full" style={design.previewWidth ? { width: design.previewWidth } : undefined}>
+            <img
+              src={pngUrl(design.file)}
+              alt={`${product.name}, ${design.name}`}
+              loading="lazy"
+              className="block h-auto w-full"
+            />
+            {product.guides && <Guides guides={product.guides} />}
+          </span>
+        </span>
+      </ImageButton>
       <figcaption className="flex flex-col gap-0.5 px-1">
         <span className="truncate font-mono text-xs text-text-primary">{design.name}</span>
         <span className="-ml-1.5 flex">
@@ -125,17 +138,25 @@ type MockupPhoto = { id: string; name?: string };
 function Mockup({ product, mockup, onMissing }: { product: MerchProduct; mockup: MockupPhoto; onMissing: () => void }) {
   return (
     <figure className="space-y-1">
-      <img
+      <ImageButton
         src={mockupUrl(mockup.id)}
-        alt={
-          mockup.name
-            ? `Mockup: the ${product.name}, ${mockup.name}`
-            : `Mockup: the ${product.name} designs on a desk, next to stationery for scale`
-        }
-        loading="lazy"
-        onError={onMissing}
-        className="block aspect-[3/2] h-auto w-full rounded-lg bg-surface-2 object-cover"
-      />
+        alt={mockup.name ? `Mockup: the ${product.name}, ${mockup.name}` : `Mockup: the ${product.name}`}
+        caption={mockup.name ? `${product.name} · ${mockup.name}` : `${product.name} · Mockup`}
+        title="Open it larger"
+        className="rounded-lg"
+      >
+        <img
+          src={mockupUrl(mockup.id)}
+          alt={
+            mockup.name
+              ? `Mockup: the ${product.name}, ${mockup.name}`
+              : `Mockup: the ${product.name} designs on a desk, next to stationery for scale`
+          }
+          loading="lazy"
+          onError={onMissing}
+          className="block aspect-[3/2] h-auto w-full rounded-lg bg-surface-2 object-cover"
+        />
+      </ImageButton>
       <figcaption className="-ml-1.5">
         <FileLink
           href={mockupUrl(mockup.id)}
@@ -191,6 +212,43 @@ function NotesTable({ table }: { table: NonNullable<MerchProduct["table"]> }) {
 
 const sectionId = (id: string) => `merch-${id}`;
 
+/**
+ * The product, small and square (thumbs.mjs makes the images): its first mockup, the one its section shows first, or
+ * with none, its first design on its ground as its card has it. A tall design (a tote's strip, its front over its
+ * back) fills the square from the top, so it shows the front, not a sliver.
+ */
+function SectionThumb({ product }: { product: MerchProduct }) {
+  const design = product.designs[0];
+  const mockup = (product.mockups ?? [{ id: product.id }])[0]?.id;
+  const [source, setSource] = useState<"mockup" | "design" | "none">(mockup ? "mockup" : "design");
+  const [tall, setTall] = useState(false);
+  const frame = "flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-md border border-border-subtle";
+  if (source === "mockup" && mockup) {
+    return (
+      <span aria-hidden className={`${frame} bg-surface-2`}>
+        <img src={mockupThumbUrl(mockup)} alt="" onError={() => setSource("design")} className="h-full w-full object-cover" />
+      </span>
+    );
+  }
+  return (
+    <span
+      aria-hidden
+      className={`${frame} ${tall ? "" : "p-0.5"}`}
+      style={design?.ground ? { background: design.ground } : { ...CHECKERBOARD, backgroundSize: "8px 8px" }}
+    >
+      {design && source === "design" && (
+        <img
+          src={thumbUrl(design.file)}
+          alt=""
+          onError={() => setSource("none")}
+          onLoad={(e) => setTall(e.currentTarget.naturalHeight > e.currentTarget.naturalWidth * 1.4)}
+          className={tall ? "h-full w-full object-cover object-top" : "max-h-full max-w-full object-contain"}
+        />
+      )}
+    </span>
+  );
+}
+
 /** One entry per product, each a jump to its section. `active` is the section in view. */
 function SectionList({ active, onJump }: { active: string; onJump: (id: string) => void }) {
   return (
@@ -200,13 +258,16 @@ function SectionList({ active, onJump }: { active: string; onJump: (id: string) 
           key={product.id}
           onClick={() => onJump(product.id)}
           aria-current={product.id === active ? "location" : undefined}
-          className={`flex w-full flex-col rounded-lg border px-2.5 py-2 text-left transition-colors ${
+          className={`flex w-full items-center gap-2.5 rounded-lg border px-2 py-1.5 text-left transition-colors ${
             product.id === active ? "border-brand/30 bg-surface-2" : "border-transparent hover:bg-surface-2"
           }`}
         >
-          <span className="truncate text-sm text-text-primary">{product.name}</span>
-          <span className="truncate font-mono text-[10px] text-text-dim">
-            {[`${product.designs.length} designs`, product.vendor?.name].filter(Boolean).join(" · ")}
+          <SectionThumb product={product} />
+          <span className="flex min-w-0 flex-col">
+            <span className="truncate text-sm text-text-primary">{product.name}</span>
+            <span className="truncate font-mono text-[10px] text-text-dim">
+              {[`${product.designs.length} design${product.designs.length === 1 ? "" : "s"}`, product.vendor?.name].filter(Boolean).join(" · ")}
+            </span>
           </span>
         </button>
       ))}
@@ -339,14 +400,16 @@ export default function App() {
       drawerContent={list}
       drawerOpen={drawerOpen}
       onDrawerOpenChange={setDrawerOpen}
-      editLabel="Sections"
+      editLabel="Merch List"
       editIcon={ListBullets}
+      editFullWidth
     >
       <div ref={setMain} className="min-h-0 min-w-0 flex-1 overflow-y-auto">
         <header className="space-y-3 px-3 pt-4 pb-5 md:px-6 md:pt-8 md:pb-7">
           <h1 className="text-xl md:text-2xl">Merch</h1>
           <p className="max-w-3xl text-sm text-text-dim">
-            Print files for Massive buttons, pins, stickers, T-shirts, promo cards, brochures and pajamas: the logo, the mountain,
+            Print files for Massive buttons, pins, stickers, T-shirts, tote bags, mugs, water bottles, bucket hats, hip packs,
+            promo cards, brochures and pajamas: the logo, the mountain,
             It’s Massive and the sleepy mountains. Each one is sized to its vendor’s template, ready to upload.
           </p>
           <a

@@ -6,6 +6,8 @@ interface Shown {
   src: string;
   alt: string;
   caption?: string;
+  /** A CSS background behind the image, for one with a transparent ground (a print file): its colour or a checkerboard. */
+  ground?: string;
 }
 
 /**
@@ -17,6 +19,7 @@ const pageImages = (): Shown[] =>
     src: el.dataset.lightboxSrc!,
     alt: el.dataset.lightboxAlt ?? "",
     caption: el.dataset.lightboxCaption,
+    ground: el.dataset.lightboxGround,
   }));
 
 /** Images full screen, one at a time: ←/→ to step, Esc, a click anywhere or the close button to shut it. */
@@ -55,7 +58,12 @@ function Lightbox({ images, start, onClose }: { images: Shown[]; start: number; 
       onClick={onClose}
       className="fixed inset-0 z-50 flex cursor-zoom-out flex-col items-center justify-center gap-3 bg-black/95 p-4"
     >
-      <img src={image.src} alt={image.alt} className="max-h-[calc(100vh-6rem)] max-w-full rounded-lg object-contain" />
+      <img
+        src={image.src}
+        alt={image.alt}
+        style={image.ground ? { background: image.ground } : undefined}
+        className="max-h-[calc(100vh-6rem)] max-w-full rounded-lg object-contain"
+      />
       <div className="flex items-center gap-3 font-mono text-xs text-text-dim">
         {last > 0 && (
           <button onClick={step(Math.max(0, index - 1))} disabled={index === 0} aria-label="Previous image" className="cursor-pointer rounded-lg p-2 hover:bg-surface-2 hover:text-text-primary disabled:opacity-30">
@@ -89,6 +97,7 @@ export function ImageButton({
   src,
   alt,
   caption,
+  ground,
   title,
   className = "",
   children,
@@ -96,6 +105,7 @@ export function ImageButton({
   src: string;
   alt: string;
   caption?: string;
+  ground?: string;
   title?: string;
   className?: string;
   children: ReactNode;
@@ -104,7 +114,7 @@ export function ImageButton({
   const show = () => {
     const images = pageImages();
     const start = images.findIndex((i) => i.src === src);
-    setOpen(start >= 0 ? { images, start } : { images: [{ src, alt, caption }], start: 0 });
+    setOpen(start >= 0 ? { images, start } : { images: [{ src, alt, caption, ground }], start: 0 });
   };
   return (
     <>
@@ -115,6 +125,7 @@ export function ImageButton({
         data-lightbox-src={src}
         data-lightbox-alt={alt}
         data-lightbox-caption={caption}
+        data-lightbox-ground={ground}
         className={`block w-full cursor-zoom-in text-left ${className}`}
       >
         {children}

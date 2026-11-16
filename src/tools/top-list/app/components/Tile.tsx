@@ -8,6 +8,7 @@ import {
   NAME_WEIGHT,
   RANK_TEXT_SHARE,
   RANK_TEXT_SHARE_ONE_DIGIT,
+  RANK_WEIGHT,
   VALUE_WEIGHT,
   tileContent,
 } from "../utils/tiers";
@@ -46,11 +47,12 @@ const TILE_STROKE = 2;
 const RANK_RIM = 0.06;
 
 /**
- * The rank as a brand-red circle with a white number, floating over an item's
- * top-left corner at `left`/`top` (TileCanvas draws it above every tile and row,
- * so it can reach over the gap). A rim in the canvas colour sets it off from
- * what it overlaps. `outlined` draws a ring in the text colour on the card
- * colour instead, for the legacy themes' card look.
+ * The rank as a circle in the text colour with the number in the canvas colour
+ * (white with a dark number on Dark, dark with a light number on Light), floating
+ * over an item's top-left corner at `left`/`top` (TileCanvas draws it above every
+ * tile and row, so it can reach over the gap). A rim in the canvas colour sets it
+ * off from what it overlaps. `outlined` draws a ring in the text colour on the
+ * card colour instead, for the legacy themes' card look.
  */
 export function RankBadge({ rank, size, left, top, outlined = false }: { rank: number; size: number; left: number; top: number; outlined?: boolean }) {
   return (
@@ -63,16 +65,16 @@ export function RankBadge({ rank, size, left, top, outlined = false }: { rank: n
         height: size,
         boxSizing: "border-box",
         borderRadius: "50%",
-        backgroundColor: outlined ? "var(--canvas-card-bg)" : "var(--canvas-red)",
+        backgroundColor: outlined ? "var(--canvas-card-bg)" : "var(--canvas-text)",
         // The legacy cards' stroke width.
         border: outlined ? `${TILE_STROKE}px solid var(--canvas-text)` : "none",
         boxShadow: `0 0 0 ${Math.max(3, size * RANK_RIM)}px var(--canvas-bg)`,
-        color: outlined ? "var(--canvas-text)" : "#ffffff",
+        color: outlined ? "var(--canvas-text)" : "var(--canvas-bg)",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         fontSize: size * (rank >= 10 ? RANK_TEXT_SHARE : RANK_TEXT_SHARE_ONE_DIGIT),
-        fontWeight: 800,
+        fontWeight: RANK_WEIGHT,
         lineHeight: 1,
         fontFamily: "Outfit, sans-serif",
         // Clicks reach the tile or row underneath (click-to-edit).

@@ -8,6 +8,8 @@ const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(mi
 export const NAME_WEIGHT = 600;
 export const VALUE_WEIGHT = 600;
 export const DESCRIPTION_WEIGHT = 500;
+/** Rank numbers, in every rank style. */
+export const RANK_WEIGHT = 800;
 
 /** A logo smaller than this many names-worth stops being recognisable, so text gets dropped instead. */
 const MIN_LOGO_SCALE = 1.6;

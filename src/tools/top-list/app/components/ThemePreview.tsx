@@ -80,7 +80,7 @@ export function ThemePreview({ legacy }: ThemePreviewProps) {
             }}
           >
             <span
-              style={{ display: "block", flexShrink: 0, width: 5, height: 5, borderRadius: "50%", backgroundColor: "var(--canvas-red)" }}
+              style={{ display: "block", flexShrink: 0, width: 5, height: 5, borderRadius: "50%", backgroundColor: "var(--canvas-text)" }}
             />
             <MockLogo size={6} i={i} />
             <span

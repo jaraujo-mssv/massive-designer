@@ -82,7 +82,7 @@ Enlarged tiles are no longer to scale, so the sidebar says how many there are. T
 
 - **Short last row:** when the last row isn't full, its tiles stretch to fill it. 10 companies read 4 + 4 + 2, with the bottom two tiles twice as wide.
 - **Same content size everywhere:** every tile's logo and text are sized from a regular full-row tile, so the stretched bottom tiles don't look bigger than rank 1. Names still get the stretched tile's full width to fit in.
-- **Rank (floating), Grid and List alike:** a brand-red circle (`--canvas-red`) with the number in white (800), floating over the item's top-left corner: 70% of it inside the item, 30% out over the gap (`RANK_INSIDE`).
+- **Rank (floating), Grid and List alike:** a circle in the text colour (`--canvas-text`) with the number in the canvas colour (`--canvas-bg`, 800): white with a dark number on Dark, dark with a light number on Light (it was brand red with a white number, which reads poorly when small). It floats over the item's top-left corner: 70% of it inside the item, 30% out over the gap (`RANK_INSIDE`). In List it's the Badge rank style; see List: columns and rank styles.
   - **Drawn by TileCanvas**, after every tile and row, so it sits above the neighbours it reaches over. Tiles and rows clip their content, so it can't be drawn inside them. It ignores clicks, so click-to-edit still reaches the item underneath.
   - **A rim** in `--canvas-bg` (6% of the diameter) sets it off from what it overlaps.
   - **Diameter:** `clamp(short side × 0.48, min, min × 2.1)` (`rankBadgeSize`), where `min` (`rankBadgeMin`) keeps a two-digit number at 0.68× the readable size for secondary text. The number is 0.56 of the circle with two digits and 0.66 with one. About 61 px on a Vertical grid of 10.
@@ -90,6 +90,25 @@ Enlarged tiles are no longer to scale, so the sidebar says how many there are. T
     - Tiles keep only their logo clear of the badge (`tileRankSize` caps it so the smallest logo still fits beside it), and the text under the logo always starts below it, so tiles lose no height to it.
     - A List row's logo starts at the padding when it sits below the badge, else beside it (`lead`).
 - **Shared with Bento:** grid rects go through the same `insetAndSnap` as the treemap, with the same 12 px gap, and outer tiles are flush with the edges.
+
+## List: columns and rank styles
+
+`utils/list.ts` (`listRects`, `listRank`), picked in the Design panel under Layout. Only the List under Dark and Light has them. The legacy List keeps its own columns and ring.
+
+- **Columns:** Auto (the default), One or Two (`ListColumns`). Auto puts up to 16 companies in one column (`ONE_COLUMN_MAX`) and splits 17 or more into two, ranked down the left column first.
+  - **Trade-off:** on Vertical, 16 rows are about 55 px tall, so names shrink below the readable size and the sidebar warns. One column holds about 13 rows on Vertical, 10 on Square and 7 on Horizontal at readable size. With One picked, the warning suggests two columns.
+- **Rank:** four styles to compare, all in the theme's text colour:
+
+| Style | Drawn | Number size | Room |
+|---|---|---|---|
+| Badge | the floating circle above (`RankBadge`) | as Grid | 30% overhang above the first row |
+| Number | big plain numbers left of each row, right-aligned, in `--canvas-text` (TileCanvas) | `min(clamp(h × 0.62, primary × 1.5, primary × 4), h)` | a gutter before every row: the widest number plus 0.25 of its size after it and 0.15 before it |
+| Tab | a full-height block along the row's left edge, `--canvas-text` with the number in `--canvas-bg` (ListRow) | `min(clamp(h × 0.42, primary × 1.4, primary × 2.6), h × 0.75)` | the tab: the widest number plus 0.35 of its size each side |
+| Circle | a big circle inside the row before the logo, same colours (ListRow) | 0.56 of the circle for lists of 10 or more, else 0.66 | `min(inner height, clamp(h × 0.7, primary × 1.8, primary × 3.4))` |
+
+  - **One size for the whole list:** `h` is the shortest row's height. The number, tab or circle takes at most 20% of the row's width (`MAX_RANK_SHARE`), so names keep room in two columns.
+  - **Measured:** about 19pt on a phone for Number on a Vertical list of 10 in one column, and about 24pt in two columns, against 11–13pt for the Badge.
+  - **The choice is remembered** like the layout (`top-list.columns`, `top-list.rank`). The Badge is the default until a style is picked.
 
 ## List layout: long names
 
@@ -175,8 +194,8 @@ It uses the shared **Design** panel, with no spreadsheet switch because sizing i
 
 - **Size:** Vertical / Square / Horizontal
 - **Theme:** a sideways-scrolling row of theme cards, each a live preview (`components/ThemePreview.tsx`)
-- **Layout:** List / Grid
-- **Remembered:** the theme, the layout and the version (New, the default, or Legacy) are kept in the browser (`top-list.theme`, `top-list.layout`, `top-list.version`), so the tool opens as it was left. See Themes in [market-map.md](market-map.md).
+- **Layout:** List / Grid; under List (Dark and Light), **Columns** (Auto / One / Two) and **Rank** (Badge / Number / Tab / Circle)
+- **Remembered:** the theme, the layout, the List's columns and rank style, and the version (New, the default, or Legacy) are kept in the browser (`top-list.theme`, `top-list.layout`, `top-list.columns`, `top-list.rank`, `top-list.version`), so the tool opens as it was left. See Themes in [market-map.md](market-map.md).
 - **Show "Presented by":** a switch
 - **Data:** the company count and which layout was chosen, skipped rows with reasons, duplicate names, and (Bento) how many tiles are shown at minimum size
 - **Import:** CSV/TSV file, Google Sheets URL, a column hint, and the Examples list (Load / Open); shown only while no list is loaded

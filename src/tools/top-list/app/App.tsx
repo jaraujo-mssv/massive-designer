@@ -25,10 +25,13 @@ import { ListEditor, ListEditTarget } from "./components/ListEditor";
 import { LegibilityReport, TileCanvas } from "./components/TileCanvas";
 import { ThemePreview } from "./components/ThemePreview";
 import { DEFAULT_SIZE, EXAMPLES, PRESETS, SIZES, TopListSizeId } from "./constants";
+import type { ListColumns, RankStyle } from "./utils/list";
 import { Layout, ListItem, ListView, parseSheet } from "./utils/parseSheet";
 
 const EXPORT_AREA_ID = "top-list-export-area";
 const LIST_VIEWS: readonly ListView[] = ["list", "grid"];
+const LIST_COLUMNS: readonly ListColumns[] = ["auto", "one", "two"];
+const RANK_STYLES: readonly RankStyle[] = ["badge", "number", "tab", "circle"];
 const DEFAULT_TITLE = "<b>Top List</b>";
 const DEFAULT_DATE = "<b>By Massive</b>";
 
@@ -47,6 +50,9 @@ export default function App() {
   // List rows or tiles; picked in the sidebar and kept across loads. Layout and
   // theme open as they were last time in this browser.
   const [view, setView] = useRemembered<ListView>("top-list.layout", "list", LIST_VIEWS);
+  // The List's columns and rank style (modern themes only), kept the same way.
+  const [columns, setColumns] = useRemembered<ListColumns>("top-list.columns", "auto", LIST_COLUMNS);
+  const [rankStyle, setRankStyle] = useRemembered<RankStyle>("top-list.rank", "badge", RANK_STYLES);
   const [symbol, setSymbol] = useState("$");
   const [title, setTitle] = useState(DEFAULT_TITLE);
   const [date, setDate] = useState(DEFAULT_DATE);
@@ -164,7 +170,12 @@ export default function App() {
     toSheetTsv({ title, date, header: ["position", "company", "logo", "value", "url"], rows });
 
   // What didn't fit at a phone-readable size; shown above Download.
-  const tip = size === "vertical" ? "Try fewer companies." : "Try Vertical, or fewer companies.";
+  const tip =
+    view === "list" && !legacy && columns === "one"
+      ? "Try two columns, or fewer companies."
+      : size === "vertical"
+        ? "Try fewer companies."
+        : "Try Vertical, or fewer companies.";
   const legibilityWarning = items.length > 0 && legibility && (legibility.shrunkNames > 0 || legibility.logoOnly > 0) && (
     <SidebarWarning>
       {legibility.shrunkNames > 0 ? (
@@ -218,17 +229,49 @@ export default function App() {
         showPresentedBy={showPresentedBy}
         onShowPresentedByChange={setShowPresentedBy}
         designExtra={
-          <div className="space-y-2">
-            <Label className="text-xs font-medium text-text-dim uppercase tracking-wide">Layout</Label>
-            <Segmented
-              options={[
-                { id: "list" as const, label: "List", icon: ListNumbers },
-                { id: "grid" as const, label: "Grid", icon: SquaresFour },
-              ]}
-              value={view}
-              onChange={setView}
-            />
-          </div>
+          <>
+            <div className="space-y-2">
+              <Label className="text-xs font-medium text-text-dim uppercase tracking-wide">Layout</Label>
+              <Segmented
+                options={[
+                  { id: "list" as const, label: "List", icon: ListNumbers },
+                  { id: "grid" as const, label: "Grid", icon: SquaresFour },
+                ]}
+                value={view}
+                onChange={setView}
+              />
+            </div>
+            {/* The legacy List keeps the old columns and ring. */}
+            {view === "list" && !legacy && (
+              <>
+                <div className="space-y-2">
+                  <Label className="text-xs font-medium text-text-dim uppercase tracking-wide">Columns</Label>
+                  <Segmented
+                    options={[
+                      { id: "auto" as const, label: "Auto" },
+                      { id: "one" as const, label: "One" },
+                      { id: "two" as const, label: "Two" },
+                    ]}
+                    value={columns}
+                    onChange={setColumns}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label className="text-xs font-medium text-text-dim uppercase tracking-wide">Rank</Label>
+                  <Segmented
+                    options={[
+                      { id: "badge" as const, label: "Badge" },
+                      { id: "number" as const, label: "Number" },
+                      { id: "tab" as const, label: "Tab" },
+                      { id: "circle" as const, label: "Circle" },
+                    ]}
+                    value={rankStyle}
+                    onChange={setRankStyle}
+                  />
+                </div>
+              </>
+            )}
+          </>
         }
         summary={sidebarSummary}
         editPanel={
@@ -291,6 +334,8 @@ export default function App() {
             view={view}
             legacy={legacy}
             layout={layout}
+            columns={columns}
+            rankStyle={rankStyle}
             items={items}
             symbol={symbol}
             minTileSide={preset.minTileSide}

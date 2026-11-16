@@ -142,7 +142,8 @@ Both turn a spreadsheet of companies into a branded JPG. They share `src/shared/
 - `useSheetLoader.ts` + `src/shared/utils/googleSheets.ts`: loads `?e=<sheet id or URL>` once on mount. The sheet
   must be shared as "Anyone with the link can view". `sheetText.ts` reads the `__TITLE__` and `__DATE__` rows and
   ignores every other `__` row.
-- `remembered.ts`: localStorage `<tool>.version`, `<tool>.theme` and `<tool>.layout`.
+- `remembered.ts`: localStorage `<tool>.version`, `<tool>.theme` and `<tool>.layout` (Top List also keeps
+  `top-list.columns` and `top-list.rank`).
 - `ToolVersion.tsx`: the **New | Legacy** switch. Both versions live at the same URL; the pick is remembered per browser.
 - `logos/`: a logo is looked up in this order: the sheet's own logo, Logo.dev, Google favicon, unavatar, DuckDuckGo,
   then initials (`InitialsLogo.tsx`). Logo.dev's token is read from the sheet's own `img.logo.dev` URLs; there's
@@ -164,7 +165,8 @@ Legacy themes force Columns. `?f=` opens the Legacy app. Examples are in `consta
 
 **Top List** (`src/tools/top-list/app/`). Sheet columns: `position` (or `rank`), `name` (or `company`), `logo`,
 `value` (or `valuation`, `market cap`), `url`. Views:
-- **List** (default): `utils/list.ts`, or `utils/legacyList.ts` under a legacy theme.
+- **List** (default): `utils/list.ts`, or `utils/legacyList.ts` under a legacy theme. One column up to 16 companies,
+  else two (or One/Two in the Design panel), and four rank styles to compare (Badge, Number, Tab, Circle).
 - **Grid**: when every row has a readable value (`utils/value.ts`), tile areas follow the values (Bento:
   `utils/minArea.ts` + `squarify`). Otherwise the tiles are equal, in rank order (`utils/grid.ts`).
 

@@ -3,8 +3,8 @@ import type { LegibleSizes } from "@/shared/canvas/legibility";
 import type { Layout, ListItem, ListView } from "../utils/parseSheet";
 import { gridRects } from "../utils/grid";
 import { LegacyListLayout, legacyListLayout } from "../utils/legacyList";
-import { ListFit, listFit, listRects, listRowContent } from "../utils/list";
-import { RANK_INSIDE, rankBadgeSize, tileContent, tileRankSize } from "../utils/tiers";
+import { ListColumns, ListFit, listFit, ListRank, listRank, listRects, listRowContent, NUMBER_GAP, RankStyle } from "../utils/list";
+import { RANK_INSIDE, RANK_WEIGHT, rankBadgeSize, tileContent, tileRankSize } from "../utils/tiers";
 import { allocateAreas } from "../utils/minArea";
 import { insetAndSnap, Rect, squarify } from "@/shared/canvas/squarify";
 import { formatValue } from "../utils/value";
@@ -21,6 +21,10 @@ interface TileCanvasProps {
   /** A legacy theme: the old columns of cards in List, and the old card look on tiles. */
   legacy: boolean;
   layout: Layout;
+  /** List only (not legacy): one or two columns, or by the count. */
+  columns: ListColumns;
+  /** List only (not legacy): how the ranks are drawn. */
+  rankStyle: RankStyle;
   items: ListItem[];
   symbol: string;
   /** Bento only; raised to fit a phone-readable name when that needs more. */
@@ -60,6 +64,8 @@ export function TileCanvas({
   view,
   legacy,
   layout,
+  columns,
+  rankStyle,
   items,
   symbol,
   minTileSide,
@@ -107,6 +113,8 @@ export function TileCanvas({
     valueBelow?: boolean;
     /** The name and logo sizes every List row shares. */
     listFit?: ListFit;
+    /** The List's ranks: their style, number size and room. */
+    listRank?: ListRank;
     /** The legacy List's shared card metrics, when that's what's drawn. */
     legacyList?: LegacyListLayout;
     /** Diameter of the rank badges floating over each item's top-left corner, or 0 for none (Bento). */
@@ -146,11 +154,18 @@ export function TileCanvas({
       // Every row's content is sized from the shortest row (the left column's, when
       // the right one has fewer, taller rows), so all rows match.
       const listAt = (top: number) => {
-        const list = listRects(items.length, boundsBelow(top));
+        const list = listRects(items.length, boundsBelow(top), columns);
         const rects = insetAndSnap(list.rects, tileGap);
         return { list, rects, regular: { w: rects[0].w, h: Math.min(...rects.map((r) => r.h)) } };
       };
-      const { list, rects, regular } = listAt(rankBadgeSize(listAt(0).regular.h, legible) * RANK_OUTSIDE);
+      // Only the badge reaches over the row's top-left corner, so only it needs room above.
+      const first = listAt(0);
+      const { list, rects: rowRects, regular: rowRegular } =
+        rankStyle === "badge" ? listAt(rankBadgeSize(first.regular.h, legible) * RANK_OUTSIDE) : first;
+      const rank = listRank(rankStyle, rowRegular.w, rowRegular.h, legible, items.map((i) => i.rank));
+      // Numbers sit to the left of their rows: each row starts after them.
+      const rects = rank.gutter ? rowRects.map((r) => ({ ...r, x: r.x + rank.gutter, w: r.w - rank.gutter })) : rowRects;
+      const regular = { w: rowRegular.w - rank.gutter, h: rowRegular.h };
       // Half-width rows put the value under the name, to leave the name the row's width.
       const valueBelow = list.columns > 1 && items.some((i) => valueText(i, symbol));
       // One name size and one logo size for every row, made to fit the longest names.
@@ -161,13 +176,15 @@ export function TileCanvas({
         legible,
         withDescriptions,
         valueBelow,
+        rank,
       );
       return {
         tiles: items.map((item, i) => ({ item, rect: rects[i], sizing: regular })),
         atMinimum: 0,
         valueBelow,
         listFit: fit,
-        rankSize: rankBadgeSize(regular.h, legible),
+        listRank: rank,
+        rankSize: rankStyle === "badge" ? rankBadgeSize(regular.h, legible) : 0,
       };
     }
     if (layout === "grid") {
@@ -197,7 +214,7 @@ export function TileCanvas({
       rankSize: 0,
     };
     // fontsVersion re-runs the tiles' text fitting after the font loads.
-  }, [view, legacy, layout, items, symbol, withDescriptions, box.w, box.h, minTileSide, tileGap, legible, fontsVersion]);
+  }, [view, legacy, layout, columns, rankStyle, items, symbol, withDescriptions, box.w, box.h, minTileSide, tileGap, legible, fontsVersion]);
 
   useEffect(() => {
     onMinimumCountChange?.(placed.atMinimum);
@@ -227,6 +244,7 @@ export function TileCanvas({
           withDescriptions,
           placed.valueBelow,
           placed.listFit,
+          placed.listRank,
         );
         if (c.shrunk) {
           shrunkNames++;
@@ -274,6 +292,8 @@ export function TileCanvas({
             withDescription={withDescriptions}
             valueBelow={placed.valueBelow}
             fit={placed.listFit}
+            rank={item.rank}
+            rankStyle={placed.listRank}
             name={item.name}
             description={item.description}
             logoUrl={item.logoUrl}
@@ -299,6 +319,32 @@ export function TileCanvas({
           />
         );
       })}
+      {/* Big numbers, right-aligned in the space left of each row. */}
+      {placed.listRank?.style === "number" &&
+        placed.tiles.map(({ item, rect }) => (
+          <div
+            key={`rank-${item.id}`}
+            aria-hidden
+            style={{
+              position: "absolute",
+              left: rect.x - placed.listRank!.gutter,
+              top: rect.y,
+              width: placed.listRank!.gutter - placed.listRank!.fontSize * NUMBER_GAP,
+              height: rect.h,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "flex-end",
+              fontFamily: "Outfit, sans-serif",
+              fontSize: placed.listRank!.fontSize,
+              fontWeight: RANK_WEIGHT,
+              lineHeight: 1,
+              color: "var(--canvas-text)",
+              pointerEvents: "none",
+            }}
+          >
+            {item.rank}
+          </div>
+        ))}
       {/* After every tile and row, so each badge sits above the neighbours it reaches over. */}
       {placed.rankSize > 0 &&
         placed.tiles.map(({ item, rect }) => (

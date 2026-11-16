@@ -1,7 +1,16 @@
 import type { LegibleSizes } from '@/shared/canvas/legibility';
 import type { Rect } from '@/shared/canvas/squarify';
 import { fitText, textWidth, wrapLines } from '@/shared/canvas/measureText';
-import { DESCRIPTION_WEIGHT, NAME_WEIGHT, RANK_INSIDE, rankBadgeSize, VALUE_WEIGHT } from './tiers';
+import {
+  DESCRIPTION_WEIGHT,
+  NAME_WEIGHT,
+  RANK_INSIDE,
+  RANK_TEXT_SHARE,
+  RANK_TEXT_SHARE_ONE_DIGIT,
+  RANK_WEIGHT,
+  rankBadgeSize,
+  VALUE_WEIGHT,
+} from './tiers';
 
 const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v));
 
@@ -22,13 +31,16 @@ const MIN_PADDING = 10;
 
 const rowPadding = (h: number) => clamp(h * 0.12, MIN_PADDING, 28);
 
-/** Up to this many companies sit in one column; more go into two. */
-const ONE_COLUMN_MAX = 7;
+/** Up to this many companies sit in one column; more go into two (Columns: Auto). */
+const ONE_COLUMN_MAX = 16;
+
+/** The List's columns, picked in the sidebar: by the count (ONE_COLUMN_MAX), or always one or two. */
+export type ListColumns = 'auto' | 'one' | 'two';
 
 /**
  * Full-width rows for the List layout, one per item, sharing the height
- * equally. Past ONE_COLUMN_MAX items the rows go into two columns, ranked
- * down the left column first, then the right.
+ * equally. Past ONE_COLUMN_MAX items (or always, with `columns` "two") the
+ * rows go into two columns, ranked down the left column first, then the right.
  * Each column fills the full height, so with an odd count the right column's
  * rows are a little taller (TileCanvas sizes every row's content from the
  * shortest, so they still match).
@@ -36,9 +48,9 @@ const ONE_COLUMN_MAX = 7;
  * Returned in item order, the same Rect shape as `gridRects`, so both go
  * through `insetAndSnap`.
  */
-export function listRects(count: number, bounds: Rect): { rects: Rect[]; columns: 1 | 2 } {
+export function listRects(count: number, bounds: Rect, pick: ListColumns = 'auto'): { rects: Rect[]; columns: 1 | 2 } {
   if (count <= 0) return { rects: [], columns: 1 };
-  const columns: 1 | 2 = count > ONE_COLUMN_MAX ? 2 : 1;
+  const columns: 1 | 2 = count < 2 || pick === 'one' ? 1 : pick === 'two' || count > ONE_COLUMN_MAX ? 2 : 1;
   const leftRows = Math.ceil(count / columns);
   const colW = bounds.w / columns;
   const rects: Rect[] = [];
@@ -51,9 +63,66 @@ export function listRects(count: number, bounds: Rect): { rects: Rect[]; columns
   return { rects, columns };
 }
 
+/**
+ * How the List draws its ranks, picked in the sidebar: `badge`, a circle over
+ * the row's top-left corner (as Grid tiles); `number`, big numbers beside each
+ * row; `tab`, a block along the row's left edge; `circle`, a big circle inside
+ * the row before the logo. All but the badge are List only.
+ */
+export type RankStyle = 'badge' | 'number' | 'tab' | 'circle';
+
+/** A List's ranks: one number size for every row, and the room they take (listRank). */
+export interface ListRank {
+  style: RankStyle;
+  /** The number's font size (number, tab, circle); badges size their own (RankBadge). */
+  fontSize: number;
+  /** `number`: the width the numbers take to the left of every row, the space to the row included; else 0. */
+  gutter: number;
+  /** `tab`: its width; `circle`: its diameter; else 0. */
+  box: number;
+}
+
+/** Space between a `number` and its row, as a share of the number's size. */
+export const NUMBER_GAP = 0.25;
+/** Space before the widest `number`, so a second column's numbers keep clear of the first column's rows. */
+const NUMBER_LEAD = 0.15;
+/** A tab's padding either side of its number, as a share of the number's size. */
+const TAB_PAD = 0.35;
+/** The most of a row's width a number, tab or circle may take, so names keep room (two columns). */
+const MAX_RANK_SHARE = 0.2;
+
+/**
+ * The ranks' size and room for List rows `w` × `h`, the same for every row.
+ * Numbers are sized from the row's height, well above the phone-readable name
+ * size (`legible.primary`), but take at most MAX_RANK_SHARE of the row's width;
+ * the room is made for the widest of `ranks`.
+ */
+export function listRank(style: RankStyle, w: number, h: number, legible: LegibleSizes, ranks: number[]): ListRank {
+  const { primary } = legible;
+  const maxRoom = w * MAX_RANK_SHARE;
+  // The widest number's width per px of font size (measured large, for accuracy).
+  const widest = Math.max(0, ...ranks.map((r) => textWidth(String(r), 100, RANK_WEIGHT))) / 100;
+  if (style === 'number') {
+    const room = widest + NUMBER_GAP + NUMBER_LEAD;
+    const fontSize = Math.min(clamp(h * 0.62, primary * 1.5, primary * 4), h, maxRoom / room);
+    return { style, fontSize, gutter: fontSize * room, box: 0 };
+  }
+  if (style === 'tab') {
+    const fontSize = Math.min(clamp(h * 0.42, primary * 1.4, primary * 2.6), h * 0.75, maxRoom / (widest + TAB_PAD * 2));
+    return { style, fontSize, gutter: 0, box: fontSize * (widest + TAB_PAD * 2) };
+  }
+  if (style === 'circle') {
+    const box = Math.min(h - rowPadding(h) * 2, clamp(h * 0.7, primary * 1.8, primary * 3.4), maxRoom);
+    // One size for the whole list: two-digit lists size every number for two digits.
+    const share = Math.max(0, ...ranks) >= 10 ? RANK_TEXT_SHARE : RANK_TEXT_SHARE_ONE_DIGIT;
+    return { style, fontSize: box * share, gutter: 0, box };
+  }
+  return { style, fontSize: 0, gutter: 0, box: 0 };
+}
+
 export interface ListRowContent {
   padding: number;
-  /** Where the logo starts: the padding, or beside the rank badge when the logo would reach under it. */
+  /** Where the logo starts: the padding, beside the rank badge when the logo would reach under it, or after a tab or circle. */
   lead: number;
   gap: number;
   /** Diameter of the rank badge floating over the row's top-left corner. */
@@ -121,7 +190,7 @@ interface RowMetrics {
  * must fit in the row, even if that means going small. Every row of a list
  * has the same height, so this is the same for all of them.
  */
-function rowMetrics(h: number, legible: LegibleSizes, withDescription: boolean, valueBelow: boolean): RowMetrics {
+function rowMetrics(h: number, legible: LegibleSizes, withDescription: boolean, valueBelow: boolean, rank?: ListRank): RowMetrics {
   const { primary, secondary } = legible;
   const padding = rowPadding(h);
   const innerH = h - padding * 2;
@@ -129,9 +198,19 @@ function rowMetrics(h: number, legible: LegibleSizes, withDescription: boolean, 
   const rankSize = rankBadgeSize(h, legible);
   const logoSize = Math.min(clamp(h * 0.6, primary * 1.4, Math.max(84, primary * 2)), innerH);
   // The badge floats over the row's top-left corner: a logo that would reach under
-  // its part inside the row starts beside it instead.
+  // its part inside the row starts beside it instead. A tab or circle sits inside
+  // the row before the logo; numbers sit outside it.
   const corner = rankSize * RANK_INSIDE;
-  const lead = (h - logoSize) / 2 >= corner ? padding : Math.max(padding, corner + gap / 2);
+  const lead =
+    rank?.style === 'tab'
+      ? rank.box + gap
+      : rank?.style === 'circle'
+        ? padding + rank.box + gap
+        : rank?.style === 'number'
+          ? padding
+          : (h - logoSize) / 2 >= corner
+            ? padding
+            : Math.max(padding, corner + gap / 2);
 
   const descSizeFor = (size: number) => Math.max(secondary, size * 0.65);
   const valueSizeFor = (size: number) => Math.max(secondary, size * 0.9);
@@ -213,8 +292,10 @@ export function listFit(
   legible: LegibleSizes,
   withDescription: boolean,
   valueBelow = false,
+  /** The list's ranks, when they take room in the row (tab, circle); the badge's rule without. */
+  rank?: ListRank,
 ): ListFit {
-  const m = rowMetrics(h, legible, withDescription, valueBelow);
+  const m = rowMetrics(h, legible, withDescription, valueBelow, rank);
   // Per row, the width for the logo and the name pill; the same at every name size.
   const room = rows.map((r) => ({ name: r.name, width: logoAndText(w, m, rightValue(r.value, w, m, valueBelow).width) }));
   const pill = (name: string, size: number) => textWidth(name, size, NAME_WEIGHT) + size * PILL_PAD_X * 2;
@@ -263,9 +344,11 @@ export function listRowContent(
   valueBelow = false,
   /** The sizes the whole list shares; without it, the row fits on its own. */
   fit?: ListFit,
+  /** The list's ranks (listRank); the badge's rule without. */
+  rank?: ListRank,
 ): ListRowContent {
-  const m = rowMetrics(h, legible, withDescription, valueBelow);
-  const { nameSize, logoSize } = fit ?? listFit([{ name, value }], w, h, legible, withDescription, valueBelow);
+  const m = rowMetrics(h, legible, withDescription, valueBelow, rank);
+  const { nameSize, logoSize } = fit ?? listFit([{ name, value }], w, h, legible, withDescription, valueBelow, rank);
   const { descriptionSize, descLines, valueSize } = m;
 
   // A value on the right takes its width from the text column; one under the name is fitted to it below.

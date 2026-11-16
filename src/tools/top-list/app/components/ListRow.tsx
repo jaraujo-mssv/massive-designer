@@ -3,8 +3,8 @@ import type { LegibleSizes } from "@/shared/canvas/legibility";
 import { InitialsLogo, initialsColor } from "@/shared/canvas/logos/InitialsLogo";
 import { useResolvedLogo } from "@/shared/canvas/logos/resolve";
 import type { Rect } from "@/shared/canvas/squarify";
-import { DESCRIPTION_WEIGHT, NAME_WEIGHT, VALUE_WEIGHT } from "../utils/tiers";
-import { ListFit, listRowContent } from "../utils/list";
+import { DESCRIPTION_WEIGHT, NAME_WEIGHT, RANK_WEIGHT, VALUE_WEIGHT } from "../utils/tiers";
+import { ListFit, ListRank, listRowContent } from "../utils/list";
 
 /** How strongly the blurred logo colours the row (as tiles); light, so text stays high-contrast. */
 const LOGO_WASH_OPACITY = 0.18;
@@ -21,6 +21,10 @@ interface ListRowProps {
   valueBelow?: boolean;
   /** The name and logo sizes the whole list shares (listFit). */
   fit?: ListFit;
+  /** The company's rank, drawn in the row for the `tab` and `circle` rank styles. */
+  rank: number;
+  /** The list's ranks (listRank); a badge or numbers are drawn outside the row (TileCanvas). */
+  rankStyle?: ListRank;
   name: string;
   description?: string;
   logoUrl: string;
@@ -37,9 +41,11 @@ interface ListRowProps {
 /**
  * A company as a full-width List row: logo, name pill with its description
  * underneath, and the value on the right (or, with `valueBelow`, between the
- * name and the description). The rank badge floats over the row's top-left
- * corner (TileCanvas). Styled like a Tile (card, bottom stroke, logo wash),
- * with the wash across the right of the row.
+ * name and the description). The rank is a tab along the row's left edge or a
+ * circle before the logo (`rankStyle`), both in the text colour with the number
+ * in the canvas colour; a rank badge or number is drawn outside the row
+ * (TileCanvas). Styled like a Tile (card, bottom stroke, logo wash), with the
+ * wash across the right of the row.
  */
 export function ListRow({
   rect,
@@ -47,6 +53,8 @@ export function ListRow({
   withDescription,
   valueBelow = false,
   fit,
+  rank,
+  rankStyle,
   name,
   description,
   logoUrl,
@@ -59,7 +67,7 @@ export function ListRow({
   // A logo that still fails to draw shows initials until the lookup settles on another.
   const [failedSrc, setFailedSrc] = useState<string | null>(null);
   const src = resolved && resolved !== failedSrc ? resolved : null;
-  const c = listRowContent(sizing.w, sizing.h, name, description ?? null, value, legible, withDescription, valueBelow, fit);
+  const c = listRowContent(sizing.w, sizing.h, name, description ?? null, value, legible, withDescription, valueBelow, fit, rankStyle);
   // Blur scales with the row, so the wash stays smooth, not a smudged logo.
   const washBlur = Math.min(80, Math.max(24, rect.h * 0.5));
 
@@ -119,6 +127,34 @@ export function ListRow({
             pointerEvents: "none",
           }}
         />
+      )}
+      {(rankStyle?.style === "tab" || rankStyle?.style === "circle") && (
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            ...(rankStyle.style === "tab"
+              ? // Full height along the left edge; the row's corners round it.
+                { left: 0, top: 0, bottom: 0, width: rankStyle.box }
+              : {
+                  left: c.padding,
+                  top: (rect.h - rankStyle.box) / 2,
+                  width: rankStyle.box,
+                  height: rankStyle.box,
+                  borderRadius: "50%",
+                }),
+            backgroundColor: "var(--canvas-text)",
+            color: "var(--canvas-bg)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: rankStyle.fontSize,
+            fontWeight: RANK_WEIGHT,
+            lineHeight: 1,
+          }}
+        >
+          {rank}
+        </div>
       )}
       {src ? (
         <img

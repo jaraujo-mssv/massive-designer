@@ -1,4 +1,4 @@
-import { fitText, textWidth, wrapLines } from '@/shared/canvas/measureText';
+import { textWidth, wrapLines } from '@/shared/canvas/measureText';
 import type { Rect } from '@/shared/canvas/squarify';
 import { FitMode, HEADER_WEIGHT, HiddenGroup, SHRINK_FLOOR, trimCategories } from './layout';
 import type { Category, Company } from './parseSheet';
@@ -136,7 +136,7 @@ export interface ColumnRow {
   y: number;
   w: number;
   h: number;
-  /** The name on one or two lines, the last cut with "…" when it doesn't fit. */
+  /** The name on one or two lines, whole: names are never cut (nameLines). */
   lines: string[];
 }
 
@@ -211,26 +211,16 @@ const textRoom = (subW: number, m: ColumnMetrics) => subW - m.rowPadX * 2 - m.lo
 const headerHeight = (lines: number, m: ColumnMetrics) => lines * m.headerSize * COLUMN_LINE_HEIGHT + m.headerPadY * 2;
 
 /**
- * A name's lines in `maxW`: one, else two, else the words that fit on the
- * first line and the rest cut with "…", else one line cut; null when even
- * that's too short.
+ * A name's lines in `maxW`: one, else two balanced at a word break. Names are
+ * never cut: null when neither fits, so the search tries fewer columns or a
+ * smaller name size instead (a long single word, such as "Hyperbrowser", needs
+ * one or the other).
  */
 function nameLines(company: Company, maxW: number, m: ColumnMetrics, unit: UnitWidths): string[] | null {
   const f = m.fontSize;
   const weight = company.more ? m.moreWeight : m.nameWeight;
   if (unit(company.name, weight) * f * WIDTH_SLACK <= maxW) return [company.name];
-  const exactW = maxW / WIDTH_SLACK;
-  if (!company.more) {
-    const wrapped = wrapLines(company.name, exactW, f, weight, MAX_NAME_LINES);
-    if (wrapped) return wrapped;
-    const words = company.name.split(/\s+/).filter(Boolean);
-    let i = 0;
-    while (i < words.length && textWidth(words.slice(0, i + 1).join(' '), f, weight) <= exactW) i++;
-    const rest = i > 0 && i < words.length ? fitText(words.slice(i).join(' '), exactW, f, weight, 4) : null;
-    if (rest) return [words.slice(0, i).join(' '), rest];
-  }
-  const cut = fitText(company.name, exactW, f, weight, company.more ? 1 : 4);
-  return cut ? [cut] : null;
+  return company.more ? null : wrapLines(company.name, maxW / WIDTH_SLACK, f, weight, MAX_NAME_LINES);
 }
 
 function measureCard(category: Category, m: ColumnMetrics, colW: number, unit: UnitWidths): PlannedCard | null {
@@ -411,14 +401,12 @@ function bestAt(s: Search, lo: number, hi: number): Attempt | null {
  * block of columns is centred in what's left. In the modern look, a column
  * shorter than the tallest is centred too, so its spare room is shared above
  * and below instead of left as a gap at the bottom (legacy columns stay
- * top-aligned, as the old tool's were). Lines are checked again with exact
- * widths, so nothing overflows the scaled estimates. The modern look's rules
- * are centred in the gaps between cards and between columns.
+ * top-aligned, as the old tool's were). The modern look's rules are centred
+ * in the gaps between cards and between columns.
  */
 function finalize(a: Attempt, box: Box, gap: number, readable: boolean, hidden: HiddenGroup[]): ColumnsLayout {
   const { m, colW, colGap, cards, cols } = a;
   const pad = m.padding;
-  const f = m.fontSize;
 
   const placed = cols.map((col) => {
     const colH = columnHeight(col.map((i) => cards[i].h), gap);
@@ -462,7 +450,6 @@ function finalize(a: Attempt, box: Box, gap: number, readable: boolean, hidden: 
       const innerW = rect.w - m.border * 2 - m.insetX * 2;
       const k = card.stacks.length;
       const subW = (innerW - (k - 1) * pad) / k;
-      const room = textRoom(subW, m);
       const headerH = headerHeight(card.header.length, m);
       const headerW = Math.max(...card.header.map((l) => textWidth(l, m.headerSize, m.headerWeight))) + m.headerPadX * 2;
 
@@ -471,10 +458,8 @@ function finalize(a: Attempt, box: Box, gap: number, readable: boolean, hidden: 
         let ry = pad + headerH + pad;
         for (const r of stack) {
           const row = card.rows[r];
-          const weight = row.company.more ? m.moreWeight : m.nameWeight;
-          // The search measured with scaled widths; cut any line that's a hair too wide.
-          const lines = row.lines.map((l) => fitText(l, room, f, weight, 1) ?? l);
-          rows.push({ company: row.company, x: m.insetX + s * (subW + pad), y: ry, w: subW, h: row.h, lines });
+          // Whole names, as measured: WIDTH_SLACK leaves room for the scaled estimates.
+          rows.push({ company: row.company, x: m.insetX + s * (subW + pad), y: ry, w: subW, h: row.h, lines: row.lines });
           ry += row.h + m.rowGap + extraRow;
         }
       });
@@ -493,8 +478,9 @@ function finalize(a: Attempt, box: Box, gap: number, readable: boolean, hidden: 
 
 /**
  * Lays out a market map in `box` as columns of category cards, at the largest
- * name size (up to minFont × MAX_FONT_SCALE) where every card fits. As in
- * `layoutMap`, names are never cut for space: if even `minFont` doesn't fit,
+ * name size (up to minFont × MAX_FONT_SCALE) where every card fits with every
+ * name whole, on one or two lines. As in `layoutMap`, names are never cut: if
+ * even `minFont` doesn't fit,
  * `shrink` keeps every company and goes below it (`readable: false`), and
  * `hide` stays at `minFont` and leaves out as few companies as it takes
  * (`trimCategories`, with "+N more" rows).

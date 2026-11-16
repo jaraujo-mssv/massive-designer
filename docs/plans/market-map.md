@@ -127,7 +127,8 @@ Proportions, as multiples of the name size `f`. Legacy is the old tool's at its 
 | Card | none; 2 px rules between categories and columns | 3 px border, 8 px radius |
 
 - **Names:**
-  - One line; else two balanced lines; else the words that fit on line one and the rest cut with "…".
+  - One line; else two balanced lines, broken at a space. **Names are never cut:** a name that fits neither makes that layout fail, so the search uses fewer columns or a smaller name size instead. A long single word ("Hyperbrowser", "ScrapeGraphAI") can only fit by the column's width.
+  - Before, a name that didn't fit was cut with "…", and the search counted that as fitting, so it chose bigger type over whole names. On a Square map of 45 browser-infrastructure companies, 9 names were cut in 4 columns at 26 px; now every name is whole in 3 columns at 22.5 px.
   - Big categories split into up to three sub-columns (one per 4 companies), but only when every name still fits on one line.
 - **Arrangement:**
   - Cards go into columns masonry-style in sheet order, each into the shortest column so far, so the first row reads left to right like the old round-robin.

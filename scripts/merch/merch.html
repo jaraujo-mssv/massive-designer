@@ -53,12 +53,14 @@
     minimum). Their hat guide puts a hat logo at about 4 × 1.75 in at most, and they place the art themselves, so the
     file is the logo alone, 3.5 in wide (0.4 in tall), on a transparent ground: the letters white and the mountain one
     orange, #F38165, as thread and screen ink can't do the gradient (as on the enamel pin). Embroidery and Print are the
-    same art, one file for each order.
+    same art, one file for each order. It's Massive (#flat-tagline, the enamel pin's layout, flat) is the second design,
+    3.5 × 1.5 in, the same two colours, the gap round its letters in the hat's own black, so nothing is stitched there.
   - Hip pack: Rush Order Tees, Port Authority Matte Hip Pack (BG936,
     https://www.rushordertees.com/catalog/port-authority/matte-hip-pack/?color=d57e), Deep Black (#1d1d1d), matte
     polyester, 8 × 5 × 1.7 in. SanMar's decoration spec: a 4 × 4 in front top panel (and a back panel the same size,
-    left blank, as it faces the body), screen print or heat transfer in low-cure inks. The same 3.5 in logo, centred on
-    the front.
+    left blank, as it faces the body), screen print or heat transfer in low-cure inks. The same 3.5 in logo or It's
+    Massive, centred on the front, the gap round It's Massive's letters in the bag's own black. The pack's It's Massive
+    has joinmassive.com under it, Outfit Bold in white (#flat-tagline-url), 3.5 × 1.9 in in all.
   - Wooden glass, Prague Crawl afterparty: Etsy, NieVerblassen (https://www.etsy.com/listing/4424839315), a wooden
     whiskey glass, 8.5 × 9 cm, 300 ml, laser engraved in one colour. The listing gives no engraving area: these assume
     6 × 5 cm a side, centred on the belly (to confirm with the shop). Two options for the quote: Prague Crawl 2027 on
@@ -811,6 +813,18 @@ html[data-only] .proof.pajamas, html[data-only] .proof.brochure, html[data-only]
       <text transform="translate(60.54 21.92) skewX(-12)">IT’S</text>
       <text transform="translate(60.54 46.34) skewX(-12)">MASSIVE</text>
     </g>
+    <!-- It's Massive for thread and screen ink (the bucket hat and hip pack): the enamel tagline's layout, flat, 125 wide.
+         The letters take the fill (white), the mountain --mountain (one orange), and the gap round the letters is the
+         fabric's own colour (--fabric), so nothing is stitched or printed there. -->
+    <g id="flat-tagline">
+      <use href="#icon" x="12.5" y="-2.56" width="100" height="39.69" />
+      <use href="#enamel-tagline-text" style="stroke: var(--fabric); stroke-width: 2.8; stroke-linejoin: round; paint-order: stroke" />
+    </g>
+    <!-- The hip pack's: It's Massive with joinmassive.com under it, Outfit Bold in the fill (white), centred on the mark -->
+    <g id="flat-tagline-url">
+      <use href="#flat-tagline" />
+      <text x="62.65" y="60.2" font-family="Outfit" font-weight="700" font-size="10.2" text-anchor="middle">joinmassive.com</text>
+    </g>
 
     <!-- The T-shirt's two backs, in hundredths of an inch, centred on 0, the top of the design at 0. Each is drawn at
          its own size, then scaled to 12 cm wide (472.44), so www.joinmassive.com under each comes out the same:
@@ -1309,17 +1323,20 @@ html[data-only] .proof.pajamas, html[data-only] .proof.brochure, html[data-only]
   </header>
 
   <section class="row">
-    <p class="row-label"><b>Bucket hat</b> · Rush Order Tees, Sportsman, Black · embroidered or printed · each file is the logo alone, 3.5 in wide, on a transparent ground · the area is the most a hat takes</p>
+    <p class="row-label"><b>Bucket hat</b> · Rush Order Tees, Sportsman, Black · embroidered or printed · each file is the logo or It’s Massive alone, 3.5 in wide, on a transparent ground · the area is the most a hat takes</p>
     <div class="cells">
       <figure class="cell"><div class="print-area hat"><div class="art lockup-art" data-file="bucket-hat-embroidery"><svg viewBox="0 0 1090.16 123.62"><use href="#lockup" /></svg></div></div><figcaption>Embroidery · white and #F38165 thread</figcaption></figure>
       <figure class="cell"><div class="print-area hat"><div class="art lockup-art" data-file="bucket-hat-print"><svg viewBox="0 0 1090.16 123.62"><use href="#lockup" /></svg></div></div><figcaption>Print · white and #F38165 ink</figcaption></figure>
+      <figure class="cell"><div class="print-area hat"><div class="art lockup-art" data-file="bucket-hat-tagline-embroidery"><svg viewBox="3.3 -2.6 118.7 50.7"><use href="#flat-tagline" /></svg></div></div><figcaption>It’s Massive · Embroidery · white and #F38165 thread</figcaption></figure>
+      <figure class="cell"><div class="print-area hat"><div class="art lockup-art" data-file="bucket-hat-tagline-print"><svg viewBox="3.3 -2.6 118.7 50.7"><use href="#flat-tagline" /></svg></div></div><figcaption>It’s Massive · Print · white and #F38165 ink</figcaption></figure>
     </div>
   </section>
 
   <section class="row">
-    <p class="row-label"><b>Hip pack</b> · Rush Order Tees, Port Authority BG936, Deep Black · screen print, low-cure inks · the same logo, centred on the 4 × 4 in front panel</p>
+    <p class="row-label"><b>Hip pack</b> · Rush Order Tees, Port Authority BG936, Deep Black · screen print, low-cure inks · the same logo or It’s Massive, centred on the 4 × 4 in front panel</p>
     <div class="cells">
       <figure class="cell"><div class="print-area pack"><div class="art lockup-art" data-file="hip-pack"><svg viewBox="0 0 1090.16 123.62"><use href="#lockup" /></svg></div></div><figcaption>Front · white and #F38165 ink</figcaption></figure>
+      <figure class="cell"><div class="print-area pack"><div class="art lockup-art" data-file="hip-pack-tagline"><svg viewBox="3.3 -2.6 118.7 65.1"><use href="#flat-tagline-url" /></svg></div></div><figcaption>It’s Massive · Front · with joinmassive.com · white and #F38165 ink</figcaption></figure>
     </div>
   </section>
 </main>
@@ -1368,12 +1385,18 @@ html[data-only] .proof.pajamas, html[data-only] .proof.brochure, html[data-only]
     <div class="bottle-figure"><svg viewBox="0 0 3.54 9.92"><use href="#bottle-shape" /></svg><div class="cyl" data-r="1.77" data-at="5.67"><div class="bottle"><div class="on-access"><img class="map" src="world/world-outline.svg" alt="" /><p class="access">Access the <svg class="lockup" viewBox="0 0 1090.16 123.62" role="img" aria-label="Massive"><use href="#lockup" /></svg> network</p><p class="url">joinmassive.com</p></div></div></div><svg viewBox="0 0 3.54 9.92"><use href="#bottle-gloss" /></svg></div>
     <div class="bottle-figure"><svg viewBox="0 0 3.54 9.92"><use href="#bottle-shape" /></svg><div class="cyl" data-r="1.77" data-at="4.85"><div class="bottle"><div class="on-access"><img class="map" src="world/world-outline.svg" alt="" /><p class="access">Access the <svg class="lockup" viewBox="0 0 1090.16 123.62" role="img" aria-label="Massive"><use href="#lockup" /></svg> network</p><p class="url">joinmassive.com</p></div></div></div><svg viewBox="0 0 3.54 9.92"><use href="#bottle-gloss" /></svg></div>
   </div>
-  <!-- The hat and the hip pack, each with the 3.5 in logo (the print file) centred on its front -->
+  <!-- The hat and the hip pack, each with the 3.5 in logo or It’s Massive (the print file) centred on its front -->
   <div class="item-mockup hats" data-mockup="bucket-hat">
     <svg class="hat-figure" viewBox="0 0 10.4 7.45"><use href="#bucket-hat-shape" /><use href="#lockup" x="3.45" y="2.35" width="3.5" height="0.397" style="--mountain: #f38165; fill: #ffffff" /></svg>
   </div>
+  <div class="item-mockup hats" data-mockup="bucket-hat-tagline">
+    <svg class="hat-figure" viewBox="0 0 10.4 7.45"><use href="#bucket-hat-shape" /><svg x="3.45" y="1.75" width="3.5" height="1.495" viewBox="3.3 -2.6 118.7 50.7" style="--mountain: #f38165; --fabric: #1b151a; fill: #ffffff"><use href="#flat-tagline" /></svg></svg>
+  </div>
   <div class="item-mockup packs" data-mockup="hip-pack">
     <svg class="pack-figure" viewBox="0 0 13.6 5.5"><use href="#hip-pack-shape" /><use href="#lockup" x="4.65" y="2.752" width="3.5" height="0.397" style="--mountain: #f38165; fill: #ffffff" /></svg>
+  </div>
+  <div class="item-mockup packs" data-mockup="hip-pack-tagline">
+    <svg class="pack-figure" viewBox="0 0 13.6 5.5"><use href="#hip-pack-shape" /><svg x="4.65" y="1.99" width="3.5" height="1.919" viewBox="3.3 -2.6 118.7 65.1" style="--mountain: #f38165; --fabric: #1d1d1d; fill: #ffffff"><use href="#flat-tagline-url" /></svg></svg>
   </div>
   <!-- The wooden glass: each band (.glass-wrap) runs once round the belly (26.7 cm), side A a quarter of the way along
        it and side B three quarters; each glass faces one of them (data-at). Option 1 shows both sides; option 2 the

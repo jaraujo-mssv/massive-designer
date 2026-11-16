@@ -78,8 +78,9 @@ orange outline (`world/world-outline.svg`) over "Access the [Massive] network" a
 black tote's logo has cream letters): a tote's file is the strip it's sewn from, the back upside
 down below the front; the mug and bottle files wrap round, and their mockups bend the print round the cylinder (the
 `.cyl` script at the end of the page). The bucket hat (embroidered or printed) and the hip pack come from Rush Order Tees,
-who place the art themselves: each file is the logo alone, 3.5 in wide, on a transparent ground, the mountain one orange
-(#F38165) and the letters white, as thread and screen ink can't do the gradient. The Prague Crawl wooden glass (Etsy) is laser engraved in one colour:
+who place the art themselves: each file is the logo or It's Massive (`#flat-tagline`) alone, 3.5 in wide, on a transparent
+ground, the mountain one orange (#F38165) and the letters white, as thread and screen ink can't do the gradient; It's
+Massive's gap round its letters is the fabric's own black. The Prague Crawl wooden glass (Etsy) is laser engraved in one colour:
 its files are black art on a transparent ground, from the event's wordmark flattened to one colour and NodeMaven's
 logo, both in `scripts/merch/glass/`, and its mockups wrap the engraving round the glass. The pajamas are made on Printful too: two 1 × 1 m seamless prints (the logo's mountain, and
 the sleepy mountains in `pajamas/sleepy/`), each on the dark ground (White trim) and on white (Black trim), laid out

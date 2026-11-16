@@ -136,8 +136,8 @@ Proportions, as multiples of the name size `f`. Legacy is the old tool's at its 
 - **Search:** for 1 to 8 columns (Horizontal runs out of height long before width), a binary search finds the largest `f` that fits, up to `1.5 × minFont`. Counts within 2% of the best `f` are compared by how well they fill the canvas, then the fewest columns win. This keeps a sparse map from becoming one tall column of wide cards or one short row.
 - **Fit modes and warning:** the same tiers as `layoutMap`. Hide mode adds "+N more" rows, and FitInfo (name size, readable, hidden) feeds the same warning, now worded as "Shrink names" / "names".
 - **Spare height:** spread between rows (up to 3× the row gap), then between cards (up to 2× the gap), as the old auto-gaps did. The block is centred in whatever is left.
-  - In the modern look, a column shorter than the tallest is also centred within the block, so its leftover room is split above and below instead of left as a gap at the bottom (e.g. YC F25's second column on Vertical).
-  - Legacy columns stay top-aligned, as the old tool's were.
+  - **Every column ends level with the tallest.** A shorter column keeps spreading past those caps until its bottom matches: between its rows; else, when each of its cards has one company, between its cards; else, for a single card of one company, the card grows at the bottom. So a short column's rows are looser than the tallest column's.
+  - Columns are top-aligned in both looks. (Before, a short column ended early: top-aligned in the legacy look, centred in the block in the modern one.)
 - **Measured on the examples (2026-10-22, with plain names and rules):** name size on a phone, in pt (readable from 10). "Tiles before" is the layout before the tightening; "coverage" is the share of the map the companies cover.
 
   | Map | Size | Columns | Legacy | Tiles | Tiles before |

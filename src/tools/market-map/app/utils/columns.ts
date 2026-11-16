@@ -398,43 +398,63 @@ function bestAt(s: Search, lo: number, hi: number): Attempt | null {
 /**
  * Places a fitting attempt: spare height in each column goes between rows,
  * then between cards (both capped, as the old tool's auto-gaps did), and the
- * block of columns is centred in what's left. In the modern look, a column
- * shorter than the tallest is centred too, so its spare room is shared above
- * and below instead of left as a gap at the bottom (legacy columns stay
- * top-aligned, as the old tool's were). The modern look's rules are centred
- * in the gaps between cards and between columns.
+ * block of columns is centred in what's left. A column shorter than the
+ * tallest then keeps spreading, past the caps, until its bottom is level with
+ * the tallest's, so every column ends at the same height; columns are
+ * top-aligned. The modern look's rules are centred in the gaps between cards
+ * and between columns.
  */
 function finalize(a: Attempt, box: Box, gap: number, readable: boolean, hidden: HiddenGroup[]): ColumnsLayout {
   const { m, colW, colGap, cards, cols } = a;
   const pad = m.padding;
 
-  const placed = cols.map((col) => {
-    const colH = columnHeight(col.map((i) => cards[i].h), gap);
-    const rowGaps = col.reduce((sum, i) => sum + cards[i].rowGaps, 0);
-    const extraRow = rowGaps > 0 ? Math.min((box.h - colH) / rowGaps, (ROW_GAP_MAX - 1) * m.rowGap) : 0;
-    const heights = col.map((i) => {
+  /** Each card's height in `col` with `extraRow` added to every gap between its rows. */
+  const cardHeights = (col: number[], extraRow: number) =>
+    col.map((i) => {
       const c = cards[i];
       const blockH = Math.max(0, ...c.stacks.map((s) => stackHeight(c.rows, s, m.rowGap + extraRow)));
       return m.border * 2 + pad * 3 + headerHeight(c.header.length, m) + blockH;
     });
-    const spread = columnHeight(heights, gap);
+
+  // First toward the canvas's height, within the caps.
+  const capped = cols.map((col) => {
+    const colH = columnHeight(col.map((i) => cards[i].h), gap);
+    const rowGaps = col.reduce((sum, i) => sum + cards[i].rowGaps, 0);
+    const extraRow = rowGaps > 0 ? Math.min((box.h - colH) / rowGaps, (ROW_GAP_MAX - 1) * m.rowGap) : 0;
+    const spread = columnHeight(cardHeights(col, extraRow), gap);
     const extraCard = col.length > 1 ? Math.min(Math.max(0, box.h - spread) / (col.length - 1), (CARD_GAP_MAX - 1) * gap) : 0;
-    return { col, heights, extraRow, extraCard, h: spread + extraCard * (col.length - 1) };
+    return { col, rowGaps, extraRow, extraCard, h: spread + extraCard * (col.length - 1) };
   });
-  const blockH = Math.max(...placed.map((p) => p.h));
+  const blockH = Math.max(...capped.map((p) => p.h));
+  // Then a shorter column spreads on until it ends level with the tallest: between its
+  // rows; else (one company per card) between its cards; else (one card of one
+  // company) its card grows at the bottom.
+  const placed = capped.map((p) => {
+    const short = blockH - p.h;
+    let { extraRow, extraCard } = p;
+    let grow = 0;
+    if (short > 0.5) {
+      if (p.rowGaps > 0) extraRow += short / p.rowGaps;
+      else if (p.col.length > 1) extraCard += short / (p.col.length - 1);
+      else grow = short;
+    }
+    const heights = cardHeights(p.col, extraRow);
+    heights[heights.length - 1] += grow;
+    return { col: p.col, heights, extraRow, extraCard };
+  });
   const top = Math.max(0, (box.h - blockH) / 2);
   const ruled = m.look === 'modern';
   const separators: Rect[] = [];
 
   const out: ColumnCard[] = [];
-  placed.forEach(({ col, heights, extraRow, extraCard, h }, c) => {
+  placed.forEach(({ col, heights, extraRow, extraCard }, c) => {
     const x0 = Math.round(c * (colW + colGap));
     const x1 = Math.round(c * (colW + colGap) + colW);
     if (ruled && c < placed.length - 1) {
       const x = Math.round(c * (colW + colGap) + colW + colGap / 2 - SEPARATOR / 2);
       separators.push({ x, y: Math.round(top), w: SEPARATOR, h: Math.round(blockH) });
     }
-    let y = top + (ruled ? (blockH - h) / 2 : 0);
+    let y = top;
     let prevBottom: number | null = null;
     col.forEach((i, j) => {
       const card = cards[i];

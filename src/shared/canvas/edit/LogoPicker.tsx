@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ArrowUpRight } from "@phosphor-icons/react";
+import { ArrowUpRight, Warning } from "@phosphor-icons/react";
 import { Link2, Upload, X } from "lucide-react";
 import { toast } from "sonner";
 import { sidebarInputClass } from "@/shared/components/SidebarLayout";
 import { InitialsLogo } from "../logos/InitialsLogo";
 import { useLogoSources } from "../logos/LogoSourcesContext";
-import { LogoProbe, probeLogo, shownLogoUrl } from "../logos/resolve";
+import { LOW_RES_WIDTH, LogoProbe, probeLogo, shownLogoUrl } from "../logos/resolve";
 import { domainFrom, domainInLogoUrl, INITIALS, isHostingSite, PICKER_SOURCES, sourceOf, sourceUrl } from "../logos/sources";
 import { TextField } from "./fields";
 
@@ -157,17 +157,24 @@ export function LogoPicker({
         <div className="flex flex-wrap gap-1.5">
           {options.map((o) => {
             const probe = probes[o.url];
-            // Hidden once a service turns out to have no logo (or only a placeholder).
-            if (probe && (!probe.ok || probe.width <= 16)) return null;
+            // Hidden once a service turns out to have no logo.
+            if (probe && !probe.ok) return null;
+            // Only a favicon: offered, but marked, since it looks blurry at logo size.
+            const lowRes = probe && probe.width <= LOW_RES_WIDTH;
             return probe ? (
               <button
                 key={o.id}
                 type="button"
-                title={`${o.label} · ${probe.width}px`}
+                title={`${o.label} · ${probe.width}px${lowRes ? ", low-res: it will look blurry" : ""}`}
                 onClick={() => onLogoChange(o.url)}
                 className={`${iconButtonClass} bg-white ${ring(selectedId === o.id)}`}
               >
                 <img src={shownLogoUrl(o.url)} alt={o.label} className="w-8 h-8 object-contain" />
+                {lowRes && (
+                  <span className="absolute bottom-0.5 right-0.5 flex rounded-full bg-white">
+                    <Warning size={12} weight="fill" className="text-amber-500" aria-label="Low-res" />
+                  </span>
+                )}
               </button>
             ) : (
               <div key={o.id} title={`${o.label}: checking…`} className={`${iconButtonClass} border-border-subtle bg-surface-2 animate-pulse`} />

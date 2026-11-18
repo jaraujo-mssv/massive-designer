@@ -9,7 +9,8 @@ import { copySheetTsv, downloadSheetTsv, toSheetTsv } from "@/shared/canvas/edit
 import { useDiscardGuard, useEditHistory } from "@/shared/canvas/edit/useEditHistory";
 import { ExportProgress, exportCanvasJpg } from "@/shared/canvas/exportJpg";
 import { LogoSourcesProvider } from "@/shared/canvas/logos/LogoSourcesContext";
-import { resolvedLogoSync, whenLogosSettled } from "@/shared/canvas/logos/resolve";
+import { LowResWarning } from "@/shared/canvas/logos/LowResWarning";
+import { resolvedLogoSync, useLowResLogos, whenLogosSettled } from "@/shared/canvas/logos/resolve";
 import { INITIALS, logoDevTokenFrom } from "@/shared/canvas/logos/sources";
 import { legibleSizes } from "@/shared/canvas/legibility";
 import { DataSummary, SheetSidebar } from "@/shared/canvas/SheetSidebar";
@@ -94,6 +95,8 @@ export default function App() {
   const companyCount = categories.reduce((n, c) => n + c.companies.length, 0);
   const logoUrls = useMemo(() => categories.flatMap((c) => c.companies.map((co) => co.logoUrl)), [categories]);
   const logoSources = useMemo(() => ({ logoDevToken: logoDevTokenFrom(logoUrls) }), [logoUrls]);
+  const companies = useMemo(() => categories.flatMap((c) => c.companies), [categories]);
+  const lowResLogos = useLowResLogos(companies, logoSources.logoDevToken);
 
   // Convert logos ahead (on load and after edits), so Download JPG doesn't wait for them.
   useEffect(() => warmImageCache(logoUrls.filter((u) => u !== INITIALS)), [logoUrls]);
@@ -313,6 +316,7 @@ export default function App() {
               )}
             </SidebarWarning>
           ),
+          lowResLogos.length > 0 && <LowResWarning key="low-res" names={lowResLogos} />,
         ]}
       >
         <CanvasFrame

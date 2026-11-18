@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ListNumbers, SquaresFour } from "@phosphor-icons/react";
 import { Toaster, toast } from "sonner";
 import { CanvasFrame } from "@/shared/canvas/CanvasFrame";
@@ -9,7 +9,8 @@ import { useDiscardGuard, useEditHistory } from "@/shared/canvas/edit/useEditHis
 import { Segmented } from "@/shared/canvas/DesignPanel";
 import { ExportProgress, exportCanvasJpg } from "@/shared/canvas/exportJpg";
 import { LogoSourcesProvider } from "@/shared/canvas/logos/LogoSourcesContext";
-import { resolvedLogoSync, whenLogosSettled } from "@/shared/canvas/logos/resolve";
+import { LowResWarning } from "@/shared/canvas/logos/LowResWarning";
+import { resolvedLogoSync, useLowResLogos, whenLogosSettled } from "@/shared/canvas/logos/resolve";
 import { INITIALS, logoDevTokenFrom } from "@/shared/canvas/logos/sources";
 import { legibleSizes, phonePt, PRIMARY_MIN_PT } from "@/shared/canvas/legibility";
 import { DataSummary, SheetSidebar } from "@/shared/canvas/SheetSidebar";
@@ -75,6 +76,7 @@ export default function App() {
   const legacy = getCanvasTheme(theme).legacy;
   const logoUrls = useMemo(() => items.map((i) => i.logoUrl), [items]);
   const logoSources = useMemo(() => ({ logoDevToken: logoDevTokenFrom(logoUrls) }), [logoUrls]);
+  const lowResLogos = useLowResLogos(items, logoSources.logoDevToken);
 
   // Convert logos ahead (on load and after edits), so Download JPG doesn't wait for them.
   useEffect(() => warmImageCache(logoUrls.filter((u) => u !== INITIALS)), [logoUrls]);
@@ -309,7 +311,10 @@ export default function App() {
         isExporting={isExporting}
         exportProgress={exportProgress}
         logoUrls={logoUrls}
-        warnings={legibilityWarning || undefined}
+        warnings={[
+          legibilityWarning && <Fragment key="legibility">{legibilityWarning}</Fragment>,
+          lowResLogos.length > 0 && <LowResWarning key="low-res" names={lowResLogos} />,
+        ]}
       >
         <CanvasFrame
           ref={canvasRef}

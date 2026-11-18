@@ -5,8 +5,12 @@ import { AUTO_CHAIN, domainInLogoUrl, INITIALS, lookupDomain, normalizeLogoUrl, 
 
 /** A logo at least this wide is sharp enough to stop looking. */
 const SHARP_WIDTH = 64;
-/** At or below this it's a placeholder (Google's blank globe is 16px), never a logo. */
-const PLACEHOLDER_WIDTH = 16;
+/**
+ * At or below this a logo is a plain favicon: used only when nothing sharper is
+ * found, and flagged as low-res (useLowResLogos). Not a placeholder: every
+ * service answers a missing logo with an error, which the proxy passes on.
+ */
+export const LOW_RES_WIDTH = 16;
 /** Probes running at once. */
 const MAX_PROBES = 6;
 
@@ -127,15 +131,15 @@ function chainFor(domain: string | null, token: string | null): string[] {
 
 /**
  * Probes `urls` in order: the first at least SHARP_WIDTH wide wins outright,
- * else the widest real one (over PLACEHOLDER_WIDTH), else null. `known` is a
- * logo already found, which a candidate has to beat.
+ * else the widest that works (a 16px favicon only when nothing is wider), else
+ * null. `known` is a logo already found, which a candidate has to beat.
  */
 async function bestOf(urls: string[], known: { url: string; width: number } | null = null): Promise<string | null> {
   let best = known;
   if (best && best.width >= SHARP_WIDTH) return best.url;
   for (const url of new Set(urls)) {
     const probe = await probeLogo(url);
-    if (!probe.ok || probe.width <= PLACEHOLDER_WIDTH) continue;
+    if (!probe.ok) continue;
     if (probe.width >= SHARP_WIDTH) return url;
     if (!best || probe.width > best.width) best = { url, width: probe.width };
   }
@@ -152,6 +156,8 @@ async function bestOf(urls: string[], known: { url: string; width: number } | nu
  * - If it fails (or there is none), the services are asked for the company's
  *   domain (`lookupDomain`: the logo cell's, else its website unless that's a
  *   hosting site like GitHub).
+ * - A sheet's logo that's only a favicon (LOW_RES_WIDTH) is asked about as a
+ *   failed one, but stays if no service has anything sharper.
  * - `logoUrl === INITIALS` is a choice, not a miss: always null.
  */
 export function resolveLogo(logoUrl: string, website: string | undefined, token: string | null): Promise<string | null> {
@@ -165,11 +171,15 @@ export function resolveLogo(logoUrl: string, website: string | undefined, token:
     if (own) {
       const url = normalizeLogoUrl(own);
       const probe = await probeLogo(url);
-      if (probe.ok && probe.width > PLACEHOLDER_WIDTH) {
+      if (probe.ok && probe.width > LOW_RES_WIDTH) {
         // It works. Only a sharper copy of the same logo may replace it: from the
         // domain the logo is for, never the website's (a GitHub repo, an app store).
         // A logo from no known service (a company's CDN, an upload) stays as it is.
         return bestOf(chainFor(domainInLogoUrl(own), token), { url, width: probe.width });
+      }
+      if (probe.ok) {
+        // Only a favicon: anything sharper for the company wins, else it stays.
+        return bestOf(chainFor(lookupDomain(website, logoUrl), token), { url, width: probe.width });
       }
     }
     return bestOf(chainFor(lookupDomain(website, logoUrl), token));
@@ -223,4 +233,39 @@ export function useResolvedLogo(logoUrl: string, website: string | undefined): s
   }, [key]);
 
   return src;
+}
+
+export interface LogoOwner {
+  name: string;
+  logoUrl: string;
+  website?: string;
+}
+
+/**
+ * The names of the companies whose logo, once found, is only a favicon
+ * (LOW_RES_WIDTH or less), in `companies` order, for a warning above Download.
+ * Tools call it beside their LogoSourcesProvider, so they pass the token.
+ */
+export function useLowResLogos(companies: LogoOwner[], token: string | null): string[] {
+  const [names, setNames] = useState<string[]>([]);
+
+  useEffect(() => {
+    let live = true;
+    void Promise.all(
+      companies.map(async (c) => {
+        const src = await resolveLogo(c.logoUrl, c.website, token);
+        if (!src) return null;
+        // Already probed by the lookup, so this is the cached answer.
+        const { width } = await probeLogo(src);
+        return width <= LOW_RES_WIDTH ? c.name : null;
+      }),
+    ).then((found) => {
+      if (live) setNames(found.filter((n): n is string => n !== null));
+    });
+    return () => {
+      live = false;
+    };
+  }, [companies, token]);
+
+  return names;
 }

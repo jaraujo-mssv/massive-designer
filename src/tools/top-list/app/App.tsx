@@ -25,12 +25,12 @@ import { ListEditor, ListEditTarget } from "./components/ListEditor";
 import { LegibilityReport, TileCanvas } from "./components/TileCanvas";
 import { ThemePreview } from "./components/ThemePreview";
 import { DEFAULT_SIZE, EXAMPLES, PRESETS, SIZES, TopListSizeId } from "./constants";
-import type { ListColumns, RankStyle } from "./utils/list";
+import { ListColumns, ONE_COLUMN_MAX, RankStyle } from "./utils/list";
 import { Layout, ListItem, ListView, parseSheet } from "./utils/parseSheet";
 
 const EXPORT_AREA_ID = "top-list-export-area";
 const LIST_VIEWS: readonly ListView[] = ["list", "grid"];
-const LIST_COLUMNS: readonly ListColumns[] = ["auto", "one", "two"];
+const LIST_COLUMNS: readonly ListColumns[] = ["auto", "one"];
 const RANK_STYLES: readonly RankStyle[] = ["badge", "number", "tab", "circle"];
 const DEFAULT_TITLE = "<b>Top List</b>";
 const DEFAULT_DATE = "<b>By Massive</b>";
@@ -171,8 +171,8 @@ export default function App() {
 
   // What didn't fit at a phone-readable size; shown above Download.
   const tip =
-    view === "list" && !legacy && columns === "one"
-      ? "Try two columns, or fewer companies."
+    view === "list" && !legacy && columns === "one" && items.length > ONE_COLUMN_MAX
+      ? "Try Auto columns, or fewer companies."
       : size === "vertical"
         ? "Try fewer companies."
         : "Try Vertical, or fewer companies.";
@@ -250,7 +250,6 @@ export default function App() {
                     options={[
                       { id: "auto" as const, label: "Auto" },
                       { id: "one" as const, label: "One" },
-                      { id: "two" as const, label: "Two" },
                     ]}
                     value={columns}
                     onChange={setColumns}

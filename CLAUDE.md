@@ -166,7 +166,7 @@ Legacy themes force Columns. `?f=` opens the Legacy app. Examples are in `consta
 **Top List** (`src/tools/top-list/app/`). Sheet columns: `position` (or `rank`), `name` (or `company`), `logo`,
 `value` (or `valuation`, `market cap`), `url`. Views:
 - **List** (default): `utils/list.ts`, or `utils/legacyList.ts` under a legacy theme. One column up to 16 companies,
-  else two (or One/Two in the Design panel), and four rank styles to compare (Badge, Number, Tab, Circle).
+  else two (or always one, in the Design panel), and four rank styles to compare (Badge, Number, Tab, Circle).
 - **Grid**: when every row has a readable value (`utils/value.ts`), tile areas follow the values (Bento:
   `utils/minArea.ts` + `squarify`). Otherwise the tiles are equal, in rank order (`utils/grid.ts`).
 

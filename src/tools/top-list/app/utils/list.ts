@@ -22,6 +22,8 @@ const PILL_PAD_Y = 0.2;
 const PILL_HEIGHT = LINE_HEIGHT + PILL_PAD_Y * 2;
 /** Names grow with the row up to this many times the phone-readable minimum. */
 const MAX_NAME_SCALE = 1.35;
+/** The value is this many times the name's size: a little bigger, as it's what the list ranks by. */
+const VALUE_SCALE = 1.15;
 /** The value may take at most this share of a row before it's shortened. */
 const MAX_VALUE_SHARE = 0.4;
 /** Logos give way to long names by at most this share, before names shrink (listFit). */
@@ -32,15 +34,15 @@ const MIN_PADDING = 10;
 const rowPadding = (h: number) => clamp(h * 0.12, MIN_PADDING, 28);
 
 /** Up to this many companies sit in one column; more go into two (Columns: Auto). */
-const ONE_COLUMN_MAX = 16;
+export const ONE_COLUMN_MAX = 16;
 
-/** The List's columns, picked in the sidebar: by the count (ONE_COLUMN_MAX), or always one or two. */
-export type ListColumns = 'auto' | 'one' | 'two';
+/** The List's columns, picked in the sidebar: by the count (ONE_COLUMN_MAX), or always one. */
+export type ListColumns = 'auto' | 'one';
 
 /**
  * Full-width rows for the List layout, one per item, sharing the height
- * equally. Past ONE_COLUMN_MAX items (or always, with `columns` "two") the
- * rows go into two columns, ranked down the left column first, then the right.
+ * equally. Past ONE_COLUMN_MAX items (unless `columns` is "one") the rows go
+ * into two columns, ranked down the left column first, then the right.
  * Each column fills the full height, so with an odd count the right column's
  * rows are a little taller (TileCanvas sizes every row's content from the
  * shortest, so they still match).
@@ -50,7 +52,7 @@ export type ListColumns = 'auto' | 'one' | 'two';
  */
 export function listRects(count: number, bounds: Rect, pick: ListColumns = 'auto'): { rects: Rect[]; columns: 1 | 2 } {
   if (count <= 0) return { rects: [], columns: 1 };
-  const columns: 1 | 2 = count < 2 || pick === 'one' ? 1 : pick === 'two' || count > ONE_COLUMN_MAX ? 2 : 1;
+  const columns: 1 | 2 = pick === 'auto' && count > ONE_COLUMN_MAX ? 2 : 1;
   const leftRows = Math.ceil(count / columns);
   const colW = bounds.w / columns;
   const rects: Rect[] = [];
@@ -213,7 +215,7 @@ function rowMetrics(h: number, legible: LegibleSizes, withDescription: boolean, 
             : Math.max(padding, corner + gap / 2);
 
   const descSizeFor = (size: number) => Math.max(secondary, size * 0.65);
-  const valueSizeFor = (size: number) => Math.max(secondary, size * 0.9);
+  const valueSizeFor = (size: number) => Math.max(secondary, size * VALUE_SCALE);
   const stackAt = (size: number, lines: number, descSize = descSizeFor(size), valueSize = valueSizeFor(size)) =>
     size * PILL_HEIGHT +
     (valueBelow ? size * 0.12 + valueSize * LINE_HEIGHT : 0) +
@@ -239,11 +241,11 @@ function rowMetrics(h: number, legible: LegibleSizes, withDescription: boolean, 
   if (!placed) {
     // Too short even at the minimums: name, value and one description line shrink together.
     descLines = withDescription ? 1 : 0;
-    nameSize = innerH / stackAt(1, descLines, 0.8, 0.9);
+    nameSize = innerH / stackAt(1, descLines, 0.8, VALUE_SCALE);
     descriptionSize = nameSize * 0.8;
   }
   const shrunk = nameSize < primary - 0.01;
-  const valueSize = shrunk ? nameSize * 0.9 : valueSizeFor(nameSize);
+  const valueSize = shrunk ? nameSize * VALUE_SCALE : valueSizeFor(nameSize);
   return {
     padding,
     innerH,

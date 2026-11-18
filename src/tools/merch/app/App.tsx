@@ -1,4 +1,5 @@
-import { useEffect, useState, type CSSProperties, type MouseEvent as ReactMouseEvent } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type MouseEvent as ReactMouseEvent } from "react";
+import { useSearchParams } from "react-router";
 import { ArrowSquareOut, DownloadSimple, ListBullets } from "@phosphor-icons/react";
 import { SidebarLayout } from "@/shared/components/SidebarLayout";
 import { ImageButton } from "@/tools/content/app/components/Lightbox";
@@ -105,19 +106,26 @@ function DesignCard({ product, design }: { product: MerchProduct; design: MerchD
         title="Open it larger"
         className="rounded-md"
       >
+        {/* The preview is fitted inside the tile, so a tall one (a shirt's print, a card) can't stretch it as it loads
+            and move the sections under it */}
         <span
-          className={`flex items-center justify-center rounded-md p-3 ${product.wide ? "aspect-[2/1]" : "aspect-square"}`}
+          className={`relative block rounded-md ${product.wide ? "aspect-[2/1]" : "aspect-square"}`}
           style={design.ground ? { background: design.ground } : CHECKERBOARD}
         >
-          <span className="relative block w-full" style={design.previewWidth ? { width: design.previewWidth } : undefined}>
+          <span className="absolute inset-3 flex items-center justify-center">
             <img
               src={pngUrl(design.file)}
               alt={`${product.name}, ${design.name}`}
               loading="lazy"
-              className="block h-auto w-full"
+              className="block h-full w-full object-contain"
+              style={design.previewWidth ? { width: design.previewWidth } : undefined}
             />
-            {product.guides && <Guides guides={product.guides} />}
           </span>
+          {product.guides && (
+            <span className="absolute inset-3">
+              <Guides guides={product.guides} />
+            </span>
+          )}
         </span>
       </ImageButton>
       <figcaption className="flex flex-col gap-0.5 px-1">
@@ -210,13 +218,20 @@ function ProductMedia({ product }: { product: MerchProduct }) {
           })}
         </div>
       )}
-      {current && (
-        <div className={`flex flex-wrap items-center gap-x-3 ${current.name ? "justify-between" : "-ml-1.5"}`}>
+      {/* The hero gets a caption line the same height as the mockup's, so a missing mockup doesn't move the page */}
+      {current ? (
+        <div className={`flex min-h-6 flex-wrap items-center gap-x-3 ${current.name ? "justify-between" : "-ml-1.5"}`}>
           {current.name && <span className="text-sm text-text-primary">{current.name}</span>}
           <span className={current.name ? "-mr-1.5" : ""}>
             <FileLink href={mockupUrl(current.id)} download={`massive-${current.id}-mockup.jpg`} label="Mockup (JPG)" />
           </span>
         </div>
+      ) : (
+        hero && (
+          <div className="flex min-h-6 items-center">
+            <span className="text-sm text-text-primary">{hero.name}</span>
+          </div>
+        )
       )}
       <div className="space-y-2 pt-2">
         <div className="flex flex-wrap items-center justify-between gap-x-3">
@@ -414,6 +429,16 @@ export default function App() {
   const [active, setActive] = useState(PRODUCTS[0].id);
   // State, not a ref: phones and desktop draw the main area in different trees, so it remounts.
   const [main, setMain] = useState<HTMLDivElement | null>(null);
+  const [params, setParams] = useSearchParams();
+
+  // A link to a product (?item=<id>, which a click in the list sets) opens on its section, once.
+  const linked = useRef(params.get("item"));
+  useEffect(() => {
+    const id = linked.current;
+    if (!main || !id) return;
+    linked.current = null;
+    document.getElementById(sectionId(id))?.scrollIntoView({ block: "start" });
+  }, [main]);
 
   // The section in view is the last one whose top is above a third of the way down, or the last one once
   // the page is scrolled to the bottom (it may be too short to reach that line).
@@ -436,6 +461,14 @@ export default function App() {
 
   const jump = (id: string) => {
     setDrawerOpen(false);
+    setParams(
+      (current) => {
+        const next = new URLSearchParams(current);
+        next.set("item", id);
+        return next;
+      },
+      { replace: true },
+    );
     document.getElementById(sectionId(id))?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 

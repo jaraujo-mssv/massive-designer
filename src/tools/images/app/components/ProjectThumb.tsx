@@ -28,6 +28,8 @@ export function StatusBadge({ status }: { status: ImageStatus }) {
         ? "text-sky-400 border-sky-400/40"
         : status === "planned"
           ? "text-text-dim border-text-dim/40 border-dashed"
-          : "text-amber-300 border-amber-300/40";
+          : status === "archived"
+            ? "text-text-dim border-text-dim/40"
+            : "text-amber-300 border-amber-300/40";
   return <span className={`shrink-0 px-1.5 py-px rounded border text-[10px] font-mono uppercase tracking-wider ${tone}`}>{STATUS_LABEL[status]}</span>;
 }

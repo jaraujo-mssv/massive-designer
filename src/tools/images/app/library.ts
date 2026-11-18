@@ -28,8 +28,14 @@ export const TYPES: { id: Type; label: string }[] = [
   { id: "images", label: "Images" },
   { id: "templates", label: "Templates" },
 ];
-export const STATUS_ORDER: ImageStatus[] = ["ready", "draft", "planned", "posted"];
-export const STATUS_LABEL: Record<ImageStatus, string> = { ready: "Ready", draft: "Draft", planned: "Planned", posted: "Posted" };
+export const STATUS_ORDER: ImageStatus[] = ["ready", "draft", "planned", "posted", "archived"];
+export const STATUS_LABEL: Record<ImageStatus, string> = {
+  ready: "Ready",
+  draft: "Draft",
+  planned: "Planned",
+  posted: "Posted",
+  archived: "Archived",
+};
 export const FORMAT_ORDER: ImageFormat[] = ["portrait", "square", "landscape", "story", "other"];
 export const FORMAT_LABEL: Record<ImageFormat, string> = {
   portrait: "Portrait 4:5",
@@ -229,8 +235,10 @@ export const haystack = (p: ImageProject, categories: ImageCategory[]) =>
 
 export type LibraryView = ReturnType<typeof useLibraryView>["view"];
 
-/** Planned entries stay out of the Library until the Status filter is on Planned; then they're all it shows. */
-export const inPool = (p: ImageProject, view: LibraryView) => (view.status === "planned") === (p.status === "planned");
+/** Planned and archived images stay out of the Library until the Status filter is on theirs; then they're all it shows. */
+const SET_ASIDE: ImageStatus[] = ["planned", "archived"];
+export const inPool = (p: ImageProject, view: LibraryView) =>
+  SET_ASIDE.includes(view.status as ImageStatus) ? p.status === view.status : !SET_ASIDE.includes(p.status);
 
 /** The projects the view's search and filters let through; every search word must match. */
 export function filterProjects(projects: ImageProject[], view: LibraryView, categories: ImageCategory[]): ImageProject[] {

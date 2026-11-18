@@ -37,7 +37,7 @@ export default function App() {
   const wanted = params.get("template") ?? params.get("i");
   const project = wanted ? (projects.find((p) => p.id === wanted) ?? null) : null;
   const missing = index.status === "ready" && !!wanted && !project;
-  const templates = projects.filter((p) => p.group === "templates" && p.path);
+  const templates = projects.filter((p) => p.group === "templates" && p.path && p.status !== "archived");
   const planned = project?.status === "planned";
   const fields = useFieldValues(project);
   const photoField = project && !planned ? primaryImageField(project.fields) : undefined;

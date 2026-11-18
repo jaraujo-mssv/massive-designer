@@ -188,6 +188,7 @@ export interface DescribedProject {
   height: number;
   fields: ParamField[];
   path: string | null;
+  status?: string;
 }
 
 const quote = (v: string | boolean | number) => (typeof v === "string" ? JSON.stringify(v) : String(v));
@@ -227,10 +228,11 @@ export function describeProject(p: DescribedProject, base: string): string {
 export const listProject = (p: DescribedProject, base: string) =>
   `- ${p.title} (\`${p.id}\`, ${p.width}×${p.height}): ${base}/api/images?id=${p.id}`;
 
-/** Images that can be rendered (not Planned), templates first, each group by title. */
+/** Images on offer: those that can be rendered (not Planned) and aren't archived, templates first, each group by title.
+ *  An archived image still renders by its link. */
 export function renderable<T extends DescribedProject>(projects: T[]): T[] {
   const rank = (p: T) => (p.group === "templates" ? 0 : 1);
-  return projects.filter((p) => p.path).sort((a, b) => rank(a) - rank(b) || a.title.localeCompare(b.title));
+  return projects.filter((p) => p.path && p.status !== "archived").sort((a, b) => rank(a) - rank(b) || a.title.localeCompare(b.title));
 }
 
 /** How to turn an image into a link, for an AI that has never seen this site. */

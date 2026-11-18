@@ -95,8 +95,8 @@ The Library groups, filters and sorts on these, so set them on every image:
 - `template`: the template project the image is built on (`hiring-photo-square`, `welcome-template`), or null for a one-off.
   `image:new --from` fills it in. Templates themselves (`group: "templates"`) leave it out.
 - `series`: one campaign or set inside a category ("Open roles", "Welcome to Massive", "Jason 15K").
-- `status`: `draft` while it's being made, `ready` once approved, `posted` once it's out. (`planned` is for Planned
-  entries only.)
+- `status`: `draft` while it's being made, `ready` once approved, `posted` once it's out, `archived` once it's no longer
+  current: it leaves the Library and llms.txt, but its links still render. (`planned` is for Planned entries only.)
 - `format` (portrait, square, landscape, story) and the last update are worked out by `image:index`.
 
 `image:index` warns about an unknown category, a `template` that isn't a project, or an unknown status.

@@ -5,7 +5,8 @@
 // For each project it records meta.json (title, category, template, series, status, size, fields …), the format
 // and last update it derives, the page URL and the thumbnail written by `npm run image:render`. Planned entries
 // from planned.json join them with status "planned" and no page yet. categories.json lists the themes, in the
-// order the Library shows them. Unknown categories, templates or statuses are reported, not fatal.
+// order the Library shows them. Unknown categories, templates or statuses are reported, not fatal. Archived images
+// stay in the index (the Library shows them under the Archived filter) but leave llms.txt.
 //
 // It also writes public/llms.txt: how an AI chat turns any of these images into a link that renders it
 // (/api/render/<id>.jpg?…), every template's params in full and one line per other image. The wording and
@@ -16,7 +17,7 @@ import { join } from 'node:path';
 import { RESERVED_PARAMS, SITE_URL, agentGuide, describeProject, listProject, renderable } from '../../src/tools/images/params.ts';
 import { PROJECTS_DIR, PUBLIC_DIR, listProjects, readJson } from './lib/projects.mjs';
 
-const STATUSES = ['planned', 'draft', 'ready', 'posted'];
+const STATUSES = ['planned', 'draft', 'ready', 'posted', 'archived'];
 const SIZES = { portrait: [1080, 1350], square: [1080, 1080], landscape: [1920, 1080], story: [1080, 1920] };
 
 const categories = readJson(join(PROJECTS_DIR, 'categories.json'), []);

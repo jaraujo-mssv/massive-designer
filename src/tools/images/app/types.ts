@@ -24,7 +24,7 @@ export interface ImageCategory {
   description: string;
 }
 
-export type ImageStatus = "planned" | "draft" | "ready" | "posted";
+export type ImageStatus = "planned" | "draft" | "ready" | "posted" | "archived";
 export type ImageFormat = "portrait" | "square" | "landscape" | "story" | "other";
 
 /** One image project, or a Planned entry, as written by scripts/image/build-index.mjs. */

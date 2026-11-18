@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1080" />
+    <title>Code reviews per week (square)</title>
+    <link rel="stylesheet" href="../_brand/massive.css" />
+    <!-- Layout and chart drawing are shared by the code-reviews-* images: ../_code-reviews/ (the .cr-square rules). -->
+    <link rel="stylesheet" href="../_code-reviews/charts.css" />
+  </head>
+  <body>
+    <div id="canvas" class="cr-square">
+      <img class="m-bg-dark" src="../_brand/bg-dark.jpg" alt="" />
+      <div class="cr-stack">
+        <div class="cr-chart">
+          <svg aria-label="Code reviews per week (square)"></svg>
+          <div class="cr-text">
+            <div class="cr-title" data-field="headline">We topped out at 56 code reviews a week. The bot has hit 161.</div>
+          </div>
+        </div>
+        <div class="cr-foot"><img src="../_brand/logo-massive.svg" alt="Massive" /></div>
+      </div>
+    </div>
+    <script src="../_code-reviews/data.js"></script>
+    <script src="../_code-reviews/charts.js"></script>
+    <script>
+      window.onFields = () => {
+        codeReviews.fitTitle(document.querySelector(".cr-title"), 4);
+        const svg = document.querySelector(".cr-chart svg");
+        codeReviews.weekly(svg);
+      };
+    </script>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

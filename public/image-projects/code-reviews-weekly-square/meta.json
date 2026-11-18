@@ -1,0 +1,29 @@
+{
+  "id": "code-reviews-weekly-square",
+  "title": "Code reviews per week (square)",
+  "description": "Square version: code reviews per week since February 2024, the review bot and humans stacked; humans peaked at 56 a week, the bot at 161. On the grid-and-glow ground, the logo centred. Drawn from _code-reviews/data.js.",
+  "group": "massive",
+  "category": "content",
+  "template": null,
+  "series": "Code reviews: humans and the bot",
+  "status": "draft",
+  "tags": [
+    "data story",
+    "engineering",
+    "ai",
+    "chart",
+    "square"
+  ],
+  "source": "code_reviews_weekly.csv (weekly reviews, Feb 5, 2024 to Nov 8, 2026), as of Nov 8, 2026. Square version of the landscape chart of the same name.",
+  "width": 1080,
+  "height": 1080,
+  "fields": [
+    {
+      "id": "headline",
+      "label": "Title",
+      "type": "text",
+      "default": "We topped out at 56 code reviews a week. The bot has hit 161.",
+      "hint": "The hook, in the chart's empty corner: who, what happened, and the surprise. Four lines; about 70 characters."
+    }
+  ]
+}

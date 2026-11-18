@@ -425,8 +425,11 @@ Finished designs, which can also be re-rendered with changes. Each link lists th
 - Brunch: the table (pancakes) (`events-brunch-pancakes-table`, 1080×1080): https://massive-designer.vercel.app/api/images?id=events-brunch-pancakes-table
 - Brunch: the tray (café angle) (`events-brunch-cafe-tray`, 1080×1080): https://massive-designer.vercel.app/api/images?id=events-brunch-cafe-tray
 - Code reviews per week (`code-reviews-weekly`, 1920×1080): https://massive-designer.vercel.app/api/images?id=code-reviews-weekly
+- Code reviews per week (square) (`code-reviews-weekly-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=code-reviews-weekly-square
 - Code reviews: the bot matched 2½ years in four months (`code-reviews-cumulative`, 1920×1080): https://massive-designer.vercel.app/api/images?id=code-reviews-cumulative
+- Code reviews: the bot matched 2½ years in four months (square) (`code-reviews-cumulative-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=code-reviews-cumulative-square
 - Code reviews: the last 15 months (`code-reviews-recent`, 1920×1080): https://massive-designer.vercel.app/api/images?id=code-reviews-recent
+- Code reviews: the last 15 months (square) (`code-reviews-recent-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=code-reviews-recent-square
 - Company card: A front door to the web (`company-card`, 1920×1080): https://massive-designer.vercel.app/api/images?id=company-card
 - Company card: Centered (`company-card-centered`, 1920×1080): https://massive-designer.vercel.app/api/images?id=company-card-centered
 - Feature spotlight: Residential proxies (`product-residential-proxies`, 1080×1350): https://massive-designer.vercel.app/api/images?id=product-residential-proxies

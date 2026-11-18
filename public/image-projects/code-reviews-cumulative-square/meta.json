@@ -1,0 +1,29 @@
+{
+  "id": "code-reviews-cumulative-square",
+  "title": "Code reviews: the bot matched 2½ years in four months (square)",
+  "description": "Square version: running total of code reviews since February 2024, humans as a neutral line, the review bot in red. On the grid-and-glow ground, the logo centred. Drawn from _code-reviews/data.js.",
+  "group": "massive",
+  "category": "content",
+  "template": null,
+  "series": "Code reviews: humans and the bot",
+  "status": "draft",
+  "tags": [
+    "data story",
+    "engineering",
+    "ai",
+    "chart",
+    "square"
+  ],
+  "source": "code_reviews_weekly.csv (weekly reviews, Feb 5, 2024 to Nov 8, 2026), as of Nov 8, 2026. Square version of the landscape chart of the same name.",
+  "width": 1080,
+  "height": 1080,
+  "fields": [
+    {
+      "id": "headline",
+      "label": "Title",
+      "type": "text",
+      "default": "Our code-review bot did in four months what took us two and a half years",
+      "hint": "The hook, in the chart's empty corner: who, what happened, and the surprise. Four lines; about 70 characters."
+    }
+  ]
+}

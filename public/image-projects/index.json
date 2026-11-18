@@ -208,7 +208,7 @@
       "height": 1080,
       "format": "landscape",
       "formats": null,
-      "updated": "2026-11-18T13:00:08.525Z",
+      "updated": "2026-11-18T13:34:31.784Z",
       "brief": null,
       "fields": [
         {
@@ -272,6 +272,41 @@
       "thumb": "/image-projects/code-reviews-cumulative/thumb.jpg"
     },
     {
+      "id": "code-reviews-cumulative-square",
+      "title": "Code reviews: the bot matched 2½ years in four months (square)",
+      "description": "Square version: running total of code reviews since February 2024, humans as a neutral line, the review bot in red. On the grid-and-glow ground, the logo centred. Drawn from _code-reviews/data.js.",
+      "group": "massive",
+      "category": "content",
+      "template": null,
+      "series": "Code reviews: humans and the bot",
+      "status": "draft",
+      "tags": [
+        "data story",
+        "engineering",
+        "ai",
+        "chart",
+        "square"
+      ],
+      "source": "code_reviews_weekly.csv (weekly reviews, Feb 5, 2024 to Nov 8, 2026), as of Nov 8, 2026. Square version of the landscape chart of the same name.",
+      "width": 1080,
+      "height": 1080,
+      "format": "square",
+      "formats": null,
+      "updated": "2026-11-18T14:03:20.914Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "headline",
+          "label": "Title",
+          "type": "text",
+          "default": "Our code-review bot did in four months what took us two and a half years",
+          "hint": "The hook, in the chart's empty corner: who, what happened, and the surprise. Four lines; about 70 characters."
+        }
+      ],
+      "path": "/image-projects/code-reviews-cumulative-square/index.html",
+      "thumb": "/image-projects/code-reviews-cumulative-square/thumb.jpg"
+    },
+    {
       "id": "code-reviews-recent",
       "title": "Code reviews: the last 15 months",
       "description": "Running total of code reviews since August 2025: 1,253 by the review bot in four months against 867 by humans in fifteen. Drawn from the weekly data in _code-reviews/data.js.",
@@ -291,7 +326,7 @@
       "height": 1080,
       "format": "landscape",
       "formats": null,
-      "updated": "2026-11-18T13:00:08.525Z",
+      "updated": "2026-11-18T13:34:31.784Z",
       "brief": null,
       "fields": [
         {
@@ -355,6 +390,41 @@
       "thumb": "/image-projects/code-reviews-recent/thumb.jpg"
     },
     {
+      "id": "code-reviews-recent-square",
+      "title": "Code reviews: the last 15 months (square)",
+      "description": "Square version: running total of code reviews since August 2025, 1,253 by the review bot against 867 by humans. On the grid-and-glow ground, the logo centred. Drawn from _code-reviews/data.js.",
+      "group": "massive",
+      "category": "content",
+      "template": null,
+      "series": "Code reviews: humans and the bot",
+      "status": "draft",
+      "tags": [
+        "data story",
+        "engineering",
+        "ai",
+        "chart",
+        "square"
+      ],
+      "source": "code_reviews_weekly.csv (weekly reviews, Feb 5, 2024 to Nov 8, 2026), as of Nov 8, 2026. Square version of the landscape chart of the same name.",
+      "width": 1080,
+      "height": 1080,
+      "format": "square",
+      "formats": null,
+      "updated": "2026-11-18T14:03:20.915Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "headline",
+          "label": "Title",
+          "type": "text",
+          "default": "When pull requests tripled, two of us couldn’t keep up. A bot could.",
+          "hint": "The hook, in the chart's empty corner: who, what happened, and the surprise. Four lines; about 70 characters."
+        }
+      ],
+      "path": "/image-projects/code-reviews-recent-square/index.html",
+      "thumb": "/image-projects/code-reviews-recent-square/thumb.jpg"
+    },
+    {
       "id": "code-reviews-weekly",
       "title": "Code reviews per week",
       "description": "Code reviews per week since February 2024, the review bot and humans stacked: humans peaked at 56 a week, the bot at 161. Drawn from the weekly data in _code-reviews/data.js.",
@@ -374,7 +444,7 @@
       "height": 1080,
       "format": "landscape",
       "formats": null,
-      "updated": "2026-11-18T13:00:08.526Z",
+      "updated": "2026-11-18T13:34:31.784Z",
       "brief": null,
       "fields": [
         {
@@ -436,6 +506,41 @@
       ],
       "path": "/image-projects/code-reviews-weekly/index.html",
       "thumb": "/image-projects/code-reviews-weekly/thumb.jpg"
+    },
+    {
+      "id": "code-reviews-weekly-square",
+      "title": "Code reviews per week (square)",
+      "description": "Square version: code reviews per week since February 2024, the review bot and humans stacked; humans peaked at 56 a week, the bot at 161. On the grid-and-glow ground, the logo centred. Drawn from _code-reviews/data.js.",
+      "group": "massive",
+      "category": "content",
+      "template": null,
+      "series": "Code reviews: humans and the bot",
+      "status": "draft",
+      "tags": [
+        "data story",
+        "engineering",
+        "ai",
+        "chart",
+        "square"
+      ],
+      "source": "code_reviews_weekly.csv (weekly reviews, Feb 5, 2024 to Nov 8, 2026), as of Nov 8, 2026. Square version of the landscape chart of the same name.",
+      "width": 1080,
+      "height": 1080,
+      "format": "square",
+      "formats": null,
+      "updated": "2026-11-18T14:03:20.915Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "headline",
+          "label": "Title",
+          "type": "text",
+          "default": "We topped out at 56 code reviews a week. The bot has hit 161.",
+          "hint": "The hook, in the chart's empty corner: who, what happened, and the surprise. Four lines; about 70 characters."
+        }
+      ],
+      "path": "/image-projects/code-reviews-weekly-square/index.html",
+      "thumb": "/image-projects/code-reviews-weekly-square/thumb.jpg"
     },
     {
       "id": "company-card",
@@ -1262,7 +1367,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-11-18T13:15:36.758Z",
+      "updated": "2026-11-18T13:34:31.785Z",
       "brief": null,
       "fields": [
         {
@@ -1298,7 +1403,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-11-18T13:15:35.795Z",
+      "updated": "2026-11-18T13:34:31.787Z",
       "brief": null,
       "fields": [
         {
@@ -1334,7 +1439,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-11-18T13:15:34.915Z",
+      "updated": "2026-11-18T13:34:31.788Z",
       "brief": null,
       "fields": [
         {
@@ -1370,7 +1475,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-11-18T13:15:34.427Z",
+      "updated": "2026-11-18T13:34:31.789Z",
       "brief": null,
       "fields": [
         {
@@ -1406,7 +1511,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-11-18T13:15:34.428Z",
+      "updated": "2026-11-18T13:34:31.790Z",
       "brief": null,
       "fields": [
         {
@@ -1442,7 +1547,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-11-18T13:15:34.427Z",
+      "updated": "2026-11-18T13:34:31.791Z",
       "brief": null,
       "fields": [
         {
@@ -1478,7 +1583,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-11-18T13:15:34.428Z",
+      "updated": "2026-11-18T13:34:31.792Z",
       "brief": null,
       "fields": [
         {
@@ -1514,7 +1619,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-11-18T13:15:34.428Z",
+      "updated": "2026-11-18T13:34:31.794Z",
       "brief": null,
       "fields": [
         {
@@ -1550,7 +1655,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-11-18T13:15:34.428Z",
+      "updated": "2026-11-18T13:34:31.795Z",
       "brief": null,
       "fields": [
         {
@@ -5068,7 +5173,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-11-18T12:46:20.827Z",
+      "updated": "2026-11-18T13:34:31.796Z",
       "brief": null,
       "fields": [
         {
@@ -5127,7 +5232,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-11-18T12:46:20.827Z",
+      "updated": "2026-11-18T13:34:31.796Z",
       "brief": null,
       "fields": [
         {
@@ -5227,7 +5332,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-11-18T12:46:20.828Z",
+      "updated": "2026-11-18T13:34:31.796Z",
       "brief": null,
       "fields": [
         {
@@ -5360,7 +5465,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-11-18T12:46:20.828Z",
+      "updated": "2026-11-18T13:34:31.797Z",
       "brief": null,
       "fields": [
         {
@@ -5407,7 +5512,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-11-18T12:46:20.828Z",
+      "updated": "2026-11-18T13:34:31.797Z",
       "brief": null,
       "fields": [
         {
@@ -5482,7 +5587,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-11-18T12:46:20.828Z",
+      "updated": "2026-11-18T13:34:31.797Z",
       "brief": null,
       "fields": [
         {
@@ -5572,7 +5677,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-11-18T12:46:20.828Z",
+      "updated": "2026-11-18T13:34:31.797Z",
       "brief": null,
       "fields": [
         {
@@ -5671,7 +5776,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-11-18T12:46:20.829Z",
+      "updated": "2026-11-18T13:34:31.797Z",
       "brief": null,
       "fields": [
         {

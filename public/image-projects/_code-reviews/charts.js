@@ -1,8 +1,9 @@
 // The code-reviews-* images' charts, drawn from data.js into the page's .cr-chart svg (load data.js first).
 //
 //   codeReviews.cumulative(svg, { from: "2025-08-04" })  running totals since a week, humans and the bot as two lines
+//                                                        (stacked: true sets each total's name under its number)
 //   codeReviews.weekly(svg)                              reviews per week, bot and humans stacked
-//   codeReviews.fitTitle(el)                             steps the title down until it fits on three lines
+//   codeReviews.fitTitle(el, lines)                      steps the title down until it fits on `lines` lines (3)
 //
 // The chart fills the frame. Its data ends in a steep climb on the right, so the title and the numbers (.cr-text)
 // sit over its empty top-left corner: the vertical scale is set so every point under that text stays below it.
@@ -81,11 +82,12 @@
     return (v) => f.plot.bottom - (v / max) * h;
   }
 
-  // The baseline and the months under it: every quarter over a long range, every month over a short one. January
-  // and the first tick carry the year.
+  // The baseline and the months under it: every quarter over a long range or a narrow chart, every month otherwise.
+  // January and the first tick carry the year.
   function axis({ svg, plot, x, from }) {
     el(svg, "line", { x1: plot.left, x2: plot.right, y1: plot.bottom, y2: plot.bottom, class: "cr-base" });
-    const quarterly = (END - from) / DAY > 600;
+    const months = (END - from) / DAY / 30.44;
+    const quarterly = months > 20 || (plot.right - plot.left) / months < 90;
     const first = new Date(from);
     let labelled = false;
     for (let m = Date.UTC(first.getUTCFullYear(), first.getUTCMonth() + 1, 1); m < END; ) {
@@ -110,7 +112,9 @@
   // not counted), and a label at the top of each line. The labels stack in two rows, so neither crosses the other's
   // line: run left of the lines, the later date's label is the upper one; run right, the earlier one's. They take the
   // first spot, from the top down, that clears the text over the chart, the other labels (`taken`) and the data
-  // (`spans`, as [x0, x1, value]). They're drawn into `layer`, under the data.
+  // (`spans`, as [x0, x1, highest, lowest]), with their lines clear of the text and labels too. When nothing over the
+  // data is free, they sit under it, from the baseline up (a line's area only: never under a column). They're drawn
+  // into `layer`, under the data.
   function events({ plot, x, width, boxes }, layer, y, spans, taken) {
     const xs = EVENTS.map((e) => x(e.at));
     const texts = EVENTS.map((e) => el(layer, "text", { class: "cr-event" }, e.label));
@@ -118,28 +122,29 @@
     const ROW = 36;
     const HEIGHT = 24;
     const hits = (r, b, pad) => r.right > b.left - pad && r.left < b.right + pad && r.bottom > b.top - pad && r.top < b.bottom + pad;
-    const free = (r) =>
-      r.left >= plot.left &&
-      r.right <= width &&
-      !boxes.some((b) => hits(r, b, 64)) && // well clear of the title, so a label never reads as part of it
-      !taken.some((b) => hits(r, b, 16)) &&
-      spans.every(([x0, x1, v]) => x1 < r.left || x0 > r.right || y(v) > r.bottom + 16);
+    const clear = (r, titlePad) => !boxes.some((b) => hits(r, b, titlePad)) && !taken.some((b) => hits(r, b, 12));
+    const inside = (r) => r.left >= plot.left && r.right <= width;
+    const over = (r) => spans.every(([x0, x1, high]) => x1 < r.left || x0 > r.right || y(high) > r.bottom + 16);
+    const under = (r) => spans.every(([x0, x1, , low]) => x1 < r.left || x0 > r.right || y(low) < r.top - 16);
     const place = (top, side) =>
       [0, 1].map((i) => {
         const rowTop = top + (side === "left" ? 1 - i : i) * ROW;
         const left = side === "left" ? xs[i] - 14 - widths[i] : xs[i] + 14;
-        return { left, right: left + widths[i], top: rowTop, bottom: rowTop + HEIGHT, side };
+        return { left, right: left + widths[i], top: rowTop, bottom: rowTop + HEIGHT };
       });
-    let spot = place(plot.top, "left");
-    search: for (let top = plot.top; top < plot.bottom - 3 * ROW; top += 12) {
-      for (const side of ["left", "right"]) {
-        const tried = place(top, side);
-        if (tried.every(free)) {
-          spot = tried;
-          break search;
-        }
-      }
-    }
+    // A label well clear of the title, so it never reads as part of it; its line clear of the text and labels.
+    const fits = (spot, onData) =>
+      spot.every(
+        (r, i) => inside(r) && clear(r, 64) && onData(r) && clear({ left: xs[i] - 1, right: xs[i] + 1, top: r.top, bottom: plot.bottom }, 24),
+      );
+    const find = () => {
+      for (let top = plot.top; top < plot.bottom - 3 * ROW; top += 12)
+        for (const side of ["left", "right"]) if (fits(place(top, side), over)) return place(top, side);
+      for (let top = plot.bottom - 2 * ROW - 24; top > plot.top; top -= 12)
+        for (const side of ["left", "right"]) if (fits(place(top, side), under)) return place(top, side);
+      return place(plot.top, "left");
+    };
+    const spot = find();
     const gapTop = Math.max(...spot.map((r) => r.top));
     el(layer, "rect", { x: xs[0], y: gapTop, width: xs[1] - xs[0], height: plot.bottom - gapTop, fill: "rgba(250, 244, 236, 0.035)" });
     spot.forEach((r, i) => {
@@ -152,7 +157,7 @@
 
   const linePath = (pts, x, y) => pts.map(([t, v], i) => `${i ? "L" : "M"}${x(t).toFixed(1)},${y(v).toFixed(1)}`).join("");
 
-  function cumulative(svg, { from } = {}) {
+  function cumulative(svg, { from, stacked = false } = {}) {
     const start = from ? Date.parse(`${from}T00:00:00Z`) : rows[0].start;
     const f = frame(svg, { from: start, right: 24 });
     const { x, plot } = f;
@@ -174,10 +179,13 @@
         pts: [[shown[firstBot].start, 0], ...shown.slice(firstBot).map((r) => [r.start + 7 * DAY, r.botTotal - base.bot])],
       },
     ];
-    // Each segment of a line, as the span it covers and the higher of its two ends.
-    const spans = series.flatMap((s) => s.pts.slice(1).map(([t, v], i) => [x(s.pts[i][0]), x(t), Math.max(v, s.pts[i][1])]));
+    // Each segment of a line, as the span it covers and the higher and lower of its two ends.
+    const spans = series.flatMap((s) =>
+      s.pts.slice(1).map(([t, v], i) => [x(s.pts[i][0]), x(t), Math.max(v, s.pts[i][1]), Math.min(v, s.pts[i][1])]),
+    );
     // Room above the line ends for their totals.
-    const y = fitY(f, spans, 150);
+    const ROW = stacked ? 86 : 52;
+    const y = fitY(f, spans, stacked ? 230 : 150);
 
     const layer = el(svg, "g");
     axis(f);
@@ -191,24 +199,25 @@
     }
 
     // The totals, top right over the line ends, the larger first: a dot of the series colour, the number and what it
-    // counts, set to end at the plot's right edge. Each line ends on a dot too.
+    // counts (beside it, or under it when stacked), set to end at the plot's right edge. Each line ends on a dot too.
     const ends = series.map((s) => ({ ...s, v: s.pts.at(-1)[1] })).sort((a, b) => b.v - a.v);
-    const values = ends.map((e) => el(svg, "text", { "text-anchor": "end", class: "cr-end-value" }, fmt(e.v)));
+    const values = ends.map((e) => el(svg, "text", { "text-anchor": stacked ? "start" : "end", class: "cr-end-value" }, fmt(e.v)));
     const names = ends.map((e) => el(svg, "text", { class: "cr-end-label" }, e.name));
     const valueWidth = Math.max(...values.map((t) => t.getComputedTextLength()));
-    const nameX = plot.right - Math.max(...names.map((t) => t.getComputedTextLength()));
-    const valueX = nameX - 14;
-    const dotX = valueX - valueWidth - 22;
-    const ROW = 52;
+    const nameWidth = Math.max(...names.map((t) => t.getComputedTextLength()));
+    const nameX = plot.right - (stacked ? Math.max(valueWidth, nameWidth) : nameWidth);
+    const valueX = stacked ? nameX : nameX - 14;
+    const dotX = stacked ? nameX - 22 : valueX - valueWidth - 22;
     ends.forEach((e, i) => {
       const cy = plot.top + 26 + i * ROW;
-      for (const t of [values[i], names[i]]) t.setAttribute("y", cy + 15);
       values[i].setAttribute("x", valueX);
+      values[i].setAttribute("y", cy + 15);
       names[i].setAttribute("x", nameX);
+      names[i].setAttribute("y", stacked ? cy + 48 : cy + 15);
       el(svg, "circle", { cx: dotX, cy, r: 8, fill: e.color });
       el(svg, "circle", { cx: plot.right, cy: y(e.v), r: 9, fill: e.color, stroke: GROUND, "stroke-width": 3 });
     });
-    const taken = [{ left: dotX - 8, right: plot.right, top: plot.top, bottom: plot.top + 26 + ROW * ends.length }];
+    const taken = [{ left: dotX - 8, right: plot.right, top: plot.top, bottom: plot.top + 26 + ROW * ends.length - (stacked ? 20 : 0) }];
     events(f, layer, y, spans, taken);
   }
 
@@ -220,7 +229,7 @@
     const w = Math.min(slot - 3, 24);
     const left = (r) => x(r.start + 3.5 * DAY) - w / 2;
     // Room above the tallest column for its label.
-    const spans = rows.map((r) => [left(r), left(r) + w, r.human + r.bot]);
+    const spans = rows.map((r) => [left(r), left(r) + w, r.human + r.bot, 0]);
     const y = fitY(f, spans, 96);
 
     const layer = el(svg, "g");

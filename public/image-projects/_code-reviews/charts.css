@@ -108,3 +108,29 @@
   font-size: 21px;
   fill: var(--m-cream-mid);
 }
+
+/* The square versions (1080×1080): the grid-and-glow ground (bg-dark.jpg), no numbers under the title, and the logo
+   centred under the chart. */
+#canvas.cr-square {
+  width: 1080px;
+  height: 1080px;
+}
+.cr-square .cr-stack {
+  inset: 80px 80px 72px;
+}
+.cr-square .cr-text {
+  width: 620px;
+}
+.cr-square .cr-title {
+  font-size: 80px;
+}
+.cr-square .cr-chart {
+  margin-bottom: 40px;
+}
+.cr-square .cr-foot {
+  display: flex;
+  justify-content: center;
+}
+.cr-square .cr-foot img {
+  height: 32px;
+}

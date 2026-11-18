@@ -237,42 +237,6 @@ Image link (defaults): https://massive-designer.vercel.app/api/render/partners-a
 Edit link: https://massive-designer.vercel.app/images?template=partners-announcement
 Thumbnail: https://massive-designer.vercel.app/image-projects/partners-announcement/thumb.jpg
 
-### Prague Crawl 2027: speaker card
-
-id `prague-crawl-2027-speaker` · 1080×1080 · events · template
-
-Announce a confirmed speaker: their photo in a gradient ring on the left, and Speaker, their name, company logo and role on the right, in the Prague Crawl look (_prague-crawl/). Fill in one per speaker. The default is Jason Grad as an example.
-
-Params:
-- `eyebrow`: Eyebrow. Text; default "Speaker". One or two words, in capitals: Speaker, Keynote, Panelist, Demo.
-- `photo`: Photo. A direct https:// link to an image; default: the design's own. A square portrait with the face centred, at least 900 px wide; it's cropped to a circle.
-- `name`: Name. Text; default "Jason Grad". Full name, in capitals. Wraps to two lines and shrinks to fit.
-- `logo`: Company logo. A direct https:// link to an image; default: the design's own. The company's logo for dark backgrounds (white or colour on black), PNG or SVG, wider than tall.
-- `role`: Role. Text; default "Co-Founder & CEO". Job title only; the logo shows the company. Up to about 40 characters.
-- `date`: Date. Text; default "May 13, 2027".
-- `venue`: Venue. Text; default "Spojka Events, Prague".
-
-Image link (defaults): https://massive-designer.vercel.app/api/render/prague-crawl-2027-speaker.jpg
-Edit link: https://massive-designer.vercel.app/images?template=prague-crawl-2027-speaker
-Thumbnail: https://massive-designer.vercel.app/image-projects/prague-crawl-2027-speaker/thumb.jpg
-
-### Prague Crawl 2027: sponsor welcome
-
-id `prague-crawl-2027-sponsor` · 1080×1080 · events · template
-
-Welcome a sponsor as they sign: Sponsored by, their logo straight on the black, and their tier, in the Prague Crawl look (_prague-crawl/). It's the LinkedIn co-post (Platinum, Gold) or mention (Silver, Bronze) from the deck's benefits table (scripts/deck/prague-crawl-2027.html). The default, Apify as a Gold sponsor, is only an example.
-
-Params:
-- `eyebrow`: Eyebrow. Text; default "Sponsored by". Two or three words, in capitals.
-- `logo`: Sponsor logo. A direct https:// link to an image; default: the design's own. The sponsor's logo for dark backgrounds (white or colour on a transparent background), PNG or SVG.
-- `tier`: Tier. One of `platinum` (Platinum sponsor), `gold` (Gold sponsor), `silver` (Silver sponsor), `bronze` (Bronze sponsor), `afterparty` (Afterparty Partner), `coffee` (Coffee & Lunch Partner), `none` (No tier line); default `gold`. The line under the logo.
-- `date`: Date. Text; default "May 13, 2027".
-- `venue`: Venue. Text; default "Spojka Events, Prague".
-
-Image link (defaults): https://massive-designer.vercel.app/api/render/prague-crawl-2027-sponsor.jpg
-Edit link: https://massive-designer.vercel.app/images?template=prague-crawl-2027-sponsor
-Thumbnail: https://massive-designer.vercel.app/image-projects/prague-crawl-2027-sponsor/thumb.jpg
-
 ### Promotion announcement
 
 id `team-promotion` · 1080×1350 · team · template
@@ -451,6 +415,18 @@ Finished designs, which can also be re-rendered with changes. Each link lists th
 - AI answers: a new era (`content-ai-answers`, 1080×1350): https://massive-designer.vercel.app/api/images?id=content-ai-answers
 - API in a few lines (`product-code-snippet`, 1920×1080): https://massive-designer.vercel.app/api/images?id=product-code-snippet
 - Blog: Hotel Prices Without a Browser (`blog-radisson-hotel-prices`, 1376×768): https://massive-designer.vercel.app/api/images?id=blog-radisson-hotel-prices
+- Brunch: the croissant (café angle) (`events-brunch-cafe-croissant`, 1080×1080): https://massive-designer.vercel.app/api/images?id=events-brunch-cafe-croissant
+- Brunch: the latte (`events-brunch-latte`, 1080×1080): https://massive-designer.vercel.app/api/images?id=events-brunch-latte
+- Brunch: the latte (pancakes) (`events-brunch-pancakes-latte`, 1080×1080): https://massive-designer.vercel.app/api/images?id=events-brunch-pancakes-latte
+- Brunch: the spread (`events-brunch-spread`, 1080×1080): https://massive-designer.vercel.app/api/images?id=events-brunch-spread
+- Brunch: the spread (café angle) (`events-brunch-cafe-spread`, 1080×1080): https://massive-designer.vercel.app/api/images?id=events-brunch-cafe-spread
+- Brunch: the spread (pancakes) (`events-brunch-pancakes-spread`, 1080×1080): https://massive-designer.vercel.app/api/images?id=events-brunch-pancakes-spread
+- Brunch: the table (`events-brunch-table`, 1080×1080): https://massive-designer.vercel.app/api/images?id=events-brunch-table
+- Brunch: the table (pancakes) (`events-brunch-pancakes-table`, 1080×1080): https://massive-designer.vercel.app/api/images?id=events-brunch-pancakes-table
+- Brunch: the tray (café angle) (`events-brunch-cafe-tray`, 1080×1080): https://massive-designer.vercel.app/api/images?id=events-brunch-cafe-tray
+- Code reviews per week (`code-reviews-weekly`, 1920×1080): https://massive-designer.vercel.app/api/images?id=code-reviews-weekly
+- Code reviews: the bot matched 2½ years in four months (`code-reviews-cumulative`, 1920×1080): https://massive-designer.vercel.app/api/images?id=code-reviews-cumulative
+- Code reviews: the last 15 months (`code-reviews-recent`, 1920×1080): https://massive-designer.vercel.app/api/images?id=code-reviews-recent
 - Company card: A front door to the web (`company-card`, 1920×1080): https://massive-designer.vercel.app/api/images?id=company-card
 - Company card: Centered (`company-card-centered`, 1920×1080): https://massive-designer.vercel.app/api/images?id=company-card-centered
 - Feature spotlight: Residential proxies (`product-residential-proxies`, 1080×1350): https://massive-designer.vercel.app/api/images?id=product-residential-proxies
@@ -477,12 +453,6 @@ Finished designs, which can also be re-rendered with changes. Each link lists th
 - Jason 15K: Very nice (`jason-15k-very-nice`, 1080×1350): https://massive-designer.vercel.app/api/images?id=jason-15k-very-nice
 - Know someone? Refer them (`hiring-referral`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-referral
 - Launch announcement (`product-launch`, 1080×1350): https://massive-designer.vercel.app/api/images?id=product-launch
-- Prague Crawl 2026 in numbers (`prague-crawl-2027-last-year`, 1080×1350): https://massive-designer.vercel.app/api/images?id=prague-crawl-2027-last-year
-- Prague Crawl 2027: agenda (`prague-crawl-2027-agenda`, 1080×1350): https://massive-designer.vercel.app/api/images?id=prague-crawl-2027-agenda
-- Prague Crawl 2027: call for speakers (`prague-crawl-2027-call-for-speakers`, 1080×1350): https://massive-designer.vercel.app/api/images?id=prague-crawl-2027-call-for-speakers
-- Prague Crawl 2027: call for sponsors (`prague-crawl-2027-sponsors`, 1080×1350): https://massive-designer.vercel.app/api/images?id=prague-crawl-2027-sponsors
-- Prague Crawl 2027: save the date (`prague-crawl-2027-save-the-date`, 1080×1080): https://massive-designer.vercel.app/api/images?id=prague-crawl-2027-save-the-date
-- Prague Crawl 2027: tickets on sale (`prague-crawl-2027-tickets`, 1080×1350): https://massive-designer.vercel.app/api/images?id=prague-crawl-2027-tickets
 - Welcome to Massive: Anton Komandyr (`welcome-anton`, 1080×1350): https://massive-designer.vercel.app/api/images?id=welcome-anton
 - Welcome to Massive: Artem Shcherbatiuk (`welcome-artem`, 1080×1350): https://massive-designer.vercel.app/api/images?id=welcome-artem
 - Welcome to Massive: Marco Spagnuolo (`welcome-marco`, 1080×1350): https://massive-designer.vercel.app/api/images?id=welcome-marco

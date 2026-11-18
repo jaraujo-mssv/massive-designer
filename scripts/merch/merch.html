@@ -63,12 +63,14 @@
     has joinmassive.com under it, Outfit Bold in white (#flat-tagline-url), 3.5 × 1.9 in in all.
   - Wooden glass, Prague Crawl afterparty: Etsy, NieVerblassen (https://www.etsy.com/listing/4424839315), a wooden
     whiskey glass, 8.5 × 9 cm, 300 ml, laser engraved in one colour. The listing gives no engraving area: these assume
-    6 × 5 cm a side, centred on the belly (to confirm with the shop). Two options for the quote: Prague Crawl 2027 on
-    one side and Massive × NodeMaven on the other (glass-pc-side-a, -side-b), or Prague Crawl 2027 by Massive &
-    NodeMaven on one side (glass-pc-one-side). Each file is the art alone, black (the burn) on a transparent ground.
+    6 × 5 cm a side, centred on the belly (to confirm with the shop). Three options for the quote: Prague Crawl 2027 on
+    one side and Massive × NodeMaven on the other (glass-pc-side-a, -side-b), Prague Crawl 2027 by Massive &
+    NodeMaven on one side (glass-pc-one-side), or option 1 with the event's big W and praguecrawl.com on side A
+    (glass-pc-w-side-a, and the same side B). Each file is the art alone, black (the burn) on a transparent ground.
     glass/prague-crawl-2027.svg is the event's wordmark in one colour, stacked on three lines (the flat pixel logo,
-    2027 straight, from pragecrawl-2027-exp); glass/nodemaven.svg is the logo in nodemaven.com's header, in one
-    colour. "by" and "&" are in the event's pixel face, Jersey 25; the × is drawn.
+    2027 straight, from pragecrawl-2027-exp); glass/prague-crawl-w.svg is the event's 3D pixel W, its face alone in
+    one colour; glass/nodemaven.svg is the logo in nodemaven.com's header, in one colour. "by" and "&" are in the
+    event's pixel face, Jersey 25; praguecrawl.com is Outfit Bold, as wide as the W; the × is drawn.
   - Pajamas: Printful's all-over print garments (each one's print files are in src/tools/merch/app/printful.ts).
     Two prints, the logo's mountain and the four sleepy mountains (pajamas/sleepy/*.png), each on the dark ground
     with Printful's White trim and on white (the bare fabric, as white doesn't print) with Black trim. A print is a
@@ -412,6 +414,10 @@ html[data-only] .guides, .mockups .guides { display: none; }
 .engrave .logos { display: flex; align-items: center; gap: calc(0.2 * var(--cm)); }
 .engrave.one-side .massive { width: calc(2.05 * var(--cm)); height: calc(2.05 * var(--cm) * 123.62 / 1090.16); }
 .engrave.one-side .nodemaven { width: calc(2.35 * var(--cm)); height: calc(2.35 * var(--cm) * 42 / 184); }
+/* Option 3's side A: the big W, then praguecrawl.com in Outfit Bold under it, the same width as the W */
+.engrave.side-w { gap: calc(0.26 * var(--cm)); }
+.engrave .w { width: calc(3.6 * var(--cm)); height: calc(3.6 * var(--cm) * 102.194 / 99.873); }
+.engrave .url { font-family: var(--font-display); font-weight: 700; line-height: 1.3; font-size: calc(0.448 * var(--cm)); white-space: nowrap; }
 .print-area.glass { --fabric: #b8643a; width: 6cm; height: 5cm; }
 /* The mockup: the glass in cm (--s to the cm), the engraving wrapped round it (.cyl) and burned in (multiply) */
 .glasses { --s: 56px; gap: 120px; }
@@ -1351,8 +1357,9 @@ html[data-only] .proof.pajamas, html[data-only] .proof.brochure, html[data-only]
     <p class="row-label"><b>Wooden glass · Prague Crawl afterparty</b> · Etsy, NieVerblassen · 8.5 × 9 cm, 300 ml · laser engraved in one colour · each file is the art alone, black (the burn) on a transparent ground</p>
     <div class="cells">
       <figure class="cell"><div class="print-area glass"><div class="art engrave side-a" data-file="glass-pc-side-a"><img class="pc" src="glass/prague-crawl-2027.svg" alt="" /></div></div><figcaption>Option 1 · Side A</figcaption></figure>
-      <figure class="cell"><div class="print-area glass"><div class="art engrave side-b" data-file="glass-pc-side-b"><svg class="massive" viewBox="0 0 1090.16 123.62"><use href="#lockup" /></svg><svg class="times" viewBox="0 0 10 10"><path d="M1 1L9 9M9 1L1 9" /></svg><img class="nodemaven" src="glass/nodemaven.svg" alt="" /></div></div><figcaption>Option 1 · Side B</figcaption></figure>
+      <figure class="cell"><div class="print-area glass"><div class="art engrave side-b" data-file="glass-pc-side-b"><svg class="massive" viewBox="0 0 1090.16 123.62"><use href="#lockup" /></svg><svg class="times" viewBox="0 0 10 10"><path d="M1 1L9 9M9 1L1 9" /></svg><img class="nodemaven" src="glass/nodemaven.svg" alt="" /></div></div><figcaption>Options 1 and 3 · Side B</figcaption></figure>
       <figure class="cell"><div class="print-area glass"><div class="art engrave one-side" data-file="glass-pc-one-side"><img class="pc" src="glass/prague-crawl-2027.svg" alt="" /><div class="logos"><span class="by">by</span><svg class="massive" viewBox="0 0 1090.16 123.62"><use href="#lockup" /></svg><span class="amp">&amp;</span><img class="nodemaven" src="glass/nodemaven.svg" alt="" /></div></div></div><figcaption>Option 2 · One side</figcaption></figure>
+      <figure class="cell"><div class="print-area glass"><div class="art engrave side-w" data-file="glass-pc-w-side-a"><img class="w" src="glass/prague-crawl-w.svg" alt="" /><span class="url">praguecrawl.com</span></div></div><figcaption>Option 3 · Side A</figcaption></figure>
     </div>
   </section>
 </main>
@@ -1399,8 +1406,8 @@ html[data-only] .proof.pajamas, html[data-only] .proof.brochure, html[data-only]
     <svg class="pack-figure" viewBox="0 0 13.6 5.5"><use href="#hip-pack-shape" /><svg x="4.65" y="1.99" width="3.5" height="1.919" viewBox="3.3 -2.6 118.7 65.1" style="--mountain: #f38165; --fabric: #1d1d1d; fill: #ffffff"><use href="#flat-tagline-url" /></svg></svg>
   </div>
   <!-- The wooden glass: each band (.glass-wrap) runs once round the belly (26.7 cm), side A a quarter of the way along
-       it and side B three quarters; each glass faces one of them (data-at). Option 1 shows both sides; option 2 the
-       front, and the back left bare. -->
+       it and side B three quarters; each glass faces one of them (data-at). Options 1 and 3 show both sides; option 2
+       the front, and the back left bare. -->
   <div class="item-mockup glasses" data-mockup="glass-pc-two-sides">
     <div class="glass-figure"><svg viewBox="0 0 8.5 9.05"><use href="#wood-glass-shape" /></svg><div class="cyl" data-r="4.25" data-at="6.676"><div class="glass-wrap"><div class="engrave side-a" style="--x: 6.676"><img class="pc" src="glass/prague-crawl-2027.svg" alt="" /></div><div class="engrave side-b" style="--x: 20.028"><svg class="massive" viewBox="0 0 1090.16 123.62"><use href="#lockup" /></svg><svg class="times" viewBox="0 0 10 10"><path d="M1 1L9 9M9 1L1 9" /></svg><img class="nodemaven" src="glass/nodemaven.svg" alt="" /></div></div></div><svg viewBox="0 0 8.5 9.05"><use href="#wood-glass-gloss" /></svg></div>
     <div class="glass-figure"><svg viewBox="0 0 8.5 9.05"><use href="#wood-glass-shape" /></svg><div class="cyl" data-r="4.25" data-at="20.028"><div class="glass-wrap"><div class="engrave side-a" style="--x: 6.676"><img class="pc" src="glass/prague-crawl-2027.svg" alt="" /></div><div class="engrave side-b" style="--x: 20.028"><svg class="massive" viewBox="0 0 1090.16 123.62"><use href="#lockup" /></svg><svg class="times" viewBox="0 0 10 10"><path d="M1 1L9 9M9 1L1 9" /></svg><img class="nodemaven" src="glass/nodemaven.svg" alt="" /></div></div></div><svg viewBox="0 0 8.5 9.05"><use href="#wood-glass-gloss" /></svg></div>
@@ -1408,6 +1415,10 @@ html[data-only] .proof.pajamas, html[data-only] .proof.brochure, html[data-only]
   <div class="item-mockup glasses" data-mockup="glass-pc-one-side">
     <div class="glass-figure"><svg viewBox="0 0 8.5 9.05"><use href="#wood-glass-shape" /></svg><div class="cyl" data-r="4.25" data-at="6.676"><div class="glass-wrap"><div class="engrave one-side" style="--x: 6.676"><img class="pc" src="glass/prague-crawl-2027.svg" alt="" /><div class="logos"><span class="by">by</span><svg class="massive" viewBox="0 0 1090.16 123.62"><use href="#lockup" /></svg><span class="amp">&amp;</span><img class="nodemaven" src="glass/nodemaven.svg" alt="" /></div></div></div></div><svg viewBox="0 0 8.5 9.05"><use href="#wood-glass-gloss" /></svg></div>
     <div class="glass-figure"><svg viewBox="0 0 8.5 9.05"><use href="#wood-glass-shape" /></svg><svg viewBox="0 0 8.5 9.05"><use href="#wood-glass-gloss" /></svg></div>
+  </div>
+  <div class="item-mockup glasses" data-mockup="glass-pc-w-two-sides">
+    <div class="glass-figure"><svg viewBox="0 0 8.5 9.05"><use href="#wood-glass-shape" /></svg><div class="cyl" data-r="4.25" data-at="6.676"><div class="glass-wrap"><div class="engrave side-w" style="--x: 6.676"><img class="w" src="glass/prague-crawl-w.svg" alt="" /><span class="url">praguecrawl.com</span></div><div class="engrave side-b" style="--x: 20.028"><svg class="massive" viewBox="0 0 1090.16 123.62"><use href="#lockup" /></svg><svg class="times" viewBox="0 0 10 10"><path d="M1 1L9 9M9 1L1 9" /></svg><img class="nodemaven" src="glass/nodemaven.svg" alt="" /></div></div></div><svg viewBox="0 0 8.5 9.05"><use href="#wood-glass-gloss" /></svg></div>
+    <div class="glass-figure"><svg viewBox="0 0 8.5 9.05"><use href="#wood-glass-shape" /></svg><div class="cyl" data-r="4.25" data-at="20.028"><div class="glass-wrap"><div class="engrave side-w" style="--x: 6.676"><img class="w" src="glass/prague-crawl-w.svg" alt="" /><span class="url">praguecrawl.com</span></div><div class="engrave side-b" style="--x: 20.028"><svg class="massive" viewBox="0 0 1090.16 123.62"><use href="#lockup" /></svg><svg class="times" viewBox="0 0 10 10"><path d="M1 1L9 9M9 1L1 9" /></svg><img class="nodemaven" src="glass/nodemaven.svg" alt="" /></div></div></div><svg viewBox="0 0 8.5 9.05"><use href="#wood-glass-gloss" /></svg></div>
   </div>
 </main>
 

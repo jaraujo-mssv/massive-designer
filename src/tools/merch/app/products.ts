@@ -382,9 +382,9 @@ export const PRODUCTS: MerchProduct[] = [
     vendor: { name: "Etsy, NieVerblassen", url: "https://www.etsy.com/listing/4424839315" },
     specs: ["8.5 × 9 cm, 300 ml, wood", "Laser engraved, one colour", "6 × 5 cm a side (to confirm)", "Vector PDF"],
     notes:
-      "For the Prague Crawl 2027 afterparty, two options to quote: Prague Crawl 2027 on one side and Massive × NodeMaven on the other, or Prague Crawl 2027 by Massive & NodeMaven on one side. The engraving is one colour, so the wordmark loses its gradient W and 3D edges, and the logos their gradients; black in the files is the burn. The listing gives no engraving area, so 6 × 5 cm a side is our guess from its photo. It’s listed from €22 a glass (on sale at €11 when we looked) and made in 5–7 business days.",
+      "For the Prague Crawl 2027 afterparty, three options to quote: Prague Crawl 2027 on one side and Massive × NodeMaven on the other; Prague Crawl 2027 by Massive & NodeMaven on one side; or option 1 with the event’s big W and praguecrawl.com on side A. The engraving is one colour, so the wordmark and the W lose their gradient and 3D edges, and the logos their gradients; black in the files is the burn. The listing gives no engraving area, so 6 × 5 cm a side is our guess from its photo. It’s listed from €22 a glass (on sale at €11 when we looked) and made in 5–7 business days.",
     steps: [
-      "On Etsy, message NieVerblassen with both mockups and the three PDFs (the PNGs too, if they’d rather have those).",
+      "On Etsy, message NieVerblassen with the three mockups and the four PDFs (the PNGs too, if they’d rather have those).",
       "Ask for a price per glass for each option at the quantity you need, whether a second side costs more, and the largest engraving they can do on a side.",
       "Ask whether the small logos in option 2 hold: their thinnest lines are about 0.3 mm. Then ask for a proof before they engrave.",
     ],
@@ -394,18 +394,21 @@ export const PRODUCTS: MerchProduct[] = [
       head: ["Engraving", "Size"],
       rows: [
         ["Option 1 · Side A\nPrague Crawl 2027", "6 × 4.5 cm\n2.36 × 1.77 in"],
-        ["Option 1 · Side B\nMassive × NodeMaven", "6 × 2.95 cm\n2.36 × 1.16 in"],
+        ["Options 1 and 3 · Side B\nMassive × NodeMaven", "6 × 2.95 cm\n2.36 × 1.16 in"],
         ["Option 2 · One side\nPrague Crawl 2027 by Massive & NodeMaven", "5.95 × 4.95 cm\n2.34 × 1.95 in"],
+        ["Option 3 · Side A\nThe W and praguecrawl.com", "3.65 × 4.6 cm\n1.44 × 1.8 in"],
       ],
     },
     designs: [
       { file: "glass-pc-side-a", name: "Option 1 · Side A", ground: "#b8643a" },
-      { file: "glass-pc-side-b", name: "Option 1 · Side B", ground: "#b8643a" },
+      { file: "glass-pc-side-b", name: "Options 1 and 3 · Side B", ground: "#b8643a" },
       { file: "glass-pc-one-side", name: "Option 2 · One side", ground: "#b8643a" },
+      { file: "glass-pc-w-side-a", name: "Option 3 · Side A", ground: "#b8643a" },
     ],
     mockups: [
       { id: "glass-pc-two-sides", name: "Option 1 · Two sides", designs: ["glass-pc-side-a", "glass-pc-side-b"] },
       { id: "glass-pc-one-side", name: "Option 2 · One side", designs: ["glass-pc-one-side"] },
+      { id: "glass-pc-w-two-sides", name: "Option 3 · Two sides", designs: ["glass-pc-w-side-a", "glass-pc-side-b"] },
     ],
   },
   {

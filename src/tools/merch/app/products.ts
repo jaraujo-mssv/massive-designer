@@ -332,8 +332,8 @@ export const PRODUCTS: MerchProduct[] = [
     },
     wide: true,
     mockups: [
-      { id: "bucket-hat", name: "Logo", designs: ["bucket-hat-embroidery", "bucket-hat-print"] },
       { id: "bucket-hat-tagline", name: "It’s Massive", designs: ["bucket-hat-tagline-embroidery", "bucket-hat-tagline-print"] },
+      { id: "bucket-hat", name: "Logo", designs: ["bucket-hat-embroidery", "bucket-hat-print"] },
     ],
     designs: [
       { file: "bucket-hat-embroidery", name: "Logo · Embroidery", ground: "#1b151a", previewWidth: "88%" },
@@ -368,8 +368,8 @@ export const PRODUCTS: MerchProduct[] = [
     },
     wide: true,
     mockups: [
-      { id: "hip-pack", name: "Logo", designs: ["hip-pack"] },
       { id: "hip-pack-tagline", name: "It’s Massive", designs: ["hip-pack-tagline"] },
+      { id: "hip-pack", name: "Logo", designs: ["hip-pack"] },
     ],
     designs: [
       { file: "hip-pack", name: "Logo · Front", ground: "#1d1d1d", previewWidth: "88%" },

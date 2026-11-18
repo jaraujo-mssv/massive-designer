@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { Check, Copy, ImageSquare, Warning } from "@phosphor-icons/react";
+import { Check, Copy, DownloadSimple, ImageSquare, Warning } from "@phosphor-icons/react";
 import { toast } from "sonner";
 import type { Campaign, ChecklistItem, PhotosDoc } from "../types";
 import { progress } from "../utils/checklist";
 import { section } from "../utils/parseDoc";
-import { photoUrl, profileUrl, refUrl } from "../content";
+import { jpgUrl, photoUrl, profileUrl, refUrl } from "../content";
 import { useContentWrite } from "../hooks/useContentWrite";
 import { copyImage } from "../utils/copyImage";
 import { aspectOf, citiesIn, imageOf, OWNER, photoPrompt, promptOf, refLabel, refsFor, takesOf } from "../utils/photoPrompt";
@@ -86,7 +86,7 @@ function CopyRef({ url, label, title }: { url: string; label: string; title: str
  * A photo's square profile-picture crop, round in its corner, for photos docs with
  * `profiles: true`. Shows nothing when the crop hasn't been made.
  */
-function ProfileBadge({ campaign, photo, alt }: { campaign: string; photo: string; alt: string }) {
+function ProfileBadge({ campaign, photo, alt, onMissing }: { campaign: string; photo: string; alt: string; onMissing: () => void }) {
   const [missing, setMissing] = useState(false);
   const src = profileUrl(campaign, photo);
   if (missing) return null;
@@ -99,7 +99,16 @@ function ProfileBadge({ campaign, photo, alt }: { campaign: string; photo: strin
         title="Open the profile picture"
         className="h-full overflow-hidden rounded-full shadow-md ring-2 ring-white"
       >
-        <img src={src} alt="" loading="lazy" onError={() => setMissing(true)} className="h-full w-full object-cover" />
+        <img
+          src={src}
+          alt=""
+          loading="lazy"
+          onError={() => {
+            setMissing(true);
+            onMissing();
+          }}
+          className="h-full w-full object-cover"
+        />
       </ImageButton>
     </div>
   );
@@ -133,9 +142,36 @@ function TakePicker({ doc, campaign, item, takes, image }: { doc: PhotosDoc; cam
   );
 }
 
+const DOWNLOAD =
+  "flex shrink-0 items-center gap-1 rounded-md border border-border-subtle px-2 py-1 font-mono text-[11px] text-text-mid transition-colors hover:border-brand hover:text-brand-light";
+
+/**
+ * The photo on show as a JPG (the dev server converts the WebP), and its profile picture when it has one. The
+ * downloads are named after the photo.
+ */
+function PhotoDownloads({ campaign, image, profile }: { campaign: string; image: string; profile: boolean }) {
+  const name = image.replace(/\.\w+$/, "");
+  return (
+    <div className="flex flex-wrap gap-1.5 px-1 pt-1">
+      <a href={jpgUrl(photoUrl(campaign, image))} download={`${name}.jpg`} title={`Download ${name}.jpg`} className={DOWNLOAD}>
+        <DownloadSimple size={12} weight="bold" />
+        JPG
+      </a>
+      {profile && (
+        <a href={profileUrl(campaign, image)} download={`${name}-profile.jpg`} title={`Download ${name}-profile.jpg`} className={DOWNLOAD}>
+          <DownloadSimple size={12} weight="bold" />
+          Profile JPG
+        </a>
+      )}
+    </div>
+  );
+}
+
 /** One photo: the box to tick once it's shot, its prompt, and the images to attach. */
 function PhotoCard({ doc, campaign, item, title }: { doc: PhotosDoc; campaign: Campaign; item: ChecklistItem; title?: string }) {
   const [open, setOpen] = useState(false);
+  // The photo whose profile picture failed to load, so its download is left out
+  const [noProfile, setNoProfile] = useState<string | null>(null);
   const prompt = promptOf(item);
   const refs = refsFor(item, campaign, doc);
   const cities = citiesIn(item);
@@ -161,7 +197,9 @@ function PhotoCard({ doc, campaign, item, title }: { doc: PhotosDoc; campaign: C
               className={`${aspect} w-full bg-surface-2 object-cover transition-transform duration-300 hover:scale-[1.02]`}
             />
           </ImageButton>
-          {doc.data?.profiles === true && prompt && <ProfileBadge key={image} campaign={campaign.id} photo={image} alt={item.label.replace(OWNER, "")} />}
+          {doc.data?.profiles === true && prompt && (
+            <ProfileBadge key={image} campaign={campaign.id} photo={image} alt={item.label.replace(OWNER, "")} onMissing={() => setNoProfile(image)} />
+          )}
         </div>
       ) : (
         // The photo's frame, the size it will be, until there's one to show.
@@ -171,6 +209,7 @@ function PhotoCard({ doc, campaign, item, title }: { doc: PhotosDoc; campaign: C
         </div>
       )}
       {image && takes.length > 1 && <TakePicker doc={doc} campaign={campaign} item={item} takes={takes} image={image} />}
+      {image && <PhotoDownloads campaign={campaign.id} image={image} profile={doc.data?.profiles === true && !!prompt && noProfile !== image} />}
       {(title || cities.length === 1) && (
         <div className="flex items-center gap-2 px-2 pt-1">
           {title && <p className="font-mono text-[11px] uppercase tracking-wider text-brand-light">{title}</p>}

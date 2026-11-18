@@ -123,6 +123,21 @@ function contentWritePlugin() {
       res.statusCode = status;
       res.end(message);
     };
+    // GET /api/content/jpg?path=content/<campaign>/…: an image under public/content/ as a JPG download, made on the
+    // fly. The campaigns keep their images as WebP; the Content tab's JPG links use this.
+    if (url.pathname === '/api/content/jpg' && req.method === 'GET') {
+      const contentPublic = path.resolve(__dirname, 'public', 'content');
+      const image = path.resolve(__dirname, 'public', url.searchParams.get('path') ?? '');
+      if (!image.startsWith(contentPublic + path.sep) || !/\.(webp|png|jpe?g)$/i.test(image) || !fs.existsSync(image)) {
+        return fail(404, 'No such image');
+      }
+      const sharp = (await import('sharp')).default;
+      const jpg = await sharp(image).flatten({ background: '#ffffff' }).jpeg({ quality: 92, mozjpeg: true }).toBuffer();
+      res.setHeader('Content-Type', 'image/jpeg');
+      res.setHeader('Content-Disposition', `attachment; filename="${path.basename(image).replace(/\.\w+$/, '')}.jpg"`);
+      res.end(jpg);
+      return;
+    }
     if (req.method !== 'POST') return fail(405, 'POST only');
 
     let body: Record<string, unknown>;

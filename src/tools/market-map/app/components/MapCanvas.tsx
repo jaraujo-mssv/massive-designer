@@ -17,6 +17,10 @@ export interface FitInfo {
   readable: boolean;
   /** Companies left out to fit ('hide' mode). */
   hidden: HiddenGroup[];
+  /** Columns view: how many columns the map is in (picked automatically, or `columns`). */
+  columns?: number;
+  /** Columns view: the card grown the most to even out the columns (see MAX_STRETCH). */
+  stretch?: { category: string; ratio: number } | null;
 }
 
 interface MapCanvasProps {
@@ -28,6 +32,8 @@ interface MapCanvasProps {
   fitMode: FitMode;
   /** The smallest pill name size that reads on a phone, in canvas px (`legibleSizes`). */
   minFont: number;
+  /** Columns view: a column count picked by hand. Left out, the count is automatic. */
+  columns?: number;
   onFitChange?: (fit: FitInfo | null) => void;
   /** Click-to-edit; leave out to make the map read-only (e.g. while exporting). */
   onEdit?: (target: MapEditTarget, el: HTMLElement) => void;
@@ -37,7 +43,17 @@ interface MapCanvasProps {
  * Measures the available box and draws the map: columns of cards from
  * `layoutColumns` (in the theme's look), or category tiles from `layoutMap`.
  */
-export function MapCanvas({ categories, view, legacy, tileGap, fitMode, minFont, onFitChange, onEdit }: MapCanvasProps) {
+export function MapCanvas({
+  categories,
+  view,
+  legacy,
+  tileGap,
+  fitMode,
+  minFont,
+  columns: columnCount,
+  onFitChange,
+  onEdit,
+}: MapCanvasProps) {
   const boxRef = useRef<HTMLDivElement>(null);
   const [box, setBox] = useState({ w: 0, h: 0 });
   const [fontsVersion, setFontsVersion] = useState(0);
@@ -74,16 +90,24 @@ export function MapCanvas({ categories, view, legacy, tileGap, fitMode, minFont,
   const columns = useMemo(
     () =>
       view === "columns"
-        ? layoutColumns(categories, box, tileGap, fitMode, minFont, legacy ? "legacy" : "modern")
+        ? layoutColumns(categories, box, tileGap, fitMode, minFont, legacy ? "legacy" : "modern", columnCount)
         : null,
-    [view, legacy, categories, box.w, box.h, tileGap, fitMode, minFont, fontsVersion],
+    [view, legacy, categories, box.w, box.h, tileGap, fitMode, minFont, columnCount, fontsVersion],
   );
   const layout = columns ?? tiles;
 
   // Reported once per new layout (layout is memoised, so this doesn't loop).
   useEffect(() => {
     onFitChange?.(
-      layout ? { fontSize: layout.metrics.fontSize, readable: layout.readable, hidden: layout.hidden } : null,
+      layout
+        ? {
+            fontSize: layout.metrics.fontSize,
+            readable: layout.readable,
+            hidden: layout.hidden,
+            columns: columns?.columns,
+            stretch: columns?.stretch,
+          }
+        : null,
     );
   }, [layout, onFitChange]);
 

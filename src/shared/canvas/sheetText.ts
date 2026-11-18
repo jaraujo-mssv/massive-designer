@@ -15,6 +15,8 @@ export interface SheetRow<Column extends string> {
 export interface SheetTable<Column extends string> {
   title?: string;
   date?: string;
+  /** The `__COLUMNS__` row, a whole number above 0, if the sheet has one. */
+  columns?: number;
   /** Header fields after aliasing. */
   fields: string[];
   /** Non-empty data rows, in sheet order. */
@@ -24,10 +26,11 @@ export interface SheetTable<Column extends string> {
 /**
  * Reads a sheet exported by the canvas tools' spreadsheets.
  *
- * Only `__TITLE__` and `__DATE__` are read from the metadata rows. Every other
- * `__` row (`__COLUMNS__`, `__SETTING__…`) is dropped wherever it appears:
- * sizing is always automatic, whatever the sheet says. Blank lines before the
- * header are skipped, and headers are matched case-insensitively through
+ * Only `__TITLE__`, `__DATE__` and `__COLUMNS__` are read from the metadata
+ * rows. Every other `__` row (`__SETTING__…`) is dropped wherever it appears:
+ * sizing is automatic, whatever the sheet says. `__COLUMNS__` doesn't size
+ * anything by itself either: Market Map's column picker starts from it. Blank
+ * lines before the header are skipped, and headers are matched case-insensitively through
  * `aliases` (unknown headers are kept, lowercased).
  *
  * `delimiter` is omitted for .csv files so Papa can detect it; Google Sheets
@@ -41,6 +44,7 @@ export function readSheetTable<Column extends string>(
   const lines = text.replace(/\r\n?/g, '\n').split('\n');
   let title: string | undefined;
   let date: string | undefined;
+  let columns: number | undefined;
 
   // Keep each data line's sheet row number so skipped-row messages stay accurate.
   const data: { line: string; row: number }[] = [];
@@ -55,6 +59,7 @@ export function readSheetTable<Column extends string>(
     const value = rest.join(sep).replace(/[\t,\s]+$/, '').trim().replace(/^"(.*)"$/, '$1');
     if (key === '__TITLE__' && value) title = value;
     if (key === '__DATE__' && value) date = value;
+    if (key === '__COLUMNS__' && /^\d+$/.test(value) && Number(value) > 0) columns = Number(value);
   });
   while (data.length > 0 && !data[0].line.trim()) data.shift();
   const headerRow = data[0]?.row ?? 1;
@@ -71,7 +76,7 @@ export function readSheetTable<Column extends string>(
     .map((row, i) => ({ row, rowNumber: data[i + 1]?.row ?? headerRow + i + 1 }))
     .filter(({ row }) => Object.values(row).some((v) => typeof v === 'string' && v.trim()));
 
-  return { title, date, fields: result.meta.fields ?? [], rows };
+  return { title, date, columns, fields: result.meta.fields ?? [], rows };
 }
 
 /** Plain sheet text → HTML safe to put in a contentEditable title. */

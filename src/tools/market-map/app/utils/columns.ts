@@ -25,7 +25,7 @@ export const COLUMN_LINE_HEIGHT = 1.2;
  */
 const MAX_FONT_SCALE = 1.5;
 /** Enough for Horizontal, where columns run out of height long before width. */
-const MAX_COLUMNS = 8;
+export const MAX_COLUMNS = 8;
 const MAX_HEADER_LINES = 3;
 const MAX_NAME_LINES = 2;
 /** A big category lists its companies in up to this many sub-columns, when its column is wide enough. */
@@ -38,6 +38,11 @@ const CARD_GAP_MAX = 2;
 const WIDTH_SLACK = 1.02;
 /** Column counts whose font size is within this share of the best are compared by how well they fill the canvas. */
 const TIE = 0.02;
+/**
+ * Automatic count, every look: a card may grow to this many times its height
+ * (spread to end level with the tallest column); past it, one column fewer.
+ */
+export const MAX_STRETCH = 1.5;
 
 const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v));
 
@@ -158,6 +163,8 @@ export interface ColumnsLayout {
    */
   separators: Rect[];
   columns: number;
+  /** The card grown the most to even out the columns' bottoms: its final height over its own. */
+  stretch: { category: string; ratio: number } | null;
   /** False when names had to shrink below the readable size (`minFont`) to fit. */
   readable: boolean;
   /** Companies left out to fit ('hide' mode), by category. */
@@ -324,6 +331,15 @@ interface Search {
   gap: number;
   look: ColumnLook;
   unit: UnitWidths;
+  /** A column count picked by hand; otherwise every count is tried. */
+  columns?: number;
+}
+
+/** The column counts to try for `categories`: the one picked (at most one per category), or 1 to MAX_COLUMNS. */
+function columnCounts(s: Search, categories: Category[]): number[] {
+  const max = Math.min(MAX_COLUMNS, categories.length);
+  if (s.columns) return [Math.min(s.columns, categories.length)];
+  return Array.from({ length: max }, (_, i) => i + 1);
 }
 
 /** Tries `n` columns at name size `f`; null when a card doesn't fit its column or a column is too tall. */
@@ -376,7 +392,7 @@ function largestFitting(s: Search, n: number, lo: number, hi: number) {
 function bestAt(s: Search, lo: number, hi: number): Attempt | null {
   const { box } = s;
   const candidates: Attempt[] = [];
-  for (let n = 1; n <= Math.min(MAX_COLUMNS, s.categories.length); n++) {
+  for (const n of columnCounts(s, s.categories)) {
     const fitted = largestFitting(s, n, lo, hi);
     if (fitted) candidates.push(fitted);
   }
@@ -446,6 +462,7 @@ function finalize(a: Attempt, box: Box, gap: number, readable: boolean, hidden: 
   const ruled = m.look === 'modern';
   const separators: Rect[] = [];
 
+  let stretch: ColumnsLayout['stretch'] = null;
   const out: ColumnCard[] = [];
   placed.forEach(({ col, heights, extraRow, extraCard }, c) => {
     const x0 = Math.round(c * (colW + colGap));
@@ -458,6 +475,8 @@ function finalize(a: Attempt, box: Box, gap: number, readable: boolean, hidden: 
     let prevBottom: number | null = null;
     col.forEach((i, j) => {
       const card = cards[i];
+      const ratio = heights[j] / card.h;
+      if (!stretch || ratio > stretch.ratio) stretch = { category: card.category.name, ratio };
       const y0 = Math.round(y);
       const y1 = Math.round(y + heights[j]);
       y += heights[j] + gap + extraCard;
@@ -493,7 +512,24 @@ function finalize(a: Attempt, box: Box, gap: number, readable: boolean, hidden: 
     });
   });
 
-  return { metrics: m, cards: out, separators, columns: cols.length, readable, hidden };
+  return { metrics: m, cards: out, separators, columns: cols.length, stretch, readable, hidden };
+}
+
+/**
+ * `bestAt`, then, for an automatic count, one column fewer
+ * for as long as a card would be stretched past MAX_STRETCH and the fewer
+ * columns still fit at a size in [lo, hi].
+ */
+function bestUnstretched(s: Search, lo: number, hi: number): Attempt | null {
+  let best = bestAt(s, lo, hi);
+  if (!best || s.columns) return best;
+  const stretchOf = (a: Attempt) => finalize(a, s.box, s.gap, true, []).stretch?.ratio ?? 1;
+  while (best.cols.length > 1 && stretchOf(best) > MAX_STRETCH) {
+    const fewer = largestFitting(s, best.cols.length - 1, lo, hi);
+    if (!fewer) break;
+    best = fewer;
+  }
+  return best;
 }
 
 /**
@@ -503,7 +539,10 @@ function finalize(a: Attempt, box: Box, gap: number, readable: boolean, hidden: 
  * even `minFont` doesn't fit,
  * `shrink` keeps every company and goes below it (`readable: false`), and
  * `hide` stays at `minFont` and leaves out as few companies as it takes
- * (`trimCategories`, with "+N more" rows).
+ * (`trimCategories`, with "+N more" rows). `columns` fixes the column count
+ * (capped at one column per category); without it the count is picked too,
+ * and no card is stretched past MAX_STRETCH if fewer columns can avoid it
+ * (`bestUnstretched`).
  */
 export function layoutColumns(
   categories: Category[],
@@ -513,16 +552,17 @@ export function layoutColumns(
   /** The smallest name size that reads on a phone (`legibleSizes().primary`). */
   minFont: number,
   look: ColumnLook,
+  columns?: number,
 ): ColumnsLayout | null {
   if (categories.length === 0 || box.w <= 0 || box.h <= 0) return null;
-  const s: Search = { categories, box, gap, look, unit: unitWidths() };
+  const s: Search = { categories, box, gap, look, unit: unitWidths(), columns };
 
-  const readable = bestAt(s, minFont, minFont * MAX_FONT_SCALE);
+  const readable = bestUnstretched(s, minFont, minFont * MAX_FONT_SCALE);
   if (readable) return finalize(readable, box, gap, true, []);
 
   if (fitMode === 'hide') {
     const fitsAt = (cats: Category[]) => {
-      for (let n = 1; n <= Math.min(MAX_COLUMNS, cats.length); n++) {
+      for (const n of columnCounts(s, cats)) {
         if (attempt({ ...s, categories: cats }, minFont, n)) return true;
       }
       return false;
@@ -540,16 +580,16 @@ export function layoutColumns(
     }
     for (let k = lo; k <= maxHide; k++) {
       const trimmed = trimCategories(categories, k);
-      const fitted = bestAt({ ...s, categories: trimmed.categories }, minFont, minFont);
+      const fitted = bestUnstretched({ ...s, categories: trimmed.categories }, minFont, minFont);
       if (fitted) return finalize(fitted, box, gap, true, trimmed.hidden);
     }
     // Even one company per category doesn't fit readably: shrink instead.
   }
 
-  const shrunk = bestAt(s, SHRINK_FLOOR, minFont);
+  const shrunk = bestUnstretched(s, SHRINK_FLOOR, minFont);
   if (shrunk) return finalize(shrunk, box, gap, false, []);
   for (let f = SHRINK_FLOOR / 2; f > 0.25; f /= 2) {
-    for (let n = 1; n <= Math.min(MAX_COLUMNS, categories.length); n++) {
+    for (const n of columnCounts(s, categories)) {
       const tiny = attempt(s, f, n);
       if (tiny) return finalize(tiny, box, gap, false, []);
     }

@@ -19,6 +19,8 @@ export interface Category {
 export interface ParsedSheet {
   title?: string;
   date?: string;
+  /** The sheet's `__COLUMNS__`: where the column picker starts (see sheetText). */
+  columns?: number;
   categories: Category[];
   companyCount: number;
   skipped: SkippedRow[];
@@ -44,8 +46,8 @@ const HEADER_ALIASES: Record<string, Column> = {
 
 /**
  * Parses a Market Map sheet: one row per company, with its category, name and
- * logo. Metadata rows are handled by `readSheetTable`: only the title and date
- * are read, and sizing rows are ignored.
+ * logo. Metadata rows are handled by `readSheetTable`: only the title, date
+ * and column count are read, and sizing rows are ignored.
  *
  * Categories keep the order they first appear in, and companies keep sheet
  * order. `url` (or website/domain) is kept to look up logos. Old-format
@@ -54,7 +56,7 @@ const HEADER_ALIASES: Record<string, Column> = {
  * to carry per-category settings).
  */
 export function parseSheet(text: string, delimiter?: string): ParsedSheet {
-  const { title, date, rows } = readSheetTable<Column>(text, HEADER_ALIASES, delimiter);
+  const { title, date, columns, rows } = readSheetTable<Column>(text, HEADER_ALIASES, delimiter);
 
   const categories = new Map<string, Category>();
   const skipped: SkippedRow[] = [];
@@ -94,6 +96,7 @@ export function parseSheet(text: string, delimiter?: string): ParsedSheet {
   return {
     title,
     date,
+    columns,
     categories: [...categories.values()],
     companyCount,
     skipped,

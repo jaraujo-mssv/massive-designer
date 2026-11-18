@@ -140,8 +140,8 @@ Both turn a spreadsheet of companies into a branded JPG. They share `src/shared/
 - `themes.ts` and `sizes.ts`: the four themes (below) and three sizes: Vertical 1080×1350 (default), Square
   1080×1080, Horizontal 1920×1080.
 - `useSheetLoader.ts` + `src/shared/utils/googleSheets.ts`: loads `?e=<sheet id or URL>` once on mount. The sheet
-  must be shared as "Anyone with the link can view". `sheetText.ts` reads the `__TITLE__` and `__DATE__` rows and
-  ignores every other `__` row.
+  must be shared as "Anyone with the link can view". `sheetText.ts` reads the `__TITLE__`, `__DATE__` and `__COLUMNS__`
+  rows and ignores every other `__` row.
 - `remembered.ts`: localStorage `<tool>.version`, `<tool>.theme` and `<tool>.layout` (Top List also keeps
   `top-list.columns` and `top-list.rank`).
 - `ToolVersion.tsx`: the **New | Legacy** switch. Both versions live at the same URL; the pick is remembered per browser.
@@ -157,7 +157,9 @@ Both turn a spreadsheet of companies into a branded JPG. They share `src/shared/
 
 **Market Map** (`src/tools/market-map/app/`). Sheet columns: `category` (or `section`), `company` (or `name`),
 `logo`, `url` (or `website`, used to look up a logo). Layouts, in the Design panel:
-- **Columns** (default): `utils/columns.ts`, drawn by `CategoryCard` and `CompanyRow`.
+- **Columns** (default): `utils/columns.ts`, drawn by `CategoryCard` and `CompanyRow`. The column count is
+  automatic; under a modern theme `ColumnCountPicker` sets it by hand, its first step going to the sheet's
+  `__COLUMNS__`.
 - **Tiles**: a treemap in `utils/layout.ts` and `utils/pills.ts`, drawn by `CategoryTile` and `CompanyPill`.
 
 Legacy themes force Columns. `?f=` opens the Legacy app. Examples are in `constants.ts`. Doc:

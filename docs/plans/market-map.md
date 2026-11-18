@@ -8,7 +8,7 @@ A tool that turns a spreadsheet of companies grouped by category into a branded 
 
 - **Columns (default):** categories stacked in columns, with thin rules between categories and between columns. Each lists its companies one per line, each a slim pill with its logo and name. See Columns layout below.
 - **Tiles:** one tile per category, packed edge to edge in a squarified treemap and together filling the canvas. Each tile's size follows its content. Companies are pills that flow left to right and wrap to a new row.
-- **Sizing is always automatic.** The name size is the largest at which everything fits. `__SETTING__` and `__COLUMNS__` rows in a sheet are ignored.
+- **Sizing is automatic.** The name size is the largest at which everything fits. `__SETTING__` rows in a sheet are ignored. `__COLUMNS__` is read only as the first step of the Columns picker (below).
 
 **Which to use:** Columns gives bigger names on most maps (measured below). Tiles suits a few big categories, like the YC example.
 
@@ -97,7 +97,7 @@ Four themes, shared with Top List (`src/shared/canvas/themes.ts`): **Dark**, **L
 
 ## Columns layout
 
-The pre-revamp tool's arrangement: columns of category cards, each listing its companies one per line (`utils/columns.ts`, `components/CategoryCard.tsx`, `components/CompanyRow.tsx`). The old tool sized everything by hand. Here the column count and font size are automatic, with the same fit modes and click-to-edit targets as the tiles.
+The pre-revamp tool's arrangement: columns of category cards, each listing its companies one per line (`utils/columns.ts`, `components/CategoryCard.tsx`, `components/CompanyRow.tsx`). The old tool sized everything by hand. Here the column count and font size are automatic, with the same fit modes and click-to-edit targets as the tiles. Under a Light or Dark theme, the Columns picker under Layout (`components/ColumnCountPicker.tsx`) fixes the count by hand: automatic until touched, its first −/+ goes to the sheet's `__COLUMNS__` (unless the map already has that many), and the reset icon goes back to automatic. A picked count starts over with each sheet. A shorter column spreads its cards until it ends level with the tallest, so in every theme (Legacy included) the automatic count drops by one column (as long as the fewer columns fit at the same size range) while any card would grow past 1.5× its own height (`MAX_STRETCH`). A count picked by hand is kept, with a warning above Download naming the stretched category; the same warning says so when fewer columns don't fit and a category stays stretched.
 
 Two looks share it (`ColumnLook`):
 
@@ -186,9 +186,10 @@ Edit mode (drag and drop, add company, edit logo, subcompany editor), all slider
 
 ## Warnings above Export
 
-Shown in the Export area, right above Download JPG (`warnings` on `SheetSidebar`, drawn with `SidebarWarning`):
+Shown in the Export area, right above Download JPG (`warnings` on `SheetSidebar`, drawn with `SidebarWarning`). They're folded into one "N warnings" row (`SidebarWarnings`), closed until clicked; inside it they have no close button:
 
 - **Fit warning** (Market Map, `components/FitWarning.tsx`): only when the map doesn't fit at 11 px. It has the Shrink / Hide toggle and, in Hide mode, the list of hidden companies.
+- **Stretch warning** (Market Map, any theme): a category stretched past 1.5× its height, by a column count picked by hand or because fewer columns don't fit (see Columns).
 - **Logo.dev warning** (both tools, built into `SheetSidebar`): when the sheet has more than 100 distinct logos from `img.logo.dev` (`countLogoDevUrls` in `src/shared/utils/logoDev.ts`). Logo.dev serves 100 logos per minute, so past that some may not load. Each tool passes its logo URLs as `logoUrls`.
 - **Browser warning** (both tools, built into `SheetSidebar`): when the browser isn't Chromium-based (`isChromium()` in `src/shared/utils/browser.ts`). It says to use Chrome, Edge, Brave or Arc, because the export relies on SVG `foreignObject` rendering, which Safari and Firefox draw differently. Chrome on iOS runs on WebKit, so it counts as not Chromium. On iPhone and iPad, where no browser is Chromium, it says to export the final file from Chrome on a computer instead (`isIOS()`).
 

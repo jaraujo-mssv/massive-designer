@@ -20,13 +20,16 @@ import type { ThemePreviewProps } from "@/shared/canvas/ThemePicker";
 import { CANVAS_THEME_IDS, CanvasThemeId, getCanvasTheme } from "@/shared/canvas/themes";
 import { VersionSwitch } from "@/shared/canvas/ToolVersion";
 import { clearSheetParam, useSheetLoader } from "@/shared/canvas/useSheetLoader";
+import { SidebarWarning } from "@/shared/components/SidebarLayout";
 import { Label } from "@/shared/components/ui/label";
 import { warmImageCache } from "@/shared/utils/imageDataUrl";
+import { ColumnCountPicker } from "./components/ColumnCountPicker";
 import { FitWarning } from "./components/FitWarning";
 import { FitInfo, MapCanvas, MapView } from "./components/MapCanvas";
 import { MapEditor, MapEditTarget } from "./components/MapEditor";
 import { ThemePreview } from "./components/ThemePreview";
 import { EXAMPLES } from "./constants";
+import { MAX_COLUMNS, MAX_STRETCH } from "./utils/columns";
 import type { FitMode } from "./utils/layout";
 import { Category, parseSheet } from "./utils/parseSheet";
 
@@ -53,6 +56,10 @@ export default function App() {
   const [theme, setTheme] = useRemembered<CanvasThemeId>("market-map.theme", "light", CANVAS_THEME_IDS);
   // Columns or tiles; picked in the sidebar and kept across loads.
   const [view, setView] = useRemembered<MapView>("market-map.layout", "columns", MAP_VIEWS);
+  // Columns view, modern themes: a column count picked by hand (null: automatic), and the
+  // sheet's __COLUMNS__, where the picker's first step goes. Both start over with each sheet.
+  const [columnCount, setColumnCount] = useState<number | null>(null);
+  const [sheetColumns, setSheetColumns] = useState<number | undefined>(undefined);
   const [showPresentedBy, setShowPresentedBy] = useState(true);
   const [summary, setSummary] = useState<LoadedSummary | null>(null);
   // How a map too big for readable pills is made to fit; kept across loads.
@@ -68,6 +75,14 @@ export default function App() {
   // Legacy themes draw the old tool's columns of cards, whatever the Layout.
   const legacy = getCanvasTheme(theme).legacy;
   const shownView: MapView = legacy ? "columns" : view;
+  // A count picked for a bigger map still fits after categories are removed.
+  const maxColumns = Math.max(1, Math.min(MAX_COLUMNS, categories.length));
+  const pickedColumns = columnCount === null ? undefined : Math.min(columnCount, maxColumns);
+  // A card stretched past what the automatic count allows: by a count picked by hand (modern
+  // themes), or, in any theme, when fewer columns don't fit at the name size.
+  const overStretched =
+    shownView === "columns" && fit?.stretch && fit.stretch.ratio > MAX_STRETCH ? fit.stretch : null;
+  const stretchPicked = !legacy && pickedColumns !== undefined;
   // The theme cards preview the chosen layout.
   const themePreview = useMemo(
     () =>
@@ -93,6 +108,8 @@ export default function App() {
     }
     setEditing(null);
     history.load(sheet.categories);
+    setColumnCount(null);
+    setSheetColumns(sheet.columns);
     // Sheet text goes into a contentEditable as HTML, so escape it first.
     if (sheet.title) setTitle(`<b>${escapeHtml(sheet.title)}</b>`);
     if (sheet.date) setDate(`<b>${escapeHtml(sheet.date)}</b>`);
@@ -128,6 +145,8 @@ export default function App() {
     history.load([]);
     setSummary(null);
     setFit(null);
+    setColumnCount(null);
+    setSheetColumns(undefined);
     setTitle(DEFAULT_TITLE);
     setDate(DEFAULT_DATE);
     clearSheetParam();
@@ -212,6 +231,18 @@ export default function App() {
                   setView(v);
                 }}
               />
+              {view === "columns" && categories.length > 0 && (
+                <ColumnCountPicker
+                  value={pickedColumns ?? null}
+                  autoValue={fit?.columns}
+                  sheetValue={sheetColumns}
+                  max={maxColumns}
+                  onChange={(n) => {
+                    setEditing(null);
+                    setColumnCount(n);
+                  }}
+                />
+              )}
             </div>
           )
         }
@@ -253,11 +284,10 @@ export default function App() {
         isExporting={isExporting}
         exportProgress={exportProgress}
         logoUrls={logoUrls}
-        warnings={
-          fit &&
-          categories.length > 0 &&
-          (!fit.readable || fit.hidden.length > 0) && (
+        warnings={[
+          fit && categories.length > 0 && (!fit.readable || fit.hidden.length > 0) && (
             <FitWarning
+              key="fit"
               fit={fit}
               fitMode={fitMode}
               onFitModeChange={setFitMode}
@@ -265,8 +295,25 @@ export default function App() {
               canvasWidth={canvasW}
               suggestVertical={size !== "vertical"}
             />
-          )
-        }
+          ),
+          overStretched && (
+            <SidebarWarning key="stretch">
+              {stretchPicked ? (
+                <>
+                  At {pickedColumns} columns, “{overStretched.category}” stretches to{" "}
+                  {overStretched.ratio.toFixed(1)}× its height to line up with the other columns. Automatic allows up
+                  to {MAX_STRETCH}×: try fewer columns, or reset to automatic.
+                </>
+              ) : (
+                <>
+                  “{overStretched.category}” stretches to {overStretched.ratio.toFixed(1)}× its height to line up with
+                  the other columns, past the {MAX_STRETCH}× allowed. Fewer columns don't fit at this name size, so
+                  the map keeps {fit?.columns}.
+                </>
+              )}
+            </SidebarWarning>
+          ),
+        ]}
       >
         <CanvasFrame
           ref={canvasRef}
@@ -292,6 +339,7 @@ export default function App() {
             tileGap={TILE_GAP}
             fitMode={fitMode}
             minFont={minFont}
+            columns={legacy ? undefined : pickedColumns}
             onFitChange={setFit}
             onEdit={isExporting ? undefined : (target, anchor) => setEditing({ target, anchor })}
           />

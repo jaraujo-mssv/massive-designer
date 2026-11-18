@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { SlidersHorizontal, Warning, X, type Icon } from "@phosphor-icons/react";
+import { createContext, useContext, useId, useState } from "react";
+import { CaretDown, SlidersHorizontal, Warning, X, type Icon } from "@phosphor-icons/react";
 import { Drawer, DrawerContent, DrawerDescription, DrawerTitle } from "@/shared/components/ui/drawer";
 import { useIsMobile } from "@/shared/components/ui/use-mobile";
 
@@ -32,11 +32,15 @@ export function SidebarColumn({
   );
 }
 
+/** True inside SidebarWarnings, whose fold hides its warnings, so they have no x of their own. */
+const InWarningGroup = createContext(false);
+
 /**
  * An amber callout for the Export area; `children` can add a toggle or details.
  * The x hides it until it's next shown (it unmounts, e.g. on unload, and comes back).
  */
 export function SidebarWarning({ children }: { children: React.ReactNode }) {
+  const inGroup = useContext(InWarningGroup);
   const [dismissed, setDismissed] = useState(false);
   if (dismissed) return null;
 
@@ -44,14 +48,48 @@ export function SidebarWarning({ children }: { children: React.ReactNode }) {
     <div className="flex gap-2 p-3 rounded-lg border border-amber-500/30 bg-amber-500/10 text-xs text-amber-200 leading-relaxed">
       <Warning size={16} weight="fill" className="shrink-0 mt-px text-amber-400" />
       <div className="min-w-0 flex-1 space-y-2">{children}</div>
+      {!inGroup && (
+        <button
+          onClick={() => setDismissed(true)}
+          title="Close"
+          aria-label="Close warning"
+          className="shrink-0 self-start -mt-1 -mr-1 p-1 rounded text-amber-200/60 hover:text-amber-100 hover:bg-amber-500/15 transition-colors"
+        >
+          <X size={14} weight="bold" />
+        </button>
+      )}
+    </div>
+  );
+}
+
+/**
+ * Warnings folded into one row ("2 warnings") that opens them, closed until
+ * clicked. They stay mounted while closed, so their toggles keep their state.
+ * Nothing shows for a `count` of 0.
+ */
+export function SidebarWarnings({ count, children }: { count: number; children: React.ReactNode }) {
+  const [open, setOpen] = useState(false);
+  const listId = useId();
+  if (count === 0) return null;
+
+  return (
+    <div className="space-y-2">
       <button
-        onClick={() => setDismissed(true)}
-        title="Close"
-        aria-label="Close warning"
-        className="shrink-0 self-start -mt-1 -mr-1 p-1 rounded text-amber-200/60 hover:text-amber-100 hover:bg-amber-500/15 transition-colors"
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        aria-expanded={open}
+        aria-controls={listId}
+        className="w-full flex items-center gap-2 px-3 py-2 rounded-lg border border-amber-500/30 bg-amber-500/10 text-xs font-medium text-amber-200 hover:text-amber-100 transition-colors"
       >
-        <X size={14} weight="bold" />
+        <Warning size={16} weight="fill" className="shrink-0 text-amber-400" />
+        <span className="flex-1 text-left">
+          {count} {count === 1 ? "warning" : "warnings"}
+        </span>
+        <CaretDown size={14} weight="bold" className={`shrink-0 transition-transform ${open ? "rotate-180" : ""}`} />
       </button>
+      <div id={listId} hidden={!open} className="space-y-2">
+        <InWarningGroup.Provider value={true}>{children}</InWarningGroup.Provider>
+      </div>
     </div>
   );
 }

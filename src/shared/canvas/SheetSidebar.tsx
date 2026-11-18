@@ -1,9 +1,10 @@
-import { useEffect, useMemo, useState } from "react";
+import { Children, useEffect, useMemo, useState } from "react";
 import { DownloadSimple, Table } from "@phosphor-icons/react";
 import {
   SidebarColumn,
   SidebarLayout,
   SidebarWarning,
+  SidebarWarnings,
   sidebarButtonClass,
   sidebarHeadingClass,
   sidebarInputClass,
@@ -67,8 +68,10 @@ interface SheetSidebarProps<Size extends string> {
   /** Where the running export is; shown on the button with a progress bar. */
   exportProgress?: ExportProgress | null;
   /**
-   * Tool-specific warnings (use SidebarWarning), shown right above Download.
-   * Pass nothing when there's no warning: on phones it also puts a dot on Edit.
+   * Tool-specific warnings (use SidebarWarning), shown right above Download,
+   * folded with the others into one closed "N warnings" row (SidebarWarnings).
+   * Several go in an array, with keys; false entries are left out. Any warning
+   * also puts a dot on Edit, on phones.
    */
   warnings?: React.ReactNode;
   /** The loaded sheet's logo URLs, to warn when they pass Logo.dev's rate limit. */
@@ -172,8 +175,9 @@ export function SheetSidebar<Size extends string>({
   };
 
   const logoDevOver = logoDevCount > LOGO_DEV_PER_MINUTE;
+  const toolWarnings = Children.toArray(warnings).length;
   const warningList = (
-    <>
+    <SidebarWarnings count={toolWarnings + (logoDevOver ? 1 : 0) + (chromium ? 0 : 1)}>
       {warnings}
       {logoDevOver && (
         <SidebarWarning>
@@ -188,7 +192,7 @@ export function SheetSidebar<Size extends string>({
             : "For the most accurate export, use a Chrome-based browser (Chrome, Edge, Brave, Arc). Safari and Firefox can render logos and effects differently."}
         </SidebarWarning>
       )}
-    </>
+    </SidebarWarnings>
   );
 
   const sections = (
@@ -359,7 +363,7 @@ export function SheetSidebar<Size extends string>({
         onDrawerOpenChange={setDrawerOpen}
         editLabel={isLoaded ? "Edit" : "Import"}
         editIcon={isLoaded ? undefined : Table}
-        attention={Boolean(warnings) || logoDevOver}
+        attention={toolWarnings > 0 || logoDevOver}
         barAction={mobileDownload}
       >
         {children}

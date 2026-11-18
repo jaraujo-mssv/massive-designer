@@ -36,8 +36,11 @@ export interface MerchProduct {
   /** The one file to send the vendor, when it isn't a design's own: its name in public/merch-files/pdf/ */
   printFile?: string;
   designs: MerchDesign[];
-  /** Its mockups, when there's more than the one named after the product: each a [data-mockup] in merch.html */
-  mockups?: { id: string; name: string }[];
+  /**
+   * Its mockups, when there's more than the one named after the product: each a [data-mockup] in merch.html.
+   * `designs`: the files it shows (their `file`), the ones listed under it; without it, all of them.
+   */
+  mockups?: { id: string; name: string; designs?: string[] }[];
 }
 
 export const PROOF_PDF = "/merch-files/massive-merch-proof.pdf";
@@ -201,7 +204,7 @@ export const PRODUCTS: MerchProduct[] = [
       TEE_SIDES.map((side) => ({ file: `tee-${side.id}-${id}`, name: `${side.name} · ${name}`, ground })),
     ),
     mockups: TEE_COLOURS.flatMap(({ id, name }) =>
-      TEE_SIDES.map((side) => ({ id: `tee-${side.id}-${id}`, name: `${side.name} · ${name}` })),
+      TEE_SIDES.map((side) => ({ id: `tee-${side.id}-${id}`, name: `${side.name} · ${name}`, designs: [`tee-${side.id}-${id}`] })),
     ),
   },
   {
@@ -329,8 +332,8 @@ export const PRODUCTS: MerchProduct[] = [
     },
     wide: true,
     mockups: [
-      { id: "bucket-hat", name: "Logo" },
-      { id: "bucket-hat-tagline", name: "It’s Massive" },
+      { id: "bucket-hat", name: "Logo", designs: ["bucket-hat-embroidery", "bucket-hat-print"] },
+      { id: "bucket-hat-tagline", name: "It’s Massive", designs: ["bucket-hat-tagline-embroidery", "bucket-hat-tagline-print"] },
     ],
     designs: [
       { file: "bucket-hat-embroidery", name: "Logo · Embroidery", ground: "#1b151a", previewWidth: "88%" },
@@ -365,8 +368,8 @@ export const PRODUCTS: MerchProduct[] = [
     },
     wide: true,
     mockups: [
-      { id: "hip-pack", name: "Logo" },
-      { id: "hip-pack-tagline", name: "It’s Massive" },
+      { id: "hip-pack", name: "Logo", designs: ["hip-pack"] },
+      { id: "hip-pack-tagline", name: "It’s Massive", designs: ["hip-pack-tagline"] },
     ],
     designs: [
       { file: "hip-pack", name: "Logo · Front", ground: "#1d1d1d", previewWidth: "88%" },
@@ -401,8 +404,8 @@ export const PRODUCTS: MerchProduct[] = [
       { file: "glass-pc-one-side", name: "Option 2 · One side", ground: "#b8643a" },
     ],
     mockups: [
-      { id: "glass-pc-two-sides", name: "Option 1 · Two sides" },
-      { id: "glass-pc-one-side", name: "Option 2 · One side" },
+      { id: "glass-pc-two-sides", name: "Option 1 · Two sides", designs: ["glass-pc-side-a", "glass-pc-side-b"] },
+      { id: "glass-pc-one-side", name: "Option 2 · One side", designs: ["glass-pc-one-side"] },
     ],
   },
   {

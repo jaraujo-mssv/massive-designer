@@ -132,46 +132,115 @@ function DesignCard({ product, design }: { product: MerchProduct; design: MerchD
   );
 }
 
-type MockupPhoto = { id: string; name?: string };
+type MockupPhoto = { id: string; name?: string; designs?: string[] };
 
-/** One of the product's mockups: a desk photo from `npm run merch:mockups`, or a vector one from `npm run merch`. */
-function Mockup({ product, mockup, onMissing }: { product: MerchProduct; mockup: MockupPhoto; onMissing: () => void }) {
+/**
+ * A section's left column: one mockup at a time (a desk photo from `npm run merch:mockups`, or a vector one from
+ * `npm run merch`), thumbnails to pick another when there are several, and the files that mockup shows. A product
+ * whose mockup hasn't been made shows its first design in its place, and all its files.
+ */
+function ProductMedia({ product }: { product: MerchProduct }) {
+  const [missing, setMissing] = useState<string[]>([]);
+  const [picked, setPicked] = useState<string>();
+  const mockups: MockupPhoto[] = (product.mockups ?? [{ id: product.id }]).filter((m) => !missing.includes(m.id));
+  const current = mockups.find((m) => m.id === picked) ?? mockups[0];
+  const designs = current?.designs ? product.designs.filter((d) => current.designs!.includes(d.file)) : product.designs;
+  const hero = product.designs[0];
+  const cards = product.wide ? "grid-cols-1 @sm:grid-cols-2" : "grid-cols-2 @sm:grid-cols-3 @xl:grid-cols-4";
   return (
-    <figure className="space-y-1">
-      <ImageButton
-        src={mockupUrl(mockup.id)}
-        alt={mockup.name ? `Mockup: the ${product.name}, ${mockup.name}` : `Mockup: the ${product.name}`}
-        caption={mockup.name ? `${product.name} · ${mockup.name}` : `${product.name} · Mockup`}
-        title="Open it larger"
-        className="rounded-lg"
-      >
-        <img
-          src={mockupUrl(mockup.id)}
-          alt={
-            mockup.name
-              ? `Mockup: the ${product.name}, ${mockup.name}`
-              : `Mockup: the ${product.name} designs on a desk, next to stationery for scale`
-          }
-          loading="lazy"
-          onError={onMissing}
-          className="block aspect-[3/2] h-auto w-full rounded-lg bg-surface-2 object-cover"
-        />
-      </ImageButton>
-      <figcaption className="-ml-1.5">
-        <FileLink
-          href={mockupUrl(mockup.id)}
-          download={`massive-${mockup.id}-mockup.jpg`}
-          label={mockup.name ? `Mockup · ${mockup.name} (JPG)` : "Mockup (JPG)"}
-        />
-      </figcaption>
-    </figure>
+    <div className="@container min-w-0 space-y-3">
+      {current ? (
+        <ImageButton
+          src={mockupUrl(current.id)}
+          alt={current.name ? `Mockup: the ${product.name}, ${current.name}` : `Mockup: the ${product.name}`}
+          caption={current.name ? `${product.name} · ${current.name}` : `${product.name} · Mockup`}
+          title="Open it larger"
+          className="rounded-lg"
+        >
+          <img
+            src={mockupUrl(current.id)}
+            alt={
+              current.name
+                ? `Mockup: the ${product.name}, ${current.name}`
+                : `Mockup: the ${product.name} designs on a desk, next to stationery for scale`
+            }
+            loading="lazy"
+            onError={() => setMissing((ids) => [...ids, current.id])}
+            className="block aspect-[3/2] h-auto w-full rounded-lg bg-surface-2 object-cover"
+          />
+        </ImageButton>
+      ) : (
+        hero && (
+          <ImageButton
+            src={pngUrl(hero.file)}
+            alt={`${product.name}, ${hero.name}`}
+            caption={`${product.name} · ${hero.name}`}
+            ground={groundOf(hero)}
+            title="Open it larger"
+            className="rounded-lg"
+          >
+            <span
+              className="flex aspect-[3/2] w-full items-center justify-center overflow-hidden rounded-lg p-6"
+              style={hero.ground ? { background: hero.ground } : CHECKERBOARD}
+            >
+              <img src={pngUrl(hero.file)} alt={`${product.name}, ${hero.name}`} className="max-h-full max-w-full object-contain" />
+            </span>
+          </ImageButton>
+        )
+      )}
+      {mockups.length > 1 && (
+        <div role="group" aria-label="Mockups" className="flex flex-wrap gap-1.5">
+          {mockups.map((mockup) => {
+            const selected = mockup.id === current?.id;
+            return (
+              <button
+                key={mockup.id}
+                type="button"
+                onClick={() => setPicked(mockup.id)}
+                aria-pressed={selected}
+                aria-label={mockup.name}
+                title={mockup.name}
+                className={`h-12 w-12 shrink-0 overflow-hidden rounded-md border bg-surface-2 transition-opacity ${
+                  selected ? "border-brand ring-1 ring-brand" : "border-border-subtle opacity-60 hover:opacity-100"
+                }`}
+              >
+                <img src={mockupThumbUrl(mockup.id)} alt="" className="h-full w-full object-cover" />
+              </button>
+            );
+          })}
+        </div>
+      )}
+      {current && (
+        <div className={`flex flex-wrap items-center gap-x-3 ${current.name ? "justify-between" : "-ml-1.5"}`}>
+          {current.name && <span className="text-sm text-text-primary">{current.name}</span>}
+          <span className={current.name ? "-mr-1.5" : ""}>
+            <FileLink href={mockupUrl(current.id)} download={`massive-${current.id}-mockup.jpg`} label="Mockup (JPG)" />
+          </span>
+        </div>
+      )}
+      <div className="space-y-2 pt-2">
+        <div className="flex flex-wrap items-center justify-between gap-x-3">
+          <h3 className="text-sm font-medium text-text-primary">Files</h3>
+          {product.printFile && (
+            <span className="-mr-1.5">
+              <FileLink href={pdfUrl(product.printFile)} download={`massive-${product.printFile}.pdf`} label="Print file (PDF)" />
+            </span>
+          )}
+        </div>
+        <div className={`grid gap-3 ${cards}`}>
+          {designs.map((design) => (
+            <DesignCard key={design.file} product={product} design={design} />
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }
 
 /** A product's table: a cell's first line as the value, any lines after it smaller and dimmer. */
 function NotesTable({ table }: { table: NonNullable<MerchProduct["table"]> }) {
   return (
-    <div className="max-w-3xl space-y-1.5">
+    <div className="space-y-1.5">
       <h3 className="text-sm font-medium text-text-primary">{table.title}</h3>
       {table.caption && <p className="text-sm text-text-mid">{table.caption}</p>}
       <div className="overflow-x-auto">
@@ -275,44 +344,38 @@ function SectionList({ active, onJump }: { active: string; onJump: (id: string) 
   );
 }
 
-function ProductSection({ product }: { product: MerchProduct }) {
-  // Wide screens: the mockups on the left, kept in view, the downloads on the right. More than three mockups (the
-  // T-shirt's colours × sides) make a gallery across the top, three to a row, with the downloads below. A product
-  // that hasn't had a mockup made gives the downloads the whole width.
-  const [missing, setMissing] = useState<string[]>([]);
-  const mockups: MockupPhoto[] = (product.mockups ?? [{ id: product.id }]).filter((m) => !missing.includes(m.id));
-  const hasMockup = mockups.length > 0;
-  const gallery = mockups.length > 3;
-  const beside = hasMockup && !gallery;
-  const columns = product.wide
-    ? `grid-cols-1 sm:grid-cols-2 ${beside ? "" : "lg:grid-cols-4"}`
-    : `grid-cols-2 sm:grid-cols-3 ${hasMockup ? "" : "lg:grid-cols-6"}`;
+/** A section's right column: the vendor and the specs, what to tell them, how to order and the sizes. */
+function ProductDetails({ product }: { product: MerchProduct }) {
   return (
-    <section id={sectionId(product.id)} className="space-y-3 border-t border-border-subtle px-3 py-5 md:px-6 md:py-7">
-      <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
-        <h2 className="text-lg md:text-xl">{product.name}</h2>
+    <div className="min-w-0 space-y-4">
+      <div className="space-y-3 rounded-lg border border-border-subtle bg-surface p-4">
         {product.vendor && (
-          <a
-            href={product.vendor.url}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-1 font-mono text-xs text-brand-light hover:underline"
-          >
-            {product.vendor.name}
-            <ArrowSquareOut size={12} weight="bold" />
-          </a>
+          <div className="space-y-0.5">
+            <div className="text-xs text-text-dim">Vendor</div>
+            <a
+              href={product.vendor.url}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1 text-sm text-brand-light hover:underline"
+            >
+              {product.vendor.name}
+              <ArrowSquareOut size={12} weight="bold" />
+            </a>
+          </div>
         )}
+        <div className="space-y-0.5">
+          <div className="text-xs text-text-dim">Specs</div>
+          <ul className="list-disc space-y-0.5 pl-4 text-sm text-text-mid marker:text-text-dim">
+            {product.specs.map((spec) => (
+              // Mono only for code: the one spec that's a command
+              <li key={spec}>{spec.startsWith("npm run ") ? <code className="font-mono text-xs">{spec}</code> : spec}</li>
+            ))}
+          </ul>
+        </div>
       </div>
-      <ul className="flex flex-wrap gap-x-4 gap-y-1">
-        {product.specs.map((spec) => (
-          <li key={spec} className="font-mono text-xs text-text-dim">
-            {spec}
-          </li>
-        ))}
-      </ul>
-      <p className="max-w-3xl text-sm text-text-mid">{product.notes}</p>
+      <p className="text-sm text-text-mid">{product.notes}</p>
       {product.steps && (
-        <div className="max-w-3xl space-y-1.5">
+        <div className="space-y-1.5">
           <h3 className="text-sm font-medium text-text-primary">How to order</h3>
           <ol className="list-decimal space-y-1 pl-5 text-sm text-text-mid marker:text-text-dim">
             {product.steps.map((step) => (
@@ -322,29 +385,21 @@ function ProductSection({ product }: { product: MerchProduct }) {
         </div>
       )}
       {product.table && <NotesTable table={product.table} />}
-      {product.printFile && (
-        <div className="-ml-1.5">
-          <FileLink href={pdfUrl(product.printFile)} download={`massive-${product.printFile}.pdf`} label="Print file (PDF)" />
-        </div>
-      )}
-      <div className={`grid gap-4 pt-1 lg:gap-6 ${beside ? "lg:grid-cols-2 lg:items-start" : ""}`}>
-        {hasMockup && (
-          <div className={gallery ? "grid gap-4 sm:grid-cols-3" : "space-y-4 lg:sticky lg:top-6"}>
-            {mockups.map((mockup) => (
-              <Mockup
-                key={mockup.id}
-                product={product}
-                mockup={mockup}
-                onMissing={() => setMissing((ids) => [...ids, mockup.id])}
-              />
-            ))}
-          </div>
-        )}
-        <div className={`grid gap-3 ${columns}`}>
-          {product.designs.map((design) => (
-            <DesignCard key={design.file} product={product} design={design} />
-          ))}
-        </div>
+    </div>
+  );
+}
+
+/**
+ * A product: its name, then two columns where the section is wide enough (one on narrower windows and phones). Left,
+ * the mockup and the files to download; right, the vendor, specs, notes, steps and sizes.
+ */
+function ProductSection({ product }: { product: MerchProduct }) {
+  return (
+    <section id={sectionId(product.id)} className="@container border-t border-border-subtle px-3 py-5 md:px-6 md:py-7">
+      <h2 className="text-lg md:text-xl">{product.name}</h2>
+      <div className="mt-4 grid max-w-7xl items-start gap-6 @4xl:grid-cols-2 @4xl:gap-8">
+        <ProductMedia product={product} />
+        <ProductDetails product={product} />
       </div>
     </section>
   );

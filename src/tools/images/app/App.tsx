@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router";
-import { ArrowLeft, DownloadSimple, Images, LinkSimple, Sparkle } from "@phosphor-icons/react";
+import { ArrowLeft, DownloadSimple, Images, LinkSimple, SlidersHorizontal, Sparkle } from "@phosphor-icons/react";
 import { Toaster, toast } from "sonner";
 import { SidebarLayout } from "@/shared/components/SidebarLayout";
 import { useIsMobile } from "@/shared/components/ui/use-mobile";
@@ -27,6 +27,8 @@ export default function App() {
   const categories = index.status === "ready" ? index.categories : NO_CATEGORIES;
   const [params, setParams] = useSearchParams();
   const [drawerOpen, setDrawerOpen] = useState(false);
+  // Desktop: the Fields column starts closed, so the preview gets the room; the header's Fields button opens it.
+  const [fieldsOpen, setFieldsOpen] = useState(false);
   const [exporting, setExporting] = useState(false);
   const [dragging, setDragging] = useState(false);
   const preview = useRef<PreviewHandle>(null);
@@ -113,6 +115,25 @@ export default function App() {
     >
       <Sparkle size={16} weight="bold" />
       <span className={label}>Use with AI</span>
+    </button>
+  );
+
+  const attention = Object.keys(fields.errors).length > 0 || fields.unknown.length > 0;
+
+  const fieldsButton = (
+    <button
+      onClick={() => setFieldsOpen((open) => !open)}
+      title={fieldsOpen ? "Hide the fields" : "Show the fields"}
+      aria-pressed={fieldsOpen}
+      className={`relative shrink-0 flex items-center justify-center gap-2 px-3 py-2 rounded-lg border bg-surface-2 text-sm hover:border-brand hover:text-brand-light transition-colors ${
+        fieldsOpen ? "border-brand text-brand-light" : "border-border-subtle text-text-primary"
+      }`}
+    >
+      <SlidersHorizontal size={16} weight="bold" />
+      <span>Fields</span>
+      {attention && !fieldsOpen && (
+        <span aria-label="Has warnings" className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-amber-400" />
+      )}
     </button>
   );
 
@@ -211,7 +232,7 @@ export default function App() {
         onDrawerOpenChange={setDrawerOpen}
         editLabel="Edit"
         editIcon={Images}
-        attention={Object.keys(fields.errors).length > 0 || fields.unknown.length > 0}
+        attention={attention}
         barAction={project && !planned ? downloadButton : undefined}
       >
         <div className="flex-1 min-w-0 min-h-0 flex flex-col">
@@ -239,6 +260,7 @@ export default function App() {
                   </span>
                 ))}
               </div>
+              {!isMobile && !planned && fieldsButton}
               {!planned && linkButtons}
               {!isMobile && !planned && downloadButton}
             </div>
@@ -299,7 +321,7 @@ export default function App() {
                 )}
               </div>
             )}
-            {project && !isMobile && fieldsPanel(false)}
+            {project && !isMobile && fieldsOpen && fieldsPanel(false)}
           </div>
         </div>
       </SidebarLayout>

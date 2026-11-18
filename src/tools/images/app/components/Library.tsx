@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { FORMAT_LABEL, filterProjects, groupProjects, inPool, isFiltered, useCollapsed, useLibraryView } from "../library";
 import type { ImageCategory, ImageProject } from "../types";
@@ -17,7 +17,9 @@ interface LibraryProps {
 /** The Library column beside the editor: the same search, filters and groups as the gallery page, in a sidebar. */
 export function Library({ projects, categories, selectedId, onSelect, inDrawer = false }: LibraryProps) {
   const { view, set, reset } = useLibraryView();
-  const [collapsed, toggleCollapsed] = useCollapsed();
+  const [collapsed, toggleCollapsed, expand] = useCollapsed();
+  const listRef = useRef<HTMLDivElement>(null);
+  const activeRef = useRef<HTMLButtonElement>(null);
 
   const pool = useMemo(() => projects.filter((p) => inPool(p, view)), [projects, view]);
   const visible = useMemo(() => filterProjects(projects, view, categories), [projects, categories, view]);
@@ -26,14 +28,33 @@ export function Library({ projects, categories, selectedId, onSelect, inDrawer =
     [visible, view.group, view.sort, categories, projects],
   );
 
+  // Opening an image shows it here: its group opens if it was collapsed, and the list scrolls to it when it's out of
+  // sight (not in the phone drawer, where the fields come first).
+  const selectedGroup = groups.find((g) => g.blocks.some((b) => b.items.some((p) => p.id === selectedId)));
+  const selectedKey = selectedGroup ? `${view.group}:${selectedGroup.key}` : null;
+  const selectedHidden = !!selectedKey && !view.query && collapsed.has(selectedKey);
+  useEffect(() => {
+    if (selectedHidden) expand(selectedKey!);
+  }, [selectedId]);
+  useEffect(() => {
+    const list = listRef.current;
+    const el = activeRef.current;
+    if (inDrawer || !list || !el) return;
+    const l = list.getBoundingClientRect();
+    const r = el.getBoundingClientRect();
+    if (r.top < l.top || r.bottom > l.bottom) list.scrollTop += r.top - l.top - (l.height - r.height) / 2;
+  }, [selectedId, selectedHidden, view.view, view.group]);
+
   const item = (p: ImageProject) => {
     const active = p.id === selectedId;
-    const frame = active ? "bg-surface-2 border border-brand/30" : "border border-transparent hover:bg-surface-2";
+    const frame = active ? "bg-brand/10 border border-brand/60" : "border border-transparent hover:bg-surface-2";
+    const title = active ? "text-brand-light" : "text-text-primary";
+    const props = { ref: active ? activeRef : undefined, "aria-current": active || undefined, onClick: () => onSelect(p.id) };
     if (view.view === "grid")
       return (
-        <button key={p.id} onClick={() => onSelect(p.id)} className={`text-left p-1.5 rounded-lg flex flex-col gap-1.5 transition-colors ${frame}`}>
+        <button key={p.id} {...props} className={`text-left p-1.5 rounded-lg flex flex-col gap-1.5 transition-colors ${frame}`}>
           <Thumb p={p} className="w-full" />
-          <span className="text-xs text-text-primary leading-snug line-clamp-2">{p.title}</span>
+          <span className={`text-xs ${title} leading-snug line-clamp-2`}>{p.title}</span>
           <span className="flex items-center gap-1.5 text-[10px] text-text-dim font-mono">
             {FORMAT_LABEL[p.format]}
             <StatusBadge status={p.status} />
@@ -41,10 +62,10 @@ export function Library({ projects, categories, selectedId, onSelect, inDrawer =
         </button>
       );
     return (
-      <button key={p.id} onClick={() => onSelect(p.id)} className={`w-full text-left px-2 py-2 rounded-lg flex items-center gap-3 transition-colors ${frame}`}>
+      <button key={p.id} {...props} className={`w-full text-left px-2 py-2 rounded-lg flex items-center gap-3 transition-colors ${frame}`}>
         <Thumb p={p} className="w-10 shrink-0" />
         <span className="flex-1 min-w-0">
-          <span className="block text-sm text-text-primary truncate">{p.title}</span>
+          <span className={`block text-sm ${title} truncate`}>{p.title}</span>
           <span className="block text-[11px] text-text-dim font-mono truncate">
             {p.formats ? p.formats.map((f) => FORMAT_LABEL[f]).join(" + ") : `${p.width}×${p.height}`}
           </span>
@@ -66,7 +87,7 @@ export function Library({ projects, categories, selectedId, onSelect, inDrawer =
         <LibraryFilters projects={pool} categories={categories} view={view} set={set} variant="sidebar" />
       </div>
 
-      <div className="flex-1 overflow-y-auto min-h-0 py-2">
+      <div ref={listRef} className="flex-1 overflow-y-auto min-h-0 py-2">
         {visible.length === 0 && (
           <p className="px-5 py-6 text-sm text-text-dim">
             No images match{view.query ? ` “${view.query}”` : ""}

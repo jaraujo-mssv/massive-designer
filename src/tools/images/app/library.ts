@@ -99,11 +99,10 @@ export function useCollapsed() {
       return new Set();
     }
   });
-  const toggle = (key: string) =>
+  const update = (change: (next: Set<string>) => void) =>
     setCollapsed((prev) => {
       const next = new Set(prev);
-      if (next.has(key)) next.delete(key);
-      else next.add(key);
+      change(next);
       try {
         localStorage.setItem(COLLAPSED_KEY, JSON.stringify([...next]));
       } catch {
@@ -111,7 +110,9 @@ export function useCollapsed() {
       }
       return next;
     });
-  return [collapsed, toggle] as const;
+  const toggle = (key: string) => update((next) => (next.has(key) ? next.delete(key) : next.add(key)));
+  const expand = (key: string) => update((next) => next.delete(key));
+  return [collapsed, toggle, expand] as const;
 }
 
 export interface Group {

@@ -57,7 +57,7 @@ export default function App() {
   const [title, setTitle] = useState(DEFAULT_TITLE);
   const [date, setDate] = useState(DEFAULT_DATE);
   const [size, setSize] = useState<TopListSizeId>(DEFAULT_SIZE);
-  const [theme, setTheme] = useRemembered<CanvasThemeId>("top-list.theme", "light", CANVAS_THEME_IDS);
+  const [theme, setTheme] = useRemembered<CanvasThemeId>("top-list.theme", "light-legacy", CANVAS_THEME_IDS);
   const [showPresentedBy, setShowPresentedBy] = useState(true);
   const [summary, setSummary] = useState<LoadedSummary | null>(null);
   const [atMinimum, setAtMinimum] = useState(0);

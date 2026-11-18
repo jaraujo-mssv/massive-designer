@@ -53,7 +53,7 @@ export default function App() {
   const [date, setDate] = useState(DEFAULT_DATE);
   const [size, setSize] = useState<CanvasSizeId>(DEFAULT_CANVAS_SIZE);
   // Theme and layout open as they were last time in this browser.
-  const [theme, setTheme] = useRemembered<CanvasThemeId>("market-map.theme", "light", CANVAS_THEME_IDS);
+  const [theme, setTheme] = useRemembered<CanvasThemeId>("market-map.theme", "light-legacy", CANVAS_THEME_IDS);
   // Columns or tiles; picked in the sidebar and kept across loads.
   const [view, setView] = useRemembered<MapView>("market-map.layout", "columns", MAP_VIEWS);
   // Columns view, modern themes: a column count picked by hand (null: automatic), and the

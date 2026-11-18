@@ -75,7 +75,7 @@ Inside a tile, the category name is centred at the top as plain bold text (`1.1f
 
 ## Themes
 
-Four themes, shared with Top List (`src/shared/canvas/themes.ts`): **Dark**, **Light**, **Dark Legacy** and **Light Legacy**. Each theme is a `.canvas-<id>` class of `--canvas-*` variables in `src/styles/theme-canvas.css`.
+Four themes, shared with Top List (`src/shared/canvas/themes.ts`), in the picker's order: **Light Legacy** (the default in both tools), **Dark Legacy**, **Light** and **Dark**. Each theme is a `.canvas-<id>` class of `--canvas-*` variables in `src/styles/theme-canvas.css`.
 
 - **The legacy themes recreate the pre-revamp tools' look.** In Market Map they're always drawn in Columns, the old tool's arrangement, so the Layout control is hidden while one is picked. The old tools used the same palettes as Dark and Light, so the legacy classes share those colours through grouped selectors.
   - Only two things are set apart. Light Legacy uses the old flat cream grid (`/bg-light.jpg`, without the glow), and `--canvas-legacy-card-border` carries the old card stroke: `#2c2a30` on dark, `--canvas-border` on light.

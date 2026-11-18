@@ -19,11 +19,12 @@ export interface CanvasTheme {
 
 export type CanvasThemeId = 'dark' | 'light' | 'dark-legacy' | 'light-legacy';
 
+/** In the picker's order. The first is the default (and the fallback for an unknown id). */
 export const CANVAS_THEMES: CanvasTheme[] = [
-  { id: 'dark', label: 'Dark', legacy: false, exportBg: '/bg.jpg' },
-  { id: 'light', label: 'Light', legacy: false, exportBg: '/canvas-bg-light.jpg' },
-  { id: 'dark-legacy', label: 'Dark Legacy', legacy: true, exportBg: '/bg.jpg' },
   { id: 'light-legacy', label: 'Light Legacy', legacy: true, exportBg: '/bg-light.jpg' },
+  { id: 'dark-legacy', label: 'Dark Legacy', legacy: true, exportBg: '/bg.jpg' },
+  { id: 'light', label: 'Light', legacy: false, exportBg: '/canvas-bg-light.jpg' },
+  { id: 'dark', label: 'Dark', legacy: false, exportBg: '/bg.jpg' },
 ];
 
 /** Every theme id, e.g. to check a remembered theme still exists. */

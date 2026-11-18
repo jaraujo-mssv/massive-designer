@@ -71,7 +71,11 @@ async function runProbe(url: string): Promise<LogoProbe> {
     try {
       const decoded = await decode(objectUrl);
       if (!decoded) return { ok: false, width: 0 };
-      if (decoded.dataUrl) primeImageCache(url, decoded.dataUrl);
+      if (decoded.dataUrl) {
+        primeImageCache(url, decoded.dataUrl);
+        // The page draws it through the proxy (shownLogoUrl), so the export looks it up by that.
+        primeImageCache(proxyUrl(url), decoded.dataUrl);
+      }
       return { ok: true, width: decoded.width };
     } finally {
       URL.revokeObjectURL(objectUrl);
@@ -79,6 +83,16 @@ async function runProbe(url: string): Promise<LogoProbe> {
   } catch {
     return { ok: false, width: 0 };
   }
+}
+
+/**
+ * The address to draw a checked logo from: a remote one through the proxy, the
+ * way it was checked. Loaded directly, a service can answer the browser
+ * differently (unavatar rate-limits browsers with a 429), and a logo that
+ * passed its check would fall back to initials.
+ */
+export function shownLogoUrl(url: string): string {
+  return /^https?:\/\//i.test(url) ? proxyUrl(url) : url;
 }
 
 /** Checks a logo URL, once per session. */
@@ -186,20 +200,21 @@ export function resolvedLogoSync(logoUrl: string, website: string | undefined, t
 /**
  * The logo to draw for a company, or null for its initials logo. Shows the
  * sheet's logo right away (or initials when there is none) and switches once
- * the lookup settles.
+ * the lookup settles, to the logo it found, through the proxy (shownLogoUrl).
  */
 export function useResolvedLogo(logoUrl: string, website: string | undefined): string | null {
   const { logoDevToken } = useLogoSources();
   const key = keyOf(logoUrl, website, logoDevToken);
   const settled = resolved.has(key) ? resolved.get(key)! : undefined;
   const optimistic = logoUrl.trim() && !isInitials(logoUrl) ? logoUrl : null;
-  const [src, setSrc] = useState<string | null>(settled !== undefined ? settled : optimistic);
+  const shown = (found: string | null) => (found ? shownLogoUrl(found) : null);
+  const [src, setSrc] = useState<string | null>(settled !== undefined ? shown(settled) : optimistic);
 
   useEffect(() => {
     let live = true;
     if (!resolved.has(key)) setSrc(optimistic);
     void resolveLogo(logoUrl, website, logoDevToken).then((found) => {
-      if (live) setSrc(found);
+      if (live) setSrc(shown(found));
     });
     return () => {
       live = false;

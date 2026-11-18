@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { sidebarInputClass } from "@/shared/components/SidebarLayout";
 import { InitialsLogo } from "../logos/InitialsLogo";
 import { useLogoSources } from "../logos/LogoSourcesContext";
-import { LogoProbe, probeLogo } from "../logos/resolve";
+import { LogoProbe, probeLogo, shownLogoUrl } from "../logos/resolve";
 import { domainFrom, domainInLogoUrl, INITIALS, isHostingSite, PICKER_SOURCES, sourceOf, sourceUrl } from "../logos/sources";
 import { TextField } from "./fields";
 
@@ -167,7 +167,7 @@ export function LogoPicker({
                 onClick={() => onLogoChange(o.url)}
                 className={`${iconButtonClass} bg-white ${ring(selectedId === o.id)}`}
               >
-                <img src={o.url} alt={o.label} className="w-8 h-8 object-contain" />
+                <img src={shownLogoUrl(o.url)} alt={o.label} className="w-8 h-8 object-contain" />
               </button>
             ) : (
               <div key={o.id} title={`${o.label}: checking…`} className={`${iconButtonClass} border-border-subtle bg-surface-2 animate-pulse`} />

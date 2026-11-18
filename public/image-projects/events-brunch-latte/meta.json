@@ -1,0 +1,30 @@
+{
+  "id": "events-brunch-latte",
+  "title": "Brunch: the latte",
+  "description": "Close-up from above of the latte with the Massive mark in the foam, with shakshuka, Turkish eggs, truffle scrambled eggs and orange juice cropped at the edges. A square Luma event cover (AI photo, ElevenLabs). Made for the Brunch Paris event on Luma (https://luma.com/brunch-paris).",
+  "group": "massive",
+  "category": "events",
+  "template": null,
+  "series": "Massive Brunch",
+  "status": "draft",
+  "tags": [
+    "events",
+    "brunch",
+    "luma",
+    "paris",
+    "latte art",
+    "photo"
+  ],
+  "source": null,
+  "width": 1080,
+  "height": 1080,
+  "fields": [
+    {
+      "id": "photo",
+      "label": "Photo",
+      "type": "image",
+      "default": "assets/photo.webp",
+      "hint": "The cover for Brunch Paris, https://luma.com/brunch-paris. A square photo, at least 1080 px; it fills the canvas edge to edge"
+    }
+  ]
+}

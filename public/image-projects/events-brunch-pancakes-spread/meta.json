@@ -1,0 +1,30 @@
+{
+  "id": "events-brunch-pancakes-spread",
+  "title": "Brunch: the spread (pancakes)",
+  "description": "A full shared brunch spread from above: berry pancakes, avocado toast, croissants, the black burger, a mushroom bowl and fresh juices, with the Massive latte in the centre. A square Luma event cover (AI photo, ElevenLabs). Made for the Brunch Paris event on Luma (https://luma.com/brunch-paris).",
+  "group": "massive",
+  "category": "events",
+  "template": null,
+  "series": "Massive Brunch",
+  "status": "draft",
+  "tags": [
+    "events",
+    "brunch",
+    "luma",
+    "paris",
+    "latte art",
+    "photo"
+  ],
+  "source": null,
+  "width": 1080,
+  "height": 1080,
+  "fields": [
+    {
+      "id": "photo",
+      "label": "Photo",
+      "type": "image",
+      "default": "assets/photo.webp",
+      "hint": "The cover for Brunch Paris, https://luma.com/brunch-paris. A square photo, at least 1080 px; it fills the canvas edge to edge"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1080" />
+    <title>Brunch: the table (pancakes)</title>
+    <link rel="stylesheet" href="../_brand/massive.css" />
+    <!-- One of the brunch Luma covers (events-brunch-*): an AI photo, full bleed, no type.
+         Luma puts the event's name beside the cover, so the photo carries none. -->
+    <style>
+      #canvas {
+        width: 1080px;
+        height: 1080px;
+        background: #f4f1ec;
+      }
+      .photo {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas">
+      <img class="photo" data-field-src="photo" src="assets/photo.webp" alt="" />
+    </div>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

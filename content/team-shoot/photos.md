@@ -99,6 +99,9 @@ Natural, relaxed, confident expressions, looking into the lens. True-to-life ski
   Prompt: A vertical studio portrait of Ken Bechtel from the team photoshoot, against the seamless white backdrop, in the black Massive T-shirt and black trousers with a black leather belt. Ken stands square to the camera, arms crossed over the chest as in the torso reference, the large black wristwatch showing, with a warm, closed-mouth smile, looking straight into the lens. Framed from well above the head down to mid-thigh, with plenty of white space above.
   Image: studio-ken-bechtel-take-4.webp
   Takes: studio-ken-bechtel.webp, studio-ken-bechtel-take-2.webp, studio-ken-bechtel-take-3.webp, studio-ken-bechtel-take-4.webp
+- [x] **Tatsiana Matlash:** On the stool, arms crossed
+  Prompt: A vertical studio portrait of Tatsiana Matlash from the team photoshoot, against the seamless white backdrop, in the black Massive T-shirt and beige chinos. Tatsiana sits on the black adjustable stool, arms crossed, with a soft, closed-mouth smile, looking straight into the lens. Framed from well above the head down to just below the knees, the stool's column showing between the legs.
+  Image: studio-tatsiana-matlash.webp
 
 ## Checklist
 

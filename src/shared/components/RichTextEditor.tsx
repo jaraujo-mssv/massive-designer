@@ -1,4 +1,5 @@
 import { useRef, useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { Bold, Italic } from "lucide-react";
 
 interface RichTextEditorProps {
@@ -56,7 +57,7 @@ export function RichTextEditor({
       const rect = range.getBoundingClientRect();
       setToolbarPosition({
         top: rect.bottom + 8, // Position below the selection with 8px gap
-        left: rect.left + rect.width / 2 - 50,
+        left: rect.left + rect.width / 2, // Centred on it (translateX(-50%) below)
       });
       setShowToolbar(true);
     } else {
@@ -87,10 +88,12 @@ export function RichTextEditor({
         suppressContentEditableWarning
       />
       
-      {/* Floating Toolbar */}
-      {showToolbar && !disabled && (
+      {/* Floating toolbar, in the body: inside the canvas, its scale() would move and
+          shrink it, it would take the page's cream text on its white, and an export
+          could catch it. In the app's dark UI, like the edit popover. */}
+      {showToolbar && !disabled && createPortal(
         <div
-          className="fixed z-50 flex gap-1 bg-white rounded-lg shadow-lg border border-gray-200 p-1"
+          className="fixed z-50 flex gap-1 -translate-x-1/2 bg-surface text-text-primary rounded-lg shadow-2xl border border-border-subtle p-1"
           style={{
             top: `${toolbarPosition.top}px`,
             left: `${toolbarPosition.left}px`,
@@ -99,19 +102,20 @@ export function RichTextEditor({
         >
           <button
             onClick={() => applyFormat("bold")}
-            className="p-2 rounded hover:bg-gray-100 transition-colors"
+            className="p-2 rounded hover:bg-surface-2 transition-colors"
             title="Bold"
           >
             <Bold className="w-4 h-4" />
           </button>
           <button
             onClick={() => applyFormat("italic")}
-            className="p-2 rounded hover:bg-gray-100 transition-colors"
+            className="p-2 rounded hover:bg-surface-2 transition-colors"
             title="Italic"
           >
             <Italic className="w-4 h-4" />
           </button>
-        </div>
+        </div>,
+        document.body,
       )}
     </>
   );

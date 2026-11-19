@@ -66,6 +66,7 @@ const HEADROOM = 0.03;
  */
 const NUDGE = {
   'profile-gianni-massi': { x: -0.08, y: -0.04 },
+  'studio-dima-tymoshchenko': { x: 0.08 },
   'studio-ryan-turner': { x: -0.05 },
 };
 

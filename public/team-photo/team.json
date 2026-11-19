@@ -36,9 +36,10 @@
     "made": "222a408db894"
   },
   {
-    "id": "placeholder-dima-tymoshchenko",
+    "id": "studio-dima-tymoshchenko",
     "name": "Dima Tymoshchenko",
-    "placeholder": true
+    "src": "/team-photo/studio-dima-tymoshchenko.webp",
+    "made": "d3cee3c1c5cf"
   },
   {
     "id": "studio-oreoluwa-emmanuel",
@@ -131,19 +132,22 @@
     "made": "a909de97f9f6"
   },
   {
-    "id": "placeholder-mohie-eddine-lakhdar",
+    "id": "studio-mohie-eddine-lakhdar",
     "name": "Mohie Eddine Lakhdar",
-    "placeholder": true
+    "src": "/team-photo/studio-mohie-eddine-lakhdar.webp",
+    "made": "537b50804740"
   },
   {
-    "id": "placeholder-monika-dainyte",
+    "id": "studio-monika-dainyte",
     "name": "Monika Dainyte",
-    "placeholder": true
+    "src": "/team-photo/studio-monika-dainyte.webp",
+    "made": "4d37d405dbe8"
   },
   {
-    "id": "placeholder-morvi-chaturvedi",
+    "id": "studio-morvi-chaturvedi",
     "name": "Morvi Chaturvedi",
-    "placeholder": true
+    "src": "/team-photo/studio-morvi-chaturvedi.webp",
+    "made": "be7cd0ad70f6"
   },
   {
     "id": "studio-ryan-turner",

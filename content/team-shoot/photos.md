@@ -102,6 +102,18 @@ Natural, relaxed, confident expressions, looking into the lens. True-to-life ski
 - [x] **Tatsiana Matlash:** On the stool, arms crossed
   Prompt: A vertical studio portrait of Tatsiana Matlash from the team photoshoot, against the seamless white backdrop, in the black Massive T-shirt and beige chinos. Tatsiana sits on the black adjustable stool, arms crossed, with a soft, closed-mouth smile, looking straight into the lens. Framed from well above the head down to just below the knees, the stool's column showing between the legs.
   Image: studio-tatsiana-matlash.webp
+- [x] **Dima Tymoshchenko:** On the stool, hands clasped
+  Prompt: A vertical studio portrait of Dima Tymoshchenko from the team photoshoot, against the seamless white backdrop, in the black Massive T-shirt and dark blue jeans. Dima sits on the black adjustable stool, leaning forward a little, forearms on the thighs and hands loosely clasped between the knees, with a relaxed, slightly lopsided closed-mouth smile, looking straight into the lens. Framed from well above the head down to just below the knees, the stool's column showing between the legs.
+  Image: studio-dima-tymoshchenko.webp
+- [x] **Mohie Eddine Lakhdar:** On the stool, hands on knees
+  Prompt: A vertical studio portrait of Mohie Eddine Lakhdar from the team photoshoot, against the seamless white backdrop, in the black Massive T-shirt and black trousers. Mohie sits on the black adjustable stool, hands resting on the knees, with a calm, composed expression and a slight smile, looking straight into the lens. Framed from well above the head down to just below the knees, the stool's column showing between the legs.
+  Image: studio-mohie-eddine-lakhdar.webp
+- [x] **Monika Dainyte:** Standing, hands clasped
+  Prompt: A vertical studio portrait of Monika Dainyte from the team photoshoot, against the seamless white backdrop, in the black Massive T-shirt and light-wash blue jeans, bareheaded, the long hair worn loose. Monika stands square to the camera, arms relaxed, hands loosely clasped in front at the waist, with a wide, open smile, looking straight into the lens. Framed from well above the head down to mid-thigh, with plenty of white space above.
+  Image: studio-monika-dainyte.webp
+- [x] **Morvi Chaturvedi:** Standing, arms crossed
+  Prompt: A vertical studio portrait of Morvi Chaturvedi from the team photoshoot, against the seamless white backdrop, in the black Massive T-shirt and black trousers, wearing the silver jhumka earrings. Morvi stands square to the camera, arms crossed, with a gentle, closed-mouth smile, looking straight into the lens. Framed from well above the head down to mid-thigh, with plenty of white space above.
+  Image: studio-morvi-chaturvedi.webp
 
 ## Checklist
 

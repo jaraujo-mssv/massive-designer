@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { sidebarInputClass } from "@/shared/components/SidebarLayout";
 import { InitialsLogo } from "../logos/InitialsLogo";
 import { useLogoSources } from "../logos/LogoSourcesContext";
-import { LOW_RES_WIDTH, LogoProbe, probeLogo, shownLogoUrl } from "../logos/resolve";
+import { chooseLogo, LOW_RES_WIDTH, LogoProbe, probeLogo, shownLogoUrl } from "../logos/resolve";
 import { domainFrom, domainInLogoUrl, INITIALS, isHostingSite, PICKER_SOURCES, sourceOf, sourceUrl } from "../logos/sources";
 import { TextField } from "./fields";
 
@@ -166,7 +166,11 @@ export function LogoPicker({
                 key={o.id}
                 type="button"
                 title={`${o.label} · ${probe.width}px${lowRes ? ", low-res: it will look blurry" : ""}`}
-                onClick={() => onLogoChange(o.url)}
+                onClick={() => {
+                  // Drawn as picked, not swapped for a sharper logo from another service.
+                  chooseLogo(o.url);
+                  onLogoChange(o.url);
+                }}
                 className={`${iconButtonClass} bg-white ${ring(selectedId === o.id)}`}
               >
                 <img src={shownLogoUrl(o.url)} alt={o.label} className="w-8 h-8 object-contain" />

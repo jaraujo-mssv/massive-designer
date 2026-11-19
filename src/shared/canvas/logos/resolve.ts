@@ -115,8 +115,21 @@ const resolutions = new Map<string, Promise<string | null>>();
 const resolved = new Map<string, string | null>();
 const pending = new Set<Promise<unknown>>();
 
+/**
+ * Logo URLs picked in the edit popover this session. A pick is drawn as it is,
+ * never swapped for a sharper logo from another service: that one is often
+ * another design (for iren.com, Google has the wordmark, DuckDuckGo the "I").
+ */
+const chosen = new Set<string>();
+
+/** Marks a logo URL as picked by hand (an icon in the edit popover), so resolveLogo keeps it. */
+export function chooseLogo(url: string): void {
+  chosen.add(url.trim());
+}
+
+// A pick is part of the key, so picking the logo already in the cell looks it up again.
 const keyOf = (logoUrl: string, website: string | undefined, token: string | null) =>
-  `${logoUrl}|${website ?? ''}|${token ?? ''}`;
+  `${logoUrl}|${website ?? ''}|${token ?? ''}|${chosen.has(logoUrl.trim()) ? 'chosen' : ''}`;
 
 const isInitials = (logoUrl: string) => logoUrl.trim().toLowerCase() === INITIALS;
 
@@ -158,6 +171,7 @@ async function bestOf(urls: string[], known: { url: string; width: number } | nu
  *   hosting site like GitHub).
  * - A sheet's logo that's only a favicon (LOW_RES_WIDTH) is asked about as a
  *   failed one, but stays if no service has anything sharper.
+ * - A logo picked in the edit popover (chooseLogo) stays as it is, however small.
  * - `logoUrl === INITIALS` is a choice, not a miss: always null.
  */
 export function resolveLogo(logoUrl: string, website: string | undefined, token: string | null): Promise<string | null> {
@@ -171,6 +185,7 @@ export function resolveLogo(logoUrl: string, website: string | undefined, token:
     if (own) {
       const url = normalizeLogoUrl(own);
       const probe = await probeLogo(url);
+      if (probe.ok && chosen.has(own)) return url;
       if (probe.ok && probe.width > LOW_RES_WIDTH) {
         // It works. Only a sharper copy of the same logo may replace it: from the
         // domain the logo is for, never the website's (a GitHub repo, an app store).

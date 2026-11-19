@@ -148,7 +148,8 @@ Both turn a spreadsheet of companies into a branded JPG. They share `src/shared/
 - `ToolVersion.tsx`: the **New | Legacy** switch. Both versions live at the same URL; the pick is remembered per browser.
 - `logos/`: a logo is looked up in this order: the sheet's own logo, Logo.dev, Google favicon, unavatar, DuckDuckGo,
   then initials (`InitialsLogo.tsx`). A 16 px favicon is used only when nothing sharper is found, with a low-res
-  warning (`LowResWarning.tsx`). Logo.dev's token is read from the sheet's own `img.logo.dev` URLs; there's
+  warning (`LowResWarning.tsx`). A small sheet logo can be swapped for a sharper one of the same domain, but a logo
+  picked in the edit popover is drawn as picked (`chooseLogo`). Logo.dev's token is read from the sheet's own `img.logo.dev` URLs; there's
   no env var. Logos are drawn through the image proxy, as they were checked (`shownLogoUrl`).
 - `edit/`: click-to-edit popovers, undo, Download/Copy TSV.
 - `exportJpg.ts`: renders a 2× JPG with modern-screenshot. Every `<img>` is turned into a data URL first, through

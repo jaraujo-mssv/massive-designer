@@ -23,30 +23,34 @@ import {
 // sheet-driven canvas tools first, then the rest. Deprecated tools stay
 // routable by direct URL but are hidden from the nav. Local-only tools are
 // listed on the dev server only (they aren't in the deployed build at all).
-const tools: {
+export interface Tool {
   label: string
+  /** What it's for, in one line: the home page and the 404 list the tools with it. */
+  blurb: string
   route: string
   icon: Icon
   group: string
   deprecated?: boolean
   localOnly?: boolean
-}[] = [
-  { label: 'Market Map', route: '/market-map', icon: SquaresFour, group: 'canvas' },
-  { label: 'Top List', route: '/top-list', icon: Trophy, group: 'canvas' },
-  { label: 'Partnership Post', route: '/partnership-post', icon: Handshake, group: 'other' },
-  { label: 'Video', route: '/video', icon: VideoCamera, group: 'other', localOnly: true },
-  { label: 'Images', route: '/images', icon: Images, group: 'other' },
-  { label: 'Gemini', route: '/gemini', icon: Sparkle, group: 'other' },
-  { label: 'Merch', route: '/merch', icon: TShirt, group: 'other' },
-  { label: 'Team Photo', route: '/team-photo', icon: UsersThree, group: 'other' },
-  { label: 'Content', route: '/content', icon: Notebook, group: 'other', localOnly: true },
-  { label: 'Logo Encoder', route: '/logo-encoder', icon: ImageSquare, group: 'other' },
-  { label: 'Social Media', route: '/social-media', icon: ShareNetwork, group: 'other', deprecated: true },
-  { label: 'Campaign Designer', route: '/campaign-designer', icon: Megaphone, group: 'other', deprecated: true },
-  { label: 'Dither', route: '/dither', icon: DotsNine, group: 'other', deprecated: true },
+}
+
+const tools: Tool[] = [
+  { label: 'Market Map', blurb: 'A spreadsheet of companies as a branded market map', route: '/market-map', icon: SquaresFour, group: 'canvas' },
+  { label: 'Top List', blurb: 'A spreadsheet of companies as a branded ranking', route: '/top-list', icon: Trophy, group: 'canvas' },
+  { label: 'Partnership Post', blurb: "A partnership post: Massive with a partner's logo", route: '/partnership-post', icon: Handshake, group: 'other' },
+  { label: 'Video', blurb: 'Videos and LinkedIn GIFs, from script to render', route: '/video', icon: VideoCamera, group: 'other', localOnly: true },
+  { label: 'Images', blurb: 'Post images and templates, by link or by hand', route: '/images', icon: Images, group: 'other' },
+  { label: 'Gemini', blurb: 'Several Gemini chats at once, with the brand kit to paste', route: '/gemini', icon: Sparkle, group: 'other' },
+  { label: 'Merch', blurb: 'Buttons, stickers, tees and the rest, print-ready', route: '/merch', icon: TShirt, group: 'other' },
+  { label: 'Team Photo', blurb: "The team's faces on pastel grounds", route: '/team-photo', icon: UsersThree, group: 'other' },
+  { label: 'Content', blurb: 'Campaign docs: scripts, briefs and shotlists', route: '/content', icon: Notebook, group: 'other', localOnly: true },
+  { label: 'Logo Encoder', blurb: "Any image as a square PNG data URL, for a sheet's logo column", route: '/logo-encoder', icon: ImageSquare, group: 'other' },
+  { label: 'Social Media', blurb: 'Social posts (deprecated)', route: '/social-media', icon: ShareNetwork, group: 'other', deprecated: true },
+  { label: 'Campaign Designer', blurb: 'Campaign images (deprecated)', route: '/campaign-designer', icon: Megaphone, group: 'other', deprecated: true },
+  { label: 'Dither', blurb: 'Dithered images (deprecated)', route: '/dither', icon: DotsNine, group: 'other', deprecated: true },
 ]
 
-const visibleTools = tools.filter((t) => !t.deprecated && (!t.localOnly || import.meta.env.DEV))
+export const visibleTools = tools.filter((t) => !t.deprecated && (!t.localOnly || import.meta.env.DEV))
 
 function NavLink({ to, label, icon: ToolIcon }: { to: string; label: string; icon: Icon }) {
   const match = useMatch(to)

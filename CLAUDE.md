@@ -89,7 +89,8 @@ npm start            # the whole site with every API, as Railway runs it (PORT, 
     (its replacement is `.railway/railway.ts`, applied with their CLI), so there's no config file.
   - Docker can't run on the dev Mac, so `npm start` is the way to test the server before pushing.
 - **Dev server only:** Video and Content work on local files. In a build `import.meta.env.DEV` is false, so their
-  routes, nav entries and code drop out, and `localOnlyPublicDirs()` deletes their `public/` folders from `dist/`.
+  routes, nav entries and code drop out, and `localOnlyPublicDirs()` deletes their `public/` folders from `dist/`. On
+  the deployed site their old links show the 404 page, saying why.
 - Script commands that render through Playwright Chromium: `image:render`, `print`, `deck`, `deck:pptx`, `docs`, `onepager`,
   `menu`, `banners`, `merch`. If Chromium is missing, `npm run setup` installs it. Renders go to `output/`
   (gitignored), except `merch`, which writes to `public/merch-files/` (committed: the live Merch tab serves them), and
@@ -102,7 +103,7 @@ npm start            # the whole site with every API, as Railway runs it (PORT, 
 |---|---|
 | `src/main.tsx`, `src/router/index.tsx` | Entry and routes. `ToolLayout` wraps each tool in the header and a `tool-<name>` class. |
 | `server/`, `Dockerfile` | The Railway deploy: a Node server for `dist/` and `api/`, and the container it runs in. |
-| `src/shared/components/Header.tsx` | The nav: the `tools` list, with `localOnly` and `deprecated` flags. |
+| `src/shared/components/Header.tsx` | The nav: the `tools` list, with `localOnly` and `deprecated` flags, and each tool's `blurb` (the home page and the 404 list the tools with it). |
 | `src/tools/<tool>/app/App.tsx` | Each tool's entry. |
 | `src/shared/canvas/` | Shared by Market Map and Top List (see below). |
 | `src/shared/components/ui/` | shadcn/Radix primitives. |
@@ -121,6 +122,7 @@ npm start            # the whole site with every API, as Railway runs it (PORT, 
 
 | Tool | Route | Code | Status |
 |---|---|---|---|
+| Home: the brand kit | `/` | `src/shared/components/LandingPage.tsx`, its data in `home/kit.ts` (logos, colours, type, sizes by channel), then the tools. Any unknown path gets `NotFound.tsx`, with a "Did you mean" for a mistyped tool | Live |
 | Market Map | `/market-map` | `src/tools/market-map/` (+ `market-map-legacy/`) | Live |
 | Top List | `/top-list` (`/bento-map` redirects here) | `src/tools/top-list/` (+ `top-list-legacy/`) | Live |
 | Images | `/images` | `src/tools/images/`, `public/image-projects/` | Live |

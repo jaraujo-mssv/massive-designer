@@ -97,6 +97,7 @@ Each pipeline has its own copy of the tokens, because each one renders on its ow
 | Pipeline | File |
 |---|---|
 | App UI (dark only) | `src/styles/theme-base.css` |
+| The home page's brand kit (both registers' colours, as shown to people) | `src/shared/components/home/kit.ts` |
 | Market Map, Top List canvases | `src/styles/theme-canvas.css`, `src/shared/canvas/themes.ts` |
 | Images | `public/image-projects/_brand/massive.css` |
 | Videos, GIFs | `public/video-projects/_brand/lib/massive.css` and `frame.md` (`npm run video:brand` copies `lib/` and `assets/brand/` into projects) |

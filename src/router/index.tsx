@@ -2,6 +2,7 @@ import { createBrowserRouter, Navigate, useLocation } from 'react-router'
 import { lazy, Suspense } from 'react'
 import { Header } from '@/shared/components/Header'
 import { LandingPage } from '@/shared/components/LandingPage'
+import { NotFound } from '@/shared/components/NotFound'
 import { VersionedTool } from '@/shared/canvas/ToolVersion'
 
 const CampaignDesignerApp = lazy(() => import('@/tools/campaign-designer/app/App'))
@@ -75,10 +76,22 @@ function localOnlyRoutes() {
   ]
 }
 
-/** On the deployed site, old links to the local-only tools land on the home page. */
+/** On the deployed site, old links to the local-only tools say why they aren't here. */
 const localOnlyRedirects = ['/content', '/video'].map((path) => ({
   path,
-  element: <Navigate to="/" replace />,
+  element: (
+    <>
+      <Header />
+      <NotFound
+        reason={
+          <>
+            Video and Content work on local files, so they only run on the dev server (
+            <code className="font-mono text-[0.9em] text-text-primary">npm run dev</code>).
+          </>
+        }
+      />
+    </>
+  ),
 }))
 
 export const router = createBrowserRouter([
@@ -206,4 +219,13 @@ export const router = createBrowserRouter([
     ),
   },
   ...(import.meta.env.DEV ? localOnlyRoutes() : localOnlyRedirects),
+  {
+    path: '*',
+    element: (
+      <>
+        <Header />
+        <NotFound />
+      </>
+    ),
+  },
 ])

@@ -10,7 +10,7 @@ Each pipeline reads its own copy, because each one renders from its own folder: 
 
 | Ground | Images (`public/image-projects/_brand/`) | Videos, GIFs (`assets/brand/` in each project) | Decks | App, other |
 |---|---|---|---|---|
-| Dark | `logo-massive.svg` (white wordmark, gradient mark) | `logo-white.svg` (all white) | `scripts/deck/_assets/logo.svg` | `public/logo.svg`, `public/logo-negative.svg` |
+| Dark | `logo-massive.svg` (white wordmark, gradient mark) | `logo-white.svg` (all white) | `scripts/deck/_assets/logo.svg` | `public/logo.svg`, `public/logo-negative.svg`; all white: `public/logo-white.svg` (the home page's brand kit) |
 | Dark, glow scenes | | `logo-positive-white.png` | | |
 | Light | `logo-massive-positive.svg` (ink wordmark) | `logo-positive.svg` | | `public/logo-positive.svg` |
 | Mark only, dark | `icon-massive.svg` (gradient) or `icon-massive-white.svg` | | | |

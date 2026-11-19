@@ -10,12 +10,14 @@ export interface SizePreset extends FrameSpacing {
   /** Bento only: smallest tile side, so every tile keeps room for its logo and text. */
   minTileSide: number;
   tileGap: number;
+  /** The Classic themes' (theme.legacy) margin, in place of `sitePadding`: the brand's safe area. */
+  classicSitePadding: number;
 }
 
 export const PRESETS: Record<TopListSizeId, SizePreset> = {
-  vertical: { ...FRAME_SPACING.vertical, minTileSide: 180, tileGap: TILE_GAP },
-  square: { ...FRAME_SPACING.square, minTileSide: 180, tileGap: TILE_GAP },
-  horizontal: { ...FRAME_SPACING.horizontal, minTileSide: 190, tileGap: TILE_GAP },
+  vertical: { ...FRAME_SPACING.vertical, minTileSide: 180, tileGap: TILE_GAP, classicSitePadding: 80 },
+  square: { ...FRAME_SPACING.square, minTileSide: 180, tileGap: TILE_GAP, classicSitePadding: 80 },
+  horizontal: { ...FRAME_SPACING.horizontal, minTileSide: 190, tileGap: TILE_GAP, classicSitePadding: 96 },
 };
 
 /**

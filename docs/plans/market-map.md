@@ -75,10 +75,10 @@ Inside a tile, the category name is centred at the top as plain bold text (`1.1f
 
 ## Themes
 
-Four themes, shared with Top List (`src/shared/canvas/themes.ts`), in the picker's order: **Light Legacy** (the default in both tools), **Dark Legacy**, **Light** and **Dark**. Each theme is a `.canvas-<id>` class of `--canvas-*` variables in `src/styles/theme-canvas.css`.
+Four themes, shared with Top List (`src/shared/canvas/themes.ts`), in the picker's order: **Classic Light** (the default in both tools), **Classic Dark**, **Light** and **Dark**. Each theme is a `.canvas-<id>` class of `--canvas-*` variables in `src/styles/theme-canvas.css`.
 
 - **The legacy themes recreate the pre-revamp tools' look.** In Market Map they're always drawn in Columns, the old tool's arrangement, so the Layout control is hidden while one is picked. The old tools used the same palettes as Dark and Light, so the legacy classes share those colours through grouped selectors.
-  - Only two things are set apart. Light Legacy uses the old flat cream grid (`/bg-light.jpg`, without the glow), and `--canvas-legacy-card-border` carries the old card stroke: `#2c2a30` on dark, `--canvas-border` on light.
+  - Only two things are set apart. Classic Light uses the old flat cream grid (`/bg-light.jpg`, without the glow), and `--canvas-legacy-card-border` carries the old card stroke: `#2c2a30` on dark, `--canvas-border` on light.
   - The rest of the old recipe lives in components, switched by the theme's `legacy` flag, so tools never compare theme ids.
   - Nothing is added to `.canvas-dark` / `.canvas-light`, which the frozen Legacy apps and Partnership Post also use.
 - **Picker:** the Design panel shows the themes as a sideways-scrolling row of cards (`src/shared/canvas/ThemePicker.tsx`).
@@ -88,7 +88,7 @@ Four themes, shared with Top List (`src/shared/canvas/themes.ts`), in the picker
   - Picking a card scrolls only the row, never the sidebar. It has no scroll snapping, which would pull a card scrolled part-way into view back out.
   - On phones, sideways swipes scroll the row instead of dragging the drawer (`data-vaul-no-drag`).
 - **Theme and Layout switches close any open edit popover:** its anchor goes away when the map is drawn again.
-- The theme's label is part of the exported file name, e.g. "LLM Search Stack - Q1 2026 - Dark Legacy - Square".
+- The theme's label is part of the exported file name, e.g. "LLM Search Stack - Q1 2026 - Classic Dark - Square".
 - **Remembered per browser** (`src/shared/canvas/remembered.ts`, in localStorage):
   - Both tools open in **New**, or in the version last picked: `market-map.version` / `top-list.version`.
   - Each tool keeps its own theme and layout: `market-map.theme`, `market-map.layout`, `top-list.theme`, `top-list.layout`.
@@ -107,7 +107,7 @@ Two looks share it (`ColumnLook`):
   - **Gutter:** the old side padding moved into it (column gap = gap + 2 × padding), so a rule has room either side.
   - **Companies:** each a slim pill as wide as its sub-column, tinted by its logo, name at 500 weight. A row is about 1.7 names tall with its gap, close to the old tool's 1.75.
   - **Long names:** a two-line name turns its pill into a rounded box.
-- **Legacy (Dark Legacy, Light Legacy):**
+- **Legacy (Classic Dark, Classic Light):**
   - **Card:** `--canvas-card-bg` fill, a 3 px solid `--canvas-legacy-card-border` stroke, 8 px radius and the old `shadow-sm`.
   - **Category name:** bold (700) plain text at the top left.
   - **Companies:** logo then name (400, `--canvas-text-85`), with nothing around them.

@@ -306,9 +306,10 @@ are on cream, which the brand guide lists as legacy for new designs; the live to
 |---|---|---|---|---|---|
 | Light | `#f5ece0` | `#faf4ec` | `#1a1b2a` | `#c9382a` | `/canvas-bg-light.jpg` |
 | Dark | `#0d0c17` | `#1a1920` | `#faf4ec` | `#e05642` | `/bg.jpg` |
-| Light Legacy (default) / Dark Legacy | as above | | | | `/bg-light.jpg` / `/bg.jpg` |
+| Classic Light (default) / Classic Dark | as above | | | | `/bg-light.jpg` / `/bg.jpg` |
 
-The picker lists them Light Legacy, Dark Legacy, Light, Dark. The legacy themes reproduce the pre-revamp look and
-layout. Tools branch on `theme.legacy`, never on the id.
+The picker lists them Classic Light, Classic Dark, Light, Dark. The Classic themes (`theme.legacy`, ids
+`light-legacy` and `dark-legacy`) reproduce the pre-revamp look and layout; they aren't called Legacy, which is the
+New | Legacy switch's word for the old editor. Tools branch on `theme.legacy`, never on the id.
 
 **Logos.** `public/logo.svg` (white wordmark) is the header logo. Every other logo file is in `brand/assets.md`.

@@ -7,9 +7,10 @@ import { RANK_INSIDE, rankBadgeMin } from './tiers';
 /**
  * The legacy themes' List (themes.ts `legacy`): the pre-revamp Top List's
  * columns of full-width cards, each with a logo, name and a value pill, and the
- * rank in a ring floating over its top-left corner. Cards keep their natural
+ * rank in a badge floating over its top-left corner. Cards keep their natural
  * height (the old tool never stretched them) and the block of columns is
- * centred in the canvas.
+ * centred in the canvas. The gaps make room for the badges, so a badge keeps
+ * half a gap clear of the card above it and the column to its left.
  *
  * Proportions are the old tool's, as multiples of its 18px names. Type and
  * logos follow the name size `f`; padding and gaps follow the canvas width as
@@ -59,9 +60,9 @@ export interface LegacyCardMetrics {
   nameSize: number;
   /** A name too long for its card shrinks down to this before it's cut. */
   minNameSize: number;
-  /** Diameter of the rank's ring (RankBadge), floating over the card's top-left corner. */
+  /** Diameter of the rank badge (RankBadge), floating over the card's top-left corner. */
   rankSize: number;
-  /** Where the logo starts: beside the ring's part inside the card, the same on every card. */
+  /** Where the logo starts: beside the badge's part inside the card, the same on every card. */
   lead: number;
   logo: number;
   padX: number;
@@ -127,31 +128,37 @@ export function legacyListLayout(
 ): LegacyListLayout | null {
   const count = entries.length;
   if (count === 0 || box.w <= 0 || box.h <= 0) return null;
-  const columnGap = gap * 2;
-  const cardGap = gap;
   const minRank = rankBadgeMin({ primary, secondary });
+  // Shrunk cards scale their badges along with the names.
+  const rankFor = (f: number, shrunk: boolean) => Math.max(shrunk ? (minRank * f) / primary : minRank, RANK * f);
+  // A badge reaches this far over the gap above its card and the column gap to its left.
+  const reach = (rankSize: number) => rankSize * (1 - RANK_INSIDE);
+  const cardGapFor = (rankSize: number) => gap / 2 + reach(rankSize);
+  const columnGapFor = (rankSize: number) => Math.max(gap * 2, gap / 2 + reach(rankSize));
   const withValues = entries.some((e) => e.value);
   // Measured once at 100px, then scaled to each name size tried.
   const widestName = Math.max(...entries.map((e) => textWidth(e.name, 100, LEGACY_NAME_WEIGHT) / 100));
   // Spacing as the old canvas had it, relative to its width; smaller names shrink it too.
   const spacingFor = (f: number) => Math.min(f, (OLD_NAME * box.w) / OLD_BODY_W);
 
-  const columnW = (n: number) => (box.w - (n - 1) * columnGap) / n;
+  const columnW = (n: number, rankSize: number) => (box.w - (n - 1) * columnGapFor(rankSize)) / n;
   const rowsIn = (n: number) => Math.ceil(count / n);
-  const heightPerCard = (n: number) => (box.h - (rowsIn(n) - 1) * cardGap) / rowsIn(n);
+  /** The height each card gets in `n` columns, at name size `f`. */
+  const heightPerCard = (n: number, f: number, shrunk: boolean) =>
+    (box.h - (rowsIn(n) - 1) * cardGapFor(rankFor(f, shrunk))) / rowsIn(n);
 
   /** Sizes for `n` columns at name size `f`, and the width a card has for its logo and name. */
   const sizesFor = (n: number, f: number, shrunk: boolean) => {
     const s = spacingFor(f);
     // Shrunk cards scale their secondary text along with the names.
     const floor = shrunk ? (secondary * f) / primary : secondary;
-    const rankSize = Math.max(shrunk ? (minRank * f) / primary : minRank, RANK * f);
+    const rankSize = rankFor(f, shrunk);
     const valueSize = Math.max(floor, VALUE * f);
     const m = {
       nameSize: f,
       minNameSize: Math.min(f, floor),
       rankSize,
-      // Cards are too short for the logo to sit under the ring, so it starts beside it.
+      // Cards are too short for the logo to sit under the badge, so it starts beside it.
       lead: Math.max(PAD_X * s, rankSize * RANK_INSIDE + (GAP * s) / 2),
       padX: PAD_X * s,
       padY: PAD_Y * s,
@@ -166,7 +173,7 @@ export function legacyListLayout(
       border: BORDER,
       radius: RADIUS,
     };
-    const colW = columnW(n);
+    const colW = columnW(n, rankSize);
     // A value pill on the right takes its width from every name; one under the name takes its height.
     const valueW = m.valueBelow
       ? 0
@@ -200,7 +207,9 @@ export function legacyListLayout(
 
   const place = (n: number, m: LegacyCardMetrics, shrunk: boolean): LegacyListLayout => {
     const rows = rowsIn(n);
-    const colW = columnW(n);
+    const colW = columnW(n, m.rankSize);
+    const cardGap = cardGapFor(m.rankSize);
+    const columnGap = columnGapFor(m.rankSize);
     const valuePillH = m.valueSize * LEGACY_LINE_HEIGHT + m.valuePadY * 2 + 2;
     const cardH = BORDER * 2 + m.padY * 2 + Math.max(m.logo, m.textHeight, valuePillH);
     const blockH = rows * cardH + (rows - 1) * cardGap;
@@ -222,24 +231,22 @@ export function legacyListLayout(
     // A third column only when names still get room beside a small logo.
     if (n === 3 && sizesFor(3, primary, false).logoAndName - MIN_LOGO * primary < MIN_NAME_ROOM * primary) break;
     lastN = n;
-    const H = heightPerCard(n);
-    if (sizesFor(n, primary, false).minCardH > H) continue;
+    if (sizesFor(n, primary, false).minCardH > heightPerCard(n, primary, false)) continue;
     // The biggest names that fit the height with every name on one line; failing
     // that, readable names that wrap or are cut.
     let f = primary * MAX_NAME_SCALE;
     while (f > primary) {
       const { logoAndName, minCardH } = sizesFor(n, f, false);
-      if (minCardH <= H && logoAndName - MIN_LOGO * f >= widestName * f) break;
+      if (minCardH <= heightPerCard(n, f, false) && logoAndName - MIN_LOGO * f >= widestName * f) break;
       f = Math.max(primary, f * 0.95);
     }
-    return place(n, metricsFor(n, f, H, false), false);
+    return place(n, metricsFor(n, f, heightPerCard(n, f, false), false), false);
   }
 
   // Too many to read on a phone even with small logos: everything shrinks together.
-  const H = heightPerCard(lastN);
   let f = primary;
-  while (f > 1 && sizesFor(lastN, f, true).minCardH > H) f *= 0.95;
-  return place(lastN, metricsFor(lastN, f, H, true), true);
+  while (f > 1 && sizesFor(lastN, f, true).minCardH > heightPerCard(lastN, f, true)) f *= 0.95;
+  return place(lastN, metricsFor(lastN, f, heightPerCard(lastN, f, true), true), true);
 }
 
 export interface LegacyCardContent {

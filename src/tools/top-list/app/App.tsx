@@ -63,6 +63,8 @@ export default function App() {
   const [summary, setSummary] = useState<LoadedSummary | null>(null);
   const [atMinimum, setAtMinimum] = useState(0);
   const [legibility, setLegibility] = useState<LegibilityReport | null>(null);
+  // The empty space above the list (TileCanvas), which the header moves down onto.
+  const [listTopSpace, setListTopSpace] = useState(0);
   const [isExporting, setIsExporting] = useState(false);
   const [exportProgress, setExportProgress] = useState<ExportProgress | null>(null);
 
@@ -72,8 +74,17 @@ export default function App() {
   // The smallest text that still reads once a feed shrinks the image on a phone.
   // Memoised: TileCanvas lays out again whenever it changes.
   const legible = useMemo(() => legibleSizes(canvasW), [canvasW]);
-  // Legacy themes draw the old cards (and in List, the old columns) with a centred header.
+  // Legacy themes (Classic in the picker) draw the old cards (and in List, the old columns)
+  // with a centred header, and keep a wider margin.
   const legacy = getCanvasTheme(theme).legacy;
+  // Their title fills about two lines: always bigger than any name, value or rank in the
+  // list (twice the readable name size), and at most 2.8 times that (84px at 1080 wide)
+  // or a tenth of the canvas height, so Horizontal keeps its room for the list.
+  const titleFit = useMemo(() => {
+    if (!legacy) return undefined;
+    const min = legible.primary * 2;
+    return { min, max: Math.max(min, Math.min(legible.primary * 2.8, canvasH / 10)) };
+  }, [legacy, legible, canvasH]);
   const logoUrls = useMemo(() => items.map((i) => i.logoUrl), [items]);
   const logoSources = useMemo(() => ({ logoDevToken: logoDevTokenFrom(logoUrls) }), [logoUrls]);
   const lowResLogos = useLowResLogos(items, logoSources.logoDevToken);
@@ -321,7 +332,7 @@ export default function App() {
           exportId={EXPORT_AREA_ID}
           width={canvasW}
           height={canvasH}
-          spacing={preset}
+          spacing={legacy ? { ...preset, sitePadding: preset.classicSitePadding } : preset}
           theme={theme}
           title={title}
           onTitleChange={setTitle}
@@ -330,6 +341,8 @@ export default function App() {
           showPresentedBy={showPresentedBy}
           presentedById="massiveLogo_grad_toplist"
           headerStyle={legacy ? "centered" : "side"}
+          titleFit={titleFit}
+          headerOffset={items.length > 0 ? listTopSpace : 0}
           corner={<VersionSwitch confirmLeave={confirmDiscard} />}
           empty={items.length === 0}
           onLoadExample={loadFirstExample}
@@ -345,6 +358,7 @@ export default function App() {
             minTileSide={preset.minTileSide}
             legible={legible}
             onLegibilityChange={setLegibility}
+            onTopSpaceChange={setListTopSpace}
             tileGap={preset.tileGap}
             onMinimumCountChange={setAtMinimum}
             onEdit={isExporting ? undefined : (id, anchor) => setEditing({ target: { kind: "item", id }, anchor })}

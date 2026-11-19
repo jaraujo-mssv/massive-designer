@@ -11,7 +11,8 @@ export interface CanvasTheme {
   label: string;
   /**
    * Imitates the pre-revamp tools: their look and their layout (columns of
-   * cards). Tools branch on this, never on the id.
+   * cards). Tools branch on this, never on the id. Shown as "Classic", so the
+   * picker doesn't say Legacy, which is the New | Legacy switch's word for the old editor.
    */
   legacy: boolean;
   exportBg: string;
@@ -21,8 +22,8 @@ export type CanvasThemeId = 'dark' | 'light' | 'dark-legacy' | 'light-legacy';
 
 /** In the picker's order. The first is the default (and the fallback for an unknown id). */
 export const CANVAS_THEMES: CanvasTheme[] = [
-  { id: 'light-legacy', label: 'Light Legacy', legacy: true, exportBg: '/bg-light.jpg' },
-  { id: 'dark-legacy', label: 'Dark Legacy', legacy: true, exportBg: '/bg.jpg' },
+  { id: 'light-legacy', label: 'Classic Light', legacy: true, exportBg: '/bg-light.jpg' },
+  { id: 'dark-legacy', label: 'Classic Dark', legacy: true, exportBg: '/bg.jpg' },
   { id: 'light', label: 'Light', legacy: false, exportBg: '/canvas-bg-light.jpg' },
   { id: 'dark', label: 'Dark', legacy: false, exportBg: '/bg.jpg' },
 ];

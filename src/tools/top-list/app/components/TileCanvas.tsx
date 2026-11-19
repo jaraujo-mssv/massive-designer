@@ -36,6 +36,11 @@ interface TileCanvasProps {
   onMinimumCountChange?: (count: number) => void;
   /** Reports what couldn't stay phone-readable, for the sidebar's warning. */
   onLegibilityChange?: (report: LegibilityReport) => void;
+  /**
+   * Reports the empty space above what's drawn, so the header can sit on it:
+   * the legacy List's block of cards is centred; every other layout fills the box (0).
+   */
+  onTopSpaceChange?: (px: number) => void;
   /** Click-to-edit; leave out to make the tiles read-only (e.g. while exporting). */
   onEdit?: (id: string, el: HTMLElement) => void;
 }
@@ -73,6 +78,7 @@ export function TileCanvas({
   legible,
   onMinimumCountChange,
   onLegibilityChange,
+  onTopSpaceChange,
   onEdit,
 }: TileCanvasProps) {
   const boxRef = useRef<HTMLDivElement>(null);
@@ -147,8 +153,7 @@ export function TileCanvas({
     // with the content box once each tile is inset by half a gap. Bento areas must
     // be shared out over these same bounds: allocating over the smaller content
     // box left the difference as an empty corner after the last tile.
-    const half = tileGap / 2;
-    const boundsBelow = (top: number) => ({ x: -half, y: top - half, w: box.w + tileGap, h: box.h + tileGap - top });
+    const boundsBelow = (top: number, gap = tileGap) => ({ x: -gap / 2, y: top - gap / 2, w: box.w + gap, h: box.h + gap - top });
 
     if (view === "list") {
       // Every row's content is sized from the shortest row (the left column's, when
@@ -190,12 +195,15 @@ export function TileCanvas({
     if (layout === "grid") {
       // Size every tile's content from a regular full-row tile, so the stretched
       // tiles in a short last row don't get bigger logos and text than rank 1.
-      const gridAt = (top: number) => {
-        const rects = insetAndSnap(gridRects(items.length, boundsBelow(top)), tileGap);
+      const gridAt = (top: number, gap = tileGap) => {
+        const rects = insetAndSnap(gridRects(items.length, boundsBelow(top, gap)), gap);
         return { rects, regular: { w: Math.min(...rects.map((r) => r.w)), h: rects[0].h } };
       };
       const first = gridAt(0).regular;
-      const { rects, regular } = gridAt(tileRankSize(first.w, first.h, legible) * RANK_OUTSIDE);
+      const reach = tileRankSize(first.w, first.h, legible) * RANK_OUTSIDE;
+      // Legacy tiles are boxed: the gaps make room for the badges, so a badge keeps
+      // half a gap clear of the tiles above and to the left of it (as the legacy List).
+      const { rects, regular } = gridAt(reach, legacy ? tileGap / 2 + reach : tileGap);
       return {
         tiles: items.map((item, i) => ({ item, rect: rects[i], sizing: regular })),
         atMinimum: 0,
@@ -262,6 +270,14 @@ export function TileCanvas({
   useEffect(() => {
     onLegibilityChange?.(report);
   }, [report, onLegibilityChange]);
+
+  // Down to the top of the first card's rank badge.
+  const topSpace = placed.legacyList
+    ? Math.max(0, Math.round(Math.min(...placed.tiles.map((t) => t.rect.y)) - placed.rankSize * RANK_OUTSIDE))
+    : 0;
+  useEffect(() => {
+    onTopSpaceChange?.(topSpace);
+  }, [topSpace, onTopSpaceChange]);
 
   return (
     <div ref={boxRef} style={{ position: "relative", width: "100%", height: "100%" }}>
@@ -354,7 +370,6 @@ export function TileCanvas({
             size={placed.rankSize}
             left={rect.x - placed.rankSize * RANK_OUTSIDE}
             top={rect.y - placed.rankSize * RANK_OUTSIDE}
-            outlined={legacy}
           />
         ))}
     </div>

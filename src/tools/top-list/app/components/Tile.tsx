@@ -51,10 +51,9 @@ const RANK_RIM = 0.06;
  * (white with a dark number on Dark, dark with a light number on Light), floating
  * over an item's top-left corner at `left`/`top` (TileCanvas draws it above every
  * tile and row, so it can reach over the gap). A rim in the canvas colour sets it
- * off from what it overlaps. `outlined` draws a ring in the text colour on the
- * card colour instead, for the legacy themes' card look.
+ * off from what it overlaps. The same in every theme, legacy ones included.
  */
-export function RankBadge({ rank, size, left, top, outlined = false }: { rank: number; size: number; left: number; top: number; outlined?: boolean }) {
+export function RankBadge({ rank, size, left, top }: { rank: number; size: number; left: number; top: number }) {
   return (
     <div
       style={{
@@ -63,13 +62,10 @@ export function RankBadge({ rank, size, left, top, outlined = false }: { rank: n
         top,
         width: size,
         height: size,
-        boxSizing: "border-box",
         borderRadius: "50%",
-        backgroundColor: outlined ? "var(--canvas-card-bg)" : "var(--canvas-text)",
-        // The legacy cards' stroke width.
-        border: outlined ? `${TILE_STROKE}px solid var(--canvas-text)` : "none",
+        backgroundColor: "var(--canvas-text)",
         boxShadow: `0 0 0 ${Math.max(3, size * RANK_RIM)}px var(--canvas-bg)`,
-        color: outlined ? "var(--canvas-text)" : "var(--canvas-bg)",
+        color: "var(--canvas-bg)",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",

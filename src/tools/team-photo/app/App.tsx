@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { DownloadSimple } from "@phosphor-icons/react";
 import { useRemembered } from "@/shared/canvas/remembered";
 import { saveFile } from "@/shared/utils/saveFile";
-import { GROUPS, MIX, MIX_BACKGROUND, PICKS, swatchFor, type Pick, type Swatch } from "./palette";
+import { GROUPS, MIX, MIX_BACKGROUND, PICKS, swatchById, swatchesFor, type Pick, type Swatch } from "./palette";
 
 /**
  * The team's faces, cut out of their backdrops and set on pastel grounds. The cut-outs and team.json
@@ -24,6 +24,23 @@ type TeamState = { status: "loading" } | { status: "error"; error: string } | { 
 
 /** The side of a downloaded JPG, as the cut-outs. */
 const SIZE = 1080;
+
+/** The grid's columns by width: 2 on phones, then 3, 4 and 6 from Tailwind's sm, lg and xl. */
+const WIDER = ["(min-width: 40rem)", "(min-width: 64rem)", "(min-width: 80rem)"];
+const COLUMNS = [2, 3, 4, 6];
+const columnsNow = () => COLUMNS[WIDER.filter((q) => window.matchMedia(q).matches).length];
+
+/** How many columns the grid has now. Mix needs it to keep neighbours apart. */
+function useColumns(): number {
+  const [cols, setCols] = useState(columnsNow);
+  useEffect(() => {
+    const queries = WIDER.map((q) => window.matchMedia(q));
+    const update = () => setCols(columnsNow());
+    queries.forEach((q) => q.addEventListener("change", update));
+    return () => queries.forEach((q) => q.removeEventListener("change", update));
+  }, []);
+  return cols;
+}
 
 function useTeam(): TeamState {
   const [state, setState] = useState<TeamState>({ status: "loading" });
@@ -99,7 +116,7 @@ function SwatchButton({
 }
 
 function BackgroundPicker({ pick, onPick }: { pick: Pick; onPick: (pick: Pick) => void }) {
-  const current = pick === MIX ? "Mix" : swatchFor(pick, 0).name;
+  const current = pick === MIX ? "Mix" : (swatchById(pick)?.name ?? "Mix");
   return (
     <div role="radiogroup" aria-label="Background colour" className="space-y-3">
       <p className="text-sm text-text-mid">
@@ -201,6 +218,13 @@ function Tile({ person, swatch }: { person: Person; swatch: Swatch }) {
 export default function App() {
   const team = useTeam();
   const [pick, setPick] = useRemembered<Pick>("team-photo.bg", MIX, PICKS);
+  const cols = useColumns();
+  const people = team.status === "ready" ? team.people : [];
+  const swatches = swatchesFor(
+    pick,
+    people.map((p) => p.name),
+    cols,
+  );
 
   return (
     <div className="h-full overflow-y-auto bg-bg">
@@ -219,9 +243,9 @@ export default function App() {
         <p className="px-4 py-6 text-sm text-text-dim md:px-6">Couldn't load the team ({team.error}).</p>
       )}
       {team.status === "ready" && (
-        <div className="grid grid-cols-2 gap-4 px-4 py-6 sm:grid-cols-3 md:px-6 lg:grid-cols-4 xl:grid-cols-6">
-          {team.people.map((person, i) => (
-            <Tile key={person.id} person={person} swatch={swatchFor(pick, i, person.name)} />
+        <div className="grid gap-4 px-4 py-6 md:px-6" style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` }}>
+          {people.map((person, i) => (
+            <Tile key={person.id} person={person} swatch={swatches[i]} />
           ))}
         </div>
       )}

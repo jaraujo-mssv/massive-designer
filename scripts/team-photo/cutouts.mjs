@@ -18,10 +18,13 @@
 // caught too (it no longer matches what the last run wrote) and moved into edited/ first. An edit
 // lasts as long as that photo is the one used: a new take or a better photo gets a fresh cut-out.
 //
-// macOS only: Vision finds the face (lib/faces.swift, framed as the profile crops are, through
-// lib/profile.mjs) and lifts the person off the backdrop (lib/cutout.swift). Free, no key.
-// Rerun it after picking another take or adding photos. The files are committed: the live tab
-// serves them.
+// How: Vision finds the face (lib/faces.swift, framed as the profile crops are, through
+// lib/profile.mjs) and outlines the person (lib/cutout.swift); then matte.py works the hair out
+// strand by strand from the photo itself (alpha matting, guided by that outline). matte.py runs
+// through uv (`brew install uv`), which fetches its pinned Python libraries into its own cache, so
+// nothing is added to the project. Without uv, a plainer clean-up of Vision's outline is used.
+// macOS only, free, no key; about 2 s a photo. Rerun it after picking another take or adding
+// photos. The files are committed: the live tab serves them.
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { copyFileSync, existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
@@ -38,9 +41,10 @@ const PROFILES = path.join(SHOOT, 'originals/profiles');
 const OUT = path.join(ROOT, 'public/team-photo');
 const EDITED = path.join(OUT, 'edited');
 const CUTOUT_SWIFT = path.join(ROOT, 'scripts/content/lib/cutout.swift');
+const MATTE_PY = path.join(ROOT, 'scripts/team-photo/matte.py');
 /** The side of each WebP, as the profile crops. */
 const SIZE = 1080;
-/** How close to the backdrop's colour (0–255, in the furthest channel) a pixel near the edge is backdrop. */
+/** Without matting: how close to the backdrop's colour (0–255, in the furthest channel) a pixel near the edge is backdrop. */
 const KEY = 24;
 
 /**
@@ -136,16 +140,38 @@ function masksFor(people, dir) {
   return out.trim().split('\n').map((l) => JSON.parse(l));
 }
 
-/**
- * The square cut-out: the photo and its mask cropped alike, the mask as alpha, cleaned up at the
- * edges, where it meets the backdrop (white in the shoot, grey or coloured in others, so its colour
- * is measured where the mask is empty):
- * - Near the mask's edge, backdrop that Vision kept (between locs, a rim round a bald head) is
- *   keyed out.
- * - Edge pixels are a blend of the person and the backdrop, so they're unmixed from it, or a
- *   light halo would show round the hair on a coloured ground.
- */
-/** The backdrop's colour: the average of the pixels the mask leaves out (white if it leaves out almost none). */
+/** The crop and Vision's mask of it, at SIZE, as the PNGs matte.py reads: <id>-rgb.png and <id>-alpha.png. */
+async function cropFor(p, mask, box, dir) {
+  await sharp(p.src).rotate().removeAlpha().extract(box).resize(SIZE, SIZE, { kernel: 'lanczos3' }).png().toFile(path.join(dir, `${p.id}-rgb.png`));
+  await sharp(readFileSync(mask.mask), { raw: { width: mask.width, height: mask.height, channels: 1 } })
+    .extract(box)
+    .resize(SIZE, SIZE, { kernel: 'lanczos3' })
+    .extractChannel(0)
+    .png()
+    .toFile(path.join(dir, `${p.id}-alpha.png`));
+}
+
+/** The alpha matte of each crop in `dir` (<id>-matte.png), through one matte.py run: id → result. Null without uv. */
+function mattesFor(ids, dir) {
+  if (!ids.length) return new Map();
+  try {
+    const out = execFileSync('uv', ['run', '--quiet', '--script', MATTE_PY, dir, ...ids], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
+    return new Map(
+      out
+        .trim()
+        .split('\n')
+        .filter((l) => l.startsWith('{'))
+        .map((l) => JSON.parse(l))
+        .map((r) => [r.id, r]),
+    );
+  } catch (e) {
+    const why = e.code === 'ENOENT' ? 'uv isn\'t installed: brew install uv' : String(e.stderr || e.message).trim().split('\n').pop();
+    console.log(`[team-photo] ! no matting (${why}), so the plainer clean-up`);
+    return null;
+  }
+}
+
+/** Without matting: the backdrop's colour, the average of the pixels the mask leaves out (white if it leaves out almost none). */
 function backdropOf(rgb, alpha) {
   const sum = [0, 0, 0];
   let n = 0;
@@ -157,7 +183,16 @@ function backdropOf(rgb, alpha) {
   return n > alpha.length * 0.01 ? sum.map((v) => v / n) : [255, 255, 255];
 }
 
-async function cutout(src, mask, box) {
+/**
+ * Without matting: the photo and its mask cropped alike, the mask as alpha, cleaned up at the
+ * edges, where it meets the backdrop (white in the shoot, grey or coloured in others, so its colour
+ * is measured where the mask is empty):
+ * - Near the mask's edge, backdrop that Vision kept (between locs, a rim round a bald head) is
+ *   keyed out.
+ * - Edge pixels are a blend of the person and the backdrop, so they're unmixed from it, or a
+ *   light halo would show round the hair on a coloured ground.
+ */
+async function plainCutout(src, mask, box) {
   const size = Math.max(SIZE, box.width);
   const rgb = await sharp(src).rotate().removeAlpha().extract(box).resize(size, size, { kernel: 'lanczos3' }).raw().toBuffer();
   const alpha = await sharp(readFileSync(mask.mask), { raw: { width: mask.width, height: mask.height, channels: 1 } })
@@ -250,6 +285,20 @@ try {
   const auto = people.filter((p) => !editedOf(p.id));
   const faces = auto.length ? facesIn(auto.map((p) => p.src)) : [];
   const masks = auto.length ? masksFor(auto, work) : [];
+  // Each photo's square, and its crop for the matting.
+  const boxes = new Map();
+  for (const [i, p] of auto.entries()) {
+    const face = faces[i]?.error ? null : faceOf(faces[i]);
+    const mask = masks[i];
+    if (!face || mask?.error) {
+      console.log(`[team-photo] ✗ ${p.id}: ${faces[i]?.error ?? mask?.error ?? 'no face found'}`);
+      continue;
+    }
+    const box = squareFor(faces[i], face, headTopOf(mask, face));
+    boxes.set(p.id, { box, mask, whole: box.width === Math.min(faces[i].width, faces[i].height) });
+    await cropFor(p, mask, box, work);
+  }
+  const mattes = mattesFor([...boxes.keys()], work);
   const made = [];
   for (const p of people) {
     const out = path.join(OUT, `${p.id}.webp`);
@@ -259,17 +308,13 @@ try {
       await useEdit(edit, out);
       console.log(`[team-photo] ✓ ${label}, your edit from edited/${path.basename(edit)}`);
     } else {
-      const i = auto.indexOf(p);
-      const face = faces[i]?.error ? null : faceOf(faces[i]);
-      const mask = masks[i];
-      if (!face || mask?.error) {
-        console.log(`[team-photo] ✗ ${p.id}: ${faces[i]?.error ?? mask?.error ?? 'no face found'}`);
-        continue;
-      }
-      const box = squareFor(faces[i], face, headTopOf(mask, face));
-      await (await cutout(p.src, mask, box)).toFile(out);
-      const whole = box.width === Math.min(faces[i].width, faces[i].height) ? ', the whole photo (framed tighter than the rest)' : '';
-      console.log(`[team-photo] ✓ ${label}, from a ${box.width} px square${whole}`);
+      if (!boxes.has(p.id)) continue;
+      const { box, mask, whole } = boxes.get(p.id);
+      const matte = mattes?.get(p.id);
+      if (matte?.ok) await sharp(path.join(work, `${p.id}-matte.png`)).webp({ quality: 88, alphaQuality: 95 }).toFile(out);
+      else await (await plainCutout(p.src, mask, box)).toFile(out);
+      const how = matte?.ok ? 'matted' : `plain clean-up${matte?.error ? ` (matting failed: ${matte.error})` : ''}`;
+      console.log(`[team-photo] ✓ ${label}, ${how}, from a ${box.width} px square${whole ? ', the whole photo (framed tighter than the rest)' : ''}`);
     }
     made.push({ id: p.id, ...(p.name ? { name: p.name } : {}), src: `/team-photo/${p.id}.webp`, made: hashOf(out) });
   }

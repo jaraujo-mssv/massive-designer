@@ -2,7 +2,7 @@
 
 Massive Designer (`designer-hub` in package.json) is a set of internal tools that turn spreadsheets and HTML pages
 into on-brand images for Massive. It is one React 18 + TypeScript SPA built with Vite 6, Tailwind CSS v4 and
-shadcn/Radix UI, deployed to Vercel. Each tool is one route. Next to the app, script pipelines render stills, GIFs,
+shadcn/Radix UI, deployed to Railway (and to Vercel, until it's retired). Each tool is one route. Next to the app, script pipelines render stills, GIFs,
 videos, decks and print, so this repo is where any Massive design gets made.
 
 ## Designing something?
@@ -62,7 +62,10 @@ npm start            # the whole site with every API, as Railway runs it (PORT, 
   permission). It costs plan credits, so `merch` doesn't run it.
 - `npm run merch:printful` cuts the pajama prints that `merch` renders into Printful's print files, one per placement of
   each garment (`src/tools/merch/app/printful.ts`), in `output/printful/` (about 160 MB, not committed).
-- Deploy is Vercel. `vercel.json` rewrites everything except `/api/` and `/video-projects/` to `index.html`, and
+- **Two deploys of the same code.** The live site is Railway, https://massive-designer.up.railway.app, which
+  `SITE_URL` (`src/tools/images/params.ts`) names, so `public/llms.txt` links there from both hosts. Vercel,
+  https://massive-designer.vercel.app, still deploys too, but it's being retired: don't add Vercel-only features.
+- Vercel: `vercel.json` rewrites everything except `/api/` and `/video-projects/` to `index.html`, and
   configures the functions:
   - `api/image-proxy.ts`: the image proxy. Public hosts and images only, up to 15 MB, through
     `api/_lib/safe-fetch.ts`; anything over 4 MB comes back shrunk to 2400 px WebP (`api/_lib/shrink.ts`, sharp),
@@ -74,7 +77,7 @@ npm start            # the whole site with every API, as Railway runs it (PORT, 
     since Lambda has no system fonts) into the render function.
   - Node is `engines` 24.x, because Vercel ignores `.nvmrc`.
   - A Vercel WAF rate limit on `/api/render/*` is set in the dashboard, not in code.
-- It also deploys to Railway, from the root `Dockerfile` (Railway builds one on its own; Vercel ignores it):
+- Railway: from the root `Dockerfile` (Railway builds one on its own; Vercel ignores it):
   - **The container:** `npm run build` and `npm run build:server`, then the production dependencies, Playwright's
     Chromium headless shell with its libraries (`playwright-core install --with-deps`, so it matches
     `playwright-core`), and the emoji font from `api/_lib/fonts/`. It starts `node dist-server/index.mjs` on Railway's

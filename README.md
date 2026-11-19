@@ -14,7 +14,7 @@ tells you where it is.
 | **Print** | A poster, flyer, one-pager, business card, sign, menu or document, at any paper size; trade-show roll-ups; buttons, pins and stickers |
 
 Market maps and top-N rankings come from a spreadsheet, with no Claude needed: use Market Map and Top List on the
-deployed site, [massive-designer.vercel.app](https://massive-designer.vercel.app/), or at `http://localhost:5173`
+deployed site, [massive-designer.up.railway.app](https://massive-designer.up.railway.app/), or at `http://localhost:5173`
 after `npm run dev`.
 
 ## Set up (once)
@@ -88,7 +88,7 @@ those values, and anything it leaves out is the template's default. An uploaded 
 **Copy image link** gives the link to the finished JPG.
 
 For a Claude Project or a custom GPT, paste the prompt into its instructions once, so you only have to say what
-you need. [llms.txt](https://massive-designer.vercel.app/llms.txt) has the same guide for chats that read web
+you need. [llms.txt](https://massive-designer.up.railway.app/llms.txt) has the same guide for chats that read web
 pages.
 
 ## Share a design with the team
@@ -105,6 +105,6 @@ know why a design looks the way it does.
 
 ## For engineers
 
-[`CLAUDE.md`](CLAUDE.md) covers the stack (React 18, Vite, Tailwind, deployed on Vercel), the rules for changes, and
+[`CLAUDE.md`](CLAUDE.md) covers the stack (React 18, Vite, Tailwind, deployed on Railway), the rules for changes, and
 every tool and pipeline. The design notes for each tool are in [`docs/plans/`](docs/plans/), and the pipelines'
 skills are in [`.claude/skills/`](.claude/skills/).

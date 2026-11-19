@@ -14,6 +14,7 @@ import {
   SquaresFour,
   Trophy,
   TShirt,
+  UsersThree,
   VideoCamera,
   type Icon,
 } from '@phosphor-icons/react'
@@ -37,6 +38,7 @@ const tools: {
   { label: 'Images', route: '/images', icon: Images, group: 'other' },
   { label: 'Gemini', route: '/gemini', icon: Sparkle, group: 'other' },
   { label: 'Merch', route: '/merch', icon: TShirt, group: 'other' },
+  { label: 'Team Photo', route: '/team-photo', icon: UsersThree, group: 'other' },
   { label: 'Content', route: '/content', icon: Notebook, group: 'other', localOnly: true },
   { label: 'Logo Encoder', route: '/logo-encoder', icon: ImageSquare, group: 'other' },
   { label: 'Social Media', route: '/social-media', icon: ShareNetwork, group: 'other', deprecated: true },

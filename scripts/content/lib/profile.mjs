@@ -29,7 +29,7 @@ export function facesIn(files) {
 }
 
 /** The biggest face Vision is sure of. */
-const faceOf = ({ faces }) => [...(faces ?? [])].filter((f) => f.confidence > 0.5).sort((a, b) => b.w * b.h - a.w * a.h)[0];
+export const faceOf = ({ faces }) => [...(faces ?? [])].filter((f) => f.confidence > 0.5).sort((a, b) => b.w * b.h - a.w * a.h)[0];
 
 /**
  * The top of the head: the first row above the face, across its width, that isn't the white

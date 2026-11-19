@@ -15,6 +15,7 @@ const MarketMapLegacyApp = lazy(() => import('@/tools/market-map-legacy/app/App'
 const MerchApp = lazy(() => import('@/tools/merch/app/App'))
 const PartnershipPostApp = lazy(() => import('@/tools/partnership-post/app/App'))
 const SocialMediaApp = lazy(() => import('@/tools/social-media/app/App'))
+const TeamPhotoApp = lazy(() => import('@/tools/team-photo/app/App'))
 const TopListApp = lazy(() => import('@/tools/top-list/app/App'))
 const TopListLegacyApp = lazy(() => import('@/tools/top-list-legacy/app/App'))
 // Not in the nav: /trash is only reachable by URL.
@@ -168,6 +169,14 @@ export const router = createBrowserRouter([
     element: (
       <ToolLayout themeClass="tool-social-media">
         <SocialMediaApp />
+      </ToolLayout>
+    ),
+  },
+  {
+    path: '/team-photo',
+    element: (
+      <ToolLayout themeClass="tool-team-photo">
+        <TeamPhotoApp />
       </ToolLayout>
     ),
   },

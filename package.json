@@ -42,7 +42,8 @@
     "image:render": "node scripts/image/render.mjs",
     "content:photos": "node scripts/content/photos.mjs",
     "content:webp": "node scripts/content/webp.mjs",
-    "content:trash": "node scripts/content/webp.mjs"
+    "content:trash": "node scripts/content/webp.mjs",
+    "team-photo:cutouts": "node scripts/team-photo/cutouts.mjs"
   },
   "dependencies": {
     "@emotion/react": "11.14.0",

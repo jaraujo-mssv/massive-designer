@@ -11,6 +11,7 @@
 //   nobody in the shoot adds them (`marco-spagnuolo.jpg` is Marco Spagnuolo).
 // - Someone with no photo yet gets a placeholder (NO_PHOTO_YET), until a photo named after them
 //   comes in.
+// - Someone in LEFT_OUT isn't on the page, whatever photos they have.
 //
 // Hand edits (a better mask round the hair, say) are kept: save the edited cut-out in
 // public/team-photo/edited/ under the same name (`profile-michael.webp`, or .png), and it's used as
@@ -58,6 +59,14 @@ const KEY = 24;
 const FACE = 0.34;
 const TOP = 0.28;
 const HEADROOM = 0.03;
+/**
+ * Photos framed off that: how far the person moves in the square, as shares of its side (negative
+ * x is left, negative y is up). For someone turned, whose shoulders run off one side while the face
+ * is centred. A y moves the eyes off the others' level.
+ */
+const NUDGE = {
+  'profile-gianni-massi': { x: -0.08, y: -0.04 },
+};
 
 /**
  * The names shown are José's (2026-11-19), else the landing site's roster. The real shoot's photos
@@ -83,6 +92,9 @@ const RENAMES = {
 
 /** Teammates with no photo yet: a placeholder each. */
 const NO_PHOTO_YET = ['Dima Tymoshchenko', 'Morvi Chaturvedi', 'Monika Dainyte', 'Mohie Eddine Lakhdar'];
+
+/** Teammates not on the page, though the shoot has them (José, 2026-11-19). */
+const LEFT_OUT = ['Aly Kafoury'];
 
 const stem = (file) => file.replace(/\.\w+$/, '');
 const slug = (s) =>
@@ -149,11 +161,11 @@ function headTopOf(mask, face) {
  * The square for a face, kept inside the photo. `tight` says how it falls short of the framing,
  * when the photo is too small for it (framed tighter) or ends too close to the face (moved).
  */
-function frameFor({ width, height }, face, headTop) {
+function frameFor({ width, height }, face, headTop, { x = 0, y = 0 } = {}) {
   const wanted = face.h / FACE;
   const side = Math.round(Math.min(wanted, width, height));
-  const left = face.x + face.w / 2 - side / 2;
-  const top = Math.min(face.y - TOP * side, headTop - HEADROOM * side);
+  const left = face.x + face.w / 2 - side / 2 - x * side;
+  const top = Math.min(face.y - TOP * side, headTop - HEADROOM * side) - y * side;
   const clamp = (v, max) => Math.round(Math.max(0, Math.min(v, max)));
   const box = { left: clamp(left, width - side), top: clamp(top, height - side), width: side, height: side };
   const moved = Math.max(Math.abs(box.left - left), Math.abs(box.top - top)) / side;
@@ -303,7 +315,10 @@ function withPlaceholders(people) {
   return [...people, ...missing.map((name) => ({ id: `placeholder-${slug(name)}`, name, placeholder: true }))];
 }
 
-const everyone = withPlaceholders(withProfiles(picked(readFileSync(DOC, 'utf8'))));
+const leftOut = new Set(LEFT_OUT.map(slug));
+const everyone = withPlaceholders(
+  withProfiles(picked(readFileSync(DOC, 'utf8'))).filter((p) => !(p.name && leftOut.has(slug(p.name)))),
+);
 const people = everyone.filter((p) => !p.placeholder);
 const better = people.filter((p) => p.id.startsWith('profile-')).length;
 console.log(
@@ -327,7 +342,7 @@ try {
       console.log(`[team-photo] ✗ ${p.id}: ${faces[i]?.error ?? mask?.error ?? 'no face found'}`);
       continue;
     }
-    const { box, tight } = frameFor(faces[i], face, headTopOf(mask, face));
+    const { box, tight } = frameFor(faces[i], face, headTopOf(mask, face), NUDGE[p.id]);
     boxes.set(p.id, { box, mask, tight });
     await cropFor(p, mask, box, work);
   }

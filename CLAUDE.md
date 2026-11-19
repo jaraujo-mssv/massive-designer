@@ -129,7 +129,7 @@ npm start            # the whole site with every API, as Railway runs it (PORT, 
 | Partnership Post, Logo Encoder | `/partnership-post`, `/logo-encoder` | `src/tools/…` | Live |
 | Merch | `/merch` | `src/tools/merch/`, `scripts/merch/` | Live |
 | Gemini | `/gemini` | `src/tools/gemini/` (doc: `docs/plans/gemini.md`) | Live |
-| Team Photo | `/team-photo` | `src/tools/team-photo/`; faces in `public/team-photo/` from `npm run team-photo:cutouts` (macOS: Vision outlines each picked photo in `content/team-shoot/photos.md`, or a better one in `public/content/team-shoot/originals/profiles/<name-slug>.jpg`, and `scripts/team-photo/matte.py` mattes the hair, run through `uv`; a hand-edited cut-out in `public/team-photo/edited/` is used as it is) | Live |
+| Team Photo | `/team-photo` | `src/tools/team-photo/`; faces in `public/team-photo/` from `npm run team-photo:cutouts` (macOS: Vision outlines each picked photo in `content/team-shoot/photos.md`, or a better one in `public/content/team-shoot/originals/profiles/<name-slug>.jpg`, and `scripts/team-photo/matte.py` mattes the hair, run through `uv`; a hand-edited cut-out in `public/team-photo/edited/` is used as it is). Options in a sidebar: the Mix, a colour, or a theme (SVGs in `public/team-photo/themes/` from `node scripts/team-photo/themes.mjs`), and a circle-crop preview | Live |
 | Video, Content | `/video`, `/content` | `src/tools/…` | Dev server only |
 | Trash | `/trash` | `src/tools/trash/` | URL only, not in the nav |
 | Social Media, Campaign Designer, Dither | `/social-media`, … | `src/tools/…` | Deprecated: hidden from the nav, still routable |

@@ -1,0 +1,28 @@
+{
+  "id": "code-reviews-prs-merged-square",
+  "title": "Pull requests merged per week",
+  "description": "Pull requests merged per week since February 2024, every week shown (weeks with none merged as a mark on the baseline), on a scale from 0: the 2024 average of 7.3 a week as a line, and 67 in the week of Nov 2, 2026. Titled as the team's own chart. Drawn from _code-reviews/data.js.",
+  "group": "massive",
+  "category": "content",
+  "template": null,
+  "series": "Code reviews: humans and the bot",
+  "status": "draft",
+  "tags": [
+    "data story",
+    "engineering",
+    "chart",
+    "square"
+  ],
+  "source": "code_reviews_weekly.csv (prs_merged, weekly, Feb 5, 2024 to the week of Nov 2, 2026), and the team's own chart \"Pull requests merged per week\" (Nov 2026), whose text the image uses. Review feedback: keep the numbers as they are, start the y-axis at 0, show every week including the zero weeks.",
+  "width": 1080,
+  "height": 1080,
+  "fields": [
+    {
+      "id": "headline",
+      "label": "Title",
+      "type": "text",
+      "default": "Pull requests merged per week",
+      "hint": "The chart's title, over it. Two lines; about 30 characters."
+    }
+  ]
+}

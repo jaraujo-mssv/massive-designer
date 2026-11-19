@@ -1,7 +1,7 @@
 {
   "id": "code-reviews-recent-square",
-  "title": "Code reviews: the last 15 months (square)",
-  "description": "Square version: running total of code reviews since August 2025, 1,253 by the review bot against 867 by humans. On the grid-and-glow ground, the logo centred. Drawn from _code-reviews/data.js.",
+  "title": "Code reviews: the last 15 months",
+  "description": "Running total of code reviews since August 2025: 1,253 by the review bot in four months against 867 by humans in fifteen. Titled as the team's own chart. Drawn from _code-reviews/data.js.",
   "group": "massive",
   "category": "content",
   "template": null,
@@ -14,7 +14,7 @@
     "chart",
     "square"
   ],
-  "source": "code_reviews_weekly.csv (weekly reviews, Feb 5, 2024 to Nov 8, 2026), as of Nov 8, 2026. Square version of the landscape chart of the same name.",
+  "source": "code_reviews_weekly.csv (weekly reviews, Feb 5, 2024 to the week of Nov 2, 2026), and the team's own chart \"Cumulative code reviews: humans and the review bot\" (Nov 2026), whose text the image uses: 371 PRs reviewed by the bot, 374k lines merged after bot review, about 326 hours saved (5 min + 1 h per 500 lines changed per PR, capped at 2 h, re-reviews not counted).",
   "width": 1080,
   "height": 1080,
   "fields": [
@@ -22,8 +22,8 @@
       "id": "headline",
       "label": "Title",
       "type": "text",
-      "default": "When pull requests tripled, two of us couldn’t keep up. A bot could.",
-      "hint": "The hook, in the chart's empty corner: who, what happened, and the surprise. Four lines; about 70 characters."
+      "default": "Cumulative code reviews: humans and the review bot",
+      "hint": "The chart's title, in its empty corner. Four lines; about 50 characters."
     }
   ]
 }

@@ -1,7 +1,7 @@
 {
   "id": "code-reviews-cumulative-square",
-  "title": "Code reviews: the bot matched 2½ years in four months (square)",
-  "description": "Square version: running total of code reviews since February 2024, humans as a neutral line, the review bot in red. On the grid-and-glow ground, the logo centred. Drawn from _code-reviews/data.js.",
+  "title": "Cumulative code reviews: humans and the review bot",
+  "description": "Running total of code reviews since February 2024: humans as a neutral line, the review bot in red, 1,253 against 1,153, with the bot's three numbers in a box under the title. Titled as the team's own chart. Drawn from _code-reviews/data.js.",
   "group": "massive",
   "category": "content",
   "template": null,
@@ -14,7 +14,7 @@
     "chart",
     "square"
   ],
-  "source": "code_reviews_weekly.csv (weekly reviews, Feb 5, 2024 to Nov 8, 2026), as of Nov 8, 2026. Square version of the landscape chart of the same name.",
+  "source": "code_reviews_weekly.csv (weekly reviews, Feb 5, 2024 to the week of Nov 2, 2026), and the team's own chart \"Cumulative code reviews: humans and the review bot\" (Nov 2026), whose text the image uses: 371 PRs reviewed by the bot, 374k lines merged after bot review, about 326 hours saved (5 min + 1 h per 500 lines changed per PR, capped at 2 h, re-reviews not counted).",
   "width": 1080,
   "height": 1080,
   "fields": [
@@ -22,8 +22,57 @@
       "id": "headline",
       "label": "Title",
       "type": "text",
-      "default": "Our code-review bot did in four months what took us two and a half years",
-      "hint": "The hook, in the chart's empty corner: who, what happened, and the surprise. Four lines; about 70 characters."
+      "default": "Cumulative code reviews: humans and the review bot",
+      "hint": "The chart's title, in its empty corner. Four lines; about 50 characters."
+    },
+    {
+      "id": "showStats",
+      "label": "Numbers",
+      "type": "toggle",
+      "default": true,
+      "hint": "The box of three numbers under the title."
+    },
+    {
+      "id": "stat1",
+      "label": "Number 1",
+      "type": "text",
+      "default": "371",
+      "hint": "A short figure, like 371 or 374k."
+    },
+    {
+      "id": "stat1Label",
+      "label": "Number 1 label",
+      "type": "text",
+      "default": "PRs reviewed by the bot",
+      "hint": "What the number counts, beside it in the box. One line; about 40 characters."
+    },
+    {
+      "id": "stat2",
+      "label": "Number 2",
+      "type": "text",
+      "default": "374k",
+      "hint": "A short figure, like 371 or 374k."
+    },
+    {
+      "id": "stat2Label",
+      "label": "Number 2 label",
+      "type": "text",
+      "default": "lines of code merged after bot review",
+      "hint": "What the number counts, beside it in the box. One line; about 40 characters."
+    },
+    {
+      "id": "stat3",
+      "label": "Number 3",
+      "type": "text",
+      "default": "≈326",
+      "hint": "A short figure, like 371 or 374k."
+    },
+    {
+      "id": "stat3Label",
+      "label": "Number 3 label",
+      "type": "text",
+      "default": "hours of review time saved (conservative)",
+      "hint": "What the number counts, beside it in the box. One line; about 40 characters."
     }
   ]
 }

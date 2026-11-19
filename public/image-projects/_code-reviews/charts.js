@@ -3,13 +3,15 @@
 //   codeReviews.cumulative(svg, { from: "2025-08-04" })  running totals since a week, humans and the bot as two lines
 //                                                        (stacked: true sets each total's name under its number)
 //   codeReviews.weekly(svg)                              reviews per week, bot and humans stacked
+//   codeReviews.merged(svg)                              pull requests merged per week, on a scale from 0, with the
+//                                                        2024 average and the latest week labelled
 //   codeReviews.fitTitle(el, lines)                      steps the title down until it fits on `lines` lines (3)
 //
 // The chart fills the frame. Its data ends in a steep climb on the right, so the title and the numbers (.cr-text)
 // sit over its empty top-left corner: the vertical scale is set so every point under that text stays below it.
 // Humans are the neutral series and the bot is the red one: the one accent marks the story (brand/BRAND.md).
-// Both charts mark the two dates from the brief, each with a line and a label at its top: human reviews stopped at
-// the end of May 2026, and the review bot launched on July 2, 2026.
+// The review charts mark the two dates from the brief, each with a line and a label at its top: human reviews stopped
+// at the end of May 2026, and the review bot launched on July 2, 2026. Labels are worded as in the team's own charts.
 (() => {
   const NS = "http://www.w3.org/2000/svg";
   const DAY = 864e5;
@@ -23,13 +25,20 @@
     .split("\n")
     .slice(1)
     .map((line) => {
-      const [week, human, bot, humanTotal, botTotal] = line.split(",");
-      return { start: Date.parse(`${week}T00:00:00Z`), human: +human, bot: +bot, humanTotal: +humanTotal, botTotal: +botTotal };
+      const [week, human, bot, humanTotal, botTotal, , merged] = line.split(",");
+      return {
+        start: Date.parse(`${week}T00:00:00Z`),
+        human: +human,
+        bot: +bot,
+        humanTotal: +humanTotal,
+        botTotal: +botTotal,
+        merged: +merged,
+      };
     });
   const END = rows.at(-1).start + 7 * DAY;
   const EVENTS = [
-    { at: Date.parse("2026-05-25T00:00:00Z"), label: "Human reviews stop · end of May" },
-    { at: Date.parse("2026-07-02T00:00:00Z"), label: "Review bot launches · July 2" },
+    { at: Date.parse("2026-05-25T00:00:00Z"), label: "Gave up on human reviews" },
+    { at: Date.parse("2026-07-02T00:00:00Z"), label: "Review bot launched" },
   ];
 
   const fmt = (n) => n.toLocaleString("en-US");
@@ -41,15 +50,14 @@
     return node;
   }
 
-  // The text over the chart, as boxes in the svg's coordinates: one per title line, and the numbers.
+  // The text over the chart, as boxes in the svg's coordinates: one per title and subtitle line, and the numbers.
   function textBoxes(svg) {
     const s = svg.getBoundingClientRect();
     const text = svg.parentElement.querySelector(".cr-text");
     const rects = [];
-    const title = text?.querySelector(".cr-title");
-    if (title) {
+    for (const line of text?.querySelectorAll(".cr-title, .cr-sub") ?? []) {
       const range = document.createRange();
-      range.selectNodeContents(title);
+      range.selectNodeContents(line);
       rects.push(...range.getClientRects());
     }
     const stats = text?.querySelector(".cr-stats");
@@ -60,11 +68,12 @@
   }
 
   // The plot and the time scale. The vertical scale comes from fitY, once the data is known.
-  function frame(svg, { from, right }) {
+  function frame(svg, { from, right, left = 0 }) {
     svg.replaceChildren();
     const { width, height } = svg.getBoundingClientRect();
     svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
-    const plot = { left: 0, right: width - right, top: 0, bottom: height - 44 };
+    // Room under the plot for the months, set at 45°.
+    const plot = { left, right: width - right, top: 0, bottom: height - 100 };
     const x = (t) => plot.left + ((t - from) / (END - from)) * (plot.right - plot.left);
     return { svg, plot, x, from, width, boxes: textBoxes(svg) };
   }
@@ -82,12 +91,14 @@
     return (v) => f.plot.bottom - (v / max) * h;
   }
 
-  // The baseline and the months under it: every quarter over a long range or a narrow chart, every month otherwise.
+  // The baseline and the months under it, at 45°, each ending at its tick: every month where they fit, else every
+  // quarter.
   // January and the first tick carry the year.
   function axis({ svg, plot, x, from }) {
     el(svg, "line", { x1: plot.left, x2: plot.right, y1: plot.bottom, y2: plot.bottom, class: "cr-base" });
     const months = (END - from) / DAY / 30.44;
-    const quarterly = months > 20 || (plot.right - plot.left) / months < 90;
+    // Angled labels need about 31 px each; a month gets 40 px or more, or the labels go quarterly.
+    const quarterly = (plot.right - plot.left) / months < 40;
     const first = new Date(from);
     let labelled = false;
     for (let m = Date.UTC(first.getUTCFullYear(), first.getUTCMonth() + 1, 1); m < END; ) {
@@ -99,7 +110,13 @@
         el(
           svg,
           "text",
-          { x: x(m), y: plot.bottom + 36, "text-anchor": "middle", class: withYear ? "cr-tick is-year" : "cr-tick" },
+          {
+            x: x(m) + 6,
+            y: plot.bottom + 24,
+            "text-anchor": "end",
+            transform: `rotate(-45 ${x(m) + 6} ${plot.bottom + 24})`,
+            class: withYear ? "cr-tick is-year" : "cr-tick",
+          },
           withYear ? `${MONTHS[mo]} ${d.getUTCFullYear()}` : MONTHS[mo],
         );
         labelled = true;
@@ -132,16 +149,20 @@
         const left = side === "left" ? xs[i] - 14 - widths[i] : xs[i] + 14;
         return { left, right: left + widths[i], top: rowTop, bottom: rowTop + HEIGHT };
       });
-    // A label well clear of the title, so it never reads as part of it; its line clear of the text and labels.
-    const fits = (spot, onData) =>
+    // A label well clear of the title (64 px, or 40 px when nothing that far is free), so it never reads as part of it;
+    // its line clear of the text and labels.
+    const fits = (spot, onData, titlePad) =>
       spot.every(
-        (r, i) => inside(r) && clear(r, 64) && onData(r) && clear({ left: xs[i] - 1, right: xs[i] + 1, top: r.top, bottom: plot.bottom }, 24),
+        (r, i) =>
+          inside(r) && clear(r, titlePad) && onData(r) && clear({ left: xs[i] - 1, right: xs[i] + 1, top: r.top, bottom: plot.bottom }, 24),
       );
     const find = () => {
-      for (let top = plot.top; top < plot.bottom - 3 * ROW; top += 12)
-        for (const side of ["left", "right"]) if (fits(place(top, side), over)) return place(top, side);
-      for (let top = plot.bottom - 2 * ROW - 24; top > plot.top; top -= 12)
-        for (const side of ["left", "right"]) if (fits(place(top, side), under)) return place(top, side);
+      for (const titlePad of [64, 40]) {
+        for (let top = plot.top; top < plot.bottom - 3 * ROW; top += 12)
+          for (const side of ["left", "right"]) if (fits(place(top, side), over, titlePad)) return place(top, side);
+        for (let top = plot.bottom - 2 * ROW - 24; top > plot.top; top -= 12)
+          for (const side of ["left", "right"]) if (fits(place(top, side), under, titlePad)) return place(top, side);
+      }
       return place(plot.top, "left");
     };
     const spot = find();
@@ -167,13 +188,13 @@
     const firstBot = shown.findIndex((r) => r.bot > 0);
     const series = [
       {
-        name: "human reviews",
+        name: "Human reviews",
         color: HUMAN,
         wash: "rgba(168, 165, 161, 0.08)",
         pts: [[start, 0], ...shown.map((r) => [r.start + 7 * DAY, r.humanTotal - base.human])],
       },
       {
-        name: "bot reviews",
+        name: "Review-bot reviews",
         color: BOT,
         wash: "rgba(215, 73, 57, 0.16)",
         pts: [[shown[firstBot].start, 0], ...shown.slice(firstBot).map((r) => [r.start + 7 * DAY, r.botTotal - base.bot])],
@@ -254,27 +275,89 @@
     // A swatch beside each name says which series it is.
     const taken = [];
     for (const [key, color, name] of [
-      ["human", HUMAN, "human reviews"],
-      ["bot", BOT, "bot reviews"],
+      ["human", HUMAN, "Human reviews"],
+      ["bot", BOT, "Review-bot reviews"],
     ]) {
       const r = rows.reduce((a, b) => (b[key] > a[key] ? b : a));
       const bx = x(r.start + 3.5 * DAY);
       const top = y(r.human + r.bot);
       const value = el(svg, "text", { y: top - 52, "text-anchor": "middle", class: "cr-end-value" }, fmt(r[key]));
       const label = el(svg, "text", { y: top - 18, "text-anchor": "middle", class: "cr-end-label" }, name);
-      // Centred over the column, unless that would cross one of the two dates' lines.
+      // Centred over the column, unless that would cross one of the two dates' lines, and always inside the plot
+      // (the dates' lines then start under it).
       const half = label.getComputedTextLength() / 2 + 12;
       let cx = bx;
       for (const ex of EVENTS.map((e) => x(e.at))) {
         if (bx < ex) cx = Math.min(cx, ex - 16 - half);
         else cx = Math.max(cx, ex + 16 + half);
       }
+      cx = Math.max(plot.left + half, Math.min(cx, plot.right - half));
       value.setAttribute("x", cx);
       label.setAttribute("x", cx + 12);
       el(svg, "rect", { x: cx - half, y: top - 33, width: 14, height: 14, rx: 3, fill: color });
       taken.push({ left: cx - half, right: cx + half, top: top - 86, bottom: top - 10 });
     }
     events(f, layer, y, spans, taken);
+  }
+
+  // Pull requests merged per week, every week from the first: a scale from 0 with a line every 20, one column a week
+  // (a week with none merged is a flat mark on the baseline, so it reads as zero rather than missing), the 2024
+  // average as a line across, and the latest week in red with its number. The numbers are the data's, unrounded,
+  // except the average's label, which gives it to one decimal.
+  function merged(svg) {
+    const from = rows[0].start;
+    const f = frame(svg, { from, right: 0, left: 64 });
+    const { x, plot } = f;
+    const slot = x(from + 7 * DAY) - x(from);
+    const w = Math.min(Math.max(slot - 3, slot * 0.7), 24);
+    const left = (r) => x(r.start + 3.5 * DAY) - w / 2;
+    const h = plot.bottom - plot.top;
+    // The tallest column 64 px under the top, for its label.
+    const top = Math.max(...rows.map((r) => r.merged));
+    const max = (top * h) / (h - 64);
+    const y = (v) => plot.bottom - (v / max) * h;
+
+    for (let v = 20; v < max; v += 20) el(svg, "line", { x1: plot.left, x2: plot.right, y1: y(v), y2: y(v), class: "cr-grid" });
+    for (let v = 0; v < max; v += 20)
+      el(svg, "text", { x: plot.left - 18, y: y(v) + 8, "text-anchor": "end", class: "cr-ytick" }, String(v));
+    axis(f);
+
+    const latest = rows.at(-1);
+    for (const r of rows) {
+      const x0 = left(r);
+      if (!r.merged) {
+        el(svg, "rect", { x: x0, y: plot.bottom - 1.5, width: w, height: 3, fill: HUMAN });
+        continue;
+      }
+      const t = y(r.merged);
+      const rr = Math.min(3, (plot.bottom - t) / 2, w / 2);
+      el(svg, "path", {
+        d: `M${x0},${plot.bottom}L${x0},${t + rr}Q${x0},${t} ${x0 + rr},${t}L${x0 + w - rr},${t}Q${x0 + w},${t} ${x0 + w},${t + rr}L${x0 + w},${plot.bottom}Z`,
+        fill: r === latest ? BOT : HUMAN,
+      });
+    }
+
+    // The 2024 average, across the whole chart, its label over the low weeks of mid-2024 with a line down to it.
+    const year = rows.filter((r) => new Date(r.start).getUTCFullYear() === 2024);
+    const avg = year.reduce((sum, r) => sum + r.merged, 0) / year.length;
+    el(svg, "line", { x1: plot.left, x2: plot.right, y1: y(avg), y2: y(avg), class: "cr-avg" });
+    const quiet = year.filter((r) => r.start > Date.parse("2024-06-01")).reduce((a, b) => (b.merged <= a.merged ? b : a));
+    const lx = x(quiet.start + 3.5 * DAY);
+    const label = el(svg, "text", { x: lx - 2, class: "cr-avg-label" }, `2024 average, ${avg.toFixed(1)} a week`);
+    const lw = label.getComputedTextLength();
+    const under = rows.filter((r) => left(r) + w >= lx - 2 && left(r) <= lx + lw).reduce((m, r) => Math.max(m, r.merged), 0);
+    const ly = Math.min(y(under) - 28, y(avg) - 60);
+    label.setAttribute("y", ly);
+    el(svg, "line", { x1: lx, x2: lx, y1: ly + 12, y2: y(avg), class: "cr-avg" });
+
+    // The latest week, over its column, ending at the chart's right edge.
+    const d = new Date(latest.start);
+    el(
+      svg,
+      "text",
+      { x: left(latest) + w, y: y(latest.merged) - 22, "text-anchor": "end", class: "cr-peak" },
+      `${fmt(latest.merged)} merged in the week of ${MONTHS[d.getUTCMonth()]} ${d.getUTCDate()}`,
+    );
   }
 
   // Three lines at most: the title steps down from its CSS size until it fits.
@@ -287,5 +370,5 @@
     }
   }
 
-  window.codeReviews = { rows, cumulative, weekly, fitTitle };
+  window.codeReviews = { rows, cumulative, weekly, merged, fitTitle };
 })();

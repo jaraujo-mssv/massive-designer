@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1080" />
+    <title>Pull requests merged per week</title>
+    <link rel="stylesheet" href="../_brand/massive.css" />
+    <!-- Layout and chart drawing are shared by the code-reviews-* images: ../_code-reviews/. This one has its title
+         above the chart (.cr-head), since its scale from 0 runs the full width. -->
+    <link rel="stylesheet" href="../_code-reviews/charts.css" />
+  </head>
+  <body>
+    <div id="canvas" class="cr-square">
+      <img class="m-bg-dark" src="../_code-reviews/bg-glow.jpg" alt="" />
+      <div class="cr-stack">
+        <div class="cr-head">
+          <div class="cr-title" data-field="headline">Pull requests merged per week</div>
+        </div>
+        <div class="cr-chart">
+          <svg aria-label="Pull requests merged per week"></svg>
+        </div>
+        <div class="cr-foot"><img src="../_brand/logo-massive.svg" alt="Massive" /></div>
+      </div>
+    </div>
+    <script src="../_code-reviews/data.js"></script>
+    <script src="../_code-reviews/charts.js"></script>
+    <script>
+      window.onFields = () => {
+        codeReviews.fitTitle(document.querySelector(".cr-title"), 2);
+        codeReviews.merged(document.querySelector(".cr-chart svg"));
+      };
+    </script>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

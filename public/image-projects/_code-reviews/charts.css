@@ -1,6 +1,8 @@
-/* The code-reviews-* images' shared layout (1920×1080, dark register): the chart fills the frame, and the title and
-   the numbers sit in its empty top-left corner, where the data is still low. charts.js draws the chart into
-   .cr-chart svg and scales it so the data stays under that text. The logo is the footer. */
+/* The code-reviews-* images' shared layout (dark register; the base rules are for 1920×1080, the images themselves are
+   the .cr-square ones below): the chart fills the frame, and the title and the numbers sit in its empty top-left
+   corner, where the data is still low. charts.js draws the chart into .cr-chart svg and scales it so the data stays
+   under that text. The logo is the footer. The merged-pull-requests chart has its title above it instead (.cr-head),
+   since its scale runs the full width. */
 #canvas {
   width: 1920px;
   height: 1080px;
@@ -39,6 +41,9 @@
   letter-spacing: -0.02em;
   text-wrap: balance;
 }
+.cr-head {
+  margin-bottom: 56px;
+}
 .cr-stats {
   display: flex;
   width: max-content;
@@ -63,6 +68,7 @@
 }
 .cr-stat span {
   max-width: 220px;
+  text-wrap: balance;
   font-size: 21px;
   line-height: 1.3;
   color: var(--m-cream-mid);
@@ -108,8 +114,31 @@
   font-size: 21px;
   fill: var(--m-cream-mid);
 }
+.cr-grid {
+  stroke: rgba(250, 244, 236, 0.08);
+  stroke-width: 1;
+}
+.cr-ytick {
+  font-size: 22px;
+  fill: var(--m-cream-dim);
+}
+.cr-avg {
+  stroke: rgba(250, 244, 236, 0.55);
+  stroke-width: 2;
+}
+.cr-avg-label {
+  font-size: 24px;
+  font-weight: 500;
+  fill: var(--m-cream-mid);
+}
+.cr-peak {
+  font-size: 28px;
+  font-weight: 700;
+  fill: var(--m-cream);
+}
 
-/* The square versions (1080×1080): the grid-and-glow ground (bg-dark.jpg), no numbers under the title, and the logo
+/* The square versions (1080×1080): the red glow at the bottom (bg-glow.jpg: ../_brand/bg-dark.jpg blurred until its grid is gone,
+   since the grid reads as the chart's own lines), no numbers under the title, and the logo
    centred under the chart. */
 #canvas.cr-square {
   width: 1080px;
@@ -125,7 +154,39 @@
   font-size: 80px;
 }
 .cr-square .cr-chart {
-  margin-bottom: 40px;
+  margin-bottom: 12px;
+}
+/* The numbers as a small box under the title (.cr-stats-box), as on the team's own chart: each one a line of text,
+   the number in bold and its label straight after it. */
+.cr-stats-box {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: max-content;
+  max-width: 100%;
+  margin-top: 32px;
+  padding: 22px 28px;
+  background: var(--m-card);
+  border: 1px solid var(--m-border);
+  border-radius: 16px;
+}
+.cr-stats-box .cr-stat {
+  display: block;
+  padding: 0;
+  border: 0;
+  font-size: 24px;
+  line-height: 1.3;
+}
+.cr-stats-box .cr-stat b {
+  font-size: inherit;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+.cr-stats-box .cr-stat span {
+  font-size: inherit;
+}
+.cr-square .cr-head {
+  margin-bottom: 48px;
 }
 .cr-square .cr-foot {
   display: flex;

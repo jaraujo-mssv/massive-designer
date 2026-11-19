@@ -1,7 +1,7 @@
 {
   "id": "code-reviews-weekly-square",
-  "title": "Code reviews per week (square)",
-  "description": "Square version: code reviews per week since February 2024, the review bot and humans stacked; humans peaked at 56 a week, the bot at 161. On the grid-and-glow ground, the logo centred. Drawn from _code-reviews/data.js.",
+  "title": "Code reviews per week",
+  "description": "Code reviews per week since February 2024, the review bot and humans stacked; humans peaked at 56 a week, the bot at 161. Drawn from _code-reviews/data.js.",
   "group": "massive",
   "category": "content",
   "template": null,
@@ -14,7 +14,7 @@
     "chart",
     "square"
   ],
-  "source": "code_reviews_weekly.csv (weekly reviews, Feb 5, 2024 to Nov 8, 2026), as of Nov 8, 2026. Square version of the landscape chart of the same name.",
+  "source": "code_reviews_weekly.csv (weekly reviews, Feb 5, 2024 to the week of Nov 2, 2026), and the team's own chart \"Cumulative code reviews: humans and the review bot\" (Nov 2026), whose text the image uses: 371 PRs reviewed by the bot, 374k lines merged after bot review, about 326 hours saved (5 min + 1 h per 500 lines changed per PR, capped at 2 h, re-reviews not counted).",
   "width": 1080,
   "height": 1080,
   "fields": [

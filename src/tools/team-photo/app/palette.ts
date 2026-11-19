@@ -63,8 +63,12 @@ const MIX_GROUPS = GROUPS.filter((g) => g.name !== "Off-whites");
 const MIX_PINS: Record<string, string> = {
   "Jason Grad": "white",
   "Josh Korol": "ground",
-  "Chen Assayag": "mist",
   "Tatsiana Matlash": "stone",
+  // José touches an off-white at every width (Josh beside him; Jamie, Michael or Jason above or
+  // below): the darkest one, so his tile stays apart from theirs.
+  "José Araújo": "stone",
+  "Jamie Roa": "ground",
+  "Michael Oyenira": "white",
   "Artem Shcherbatiuk": "tangerine",
 };
 

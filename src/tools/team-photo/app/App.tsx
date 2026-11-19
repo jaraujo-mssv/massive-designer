@@ -83,7 +83,7 @@ async function downloadTile(person: Person & { src: string }, swatch: Swatch) {
   ctx.fillRect(0, 0, SIZE, SIZE);
   ctx.drawImage(img, 0, 0, SIZE, SIZE);
   const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, "image/jpeg", 0.92));
-  if (blob) await saveFile(blob, `${slug(person.name ?? person.id)}-${swatch.id}.jpg`);
+  if (blob) await saveFile(blob, `${slug(person.name ?? person.id)}.jpg`);
 }
 
 function SwatchButton({

@@ -92,8 +92,8 @@ const RENAMES = {
   'Oreoluwa Emmanuel': 'Emmanuel Oreoluwa',
 };
 
-/** Teammates with no photo yet: a placeholder each. */
-const NO_PHOTO_YET = ['Dima Tymoshchenko', 'Morvi Chaturvedi', 'Monika Dainyte', 'Mohie Eddine Lakhdar'];
+/** Teammates with no photo yet: a placeholder each, by full name (none now: everyone has one). */
+const NO_PHOTO_YET = [];
 
 /** Teammates not on the page, though the shoot has them (José, 2026-11-19). */
 const LEFT_OUT = ['Aly Kafoury'];

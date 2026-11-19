@@ -18,8 +18,12 @@
 // caught too (it no longer matches what the last run wrote) and moved into edited/ first. An edit
 // lasts as long as that photo is the one used: a new take or a better photo gets a fresh cut-out.
 //
-// How: Vision finds the face (lib/faces.swift, framed as the profile crops are, through
-// lib/profile.mjs) and outlines the person (lib/cutout.swift); then matte.py works the hair out
+// The framing shows the Massive T-shirt under the face: every face the same size, the eyes level
+// from tile to tile (FACE, TOP). So each photo has to reach well below the shoulders: a headshot
+// cut at the collar is framed tighter than the rest, and the run says so.
+//
+// How: Vision finds the face (lib/faces.swift, through lib/profile.mjs) and outlines the person
+// (lib/cutout.swift); then matte.py works the hair out
 // strand by strand from the photo itself (alpha matting, guided by that outline). matte.py runs
 // through uv (`brew install uv`), which fetches its pinned Python libraries into its own cache, so
 // nothing is added to the project. Without uv, a plainer clean-up of Vision's outline is used.
@@ -32,7 +36,7 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
-import { faceOf, facesIn, squareFor } from '../content/lib/profile.mjs';
+import { faceOf, facesIn } from '../content/lib/profile.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const DOC = path.join(ROOT, 'content/team-shoot/photos.md');
@@ -46,6 +50,14 @@ const MATTE_PY = path.join(ROOT, 'scripts/team-photo/matte.py');
 const SIZE = 1080;
 /** Without matting: how close to the backdrop's colour (0–255, in the furthest channel) a pixel near the edge is backdrop. */
 const KEY = 24;
+/**
+ * The framing, as shares of the square's side (José's pick of the options tried, 2026-11-19):
+ * Vision's face box is 0.34 of the side tall, centred across, its top 0.28 down, which leaves the
+ * top of the T-shirt's logo in the frame. Hair and hats keep at least HEADROOM above them.
+ */
+const FACE = 0.34;
+const TOP = 0.28;
+const HEADROOM = 0.03;
 
 /**
  * The names shown are José's (2026-11-19), else the landing site's roster. The real shoot's photos
@@ -131,6 +143,27 @@ function headTopOf(mask, face) {
     if (covered > (right - left) * 0.04) return y;
   }
   return face.y;
+}
+
+/**
+ * The square for a face, kept inside the photo. `tight` says how it falls short of the framing,
+ * when the photo is too small for it (framed tighter) or ends too close to the face (moved).
+ */
+function frameFor({ width, height }, face, headTop) {
+  const wanted = face.h / FACE;
+  const side = Math.round(Math.min(wanted, width, height));
+  const left = face.x + face.w / 2 - side / 2;
+  const top = Math.min(face.y - TOP * side, headTop - HEADROOM * side);
+  const clamp = (v, max) => Math.round(Math.max(0, Math.min(v, max)));
+  const box = { left: clamp(left, width - side), top: clamp(top, height - side), width: side, height: side };
+  const moved = Math.max(Math.abs(box.left - left), Math.abs(box.top - top)) / side;
+  const tight =
+    side < wanted * 0.98
+      ? `framed tighter than the rest (the photo is ${Math.round((side / wanted) * 100)}% of the square it needs)`
+      : moved > 0.02
+        ? `moved ${Math.round(moved * 100)}% of the side to stay in the photo`
+        : '';
+  return { box, tight };
 }
 
 /** The person's mask for each photo, through one Swift run. */
@@ -294,8 +327,8 @@ try {
       console.log(`[team-photo] ✗ ${p.id}: ${faces[i]?.error ?? mask?.error ?? 'no face found'}`);
       continue;
     }
-    const box = squareFor(faces[i], face, headTopOf(mask, face));
-    boxes.set(p.id, { box, mask, whole: box.width === Math.min(faces[i].width, faces[i].height) });
+    const { box, tight } = frameFor(faces[i], face, headTopOf(mask, face));
+    boxes.set(p.id, { box, mask, tight });
     await cropFor(p, mask, box, work);
   }
   const mattes = mattesFor([...boxes.keys()], work);
@@ -309,12 +342,12 @@ try {
       console.log(`[team-photo] ✓ ${label}, your edit from edited/${path.basename(edit)}`);
     } else {
       if (!boxes.has(p.id)) continue;
-      const { box, mask, whole } = boxes.get(p.id);
+      const { box, mask, tight } = boxes.get(p.id);
       const matte = mattes?.get(p.id);
       if (matte?.ok) await sharp(path.join(work, `${p.id}-matte.png`)).webp({ quality: 88, alphaQuality: 95 }).toFile(out);
       else await (await plainCutout(p.src, mask, box)).toFile(out);
       const how = matte?.ok ? 'matted' : `plain clean-up${matte?.error ? ` (matting failed: ${matte.error})` : ''}`;
-      console.log(`[team-photo] ✓ ${label}, ${how}, from a ${box.width} px square${whole ? ', the whole photo (framed tighter than the rest)' : ''}`);
+      console.log(`[team-photo] ✓ ${label}, ${how}, from a ${box.width} px square${tight ? `, ! ${tight}` : ''}`);
     }
     made.push({ id: p.id, ...(p.name ? { name: p.name } : {}), src: `/team-photo/${p.id}.webp`, made: hashOf(out) });
   }

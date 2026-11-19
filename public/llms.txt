@@ -411,9 +411,14 @@ Thumbnail: https://massive-designer.vercel.app/image-projects/team-work-annivers
 
 Finished designs, which can also be re-rendered with changes. Each link lists the image's params.
 
+- $21.4 billion and 5 minutes (`content-split-numbers`, 1440×1080): https://massive-designer.vercel.app/api/images?id=content-split-numbers
 - 195+ countries (`milestone-195-countries`, 1080×1350): https://massive-designer.vercel.app/api/images?id=milestone-195-countries
+- Agent memory: new repos a month (`content-agent-memory-growth`, 1080×1080): https://massive-designer.vercel.app/api/images?id=content-agent-memory-growth
 - AI answers: a new era (`content-ai-answers`, 1080×1350): https://massive-designer.vercel.app/api/images?id=content-ai-answers
+- AIDHD: a definition (`content-aidhd-definition`, 1080×1080): https://massive-designer.vercel.app/api/images?id=content-aidhd-definition
+- AIDHD: a definition (AI) (`content-aidhd-definition-ai`, 1080×1080): https://massive-designer.vercel.app/api/images?id=content-aidhd-definition-ai
 - API in a few lines (`product-code-snippet`, 1920×1080): https://massive-designer.vercel.app/api/images?id=product-code-snippet
+- Ask before doing: agent approval (`content-ask-before-doing`, 1080×1350): https://massive-designer.vercel.app/api/images?id=content-ask-before-doing
 - Blog: Hotel Prices Without a Browser (`blog-radisson-hotel-prices`, 1376×768): https://massive-designer.vercel.app/api/images?id=blog-radisson-hotel-prices
 - Brunch: the croissant (café angle) (`events-brunch-cafe-croissant`, 1080×1080): https://massive-designer.vercel.app/api/images?id=events-brunch-cafe-croissant
 - Brunch: the latte (`events-brunch-latte`, 1080×1080): https://massive-designer.vercel.app/api/images?id=events-brunch-latte
@@ -424,14 +429,13 @@ Finished designs, which can also be re-rendered with changes. Each link lists th
 - Brunch: the table (`events-brunch-table`, 1080×1080): https://massive-designer.vercel.app/api/images?id=events-brunch-table
 - Brunch: the table (pancakes) (`events-brunch-pancakes-table`, 1080×1080): https://massive-designer.vercel.app/api/images?id=events-brunch-pancakes-table
 - Brunch: the tray (café angle) (`events-brunch-cafe-tray`, 1080×1080): https://massive-designer.vercel.app/api/images?id=events-brunch-cafe-tray
-- Code reviews per week (`code-reviews-weekly`, 1920×1080): https://massive-designer.vercel.app/api/images?id=code-reviews-weekly
-- Code reviews per week (square) (`code-reviews-weekly-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=code-reviews-weekly-square
-- Code reviews: the bot matched 2½ years in four months (`code-reviews-cumulative`, 1920×1080): https://massive-designer.vercel.app/api/images?id=code-reviews-cumulative
-- Code reviews: the bot matched 2½ years in four months (square) (`code-reviews-cumulative-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=code-reviews-cumulative-square
-- Code reviews: the last 15 months (`code-reviews-recent`, 1920×1080): https://massive-designer.vercel.app/api/images?id=code-reviews-recent
-- Code reviews: the last 15 months (square) (`code-reviews-recent-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=code-reviews-recent-square
+- Code reviews per week (`code-reviews-weekly-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=code-reviews-weekly-square
+- Code reviews: the last 15 months (`code-reviews-recent-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=code-reviews-recent-square
 - Company card: A front door to the web (`company-card`, 1920×1080): https://massive-designer.vercel.app/api/images?id=company-card
 - Company card: Centered (`company-card-centered`, 1920×1080): https://massive-designer.vercel.app/api/images?id=company-card-centered
+- Cumulative code reviews: humans and the review bot (`code-reviews-cumulative-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=code-reviews-cumulative-square
+- Everything I know about Irish food (`content-irish-food-map`, 1080×1080): https://massive-designer.vercel.app/api/images?id=content-irish-food-map
+- Everything I know about Irish food (AI) (`content-irish-food-map-ai`, 1080×1080): https://massive-designer.vercel.app/api/images?id=content-irish-food-map-ai
 - Feature spotlight: Residential proxies (`product-residential-proxies`, 1080×1350): https://massive-designer.vercel.app/api/images?id=product-residential-proxies
 - Feature spotlight: Web Render (`product-web-render`, 1080×1350): https://massive-designer.vercel.app/api/images?id=product-web-render
 - Happy New Year (`seasonal-new-year`, 1080×1350): https://massive-designer.vercel.app/api/images?id=seasonal-new-year
@@ -454,8 +458,13 @@ Finished designs, which can also be re-rendered with changes. Each link lists th
 - Jason 15K: LinkedIn profile (`jason-15k-linkedin`, 1080×1350): https://massive-designer.vercel.app/api/images?id=jason-15k-linkedin
 - Jason 15K: Milestone card (`jason-15k-milestone`, 1080×1350): https://massive-designer.vercel.app/api/images?id=jason-15k-milestone
 - Jason 15K: Very nice (`jason-15k-very-nice`, 1080×1350): https://massive-designer.vercel.app/api/images?id=jason-15k-very-nice
+- Jevons paradox: coal and data (`content-jevons-paradox`, 1440×1080): https://massive-designer.vercel.app/api/images?id=content-jevons-paradox
 - Know someone? Refer them (`hiring-referral`, 1080×1080): https://massive-designer.vercel.app/api/images?id=hiring-referral
 - Launch announcement (`product-launch`, 1080×1350): https://massive-designer.vercel.app/api/images?id=product-launch
+- One repo that connects to all my other repos (`content-hub-repo`, 1080×1080): https://massive-designer.vercel.app/api/images?id=content-hub-repo
+- Pull requests merged per week (`code-reviews-prs-merged-square`, 1080×1080): https://massive-designer.vercel.app/api/images?id=code-reviews-prs-merged-square
+- Status update: lock screen (`content-status-update-lockscreen`, 1080×1080): https://massive-designer.vercel.app/api/images?id=content-status-update-lockscreen
+- Status update: lock screen (AI) (`content-status-update-lockscreen-ai`, 1080×1080): https://massive-designer.vercel.app/api/images?id=content-status-update-lockscreen-ai
 - Welcome to Massive: Anton Komandyr (`welcome-anton`, 1080×1350): https://massive-designer.vercel.app/api/images?id=welcome-anton
 - Welcome to Massive: Artem Shcherbatiuk (`welcome-artem`, 1080×1350): https://massive-designer.vercel.app/api/images?id=welcome-artem
 - Welcome to Massive: Marco Spagnuolo (`welcome-marco`, 1080×1350): https://massive-designer.vercel.app/api/images?id=welcome-marco

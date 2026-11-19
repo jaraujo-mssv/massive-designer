@@ -1,0 +1,35 @@
+{
+  "id": "content-agent-memory-growth",
+  "title": "Agent memory: new repos a month",
+  "description": "New Python GitHub repos and new arXiv papers per month matching agent-memory terms, Jan 2024 to Oct 2026, each line on its own scale: repos went from 12 a month to 2,809, papers to 117. Replicated from the team's own chart.",
+  "group": "massive",
+  "category": "content",
+  "template": null,
+  "series": "Agent memory",
+  "status": "draft",
+  "tags": [
+    "content",
+    "data story",
+    "chart",
+    "ai agents"
+  ],
+  "source": "The team's own chart (arXiv API and GitHub search, pulled 2026-11-18), replicated. 12, 2,809 and 117 are its figures; the months between are traced from its lines (see DATA in index.html) until the export replaces them.",
+  "width": 1080,
+  "height": 1080,
+  "fields": [
+    {
+      "id": "headline",
+      "label": "Title",
+      "type": "text",
+      "default": "Agent memory went from 12 new repos a month to 2,809.",
+      "hint": "Over the chart's empty corner. Four short lines; about 55 characters."
+    },
+    {
+      "id": "note",
+      "label": "Footnote",
+      "type": "text",
+      "default": "New arXiv papers and new Python GitHub repos per month matching agent-memory terms.\nEach line has its own scale. Sources: arXiv API, GitHub search, pulled 2026-11-18.",
+      "hint": "What is counted and where from. Two lines (Enter breaks them)."
+    }
+  ]
+}

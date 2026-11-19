@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1440, height=1080" />
+    <title>Jevons paradox: coal and data</title>
+    <link rel="stylesheet" href="../_brand/massive.css" />
+    <style>
+      /* Jevons paradox as an editorial split: a steam locomotive (1865, coal) and a server rack (2026, data), drawn as
+         ink line art on white and standing on the same ground line, with the paradox in one line across the bottom.
+         The light register; paper-red only for the lamp and the rack's lights. */
+      #canvas {
+        width: 1440px;
+        height: 1080px;
+        --ink: #171615;
+        --rule: rgba(23, 22, 21, 0.14);
+      }
+      .half {
+        position: absolute;
+        top: 0;
+        width: 720px;
+        height: 800px;
+      }
+      .half.left {
+        left: 0;
+      }
+      .half.right {
+        left: 720px;
+      }
+      .divider {
+        position: absolute;
+        left: 720px;
+        top: 96px;
+        width: 1px;
+        height: 712px;
+        background: var(--rule);
+      }
+      /* Both drawings stand on y = 640. */
+      .art {
+        position: absolute;
+        bottom: 160px;
+        left: 50%;
+        transform: translateX(-50%);
+        overflow: visible;
+      }
+      .art.loco {
+        width: 576px;
+      }
+      .art.rack {
+        height: 470px;
+      }
+      .caption {
+        position: absolute;
+        top: 688px;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-size: 96px;
+        font-weight: 800;
+        line-height: 1;
+        letter-spacing: -0.035em;
+        white-space: nowrap;
+      }
+      .caption .year {
+        font-weight: 300;
+      }
+      .rule {
+        position: absolute;
+        left: 80px;
+        right: 80px;
+        top: 872px;
+        height: 1px;
+        background: var(--rule);
+      }
+      .line {
+        position: absolute;
+        left: 80px;
+        right: 80px;
+        top: 910px;
+        text-align: center;
+        font-size: 36px;
+        line-height: 1.2;
+        white-space: nowrap;
+      }
+      .line b {
+        font-weight: 700;
+      }
+      .logo {
+        position: absolute;
+        right: 80px;
+        bottom: 48px;
+        height: 26px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas" class="light">
+      <div class="half left">
+        <!-- A 4-4-0 locomotive of the 1860s, facing the split: tender of coal, cab, boiler, funnel stack, cowcatcher. -->
+        <svg class="art loco" viewBox="0 -76 700 422" fill="#fff" stroke="#171615" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+          <g class="smoke"></g>
+          <!-- Tender, with its heap of coal -->
+          <path d="M16 200 L16 184 Q26 166 40 178 Q50 160 64 174 Q76 156 90 172 Q102 162 112 176 Q120 172 120 184 L120 200 Z" fill="#171615" />
+          <rect x="12" y="198" width="112" height="84" rx="4" />
+          <path d="M12 224 H124" stroke-width="2" />
+          <path d="M6 282 H130" stroke-width="5" />
+          <path d="M124 268 H138" stroke-width="5" />
+          <!-- Cab -->
+          <rect x="135" y="116" width="112" height="146" />
+          <path d="M122 114 Q190 88 260 114 L260 122 Q190 96 122 122 Z" fill="#171615" />
+          <rect x="152" y="136" width="76" height="52" rx="3" />
+          <path d="M190 136 V188 M135 208 H247" stroke-width="2" />
+          <!-- Boiler, domes, stack and lamp -->
+          <rect x="245" y="150" width="312" height="84" rx="2" />
+          <path d="M305 150 V234 M365 150 V234 M425 150 V234 M485 150 V234" stroke-width="2" />
+          <path d="M300 150 V128 M293 128 H307" />
+          <path d="M322 150 C322 116 378 116 378 150 Z" />
+          <path d="M420 150 C420 128 460 128 460 150 Z" />
+          <rect x="540" y="142" width="40" height="100" rx="10" />
+          <path d="M534 142 L538 100 L512 54 L586 54 L560 100 L564 142 Z" />
+          <rect x="506" y="44" width="86" height="10" rx="2" fill="#171615" />
+          <rect x="580" y="110" width="38" height="32" rx="2" />
+          <path d="M576 110 L599 94 L622 110 Z" fill="#171615" />
+          <circle cx="618" cy="126" r="9" fill="#d54635" />
+          <!-- Running board, cylinder, cowcatcher -->
+          <path d="M135 246 H604" stroke-width="5" />
+          <rect x="500" y="248" width="72" height="28" rx="6" />
+          <path d="M500 262 H452" stroke-width="2" />
+          <path d="M600 246 V252 M600 252 L676 330 H600 Z M614 266 V330 M628 281 V330 M642 295 V330 M656 309 V330" />
+          <g class="wheels"></g>
+          <!-- Rods, over the wheels -->
+          <path d="M310 296 H430" stroke-width="8" />
+          <path d="M466 262 L430 296" stroke-width="7" />
+          <circle cx="310" cy="296" r="5" />
+          <circle cx="430" cy="296" r="5" />
+          <circle cx="466" cy="262" r="5" />
+          <!-- Rail and sleepers -->
+          <path d="M0 332 H700" stroke-width="5" />
+          <g class="ties" fill="#171615" stroke="none"></g>
+        </svg>
+        <div class="caption" data-field="leftCaption">1865: coal.</div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="half right">
+        <!-- A server rack: cabinet, rails, a patch panel, a switch, servers and storage, on the same ground line. -->
+        <svg class="art rack" viewBox="0 0 360 560" fill="#fff" stroke="#171615" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+          <rect x="30" y="12" width="300" height="528" rx="10" />
+          <rect x="22" y="4" width="316" height="18" rx="5" fill="#171615" />
+          <path d="M58 34 V520 M302 34 V520" stroke-width="2" />
+          <g class="units"></g>
+          <rect x="48" y="540" width="40" height="14" fill="#171615" />
+          <rect x="272" y="540" width="40" height="14" fill="#171615" />
+          <path d="M-40 556 H400" stroke-width="5" />
+        </svg>
+        <div class="caption" data-field="rightCaption">2026: data.</div>
+      </div>
+
+      <div class="rule"></div>
+      <div class="line"><b data-field="term">Jevons paradox:</b> <span data-field="definition">when something gets cheaper to use, we use more of it.</span></div>
+      <img class="logo" src="../_brand/logo-massive-positive.svg" alt="Massive" data-field-show="logo" />
+    </div>
+    <script>
+      const NS = "http://www.w3.org/2000/svg";
+      const INK = "#171615";
+      const RED = "#d54635";
+      const add = (parent, tag, attrs) => {
+        const node = document.createElementNS(NS, tag);
+        for (const [k, v] of Object.entries(attrs)) node.setAttribute(k, v);
+        parent.appendChild(node);
+        return node;
+      };
+
+      // The locomotive's wheels (rim, inner rim, spokes, hub), its sleepers, and its smoke: each puff drawn twice,
+      // a thick outline under a white fill, so the cloud reads as one shape.
+      function locomotive() {
+        const svg = document.querySelector(".loco");
+        const wheels = svg.querySelector(".wheels");
+        wheels.replaceChildren();
+        const wheel = (cx, cy, r, spokes) => {
+          add(wheels, "circle", { cx, cy, r });
+          add(wheels, "circle", { cx, cy, r: r - 8, "stroke-width": 2 });
+          const d = [];
+          for (let i = 0; i < spokes; i++) {
+            const a = (i / spokes) * Math.PI * 2;
+            d.push(`M${cx + Math.cos(a) * 7} ${cy + Math.sin(a) * 7} L${cx + Math.cos(a) * (r - 8)} ${cy + Math.sin(a) * (r - 8)}`);
+          }
+          add(wheels, "path", { d: d.join(" "), "stroke-width": 2 });
+          add(wheels, "circle", { cx, cy, r: 7, fill: INK });
+        };
+        wheel(290, 276, 54, 14);
+        wheel(410, 276, 54, 14);
+        wheel(520, 306, 24, 8);
+        wheel(580, 306, 24, 8);
+        wheel(42, 308, 22, 8);
+        wheel(96, 308, 22, 8);
+
+        const ties = svg.querySelector(".ties");
+        ties.replaceChildren();
+        for (let x = 8; x < 700; x += 44) add(ties, "rect", { x, y: 336, width: 26, height: 8, rx: 1 });
+
+        const smoke = svg.querySelector(".smoke");
+        smoke.replaceChildren();
+        const puffs = [[549, 26, 16], [522, 4, 22], [482, -16, 28], [428, -30, 31], [370, -30, 27], [318, -20, 21], [276, -6, 15]];
+        for (const [cx, cy, r] of puffs) add(smoke, "circle", { cx, cy, r, "stroke-width": 7 });
+        for (const [cx, cy, r] of puffs) add(smoke, "circle", { cx, cy, r, stroke: "none" });
+      }
+
+      // The rack's units, top to bottom: their kind and height (1U = 28).
+      function rack() {
+        const units = document.querySelector(".rack .units");
+        units.replaceChildren();
+        const kinds = ["patch", "switch", "2u", "2u", "1u", "1u", "2u", "storage", "1u", "vent"];
+        let y = 42;
+        for (const kind of kinds) {
+          const h = kind === "2u" || kind === "storage" ? 60 : 28;
+          add(units, "rect", { x: 66, y, width: 228, height: h, rx: 3 });
+          const mid = y + h / 2;
+          if (kind === "patch" || kind === "switch") {
+            for (let i = 0; i < 12; i++) add(units, "rect", { x: 80 + i * 14, y: mid - 5, width: 9, height: 9, rx: 1, "stroke-width": 1.6 });
+            if (kind === "switch") {
+              add(units, "circle", { cx: 262, cy: mid, r: 3.5, fill: RED, stroke: "none" });
+              add(units, "circle", { cx: 276, cy: mid, r: 3.5, fill: INK, stroke: "none" });
+            }
+          } else if (kind === "vent") {
+            add(units, "path", { d: `M84 ${mid - 5} H276 M84 ${mid} H276 M84 ${mid + 5} H276`, "stroke-width": 1.6 });
+          } else {
+            // Drive bays in rows, a handle at each end, two lights.
+            const rows = h > 30 ? 2 : 1;
+            const cols = kind === "storage" ? 8 : 5;
+            for (let r = 0; r < rows; r++)
+              for (let c = 0; c < cols; c++) {
+                const top = rows === 2 ? y + 9 + r * 22 : mid - 6;
+                add(units, "rect", { x: 84 + c * (kind === "storage" ? 21 : 26), y: top, width: kind === "storage" ? 16 : 21, height: 12, rx: 1.5, "stroke-width": 1.6 });
+              }
+            add(units, "path", { d: `M72 ${y + 6} V${y + h - 6} M288 ${y + 6} V${y + h - 6}`, "stroke-width": 2 });
+            add(units, "circle", { cx: 262, cy: y + 10, r: 3.5, fill: RED, stroke: "none" });
+            add(units, "circle", { cx: 274, cy: y + 10, r: 3.5, fill: INK, stroke: "none" });
+          }
+          y += h + 6;
+        }
+      }
+
+      window.onFields = () => {
+        locomotive();
+        rack();
+        // Each caption's year in a light weight, the word after it bold.
+        for (const el of document.querySelectorAll(".caption")) {
+          const text = el.textContent;
+          const at = text.indexOf(":");
+          if (at < 0) continue;
+          el.replaceChildren();
+          const year = document.createElement("span");
+          year.className = "year";
+          year.textContent = text.slice(0, at + 1);
+          el.append(year, text.slice(at + 1));
+        }
+        // The line across stays on one line.
+        const line = document.querySelector(".line");
+        for (let size = 36; size >= 24; size -= 1) {
+          line.style.fontSize = `${size}px`;
+          if (line.scrollWidth <= line.clientWidth) break;
+        }
+      };
+    </script>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

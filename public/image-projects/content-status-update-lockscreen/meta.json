@@ -1,0 +1,28 @@
+{
+  "id": "content-status-update-lockscreen",
+  "title": "Status update: lock screen",
+  "description": "A phone lock screen on the dark ground with a single email notification whose subject reads \"Status update.\" No clock, sender, airline or other text: the preview lines are grey bars and the app icon a plain envelope.",
+  "group": "massive",
+  "category": "content",
+  "template": null,
+  "series": "Status update",
+  "status": "draft",
+  "tags": [
+    "content",
+    "mock-up",
+    "phone",
+    "humour"
+  ],
+  "source": "The brief (Nov 2026). Icons: Lucide (ISC). Wallpaper: ../_brand/bg-dark.jpg blurred.",
+  "width": 1080,
+  "height": 1080,
+  "fields": [
+    {
+      "id": "subject",
+      "label": "Subject",
+      "type": "text",
+      "default": "Status update.",
+      "hint": "The email's subject line, the only text on the screen. One line; about 20 characters."
+    }
+  ]
+}

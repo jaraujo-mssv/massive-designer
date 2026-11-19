@@ -1,0 +1,57 @@
+{
+  "id": "content-jevons-paradox",
+  "title": "Jevons paradox: coal and data",
+  "description": "Jevons paradox as an editorial split: a steam locomotive (1865: coal.) beside a server rack (2026: data.), ink line art on white on one ground line, with the paradox in one line across the bottom.",
+  "group": "massive",
+  "category": "content",
+  "template": null,
+  "series": null,
+  "status": "draft",
+  "tags": [
+    "content",
+    "editorial",
+    "illustration",
+    "ai",
+    "energy"
+  ],
+  "source": "The brief (Nov 2026). The drawings are the page's own SVG.",
+  "width": 1440,
+  "height": 1080,
+  "fields": [
+    {
+      "id": "leftCaption",
+      "label": "Left caption",
+      "type": "text",
+      "default": "1865: coal.",
+      "hint": "Under the locomotive: a year, a colon, a word. The year is set light, the rest bold."
+    },
+    {
+      "id": "rightCaption",
+      "label": "Right caption",
+      "type": "text",
+      "default": "2026: data.",
+      "hint": "Under the server rack: a year, a colon, a word."
+    },
+    {
+      "id": "term",
+      "label": "Term",
+      "type": "text",
+      "default": "Jevons paradox:",
+      "hint": "The bold start of the line across the bottom."
+    },
+    {
+      "id": "definition",
+      "label": "Definition",
+      "type": "text",
+      "default": "when something gets cheaper to use, we use more of it.",
+      "hint": "The rest of the line. It stays on one line and steps down to fit; about 60 characters."
+    },
+    {
+      "id": "logo",
+      "label": "Logo",
+      "type": "toggle",
+      "default": false,
+      "hint": "The Massive wordmark, small, bottom right."
+    }
+  ]
+}

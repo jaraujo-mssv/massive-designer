@@ -1,0 +1,52 @@
+{
+  "id": "content-aidhd-definition",
+  "title": "AIDHD: a definition",
+  "description": "A dictionary-style card on a plain light ground: the headword AIDHD in bold serif with its I in paper-red, (n.) under it, and the definition \"When AI makes almost everything in your job easier, except staying focused.\" No logo, no other text.",
+  "group": "massive",
+  "category": "content",
+  "template": null,
+  "series": "AIDHD",
+  "status": "draft",
+  "tags": [
+    "content",
+    "editorial",
+    "humour",
+    "ai"
+  ],
+  "source": "The brief (Nov 2026). Type: Source Serif 4 (SIL Open Font License, assets/OFL.txt), by request; the brand's Outfit isn't used here.",
+  "width": 1080,
+  "height": 1080,
+  "fields": [
+    {
+      "id": "headword",
+      "label": "Headword",
+      "type": "text",
+      "default": "AIDHD",
+      "hint": "The word being defined. Short; it steps down to fit."
+    },
+    {
+      "id": "pick",
+      "label": "Red letter",
+      "type": "range",
+      "min": 1,
+      "max": 12,
+      "step": 1,
+      "default": 2,
+      "hint": "Which letter of the headword is red, counted from 1 (2 is the I in AIDHD)."
+    },
+    {
+      "id": "pos",
+      "label": "Part of speech",
+      "type": "text",
+      "default": "(n.)",
+      "hint": "Under the headword, in italics."
+    },
+    {
+      "id": "definition",
+      "label": "Definition",
+      "type": "text",
+      "default": "When AI makes almost everything in your job easier, except staying focused.",
+      "hint": "Three or four lines; about 80 characters."
+    }
+  ]
+}

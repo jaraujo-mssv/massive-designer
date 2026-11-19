@@ -1,0 +1,91 @@
+{
+  "id": "content-ask-before-doing",
+  "title": "Ask before doing: agent approval",
+  "description": "An AI agent stops and asks a person before it runs a risky action, and every step is logged: a plain app window with the approval request (the action as code, its target and reason, Deny and Allow) and the activity log as its bottom pane, under a centred headline, on the light register.",
+  "group": "massive",
+  "category": "content",
+  "template": null,
+  "series": null,
+  "status": "draft",
+  "tags": [
+    "content",
+    "ai agents",
+    "approval",
+    "audit log"
+  ],
+  "source": null,
+  "width": 1080,
+  "height": 1350,
+  "fields": [
+    {
+      "id": "headline",
+      "label": "Headline",
+      "type": "text",
+      "default": "Ask before doing.",
+      "hint": "The first point, at the top. One line; about 20 characters."
+    },
+    {
+      "id": "subhead",
+      "label": "Subhead",
+      "type": "text",
+      "default": "Every action is logged.",
+      "hint": "The second point, under the headline. One line; about 25 characters."
+    },
+    {
+      "id": "agent",
+      "label": "Agent",
+      "type": "text",
+      "default": "AI agent",
+      "hint": "Who is asking, at the card's top left. A word or two."
+    },
+    {
+      "id": "status",
+      "label": "Status",
+      "type": "text",
+      "default": "Approval needed",
+      "hint": "Next to the agent's name. Two or three words."
+    },
+    {
+      "id": "badge",
+      "label": "Badge",
+      "type": "text",
+      "default": "Waiting for you",
+      "hint": "The red pill at the card's top right. Three words at most."
+    },
+    {
+      "id": "ask",
+      "label": "Request",
+      "type": "text",
+      "default": "The agent wants to run this action",
+      "hint": "The card's title, above the code. One line; about 35 characters."
+    },
+    {
+      "id": "code",
+      "label": "Action (code)",
+      "type": "text",
+      "default": "DELETE FROM orders\nWHERE status = 'test';",
+      "hint": "The SQL or command the agent wants to run. Two or three short lines; its first line also names the action in the log."
+    },
+    {
+      "id": "target",
+      "label": "Target",
+      "type": "text",
+      "default": "Production database",
+      "hint": "What the action touches. A few words."
+    },
+    {
+      "id": "reason",
+      "label": "Agent's reason",
+      "type": "text",
+      "default": "Clean up old test data",
+      "hint": "Why the agent wants to run it. A short phrase."
+    },
+    {
+      "id": "time",
+      "label": "Time",
+      "type": "text",
+      "default": "10:42",
+      "hint": "When the request was logged, as HH:MM."
+    }
+  ]
+}

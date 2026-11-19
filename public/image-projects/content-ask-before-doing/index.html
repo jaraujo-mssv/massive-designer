@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1350" />
+    <title>Ask before doing: agent approval</title>
+    <link rel="stylesheet" href="../_brand/massive.css" />
+    <style>
+      /* An AI agent stops and asks a person before it runs a risky action, and every step is logged. On the light
+         register, plain soft orange (no line grid: it didn't export cleanly): the headline centred over a plain app window (a title bar with
+         three grey dots, the approval request with the action as code, its target and reason, Deny and Allow, and
+         the activity log as the window's bottom pane), then the logo. Paper-red is the one accent; mono only inside
+         <code>. */
+      #canvas {
+        width: 1080px;
+        height: 1350px;
+        --line: rgba(23, 22, 21, 0.14);
+        --hair: rgba(23, 22, 21, 0.08);
+        --mid: rgba(23, 22, 21, 0.72);
+        --dim: rgba(23, 22, 21, 0.5);
+        --chrome: #f7f6f5;
+        --tint: rgba(213, 70, 53, 0.08);
+        --tint-line: rgba(213, 70, 53, 0.24);
+      }
+      .stack {
+        position: absolute;
+        inset: 88px 80px 56px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .head {
+        text-align: center;
+      }
+      .headline {
+        font-size: 104px;
+        font-weight: 900;
+        line-height: 1;
+        letter-spacing: -0.04em;
+        text-wrap: balance;
+      }
+      .subhead {
+        margin-top: 18px;
+        font-size: 48px;
+        font-weight: 700;
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+        color: var(--m-paper-red);
+      }
+
+      /* The window. */
+      .window {
+        background: #ffffff;
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        overflow: hidden;
+      }
+      .titlebar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        height: 60px;
+        padding: 0 26px;
+        background: var(--chrome);
+        border-bottom: 1px solid var(--hair);
+      }
+      .titlebar b {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: rgba(23, 22, 21, 0.14);
+      }
+      .titlebar span {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        font-size: 22px;
+        font-weight: 600;
+        color: var(--dim);
+      }
+      .pane {
+        padding: 34px 40px 36px;
+      }
+
+      /* The approval request. */
+      .top {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+      }
+      .avatar {
+        flex-shrink: 0;
+        display: grid;
+        place-items: center;
+        width: 52px;
+        height: 52px;
+        border-radius: 12px;
+        background: var(--tint);
+        border: 1px solid var(--tint-line);
+      }
+      .avatar svg {
+        width: 32px;
+        height: 32px;
+        fill: none;
+        stroke: var(--m-paper-red);
+        stroke-width: 1.8;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .who {
+        flex: 1;
+        min-width: 0;
+        font-size: 26px;
+        font-weight: 600;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .who .dim {
+        color: var(--dim);
+        font-weight: 400;
+      }
+      .badge {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 18px;
+        border-radius: 999px;
+        background: var(--tint);
+        border: 1px solid var(--tint-line);
+        color: var(--m-paper-red);
+        font-size: 22px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .badge::before {
+        content: "";
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--m-paper-red);
+      }
+      .ask {
+        margin-top: 26px;
+        font-size: 40px;
+        font-weight: 700;
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+      }
+      pre {
+        margin-top: 22px;
+        padding: 22px 28px;
+        background: var(--chrome);
+        border: 1px solid var(--hair);
+        border-radius: 12px;
+        font-size: 30px;
+        line-height: 1.45;
+        color: var(--m-ink);
+        white-space: pre;
+        overflow: hidden;
+      }
+      /* Highlighting: keywords in paper-red, strings in ink at 72%, syntax at 50%. */
+      .k {
+        color: var(--m-paper-red);
+      }
+      .s {
+        color: var(--mid);
+      }
+      .p {
+        color: var(--dim);
+      }
+      .facts {
+        margin-top: 24px;
+        display: grid;
+        grid-template-columns: 210px 1fr;
+        row-gap: 8px;
+        font-size: 27px;
+        line-height: 1.35;
+      }
+      .facts dt {
+        color: var(--dim);
+      }
+      .facts dd {
+        font-weight: 600;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .actions {
+        margin-top: 28px;
+        display: flex;
+        justify-content: flex-end;
+        gap: 16px;
+      }
+      .btn {
+        display: grid;
+        place-items: center;
+        height: 68px;
+        padding: 0 50px;
+        border-radius: 12px;
+        font-size: 28px;
+        font-weight: 600;
+      }
+      .btn.deny {
+        background: #ffffff;
+        border: 1px solid rgba(23, 22, 21, 0.2);
+      }
+      .btn.allow {
+        background: var(--m-paper-red);
+        color: #ffffff;
+        padding: 0 58px;
+      }
+
+      /* The activity log, the window's bottom pane: the request, the hand-off, and the step that waits on a person. */
+      .log {
+        padding: 28px 40px 30px;
+        background: var(--chrome);
+        border-top: 1px solid var(--hair);
+      }
+      .log-head {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 20px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--dim);
+      }
+      .log-head svg {
+        width: 24px;
+        height: 24px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .log ol {
+        position: relative;
+        margin-top: 18px;
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+      /* The thread through the dots. */
+      .log ol::before {
+        content: "";
+        position: absolute;
+        left: 5px;
+        top: 18px;
+        bottom: 18px;
+        width: 2px;
+        background: rgba(23, 22, 21, 0.12);
+      }
+      .log li {
+        position: relative;
+        display: grid;
+        grid-template-columns: 12px 78px 1fr;
+        column-gap: 22px;
+        align-items: center;
+        font-size: 26px;
+        line-height: 1.3;
+      }
+      .log li i {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: rgba(23, 22, 21, 0.35);
+      }
+      .log li.now i {
+        background: var(--m-paper-red);
+        box-shadow: 0 0 0 5px rgba(213, 70, 53, 0.16);
+      }
+      .log li.next i {
+        background: var(--chrome);
+        border: 2px solid rgba(23, 22, 21, 0.28);
+      }
+      .log time {
+        font-weight: 600;
+        color: var(--mid);
+        font-variant-numeric: tabular-nums;
+      }
+      .log li span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .log li.next span,
+      .log li.next time {
+        color: var(--dim);
+      }
+      .log li code {
+        font-size: 0.9em;
+      }
+      /* The positive logo's file is 60% empty space top and bottom: 80px tall draws the 32px wordmark the other
+         posts use. The stack's bottom inset is 24px short to make up for the space under it. */
+      .foot img {
+        display: block;
+        height: 80px;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas" class="soft-orange">
+      <div class="stack">
+        <div class="head">
+          <div class="headline" data-field="headline">Ask before doing.</div>
+          <div class="subhead" data-field="subhead">Every action is logged.</div>
+        </div>
+
+        <div class="window">
+          <div class="titlebar"><b></b><b></b><b></b><span>Approvals</span></div>
+          <div class="pane">
+            <div class="top">
+              <div class="avatar"><svg viewBox="0 0 24 24"><path d="M12 8V4H8" /><rect width="16" height="12" x="4" y="8" rx="2" /><path d="M2 14h2" /><path d="M20 14h2" /><path d="M15 13v2" /><path d="M9 13v2" /></svg></div>
+              <div class="who"><span data-field="agent">AI agent</span> <span class="dim">·</span> <span class="dim" data-field="status">Approval needed</span></div>
+              <div class="badge" data-field="badge">Waiting for you</div>
+            </div>
+            <div class="ask" data-field="ask">The agent wants to run this action</div>
+            <pre><code id="code">DELETE FROM orders
+WHERE status = 'test';</code></pre>
+            <dl class="facts">
+              <dt>Target</dt>
+              <dd data-field="target">Production database</dd>
+              <dt>Agent’s reason</dt>
+              <dd data-field="reason">Clean up old test data</dd>
+            </dl>
+            <div class="actions">
+              <div class="btn deny">Deny</div>
+              <div class="btn allow">Allow</div>
+            </div>
+          </div>
+
+          <div class="log">
+            <div class="log-head">
+              <svg viewBox="0 0 24 24"><path d="M3 12h.01" /><path d="M3 18h.01" /><path d="M3 6h.01" /><path d="M8 12h13" /><path d="M8 18h13" /><path d="M8 6h13" /></svg>
+              Activity log
+            </div>
+            <ol>
+              <li><i></i><time data-field="time">10:42</time><span>Agent asked to run <code id="log-code">DELETE FROM orders</code></span></li>
+              <li class="now"><i></i><time data-field="time">10:42</time><span>Sent to a person to approve</span></li>
+              <li class="next"><i></i><time>–</time><span>Nothing runs until a person decides</span></li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="foot"><img src="../_brand/logo-massive-positive.svg" alt="Massive" /></div>
+      </div>
+    </div>
+    <script src="../_lib/icons.js"></script>
+    <script src="../_lib/placeholders.js"></script>
+    <script>
+      const KEYWORDS =
+        /^(select|delete|from|where|update|set|insert|into|values|drop|table|truncate|alter|add|column|create|grant|revoke|and|or|not|null|is|in|as|on|join|limit|order|by|cascade)$/i;
+      const escape = (s) => s.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[c]);
+
+      // SQL (or any short command) highlighted: keywords, quoted strings and punctuation.
+      function highlight(src) {
+        return src.replace(/('[^']*'?|"[^"]*"?)|([A-Za-z_]+)|([=;,()*<>!])|([^'"A-Za-z_=;,()*<>!]+)/g, (m, str, word, punct) => {
+          if (str) return `<span class="s">${escape(str)}</span>`;
+          if (word) return KEYWORDS.test(word) ? `<span class="k">${word}</span>` : word;
+          if (punct) return `<span class="p">${escape(punct)}</span>`;
+          return escape(m);
+        });
+      }
+
+      window.onFields = (values) => {
+        massiveIcons(document);
+        massivePlaceholders();
+        const code = String(values.code ?? "").replace(/\r/g, "");
+        document.getElementById("code").innerHTML = highlight(code);
+        // The log's first entry names the action by its first line.
+        document.getElementById("log-code").innerHTML = highlight(code.split("\n")[0].replace(/;\s*$/, ""));
+
+        // Long code steps down until it fits the block's width, then the headline steps down until it all fits.
+        const pre = document.querySelector("pre");
+        for (let size = 30; size >= 20; size -= 2) {
+          pre.style.fontSize = `${size}px`;
+          if (pre.scrollWidth <= pre.clientWidth) break;
+        }
+        const stack = document.querySelector(".stack");
+        const headline = document.querySelector(".headline");
+        for (let size = 104; size >= 64; size -= 4) {
+          headline.style.fontSize = `${size}px`;
+          if (stack.scrollHeight <= stack.clientHeight) break;
+        }
+      };
+    </script>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

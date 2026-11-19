@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1080" />
+    <title>AIDHD: a definition</title>
+    <link rel="stylesheet" href="../_brand/massive.css" />
+    <style>
+      /* A dictionary entry on a card: the headword in bold serif with one letter in paper-red, its part of speech,
+         and the definition. Serif by request: Source Serif 4 (SIL Open Font License, assets/OFL.txt), loaded from
+         assets/ so both exports have it. No logo, no other text. */
+      @font-face {
+        font-family: "Source Serif 4";
+        src: url("assets/SourceSerif4.ttf") format("truetype");
+        font-weight: 200 900;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: "Source Serif 4";
+        src: url("assets/SourceSerif4-Italic.ttf") format("truetype");
+        font-weight: 200 900;
+        font-style: italic;
+      }
+      #canvas {
+        width: 1080px;
+        height: 1080px;
+        font-family: "Source Serif 4", Georgia, serif;
+      }
+      .card {
+        position: absolute;
+        left: 100px;
+        right: 100px;
+        top: 50%;
+        transform: translateY(-50%);
+        padding: 88px 84px 96px;
+        background: #ffffff;
+        border: 1px solid rgba(23, 22, 21, 0.14);
+        border-radius: 20px;
+        color: var(--m-ink);
+      }
+      .headword {
+        font-size: 220px;
+        font-weight: 700;
+        line-height: 0.9;
+        letter-spacing: -0.01em;
+        font-variation-settings: "opsz" 60;
+        white-space: nowrap;
+      }
+      .headword .pick {
+        color: var(--m-paper-red);
+      }
+      .pos {
+        margin-top: 22px;
+        font-size: 40px;
+        font-style: italic;
+        font-weight: 400;
+        color: rgba(23, 22, 21, 0.6);
+      }
+      .rule {
+        height: 1px;
+        margin: 44px 0 40px;
+        background: rgba(23, 22, 21, 0.14);
+      }
+      .definition {
+        font-size: 50px;
+        font-weight: 400;
+        line-height: 1.28;
+        font-variation-settings: "opsz" 32;
+        text-wrap: pretty;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas" class="soft-orange">
+      <div class="card">
+        <div class="headword" data-field="headword">AIDHD</div>
+        <div class="pos" data-field="pos">(n.)</div>
+        <div class="rule"></div>
+        <div class="definition" data-field="definition">When AI makes almost everything in your job easier, except staying focused.</div>
+      </div>
+    </div>
+    <script>
+      // The picked letter (its position in the headword, counted from 1) in paper-red; a long headword steps down to
+      // fit the card.
+      window.onFields = (values) => {
+        const el = document.querySelector(".headword");
+        const word = el.textContent;
+        const i = Math.max(1, Math.min(word.length, Number(values.pick) || 1)) - 1;
+        el.replaceChildren(word.slice(0, i));
+        const pick = document.createElement("span");
+        pick.className = "pick";
+        pick.textContent = word[i] ?? "";
+        el.append(pick, word.slice(i + 1));
+        for (let size = 220; size >= 96; size -= 4) {
+          el.style.fontSize = `${size}px`;
+          if (el.scrollWidth <= el.clientWidth) break;
+        }
+      };
+    </script>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

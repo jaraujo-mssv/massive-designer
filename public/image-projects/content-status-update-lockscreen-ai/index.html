@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1080" />
+    <title>Status update: lock screen (AI)</title>
+    <link rel="stylesheet" href="../_brand/massive.css" />
+    <style>
+      /* A finished AI image, not a layout: three ElevenLabs (gpt-image-2) variations of the brief behind content-status-update-lockscreen,
+         generated at 16:9 and squared by extending their flat background (output/ai-generated/). The image field
+         picks one. #canvas has the images' own ground for the export. */
+      #canvas {
+        width: 1080px;
+        height: 1080px;
+        background: #040408;
+      }
+      #canvas img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas">
+      <img data-field-src="image" src="assets/variation-1.jpg" alt="Status update: lock screen (AI)" />
+    </div>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

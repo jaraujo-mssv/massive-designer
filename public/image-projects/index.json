@@ -189,92 +189,9 @@
       "thumb": "/image-projects/blog-radisson-hotel-prices/thumb.jpg"
     },
     {
-      "id": "code-reviews-cumulative",
-      "title": "Code reviews: the bot matched 2½ years in four months",
-      "description": "Running total of code reviews since February 2024: humans as a neutral line, the review bot in red, crossing it in four months. Drawn from the weekly data in _code-reviews/data.js.",
-      "group": "massive",
-      "category": "content",
-      "template": null,
-      "series": "Code reviews: humans and the bot",
-      "status": "draft",
-      "tags": [
-        "data story",
-        "engineering",
-        "ai",
-        "chart"
-      ],
-      "source": "code_reviews_weekly.csv (weekly reviews, Feb 5, 2024 to Nov 8, 2026), and the brief's per-pull-request figures (371 pull requests, 374k lines, about 300 hours saved: 5 min per pull request plus 1 h per 500 lines changed, at most 2 h, repeat reviews not counted), all as of Nov 8, 2026.",
-      "width": 1920,
-      "height": 1080,
-      "format": "landscape",
-      "formats": null,
-      "updated": "2026-11-18T13:34:31.784Z",
-      "brief": null,
-      "fields": [
-        {
-          "id": "headline",
-          "label": "Title",
-          "type": "text",
-          "default": "Our code-review bot did in four months what took us two and a half years",
-          "hint": "The hook, in the chart's empty corner: who, what happened, and the surprise. Three lines; about 70 characters."
-        },
-        {
-          "id": "showStats",
-          "label": "Numbers",
-          "type": "toggle",
-          "default": true,
-          "hint": "The three headline numbers under the title."
-        },
-        {
-          "id": "stat1",
-          "label": "Number 1",
-          "type": "text",
-          "default": "371",
-          "hint": "A short figure, like 371 or 374k."
-        },
-        {
-          "id": "stat1Label",
-          "label": "Number 1 label",
-          "type": "text",
-          "default": "pull requests reviewed by the bot",
-          "hint": "What the number counts. Two short lines; about 40 characters."
-        },
-        {
-          "id": "stat2",
-          "label": "Number 2",
-          "type": "text",
-          "default": "374k",
-          "hint": "A short figure, like 371 or 374k."
-        },
-        {
-          "id": "stat2Label",
-          "label": "Number 2 label",
-          "type": "text",
-          "default": "lines of code merged after a bot review",
-          "hint": "What the number counts. Two short lines; about 40 characters."
-        },
-        {
-          "id": "stat3",
-          "label": "Number 3",
-          "type": "text",
-          "default": "300+",
-          "hint": "A short figure, like 371 or 374k."
-        },
-        {
-          "id": "stat3Label",
-          "label": "Number 3 label",
-          "type": "text",
-          "default": "hours of review time saved, a low estimate",
-          "hint": "What the number counts. Two short lines; about 40 characters."
-        }
-      ],
-      "path": "/image-projects/code-reviews-cumulative/index.html",
-      "thumb": "/image-projects/code-reviews-cumulative/thumb.jpg"
-    },
-    {
       "id": "code-reviews-cumulative-square",
-      "title": "Code reviews: the bot matched 2½ years in four months (square)",
-      "description": "Square version: running total of code reviews since February 2024, humans as a neutral line, the review bot in red. On the grid-and-glow ground, the logo centred. Drawn from _code-reviews/data.js.",
+      "title": "Cumulative code reviews: humans and the review bot",
+      "description": "Running total of code reviews since February 2024: humans as a neutral line, the review bot in red, 1,253 against 1,153, with the bot's three numbers in a box under the title. Titled as the team's own chart. Drawn from _code-reviews/data.js.",
       "group": "massive",
       "category": "content",
       "template": null,
@@ -287,29 +204,78 @@
         "chart",
         "square"
       ],
-      "source": "code_reviews_weekly.csv (weekly reviews, Feb 5, 2024 to Nov 8, 2026), as of Nov 8, 2026. Square version of the landscape chart of the same name.",
+      "source": "code_reviews_weekly.csv (weekly reviews, Feb 5, 2024 to the week of Nov 2, 2026), and the team's own chart \"Cumulative code reviews: humans and the review bot\" (Nov 2026), whose text the image uses: 371 PRs reviewed by the bot, 374k lines merged after bot review, about 326 hours saved (5 min + 1 h per 500 lines changed per PR, capped at 2 h, re-reviews not counted).",
       "width": 1080,
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-11-18T14:03:20.914Z",
+      "updated": "2026-11-19T18:33:33.456Z",
       "brief": null,
       "fields": [
         {
           "id": "headline",
           "label": "Title",
           "type": "text",
-          "default": "Our code-review bot did in four months what took us two and a half years",
-          "hint": "The hook, in the chart's empty corner: who, what happened, and the surprise. Four lines; about 70 characters."
+          "default": "Cumulative code reviews: humans and the review bot",
+          "hint": "The chart's title, in its empty corner. Four lines; about 50 characters."
+        },
+        {
+          "id": "showStats",
+          "label": "Numbers",
+          "type": "toggle",
+          "default": true,
+          "hint": "The box of three numbers under the title."
+        },
+        {
+          "id": "stat1",
+          "label": "Number 1",
+          "type": "text",
+          "default": "371",
+          "hint": "A short figure, like 371 or 374k."
+        },
+        {
+          "id": "stat1Label",
+          "label": "Number 1 label",
+          "type": "text",
+          "default": "PRs reviewed by the bot",
+          "hint": "What the number counts, beside it in the box. One line; about 40 characters."
+        },
+        {
+          "id": "stat2",
+          "label": "Number 2",
+          "type": "text",
+          "default": "374k",
+          "hint": "A short figure, like 371 or 374k."
+        },
+        {
+          "id": "stat2Label",
+          "label": "Number 2 label",
+          "type": "text",
+          "default": "lines of code merged after bot review",
+          "hint": "What the number counts, beside it in the box. One line; about 40 characters."
+        },
+        {
+          "id": "stat3",
+          "label": "Number 3",
+          "type": "text",
+          "default": "≈326",
+          "hint": "A short figure, like 371 or 374k."
+        },
+        {
+          "id": "stat3Label",
+          "label": "Number 3 label",
+          "type": "text",
+          "default": "hours of review time saved (conservative)",
+          "hint": "What the number counts, beside it in the box. One line; about 40 characters."
         }
       ],
       "path": "/image-projects/code-reviews-cumulative-square/index.html",
       "thumb": "/image-projects/code-reviews-cumulative-square/thumb.jpg"
     },
     {
-      "id": "code-reviews-recent",
-      "title": "Code reviews: the last 15 months",
-      "description": "Running total of code reviews since August 2025: 1,253 by the review bot in four months against 867 by humans in fifteen. Drawn from the weekly data in _code-reviews/data.js.",
+      "id": "code-reviews-prs-merged-square",
+      "title": "Pull requests merged per week",
+      "description": "Pull requests merged per week since February 2024, every week shown (weeks with none merged as a mark on the baseline), on a scale from 0: the 2024 average of 7.3 a week as a line, and 67 in the week of Nov 2, 2026. Titled as the team's own chart. Drawn from _code-reviews/data.js.",
       "group": "massive",
       "category": "content",
       "template": null,
@@ -318,81 +284,32 @@
       "tags": [
         "data story",
         "engineering",
-        "ai",
-        "chart"
+        "chart",
+        "square"
       ],
-      "source": "code_reviews_weekly.csv (weekly reviews, Feb 5, 2024 to Nov 8, 2026), and the brief's per-pull-request figures (371 pull requests, 374k lines, about 300 hours saved: 5 min per pull request plus 1 h per 500 lines changed, at most 2 h, repeat reviews not counted), all as of Nov 8, 2026.",
-      "width": 1920,
+      "source": "code_reviews_weekly.csv (prs_merged, weekly, Feb 5, 2024 to the week of Nov 2, 2026), and the team's own chart \"Pull requests merged per week\" (Nov 2026), whose text the image uses. Review feedback: keep the numbers as they are, start the y-axis at 0, show every week including the zero weeks.",
+      "width": 1080,
       "height": 1080,
-      "format": "landscape",
+      "format": "square",
       "formats": null,
-      "updated": "2026-11-18T13:34:31.784Z",
+      "updated": "2026-11-19T18:22:59.331Z",
       "brief": null,
       "fields": [
         {
           "id": "headline",
           "label": "Title",
           "type": "text",
-          "default": "When pull requests tripled, two of us couldn’t keep up. A bot could.",
-          "hint": "The hook, in the chart's empty corner: who, what happened, and the surprise. Three lines; about 70 characters."
-        },
-        {
-          "id": "showStats",
-          "label": "Numbers",
-          "type": "toggle",
-          "default": true,
-          "hint": "The three headline numbers under the title."
-        },
-        {
-          "id": "stat1",
-          "label": "Number 1",
-          "type": "text",
-          "default": "371",
-          "hint": "A short figure, like 371 or 374k."
-        },
-        {
-          "id": "stat1Label",
-          "label": "Number 1 label",
-          "type": "text",
-          "default": "pull requests reviewed by the bot",
-          "hint": "What the number counts. Two short lines; about 40 characters."
-        },
-        {
-          "id": "stat2",
-          "label": "Number 2",
-          "type": "text",
-          "default": "374k",
-          "hint": "A short figure, like 371 or 374k."
-        },
-        {
-          "id": "stat2Label",
-          "label": "Number 2 label",
-          "type": "text",
-          "default": "lines of code merged after a bot review",
-          "hint": "What the number counts. Two short lines; about 40 characters."
-        },
-        {
-          "id": "stat3",
-          "label": "Number 3",
-          "type": "text",
-          "default": "300+",
-          "hint": "A short figure, like 371 or 374k."
-        },
-        {
-          "id": "stat3Label",
-          "label": "Number 3 label",
-          "type": "text",
-          "default": "hours of review time saved, a low estimate",
-          "hint": "What the number counts. Two short lines; about 40 characters."
+          "default": "Pull requests merged per week",
+          "hint": "The chart's title, over it. Two lines; about 30 characters."
         }
       ],
-      "path": "/image-projects/code-reviews-recent/index.html",
-      "thumb": "/image-projects/code-reviews-recent/thumb.jpg"
+      "path": "/image-projects/code-reviews-prs-merged-square/index.html",
+      "thumb": "/image-projects/code-reviews-prs-merged-square/thumb.jpg"
     },
     {
       "id": "code-reviews-recent-square",
-      "title": "Code reviews: the last 15 months (square)",
-      "description": "Square version: running total of code reviews since August 2025, 1,253 by the review bot against 867 by humans. On the grid-and-glow ground, the logo centred. Drawn from _code-reviews/data.js.",
+      "title": "Code reviews: the last 15 months",
+      "description": "Running total of code reviews since August 2025: 1,253 by the review bot in four months against 867 by humans in fifteen. Titled as the team's own chart. Drawn from _code-reviews/data.js.",
       "group": "massive",
       "category": "content",
       "template": null,
@@ -405,112 +322,29 @@
         "chart",
         "square"
       ],
-      "source": "code_reviews_weekly.csv (weekly reviews, Feb 5, 2024 to Nov 8, 2026), as of Nov 8, 2026. Square version of the landscape chart of the same name.",
+      "source": "code_reviews_weekly.csv (weekly reviews, Feb 5, 2024 to the week of Nov 2, 2026), and the team's own chart \"Cumulative code reviews: humans and the review bot\" (Nov 2026), whose text the image uses: 371 PRs reviewed by the bot, 374k lines merged after bot review, about 326 hours saved (5 min + 1 h per 500 lines changed per PR, capped at 2 h, re-reviews not counted).",
       "width": 1080,
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-11-18T14:03:20.915Z",
+      "updated": "2026-11-19T18:22:59.307Z",
       "brief": null,
       "fields": [
         {
           "id": "headline",
           "label": "Title",
           "type": "text",
-          "default": "When pull requests tripled, two of us couldn’t keep up. A bot could.",
-          "hint": "The hook, in the chart's empty corner: who, what happened, and the surprise. Four lines; about 70 characters."
+          "default": "Cumulative code reviews: humans and the review bot",
+          "hint": "The chart's title, in its empty corner. Four lines; about 50 characters."
         }
       ],
       "path": "/image-projects/code-reviews-recent-square/index.html",
       "thumb": "/image-projects/code-reviews-recent-square/thumb.jpg"
     },
     {
-      "id": "code-reviews-weekly",
-      "title": "Code reviews per week",
-      "description": "Code reviews per week since February 2024, the review bot and humans stacked: humans peaked at 56 a week, the bot at 161. Drawn from the weekly data in _code-reviews/data.js.",
-      "group": "massive",
-      "category": "content",
-      "template": null,
-      "series": "Code reviews: humans and the bot",
-      "status": "draft",
-      "tags": [
-        "data story",
-        "engineering",
-        "ai",
-        "chart"
-      ],
-      "source": "code_reviews_weekly.csv (weekly reviews, Feb 5, 2024 to Nov 8, 2026), and the brief's per-pull-request figures (371 pull requests, 374k lines, about 300 hours saved: 5 min per pull request plus 1 h per 500 lines changed, at most 2 h, repeat reviews not counted), all as of Nov 8, 2026.",
-      "width": 1920,
-      "height": 1080,
-      "format": "landscape",
-      "formats": null,
-      "updated": "2026-11-18T13:34:31.784Z",
-      "brief": null,
-      "fields": [
-        {
-          "id": "headline",
-          "label": "Title",
-          "type": "text",
-          "default": "We topped out at 56 code reviews a week. The bot has hit 161.",
-          "hint": "The hook, in the chart's empty corner: who, what happened, and the surprise. Three lines; about 70 characters."
-        },
-        {
-          "id": "showStats",
-          "label": "Numbers",
-          "type": "toggle",
-          "default": true,
-          "hint": "The three headline numbers under the title."
-        },
-        {
-          "id": "stat1",
-          "label": "Number 1",
-          "type": "text",
-          "default": "371",
-          "hint": "A short figure, like 371 or 374k."
-        },
-        {
-          "id": "stat1Label",
-          "label": "Number 1 label",
-          "type": "text",
-          "default": "pull requests reviewed by the bot",
-          "hint": "What the number counts. Two short lines; about 40 characters."
-        },
-        {
-          "id": "stat2",
-          "label": "Number 2",
-          "type": "text",
-          "default": "374k",
-          "hint": "A short figure, like 371 or 374k."
-        },
-        {
-          "id": "stat2Label",
-          "label": "Number 2 label",
-          "type": "text",
-          "default": "lines of code merged after a bot review",
-          "hint": "What the number counts. Two short lines; about 40 characters."
-        },
-        {
-          "id": "stat3",
-          "label": "Number 3",
-          "type": "text",
-          "default": "300+",
-          "hint": "A short figure, like 371 or 374k."
-        },
-        {
-          "id": "stat3Label",
-          "label": "Number 3 label",
-          "type": "text",
-          "default": "hours of review time saved, a low estimate",
-          "hint": "What the number counts. Two short lines; about 40 characters."
-        }
-      ],
-      "path": "/image-projects/code-reviews-weekly/index.html",
-      "thumb": "/image-projects/code-reviews-weekly/thumb.jpg"
-    },
-    {
       "id": "code-reviews-weekly-square",
-      "title": "Code reviews per week (square)",
-      "description": "Square version: code reviews per week since February 2024, the review bot and humans stacked; humans peaked at 56 a week, the bot at 161. On the grid-and-glow ground, the logo centred. Drawn from _code-reviews/data.js.",
+      "title": "Code reviews per week",
+      "description": "Code reviews per week since February 2024, the review bot and humans stacked; humans peaked at 56 a week, the bot at 161. Drawn from _code-reviews/data.js.",
       "group": "massive",
       "category": "content",
       "template": null,
@@ -523,12 +357,12 @@
         "chart",
         "square"
       ],
-      "source": "code_reviews_weekly.csv (weekly reviews, Feb 5, 2024 to Nov 8, 2026), as of Nov 8, 2026. Square version of the landscape chart of the same name.",
+      "source": "code_reviews_weekly.csv (weekly reviews, Feb 5, 2024 to the week of Nov 2, 2026), and the team's own chart \"Cumulative code reviews: humans and the review bot\" (Nov 2026), whose text the image uses: 371 PRs reviewed by the bot, 374k lines merged after bot review, about 326 hours saved (5 min + 1 h per 500 lines changed per PR, capped at 2 h, re-reviews not counted).",
       "width": 1080,
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-11-18T14:03:20.915Z",
+      "updated": "2026-11-19T18:22:59.319Z",
       "brief": null,
       "fields": [
         {
@@ -1039,6 +873,47 @@
       "thumb": "/image-projects/content-aeo-still/thumb.jpg"
     },
     {
+      "id": "content-agent-memory-growth",
+      "title": "Agent memory: new repos a month",
+      "description": "New Python GitHub repos and new arXiv papers per month matching agent-memory terms, Jan 2024 to Oct 2026, each line on its own scale: repos went from 12 a month to 2,809, papers to 117. Replicated from the team's own chart.",
+      "group": "massive",
+      "category": "content",
+      "template": null,
+      "series": "Agent memory",
+      "status": "draft",
+      "tags": [
+        "content",
+        "data story",
+        "chart",
+        "ai agents"
+      ],
+      "source": "The team's own chart (arXiv API and GitHub search, pulled 2026-11-18), replicated. 12, 2,809 and 117 are its figures; the months between are traced from its lines (see DATA in index.html) until the export replaces them.",
+      "width": 1080,
+      "height": 1080,
+      "format": "square",
+      "formats": null,
+      "updated": "2026-11-19T18:43:44.612Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "headline",
+          "label": "Title",
+          "type": "text",
+          "default": "Agent memory went from 12 new repos a month to 2,809.",
+          "hint": "Over the chart's empty corner. Four short lines; about 55 characters."
+        },
+        {
+          "id": "note",
+          "label": "Footnote",
+          "type": "text",
+          "default": "New arXiv papers and new Python GitHub repos per month matching agent-memory terms.\nEach line has its own scale. Sources: arXiv API, GitHub search, pulled 2026-11-18.",
+          "hint": "What is counted and where from. Two lines (Enter breaks them)."
+        }
+      ],
+      "path": "/image-projects/content-agent-memory-growth/index.html",
+      "thumb": "/image-projects/content-agent-memory-growth/thumb.jpg"
+    },
+    {
       "id": "content-ai-answers",
       "title": "AI answers: a new era",
       "description": "A text post: a few lines of prose over one illustration. Pick the chase or the stampede, or upload another. Copy adapted from a LinkedIn post by Linas Beliūnas.",
@@ -1130,6 +1005,208 @@
       ],
       "path": "/image-projects/content-ai-answers/index.html",
       "thumb": "/image-projects/content-ai-answers/thumb.jpg"
+    },
+    {
+      "id": "content-aidhd-definition",
+      "title": "AIDHD: a definition",
+      "description": "A dictionary-style card on a plain light ground: the headword AIDHD in bold serif with its I in paper-red, (n.) under it, and the definition \"When AI makes almost everything in your job easier, except staying focused.\" No logo, no other text.",
+      "group": "massive",
+      "category": "content",
+      "template": null,
+      "series": "AIDHD",
+      "status": "draft",
+      "tags": [
+        "content",
+        "editorial",
+        "humour",
+        "ai"
+      ],
+      "source": "The brief (Nov 2026). Type: Source Serif 4 (SIL Open Font License, assets/OFL.txt), by request; the brand's Outfit isn't used here.",
+      "width": 1080,
+      "height": 1080,
+      "format": "square",
+      "formats": null,
+      "updated": "2026-11-19T19:55:20.412Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "headword",
+          "label": "Headword",
+          "type": "text",
+          "default": "AIDHD",
+          "hint": "The word being defined. Short; it steps down to fit."
+        },
+        {
+          "id": "pick",
+          "label": "Red letter",
+          "type": "range",
+          "min": 1,
+          "max": 12,
+          "step": 1,
+          "default": 2,
+          "hint": "Which letter of the headword is red, counted from 1 (2 is the I in AIDHD)."
+        },
+        {
+          "id": "pos",
+          "label": "Part of speech",
+          "type": "text",
+          "default": "(n.)",
+          "hint": "Under the headword, in italics."
+        },
+        {
+          "id": "definition",
+          "label": "Definition",
+          "type": "text",
+          "default": "When AI makes almost everything in your job easier, except staying focused.",
+          "hint": "Three or four lines; about 80 characters."
+        }
+      ],
+      "path": "/image-projects/content-aidhd-definition/index.html",
+      "thumb": "/image-projects/content-aidhd-definition/thumb.jpg"
+    },
+    {
+      "id": "content-aidhd-definition-ai",
+      "title": "AIDHD: a definition (AI)",
+      "description": "A dictionary-style card: AIDHD in bold serif with its I in red, (n.), and the definition. Generated with ElevenLabs (gpt-image-2), three variations to pick from.",
+      "group": "massive",
+      "category": "content",
+      "template": null,
+      "series": "AIDHD",
+      "status": "draft",
+      "tags": [
+        "content",
+        "ai generated",
+        "elevenlabs"
+      ],
+      "source": "Generated 2026-11-19 with ElevenLabs (gpt-image-2, 1K, medium) on the flow EQ1CddnTnLwGq6h7SDgh, 185 credits each, from the same brief as content-aidhd-definition. Rendered 1280×720 and squared by extending the flat background, then scaled to 1080.",
+      "width": 1080,
+      "height": 1080,
+      "format": "square",
+      "formats": null,
+      "updated": "2026-11-19T19:55:20.412Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "image",
+          "label": "Variation",
+          "type": "image",
+          "default": "assets/variation-1.jpg",
+          "options": [
+            {
+              "value": "assets/variation-1.jpg",
+              "label": "Variation 1"
+            },
+            {
+              "value": "assets/variation-2.jpg",
+              "label": "Variation 2"
+            },
+            {
+              "value": "assets/variation-3.jpg",
+              "label": "Variation 3"
+            }
+          ],
+          "hint": "Pick one of the three generated variations, or upload another square image."
+        }
+      ],
+      "path": "/image-projects/content-aidhd-definition-ai/index.html",
+      "thumb": "/image-projects/content-aidhd-definition-ai/thumb.jpg"
+    },
+    {
+      "id": "content-ask-before-doing",
+      "title": "Ask before doing: agent approval",
+      "description": "An AI agent stops and asks a person before it runs a risky action, and every step is logged: a plain app window with the approval request (the action as code, its target and reason, Deny and Allow) and the activity log as its bottom pane, under a centred headline, on the light register.",
+      "group": "massive",
+      "category": "content",
+      "template": null,
+      "series": null,
+      "status": "draft",
+      "tags": [
+        "content",
+        "ai agents",
+        "approval",
+        "audit log"
+      ],
+      "source": null,
+      "width": 1080,
+      "height": 1350,
+      "format": "portrait",
+      "formats": null,
+      "updated": "2026-11-19T18:50:52.029Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "headline",
+          "label": "Headline",
+          "type": "text",
+          "default": "Ask before doing.",
+          "hint": "The first point, at the top. One line; about 20 characters."
+        },
+        {
+          "id": "subhead",
+          "label": "Subhead",
+          "type": "text",
+          "default": "Every action is logged.",
+          "hint": "The second point, under the headline. One line; about 25 characters."
+        },
+        {
+          "id": "agent",
+          "label": "Agent",
+          "type": "text",
+          "default": "AI agent",
+          "hint": "Who is asking, at the card's top left. A word or two."
+        },
+        {
+          "id": "status",
+          "label": "Status",
+          "type": "text",
+          "default": "Approval needed",
+          "hint": "Next to the agent's name. Two or three words."
+        },
+        {
+          "id": "badge",
+          "label": "Badge",
+          "type": "text",
+          "default": "Waiting for you",
+          "hint": "The red pill at the card's top right. Three words at most."
+        },
+        {
+          "id": "ask",
+          "label": "Request",
+          "type": "text",
+          "default": "The agent wants to run this action",
+          "hint": "The card's title, above the code. One line; about 35 characters."
+        },
+        {
+          "id": "code",
+          "label": "Action (code)",
+          "type": "text",
+          "default": "DELETE FROM orders\nWHERE status = 'test';",
+          "hint": "The SQL or command the agent wants to run. Two or three short lines; its first line also names the action in the log."
+        },
+        {
+          "id": "target",
+          "label": "Target",
+          "type": "text",
+          "default": "Production database",
+          "hint": "What the action touches. A few words."
+        },
+        {
+          "id": "reason",
+          "label": "Agent's reason",
+          "type": "text",
+          "default": "Clean up old test data",
+          "hint": "Why the agent wants to run it. A short phrase."
+        },
+        {
+          "id": "time",
+          "label": "Time",
+          "type": "text",
+          "default": "10:42",
+          "hint": "When the request was logged, as HH:MM."
+        }
+      ],
+      "path": "/image-projects/content-ask-before-doing/index.html",
+      "thumb": "/image-projects/content-ask-before-doing/thumb.jpg"
     },
     {
       "id": "content-blog-quote",
@@ -1293,6 +1370,326 @@
       "thumb": "/image-projects/content-data-stat/thumb.jpg"
     },
     {
+      "id": "content-hub-repo",
+      "title": "One repo that connects to all my other repos",
+      "description": "Hub and spoke on the dark grid: one repo holding an index of topics, a repo map and the workflows, wired to six GitHub repos, and under it the loop that keeps it current (agent session, the review when it ends, facts added and rules proposed back to the hub, marked by a \"knowledge updated\" pill). Replicated from the team's own diagram.",
+      "group": "massive",
+      "category": "content",
+      "template": null,
+      "series": "Agent memory",
+      "status": "draft",
+      "tags": [
+        "content",
+        "diagram",
+        "ai agents",
+        "engineering"
+      ],
+      "source": "The team's own diagram \"One repo that connects to all my other repos\" (Nov 2026), replicated; all text is from it.",
+      "width": 1080,
+      "height": 1080,
+      "format": "square",
+      "formats": null,
+      "updated": "2026-11-19T18:56:26.992Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "headline",
+          "label": "Title",
+          "type": "text",
+          "default": "One repo that connects to all my other repos.",
+          "hint": "Two lines; about 45 characters."
+        },
+        {
+          "id": "subhead",
+          "label": "Subtitle",
+          "type": "text",
+          "default": "Hub and spoke, plus a review at the end of every agent session",
+          "hint": "One line under the title; about 60 characters."
+        },
+        {
+          "id": "hubLabel",
+          "label": "Hub label",
+          "type": "text",
+          "default": "The hub",
+          "hint": "The red label at the top of the hub. A word or two."
+        },
+        {
+          "id": "item1",
+          "label": "Hub item 1",
+          "type": "text",
+          "default": "Index of topics",
+          "hint": "A few words."
+        },
+        {
+          "id": "item1Text",
+          "label": "Hub item 1 text",
+          "type": "text",
+          "default": "the agent pulls what's relevant",
+          "hint": "One line; about 30 characters."
+        },
+        {
+          "id": "item2",
+          "label": "Hub item 2",
+          "type": "text",
+          "default": "Repo map",
+          "hint": "A few words."
+        },
+        {
+          "id": "item2Text",
+          "label": "Hub item 2 text",
+          "type": "text",
+          "default": "what each repo does, its conventions,\nhow changes and deploys work",
+          "hint": "Two lines (Enter breaks them); about 65 characters."
+        },
+        {
+          "id": "item3",
+          "label": "Hub item 3",
+          "type": "text",
+          "default": "Workflows",
+          "hint": "A few words."
+        },
+        {
+          "id": "item3Text",
+          "label": "Hub item 3 text",
+          "type": "text",
+          "default": "step by step, until ready to ship",
+          "hint": "One line; about 35 characters."
+        },
+        {
+          "id": "step1",
+          "label": "Step 1",
+          "type": "text",
+          "default": "Agent session",
+          "hint": "The first box of the loop. Two or three words."
+        },
+        {
+          "id": "step1Text",
+          "label": "Step 1 text",
+          "type": "text",
+          "default": "plans, designs and\nruns the verification",
+          "hint": "Two short lines (Enter breaks them); about 40 characters."
+        },
+        {
+          "id": "step2",
+          "label": "Step 2",
+          "type": "text",
+          "default": "Session ends",
+          "hint": "Two or three words."
+        },
+        {
+          "id": "step2Text",
+          "label": "Step 2 text",
+          "type": "text",
+          "default": "the agent reviews\nthe whole session",
+          "hint": "Two short lines (Enter breaks them); about 35 characters."
+        },
+        {
+          "id": "step3",
+          "label": "Outcome 1",
+          "type": "text",
+          "default": "Unambiguous fact",
+          "hint": "Two or three words."
+        },
+        {
+          "id": "step3Text",
+          "label": "Outcome 1 text",
+          "type": "text",
+          "default": "added on its own",
+          "hint": "One line; about 20 characters."
+        },
+        {
+          "id": "step4",
+          "label": "Outcome 2",
+          "type": "text",
+          "default": "Anything else",
+          "hint": "Two or three words."
+        },
+        {
+          "id": "step4Text",
+          "label": "Outcome 2 text",
+          "type": "text",
+          "default": "proposes a new rule",
+          "hint": "One line; about 20 characters."
+        },
+        {
+          "id": "loopLabel",
+          "label": "Loop label",
+          "type": "text",
+          "default": "knowledge updated",
+          "hint": "The pill on the line back up to the hub. Two or three words."
+        }
+      ],
+      "path": "/image-projects/content-hub-repo/index.html",
+      "thumb": "/image-projects/content-hub-repo/thumb.jpg"
+    },
+    {
+      "id": "content-irish-food-map",
+      "title": "Everything I know about Irish food",
+      "description": "A plain outline map of Ireland with one pin whose head holds a plate of chicken wings and a pot of blue cheese dip, labelled \"Everything I know about Irish food.\" No other text.",
+      "group": "massive",
+      "category": "content",
+      "template": null,
+      "series": "Everything I know about Irish food",
+      "status": "draft",
+      "tags": [
+        "content",
+        "map",
+        "illustration",
+        "humour",
+        "ireland"
+      ],
+      "source": "The brief (Nov 2026). Map: Natural Earth 1:10m land (public domain) via world-atlas 2.0.2, smoothed in assets/ireland.js. The pin and the plate are the page's own SVG.",
+      "width": 1080,
+      "height": 1080,
+      "format": "square",
+      "formats": null,
+      "updated": "2026-11-19T19:55:20.357Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "label",
+          "label": "Label",
+          "type": "text",
+          "default": "Everything I know about Irish food.",
+          "hint": "Beside the pin. Two short lines; about 35 characters."
+        },
+        {
+          "id": "lon",
+          "label": "Pin longitude",
+          "type": "range",
+          "min": -10.4,
+          "max": -5.6,
+          "step": 0.05,
+          "default": -8.7,
+          "unit": "°",
+          "hint": "Where the pin stands, east to west (Dublin is about -6.25)."
+        },
+        {
+          "id": "lat",
+          "label": "Pin latitude",
+          "type": "range",
+          "min": 51.5,
+          "max": 55.3,
+          "step": 0.05,
+          "default": 52.95,
+          "unit": "°",
+          "hint": "Where the pin stands, south to north (Dublin is about 53.35)."
+        }
+      ],
+      "path": "/image-projects/content-irish-food-map/index.html",
+      "thumb": "/image-projects/content-irish-food-map/thumb.jpg"
+    },
+    {
+      "id": "content-irish-food-map-ai",
+      "title": "Everything I know about Irish food (AI)",
+      "description": "An outline map of Ireland with one pin holding a plate of buffalo wings and blue cheese dip, labelled \"Everything I know about Irish food.\" Generated with ElevenLabs (gpt-image-2), three variations to pick from.",
+      "group": "massive",
+      "category": "content",
+      "template": null,
+      "series": "Everything I know about Irish food",
+      "status": "draft",
+      "tags": [
+        "content",
+        "ai generated",
+        "elevenlabs"
+      ],
+      "source": "Generated 2026-11-19 with ElevenLabs (gpt-image-2, 1K, medium) on the flow EQ1CddnTnLwGq6h7SDgh, 185 credits each, from the same brief as content-irish-food-map. Rendered 1280×720 and squared by extending the flat background, then scaled to 1080.",
+      "width": 1080,
+      "height": 1080,
+      "format": "square",
+      "formats": null,
+      "updated": "2026-11-19T19:55:20.356Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "image",
+          "label": "Variation",
+          "type": "image",
+          "default": "assets/variation-1.jpg",
+          "options": [
+            {
+              "value": "assets/variation-1.jpg",
+              "label": "Variation 1"
+            },
+            {
+              "value": "assets/variation-2.jpg",
+              "label": "Variation 2"
+            },
+            {
+              "value": "assets/variation-3.jpg",
+              "label": "Variation 3"
+            }
+          ],
+          "hint": "Pick one of the three generated variations, or upload another square image."
+        }
+      ],
+      "path": "/image-projects/content-irish-food-map-ai/index.html",
+      "thumb": "/image-projects/content-irish-food-map-ai/thumb.jpg"
+    },
+    {
+      "id": "content-jevons-paradox",
+      "title": "Jevons paradox: coal and data",
+      "description": "Jevons paradox as an editorial split: a steam locomotive (1865: coal.) beside a server rack (2026: data.), ink line art on white on one ground line, with the paradox in one line across the bottom.",
+      "group": "massive",
+      "category": "content",
+      "template": null,
+      "series": null,
+      "status": "draft",
+      "tags": [
+        "content",
+        "editorial",
+        "illustration",
+        "ai",
+        "energy"
+      ],
+      "source": "The brief (Nov 2026). The drawings are the page's own SVG.",
+      "width": 1440,
+      "height": 1080,
+      "format": "other",
+      "formats": null,
+      "updated": "2026-11-19T19:12:25.183Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "leftCaption",
+          "label": "Left caption",
+          "type": "text",
+          "default": "1865: coal.",
+          "hint": "Under the locomotive: a year, a colon, a word. The year is set light, the rest bold."
+        },
+        {
+          "id": "rightCaption",
+          "label": "Right caption",
+          "type": "text",
+          "default": "2026: data.",
+          "hint": "Under the server rack: a year, a colon, a word."
+        },
+        {
+          "id": "term",
+          "label": "Term",
+          "type": "text",
+          "default": "Jevons paradox:",
+          "hint": "The bold start of the line across the bottom."
+        },
+        {
+          "id": "definition",
+          "label": "Definition",
+          "type": "text",
+          "default": "when something gets cheaper to use, we use more of it.",
+          "hint": "The rest of the line. It stays on one line and steps down to fit; about 60 characters."
+        },
+        {
+          "id": "logo",
+          "label": "Logo",
+          "type": "toggle",
+          "default": false,
+          "hint": "The Massive wordmark, small, bottom right."
+        }
+      ],
+      "path": "/image-projects/content-jevons-paradox/index.html",
+      "thumb": "/image-projects/content-jevons-paradox/thumb.jpg"
+    },
+    {
       "id": "content-market-map-teaser",
       "title": "Market map teaser",
       "description": "A teaser for a new market map: the headline and the count over a cropped preview of the map, fading into the ground, and “Full map in the comments”. The default map is the AI Agents example (15 categories, 88 companies) downloaded from the Market Map tool, Dark, Vertical. Source: src/tools/market-map/app/constants.ts (the AI Agents example sheet).",
@@ -1344,6 +1741,155 @@
       ],
       "path": "/image-projects/content-market-map-teaser/index.html",
       "thumb": "/image-projects/content-market-map-teaser/thumb.jpg"
+    },
+    {
+      "id": "content-split-numbers",
+      "title": "$21.4 billion and 5 minutes",
+      "description": "A split of two big numbers side by side, $21.4 billion and 5 minutes., over a photo of glass towers seen from below, darkened so the type reads.",
+      "group": "massive",
+      "category": "content",
+      "template": null,
+      "series": null,
+      "status": "draft",
+      "tags": [
+        "content",
+        "stat",
+        "photo"
+      ],
+      "source": "The numbers are from the brief (Nov 2026). Photo: Unsplash, https://unsplash.com/photos/tall-modern-buildings-reaching-towards-the-clear-sky-zQXndPLDWZk (Unsplash License), resized to 2880 px in assets/buildings.jpg.",
+      "width": 1440,
+      "height": 1080,
+      "format": "other",
+      "formats": null,
+      "updated": "2026-11-19T19:12:41.565Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "leftNumber",
+          "label": "Left number",
+          "type": "text",
+          "default": "$21.4",
+          "hint": "The big figure on the left. About five characters; it steps down to fit."
+        },
+        {
+          "id": "leftUnit",
+          "label": "Left unit",
+          "type": "text",
+          "default": "billion",
+          "hint": "The word under it."
+        },
+        {
+          "id": "rightNumber",
+          "label": "Right number",
+          "type": "text",
+          "default": "5",
+          "hint": "The big figure on the right."
+        },
+        {
+          "id": "rightUnit",
+          "label": "Right unit",
+          "type": "text",
+          "default": "minutes.",
+          "hint": "The word under it."
+        },
+        {
+          "id": "photo",
+          "label": "Photo",
+          "type": "image",
+          "default": "assets/buildings.jpg",
+          "hint": "The background, darkened under the numbers. A wide photo works best."
+        },
+        {
+          "id": "logo",
+          "label": "Logo",
+          "type": "toggle",
+          "default": false,
+          "hint": "The Massive wordmark, small, bottom centre."
+        }
+      ],
+      "path": "/image-projects/content-split-numbers/index.html",
+      "thumb": "/image-projects/content-split-numbers/thumb.jpg"
+    },
+    {
+      "id": "content-status-update-lockscreen",
+      "title": "Status update: lock screen",
+      "description": "A phone lock screen on the dark ground with a single email notification whose subject reads \"Status update.\" No clock, sender, airline or other text: the preview lines are grey bars and the app icon a plain envelope.",
+      "group": "massive",
+      "category": "content",
+      "template": null,
+      "series": "Status update",
+      "status": "draft",
+      "tags": [
+        "content",
+        "mock-up",
+        "phone",
+        "humour"
+      ],
+      "source": "The brief (Nov 2026). Icons: Lucide (ISC). Wallpaper: ../_brand/bg-dark.jpg blurred.",
+      "width": 1080,
+      "height": 1080,
+      "format": "square",
+      "formats": null,
+      "updated": "2026-11-19T19:55:20.469Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "subject",
+          "label": "Subject",
+          "type": "text",
+          "default": "Status update.",
+          "hint": "The email's subject line, the only text on the screen. One line; about 20 characters."
+        }
+      ],
+      "path": "/image-projects/content-status-update-lockscreen/index.html",
+      "thumb": "/image-projects/content-status-update-lockscreen/thumb.jpg"
+    },
+    {
+      "id": "content-status-update-lockscreen-ai",
+      "title": "Status update: lock screen (AI)",
+      "description": "A phone lock screen on a dark ground with one email notification, its subject \"Status update.\" and nothing else. Generated with ElevenLabs (gpt-image-2), three variations to pick from.",
+      "group": "massive",
+      "category": "content",
+      "template": null,
+      "series": "Status update",
+      "status": "draft",
+      "tags": [
+        "content",
+        "ai generated",
+        "elevenlabs"
+      ],
+      "source": "Generated 2026-11-19 with ElevenLabs (gpt-image-2, 1K, medium) on the flow EQ1CddnTnLwGq6h7SDgh, 185 credits each, from the same brief as content-status-update-lockscreen. Rendered 1280×720 and squared by extending the flat background, then scaled to 1080.",
+      "width": 1080,
+      "height": 1080,
+      "format": "square",
+      "formats": null,
+      "updated": "2026-11-19T19:55:20.469Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "image",
+          "label": "Variation",
+          "type": "image",
+          "default": "assets/variation-1.jpg",
+          "options": [
+            {
+              "value": "assets/variation-1.jpg",
+              "label": "Variation 1"
+            },
+            {
+              "value": "assets/variation-2.jpg",
+              "label": "Variation 2"
+            },
+            {
+              "value": "assets/variation-3.jpg",
+              "label": "Variation 3"
+            }
+          ],
+          "hint": "Pick one of the three generated variations, or upload another square image."
+        }
+      ],
+      "path": "/image-projects/content-status-update-lockscreen-ai/index.html",
+      "thumb": "/image-projects/content-status-update-lockscreen-ai/thumb.jpg"
     },
     {
       "id": "events-brunch-cafe-croissant",

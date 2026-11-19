@@ -1,0 +1,62 @@
+{
+  "id": "content-split-numbers",
+  "title": "$21.4 billion and 5 minutes",
+  "description": "A split of two big numbers side by side, $21.4 billion and 5 minutes., over a photo of glass towers seen from below, darkened so the type reads.",
+  "group": "massive",
+  "category": "content",
+  "template": null,
+  "series": null,
+  "status": "draft",
+  "tags": [
+    "content",
+    "stat",
+    "photo"
+  ],
+  "source": "The numbers are from the brief (Nov 2026). Photo: Unsplash, https://unsplash.com/photos/tall-modern-buildings-reaching-towards-the-clear-sky-zQXndPLDWZk (Unsplash License), resized to 2880 px in assets/buildings.jpg.",
+  "width": 1440,
+  "height": 1080,
+  "fields": [
+    {
+      "id": "leftNumber",
+      "label": "Left number",
+      "type": "text",
+      "default": "$21.4",
+      "hint": "The big figure on the left. About five characters; it steps down to fit."
+    },
+    {
+      "id": "leftUnit",
+      "label": "Left unit",
+      "type": "text",
+      "default": "billion",
+      "hint": "The word under it."
+    },
+    {
+      "id": "rightNumber",
+      "label": "Right number",
+      "type": "text",
+      "default": "5",
+      "hint": "The big figure on the right."
+    },
+    {
+      "id": "rightUnit",
+      "label": "Right unit",
+      "type": "text",
+      "default": "minutes.",
+      "hint": "The word under it."
+    },
+    {
+      "id": "photo",
+      "label": "Photo",
+      "type": "image",
+      "default": "assets/buildings.jpg",
+      "hint": "The background, darkened under the numbers. A wide photo works best."
+    },
+    {
+      "id": "logo",
+      "label": "Logo",
+      "type": "toggle",
+      "default": false,
+      "hint": "The Massive wordmark, small, bottom centre."
+    }
+  ]
+}

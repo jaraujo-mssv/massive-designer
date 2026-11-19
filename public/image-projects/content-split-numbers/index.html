@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1440, height=1080" />
+    <title>$21.4 billion and 5 minutes</title>
+    <link rel="stylesheet" href="../_brand/massive.css" />
+    <style>
+      /* Two big numbers side by side, split down the middle, over a photo of glass towers seen from below (Unsplash,
+         zQXndPLDWZk) darkened with a flat ink layer so the type reads. Each number steps down to fit its half. */
+      #canvas {
+        width: 1440px;
+        height: 1080px;
+      }
+      .photo {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 50% 50%;
+      }
+      .shade {
+        position: absolute;
+        inset: 0;
+        background: rgba(10, 10, 15, 0.55);
+      }
+      .divider {
+        position: absolute;
+        left: 719px;
+        top: 220px;
+        width: 2px;
+        height: 640px;
+        background: rgba(250, 244, 236, 0.4);
+      }
+      .half {
+        position: absolute;
+        top: 0;
+        width: 720px;
+        height: 1080px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+      .half.left {
+        left: 0;
+      }
+      .half.right {
+        left: 720px;
+      }
+      .number {
+        font-size: 220px;
+        font-weight: 900;
+        line-height: 0.9;
+        letter-spacing: -0.04em;
+        white-space: nowrap;
+      }
+      .unit {
+        margin-top: 18px;
+        font-size: 88px;
+        font-weight: 700;
+        line-height: 1;
+        letter-spacing: -0.03em;
+        white-space: nowrap;
+      }
+      .logo {
+        position: absolute;
+        left: 50%;
+        bottom: 56px;
+        height: 30px;
+        transform: translateX(-50%);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas">
+      <img class="photo" data-field-src="photo" src="assets/buildings.jpg" alt="" />
+      <div class="shade"></div>
+      <div class="divider"></div>
+      <div class="half left">
+        <div class="number" data-field="leftNumber">$21.4</div>
+        <div class="unit" data-field="leftUnit">billion</div>
+      </div>
+      <div class="half right">
+        <div class="number" data-field="rightNumber">5</div>
+        <div class="unit" data-field="rightUnit">minutes.</div>
+      </div>
+      <img class="logo" src="../_brand/logo-massive.svg" alt="Massive" data-field-show="logo" />
+    </div>
+    <script>
+      // A long number or unit steps down until it fits its half, 80 px clear of the edge and the split; both halves
+      // then take the smaller size, so the pair stays even.
+      window.onFields = () => {
+        const fit = (selector, from, min) => {
+          const els = [...document.querySelectorAll(selector)];
+          let size = from;
+          for (; size > min; size -= 4) {
+            els.forEach((el) => (el.style.fontSize = `${size}px`));
+            if (els.every((el) => el.scrollWidth <= 560)) break;
+          }
+        };
+        fit(".number", 220, 96);
+        fit(".unit", 88, 40);
+      };
+    </script>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

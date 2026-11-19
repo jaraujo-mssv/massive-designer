@@ -1,0 +1,147 @@
+{
+  "id": "content-hub-repo",
+  "title": "One repo that connects to all my other repos",
+  "description": "Hub and spoke on the dark grid: one repo holding an index of topics, a repo map and the workflows, wired to six GitHub repos, and under it the loop that keeps it current (agent session, the review when it ends, facts added and rules proposed back to the hub, marked by a \"knowledge updated\" pill). Replicated from the team's own diagram.",
+  "group": "massive",
+  "category": "content",
+  "template": null,
+  "series": "Agent memory",
+  "status": "draft",
+  "tags": [
+    "content",
+    "diagram",
+    "ai agents",
+    "engineering"
+  ],
+  "source": "The team's own diagram \"One repo that connects to all my other repos\" (Nov 2026), replicated; all text is from it.",
+  "width": 1080,
+  "height": 1080,
+  "fields": [
+    {
+      "id": "headline",
+      "label": "Title",
+      "type": "text",
+      "default": "One repo that connects to all my other repos.",
+      "hint": "Two lines; about 45 characters."
+    },
+    {
+      "id": "subhead",
+      "label": "Subtitle",
+      "type": "text",
+      "default": "Hub and spoke, plus a review at the end of every agent session",
+      "hint": "One line under the title; about 60 characters."
+    },
+    {
+      "id": "hubLabel",
+      "label": "Hub label",
+      "type": "text",
+      "default": "The hub",
+      "hint": "The red label at the top of the hub. A word or two."
+    },
+    {
+      "id": "item1",
+      "label": "Hub item 1",
+      "type": "text",
+      "default": "Index of topics",
+      "hint": "A few words."
+    },
+    {
+      "id": "item1Text",
+      "label": "Hub item 1 text",
+      "type": "text",
+      "default": "the agent pulls what's relevant",
+      "hint": "One line; about 30 characters."
+    },
+    {
+      "id": "item2",
+      "label": "Hub item 2",
+      "type": "text",
+      "default": "Repo map",
+      "hint": "A few words."
+    },
+    {
+      "id": "item2Text",
+      "label": "Hub item 2 text",
+      "type": "text",
+      "default": "what each repo does, its conventions,\nhow changes and deploys work",
+      "hint": "Two lines (Enter breaks them); about 65 characters."
+    },
+    {
+      "id": "item3",
+      "label": "Hub item 3",
+      "type": "text",
+      "default": "Workflows",
+      "hint": "A few words."
+    },
+    {
+      "id": "item3Text",
+      "label": "Hub item 3 text",
+      "type": "text",
+      "default": "step by step, until ready to ship",
+      "hint": "One line; about 35 characters."
+    },
+    {
+      "id": "step1",
+      "label": "Step 1",
+      "type": "text",
+      "default": "Agent session",
+      "hint": "The first box of the loop. Two or three words."
+    },
+    {
+      "id": "step1Text",
+      "label": "Step 1 text",
+      "type": "text",
+      "default": "plans, designs and\nruns the verification",
+      "hint": "Two short lines (Enter breaks them); about 40 characters."
+    },
+    {
+      "id": "step2",
+      "label": "Step 2",
+      "type": "text",
+      "default": "Session ends",
+      "hint": "Two or three words."
+    },
+    {
+      "id": "step2Text",
+      "label": "Step 2 text",
+      "type": "text",
+      "default": "the agent reviews\nthe whole session",
+      "hint": "Two short lines (Enter breaks them); about 35 characters."
+    },
+    {
+      "id": "step3",
+      "label": "Outcome 1",
+      "type": "text",
+      "default": "Unambiguous fact",
+      "hint": "Two or three words."
+    },
+    {
+      "id": "step3Text",
+      "label": "Outcome 1 text",
+      "type": "text",
+      "default": "added on its own",
+      "hint": "One line; about 20 characters."
+    },
+    {
+      "id": "step4",
+      "label": "Outcome 2",
+      "type": "text",
+      "default": "Anything else",
+      "hint": "Two or three words."
+    },
+    {
+      "id": "step4Text",
+      "label": "Outcome 2 text",
+      "type": "text",
+      "default": "proposes a new rule",
+      "hint": "One line; about 20 characters."
+    },
+    {
+      "id": "loopLabel",
+      "label": "Loop label",
+      "type": "text",
+      "default": "knowledge updated",
+      "hint": "The pill on the line back up to the hub. Two or three words."
+    }
+  ]
+}

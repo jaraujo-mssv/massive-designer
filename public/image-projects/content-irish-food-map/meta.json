@@ -1,0 +1,51 @@
+{
+  "id": "content-irish-food-map",
+  "title": "Everything I know about Irish food",
+  "description": "A plain outline map of Ireland with one pin whose head holds a plate of chicken wings and a pot of blue cheese dip, labelled \"Everything I know about Irish food.\" No other text.",
+  "group": "massive",
+  "category": "content",
+  "template": null,
+  "series": "Everything I know about Irish food",
+  "status": "draft",
+  "tags": [
+    "content",
+    "map",
+    "illustration",
+    "humour",
+    "ireland"
+  ],
+  "source": "The brief (Nov 2026). Map: Natural Earth 1:10m land (public domain) via world-atlas 2.0.2, smoothed in assets/ireland.js. The pin and the plate are the page's own SVG.",
+  "width": 1080,
+  "height": 1080,
+  "fields": [
+    {
+      "id": "label",
+      "label": "Label",
+      "type": "text",
+      "default": "Everything I know about Irish food.",
+      "hint": "Beside the pin. Two short lines; about 35 characters."
+    },
+    {
+      "id": "lon",
+      "label": "Pin longitude",
+      "type": "range",
+      "min": -10.4,
+      "max": -5.6,
+      "step": 0.05,
+      "default": -8.7,
+      "unit": "°",
+      "hint": "Where the pin stands, east to west (Dublin is about -6.25)."
+    },
+    {
+      "id": "lat",
+      "label": "Pin latitude",
+      "type": "range",
+      "min": 51.5,
+      "max": 55.3,
+      "step": 0.05,
+      "default": 52.95,
+      "unit": "°",
+      "hint": "Where the pin stands, south to north (Dublin is about 53.35)."
+    }
+  ]
+}

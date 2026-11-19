@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1080" />
+    <title>One repo that connects to all my other repos</title>
+    <link rel="stylesheet" href="../_brand/massive.css" />
+    <style>
+      /* Hub and spoke: one repo (the hub) holds an index of topics, a repo map and the workflows, wired to six repos
+         around it. Under it, the loop that keeps it current: an agent session, the review when it ends, and what that
+         review sends back up. Replicated from the team's own diagram; boxes and connectors are placed on its grid, on
+         the Market Map dark canvas (../_brand/bg-dark.jpg: the grid and its red glow). Each repo carries the GitHub
+         mark (Octicons mark-github, MIT). */
+      #canvas {
+        width: 1080px;
+        height: 1080px;
+        --box: #16141a;
+        --box-line: #3b3642;
+        --spoke: #5a5560;
+      }
+      .title {
+        position: absolute;
+        left: 190px;
+        top: 60px;
+        width: 700px;
+        text-align: center;
+        font-size: 64px;
+        font-weight: 800;
+        line-height: 1.08;
+        letter-spacing: -0.02em;
+      }
+      .sub {
+        position: absolute;
+        left: 72px;
+        right: 72px;
+        top: 211px;
+        text-align: center;
+        font-size: 24px;
+        font-weight: 400;
+        color: var(--m-cream-mid);
+        white-space: nowrap;
+      }
+      .wires {
+        position: absolute;
+        inset: 0;
+        width: 1080px;
+        height: 1080px;
+        overflow: visible;
+      }
+
+      .box {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        background: var(--box);
+        border: 1.5px solid var(--box-line);
+        border-radius: 12px;
+      }
+      .repo {
+        width: 155px;
+        height: 96px;
+        align-items: center;
+        gap: 8px;
+        font-size: 22px;
+        font-weight: 400;
+        color: var(--m-cream-mid);
+      }
+      .step {
+        padding: 0 20px;
+      }
+      .step b,
+      .item b {
+        display: block;
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 1.2;
+        white-space: nowrap;
+      }
+      .step span,
+      .item span {
+        display: block;
+        margin-top: 6px;
+        font-size: 20px;
+        line-height: 1.25;
+        color: var(--m-cream-mid);
+      }
+
+      .hub {
+        position: absolute;
+        left: 332px;
+        top: 296px;
+        width: 416px;
+        height: 370px;
+        padding: 0 20px 0 30px;
+        background: #1d1517;
+        border: 2px solid var(--m-red);
+        border-radius: 18px;
+      }
+      .eyebrow {
+        margin-top: 24px;
+        font-size: 17px;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--m-red);
+      }
+      .item span {
+        font-size: 19px;
+      }
+      .item {
+        position: relative;
+        padding-left: 25px;
+        margin-top: 26px;
+      }
+      .item:first-of-type {
+        margin-top: 20px;
+      }
+      .item::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 9px;
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+        background: var(--m-red);
+      }
+      .repo svg {
+        width: 28px;
+        height: 28px;
+        fill: var(--m-cream-mid);
+      }
+      /* A pill on the loop's way back to the hub, centred on the line, which runs behind it. */
+      .loop-label {
+        position: absolute;
+        left: 850px;
+        top: 710.5px;
+        transform: translate(-50%, -50%);
+        padding: 6px 16px 7px;
+        background: #1d1517;
+        border: 1.5px solid var(--m-red);
+        border-radius: 999px;
+        font-size: 18px;
+        font-weight: 500;
+        color: var(--m-cream);
+        white-space: nowrap;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas">
+      <img class="m-bg-dark" src="../_brand/bg-dark.jpg" alt="" />
+      <div class="title" data-field="headline">One repo that connects to all my other repos.</div>
+      <div class="sub" data-field="subhead">Hub and spoke, plus a review at the end of every agent session</div>
+
+      <!-- Spokes (grey) and the loop (red). Arrowheads are drawn as their own paths so they sit flat on each box. -->
+      <svg class="wires" viewBox="0 0 1080 1080" fill="none">
+        <g stroke="#5a5560" stroke-width="1.5">
+          <path d="M226 366 L332 395" />
+          <path d="M226 483 L332 483" />
+          <path d="M226 600 L332 571" />
+          <path d="M854 366 L748 395" />
+          <path d="M854 483 L748 483" />
+          <path d="M854 600 L748 571" />
+        </g>
+        <g stroke="#d74939" stroke-width="2" stroke-linejoin="miter">
+          <path d="M414 666 V724.5 H193.4 V792" />
+          <path d="M315 863.6 H361" />
+          <path d="M685 845 H715.5 V810 H740" />
+          <path d="M685 881.5 H715.5 V935 H740" />
+          <path d="M1009 812 H1034.7 M1009 936.3 H1034.7 V710.5 H665.8 V682" />
+        </g>
+        <g fill="#d74939">
+          <path d="M185.6 791 L201.2 791 L193.4 806 Z" />
+          <path d="M360 855.8 L375 863.6 L360 871.4 Z" />
+          <path d="M739 802.2 L754 810 L739 817.8 Z" />
+          <path d="M739 927.2 L754 935 L739 942.8 Z" />
+          <path d="M658 683 L673.6 683 L665.8 668 Z" />
+        </g>
+      </svg>
+
+      <div class="box repo" style="left: 72px; top: 318px"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg><span>Repo</span></div>
+      <div class="box repo" style="left: 72px; top: 435.5px"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg><span>Repo</span></div>
+      <div class="box repo" style="left: 72px; top: 552px"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg><span>Repo</span></div>
+      <div class="box repo" style="left: 853px; top: 318px"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg><span>Repo</span></div>
+      <div class="box repo" style="left: 853px; top: 435.5px"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg><span>Repo</span></div>
+      <div class="box repo" style="left: 853px; top: 552px"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg><span>Repo</span></div>
+
+      <div class="hub">
+        <div class="eyebrow" data-field="hubLabel">The hub</div>
+        <div class="item"><b data-field="item1">Index of topics</b><span data-field="item1Text">the agent pulls what's relevant</span></div>
+        <div class="item"><b data-field="item2">Repo map</b><span data-field="item2Text">what each repo does, its conventions,
+how changes and deploys work</span></div>
+        <div class="item"><b data-field="item3">Workflows</b><span data-field="item3Text">step by step, until ready to ship</span></div>
+      </div>
+
+      <div class="box step" style="left: 72px; top: 809px; width: 243px; height: 110px">
+        <b data-field="step1">Agent session</b><span data-field="step1Text">plans, designs and
+runs the verification</span>
+      </div>
+      <div class="box step" style="left: 378px; top: 809px; width: 307px; height: 110px">
+        <b data-field="step2">Session ends</b><span data-field="step2Text">the agent reviews
+the whole session</span>
+      </div>
+      <div class="box step" style="left: 756px; top: 769px; width: 253px; height: 88px">
+        <b data-field="step3">Unambiguous fact</b><span data-field="step3Text">added on its own</span>
+      </div>
+      <div class="box step" style="left: 756px; top: 893px; width: 253px; height: 88px">
+        <b data-field="step4">Anything else</b><span data-field="step4Text">proposes a new rule</span>
+      </div>
+      <div class="loop-label" data-field="loopLabel">knowledge updated</div>
+    </div>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

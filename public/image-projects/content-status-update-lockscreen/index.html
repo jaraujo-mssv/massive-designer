@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1080" />
+    <title>Status update: lock screen</title>
+    <link rel="stylesheet" href="../_brand/massive.css" />
+    <style>
+      /* A phone's lock screen on the dark ground with one email notification, its subject "Status update." and
+         nothing else: no clock, no sender, no airline. The preview lines are grey bars, the app icon a plain
+         envelope. The wallpaper is the brand's glow (assets/wallpaper.jpg, ../_brand/bg-dark.jpg blurred). The
+         notification is a solid fill, since backdrop-filter doesn't come through the export. */
+      #canvas {
+        width: 1080px;
+        height: 1080px;
+      }
+      .phone {
+        position: absolute;
+        left: 50%;
+        top: 60px;
+        width: 470px;
+        height: 960px;
+        transform: translateX(-50%);
+        padding: 14px;
+        background: #1c1b22;
+        border: 2px solid #34323c;
+        border-radius: 78px;
+      }
+      /* The side buttons. */
+      .phone::before,
+      .phone::after {
+        content: "";
+        position: absolute;
+        width: 5px;
+        border-radius: 3px;
+        background: #34323c;
+      }
+      .phone::before {
+        left: -7px;
+        top: 220px;
+        height: 120px;
+        box-shadow: 0 -70px 0 -0px #34323c;
+      }
+      .phone::after {
+        right: -7px;
+        top: 260px;
+        height: 150px;
+      }
+      .screen {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #0d0c12;
+        border-radius: 64px;
+      }
+      .wallpaper {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 50% 100%;
+      }
+      .island {
+        position: absolute;
+        left: 50%;
+        top: 22px;
+        width: 128px;
+        height: 36px;
+        transform: translateX(-50%);
+        background: #000;
+        border-radius: 18px;
+      }
+      .lock {
+        position: absolute;
+        left: 50%;
+        top: 96px;
+        width: 30px;
+        height: 30px;
+        transform: translateX(-50%);
+        fill: none;
+        stroke: rgba(250, 244, 236, 0.85);
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .note {
+        position: absolute;
+        left: 18px;
+        right: 18px;
+        top: 360px;
+        display: flex;
+        gap: 18px;
+        padding: 22px 22px 24px;
+        background: rgba(250, 244, 236, 0.14);
+        border-radius: 30px;
+      }
+      .app {
+        flex-shrink: 0;
+        display: grid;
+        place-items: center;
+        width: 56px;
+        height: 56px;
+        background: var(--m-red);
+        border-radius: 14px;
+      }
+      .app svg {
+        width: 32px;
+        height: 32px;
+        fill: none;
+        stroke: #fff;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .body {
+        flex: 1;
+        min-width: 0;
+        padding-top: 2px;
+      }
+      .subject {
+        font-size: 30px;
+        font-weight: 600;
+        line-height: 1.15;
+        color: var(--m-cream);
+      }
+      .bar {
+        height: 13px;
+        margin-top: 14px;
+        background: rgba(250, 244, 236, 0.24);
+        border-radius: 7px;
+      }
+      .bar + .bar {
+        margin-top: 10px;
+      }
+      /* The torch and camera buttons, and the home indicator. */
+      .quick {
+        position: absolute;
+        bottom: 66px;
+        display: grid;
+        place-items: center;
+        width: 72px;
+        height: 72px;
+        background: rgba(250, 244, 236, 0.16);
+        border-radius: 50%;
+      }
+      .quick svg {
+        width: 30px;
+        height: 30px;
+        fill: none;
+        stroke: rgba(250, 244, 236, 0.9);
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .quick.left {
+        left: 44px;
+      }
+      .quick.right {
+        right: 44px;
+      }
+      .home {
+        position: absolute;
+        left: 50%;
+        bottom: 18px;
+        width: 150px;
+        height: 6px;
+        transform: translateX(-50%);
+        background: rgba(250, 244, 236, 0.85);
+        border-radius: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas">
+      <div class="phone">
+        <div class="screen">
+          <img class="wallpaper" src="assets/wallpaper.jpg" alt="" />
+          <div class="island"></div>
+          <svg class="lock" viewBox="0 0 24 24"><rect width="16" height="11" x="4" y="11" rx="2" /><path d="M8 11V7a4 4 0 0 1 8 0v4" /></svg>
+          <div class="note">
+            <div class="app">
+              <svg viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg>
+            </div>
+            <div class="body">
+              <div class="subject" data-field="subject">Status update.</div>
+              <div class="bar" style="width: 92%"></div>
+              <div class="bar" style="width: 64%"></div>
+            </div>
+          </div>
+          <div class="quick left">
+            <svg viewBox="0 0 24 24"><path d="M18 6c0 2-2 2-2 4v10a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2V10c0-2-2-2-2-4V2h12z" /><path d="M6 6h12" /><path d="M12 12v.01" /></svg>
+          </div>
+          <div class="quick right">
+            <svg viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" /><circle cx="12" cy="13" r="3" /></svg>
+          </div>
+          <div class="home"></div>
+        </div>
+      </div>
+    </div>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

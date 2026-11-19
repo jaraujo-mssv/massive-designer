@@ -1,0 +1,41 @@
+{
+  "id": "content-irish-food-map-ai",
+  "title": "Everything I know about Irish food (AI)",
+  "description": "An outline map of Ireland with one pin holding a plate of buffalo wings and blue cheese dip, labelled \"Everything I know about Irish food.\" Generated with ElevenLabs (gpt-image-2), three variations to pick from.",
+  "group": "massive",
+  "category": "content",
+  "template": null,
+  "series": "Everything I know about Irish food",
+  "status": "draft",
+  "tags": [
+    "content",
+    "ai generated",
+    "elevenlabs"
+  ],
+  "source": "Generated 2026-11-19 with ElevenLabs (gpt-image-2, 1K, medium) on the flow EQ1CddnTnLwGq6h7SDgh, 185 credits each, from the same brief as content-irish-food-map. Rendered 1280×720 and squared by extending the flat background, then scaled to 1080.",
+  "width": 1080,
+  "height": 1080,
+  "fields": [
+    {
+      "id": "image",
+      "label": "Variation",
+      "type": "image",
+      "default": "assets/variation-1.jpg",
+      "options": [
+        {
+          "value": "assets/variation-1.jpg",
+          "label": "Variation 1"
+        },
+        {
+          "value": "assets/variation-2.jpg",
+          "label": "Variation 2"
+        },
+        {
+          "value": "assets/variation-3.jpg",
+          "label": "Variation 3"
+        }
+      ],
+      "hint": "Pick one of the three generated variations, or upload another square image."
+    }
+  ]
+}

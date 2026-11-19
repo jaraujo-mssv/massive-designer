@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1080" />
+    <title>Agent memory: new repos a month</title>
+    <link rel="stylesheet" href="../_brand/massive.css" />
+    <style>
+      /* New Python GitHub repos (red) and new arXiv papers (grey) per month matching agent-memory terms, Jan 2024 to
+         Oct 2026, each line on its own scale, under the title. Replicated from the team's own chart; the lines are
+         drawn from DATA below into the svg. */
+      #canvas {
+        width: 1080px;
+        height: 1080px;
+      }
+      .title {
+        position: absolute;
+        left: 80px;
+        top: 86px;
+        width: 680px;
+        font-size: 92px;
+        font-weight: 900;
+        line-height: 1;
+        letter-spacing: -0.03em;
+      }
+      .chart {
+        position: absolute;
+        inset: 0;
+        width: 1080px;
+        height: 1080px;
+        overflow: visible;
+      }
+      .chart text {
+        font-family: var(--m-sans);
+      }
+      .tick {
+        font-size: 22px;
+        fill: var(--m-cream-dim);
+      }
+      .tick.is-year {
+        font-weight: 600;
+        fill: var(--m-cream-mid);
+      }
+      .end-value {
+        font-size: 48px;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        fill: var(--m-cream);
+      }
+      .end-label {
+        font-size: 21px;
+        fill: var(--m-cream-mid);
+      }
+      .note {
+        position: absolute;
+        left: 80px;
+        top: 970px;
+        font-size: 18px;
+        line-height: 1.35;
+        color: var(--m-cream-dim);
+        white-space: pre-line;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas">
+      <img class="m-bg-dark" src="assets/bg-glow.jpg" alt="" />
+      <svg class="chart" viewBox="0 0 1080 1080" aria-label="New agent-memory repos and papers per month"></svg>
+      <div class="title" data-field="headline">Agent memory went from 12 new repos a month to 2,809.</div>
+      <div class="note" data-field="note">New arXiv papers and new Python GitHub repos per month matching agent-memory terms.
+Each line has its own scale. Sources: arXiv API, GitHub search, pulled 2026-11-18.</div>
+    </div>
+    <script>
+      // One row a month: new Python GitHub repos and new arXiv papers matching agent-memory terms. Traced from the
+      // team's chart image (pulled 2026-11-18): 12 (Jan 2024), 2,809 (Oct 2026) and 117 (Oct 2026) are the chart's own
+      // figures; the months between are read off its lines (each line on its own scale) to the nearest whole number,
+      // so they keep its shape but aren't the export's exact counts. Paste the export over this to use those.
+      const DATA = `month,repos,papers
+2024-01,12,2
+2024-02,10,7
+2024-03,10,2
+2024-04,10,1
+2024-05,14,1
+2024-06,8,2
+2024-07,11,4
+2024-08,11,2
+2024-09,12,3
+2024-10,21,4
+2024-11,14,4
+2024-12,29,5
+2025-01,29,5
+2025-02,45,6
+2025-03,60,5
+2025-04,127,6
+2025-05,136,7
+2025-06,185,16
+2025-07,199,8
+2025-08,234,11
+2025-09,197,9
+2025-10,254,21
+2025-11,394,15
+2025-12,384,24
+2026-01,568,46
+2026-02,990,35
+2026-03,1591,50
+2026-04,1926,56
+2026-05,2184,101
+2026-06,2440,96
+2026-07,2592,76
+2026-08,2640,96
+2026-09,2786,107
+2026-10,2809,117`;
+
+      const NS = "http://www.w3.org/2000/svg";
+      const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      const RED = "#d74939";
+      const GREY = "#c0a29b"; // the papers line; its dot and swatch are the lighter #b8b3ad, as on the original
+      const GREY_MARK = "#b8b3ad";
+      const GROUND = "#0a0a0f";
+      // The plot, in canvas px: the baseline, and the height each line's highest month reaches.
+      const PLOT = { left: 80, right: 1000, base: 880, redTop: 340, greyTop: 665 };
+
+      function el(parent, tag, attrs = {}, text) {
+        const node = document.createElementNS(NS, tag);
+        for (const [k, v] of Object.entries(attrs)) node.setAttribute(k, v);
+        if (text !== undefined) node.textContent = text;
+        parent.appendChild(node);
+        return node;
+      }
+
+      function draw() {
+        const svg = document.querySelector(".chart");
+        svg.replaceChildren();
+        const rows = DATA.trim()
+          .split("\n")
+          .slice(1)
+          .map((line) => {
+            const [month, repos, papers] = line.split(",");
+            const [y, m] = month.split("-").map(Number);
+            return { y, m: m - 1, repos: +repos, papers: +papers };
+          });
+        const n = rows.length - 1;
+        const x = (i) => PLOT.left + (i / n) * (PLOT.right - PLOT.left);
+        const scale = (key, top) => {
+          const max = Math.max(...rows.map((r) => r[key]));
+          return (v) => PLOT.base - (v / max) * (PLOT.base - top);
+        };
+        const yRed = scale("repos", PLOT.redTop);
+        const yGrey = scale("papers", PLOT.greyTop);
+        const path = (y, key) => rows.map((r, i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${y(r[key]).toFixed(1)}`).join("");
+        const area = (y, key) => `${path(y, key)}L${x(n)},${PLOT.base}L${x(0)},${PLOT.base}Z`;
+
+        // Washes, then the lines: the repos line over the papers line, as on the original.
+        el(svg, "path", { d: area(yRed, "repos"), fill: "rgba(215, 73, 57, 0.16)" });
+        el(svg, "path", { d: area(yGrey, "papers"), fill: "rgba(190, 162, 155, 0.07)" });
+        el(svg, "line", { x1: PLOT.left, x2: PLOT.right, y1: PLOT.base, y2: PLOT.base, stroke: "rgba(250, 244, 236, 0.2)", "stroke-width": 2 });
+        el(svg, "path", { d: path(yGrey, "papers"), fill: "none", stroke: GREY, "stroke-width": 3, "stroke-linejoin": "round", "stroke-linecap": "round" });
+        el(svg, "path", { d: path(yRed, "repos"), fill: "none", stroke: RED, "stroke-width": 3, "stroke-linejoin": "round", "stroke-linecap": "round" });
+
+        // January and July of each year, January with the year.
+        rows.forEach((r, i) => {
+          if (r.m !== 0 && r.m !== 6) return;
+          el(svg, "line", { x1: x(i), x2: x(i), y1: PLOT.base, y2: PLOT.base + 7, stroke: "rgba(250, 244, 236, 0.2)", "stroke-width": 2 });
+          const year = r.m === 0;
+          el(svg, "text", { x: x(i), y: PLOT.base + 40, "text-anchor": "middle", class: year ? "tick is-year" : "tick" }, year ? `${MONTHS[r.m]} ${r.y}` : MONTHS[r.m]);
+        });
+
+        // Each line ends on a dot. Its last value sits over it: the repos' at the plot's right edge, the papers' left of
+        // the repos' climb (ending at January 2026), clear of both lines.
+        const last = rows[n];
+        el(svg, "circle", { cx: x(n), cy: yGrey(last.papers), r: 7, fill: GREY_MARK, stroke: GROUND, "stroke-width": 2.5 });
+        el(svg, "circle", { cx: x(n), cy: yRed(last.repos), r: 7, fill: RED, stroke: GROUND, "stroke-width": 2.5 });
+        const label = (value, name, colour, right, baseline) => {
+          el(svg, "text", { x: right, y: baseline, "text-anchor": "end", class: "end-value" }, value.toLocaleString("en-US"));
+          const t = el(svg, "text", { x: right, y: baseline + 27, "text-anchor": "end", class: "end-label" }, name);
+          const w = t.getComputedTextLength();
+          el(svg, "rect", { x: right - w - 21, y: baseline + 13, width: 13, height: 13, rx: 3, fill: colour });
+        };
+        label(last.repos, "new repos", RED, PLOT.right, yRed(last.repos) - 58);
+        const jan = rows.findIndex((r) => r.m === 0 && r.y === last.y);
+        label(last.papers, "new papers", GREY_MARK, x(jan) - 4, yGrey(last.papers) - 56);
+      }
+
+      window.onFields = draw;
+    </script>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

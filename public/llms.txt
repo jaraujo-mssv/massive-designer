@@ -415,6 +415,7 @@ Finished designs, which can also be re-rendered with changes. Each link lists th
 - 195+ countries (`milestone-195-countries`, 1080×1350): https://massive-designer.up.railway.app/api/images?id=milestone-195-countries
 - Agent memory: new repos a month (`content-agent-memory-growth`, 1080×1080): https://massive-designer.up.railway.app/api/images?id=content-agent-memory-growth
 - AI answers: a new era (`content-ai-answers`, 1080×1350): https://massive-designer.up.railway.app/api/images?id=content-ai-answers
+- AI code: who will review it? (`content-ai-code-review`, 1080×1350): https://massive-designer.up.railway.app/api/images?id=content-ai-code-review
 - AIDHD: a definition (`content-aidhd-definition`, 1080×1080): https://massive-designer.up.railway.app/api/images?id=content-aidhd-definition
 - AIDHD: a definition (AI) (`content-aidhd-definition-ai`, 1080×1080): https://massive-designer.up.railway.app/api/images?id=content-aidhd-definition-ai
 - API in a few lines (`product-code-snippet`, 1920×1080): https://massive-designer.up.railway.app/api/images?id=product-code-snippet
@@ -461,8 +462,10 @@ Finished designs, which can also be re-rendered with changes. Each link lists th
 - Jevons paradox: coal and data (`content-jevons-paradox`, 1440×1080): https://massive-designer.up.railway.app/api/images?id=content-jevons-paradox
 - Know someone? Refer them (`hiring-referral`, 1080×1080): https://massive-designer.up.railway.app/api/images?id=hiring-referral
 - Launch announcement (`product-launch`, 1080×1350): https://massive-designer.up.railway.app/api/images?id=product-launch
+- LeadDev 2026: engineering leadership (`content-leaddev-stats`, 1080×1350): https://massive-designer.up.railway.app/api/images?id=content-leaddev-stats
 - One repo that connects to all my other repos (`content-hub-repo`, 1080×1080): https://massive-designer.up.railway.app/api/images?id=content-hub-repo
 - Pull requests merged per week (`code-reviews-prs-merged-square`, 1080×1080): https://massive-designer.up.railway.app/api/images?id=code-reviews-prs-merged-square
+- Smartphones and decision thoughtfulness (`content-smartphone-thoughtfulness`, 1440×1080): https://massive-designer.up.railway.app/api/images?id=content-smartphone-thoughtfulness
 - Status update: lock screen (`content-status-update-lockscreen`, 1080×1080): https://massive-designer.up.railway.app/api/images?id=content-status-update-lockscreen
 - Status update: lock screen (AI) (`content-status-update-lockscreen-ai`, 1080×1080): https://massive-designer.up.railway.app/api/images?id=content-status-update-lockscreen-ai
 - Welcome to Massive: Anton Komandyr (`welcome-anton`, 1080×1350): https://massive-designer.up.railway.app/api/images?id=welcome-anton

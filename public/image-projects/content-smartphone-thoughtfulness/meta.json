@@ -1,0 +1,187 @@
+{
+  "id": "content-smartphone-thoughtfulness",
+  "title": "Smartphones and decision thoughtfulness",
+  "description": "A research figure redrawn on the light register, 4:3, over a photo of a hand tapping a phone that fades into the ground towards the left: the hook “Why shoppers browse on their phone but buy on a PC” as the title, then device associations (smaller screen size, low work-relatedness) and behavioral associations (portability, rapid interaction design, through micro-moment usage) lowering perceived decision thoughtfulness on a smartphone, as Phosphor icons and labels straight on the ground (the outcome alone in a red box) joined by orthogonal arrows, each sign in a red pill on its arrow. Source: Yuen, Townsend and Tsiros, When and Why Consumers Avoid Purchase on Smartphones, Journal of Marketing (forthcoming).",
+  "group": "massive",
+  "category": "content",
+  "template": null,
+  "series": null,
+  "status": "draft",
+  "tags": [
+    "content",
+    "diagram",
+    "research",
+    "smartphone",
+    "sage",
+    "icons",
+    "phosphor",
+    "photo"
+  ],
+  "source": "Vincentia Yuen, Claudia Townsend and Michael Tsiros, When and Why Consumers Avoid Purchase on Smartphones, Journal of Marketing (Sage), accepted manuscript, https://journals.sagepub.com/toc/JMX/0/ja: Figure 1, Antecedents to Lower Perceived Decision Thoughtfulness on a Smartphone (vs. PC). Redrawn from the brief's screenshot of it (Nov 2026), wording and signs as given. Icons: Phosphor (MIT), regular weight. Background photo: from the brief (Nov 2026), assets/background.jpg (1470×980).",
+  "width": 1440,
+  "height": 1080,
+  "fields": [
+    {
+      "id": "photo",
+      "label": "Background",
+      "type": "image",
+      "default": "assets/background.jpg",
+      "hint": "A landscape photo with its subject on the right; it fades into the ground towards the left."
+    },
+    {
+      "id": "title",
+      "label": "Title",
+      "type": "text",
+      "default": "Why shoppers browse on their phone but buy on a PC",
+      "hint": "The hook across the top, up to two lines. About 50 characters."
+    },
+    {
+      "id": "deviceLabel",
+      "label": "Top group",
+      "type": "text",
+      "default": "Device Associations",
+      "hint": "The red eyebrow over the top two boxes. Two or three words."
+    },
+    {
+      "id": "box1",
+      "label": "Top group, box 1",
+      "type": "text",
+      "default": "Smaller\nscreen size",
+      "hint": "Two short lines; its arrow goes to the outcome."
+    },
+    {
+      "id": "box2",
+      "label": "Top group, box 2",
+      "type": "text",
+      "default": "Low work-\nrelatedness",
+      "hint": "Two short lines; its arrow goes to the outcome."
+    },
+    {
+      "id": "behaviorLabel",
+      "label": "Bottom group",
+      "type": "text",
+      "default": "Behavioral Associations",
+      "hint": "The red eyebrow over the bottom two boxes. Two or three words."
+    },
+    {
+      "id": "box3",
+      "label": "Bottom group, box 1",
+      "type": "text",
+      "default": "Portability",
+      "hint": "Two short lines at most; its arrow goes to the box under the outcome."
+    },
+    {
+      "id": "box4",
+      "label": "Bottom group, box 2",
+      "type": "text",
+      "default": "Rapid\ninteraction\ndesign",
+      "hint": "Up to three short lines; its arrow goes to the middle box."
+    },
+    {
+      "id": "mediator",
+      "label": "Under the outcome",
+      "type": "text",
+      "default": "Micro-moment\nusage",
+      "hint": "Two short lines; its arrow rises into the outcome."
+    },
+    {
+      "id": "outcome",
+      "label": "Outcome",
+      "type": "text",
+      "default": "Perceived\ndecision\nthoughtfulness",
+      "hint": "The box on the right. Up to three short lines."
+    },
+    {
+      "id": "sign1",
+      "label": "Sign: top box 1 → outcome",
+      "type": "select",
+      "default": "−",
+      "options": [
+        {
+          "value": "+",
+          "label": "+"
+        },
+        {
+          "value": "−",
+          "label": "−"
+        }
+      ],
+      "hint": "The effect along that arrow."
+    },
+    {
+      "id": "sign2",
+      "label": "Sign: top box 2 → outcome",
+      "type": "select",
+      "default": "−",
+      "options": [
+        {
+          "value": "+",
+          "label": "+"
+        },
+        {
+          "value": "−",
+          "label": "−"
+        }
+      ],
+      "hint": "The effect along that arrow."
+    },
+    {
+      "id": "sign3",
+      "label": "Sign: bottom box 1 → middle",
+      "type": "select",
+      "default": "+",
+      "options": [
+        {
+          "value": "+",
+          "label": "+"
+        },
+        {
+          "value": "−",
+          "label": "−"
+        }
+      ],
+      "hint": "The effect along that arrow."
+    },
+    {
+      "id": "sign4",
+      "label": "Sign: bottom box 2 → middle",
+      "type": "select",
+      "default": "+",
+      "options": [
+        {
+          "value": "+",
+          "label": "+"
+        },
+        {
+          "value": "−",
+          "label": "−"
+        }
+      ],
+      "hint": "The effect along that arrow."
+    },
+    {
+      "id": "sign5",
+      "label": "Sign: middle → outcome",
+      "type": "select",
+      "default": "−",
+      "options": [
+        {
+          "value": "+",
+          "label": "+"
+        },
+        {
+          "value": "−",
+          "label": "−"
+        }
+      ],
+      "hint": "The effect along that arrow."
+    },
+    {
+      "id": "source",
+      "label": "Source",
+      "type": "text",
+      "default": "Yuen, Townsend & Tsiros, “When and Why Consumers Avoid Purchase on Smartphones,” Journal of Marketing (forthcoming)",
+      "hint": "The paper the figure comes from, after “Source:”. One line."
+    }
+  ]
+}

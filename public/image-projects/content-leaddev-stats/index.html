@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1350" />
+    <title>LeadDev 2026: engineering leadership</title>
+    <link rel="stylesheet" href="../_brand/massive.css" />
+    <!-- Four findings from one report, on the light register, no logo, over a bright office photo (a laptop with a
+         red warning on the right, empty white space on the left and along the desk). The lead stat sits on the left,
+         centred in the space above the cards: the number huge in paper-red, then its line with one word in white on the red brush stroke. Under it, three
+         white cards in a row, each a red pill, an ink number and a short line. The source sits at the bottom.
+         onFields marks the highlighted word, fits the lead number to the width and its line to four lines, and the
+         three card numbers and lines to one shared size each. -->
+    <style>
+      #canvas {
+        width: 1080px;
+        height: 1350px;
+        --line: rgba(23, 22, 21, 0.14);
+        --mid: rgba(23, 22, 21, 0.72);
+        --dim: rgba(23, 22, 21, 0.6);
+      }
+      .photo {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 50% 50%;
+        /* Zoomed from the bottom-right corner, so the laptop and the code tile rise clear of the cards, and nudged
+           right to keep the laptop's edge off the text. */
+        transform: translateX(30px) scale(var(--zoom, 1.47));
+        transform-origin: 100% 100%;
+      }
+      .page {
+        position: absolute;
+        inset: 88px 80px 84px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* The lead stat, left of the laptop, centred between the canvas's top edge and the cards (the negative margin
+         undoes the page's top inset). */
+      .lead {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-top: -88px;
+      }
+      .lead .value {
+        font-size: 280px;
+        font-weight: 900;
+        line-height: 0.86;
+        letter-spacing: -0.05em;
+        white-space: nowrap;
+        color: var(--m-paper-red);
+        /* Outfit's 8 carries a little side bearing; pull the number flush with the text. */
+        margin-left: -0.02em;
+      }
+      .lead .text {
+        margin-top: 30px;
+        max-width: 560px;
+        font-size: 46px;
+        font-weight: 700;
+        line-height: 1.24;
+        letter-spacing: -0.025em;
+        color: var(--m-ink);
+      }
+      /* The highlighted word, white on the red brush stroke, level with the line. */
+      .lead .hl {
+        display: inline-block;
+        margin: 0 -0.02em 0 -0.04em;
+        padding: 0.02em 0.22em 0.06em 0.18em;
+        color: #ffffff;
+        background: url("../_brand/brush.svg") center / 100% 100% no-repeat;
+      }
+
+      /* The three cards. */
+      .cards {
+        margin-top: auto;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+      .card {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        min-width: 0;
+        padding: 30px 28px 34px;
+        background: #ffffff;
+        border: 1px solid var(--line);
+        border-radius: 20px;
+      }
+      .pill {
+        max-width: 100%;
+        padding: 7px 14px 6px;
+        border-radius: 999px;
+        background: var(--m-paper-red);
+        color: #ffffff;
+        font-size: 17px;
+        font-weight: 700;
+        line-height: 1.2;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+      .card .value {
+        margin-top: 24px;
+        font-size: 96px;
+        font-weight: 900;
+        line-height: 0.92;
+        letter-spacing: -0.045em;
+        white-space: nowrap;
+      }
+      .card .text {
+        margin-top: 18px;
+        font-size: 27px;
+        font-weight: 400;
+        line-height: 1.3;
+        color: var(--mid);
+      }
+
+      .source {
+        margin-top: 36px;
+        font-size: 24px;
+        font-weight: 400;
+        line-height: 1.35;
+        color: var(--dim);
+      }
+      .source span {
+        font-weight: 600;
+        color: var(--mid);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas" class="soft-orange">
+      <img class="photo" data-field-src="photo" src="assets/background.jpg" alt="" />
+      <div class="page">
+        <div class="lead">
+          <div class="value" data-field="leadValue">84%</div>
+          <div class="text" data-field="leadText">Engineering leaders believe AI will make it harder for junior developers to enter and grow in the profession.</div>
+        </div>
+
+        <div class="cards">
+          <div class="card">
+            <div class="pill" data-field="stat1Tag">Technical work</div>
+            <div class="value" data-field="stat1Value">37%</div>
+            <div class="text" data-field="stat1Text">of engineering leaders are doing more hands-on technical work</div>
+          </div>
+          <div class="card">
+            <div class="pill" data-field="stat2Tag">Manager sentiment</div>
+            <div class="value" data-field="stat2Value">1 in 3</div>
+            <div class="text" data-field="stat2Text">managers are considering ditching management to become an IC</div>
+          </div>
+          <div class="card">
+            <div class="pill" data-field="stat3Tag">Team motivation</div>
+            <div class="value" data-field="stat3Value">41%</div>
+            <div class="text" data-field="stat3Text">say their team is less motivated than 12 months ago</div>
+          </div>
+        </div>
+
+        <div class="source">Source: <span data-field="source">LeadDev Engineering Leadership Report 2026</span></div>
+      </div>
+    </div>
+
+    <script src="../_lib/placeholders.js"></script>
+    <script>
+      const $ = (s) => document.querySelector(s);
+      const $$ = (s) => [...document.querySelectorAll(s)];
+      const esc = (s) => s.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[c]);
+      const pattern = (w) => w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+      // Steps the elements' font size down from `max` until every one `fits()`, or `min` is reached.
+      function fit(els, max, min, step, fits) {
+        for (let size = max; size >= min; size -= step) {
+          for (const el of els) el.style.fontSize = `${size}px`;
+          if (els.every(fits)) return size;
+        }
+        return min;
+      }
+      const lines = (el, lh) => Math.round(el.offsetHeight / (parseFloat(el.style.fontSize) * lh));
+
+      window.onFields = (values) => {
+        massivePlaceholders();
+        $("#canvas").style.setProperty("--zoom", (Number(values.zoom) || 147) / 100);
+
+        // The highlighted word, on the brush stroke: its first match in the lead line. The text stays the same, so
+        // the field still matches it, and a line being typed into on the canvas is left alone until it's done.
+        const leadText = $(".lead .text");
+        if (!leadText.isContentEditable) {
+          const word = String(values.highlight ?? "").trim();
+          const text = leadText.textContent;
+          const re = word ? new RegExp(`(?<![\\w-])${pattern(word)}(?![\\w-])`, "i") : null;
+          leadText.innerHTML = re ? esc(text).replace(re, (m) => `<span class="hl">${m}</span>`) : esc(text);
+        }
+
+        // The lead number on one line; its line in at most four, beside the photo's laptop.
+        fit([$(".lead .value")], 280, 160, 4, (el) => el.scrollWidth <= el.clientWidth);
+        fit([leadText], 46, 32, 2, (el) => lines(el, 1.24) <= 4);
+
+        // The card numbers share one size, the largest at which each fits its card; the lines likewise, in at most
+        // four lines each. The pills stay on one line inside their card.
+        fit($$(".card .value"), 96, 56, 2, (el) => el.scrollWidth <= el.clientWidth);
+        fit($$(".card .text"), 27, 22, 1, (el) => lines(el, 1.3) <= 4);
+        fit($$(".pill"), 17, 12, 1, (el) => el.scrollWidth <= el.clientWidth);
+      };
+    </script>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

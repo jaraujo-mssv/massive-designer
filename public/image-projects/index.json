@@ -209,7 +209,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-11-19T18:33:33.456Z",
+      "updated": "2026-11-19T20:49:58.757Z",
       "brief": null,
       "fields": [
         {
@@ -292,7 +292,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-11-19T18:22:59.331Z",
+      "updated": "2026-11-19T20:49:58.757Z",
       "brief": null,
       "fields": [
         {
@@ -327,7 +327,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-11-19T18:22:59.307Z",
+      "updated": "2026-11-19T20:49:58.758Z",
       "brief": null,
       "fields": [
         {
@@ -362,7 +362,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-11-19T18:22:59.319Z",
+      "updated": "2026-11-19T20:49:58.758Z",
       "brief": null,
       "fields": [
         {
@@ -892,7 +892,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-11-19T18:43:44.612Z",
+      "updated": "2026-11-19T20:49:58.759Z",
       "brief": null,
       "fields": [
         {
@@ -1007,6 +1007,145 @@
       "thumb": "/image-projects/content-ai-answers/thumb.jpg"
     },
     {
+      "id": "content-ai-code-review",
+      "title": "AI code: who will review it?",
+      "description": "“AI is making code faster to produce. Who will review it?” on the light register, no logo, over a bright office photo (a laptop on a code-review page and a pull-request tile on the left), the question on the red brush stroke, then three findings from the Linux Foundation in white cards with red pills: 59%, 52% and 1 in 4.",
+      "group": "massive",
+      "category": "content",
+      "template": null,
+      "series": null,
+      "status": "draft",
+      "tags": [
+        "content",
+        "stat",
+        "data",
+        "open source",
+        "code review",
+        "ai",
+        "photo"
+      ],
+      "source": "The Linux Foundation, Navigating Open Source Software Development in the Generative AI Era (2026). Figures and wording from the brief's reference image (Nov 2026); the pill labels are ours. Background: generated with ElevenLabs (gpt-image-2.5-sunburst, 4:5, 2K), assets/background.jpg.",
+      "width": 1080,
+      "height": 1350,
+      "format": "portrait",
+      "formats": null,
+      "updated": "2026-11-20T18:16:02.435Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "photo",
+          "label": "Background",
+          "type": "image",
+          "default": "assets/background.jpg",
+          "hint": "A bright portrait photo: subject on the left, empty space on the right, a plain light desk at the bottom."
+        },
+        {
+          "id": "lift",
+          "label": "Background lift",
+          "type": "range",
+          "min": 0,
+          "max": 300,
+          "step": 2,
+          "unit": "px",
+          "default": 220,
+          "hint": "Moves the photo up, lifting its subject above the cards; a light grey desk colour fills below."
+        },
+        {
+          "id": "headline",
+          "label": "Headline",
+          "type": "text",
+          "default": "AI is making code faster to produce.",
+          "hint": "On the right, up to three lines, the same size as the question. About 40 characters."
+        },
+        {
+          "id": "question",
+          "label": "Question",
+          "type": "text",
+          "default": "Who will\nreview it?",
+          "hint": "White on the red brush stroke, one stroke per line; a line break splits it. About 20 characters."
+        },
+        {
+          "id": "stat1Tag",
+          "label": "Card 1 label",
+          "type": "text",
+          "default": "Contributions",
+          "hint": "The left card's pill. One or two words."
+        },
+        {
+          "id": "stat1Value",
+          "label": "Card 1 number",
+          "type": "text",
+          "default": "59%",
+          "hint": "The left card's number. Up to six characters."
+        },
+        {
+          "id": "stat1Text",
+          "label": "Card 1 line",
+          "type": "text",
+          "default": "of maintainers report an increase in contribution volume.",
+          "hint": "What it counts. About 60 characters."
+        },
+        {
+          "id": "stat2Tag",
+          "label": "Card 2 label",
+          "type": "text",
+          "default": "Review times",
+          "hint": "The middle card's pill. One or two words."
+        },
+        {
+          "id": "stat2Value",
+          "label": "Card 2 number",
+          "type": "text",
+          "default": "52%",
+          "hint": "The middle card's number. Up to six characters."
+        },
+        {
+          "id": "stat2Text",
+          "label": "Card 2 line",
+          "type": "text",
+          "default": "say review times are longer.",
+          "hint": "What it counts. About 60 characters."
+        },
+        {
+          "id": "stat3Tag",
+          "label": "Card 3 label",
+          "type": "text",
+          "default": "Quality",
+          "hint": "The right card's pill. One or two words."
+        },
+        {
+          "id": "stat3Value",
+          "label": "Card 3 number",
+          "type": "text",
+          "default": "1 in 4",
+          "hint": "The right card's number. Up to six characters."
+        },
+        {
+          "id": "stat3Text",
+          "label": "Card 3 line",
+          "type": "text",
+          "default": "incoming contributions are estimated to be low-quality and/or AI-generated.",
+          "hint": "What it counts. About 75 characters."
+        },
+        {
+          "id": "accent",
+          "label": "Red words",
+          "type": "text",
+          "default": "increase, low-quality",
+          "hint": "Words from the card lines to set in bold red, separated by commas."
+        },
+        {
+          "id": "source",
+          "label": "Source",
+          "type": "text",
+          "default": "The Linux Foundation, Navigating Open Source Software Development in the Generative AI Era (2026)",
+          "hint": "Who published the figures, after “Source:”. Up to two lines."
+        }
+      ],
+      "path": "/image-projects/content-ai-code-review/index.html",
+      "thumb": "/image-projects/content-ai-code-review/thumb.jpg"
+    },
+    {
       "id": "content-aidhd-definition",
       "title": "AIDHD: a definition",
       "description": "A dictionary-style card on a plain light ground: the headword AIDHD in bold serif with its I in paper-red, (n.) under it, and the definition \"When AI makes almost everything in your job easier, except staying focused.\" No logo, no other text.",
@@ -1026,7 +1165,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-11-19T19:55:20.412Z",
+      "updated": "2026-11-19T20:49:58.767Z",
       "brief": null,
       "fields": [
         {
@@ -1083,7 +1222,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-11-19T19:55:20.412Z",
+      "updated": "2026-11-19T20:49:58.761Z",
       "brief": null,
       "fields": [
         {
@@ -1131,7 +1270,7 @@
       "height": 1350,
       "format": "portrait",
       "formats": null,
-      "updated": "2026-11-19T18:50:52.029Z",
+      "updated": "2026-11-19T20:49:58.768Z",
       "brief": null,
       "fields": [
         {
@@ -1389,7 +1528,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-11-19T18:56:26.992Z",
+      "updated": "2026-11-19T20:49:58.768Z",
       "brief": null,
       "fields": [
         {
@@ -1543,7 +1682,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-11-19T19:55:20.357Z",
+      "updated": "2026-11-19T20:49:58.771Z",
       "brief": null,
       "fields": [
         {
@@ -1598,7 +1737,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-11-19T19:55:20.356Z",
+      "updated": "2026-11-19T20:49:58.770Z",
       "brief": null,
       "fields": [
         {
@@ -1647,7 +1786,7 @@
       "height": 1080,
       "format": "other",
       "formats": null,
-      "updated": "2026-11-19T19:12:25.183Z",
+      "updated": "2026-11-19T20:49:58.771Z",
       "brief": null,
       "fields": [
         {
@@ -1688,6 +1827,144 @@
       ],
       "path": "/image-projects/content-jevons-paradox/index.html",
       "thumb": "/image-projects/content-jevons-paradox/thumb.jpg"
+    },
+    {
+      "id": "content-leaddev-stats",
+      "title": "LeadDev 2026: engineering leadership",
+      "description": "Four findings from the LeadDev Engineering Leadership Report 2026 on the light register, no logo, over a bright office photo (a laptop with a red warning, a code tile): 84% big at the top with “harder” on the red brush stroke, then 37%, 1 in 3 and 41% in three white cards with red pills.",
+      "group": "massive",
+      "category": "content",
+      "template": null,
+      "series": null,
+      "status": "draft",
+      "tags": [
+        "content",
+        "stat",
+        "data",
+        "engineering",
+        "ai",
+        "photo"
+      ],
+      "source": "LeadDev Engineering Leadership Report 2026. Figures and wording from the brief (Nov 2026). Background: generated with ElevenLabs (gpt-image-2.5-sunburst, 4:5, 2K), assets/background.jpg.",
+      "width": 1080,
+      "height": 1350,
+      "format": "portrait",
+      "formats": null,
+      "updated": "2026-11-20T16:30:55.582Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "photo",
+          "label": "Background",
+          "type": "image",
+          "default": "assets/background.jpg",
+          "hint": "A bright portrait photo with its subject on the right and empty space on the left."
+        },
+        {
+          "id": "zoom",
+          "label": "Background zoom",
+          "type": "range",
+          "min": 100,
+          "max": 150,
+          "step": 1,
+          "unit": "%",
+          "default": 147,
+          "hint": "Zooms from the bottom-right corner, lifting the subject above the cards."
+        },
+        {
+          "id": "leadValue",
+          "label": "Lead number",
+          "type": "text",
+          "default": "84%",
+          "hint": "The big number at the top. A few characters; it steps down to fit."
+        },
+        {
+          "id": "leadText",
+          "label": "Lead line",
+          "type": "text",
+          "default": "Engineering leaders believe AI will make it harder for junior developers to enter and grow in the profession.",
+          "hint": "What the big number counts, beside the photo. Up to four lines, about 110 characters."
+        },
+        {
+          "id": "highlight",
+          "label": "Highlighted word",
+          "type": "text",
+          "default": "harder",
+          "hint": "One word from the lead line, set in white on the red brush stroke."
+        },
+        {
+          "id": "stat1Tag",
+          "label": "Card 1 label",
+          "type": "text",
+          "default": "Technical work",
+          "hint": "The left card's pill. Two words."
+        },
+        {
+          "id": "stat1Value",
+          "label": "Card 1 number",
+          "type": "text",
+          "default": "37%",
+          "hint": "The left card's number. Up to six characters."
+        },
+        {
+          "id": "stat1Text",
+          "label": "Card 1 line",
+          "type": "text",
+          "default": "of engineering leaders are doing more hands-on technical work",
+          "hint": "What it counts. About 60 characters."
+        },
+        {
+          "id": "stat2Tag",
+          "label": "Card 2 label",
+          "type": "text",
+          "default": "Manager sentiment",
+          "hint": "The middle card's pill. Two words."
+        },
+        {
+          "id": "stat2Value",
+          "label": "Card 2 number",
+          "type": "text",
+          "default": "1 in 3",
+          "hint": "The middle card's number. Up to six characters."
+        },
+        {
+          "id": "stat2Text",
+          "label": "Card 2 line",
+          "type": "text",
+          "default": "managers are considering ditching management to become an IC",
+          "hint": "What it counts. About 60 characters."
+        },
+        {
+          "id": "stat3Tag",
+          "label": "Card 3 label",
+          "type": "text",
+          "default": "Team motivation",
+          "hint": "The right card's pill. Two words."
+        },
+        {
+          "id": "stat3Value",
+          "label": "Card 3 number",
+          "type": "text",
+          "default": "41%",
+          "hint": "The right card's number. Up to six characters."
+        },
+        {
+          "id": "stat3Text",
+          "label": "Card 3 line",
+          "type": "text",
+          "default": "say their team is less motivated than 12 months ago",
+          "hint": "What it counts. About 60 characters."
+        },
+        {
+          "id": "source",
+          "label": "Source",
+          "type": "text",
+          "default": "LeadDev Engineering Leadership Report 2026",
+          "hint": "Who published the figures, after “Source:”."
+        }
+      ],
+      "path": "/image-projects/content-leaddev-stats/index.html",
+      "thumb": "/image-projects/content-leaddev-stats/thumb.jpg"
     },
     {
       "id": "content-market-map-teaser",
@@ -1743,6 +2020,199 @@
       "thumb": "/image-projects/content-market-map-teaser/thumb.jpg"
     },
     {
+      "id": "content-smartphone-thoughtfulness",
+      "title": "Smartphones and decision thoughtfulness",
+      "description": "A research figure redrawn on the light register, 4:3, over a photo of a hand tapping a phone that fades into the ground towards the left: the hook “Why shoppers browse on their phone but buy on a PC” as the title, then device associations (smaller screen size, low work-relatedness) and behavioral associations (portability, rapid interaction design, through micro-moment usage) lowering perceived decision thoughtfulness on a smartphone, as Phosphor icons and labels straight on the ground (the outcome alone in a red box) joined by orthogonal arrows, each sign in a red pill on its arrow. Source: Yuen, Townsend and Tsiros, When and Why Consumers Avoid Purchase on Smartphones, Journal of Marketing (forthcoming).",
+      "group": "massive",
+      "category": "content",
+      "template": null,
+      "series": null,
+      "status": "draft",
+      "tags": [
+        "content",
+        "diagram",
+        "research",
+        "smartphone",
+        "sage",
+        "icons",
+        "phosphor",
+        "photo"
+      ],
+      "source": "Vincentia Yuen, Claudia Townsend and Michael Tsiros, When and Why Consumers Avoid Purchase on Smartphones, Journal of Marketing (Sage), accepted manuscript, https://journals.sagepub.com/toc/JMX/0/ja: Figure 1, Antecedents to Lower Perceived Decision Thoughtfulness on a Smartphone (vs. PC). Redrawn from the brief's screenshot of it (Nov 2026), wording and signs as given. Icons: Phosphor (MIT), regular weight. Background photo: from the brief (Nov 2026), assets/background.jpg (1470×980).",
+      "width": 1440,
+      "height": 1080,
+      "format": "other",
+      "formats": null,
+      "updated": "2026-11-20T19:18:39.834Z",
+      "brief": null,
+      "fields": [
+        {
+          "id": "photo",
+          "label": "Background",
+          "type": "image",
+          "default": "assets/background.jpg",
+          "hint": "A landscape photo with its subject on the right; it fades into the ground towards the left."
+        },
+        {
+          "id": "title",
+          "label": "Title",
+          "type": "text",
+          "default": "Why shoppers browse on their phone but buy on a PC",
+          "hint": "The hook across the top, up to two lines. About 50 characters."
+        },
+        {
+          "id": "deviceLabel",
+          "label": "Top group",
+          "type": "text",
+          "default": "Device Associations",
+          "hint": "The red eyebrow over the top two boxes. Two or three words."
+        },
+        {
+          "id": "box1",
+          "label": "Top group, box 1",
+          "type": "text",
+          "default": "Smaller\nscreen size",
+          "hint": "Two short lines; its arrow goes to the outcome."
+        },
+        {
+          "id": "box2",
+          "label": "Top group, box 2",
+          "type": "text",
+          "default": "Low work-\nrelatedness",
+          "hint": "Two short lines; its arrow goes to the outcome."
+        },
+        {
+          "id": "behaviorLabel",
+          "label": "Bottom group",
+          "type": "text",
+          "default": "Behavioral Associations",
+          "hint": "The red eyebrow over the bottom two boxes. Two or three words."
+        },
+        {
+          "id": "box3",
+          "label": "Bottom group, box 1",
+          "type": "text",
+          "default": "Portability",
+          "hint": "Two short lines at most; its arrow goes to the box under the outcome."
+        },
+        {
+          "id": "box4",
+          "label": "Bottom group, box 2",
+          "type": "text",
+          "default": "Rapid\ninteraction\ndesign",
+          "hint": "Up to three short lines; its arrow goes to the middle box."
+        },
+        {
+          "id": "mediator",
+          "label": "Under the outcome",
+          "type": "text",
+          "default": "Micro-moment\nusage",
+          "hint": "Two short lines; its arrow rises into the outcome."
+        },
+        {
+          "id": "outcome",
+          "label": "Outcome",
+          "type": "text",
+          "default": "Perceived\ndecision\nthoughtfulness",
+          "hint": "The box on the right. Up to three short lines."
+        },
+        {
+          "id": "sign1",
+          "label": "Sign: top box 1 → outcome",
+          "type": "select",
+          "default": "−",
+          "options": [
+            {
+              "value": "+",
+              "label": "+"
+            },
+            {
+              "value": "−",
+              "label": "−"
+            }
+          ],
+          "hint": "The effect along that arrow."
+        },
+        {
+          "id": "sign2",
+          "label": "Sign: top box 2 → outcome",
+          "type": "select",
+          "default": "−",
+          "options": [
+            {
+              "value": "+",
+              "label": "+"
+            },
+            {
+              "value": "−",
+              "label": "−"
+            }
+          ],
+          "hint": "The effect along that arrow."
+        },
+        {
+          "id": "sign3",
+          "label": "Sign: bottom box 1 → middle",
+          "type": "select",
+          "default": "+",
+          "options": [
+            {
+              "value": "+",
+              "label": "+"
+            },
+            {
+              "value": "−",
+              "label": "−"
+            }
+          ],
+          "hint": "The effect along that arrow."
+        },
+        {
+          "id": "sign4",
+          "label": "Sign: bottom box 2 → middle",
+          "type": "select",
+          "default": "+",
+          "options": [
+            {
+              "value": "+",
+              "label": "+"
+            },
+            {
+              "value": "−",
+              "label": "−"
+            }
+          ],
+          "hint": "The effect along that arrow."
+        },
+        {
+          "id": "sign5",
+          "label": "Sign: middle → outcome",
+          "type": "select",
+          "default": "−",
+          "options": [
+            {
+              "value": "+",
+              "label": "+"
+            },
+            {
+              "value": "−",
+              "label": "−"
+            }
+          ],
+          "hint": "The effect along that arrow."
+        },
+        {
+          "id": "source",
+          "label": "Source",
+          "type": "text",
+          "default": "Yuen, Townsend & Tsiros, “When and Why Consumers Avoid Purchase on Smartphones,” Journal of Marketing (forthcoming)",
+          "hint": "The paper the figure comes from, after “Source:”. One line."
+        }
+      ],
+      "path": "/image-projects/content-smartphone-thoughtfulness/index.html",
+      "thumb": "/image-projects/content-smartphone-thoughtfulness/thumb.jpg"
+    },
+    {
       "id": "content-split-numbers",
       "title": "$21.4 billion and 5 minutes",
       "description": "A split of two big numbers side by side, $21.4 billion and 5 minutes., over a photo of glass towers seen from below, darkened so the type reads.",
@@ -1761,7 +2231,7 @@
       "height": 1080,
       "format": "other",
       "formats": null,
-      "updated": "2026-11-19T19:12:41.565Z",
+      "updated": "2026-11-19T20:49:58.774Z",
       "brief": null,
       "fields": [
         {
@@ -1830,7 +2300,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-11-19T19:55:20.469Z",
+      "updated": "2026-11-19T20:49:58.776Z",
       "brief": null,
       "fields": [
         {
@@ -1863,7 +2333,7 @@
       "height": 1080,
       "format": "square",
       "formats": null,
-      "updated": "2026-11-19T19:55:20.469Z",
+      "updated": "2026-11-19T20:49:58.775Z",
       "brief": null,
       "fields": [
         {

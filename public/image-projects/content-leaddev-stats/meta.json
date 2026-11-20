@@ -1,0 +1,132 @@
+{
+  "id": "content-leaddev-stats",
+  "title": "LeadDev 2026: engineering leadership",
+  "description": "Four findings from the LeadDev Engineering Leadership Report 2026 on the light register, no logo, over a bright office photo (a laptop with a red warning, a code tile): 84% big at the top with “harder” on the red brush stroke, then 37%, 1 in 3 and 41% in three white cards with red pills.",
+  "group": "massive",
+  "category": "content",
+  "template": null,
+  "series": null,
+  "status": "draft",
+  "tags": [
+    "content",
+    "stat",
+    "data",
+    "engineering",
+    "ai",
+    "photo"
+  ],
+  "source": "LeadDev Engineering Leadership Report 2026. Figures and wording from the brief (Nov 2026). Background: generated with ElevenLabs (gpt-image-2.5-sunburst, 4:5, 2K), assets/background.jpg.",
+  "width": 1080,
+  "height": 1350,
+  "fields": [
+    {
+      "id": "photo",
+      "label": "Background",
+      "type": "image",
+      "default": "assets/background.jpg",
+      "hint": "A bright portrait photo with its subject on the right and empty space on the left."
+    },
+    {
+      "id": "zoom",
+      "label": "Background zoom",
+      "type": "range",
+      "min": 100,
+      "max": 150,
+      "step": 1,
+      "unit": "%",
+      "default": 147,
+      "hint": "Zooms from the bottom-right corner, lifting the subject above the cards."
+    },
+    {
+      "id": "leadValue",
+      "label": "Lead number",
+      "type": "text",
+      "default": "84%",
+      "hint": "The big number at the top. A few characters; it steps down to fit."
+    },
+    {
+      "id": "leadText",
+      "label": "Lead line",
+      "type": "text",
+      "default": "Engineering leaders believe AI will make it harder for junior developers to enter and grow in the profession.",
+      "hint": "What the big number counts, beside the photo. Up to four lines, about 110 characters."
+    },
+    {
+      "id": "highlight",
+      "label": "Highlighted word",
+      "type": "text",
+      "default": "harder",
+      "hint": "One word from the lead line, set in white on the red brush stroke."
+    },
+    {
+      "id": "stat1Tag",
+      "label": "Card 1 label",
+      "type": "text",
+      "default": "Technical work",
+      "hint": "The left card's pill. Two words."
+    },
+    {
+      "id": "stat1Value",
+      "label": "Card 1 number",
+      "type": "text",
+      "default": "37%",
+      "hint": "The left card's number. Up to six characters."
+    },
+    {
+      "id": "stat1Text",
+      "label": "Card 1 line",
+      "type": "text",
+      "default": "of engineering leaders are doing more hands-on technical work",
+      "hint": "What it counts. About 60 characters."
+    },
+    {
+      "id": "stat2Tag",
+      "label": "Card 2 label",
+      "type": "text",
+      "default": "Manager sentiment",
+      "hint": "The middle card's pill. Two words."
+    },
+    {
+      "id": "stat2Value",
+      "label": "Card 2 number",
+      "type": "text",
+      "default": "1 in 3",
+      "hint": "The middle card's number. Up to six characters."
+    },
+    {
+      "id": "stat2Text",
+      "label": "Card 2 line",
+      "type": "text",
+      "default": "managers are considering ditching management to become an IC",
+      "hint": "What it counts. About 60 characters."
+    },
+    {
+      "id": "stat3Tag",
+      "label": "Card 3 label",
+      "type": "text",
+      "default": "Team motivation",
+      "hint": "The right card's pill. Two words."
+    },
+    {
+      "id": "stat3Value",
+      "label": "Card 3 number",
+      "type": "text",
+      "default": "41%",
+      "hint": "The right card's number. Up to six characters."
+    },
+    {
+      "id": "stat3Text",
+      "label": "Card 3 line",
+      "type": "text",
+      "default": "say their team is less motivated than 12 months ago",
+      "hint": "What it counts. About 60 characters."
+    },
+    {
+      "id": "source",
+      "label": "Source",
+      "type": "text",
+      "default": "LeadDev Engineering Leadership Report 2026",
+      "hint": "Who published the figures, after “Source:”."
+    }
+  ]
+}

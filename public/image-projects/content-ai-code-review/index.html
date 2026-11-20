@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1350" />
+    <title>AI code: who will review it?</title>
+    <link rel="stylesheet" href="../_brand/massive.css" />
+    <!-- Three findings on AI-era open source, on the light register, no logo, over a bright office photo (a laptop
+         on a code-review page and a pull-request tile on the left, empty white space on the right and along the
+         desk). Built like content-leaddev-stats, mirrored: the title sits on the right, centred between the canvas's
+         top edge and the stats, its question in white on the red brush stroke. Under it, three stats in a row, each
+         centred straight on the desk (no card): a red pill, an ink number and a short line whose accent words are
+         bold paper-red. The source sits at the
+         bottom. onFields fits the title to its column, and the card numbers and lines to one shared size each. -->
+    <style>
+      /* The ground is the photo's desk colour (over the soft orange): the photo is lifted, and the desk carries on
+         below it. */
+      #canvas,
+      #canvas.soft-orange {
+        width: 1080px;
+        height: 1350px;
+        background: #eeedee;
+        --desk: 238, 237, 238;
+        --line: rgba(23, 22, 21, 0.14);
+        --mid: rgba(23, 22, 21, 0.72);
+        --dim: rgba(23, 22, 21, 0.6);
+      }
+      /* Lifted (not zoomed, which would push the laptop into the title) so the laptop and the tile rise clear of
+         the cards. Its bottom edge fades into the desk colour, behind the cards. */
+      .photo {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 50% 50%;
+        transform: translateY(calc(var(--lift, 220) * -1px));
+      }
+      .fade {
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 220px;
+        top: calc(1350px - var(--lift, 220) * 1px - 220px);
+        background: linear-gradient(to bottom, rgba(var(--desk), 0), rgb(var(--desk)));
+      }
+      .page {
+        position: absolute;
+        inset: 88px 80px 84px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* The title, on the right, centred between the canvas's top edge and the stats (the negative margin undoes
+         the page's top inset). Its fixed height puts the stats just under the laptop; the source keeps to the
+         bottom. */
+      .lead {
+        flex: none;
+        height: 772px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-top: -88px;
+      }
+      /* One type size and line spacing for the whole title (onFields fits it): the headline in ink, then the
+         question in paper-red, its lines broken where the field breaks them. */
+      .title {
+        align-self: flex-end;
+        width: 470px;
+        font-size: 88px;
+        font-weight: 900;
+        letter-spacing: -0.045em;
+      }
+      .headline {
+        line-height: 1.04;
+        color: var(--m-ink);
+      }
+      .question-wrap {
+        margin-top: 0.22em;
+        line-height: 1.04;
+      }
+      .question {
+        white-space: pre;
+        color: var(--m-paper-red);
+      }
+
+      /* The three cards. */
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+      }
+      .card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-width: 0;
+        padding: 0 4px;
+        text-align: center;
+      }
+      .pill {
+        max-width: 100%;
+        padding: 7px 14px 6px;
+        border-radius: 999px;
+        background: var(--m-paper-red);
+        color: #ffffff;
+        font-size: 19px;
+        font-weight: 700;
+        line-height: 1.2;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+      .card .value {
+        margin-top: 24px;
+        font-size: 112px;
+        font-weight: 900;
+        line-height: 0.92;
+        letter-spacing: -0.045em;
+        white-space: nowrap;
+      }
+      .card .text {
+        margin-top: 18px;
+        font-size: 32px;
+        font-weight: 400;
+        line-height: 1.3;
+        color: var(--mid);
+        text-wrap: balance;
+      }
+      .card .text .accent {
+        font-weight: 700;
+        color: var(--m-paper-red);
+      }
+      /* Hyphenated words ("low-quality", "AI-generated") stay on one line. */
+      .card .text .nb {
+        white-space: nowrap;
+      }
+
+      .source {
+        margin-top: auto;
+        font-size: 22px;
+        font-weight: 400;
+        line-height: 1.35;
+        color: var(--dim);
+      }
+      .source span {
+        font-weight: 600;
+        color: var(--mid);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas" class="soft-orange">
+      <img class="photo" data-field-src="photo" src="assets/background.jpg" alt="" />
+      <div class="fade"></div>
+      <div class="page">
+        <div class="lead">
+          <div class="title">
+            <div class="headline" data-field="headline">AI is making code faster to produce.</div>
+            <div class="question-wrap"><span class="question" data-field="question">Who will
+review it?</span></div>
+          </div>
+        </div>
+
+        <div class="cards">
+          <div class="card">
+            <div class="pill" data-field="stat1Tag">Contributions</div>
+            <div class="value" data-field="stat1Value">59%</div>
+            <div class="text" data-field="stat1Text">of maintainers report an increase in contribution volume.</div>
+          </div>
+          <div class="card">
+            <div class="pill" data-field="stat2Tag">Review times</div>
+            <div class="value" data-field="stat2Value">52%</div>
+            <div class="text" data-field="stat2Text">say review times are longer.</div>
+          </div>
+          <div class="card">
+            <div class="pill" data-field="stat3Tag">Quality</div>
+            <div class="value" data-field="stat3Value">1 in 4</div>
+            <div class="text" data-field="stat3Text">incoming contributions are estimated to be low-quality and/or AI-generated.</div>
+          </div>
+        </div>
+
+        <div class="source">Source: <span data-field="source">The Linux Foundation, Navigating Open Source Software Development in the Generative AI Era (2026)</span></div>
+      </div>
+    </div>
+
+    <script src="../_lib/placeholders.js"></script>
+    <script>
+      const $ = (s) => document.querySelector(s);
+      const $$ = (s) => [...document.querySelectorAll(s)];
+      const esc = (s) => s.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[c]);
+      const words = (list) =>
+        String(list ?? "")
+          .split(",")
+          .map((w) => w.trim())
+          .filter(Boolean);
+      const pattern = (w) => w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+      // Steps the elements' font size down from `max` until every one `fits()`, or `min` is reached.
+      function fit(els, max, min, step, fits) {
+        for (let size = max; size >= min; size -= step) {
+          for (const el of els) el.style.fontSize = `${size}px`;
+          if (els.every(fits)) return size;
+        }
+        return min;
+      }
+      const lines = (el, lh) => Math.round(el.offsetHeight / (parseFloat(el.style.fontSize) * lh));
+
+      window.onFields = (values) => {
+        massivePlaceholders();
+        $("#canvas").style.setProperty("--lift", Number.isFinite(Number(values.lift)) ? Number(values.lift) : 220);
+
+        // The accent words, bold paper-red, in the card lines, and every hyphenated word kept whole. Their text stays
+        // the same, so each field still matches it, and a line being typed into on the canvas is left alone until
+        // it's done.
+        const accent = words(values.accent).map((w) => w.toLowerCase());
+        for (const el of $$(".card .text")) {
+          if (el.isContentEditable) continue;
+          const text = el.textContent;
+          el.innerHTML = text
+            .split(/(\s+)/)
+            .map((tok) => {
+              if (/^\s*$/.test(tok)) return tok;
+              const core = tok.replace(/^[^\w]+|[^\w]+$/g, "");
+              let html = esc(tok);
+              if (core && accent.includes(core.toLowerCase())) html = html.replace(esc(core), `<span class="accent">${esc(core)}</span>`);
+              return tok.includes("-") ? `<span class="nb">${html}</span>` : html;
+            })
+            .join("");
+        }
+
+        // One size for the whole title, the largest at which the headline keeps to three lines with no word wider
+        // than the column, and each of the question's lines fits it too.
+        const headline = $(".headline");
+        const question = $(".question");
+        fit([$(".title")], 92, 52, 2, (title) => {
+          const size = parseFloat(title.style.fontSize);
+          const headlineFits = headline.scrollWidth <= title.clientWidth && Math.round(headline.offsetHeight / (size * 1.04)) <= 3;
+          const questionFits = [...question.getClientRects()].every((r) => r.width <= title.clientWidth);
+          return headlineFits && questionFits;
+        });
+
+        // The card numbers share one size, the largest at which each fits its card; the lines likewise, in at most
+        // five lines each. The pills stay on one line inside their card.
+        fit($$(".card .value"), 112, 64, 2, (el) => el.scrollWidth <= el.clientWidth);
+        fit($$(".card .text"), 32, 24, 1, (el) => lines(el, 1.3) <= 5);
+        fit($$(".pill"), 19, 13, 1, (el) => el.scrollWidth <= el.clientWidth);
+
+        // The source in at most two lines.
+        fit([$(".source")], 22, 18, 1, (el) => lines(el, 1.35) <= 2);
+      };
+    </script>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

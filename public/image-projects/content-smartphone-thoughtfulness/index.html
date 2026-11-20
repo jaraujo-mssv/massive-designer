@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1440, height=1080" />
+    <title>Smartphones and decision thoughtfulness</title>
+    <link rel="stylesheet" href="../_brand/massive.css" />
+    <!-- A research figure redrawn on the light register, 4:3, over a photo: a hand tapping a phone on the right,
+         fading into the soft-orange ground towards the left, where the diagram sits. The figure's caption is the
+         title. Two groups of antecedents, each under a red eyebrow (no rule), as white boxes with a Phosphor icon (regular,
+         MIT, inlined) in paper-red; their branches meet on a bus and run on as one orthogonal wire (90° bends). The
+         outcome and the mediator share a column, the outcome above: the device group's wire drops into the outcome's
+         top, the behavioral group's runs into the mediator, and the mediator's rises straight into the outcome's
+         bottom. Each + or − sits in a red circle on its own wire; the outcome box is solid paper-red with white text and icon. The paper is named in a source line at the bottom
+         left. onFields fits the title and the box text, draws the wires (svg) and places the pills on them. -->
+    <style>
+      #canvas {
+        width: 1440px;
+        height: 1080px;
+        --ground: 255, 247, 242;
+        --line: rgba(23, 22, 21, 0.14);
+        --mid: rgba(23, 22, 21, 0.72);
+        --dim: rgba(23, 22, 21, 0.55);
+        --wire: rgba(23, 22, 21, 0.42);
+      }
+
+      /* The photo fills the height, kept to the right and nudged further right so the phone clears the diagram;
+         the ground covers its left side and fades out towards the phone. */
+      .photo {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 100% 50%;
+        transform: translateX(80px);
+      }
+      .fade {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to right,
+          rgb(var(--ground)) 0%,
+          rgb(var(--ground)) 56%,
+          rgba(var(--ground), 0.85) 63%,
+          rgba(var(--ground), 0) 76%
+        );
+      }
+
+      .title {
+        position: absolute;
+        left: 80px;
+        right: 80px;
+        top: 80px;
+        font-size: 62px;
+        font-weight: 800;
+        line-height: 1.08;
+        letter-spacing: -0.03em;
+        text-wrap: balance;
+        color: var(--m-ink);
+      }
+
+      .eyebrow {
+        position: absolute;
+        left: 80px;
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 1.2;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        white-space: nowrap;
+        color: var(--m-paper-red);
+      }
+      .eyebrow.device {
+        top: 250px;
+      }
+      .eyebrow.behavior {
+        top: 608px;
+      }
+
+      /* An item: its icon, then its text, straight on the ground (no fill, no outline). */
+      .box {
+        position: absolute;
+        height: 116px;
+        display: flex;
+        align-items: center;
+        gap: 18px;
+      }
+      .box svg {
+        flex-shrink: 0;
+        width: 46px;
+        height: 46px;
+        color: var(--m-paper-red);
+      }
+      .box .text {
+        min-width: 0;
+        font-size: 32px;
+        font-weight: 600;
+        line-height: 1.16;
+        letter-spacing: -0.01em;
+        white-space: pre-line;
+        color: var(--m-ink);
+      }
+      #b1,
+      #b2,
+      #b3,
+      #b4 {
+        left: 80px;
+        width: 260px;
+      }
+      #b1 {
+        top: 288px;
+      }
+      #b2 {
+        top: 414px;
+      }
+      #b3 {
+        top: 647px;
+      }
+      #b4 {
+        top: 773px;
+      }
+      /* The outcome stands out, the one filled item: paper-red, its text and icon white. */
+      #outcome {
+        left: 540px;
+        width: 346px;
+        top: 460px;
+        height: 150px;
+        padding: 0 20px;
+        background: var(--m-paper-red);
+        border-radius: 20px;
+      }
+      #outcome svg,
+      #outcome .text {
+        color: #ffffff;
+      }
+      /* The mediator under it, as wide as its content; onFields centres it on the outcome. */
+      #mediator {
+        left: 540px;
+        top: 710px;
+      }
+
+      .wires {
+        position: absolute;
+        inset: 0;
+        width: 1440px;
+        height: 1080px;
+        overflow: visible;
+      }
+      .wires path {
+        fill: none;
+        stroke: var(--wire);
+        stroke-width: 3;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .wires polygon {
+        fill: var(--wire);
+      }
+      /* A sign in a red circle, centred on its wire. */
+      .sign {
+        position: absolute;
+        width: 46px;
+        height: 46px;
+        transform: translate(-50%, -50%);
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        background: var(--m-paper-red);
+        color: #ffffff;
+        font-size: 34px;
+        font-weight: 800;
+        line-height: 1;
+      }
+
+      .source {
+        position: absolute;
+        left: 80px;
+        width: 760px;
+        bottom: 72px;
+        font-size: 22px;
+        font-weight: 400;
+        line-height: 1.35;
+        color: var(--dim);
+      }
+      .source span {
+        font-weight: 600;
+        color: var(--mid);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas" class="soft-orange">
+      <img class="photo" data-field-src="photo" src="assets/background.jpg" alt="" />
+      <div class="fade"></div>
+
+      <div class="title" data-field="title">Why shoppers browse on their phone but buy on a PC</div>
+
+      <svg class="wires" viewBox="0 0 1440 1080" aria-hidden="true"></svg>
+
+      <div class="eyebrow device" data-field="deviceLabel">Device Associations</div>
+      <div class="eyebrow behavior" data-field="behaviorLabel">Behavioral Associations</div>
+
+      <!-- Icons: Phosphor (phosphoricons.com, MIT), regular weight, inlined. -->
+      <div class="box" id="b1"><svg aria-hidden="true" data-phosphor="DeviceMobile" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 256 256"><path d="M176,16H80A24,24,0,0,0,56,40V216a24,24,0,0,0,24,24h96a24,24,0,0,0,24-24V40A24,24,0,0,0,176,16ZM72,64H184V192H72Zm8-32h96a8,8,0,0,1,8,8v8H72V40A8,8,0,0,1,80,32Zm96,192H80a8,8,0,0,1-8-8v-8H184v8A8,8,0,0,1,176,224Z"></path></svg><div class="text" data-field="box1">Smaller
+screen size</div></div>
+      <div class="box" id="b2"><svg aria-hidden="true" data-phosphor="Briefcase" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 256 256"><path d="M216,56H176V48a24,24,0,0,0-24-24H104A24,24,0,0,0,80,48v8H40A16,16,0,0,0,24,72V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V72A16,16,0,0,0,216,56ZM96,48a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96ZM216,72v41.61A184,184,0,0,1,128,136a184.07,184.07,0,0,1-88-22.38V72Zm0,128H40V131.64A200.19,200.19,0,0,0,128,152a200.25,200.25,0,0,0,88-20.37V200ZM104,112a8,8,0,0,1,8-8h32a8,8,0,0,1,0,16H112A8,8,0,0,1,104,112Z"></path></svg><div class="text" data-field="box2">Low work-
+relatedness</div></div>
+      <div class="box" id="b3"><svg aria-hidden="true" data-phosphor="PersonSimpleWalk" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 256 256"><path d="M152,80a32,32,0,1,0-32-32A32,32,0,0,0,152,80Zm0-48a16,16,0,1,1-16,16A16,16,0,0,1,152,32Zm64,112a8,8,0,0,1-8,8c-35.31,0-52.95-17.81-67.12-32.12-2.74-2.77-5.36-5.4-8-7.84l-13.43,30.88,37.2,26.57A8,8,0,0,1,160,176v56a8,8,0,0,1-16,0V180.12l-31.07-22.2L79.34,235.19A8,8,0,0,1,72,240a7.84,7.84,0,0,1-3.19-.67,8,8,0,0,1-4.15-10.52l54.08-124.37c-9.31-1.65-20.92,1.2-34.7,8.58a163.88,163.88,0,0,0-30.57,21.77,8,8,0,0,1-10.95-11.66c2.5-2.35,61.69-57.23,98.72-25.08,3.83,3.32,7.48,7,11,10.57C166.19,122.7,179.36,136,208,136A8,8,0,0,1,216,144Z"></path></svg><div class="text" data-field="box3">Portability</div></div>
+      <div class="box" id="b4"><svg aria-hidden="true" data-phosphor="HandTap" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 256 256"><path d="M56,76a60,60,0,0,1,120,0,8,8,0,0,1-16,0,44,44,0,0,0-88,0,8,8,0,1,1-16,0Zm140,44a27.9,27.9,0,0,0-13.36,3.39A28,28,0,0,0,144,106.7V76a28,28,0,0,0-56,0v80l-3.82-6.13a28,28,0,0,0-48.41,28.17l29.32,50A8,8,0,1,0,78.89,220L49.6,170a12,12,0,1,1,20.78-12l.14.23,18.68,30A8,8,0,0,0,104,184V76a12,12,0,0,1,24,0v68a8,8,0,1,0,16,0V132a12,12,0,0,1,24,0v20a8,8,0,0,0,16,0v-4a12,12,0,0,1,24,0v36c0,21.61-7.1,36.3-7.16,36.42a8,8,0,0,0,3.58,10.73A7.9,7.9,0,0,0,208,232a8,8,0,0,0,7.16-4.42c.37-.73,8.85-18,8.85-43.58V148A28,28,0,0,0,196,120Z"></path></svg><div class="text" data-field="box4">Rapid
+interaction
+design</div></div>
+      <div class="box" id="outcome"><svg aria-hidden="true" data-phosphor="Scales" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 256 256"><path d="M239.43,133l-32-80h0a8,8,0,0,0-9.16-4.84L136,62V40a8,8,0,0,0-16,0V65.58L54.26,80.19A8,8,0,0,0,48.57,85h0v.06L16.57,165a7.92,7.92,0,0,0-.57,3c0,23.31,24.54,32,40,32s40-8.69,40-32a7.92,7.92,0,0,0-.57-3L66.92,93.77,120,82V208H104a8,8,0,0,0,0,16h48a8,8,0,0,0,0-16H136V78.42L187,67.1,160.57,133a7.92,7.92,0,0,0-.57,3c0,23.31,24.54,32,40,32s40-8.69,40-32A7.92,7.92,0,0,0,239.43,133ZM56,184c-7.53,0-22.76-3.61-23.93-14.64L56,109.54l23.93,59.82C78.76,180.39,63.53,184,56,184Zm144-32c-7.53,0-22.76-3.61-23.93-14.64L200,77.54l23.93,59.82C222.76,148.39,207.53,152,200,152Z"></path></svg><div class="text" data-field="outcome">Perceived
+decision
+thoughtfulness</div></div>
+      <div class="box" id="mediator"><svg aria-hidden="true" data-phosphor="Timer" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 256 256"><path d="M128,40a96,96,0,1,0,96,96A96.11,96.11,0,0,0,128,40Zm0,176a80,80,0,1,1,80-80A80.09,80.09,0,0,1,128,216ZM173.66,90.34a8,8,0,0,1,0,11.32l-40,40a8,8,0,0,1-11.32-11.32l40-40A8,8,0,0,1,173.66,90.34ZM96,16a8,8,0,0,1,8-8h48a8,8,0,0,1,0,16H104A8,8,0,0,1,96,16Z"></path></svg><div class="text" data-field="mediator">Micro-moment
+usage</div></div>
+
+      <div class="sign" id="s1" data-field="sign1">−</div>
+      <div class="sign" id="s2" data-field="sign2">−</div>
+      <div class="sign" id="s3" data-field="sign3">+</div>
+      <div class="sign" id="s4" data-field="sign4">+</div>
+      <div class="sign" id="s5" data-field="sign5">−</div>
+
+      <div class="source">Source: <span data-field="source">Yuen, Townsend &amp; Tsiros, “When and Why Consumers Avoid Purchase on Smartphones,” Journal of Marketing (forthcoming)</span></div>
+    </div>
+
+    <script src="../_lib/placeholders.js"></script>
+    <script>
+      const $ = (s) => document.querySelector(s);
+      const $$ = (s) => [...document.querySelectorAll(s)];
+      const SVG = "http://www.w3.org/2000/svg";
+
+      const BUS = 450; // where each group's two branches meet
+      const GAP = 12; // between a box and its wire
+      const R = 16; // the radius of each 90° bend
+      const HEAD = 20; // arrowhead length
+      const HALF = 8; // arrowhead half-width
+
+      // Steps the elements' font size down from `max` until every one `fits()`, or `min` is reached.
+      function fit(els, max, min, step, fits) {
+        for (let size = max; size >= min; size -= step) {
+          for (const el of els) el.style.fontSize = `${size}px`;
+          if (els.every(fits)) return size;
+        }
+        return min;
+      }
+
+      // A box's edges in canvas pixels (offsets, so a scaled preview doesn't skew them).
+      const edges = (el) => ({
+        left: el.offsetLeft,
+        right: el.offsetLeft + el.offsetWidth,
+        top: el.offsetTop,
+        bottom: el.offsetTop + el.offsetHeight,
+        mid: el.offsetTop + el.offsetHeight / 2,
+        cx: el.offsetLeft + el.offsetWidth / 2,
+      });
+
+      // An orthogonal wire through `pts` (each step horizontal or vertical), its corners rounded. With `arrow`, it
+      // stops short of its last point by the head's length and a filled head ends there.
+      function wire(svg, pts, arrow) {
+        const p = pts.map(([x, y]) => ({ x, y }));
+        const last = p[p.length - 1];
+        const prev = p[p.length - 2];
+        const ux = Math.sign(last.x - prev.x);
+        const uy = Math.sign(last.y - prev.y);
+        const end = arrow ? { x: last.x - ux * HEAD, y: last.y - uy * HEAD } : last;
+        let d = `M ${p[0].x} ${p[0].y}`;
+        for (let i = 1; i < p.length - 1; i++) {
+          const a = p[i - 1];
+          const c = p[i];
+          const b = p[i + 1];
+          const r = Math.min(R, Math.hypot(c.x - a.x, c.y - a.y) / 2, Math.hypot(b.x - c.x, b.y - c.y) / 2);
+          d += ` L ${c.x - Math.sign(c.x - a.x) * r} ${c.y - Math.sign(c.y - a.y) * r}`;
+          d += ` Q ${c.x} ${c.y} ${c.x + Math.sign(b.x - c.x) * r} ${c.y + Math.sign(b.y - c.y) * r}`;
+        }
+        d += ` L ${end.x} ${end.y}`;
+        const path = document.createElementNS(SVG, "path");
+        path.setAttribute("d", d);
+        svg.append(path);
+        if (arrow) {
+          const tip = document.createElementNS(SVG, "polygon");
+          tip.setAttribute("points", `${last.x},${last.y} ${end.x - uy * HALF},${end.y + ux * HALF} ${end.x + uy * HALF},${end.y - ux * HALF}`);
+          svg.append(tip);
+        }
+      }
+
+      const at = (sign, x, y) => {
+        sign.style.left = `${x}px`;
+        sign.style.top = `${y}px`;
+      };
+
+      window.onFields = () => {
+        massivePlaceholders();
+
+        // The title in at most two lines.
+        fit([$(".title")], 62, 36, 2, (el) => Math.round(el.offsetHeight / (parseFloat(el.style.fontSize) * 1.08)) <= 2);
+
+        // Every box's text at one size, the largest at which each fits beside its icon in no more lines than its
+        // own line breaks make (so "Micro-moment" never splits at its hyphen).
+        fit($$(".box .text"), 32, 20, 1, (el) => {
+          const box = el.parentElement;
+          const size = parseFloat(el.style.fontSize);
+          const breaks = el.textContent.split("\n").length;
+          const lines = Math.round(el.offsetHeight / (size * 1.16));
+          return lines <= breaks && el.scrollWidth <= el.clientWidth && box.scrollWidth <= box.clientWidth && box.scrollHeight <= box.clientHeight;
+        });
+
+        // The source in at most two lines, beside the photo.
+        fit([$(".source")], 22, 16, 1, (el) => el.offsetHeight <= parseFloat(el.style.fontSize) * 1.35 * 2 + 2);
+
+        // The mediator centred under the outcome, so its wire rises from its middle into the outcome's.
+        const outEl = $("#outcome");
+        const medEl = $("#mediator");
+        medEl.style.left = `${Math.round(outEl.offsetLeft + outEl.offsetWidth / 2 - medEl.offsetWidth / 2)}px`;
+
+        const svg = $(".wires");
+        svg.replaceChildren();
+        const [b1, b2, b3, b4, med, out] = ["#b1", "#b2", "#b3", "#b4", "#mediator", "#outcome"].map((s) => edges($(s)));
+        const deviceRow = (b1.mid + b2.mid) / 2;
+        const behaviorRow = (b3.mid + b4.mid) / 2;
+
+        // Device group: each box out to the bus, the bus to its trunk row, the trunk along to the outcome's centre
+        // and down into its top.
+        wire(svg, [[b1.right + GAP, b1.mid], [BUS, b1.mid], [BUS, deviceRow]]);
+        wire(svg, [[b2.right + GAP, b2.mid], [BUS, b2.mid], [BUS, deviceRow]]);
+        wire(svg, [[BUS, deviceRow], [out.cx, deviceRow], [out.cx, out.top - GAP]], true);
+
+        // Behavioral group: the same, its trunk straight into the mediator.
+        wire(svg, [[b3.right + GAP, b3.mid], [BUS, b3.mid], [BUS, behaviorRow]]);
+        wire(svg, [[b4.right + GAP, b4.mid], [BUS, b4.mid], [BUS, behaviorRow]]);
+        wire(svg, [[BUS, behaviorRow], [med.left - GAP, behaviorRow]], true);
+
+        // Mediator: straight up into the outcome's bottom.
+        wire(svg, [[out.cx, med.top - GAP], [out.cx, out.bottom + GAP]], true);
+
+        // Each sign in its circle on its own wire: the four branches halfway to the bus (clear of the bend), the
+        // mediator's halfway between the boxes (clear of the arrowhead).
+        const branch = (b1.right + GAP + BUS - R) / 2;
+        at($("#s1"), branch, b1.mid);
+        at($("#s2"), branch, b2.mid);
+        at($("#s3"), branch, b3.mid);
+        at($("#s4"), branch, b4.mid);
+        at($("#s5"), out.cx, (med.top - GAP + out.bottom + GAP + HEAD) / 2);
+      };
+    </script>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

@@ -34,6 +34,8 @@ const RANK = 1.52;
 /** A tab's number and a big number's size, as multiples of the name size. */
 const TAB_NUMBER = 1.4;
 const NUMBER = 2;
+/** The most a tab, circle or numbers shrink to keep a long name from being cut, as a share of their size. */
+const RANK_GIVE = 0.3;
 const LOGO = 56 / 18;
 const PAD_Y = 13 / 18;
 const PAD_X = 16 / 18;
@@ -128,7 +130,9 @@ function valuePill(value: string, maxW: number, m: Pick<LegacyCardMetrics, 'valu
  * card's width.
  *
  * Ranks are sized from the name size too, and the same on every card. A tab,
- * circle or column of numbers takes at most MAX_RANK_SHARE of a column's width.
+ * circle or column of numbers takes at most MAX_RANK_SHARE of a column's width,
+ * and gives way to a name that would otherwise be cut (by up to RANK_GIVE),
+ * once the logo is at its smallest.
  */
 export function legacyListLayout(
   entries: LegacyListEntry[],
@@ -141,8 +145,10 @@ export function legacyListLayout(
   const count = entries.length;
   if (count === 0 || box.w <= 0 || box.h <= 0) return null;
   const minRank = rankBadgeMin({ primary, secondary });
-  // Shrunk cards scale their badges (and circles) along with the names.
-  const rankFor = (f: number, shrunk: boolean) => Math.max(shrunk ? (minRank * f) / primary : minRank, RANK * f);
+  // Shrunk cards scale their badges (and circles) along with the names. A circle may
+  // give way to long names (`give`, below 1), but not below the smallest badge.
+  const rankFor = (f: number, shrunk: boolean, give = 1) =>
+    Math.max(shrunk ? (minRank * f) / primary : minRank, RANK * f * give);
   // Only the badge floats outside its card; the other styles take no room over the gaps.
   const badgeFor = (f: number, shrunk: boolean) => (rankStyle === 'badge' ? rankFor(f, shrunk) : 0);
   // A badge reaches this far over the gap above its card and the column gap to its left.
@@ -154,20 +160,23 @@ export function legacyListLayout(
   const widestRank = Math.max(0, ...entries.map((e) => textWidth(String(e.rank), 100, RANK_WEIGHT))) / 100;
   // One size for the whole list: two-digit lists size every circle's number for two digits.
   const circleShare = Math.max(0, ...entries.map((e) => e.rank)) >= 10 ? RANK_TEXT_SHARE : RANK_TEXT_SHARE_ONE_DIGIT;
-  /** The ranks at name size `f` in a column `colW` wide (all but the badge, which is `rankSize`). */
-  const rankIn = (f: number, shrunk: boolean, colW: number): ListRank => {
-    const maxRoom = colW * MAX_RANK_SHARE;
+  /**
+   * The ranks at name size `f` in a column `colW` wide (all but the badge, which is
+   * `rankSize`), at `give` times their size when they make room for a long name.
+   */
+  const rankIn = (f: number, shrunk: boolean, colW: number, give: number): ListRank => {
+    const maxRoom = colW * MAX_RANK_SHARE * give;
     if (rankStyle === 'number') {
       const room = widestRank + NUMBER_GAP + NUMBER_LEAD;
-      const fontSize = Math.min(NUMBER * f, maxRoom / room);
+      const fontSize = Math.min(NUMBER * f * give, maxRoom / room);
       return { style: rankStyle, fontSize, gutter: fontSize * room, box: 0 };
     }
     if (rankStyle === 'tab') {
-      const fontSize = Math.min(TAB_NUMBER * f, maxRoom / (widestRank + TAB_PAD * 2));
+      const fontSize = Math.min(TAB_NUMBER * f * give, maxRoom / (widestRank + TAB_PAD * 2));
       return { style: rankStyle, fontSize, gutter: 0, box: fontSize * (widestRank + TAB_PAD * 2) };
     }
     if (rankStyle === 'circle') {
-      const d = Math.min(rankFor(f, shrunk), maxRoom);
+      const d = Math.min(rankFor(f, shrunk, give), maxRoom);
       return { style: rankStyle, fontSize: d * circleShare, gutter: 0, box: d };
     }
     return { style: rankStyle, fontSize: 0, gutter: 0, box: 0 };
@@ -185,13 +194,13 @@ export function legacyListLayout(
     (box.h - (rowsIn(n) - 1) * cardGapFor(badgeFor(f, shrunk))) / rowsIn(n);
 
   /** Sizes for `n` columns at name size `f`, and the width a card has for its logo and name. */
-  const sizesFor = (n: number, f: number, shrunk: boolean) => {
+  const sizesFor = (n: number, f: number, shrunk: boolean, give = 1) => {
     const s = spacingFor(f);
     // Shrunk cards scale their secondary text along with the names.
     const floor = shrunk ? (secondary * f) / primary : secondary;
     const rankSize = badgeFor(f, shrunk);
     const colW = columnW(n, rankSize);
-    const rank = rankIn(f, shrunk, colW);
+    const rank = rankIn(f, shrunk, colW, give);
     // Numbers sit in a gutter before each card, inside the column.
     const cardW = colW - rank.gutter;
     const valueSize = Math.max(floor, VALUE * f);
@@ -237,15 +246,27 @@ export function legacyListLayout(
 
   /** The metrics for `n` columns at name size `f`, in cards no taller than `H`. */
   const metricsFor = (n: number, f: number, H: number, shrunk: boolean): LegacyCardMetrics => {
-    const { m, logoAndName, valueBelowH } = sizesFor(n, f, shrunk);
-    const contentMax = H - BORDER * 2 - m.padY * 2;
+    const full = sizesFor(n, f, shrunk);
+    const contentMax = H - BORDER * 2 - full.m.padY * 2;
+    const lineH = f * LEGACY_LINE_HEIGHT;
+    // A name too long for one line even at its smallest beside the smallest logo, in a
+    // card too short for two lines, would be cut: the tab, circle or numbers give way
+    // first, just enough, by up to RANK_GIVE (1px spare for the cards' rounding).
+    const fitsAtSmallest = (give: number) => {
+      const { m, logoAndName } = sizesFor(n, f, shrunk, give);
+      return logoAndName - MIN_LOGO * f >= widestName * m.minNameSize + 1;
+    };
+    let give = 1;
+    if (rankStyle !== 'badge' && contentMax < lineH * 2 + full.valueBelowH) {
+      while (give > 1 - RANK_GIVE && !fitsAtSmallest(give)) give = Math.max(1 - RANK_GIVE, give - 0.02);
+    }
+    const { m, logoAndName, valueBelowH } = give < 1 ? sizesFor(n, f, shrunk, give) : full;
     // The logo keeps the old proportions when there's room, and gives way so every
     // name fits on one line, down to the smallest recognisable logo.
     const nameW = widestName * f;
     const logo = Math.max(MIN_LOGO * f, Math.min(LOGO * spacingFor(f), contentMax, logoAndName - nameW));
     // Names that still don't fit wrap onto two lines when the card has the height
     // (the text, not the logo, then sets it), and descriptions get a line below.
-    const lineH = f * LEGACY_LINE_HEIGHT;
     const descLineH = m.descriptionSize * LEGACY_LINE_HEIGHT;
     const maxNameLines = nameW > logoAndName - logo && contentMax >= lineH * 2 + valueBelowH ? 2 : 1;
     const showDescription = withDescriptions && contentMax >= lineH * maxNameLines + valueBelowH + descLineH;
@@ -296,8 +317,9 @@ export function legacyListLayout(
   // so with them, also until the longest name fits on one line at its smallest beside a
   // small logo, rather than be cut.
   const tooBig = (f: number) => {
-    const { minCardH, logoAndName } = sizesFor(lastN, f, true);
-    if (minCardH > heightPerCard(lastN, f, true)) return true;
+    if (sizesFor(lastN, f, true).minCardH > heightPerCard(lastN, f, true)) return true;
+    // With the ranks given way as far as they go (metricsFor).
+    const { logoAndName } = sizesFor(lastN, f, true, 1 - RANK_GIVE);
     return rankStyle !== 'badge' && logoAndName - MIN_LOGO * f < widestName * (secondary / primary) * f;
   };
   let f = primary;

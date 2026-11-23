@@ -174,6 +174,7 @@ Classic Dark and Classic Light (the theme's `legacy` flag; ids `dark-legacy` and
   - **Number:** big plain numbers (`2f`) before each card, in a gutter inside the column.
   - **Badge:** floating over the card's top-left corner, as in Grid. Its diameter is `1.52f`. Cards are too short for the logo to sit under it, so the logo always starts beside it. The gaps make room for it.
   - A tab, circle or number column takes at most 20% of the column's width (`MAX_RANK_SHARE`). Without the badge, cards are a tile gap apart and nothing is kept clear above the first.
+  - **Long names:** a name that would be cut even at its smallest beside the smallest logo, in a card too short for two lines, gets room from the tab, circle or numbers first. They shrink just enough, by up to 30% (`RANK_GIVE`), on every card. On Top Private AI Labs (12, two columns, Vertical), the numbers go from 60 to about 52 px so "Thinking Machines Lab" shows whole instead of "Thinking Machines L…".
   - **Too small to read anyway (shrunk):** a tab, circle or numbers take width the badge doesn't, so with them the cards also shrink until the longest name fits on one line at its smallest, instead of being cut. Horizontal Top 10 AI SDRs with a Tab cut "ZoomInfo Copilot" and "Agent Frank (Salesforce)" without this.
 - **Columns:** 1 for up to 5 companies, else 2 (the old default). A 3rd only when cards wouldn't otherwise be readable and names still have room. Cards are ranked down, then across.
 - **Height:** cards keep their natural height (never stretched) and the block is centred.

@@ -1,9 +1,21 @@
 import { useEffect, useLayoutEffect, useRef, useState, type ReactNode, type RefObject } from "react";
 import { Circle, DownloadSimple, Square } from "@phosphor-icons/react";
 import { Segmented } from "@/shared/canvas/DesignPanel";
-import { useRemembered } from "@/shared/canvas/remembered";
+import { remember, useRemembered } from "@/shared/canvas/remembered";
 import { SidebarColumn, SidebarLayout, sidebarHeadingClass } from "@/shared/components/SidebarLayout";
+import { Input } from "@/shared/components/ui/input";
 import { saveFile } from "@/shared/utils/saveFile";
+import {
+  BADGES,
+  BADGE_IDS,
+  CUSTOM,
+  CUSTOM_DEFAULT,
+  CUSTOM_MAX,
+  NONE,
+  badgeLabel,
+  renderBadge,
+  type BadgeId,
+} from "./badge";
 import { GROUPS, MIX, MIX_BACKGROUND, PICKS, swatchById, swatchesFor, type Pick } from "./palette";
 import { THEMES, themeById } from "./themes";
 
@@ -85,6 +97,40 @@ function useTeam(): TeamState {
   return state;
 }
 
+/** The badge drawn for `label` (badge.ts), or undefined while it draws or with no badge. */
+interface ShownBadge {
+  label: string;
+  src: string;
+}
+
+function useBadgeImage(label: string | null): ShownBadge | undefined {
+  const [badge, setBadge] = useState<ShownBadge>();
+  useEffect(() => {
+    if (!label) {
+      setBadge(undefined);
+      return;
+    }
+    let cancelled = false;
+    renderBadge(label).then((src) => {
+      if (!cancelled) setBadge({ label, src });
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [label]);
+  return label ? badge : undefined;
+}
+
+/** The custom badge's text, remembered like the picks (storage can be blocked: then it holds for the visit). */
+const BADGE_TEXT_KEY = "team-photo.badge-text";
+function readBadgeText(): string {
+  try {
+    return localStorage.getItem(BADGE_TEXT_KEY) ?? CUSTOM_DEFAULT;
+  } catch {
+    return CUSTOM_DEFAULT;
+  }
+}
+
 /** Each tile's ground, in order: the Mix's colours, one colour for all, or one theme for all. */
 function groundsFor(pick: Pick, names: (string | undefined)[], cols: number): Ground[] {
   const theme = themeById(pick);
@@ -113,9 +159,13 @@ async function loadImage(src: string): Promise<HTMLImageElement> {
   return img;
 }
 
-/** The face on its ground as a square JPG, drawn the same way the tile shows it (always square). */
-async function downloadTile(person: Person & { src: string }, ground: Ground) {
-  const [face, theme] = await Promise.all([loadImage(person.src), ground.image ? loadImage(ground.image) : null]);
+/** The face on its ground (and under its badge) as a square JPG, drawn the same way the tile shows it (always square). */
+async function downloadTile(person: Person & { src: string }, ground: Ground, badge?: ShownBadge) {
+  const [face, theme, pill] = await Promise.all([
+    loadImage(person.src),
+    ground.image ? loadImage(ground.image) : null,
+    badge ? loadImage(badge.src) : null,
+  ]);
   const canvas = document.createElement("canvas");
   canvas.width = SIZE;
   canvas.height = SIZE;
@@ -124,8 +174,10 @@ async function downloadTile(person: Person & { src: string }, ground: Ground) {
   ctx.fillRect(0, 0, SIZE, SIZE);
   if (theme) ctx.drawImage(theme, 0, 0, SIZE, SIZE);
   ctx.drawImage(face, 0, 0, SIZE, SIZE);
+  if (pill) ctx.drawImage(pill, 0, 0, SIZE, SIZE);
   const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, "image/jpeg", 0.92));
-  if (blob) await saveFile(blob, `${slug(person.name ?? person.id)}.jpg`);
+  const name = [person.name ?? person.id, badge?.label].filter(Boolean).map((s) => slug(s!)).join("-");
+  if (blob) await saveFile(blob, `${name}.jpg`);
 }
 
 const ring = (checked: boolean) =>
@@ -223,6 +275,60 @@ function BackgroundSection({ pick, onPick }: { pick: Pick; onPick: (pick: Pick) 
   );
 }
 
+function Chip({ label, checked, onPick }: { label: string; checked: boolean; onPick: () => void }) {
+  return (
+    <button
+      type="button"
+      role="radio"
+      aria-checked={checked}
+      onClick={onPick}
+      className={`rounded-full border px-3 py-1 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-text-mid ${
+        checked
+          ? "border-brand bg-brand text-white"
+          : "border-border-subtle bg-surface-2 text-text-dim hover:text-text-primary"
+      }`}
+    >
+      {label}
+    </button>
+  );
+}
+
+function BadgeSection({
+  badge,
+  onBadge,
+  text,
+  onText,
+}: {
+  badge: BadgeId;
+  onBadge: (badge: BadgeId) => void;
+  text: string;
+  onText: (text: string) => void;
+}) {
+  return (
+    <section className="space-y-3 border-b border-border-subtle p-4">
+      <h3 className={sidebarHeadingClass}>Badge</h3>
+      <div role="radiogroup" aria-label="Badge" className="flex flex-wrap gap-2">
+        <Chip label="None" checked={badge === NONE} onPick={() => onBadge(NONE)} />
+        {BADGES.map((b) => (
+          <Chip key={b.id} label={b.label} checked={badge === b.id} onPick={() => onBadge(b.id)} />
+        ))}
+        <Chip label="Custom…" checked={badge === CUSTOM} onPick={() => onBadge(CUSTOM)} />
+      </div>
+      {badge === CUSTOM && (
+        <Input
+          value={text}
+          onChange={(e) => onText(e.target.value)}
+          maxLength={CUSTOM_MAX}
+          placeholder="Badge text"
+          aria-label="Badge text"
+          autoFocus
+          onFocus={(e) => e.target.select()}
+        />
+      )}
+    </section>
+  );
+}
+
 function CropSection({ crop, onCrop }: { crop: Crop; onCrop: (crop: Crop) => void }) {
   return (
     <section className="space-y-3 p-4">
@@ -275,14 +381,24 @@ function Placeholder({ name }: { name?: string }) {
   );
 }
 
-function Tile({ person, ground, circle }: { person: Person; ground: Ground; circle: boolean }) {
+function Tile({
+  person,
+  ground,
+  badge,
+  circle,
+}: {
+  person: Person;
+  ground: Ground;
+  badge?: ShownBadge;
+  circle: boolean;
+}) {
   const [saving, setSaving] = useState(false);
   const { src } = person;
   const save = async () => {
     if (!src) return;
     setSaving(true);
     try {
-      await downloadTile({ ...person, src }, ground);
+      await downloadTile({ ...person, src }, ground, badge);
     } finally {
       setSaving(false);
     }
@@ -292,7 +408,7 @@ function Tile({ person, ground, circle }: { person: Person; ground: Ground; circ
       {/* The ground and the face are clipped (to the circle, in the crop preview); the button isn't, so it stays in the corner. */}
       <div className="group relative aspect-square">
         <div
-          className={`size-full overflow-hidden bg-cover bg-center ${circle ? "rounded-full" : "rounded-xl"}`}
+          className={`relative size-full overflow-hidden bg-cover bg-center ${circle ? "rounded-full" : "rounded-xl"}`}
           style={{ backgroundColor: ground.hex, backgroundImage: ground.image ? `url(${ground.image})` : undefined }}
         >
           {src ? (
@@ -300,13 +416,17 @@ function Tile({ person, ground, circle }: { person: Person; ground: Ground; circ
           ) : (
             <Placeholder name={person.name} />
           )}
+          {/* A placeholder's "No photo yet" sits where the badge would. */}
+          {src && badge && (
+            <img src={badge.src} alt="" className="pointer-events-none absolute inset-0 block size-full" />
+          )}
         </div>
         {src && (
           <button
             type="button"
             onClick={save}
             disabled={saving}
-            aria-label={`Download ${person.name ?? "this photo"} on ${ground.name}`}
+            aria-label={`Download ${person.name ?? "this photo"} on ${ground.name}${badge ? ` with the ${badge.label} badge` : ""}`}
             title="Download JPG"
             className="absolute right-2 bottom-2 flex size-9 items-center justify-center rounded-full bg-black/60 text-white opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100 disabled:opacity-60 [@media(hover:none)]:opacity-100"
           >
@@ -314,7 +434,7 @@ function Tile({ person, ground, circle }: { person: Person; ground: Ground; circ
           </button>
         )}
       </div>
-      <figcaption className="min-h-5 truncate text-sm text-text-mid">{person.name}</figcaption>
+      <figcaption className="min-h-5 truncate text-center text-sm text-text-mid">{person.name}</figcaption>
     </figure>
   );
 }
@@ -323,6 +443,18 @@ export default function App() {
   const team = useTeam();
   const [pick, setPick] = useRemembered<Pick>("team-photo.bg", MIX, ALL_PICKS);
   const [crop, setCrop] = useRemembered<Crop>("team-photo.crop", "off", CROPS);
+  const [badgeId, setBadgeId] = useRemembered<BadgeId>("team-photo.badge", NONE, BADGE_IDS);
+  const [badgeText, setBadgeText] = useState(readBadgeText);
+  const onBadgeText = (text: string) => {
+    setBadgeText(text);
+    remember(BADGE_TEXT_KEY, text);
+  };
+  // Custom picked with nothing in it starts from the default again.
+  const onBadge = (id: BadgeId) => {
+    setBadgeId(id);
+    if (id === CUSTOM && !badgeText.trim()) onBadgeText(CUSTOM_DEFAULT);
+  };
+  const badge = useBadgeImage(badgeLabel(badgeId, badgeText));
   const [drawerOpen, setDrawerOpen] = useState(false);
   const gallery = useRef<HTMLDivElement>(null);
   const cols = useColumns(gallery);
@@ -336,9 +468,11 @@ export default function App() {
   const sections = (
     <>
       <p className="border-b border-border-subtle p-4 text-sm text-text-dim">
-        The team's portraits, cut out of the backdrop. Pick a background, and download any face as a 1080 px JPG.
+        The team's portraits, cut out of the backdrop. Pick a background and a badge, and download any face as a 1080
+        px JPG.
       </p>
       <BackgroundSection pick={pick} onPick={setPick} />
+      <BadgeSection badge={badgeId} onBadge={onBadge} text={badgeText} onText={onBadgeText} />
       <CropSection crop={crop} onCrop={setCrop} />
     </>
   );
@@ -361,7 +495,7 @@ export default function App() {
         {team.status === "ready" && (
           <div className="grid gap-4 px-4 py-6 md:px-6" style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` }}>
             {people.map((person, i) => (
-              <Tile key={person.id} person={person} ground={grounds[i]} circle={crop === "circle"} />
+              <Tile key={person.id} person={person} ground={grounds[i]} badge={badge} circle={crop === "circle"} />
             ))}
           </div>
         )}

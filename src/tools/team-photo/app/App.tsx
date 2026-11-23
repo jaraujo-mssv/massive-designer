@@ -42,6 +42,8 @@ interface Ground {
   name: string;
   hex: string;
   image?: string;
+  /** The theme's SVG over the face (Birthday's hat). */
+  over?: string;
 }
 
 /** The side of a downloaded JPG, as the cut-outs. */
@@ -134,7 +136,7 @@ function readBadgeText(): string {
 /** Each tile's ground, in order: the Mix's colours, one colour for all, or one theme for all. */
 function groundsFor(pick: Pick, names: (string | undefined)[], cols: number): Ground[] {
   const theme = themeById(pick);
-  if (theme) return names.map(() => ({ name: theme.name, hex: theme.hex, image: theme.src }));
+  if (theme) return names.map(() => ({ name: theme.name, hex: theme.hex, image: theme.src, over: theme.over }));
   return swatchesFor(pick, names, cols);
 }
 
@@ -159,11 +161,12 @@ async function loadImage(src: string): Promise<HTMLImageElement> {
   return img;
 }
 
-/** The face on its ground (and under its badge) as a square JPG, drawn the same way the tile shows it (always square). */
+/** The face on its ground (and under its theme's hat and its badge) as a square JPG, drawn the same way the tile shows it (always square). */
 async function downloadTile(person: Person & { src: string }, ground: Ground, badge?: ShownBadge) {
-  const [face, theme, pill] = await Promise.all([
+  const [face, theme, over, pill] = await Promise.all([
     loadImage(person.src),
     ground.image ? loadImage(ground.image) : null,
+    ground.over ? loadImage(ground.over) : null,
     badge ? loadImage(badge.src) : null,
   ]);
   const canvas = document.createElement("canvas");
@@ -174,6 +177,7 @@ async function downloadTile(person: Person & { src: string }, ground: Ground, ba
   ctx.fillRect(0, 0, SIZE, SIZE);
   if (theme) ctx.drawImage(theme, 0, 0, SIZE, SIZE);
   ctx.drawImage(face, 0, 0, SIZE, SIZE);
+  if (over) ctx.drawImage(over, 0, 0, SIZE, SIZE);
   if (pill) ctx.drawImage(pill, 0, 0, SIZE, SIZE);
   const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, "image/jpeg", 0.92));
   const name = [person.name ?? person.id, badge?.label].filter(Boolean).map((s) => slug(s!)).join("-");
@@ -256,12 +260,13 @@ function BackgroundSection({ pick, onPick }: { pick: Pick; onPick: (pick: Pick) 
                   onClick={() => onPick(t.id)}
                   className="group space-y-1.5 text-left focus-visible:outline-none"
                 >
-                  <img
-                    src={t.src}
-                    alt=""
-                    className={`block aspect-square w-full rounded-lg transition-shadow ${ring(checked)}`}
+                  <span
+                    className={`relative block aspect-square w-full overflow-hidden rounded-lg transition-shadow ${ring(checked)}`}
                     style={{ backgroundColor: t.hex }}
-                  />
+                  >
+                    <img src={t.src} alt="" className="block size-full" />
+                    {t.over && <img src={t.over} alt="" className="absolute inset-0 block size-full" />}
+                  </span>
                   <span className={`block text-xs ${checked ? "text-text-primary" : "text-text-mid group-hover:text-text-primary"}`}>
                     {t.name}
                   </span>
@@ -415,6 +420,9 @@ function Tile({
             <img src={src} alt={person.name ?? ""} title={person.name} loading="lazy" className="block size-full" />
           ) : (
             <Placeholder name={person.name} />
+          )}
+          {src && ground.over && (
+            <img src={ground.over} alt="" className="pointer-events-none absolute inset-0 block size-full" />
           )}
           {/* A placeholder's "No photo yet" sits where the badge would. */}
           {src && badge && (

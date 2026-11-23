@@ -9,6 +9,8 @@ export interface Theme {
   src: string;
   /** The ground colour, shown while the SVG loads. */
   hex: string;
+  /** A square SVG laid over the face, as the badge is (Birthday's party hat, where heads land on average). */
+  over?: string;
 }
 
 export const THEMES: Theme[] = [
@@ -17,6 +19,13 @@ export const THEMES: Theme[] = [
   { id: "holidays", name: "Holidays", src: "/team-photo/themes/holidays.svg", hex: "#fff7f2" },
   { id: "summer", name: "Summer", src: "/team-photo/themes/summer.svg", hex: "#FFF2C4" },
   { id: "confetti", name: "Confetti", src: "/team-photo/themes/confetti.svg", hex: "#fff7f2" },
+  {
+    id: "birthday",
+    name: "Birthday",
+    src: "/team-photo/themes/birthday.svg",
+    hex: "#fff7f2",
+    over: "/team-photo/themes/birthday-hat.svg",
+  },
 ];
 
 export const themeById = (id: string): Theme | undefined => THEMES.find((t) => t.id === id);

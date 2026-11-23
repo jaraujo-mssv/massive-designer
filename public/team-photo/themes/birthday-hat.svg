@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1080" viewBox="0 0 1080 1080">
+<title>Birthday hat</title>
+<defs><clipPath id="cone"><path d="M-84 0L0 -172L84 0A84 17 0 0 1 -84 0Z"/></clipPath></defs>
+<g transform="translate(558 206) rotate(18)">
+<path d="M-84 0L0 -172L84 0A84 17 0 0 1 -84 0Z" fill="#d74939"/>
+<g clip-path="url(#cone)">
+<path d="M-168 -120L168 -180M-168 -86L168 -146M-168 -52L168 -112M-168 -18L168 -78M-168 16L168 -44M-168 50L168 -10" stroke="#FFC857" stroke-width="13"/>
+<path d="M0 -172L88 0L88 21L26.9 21Z" fill="#171615" fill-opacity="0.14"/>
+</g>
+<g fill="#ffffff"><circle cx="-84" cy="0" r="11"/><circle cx="-63" cy="11.2" r="11"/><circle cx="-42" cy="14.7" r="11"/><circle cx="-21" cy="16.5" r="11"/><circle cx="0" cy="17" r="11"/><circle cx="21" cy="16.5" r="11"/><circle cx="42" cy="14.7" r="11"/><circle cx="63" cy="11.2" r="11"/><circle cx="84" cy="0" r="11"/></g>
+<circle cy="-172" r="22" fill="#FFC857"/>
+<circle cx="-7" cy="-179" r="7" fill="#ffffff" fill-opacity="0.55"/>
+</g>
+</svg>

@@ -190,8 +190,8 @@ function summer() {
 }
 
 /** Confetti in the reds, the orange, a yellow and a little ink, everywhere the face isn't. */
-function confetti() {
-  const rand = random(7);
+function confetti(title = 'Confetti', seed = 7) {
+  const rand = random(seed);
   const colours = [RED, RED_LIGHT, ORANGE, YELLOW, PEACH, RED, ORANGE, INK];
   const pieces = [];
   for (let i = 0; i < 110; i++) {
@@ -213,11 +213,59 @@ function confetti() {
       );
     }
   }
-  return svg('Confetti', `<rect width="${S}" height="${S}" fill="${GROUND}"/>\n${pieces.join('\n')}`);
+  return svg(title, `<rect width="${S}" height="${S}" fill="${GROUND}"/>\n${pieces.join('\n')}`);
+}
+
+/**
+ * Birthday's party hat, on a transparent square the tab lays over the face. One hat for everyone,
+ * where the heads land on average: the cut-outs' head tops run from 59 to 188 px down (mean 132),
+ * centred 535 px across, so the brim sits a little into the average crown, tipped to one side, and
+ * the pom-pom stays inside the tile and the circle crop.
+ */
+function birthdayHat() {
+  const cx = 558;
+  const baseY = 206;
+  const h = 172;
+  const b = 168;
+  const ry = 17;
+  const tilt = 18;
+  const cone = `M${-b / 2} 0L0 ${-h}L${b / 2} 0A${b / 2} ${ry} 0 0 1 ${-b / 2} 0Z`;
+  const stripes = [];
+  for (let y = -h + 22; y < ry + 30; y += 34) stripes.push(`M${-b} ${y + 30}L${b} ${y - 30}`);
+  const frill = [];
+  const count = 9;
+  for (let i = 0; i < count; i++) {
+    const x = -b / 2 + (b * i) / (count - 1);
+    const y = ry * Math.sqrt(Math.max(0, 1 - (x / (b / 2)) ** 2));
+    frill.push(`<circle cx="${n(x)}" cy="${n(y)}" r="11"/>`);
+  }
+  return svg(
+    'Birthday hat',
+    `<defs><clipPath id="cone"><path d="${cone}"/></clipPath></defs>\n` +
+      `<g transform="translate(${cx} ${baseY}) rotate(${tilt})">\n` +
+      `<path d="${cone}" fill="${RED}"/>\n` +
+      `<g clip-path="url(#cone)">\n` +
+      `<path d="${stripes.join('')}" stroke="${YELLOW}" stroke-width="13"/>\n` +
+      // The side away from the key light, a shade darker.
+      `<path d="M0 ${-h}L${b / 2 + 4} 0L${b / 2 + 4} ${ry + 4}L${n(b * 0.16)} ${ry + 4}Z" fill="${INK}" fill-opacity="0.14"/>\n` +
+      `</g>\n` +
+      `<g fill="#ffffff">${frill.join('')}</g>\n` +
+      `<circle cy="${-h}" r="22" fill="${YELLOW}"/>\n` +
+      `<circle cx="-7" cy="${-h - 7}" r="7" fill="#ffffff" fill-opacity="0.55"/>\n` +
+      `</g>`,
+  );
 }
 
 mkdirSync(OUT, { recursive: true });
-const themes = { 'world-map': worldMap, grid, holidays, summer, confetti };
+const themes = {
+  'world-map': worldMap,
+  grid,
+  holidays,
+  summer,
+  confetti,
+  birthday: () => confetti('Birthday', 21),
+  'birthday-hat': birthdayHat,
+};
 for (const [id, make] of Object.entries(themes)) {
   const file = path.join(OUT, `${id}.svg`);
   writeFileSync(file, make());

@@ -167,6 +167,9 @@ function headTopOf(mask, face) {
 /**
  * The square for a face, kept inside the photo. `tight` says how it falls short of the framing,
  * when the photo is too small for it (framed tighter) or ends too close to the face (moved).
+ * Except above the head, where there's only backdrop: a photo that ends close above it gets a
+ * square starting over its top edge (a negative `top`), padded there by cut(), so the face stays
+ * level with the rest and Birthday's hat lands on the crown.
  */
 function frameFor({ width, height }, face, headTop, { x = 0, y = 0, s = 1 } = {}) {
   const wanted = face.h / FACE / s;
@@ -174,7 +177,7 @@ function frameFor({ width, height }, face, headTop, { x = 0, y = 0, s = 1 } = {}
   const left = face.x + face.w / 2 - side / 2 - x * side;
   const top = Math.min(face.y - TOP * side, headTop - HEADROOM * side) - y * side;
   const clamp = (v, max) => Math.round(Math.max(0, Math.min(v, max)));
-  const box = { left: clamp(left, width - side), top: clamp(top, height - side), width: side, height: side };
+  const box = { left: clamp(left, width - side), top: Math.round(Math.min(top, height - side)), width: side, height: side };
   const moved = Math.max(Math.abs(box.left - left), Math.abs(box.top - top)) / side;
   const tight =
     side < wanted * 0.98
@@ -192,11 +195,27 @@ function masksFor(people, dir) {
   return out.trim().split('\n').map((l) => JSON.parse(l));
 }
 
+/**
+ * `box` out of an image. A box starting over the top edge (frameFor) gets the image padded there
+ * first: the photo with its top row copied up (more backdrop, for the matting), the mask with
+ * nothing (`fill`).
+ */
+async function cut(image, box, fill) {
+  if (box.top >= 0) return image.extract(box);
+  const { data, info } = await image
+    .extend({ top: -box.top, ...(fill ? { background: fill } : { extendWith: 'copy' }) })
+    .raw()
+    .toBuffer({ resolveWithObject: true });
+  return sharp(data, { raw: { width: info.width, height: info.height, channels: info.channels } }).extract({ ...box, top: 0 });
+}
+const NOTHING = { r: 0, g: 0, b: 0 };
+const photoOf = (src) => sharp(src).rotate().removeAlpha();
+const maskOf = (mask) => sharp(readFileSync(mask.mask), { raw: { width: mask.width, height: mask.height, channels: 1 } });
+
 /** The crop and Vision's mask of it, at SIZE, as the PNGs matte.py reads: <id>-rgb.png and <id>-alpha.png. */
 async function cropFor(p, mask, box, dir) {
-  await sharp(p.src).rotate().removeAlpha().extract(box).resize(SIZE, SIZE, { kernel: 'lanczos3' }).png().toFile(path.join(dir, `${p.id}-rgb.png`));
-  await sharp(readFileSync(mask.mask), { raw: { width: mask.width, height: mask.height, channels: 1 } })
-    .extract(box)
+  await (await cut(photoOf(p.src), box)).resize(SIZE, SIZE, { kernel: 'lanczos3' }).png().toFile(path.join(dir, `${p.id}-rgb.png`));
+  await (await cut(maskOf(mask), box, NOTHING))
     .resize(SIZE, SIZE, { kernel: 'lanczos3' })
     .extractChannel(0)
     .png()
@@ -246,9 +265,8 @@ function backdropOf(rgb, alpha) {
  */
 async function plainCutout(src, mask, box) {
   const size = Math.max(SIZE, box.width);
-  const rgb = await sharp(src).rotate().removeAlpha().extract(box).resize(size, size, { kernel: 'lanczos3' }).raw().toBuffer();
-  const alpha = await sharp(readFileSync(mask.mask), { raw: { width: mask.width, height: mask.height, channels: 1 } })
-    .extract(box)
+  const rgb = await (await cut(photoOf(src), box)).resize(size, size, { kernel: 'lanczos3' }).raw().toBuffer();
+  const alpha = await (await cut(maskOf(mask), box, NOTHING))
     .resize(size, size, { kernel: 'lanczos3' })
     // One channel out, as it came in (sharp would otherwise widen it to sRGB).
     .extractChannel(0)

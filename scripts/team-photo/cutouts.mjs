@@ -62,10 +62,15 @@ const HEADROOM = 0.03;
 /**
  * Photos framed off that: how far the person moves in the square, as shares of its side (negative
  * x is left, negative y is up). For someone turned, whose shoulders run off one side while the face
- * is centred. A y moves the eyes off the others' level.
+ * is centred. A y moves the eyes off the others' level. An s scales the person up (1.1 is 10%
+ * bigger), the top of the face staying put, for a head that Vision's face box leaves smaller than
+ * the rest.
  */
 const NUDGE = {
   'profile-gianni-massi': { x: -0.08, y: -0.04 },
+  'profile-jamie-roa': { x: 0.07 },
+  // A head as tall as Jason Gellman's and Faustas's, and centred (José, 2026-11-23).
+  'profile-jason-grad': { x: -0.02, s: 1.16 },
   'studio-dima-tymoshchenko': { x: 0.08 },
   'studio-ryan-turner': { x: -0.05 },
 };
@@ -163,8 +168,8 @@ function headTopOf(mask, face) {
  * The square for a face, kept inside the photo. `tight` says how it falls short of the framing,
  * when the photo is too small for it (framed tighter) or ends too close to the face (moved).
  */
-function frameFor({ width, height }, face, headTop, { x = 0, y = 0 } = {}) {
-  const wanted = face.h / FACE;
+function frameFor({ width, height }, face, headTop, { x = 0, y = 0, s = 1 } = {}) {
+  const wanted = face.h / FACE / s;
   const side = Math.round(Math.min(wanted, width, height));
   const left = face.x + face.w / 2 - side / 2 - x * side;
   const top = Math.min(face.y - TOP * side, headTop - HEADROOM * side) - y * side;

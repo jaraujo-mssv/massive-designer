@@ -51,9 +51,11 @@ export default function App() {
   // List rows or tiles; picked in the sidebar and kept across loads. Layout and
   // theme open as they were last time in this browser.
   const [view, setView] = useRemembered<ListView>("top-list.layout", "list", LIST_VIEWS);
-  // The List's columns and rank style (modern themes only), kept the same way.
+  // The List's columns (modern themes only) and rank style, kept the same way. The
+  // Classic themes keep their own rank style, Number until another is picked.
   const [columns, setColumns] = useRemembered<ListColumns>("top-list.columns", "auto", LIST_COLUMNS);
   const [rankStyle, setRankStyle] = useRemembered<RankStyle>("top-list.rank", "badge", RANK_STYLES);
+  const [classicRank, setClassicRank] = useRemembered<RankStyle>("top-list.classic-rank", "number", RANK_STYLES);
   const [symbol, setSymbol] = useState("$");
   const [title, setTitle] = useState(DEFAULT_TITLE);
   const [date, setDate] = useState(DEFAULT_DATE);
@@ -254,20 +256,22 @@ export default function App() {
                 onChange={setView}
               />
             </div>
-            {/* The legacy List keeps the old columns and ring. */}
-            {view === "list" && !legacy && (
+            {/* The legacy List keeps the old columns, but has the rank styles too. */}
+            {view === "list" && (
               <>
-                <div className="space-y-2">
-                  <Label className="text-xs font-medium text-text-dim uppercase tracking-wide">Columns</Label>
-                  <Segmented
-                    options={[
-                      { id: "auto" as const, label: "Auto" },
-                      { id: "one" as const, label: "One" },
-                    ]}
-                    value={columns}
-                    onChange={setColumns}
-                  />
-                </div>
+                {!legacy && (
+                  <div className="space-y-2">
+                    <Label className="text-xs font-medium text-text-dim uppercase tracking-wide">Columns</Label>
+                    <Segmented
+                      options={[
+                        { id: "auto" as const, label: "Auto" },
+                        { id: "one" as const, label: "One" },
+                      ]}
+                      value={columns}
+                      onChange={setColumns}
+                    />
+                  </div>
+                )}
                 <div className="space-y-2">
                   <Label className="text-xs font-medium text-text-dim uppercase tracking-wide">Rank</Label>
                   <Segmented
@@ -277,8 +281,8 @@ export default function App() {
                       { id: "tab" as const, label: "Tab" },
                       { id: "circle" as const, label: "Circle" },
                     ]}
-                    value={rankStyle}
-                    onChange={setRankStyle}
+                    value={legacy ? classicRank : rankStyle}
+                    onChange={legacy ? setClassicRank : setRankStyle}
                   />
                 </div>
               </>
@@ -352,7 +356,7 @@ export default function App() {
             legacy={legacy}
             layout={layout}
             columns={columns}
-            rankStyle={rankStyle}
+            rankStyle={legacy ? classicRank : rankStyle}
             items={items}
             symbol={symbol}
             minTileSide={preset.minTileSide}

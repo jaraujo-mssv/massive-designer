@@ -23,7 +23,7 @@ interface TileCanvasProps {
   layout: Layout;
   /** List only (not legacy): one or two columns, or by the count. */
   columns: ListColumns;
-  /** List only (not legacy): how the ranks are drawn. */
+  /** List only: how the ranks are drawn (the legacy List's cards too). */
   rankStyle: RankStyle;
   items: ListItem[];
   symbol: string;
@@ -130,13 +130,13 @@ export function TileCanvas({
     // Rank badges overhang their item's top-left corner, so the first row is laid out
     // that much lower, clear of the header: once to size the badges, then again below them.
     if (view === "list" && legacy) {
-      const entries = items.map((i) => ({ name: i.name, value: valueText(i, symbol) }));
+      const entries = items.map((i) => ({ name: i.name, value: valueText(i, symbol), rank: i.rank }));
       const legacyAt = (top: number) => {
-        const layout = legacyListLayout(entries, { w: box.w, h: box.h - top }, tileGap, legible, withDescriptions);
+        const layout = legacyListLayout(entries, { w: box.w, h: box.h - top }, tileGap, legible, withDescriptions, rankStyle);
         return layout && { ...layout, rects: layout.rects.map((r) => ({ ...r, y: r.y + top })) };
       };
       let legacyList = legacyAt(0);
-      // The block of cards is centred, so it may already leave the room.
+      // The block of cards is centred, so it may already leave the room (none needed without the badge).
       if (legacyList && Math.min(...legacyList.rects.map((r) => r.y)) < legacyList.metrics.rankSize * RANK_OUTSIDE) {
         legacyList = legacyAt(legacyList.metrics.rankSize * RANK_OUTSIDE);
       }
@@ -146,6 +146,8 @@ export function TileCanvas({
         tiles: items.map((item, i) => ({ item, rect: rects[i], sizing: undefined })),
         atMinimum: 0,
         legacyList,
+        // Numbers are drawn before the cards as before the modern rows.
+        listRank: legacyList.metrics.rank,
         rankSize: legacyList.metrics.rankSize,
       };
     }
@@ -291,6 +293,7 @@ export function TileCanvas({
               key={key}
               rect={rect}
               metrics={placed.legacyList.metrics}
+              rank={item.rank}
               name={item.name}
               description={item.description}
               logoUrl={item.logoUrl}

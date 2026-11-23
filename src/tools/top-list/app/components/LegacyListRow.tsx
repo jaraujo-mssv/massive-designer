@@ -10,10 +10,13 @@ import {
   LegacyCardMetrics,
   legacyCardContent,
 } from "../utils/legacyList";
+import { RowRank } from "./ListRow";
 
 interface LegacyListRowProps {
   rect: Rect;
   metrics: LegacyCardMetrics;
+  /** The company's rank, drawn in the card for the `tab` and `circle` rank styles. */
+  rank: number;
   name: string;
   description?: string;
   logoUrl: string;
@@ -28,10 +31,11 @@ interface LegacyListRowProps {
 /**
  * A company as the old Top List drew it: a bordered card with the logo, the
  * name, and the value in a pill on the right (or under the name, when
- * `metrics.valueBelow`). No logo wash. The rank's ring floats over the card's
- * top-left corner (TileCanvas).
+ * `metrics.valueBelow`). No logo wash. The rank is a tab along the card's left
+ * edge or a circle before the logo (`metrics.rank`); a badge over the card's
+ * top-left corner or a number before the card is drawn outside it (TileCanvas).
  */
-export function LegacyListRow({ rect, metrics: m, name, description, logoUrl, website, value, onClick }: LegacyListRowProps) {
+export function LegacyListRow({ rect, metrics: m, rank, name, description, logoUrl, website, value, onClick }: LegacyListRowProps) {
   const resolved = useResolvedLogo(logoUrl, website);
   // A logo that still fails to draw shows initials until the lookup settles on another.
   const [failedSrc, setFailedSrc] = useState<string | null>(null);
@@ -80,6 +84,8 @@ export function LegacyListRow({ rect, metrics: m, name, description, logoUrl, we
         fontFamily: "Outfit, sans-serif",
       }}
     >
+      {/* Inside the stroke, which frames it; the card's corners round the tab. */}
+      <RowRank rank={rank} style={m.rank} left={m.padX} height={rect.h - m.border * 2} />
       {src ? (
         <img
           src={src}

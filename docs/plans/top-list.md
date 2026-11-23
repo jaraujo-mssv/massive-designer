@@ -93,7 +93,7 @@ Enlarged tiles are no longer to scale, so the sidebar says how many there are. T
 
 ## List: columns and rank styles
 
-`utils/list.ts` (`listRects`, `listRank`), picked in the Design panel under Layout. Only the List under Dark and Light has them. The legacy List keeps its own columns and ring.
+`utils/list.ts` (`listRects`, `listRank`), picked in the Design panel under Layout. Columns are only for the List under Dark and Light; the legacy List keeps its own. Rank is for every theme's List: the legacy List draws the same four styles on its cards (see Legacy themes).
 
 - **Columns:** Auto (the default) or One (`ListColumns`). Auto puts up to 16 companies in one column (`ONE_COLUMN_MAX`) and splits 17 or more into two, ranked down the left column first. One keeps any number in one column.
   - **Trade-off:** on Vertical, 16 rows are about 55 px tall, so names shrink below the readable size and the sidebar warns. One column holds about 13 rows on Vertical, 10 on Square and 7 on Horizontal at readable size. With One picked and more than 16 companies, the warning suggests Auto.
@@ -109,7 +109,7 @@ Enlarged tiles are no longer to scale, so the sidebar says how many there are. T
 
   - **One size for the whole list:** `h` is the shortest row's height. The number, tab or circle takes at most 20% of the row's width (`MAX_RANK_SHARE`), so names keep room in two columns.
   - **Measured:** about 19pt on a phone for Number on a Vertical list of 10 in one column, and about 24pt in two columns, against 11–13pt for the Badge.
-  - **The choice is remembered** like the layout (`top-list.columns`, `top-list.rank`). The Badge is the default until a style is picked.
+  - **The choice is remembered** like the layout (`top-list.columns`, `top-list.rank`). The Badge is the default until a style is picked. The Classic themes keep their own pick (`top-list.classic-rank`), Number until a style is picked.
 
 ## List layout: long names
 
@@ -168,7 +168,13 @@ Classic Dark and Classic Light (the theme's `legacy` flag; ids `dark-legacy` and
 
 - **Card:** `--canvas-card-bg` fill, a 2 px `--canvas-border` stroke, 8 px radius and no logo wash.
 - **Contents:** the logo, the name (400, `--canvas-text`) and the value in a pill (`--canvas-card-bg-2` fill, 1 px `--canvas-border-15`). The pill sits on the right in one column, and under the name in two or more.
-- **Rank:** floating, as in Grid, in a ring (`RankBadge outlined`: 2 px `--canvas-text` on `--canvas-card-bg`). Its diameter is `1.52` times the name size. Cards are too short for the logo to sit under it, so the logo always starts beside it.
+- **Rank:** the four styles of the modern List, in the same colours (`--canvas-text`, the number in `--canvas-bg`), sized from the name size `f`. **Number** is the default.
+  - **Tab:** a full-height block along the card's left edge, inside its stroke, rounded by its corners. Number `1.4f`, the tab the widest number plus 0.35 of its size each side.
+  - **Circle:** the badge's circle (`1.52f`), inside the card before the logo.
+  - **Number:** big plain numbers (`2f`) before each card, in a gutter inside the column.
+  - **Badge:** floating over the card's top-left corner, as in Grid. Its diameter is `1.52f`. Cards are too short for the logo to sit under it, so the logo always starts beside it. The gaps make room for it.
+  - A tab, circle or number column takes at most 20% of the column's width (`MAX_RANK_SHARE`). Without the badge, cards are a tile gap apart and nothing is kept clear above the first.
+  - **Too small to read anyway (shrunk):** a tab, circle or numbers take width the badge doesn't, so with them the cards also shrink until the longest name fits on one line at its smallest, instead of being cut. Horizontal Top 10 AI SDRs with a Tab cut "ZoomInfo Copilot" and "Agent Frank (Salesforce)" without this.
 - **Columns:** 1 for up to 5 companies, else 2 (the old default). A 3rd only when cards wouldn't otherwise be readable and names still have room. Cards are ranked down, then across.
 - **Height:** cards keep their natural height (never stretched) and the block is centred.
 - **Sizes:** type and logos are the old proportions of the name size (logo `56/18`, value `13/18`). Padding and gaps follow the canvas width, as on the old 850 px canvas.
@@ -195,8 +201,8 @@ It uses the shared **Design** panel, with no spreadsheet switch because sizing i
 
 - **Size:** Vertical / Square / Horizontal
 - **Theme:** a sideways-scrolling row of theme cards, each a live preview (`components/ThemePreview.tsx`)
-- **Layout:** List / Grid; under List (Dark and Light), **Columns** (Auto / One) and **Rank** (Badge / Number / Tab / Circle)
-- **Remembered:** the theme, the layout, the List's columns and rank style, and the version (New, the default, or Legacy) are kept in the browser (`top-list.theme`, `top-list.layout`, `top-list.columns`, `top-list.rank`, `top-list.version`), so the tool opens as it was left. See Themes in [market-map.md](market-map.md).
+- **Layout:** List / Grid; under List, **Columns** (Auto / One; Dark and Light only) and **Rank** (Badge / Number / Tab / Circle)
+- **Remembered:** the theme, the layout, the List's columns and rank style (the Classic themes' apart), and the version (New, the default, or Legacy) are kept in the browser (`top-list.theme`, `top-list.layout`, `top-list.columns`, `top-list.rank`, `top-list.classic-rank`, `top-list.version`), so the tool opens as it was left. See Themes in [market-map.md](market-map.md).
 - **Show "Presented by":** a switch
 - **Data:** the company count and which layout was chosen, skipped rows with reasons, duplicate names, and (Bento) how many tiles are shown at minimum size
 - **Import:** CSV/TSV file, Google Sheets URL, a column hint, and the Examples list (Load / Open); shown only while no list is loaded

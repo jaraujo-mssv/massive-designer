@@ -39,6 +39,43 @@ interface ListRowProps {
 }
 
 /**
+ * A `tab` or `circle` rank inside a List row or Classic card (nothing for the
+ * other styles): the tab full height along the left edge, rounded by the row's
+ * corners; the circle at `left`, centred in the row's inner `height`. In the
+ * text colour with the number in the canvas colour, as the badge.
+ */
+export function RowRank({ rank, style, left, height }: { rank: number; style: ListRank; left: number; height: number }) {
+  if (style.style !== "tab" && style.style !== "circle") return null;
+  return (
+    <div
+      aria-hidden
+      style={{
+        position: "absolute",
+        ...(style.style === "tab"
+          ? { left: 0, top: 0, bottom: 0, width: style.box }
+          : {
+              left,
+              top: (height - style.box) / 2,
+              width: style.box,
+              height: style.box,
+              borderRadius: "50%",
+            }),
+        backgroundColor: "var(--canvas-text)",
+        color: "var(--canvas-bg)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        fontSize: style.fontSize,
+        fontWeight: RANK_WEIGHT,
+        lineHeight: 1,
+      }}
+    >
+      {rank}
+    </div>
+  );
+}
+
+/**
  * A company as a full-width List row: logo, name pill with its description
  * underneath, and the value on the right (or, with `valueBelow`, between the
  * name and the description). The rank is a tab along the row's left edge or a
@@ -128,34 +165,7 @@ export function ListRow({
           }}
         />
       )}
-      {(rankStyle?.style === "tab" || rankStyle?.style === "circle") && (
-        <div
-          aria-hidden
-          style={{
-            position: "absolute",
-            ...(rankStyle.style === "tab"
-              ? // Full height along the left edge; the row's corners round it.
-                { left: 0, top: 0, bottom: 0, width: rankStyle.box }
-              : {
-                  left: c.padding,
-                  top: (rect.h - rankStyle.box) / 2,
-                  width: rankStyle.box,
-                  height: rankStyle.box,
-                  borderRadius: "50%",
-                }),
-            backgroundColor: "var(--canvas-text)",
-            color: "var(--canvas-bg)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: rankStyle.fontSize,
-            fontWeight: RANK_WEIGHT,
-            lineHeight: 1,
-          }}
-        >
-          {rank}
-        </div>
-      )}
+      {rankStyle && <RowRank rank={rank} style={rankStyle} left={c.padding} height={rect.h} />}
       {src ? (
         <img
           src={src}

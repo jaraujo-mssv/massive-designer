@@ -149,7 +149,7 @@ Both turn a spreadsheet of companies into a branded JPG. They share `src/shared/
   must be shared as "Anyone with the link can view". `sheetText.ts` reads the `__TITLE__`, `__DATE__` and `__COLUMNS__`
   rows and ignores every other `__` row.
 - `remembered.ts`: localStorage `<tool>.version`, `<tool>.theme` and `<tool>.layout` (Top List also keeps
-  `top-list.columns` and `top-list.rank`).
+  `top-list.columns`, `top-list.rank` and, for the Classic themes, `top-list.classic-rank`).
 - `ToolVersion.tsx`: the **New | Legacy** switch. Both versions live at the same URL; the pick is remembered per browser.
 - `logos/`: a logo is looked up in this order: the sheet's own logo, Logo.dev, Google favicon, unavatar, DuckDuckGo,
   then initials (`InitialsLogo.tsx`). A 16 px favicon is used only when nothing sharper is found, with a low-res
@@ -176,7 +176,8 @@ Legacy themes force Columns. `?f=` opens the Legacy app. Examples are in `consta
 **Top List** (`src/tools/top-list/app/`). Sheet columns: `position` (or `rank`), `name` (or `company`), `logo`,
 `value` (or `valuation`, `market cap`), `url`. Views:
 - **List** (default): `utils/list.ts`, or `utils/legacyList.ts` under a legacy theme. One column up to 16 companies,
-  else two (or always one, in the Design panel), and four rank styles to compare (Badge, Number, Tab, Circle).
+  else two (or always one, in the Design panel), and four rank styles to compare (Badge, Number, Tab, Circle),
+  under every theme: Badge by default, Number under the Classic themes.
 - **Grid**: when every row has a readable value (`utils/value.ts`), tile areas follow the values (Bento:
   `utils/minArea.ts` + `squarify`). Otherwise the tiles are equal, in rank order (`utils/grid.ts`).
 

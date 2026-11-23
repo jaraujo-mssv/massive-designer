@@ -69,7 +69,8 @@ export function listRects(count: number, bounds: Rect, pick: ListColumns = 'auto
  * How the List draws its ranks, picked in the sidebar: `badge`, a circle over
  * the row's top-left corner (as Grid tiles); `number`, big numbers beside each
  * row; `tab`, a block along the row's left edge; `circle`, a big circle inside
- * the row before the logo. All but the badge are List only.
+ * the row before the logo. All but the badge are List only. The Classic List
+ * draws the same four on its cards (legacyList.ts).
  */
 export type RankStyle = 'badge' | 'number' | 'tab' | 'circle';
 
@@ -87,11 +88,11 @@ export interface ListRank {
 /** Space between a `number` and its row, as a share of the number's size. */
 export const NUMBER_GAP = 0.25;
 /** Space before the widest `number`, so a second column's numbers keep clear of the first column's rows. */
-const NUMBER_LEAD = 0.15;
+export const NUMBER_LEAD = 0.15;
 /** A tab's padding either side of its number, as a share of the number's size. */
-const TAB_PAD = 0.35;
+export const TAB_PAD = 0.35;
 /** The most of a row's width a number, tab or circle may take, so names keep room (two columns). */
-const MAX_RANK_SHARE = 0.2;
+export const MAX_RANK_SHARE = 0.2;
 
 /**
  * The ranks' size and room for List rows `w` × `h`, the same for every row.

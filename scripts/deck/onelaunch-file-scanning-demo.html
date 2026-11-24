@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1920">
+<title>Free file scanning in OneLaunch, step by step — Massive</title>
+<link rel="stylesheet" href="deck.css">
+<style>
+  /* From massive-template.html: brand/BRAND.md's cream levels. Eyebrows have no leading rule in this deck. */
+  :root {
+    --text-mid: rgba(250, 244, 236, 0.75);
+    --text-dim: rgba(250, 244, 236, 0.55);
+  }
+  .card.accent { border-top: 3px solid var(--red); }
+  .card.accent .k { color: var(--red-light); }
+  .card { padding: 48px 52px; }
+
+  /* OneLaunch × Massive lock-up */
+  .lockup { display: flex; align-items: center; gap: 18px; }
+  .lockup .ol { width: 60px; height: 60px; display: block; }
+  .lockup .olname { font-size: 44px; font-weight: 700; letter-spacing: -0.02em; color: var(--text); }
+  .lockup .x { font-size: 40px; font-weight: 300; color: var(--text-dim); margin: 0 4px; }
+  .lockup .mv { height: 56px; width: auto; display: block; }
+
+  /* Cover: copy on the left, the product on the right */
+  .cover-demo .hero-shot { position: absolute; left: 948px; top: 272px; width: 860px; border-radius: 14px; border: 1px solid var(--border-hover); box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6); }
+  .cover-demo .copy { width: 760px; }
+  .cover-demo h1 { font-size: 104px; }
+  .cover-demo .lede { margin-top: 32px; font-size: 32px; }
+
+  /* A step: the big screenshot, its numbered markers, and the instructions on the side */
+  .slide.step { padding: 72px 88px 136px; display: grid; grid-template-columns: 1248px 1fr; gap: 56px; align-items: center; }
+  .step .shot { --k: 0.65; position: relative; width: 1248px; height: 702px; }
+  .step .shot img { width: 1248px; height: 702px; display: block; border-radius: 14px; border: 1px solid var(--border-hover); box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55); }
+  .mark {
+    position: absolute;
+    left: calc((var(--x) * var(--k) - 9) * 1px);
+    top: calc((var(--y) * var(--k) - 9) * 1px);
+    width: calc((var(--w) * var(--k) + 18) * 1px);
+    height: calc((var(--h) * var(--k) + 18) * 1px);
+    border: 4px solid var(--red-light);
+    border-radius: 12px;
+  }
+  .mark b, .acts .n {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--red);
+    color: var(--text);
+    font-size: 23px;
+    font-weight: 700;
+    line-height: 42px; /* m-badge: exported as a picture, so the number sits the same in every app */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35); /* also keeps the picture's transparent corners (pptx.mjs flattens shadowless pictures) */
+    text-align: center;
+    flex: none;
+  }
+  .mark b { position: absolute; left: -24px; top: -24px; }
+  .mark.badge-left b { left: -58px; top: calc(50% - 21px); } /* when a corner badge would cover the screenshot's text */
+  .acts li, .then p, .lede, .lead, .card p { text-wrap: pretty; }
+  .step .side { display: flex; flex-direction: column; }
+  .step .side .eyebrow { margin-bottom: 20px; }
+  .step .side h2 { font-size: 58px; line-height: 1.02; }
+  .step .side .lead { margin-top: 26px; font-size: 27px; line-height: 1.4; color: var(--text); }
+  .acts { list-style: none; margin: 30px 0 0; padding: 0; display: flex; flex-direction: column; gap: 20px; }
+  .acts li { display: flex; gap: 18px; align-items: flex-start; font-size: 26px; line-height: 1.38; color: var(--text); }
+  .acts li .n { margin-top: -2px; }
+  .then { margin-top: 36px; padding-top: 26px; border-top: 1px solid var(--border-hover); }
+  .then .k { font-size: 20px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); }
+  .then p { margin-top: 12px; font-size: 24px; line-height: 1.45; color: var(--text-mid); }
+
+  /* Recap and close */
+  .recap .cards { margin-top: 64px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+  .recap .card h3 { font-size: 38px; margin-top: 8px; }
+  .recap .card p { margin-top: 18px; font-size: 26px; line-height: 1.45; color: var(--text-mid); }
+  .close .close-text h1 { font-size: 120px; }
+  .close .card.link p { font-size: 24px; color: var(--text-mid); margin-top: 6px; }
+  .close .card.link strong { color: var(--text); font-size: 28px; }
+</style>
+</head>
+<body data-layouts>
+
+<!-- ======================================================================
+     1 · Cover
+     ====================================================================== -->
+<section class="slide title-slide cover-demo" data-sec="Cover" data-nofoot>
+  <div class="lockup">
+    <img class="ol" src="_assets/onelaunch-file-scanning-demo/onelaunch-logo.png" alt="OneLaunch logo">
+    <span class="olname">OneLaunch</span><span class="x">×</span>
+    <img class="mv" src="_assets/logo.svg" alt="Massive">
+  </div>
+  <div class="copy">
+    <div class="eyebrow">Step-by-step demo</div>
+    <h1>Free file scanning<br>in <span class="hl">OneLaunch</span></h1>
+    <p class="lede">The opt-in flow, one screen at a time: one prompt, one click, and an off switch.</p>
+  </div>
+  <div class="meta">Prepared for OneLaunch · November 2026</div>
+  <img class="hero-shot" src="_assets/onelaunch-file-scanning-demo/step-5.jpg" alt="OneLaunch with File Reputation Scanning on">
+</section>
+
+<!-- ======================================================================
+     2 · Step 1, open OneLaunch
+     ====================================================================== -->
+<section class="slide step" data-sec="Walkthrough">
+  <div class="shot">
+    <img src="_assets/onelaunch-file-scanning-demo/step-1.jpg" alt="The Windows desktop with the OneLaunch dock across the top">
+    <span class="mark" style="--x:1187; --y:1021; --w:40; --h:40"><b class="m-badge">1</b></span>
+  </div>
+  <div class="side">
+    <div class="eyebrow">Step 1 of 7</div>
+    <h2>Open OneLaunch</h2>
+    <ol class="acts">
+      <li><span class="n m-badge">1</span><span>Click OneLaunch in the Windows taskbar.</span></li>
+    </ol>
+    <div class="then"><div class="k">What happens</div><p>The OneLaunch dock slides in across the top of the screen.</p></div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     3 · Step 2, the Apps Library
+     ====================================================================== -->
+<section class="slide step" data-sec="Walkthrough">
+  <div class="shot">
+    <img src="_assets/onelaunch-file-scanning-demo/step-2.jpg" alt="The OneLaunch Apps Library with File Reputation Scanning at the top">
+    <span class="mark" style="--x:532; --y:8; --w:54; --h:54"><b class="m-badge">1</b></span>
+    <span class="mark" style="--x:467; --y:191; --w:1380; --h:111"><b class="m-badge">2</b></span>
+  </div>
+  <div class="side">
+    <div class="eyebrow">Step 2 of 7</div>
+    <h2>Open the Apps Library</h2>
+    <ol class="acts">
+      <li><span class="n m-badge">1</span><span>Click + in the OneLaunch dock.</span></li>
+      <li><span class="n m-badge">2</span><span>Find the new tile at the top: File Reputation Scanning, free.</span></li>
+    </ol>
+    <div class="then"><div class="k">What happens</div><p>The Apps Library opens on Apps, with the new feature first.</p></div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     4 · Step 3, Get
+     ====================================================================== -->
+<section class="slide step" data-sec="Walkthrough">
+  <div class="shot">
+    <img src="_assets/onelaunch-file-scanning-demo/step-3.jpg" alt="The cursor on Get in the File Reputation Scanning tile">
+    <span class="mark" style="--x:1668; --y:221; --w:144; --h:51"><b class="m-badge">1</b></span>
+  </div>
+  <div class="side">
+    <div class="eyebrow">Step 3 of 7</div>
+    <h2>Click Get</h2>
+    <ol class="acts">
+      <li><span class="n m-badge">1</span><span>Click Get on File Reputation Scanning.</span></li>
+    </ol>
+    <div class="then"><div class="k">What happens</div><p>Nothing turns on yet. OneLaunch asks first, in one dialog.</p></div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     5 · Step 4, Massive's consent
+     ====================================================================== -->
+<section class="slide step" data-sec="Walkthrough">
+  <div class="shot">
+    <img src="_assets/onelaunch-file-scanning-demo/step-4.jpg" alt="The OneLaunch Update dialog with Massive's consent text">
+    <span class="mark" style="--x:538; --y:499; --w:843; --h:183"><b class="m-badge">1</b></span>
+    <span class="mark" style="--x:964; --y:740; --w:417; --h:56"><b class="m-badge">2</b></span>
+  </div>
+  <div class="side">
+    <div class="eyebrow">Step 4 of 7</div>
+    <h2>Read Massive's consent</h2>
+    <ol class="acts">
+      <li><span class="n m-badge">1</span><span>The consent is written out in full: a small amount of the device's free resources and IP address, used to download public web data.</span></li>
+      <li><span class="n m-badge">2</span><span>Accept or Decline. They're the same size, and nothing is pre-ticked.</span></li>
+    </ol>
+    <div class="then"><div class="k">Also in the dialog</div><p>Massive's FAQ, License and Privacy Policy, one click away.</p></div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     6 · Step 5, Accept
+     ====================================================================== -->
+<section class="slide step" data-sec="Walkthrough">
+  <div class="shot">
+    <img src="_assets/onelaunch-file-scanning-demo/step-5.jpg" alt="The tile reads On, a shield is in the dock, and a notification confirms scanning is on">
+    <span class="mark" style="--x:1668; --y:221; --w:144; --h:51"><b class="m-badge">1</b></span>
+    <span class="mark" style="--x:1568; --y:18; --w:36; --h:36"><b class="m-badge">2</b></span>
+    <span class="mark" style="--x:1356; --y:791; --w:546; --h:202"><b class="m-badge">3</b></span>
+  </div>
+  <div class="side">
+    <div class="eyebrow">Step 5 of 7</div>
+    <h2>Accept</h2>
+    <p class="lead">Click Accept, and File Reputation Scanning turns on.</p>
+    <ol class="acts">
+      <li><span class="n m-badge">1</span><span>The tile now reads On.</span></li>
+      <li><span class="n m-badge">2</span><span>A shield joins the dock while scanning is on.</span></li>
+      <li><span class="n m-badge">3</span><span>A notification confirms it, and says how to opt out.</span></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ======================================================================
+     7 · Step 6, Settings
+     ====================================================================== -->
+<section class="slide step" data-sec="Walkthrough">
+  <div class="shot">
+    <img src="_assets/onelaunch-file-scanning-demo/step-6.jpg" alt="The OneLaunch dock menu open, with the cursor on Settings">
+    <span class="mark" style="--x:1888; --y:14; --w:28; --h:44"><b class="m-badge">1</b></span>
+    <span class="mark badge-left" style="--x:1595; --y:182; --w:303; --h:51"><b class="m-badge">2</b></span>
+  </div>
+  <div class="side">
+    <div class="eyebrow">Step 6 of 7</div>
+    <h2>Open Settings</h2>
+    <ol class="acts">
+      <li><span class="n m-badge">1</span><span>Click the three-dot menu at the right end of the dock.</span></li>
+      <li><span class="n m-badge">2</span><span>Click Settings.</span></li>
+    </ol>
+    <div class="then"><div class="k">What happens</div><p>OneLaunch Settings opens. A new page, File Scanning, is in the list.</p></div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     8 · Step 7, switch it off
+     ====================================================================== -->
+<section class="slide step" data-sec="Walkthrough">
+  <div class="shot">
+    <img src="_assets/onelaunch-file-scanning-demo/step-7.jpg" alt="The File Scanning page with the switch off, and a notification that scanning is off">
+    <span class="mark" style="--x:23; --y:516; --w:371; --h:51"><b class="m-badge">1</b></span>
+    <span class="mark" style="--x:1668; --y:228; --w:66; --h:33"><b class="m-badge">2</b></span>
+    <span class="mark" style="--x:1356; --y:819; --w:546; --h:174"><b class="m-badge">3</b></span>
+  </div>
+  <div class="side">
+    <div class="eyebrow">Step 7 of 7</div>
+    <h2>Switch it off</h2>
+    <ol class="acts">
+      <li><span class="n m-badge">1</span><span>Open File Scanning.</span></li>
+      <li><span class="n m-badge">2</span><span>Turn the switch off.</span></li>
+      <li><span class="n m-badge">3</span><span>A notification confirms it.</span></li>
+    </ol>
+    <div class="then"><div class="k">What happens</div><p>Massive stops on this PC, and scanning goes with it. The shield leaves the dock. It can be turned on again anytime in Settings.</p></div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     9 · Recap
+     ====================================================================== -->
+<section class="slide recap" data-sec="Recap" style="justify-content:center">
+  <h2>One prompt, one click, and <span class="hl">an off switch.</span></h2>
+  <div class="cards">
+    <div class="card accent"><div class="k">Opt-in only</div><h3>Nothing runs until Accept</h3><p>Get only opens the dialog. Scanning and Massive start after the user accepts.</p></div>
+    <div class="card accent"><div class="k">Nothing pre-ticked</div><h3>Same size, side by side</h3><p>Accept and Decline are the same size, and nothing is chosen for the user.</p></div>
+    <div class="card accent"><div class="k">Off switch in Settings</div><h3>One switch to stop</h3><p>Turning it off stops Massive on the PC, and the free scanning goes with it.</p></div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     10 · Close
+     ====================================================================== -->
+<section class="slide close" data-sec="Close" data-nofoot>
+  <div class="close-text">
+    <div class="lockup">
+      <img class="ol" src="_assets/onelaunch-file-scanning-demo/onelaunch-logo.png" alt="OneLaunch logo">
+      <span class="olname">OneLaunch</span><span class="x">×</span>
+      <img class="mv" src="_assets/logo.svg" alt="Massive">
+    </div>
+    <div>
+      <div class="eyebrow">Next steps</div>
+      <h1>Let's ship it.</h1>
+    </div>
+    <div class="meta">joinmassive.com</div>
+  </div>
+  <div class="close-links">
+    <div class="card link"><div class="icon"><i data-i="settings"></i></div><div><div class="k">1 · Integrate the SDK</div><p><strong>Add the Massive SDK and consent screen to OneLaunch.</strong></p></div></div>
+    <div class="card link"><div class="icon"><i data-i="zap"></i></div><div><div class="k">2 · Ship it</div><p><strong>Launch in the next update and track opt-ins.</strong></p></div></div>
+  </div>
+</section>
+
+<script>
+  // Lucide-style line icons (from massive-template.html), stamped into every <i data-i="…">.
+  const P = {
+    settings: '<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>',
+    zap: '<path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/>',
+    checkSquare: '<rect width="18" height="18" x="3" y="3" rx="2"/><path d="m9 12 2 2 4-4"/>',
+  };
+  document.querySelectorAll('[data-i]').forEach((el) => {
+    el.innerHTML = `<svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${P[el.dataset.i] || ''}</svg>`;
+    el.style.display = 'inline-flex';
+    el.style.fontSize = el.style.fontSize || '28px';
+  });
+
+  // Footer: logo, section, page number (plain positions, matching the PPTX layouts' live number).
+  const slides = [...document.querySelectorAll('.slide:not([data-hidden])')];
+  slides.forEach((s, i) => {
+    if (s.hasAttribute('data-nofoot')) return;
+    const f = document.createElement('div');
+    f.className = 'foot';
+    f.innerHTML = `<img src="_assets/logo.svg" alt=""><span class="sec"></span><span class="num">${i + 1}</span>`;
+    s.appendChild(f);
+  });
+</script>
+</body>
+</html>

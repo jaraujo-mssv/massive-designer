@@ -1,0 +1,4 @@
+[
+  { "from": "sparktray-campaign/public/music/calm-lo-fi.mp3", "to": "assets/music/calm-lo-fi.mp3" },
+  { "from": "sparktray-campaign/brand/assets/windows/wallpaper.jpg", "to": "assets/images/wallpaper.jpg" }
+]

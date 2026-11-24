@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+        }
+      </style>
+      <!-- Frame 1, Open OneLaunch: the cursor clicks OneLaunch in the taskbar on "OneLaunch"; the dock drops in -->
+      <div id="root" data-composition-id="s1-open" data-width="1920" data-height="1080" data-duration="3.533333">
+        <div class="pc-desktop" data-pinned></div>
+      </div>
+      <script>
+        // The desktop and OneLaunch at this scene's slice of the one continuous recording (js/onelaunch-story.js).
+        OneLaunchStory.scene("s1-open");
+      </script>
+    </template>
+  </body>
+</html>

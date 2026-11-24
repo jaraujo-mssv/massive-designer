@@ -1,0 +1,25 @@
+/* frame-kit.css — shared base for compositions ported from Remotion. */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Remotion's AbsoluteFill: full-bleed flex column. */
+.af {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* A sub-composition host slot fills the stage. */
+.scene {
+  position: absolute;
+  inset: 0;
+}

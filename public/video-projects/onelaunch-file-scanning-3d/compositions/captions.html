@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+        }
+      </style>
+      <!-- Subtitles for the whole film (sparktray-campaign Caption.tsx): one page per voice line, cut in at its cue; each
+           word lights from 42% to full as it's said, and the word being said is the deck's orange. Text: js/captions-data.js. -->
+      <div id="root" data-composition-id="ol-captions" data-width="1920" data-height="1080" data-duration="42.666667">
+        <div class="ol-caps"></div>
+      </div>
+      <script>
+        OneLaunchStory.captions("ol-captions");
+      </script>
+    </template>
+  </body>
+</html>

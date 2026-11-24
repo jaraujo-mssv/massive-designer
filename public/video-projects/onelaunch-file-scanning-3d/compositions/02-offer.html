@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+        }
+      </style>
+      <!-- Frame 2, The offer: + on "Apps" opens the Apps Library; Get on "Get" brings up the dialog -->
+      <div id="root" data-composition-id="s2-offer" data-width="1920" data-height="1080" data-duration="7.266667">
+        <div class="pc-desktop" data-pinned></div>
+      </div>
+      <script>
+        // The desktop and OneLaunch at this scene's slice of the one continuous recording (js/onelaunch-story.js).
+        OneLaunchStory.scene("s2-offer");
+      </script>
+    </template>
+  </body>
+</html>

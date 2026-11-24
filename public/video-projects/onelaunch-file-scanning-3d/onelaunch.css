@@ -1,0 +1,211 @@
+/*
+ * onelaunch-file-scanning: the video's one stylesheet (linked from index.html).
+ *
+ * A Windows 11 screen recording in the sparktray-campaign style (wallpaper, taskbar, cursor from js/pc-desktop.js),
+ * with OneLaunch's own light UI drawn in its 1280×720 screen space (js/onelaunch-ui.js) and scaled 1.5× to the frame.
+ * The OneLaunch dialog and toasts follow the pitch mockup; the feature is unbranded File Reputation Scanning.
+ * Subtitles follow the campaign's Caption.tsx; the end card follows its endcard layout, in Massive's colours.
+ * Font families are named here only; compositions use the --ol-* variables.
+ */
+
+@font-face { font-family: "Inter"; src: url(assets/fonts/inter.ttf) format("truetype"); font-weight: 100 900; font-style: normal; font-display: block; }
+@font-face { font-family: "Outfit"; src: url(assets/fonts/outfit.ttf) format("truetype"); font-weight: 100 900; font-style: normal; font-display: block; }
+@font-face { font-family: "Selawik"; src: url(assets/fonts/selawik-400.woff2) format("woff2"); font-weight: 400; font-display: block; }
+@font-face { font-family: "Selawik"; src: url(assets/fonts/selawik-600.woff2) format("woff2"); font-weight: 600; font-display: block; }
+@font-face { font-family: "Selawik"; src: url(assets/fonts/selawik-700.woff2) format("woff2"); font-weight: 700; font-display: block; }
+
+:root {
+  /* Massive's colours (brand/BRAND.md) for the end card */
+  --ol-m-bg: #0a0a0f;
+  --ol-m-red: #d74939;
+  --ol-m-red-light: #ff8163;
+  --ol-m-cream: #faf4ec;
+  --ol-m-cream-mid: rgba(250, 244, 236, 0.75);
+  --ol-m-cream-dim: rgba(250, 244, 236, 0.55);
+  --ol-brand: "Outfit", system-ui, sans-serif;
+  --ol-ui: "Selawik", "Inter", system-ui, sans-serif;
+  --ol-cap: "Inter", system-ui, sans-serif;
+}
+
+/* ══ The desktop (js/pc-desktop.js) ═══════════════════════════════════════════════════════════════ */
+
+.pc-wallpaper { background: #0a0a0f url(assets/images/wallpaper.jpg) center / cover no-repeat; }
+.pc-pinned-app { background: url(assets/onelaunch/onelaunch-logo-round.png) center / contain no-repeat; }
+.ol-veil { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; background: #000; }
+
+/* ══ OneLaunch, in its own 1280×720 space, scaled 1.5× (y ≤ 554 keeps it above the subtitle band) ═══ */
+
+.ol-space { position: absolute; left: 0; top: 0; width: 1280px; height: 720px; transform: scale(1.5); transform-origin: 0 0; font-family: var(--ol-ui); color: #1a1a1a; -webkit-font-smoothing: antialiased; }
+.ol-space, .ol-space *, .ol-space *::before, .ol-space *::after { box-sizing: border-box; }
+.ol-space p, .ol-space ul { margin: 0; }
+.ol-space b { font-weight: inherit; }
+
+/* Resting state: the scenes reveal the rest (js/onelaunch-story.js sets inline styles every frame). */
+.ol-space .ol-lib, .ol-space .ol-set, .ol-space .ol-dlg, .ol-space .ol-toast, .ol-space .ol-menu, .ol-space .ol-dk-shield,
+.ol-space .ol-get-on, .ol-space .ol-set-am, .ol-space .ol-tg-off, .ol-space .ol-am-status-off, .ol-space .ol-dk-active,
+.ol-space .ol-dk-plus-on { opacity: 0; }
+
+/* Dock: 48 px, as in the screenshots */
+.ol-dock { position: absolute; left: 0; top: 0; width: 1280px; height: 48px; background: #fbfbfb; border-bottom: 1px solid #e4e4e4; box-shadow: 0 1px 8px rgba(0,0,0,.18); display: flex; align-items: center; padding: 0 0 0 4px; }
+.ol-dk-ico { display: inline-block; width: 24px; height: 24px; background: center / contain no-repeat; flex: none; margin-right: 20px; }
+.ol-dk-logo { position: relative; width: 40px; height: 36px; border-radius: 6px; display: flex; align-items: center; justify-content: center; }
+.ol-dk-logo .ol-dk-ico { width: 26px; height: 26px; margin: 0; }
+.ol-dk-active, .ol-dk-plus-on { position: absolute; bottom: 1px; width: 14px; height: 3px; border-radius: 2px; background: #0a64d8; }
+.ol-dk-active { left: 13px; }
+.ol-dk-plus-on { left: 11px; }
+.ol-dk-sep { width: 1px; height: 24px; background: #dcdcdc; margin: 0 12px 0 8px; }
+.ol-dk-pin { display: flex; align-items: center; gap: 8px; margin-right: 22px; font-size: 14px; color: #222; }
+.ol-dk-pin .ol-dk-ico { margin: 0; width: 22px; height: 22px; }
+.ol-dk-plus { position: relative; width: 36px; height: 36px; border-radius: 6px; display: flex; align-items: center; justify-content: center; margin-left: -6px; }
+.ol-dk-search { position: absolute; left: 483px; top: 9px; width: 318px; height: 30px; border-radius: 15px; border: 1px solid #d3d3d3; background: #fff; display: flex; align-items: center; gap: 10px; padding-left: 18px; font-size: 13px; color: #555; }
+.ol-dk-right { position: absolute; right: 10px; top: 0; height: 48px; display: flex; align-items: center; }
+.ol-dk-right .ol-dk-ico { margin: 0 0 0 22px; }
+.ol-dk-sun { width: 30px !important; height: 30px !important; }
+.ol-dk-sm { width: 21px !important; height: 21px !important; }
+.ol-dk-more { width: 5px !important; height: 18px !important; margin-left: 24px !important; }
+.ol-dk-more-hit { position: absolute; right: 2px; top: 8px; width: 24px; height: 32px; border-radius: 6px; }
+.ol-dk-shield { width: 24px; height: 24px; margin-left: 20px; display: flex; align-items: center; justify-content: center; border-radius: 6px; background: #e6f4ec; }
+
+/* The ⋮ menu */
+.ol-menu { position: absolute; right: 8px; top: 46px; width: 216px; padding: 6px; background: #fff; border: 1px solid #dcdcdc; border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,.24); transform-origin: 100% 0; }
+.ol-mi { height: 34px; padding: 0 12px; border-radius: 4px; display: flex; align-items: center; font-size: 13.5px; color: #1a1a1a; }
+.ol-mi-sep { height: 1px; margin: 5px 4px; background: #e6e6e6; }
+
+/* Panels: Apps Library and Settings, from the screenshots */
+.ol-lib, .ol-set { position: absolute; left: 8px; top: 54px; width: 1264px; height: 500px; display: flex; overflow: hidden; background: #f9f9f9; border: 1px solid #dedede; border-radius: 8px; box-shadow: 0 10px 34px rgba(0,0,0,.32), 0 2px 6px rgba(0,0,0,.12); transform-origin: 50% 0; }
+.ol-lib-side { width: 262px; flex: none; background: #fff; border-right: 1px solid #e6e6e6; padding: 30px 8px 0 6px; }
+.ol-lib-title { font-size: 20px; font-weight: 600; color: #1a1a1a; padding-left: 12px; margin-bottom: 20px !important; }
+.ol-nav { position: relative; height: 34px; line-height: 34px; padding-left: 12px; margin-bottom: 9px !important; font-size: 14px; color: #222; border-radius: 4px; }
+.ol-nav.is-on { background: #efefef; }
+.ol-nav.is-on::before { content: ""; position: absolute; left: -2px; top: 9px; width: 3px; height: 16px; border-radius: 2px; background: #0a64d8; }
+.ol-nav-am { display: flex; align-items: center; gap: 8px; }
+.ol-new { font-size: 9px; font-weight: 700; letter-spacing: .05em; color: #fff; background: #e8823b; border-radius: 8px; padding: 0 6px; line-height: 15px; }
+.ol-lib-main { position: relative; flex: 1; padding: 30px 40px 0 40px; }
+.ol-x { position: absolute; right: 26px; top: 22px; }
+.ol-lib-h { font-size: 20px; font-weight: 600; margin-bottom: 18px !important; }
+
+.ol-feat { position: relative; height: 74px; border-radius: 8px; background: #fff; border: 1px solid #dfe6e2; box-shadow: 0 1px 3px rgba(0,0,0,.05); display: flex; align-items: center; padding: 0 22px 0 18px; margin-bottom: 22px; }
+.ol-feat-new { position: absolute; left: 18px; top: -8px; padding: 0 7px; line-height: 16px; border-radius: 8px; background: #1e9e63; color: #fff; font-size: 9px; font-weight: 700; letter-spacing: .05em; }
+.ol-feat-ico { width: 44px; height: 46px; flex: none; margin-right: 16px; }
+.ol-feat-ico svg { width: 44px; height: 47px; }
+.ol-feat-txt { flex: 1; }
+.ol-feat-t { font-size: 16px; font-weight: 600; }
+.ol-feat-s { font-size: 12.5px; color: #555; margin-top: 3px !important; }
+.ol-feat-free { font-size: 12px; font-weight: 600; color: #1e7f50; border: 1px solid #9fd3b8; border-radius: 10px; padding: 0 10px; line-height: 20px; margin-right: 18px; }
+.ol-get { position: relative; width: 96px; height: 34px; border-radius: 4px; color: #fff; font-size: 14px; font-weight: 600; }
+.ol-get b { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 6px; border-radius: 4px; }
+.ol-get-label { background: #1f8fff; }
+.ol-get-on { background: #e6f4ec; color: #1e7f50; border: 1px solid #9fd3b8; }
+
+.ol-grid { display: grid; grid-template-columns: repeat(7, 125px); row-gap: 6px; margin-left: -18px; }
+.ol-app { height: 100px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; font-size: 13px; color: #222; }
+.ol-app-ico { width: 48px; height: 48px; background: center / contain no-repeat; }
+
+.ol-set-general, .ol-set-am { position: absolute; left: 40px; top: 30px; right: 40px; }
+.ol-set-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0 44px; }
+.ol-st { font-size: 15px; color: #1a1a1a; margin-bottom: 7px !important; }
+.ol-sd { font-size: 12px; line-height: 1.5; color: #6b6b6b; margin-bottom: 24px !important; }
+.ol-am-card { position: relative; display: flex; gap: 18px; padding: 22px 140px 20px 22px; border-radius: 8px; background: #fff; border: 1px solid #e2e2e2; }
+.ol-am-ico { width: 30px; height: 30px; flex: none; margin-top: 2px; }
+.ol-am-txt .ol-sd { margin-bottom: 12px !important; max-width: 560px; font-size: 12.5px; }
+.ol-by2 { font-size: 12px; color: #6b6b6b; margin-left: 8px; }
+.ol-am-links { display: flex; gap: 20px; font-size: 12px; }
+.ol-am-links span { color: #1a6fd9; }
+.ol-tg { position: absolute; right: 74px; top: 24px; width: 44px; height: 22px; border-radius: 11px; background: #0a64d8; border: 1px solid #0a64d8; }
+.ol-tg-knob { position: absolute; left: 25px; top: 3px; width: 14px; height: 14px; border-radius: 50%; background: #fff; } /* On; Off moves it x -22 */
+.ol-tg-label { position: absolute; right: 30px; top: 25px; width: 30px; font-size: 13px; color: #1a1a1a; }
+.ol-tg-label span { position: absolute; left: 0; top: 0; }
+.ol-am-status { position: relative; height: 20px; margin-top: 14px !important; font-size: 12.5px; color: #444; }
+.ol-am-status span { position: absolute; left: 2px; top: 0; display: flex; align-items: center; gap: 8px; }
+
+/* The update dialog (the deck's mockup at 0.94, so its footer clears the subtitles) */
+.ol-dlg { position: absolute; left: 300px; top: 56px; width: 680px; background: #f8f8f8; border: 1px solid #d6d6d6; box-shadow: 0 12px 40px rgba(0,0,0,.30), 0 2px 6px rgba(0,0,0,.12); transform: scale(.94); transform-origin: 50% 0; }
+.ol-tb { height: 44px; display: flex; align-items: center; padding: 0 0 0 10px; font-size: 13px; color: #555; }
+.ol-tb-icon { width: 28px; height: 28px; margin-right: 8px; background: url(assets/onelaunch/onelaunch-small.png) 0 0 / 28px 28px no-repeat; }
+.ol-sp { flex: 1; }
+.ol-wc { width: 46px; height: 44px; display: flex; align-items: center; justify-content: center; }
+.ol-body { padding: 18px 40px 20px 28px; display: flex; gap: 28px; }
+.ol-left { width: 190px; flex: none; display: flex; flex-direction: column; align-items: center; padding-top: 10px; }
+.ol-logo { position: relative; width: 120px; height: 120px; background: url(assets/onelaunch/onelaunch-logo.png) 0 0 / 120px 120px no-repeat; }
+.ol-logo svg { position: absolute; right: -8px; bottom: -6px; }
+.ol-name { margin-top: 22px; font-weight: 600; font-size: 16px; text-align: center; line-height: 1.25; }
+.ol-name span, .ol-h1 span { display: block; }
+.ol-by { margin-top: 4px; font-size: 12px; color: #666; }
+.ol-right { flex: 1; }
+.ol-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .04em; color: #1e9e63; margin-top: 6px; }
+.ol-h1 { font-size: 21px; font-weight: 600; line-height: 1.3; margin-top: 6px; }
+.ol-pitch { font-size: 13px; line-height: 1.55; color: #333; margin-top: 10px !important; }
+.ol-list { list-style: none; margin: 12px 0 0 !important; padding: 0; }
+.ol-list li { display: flex; align-items: center; gap: 9px; font-size: 13px; color: #333; margin-bottom: 7px; }
+.ol-list li i { width: 16px; height: 16px; border-radius: 50%; background: #1e9e63; display: inline-flex; align-items: center; justify-content: center; flex: none; }
+.ol-consent { margin: 0 40px 22px 40px; background: #fff; border: 1px solid #e2e2e2; border-radius: 4px; padding: 14px 16px 12px; }
+.ol-consent p { font-size: 12px; line-height: 1.6; color: #444; }
+.ol-links { margin-top: 10px; display: flex; gap: 20px; font-size: 12px; }
+.ol-links span { color: #1a6fd9; }
+.ol-foot { background: #eeeeee; border-top: 1px solid #e2e2e2; height: 78px; display: flex; align-items: center; padding: 0 40px; gap: 12px; }
+.ol-ver { flex: 1; font-size: 12px; color: #888; }
+.ol-btn { width: 142px; height: 40px; font-size: 14px; display: flex; align-items: center; justify-content: center; border-radius: 2px; }
+.ol-decline { background: #fff; border: 1px solid #c8c8c8; color: #1a1a1a; }
+.ol-accept { background: #1f8fff; border: 1px solid #1f8fff; color: #fff; font-weight: 600; }
+
+/* Toasts: Windows' own spot, bottom-right just above the taskbar (centred subtitles may overlap them) */
+.ol-toast { position: absolute; right: 12px; bottom: 58px; width: 364px; background: #f3f3f3; border: 1px solid #d9d9d9; border-radius: 8px; box-shadow: 0 8px 28px rgba(0,0,0,.30); padding: 12px 14px 16px; }
+.ol-hd { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #444; }
+.ol-hd-icon { width: 16px; height: 16px; background: url(assets/onelaunch/onelaunch-small.png) 0 0 / 16px 16px no-repeat; }
+.ol-row { display: flex; gap: 12px; margin-top: 12px; }
+.ol-row svg { flex: none; }
+.ol-tt { font-size: 14px; font-weight: 600; }
+.ol-tx { font-size: 13px; color: #444; line-height: 1.45; margin-top: 3px; }
+
+/* ══ Subtitles (sparktray-campaign Caption.tsx): one page per voice line, words light up as they're said ══ */
+
+.ol-cap-page { position: absolute; left: 134px; right: 134px; top: 832px; height: 170px; display: flex; align-items: center; justify-content: center; }
+/* On a dark pill: the camera's close-ups put white OneLaunch panels behind the subtitles. */
+.ol-cap-text { width: max-content; white-space: nowrap; margin: 0; padding: 8px 24px 11px; border-radius: 16px; background: rgba(8, 8, 12, 0.8); box-shadow: 0 6px 24px rgba(0,0,0,.3); text-align: center; font-family: var(--ol-cap); font-weight: 700; font-size: 46px; line-height: 1.22; letter-spacing: -0.02em; color: #ededf2; }
+
+/* ══ End card: OneLaunch × Massive, the campaign's endcard layout in Massive's colours ══════════════════ */
+
+.ol-end { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: hidden; background: radial-gradient(ellipse 60% 42% at 50% 112%, rgba(215, 73, 57, .30), transparent 70%), var(--ol-m-bg); }
+.ol-end-grid { position: absolute; inset: 0; opacity: .18; background-image: radial-gradient(circle, rgba(96, 118, 145, .7) 1.5px, transparent 1.5px); background-size: 72px 72px; background-position: 36px 36px; }
+/* One stack, centred on the frame both ways: the shot-and-copy row, then the claims on the same centre line. */
+.ol-end-stack { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 64px; }
+.ol-end-row { display: flex; align-items: center; gap: 72px; transform-origin: 50% 50%; }
+.ol-end-shot { position: relative; width: 860px; height: 484px; flex: none; border-radius: 12px; overflow: hidden; border: 1px solid rgba(250,244,236,.08); box-shadow: 0 30px 80px rgba(0,0,0,.6); }
+.ol-end-shot .ol-space { transform: scale(.671875); }
+.ol-end-copy { flex: none; width: max-content; display: flex; flex-direction: column; align-items: flex-start; gap: 36px; } /* as wide as its widest item, so the row centres on what you see */
+.ol-end-h { margin: 0; font-family: var(--ol-brand); font-weight: 800; font-size: 76px; line-height: .98; letter-spacing: -0.04em; color: var(--ol-m-cream); }
+.ol-end-h { margin-bottom: -8px; } /* the headline's descent space; evens the visible gaps above and below the lock-up */
+.ol-end-h span { display: block; white-space: nowrap; }
+.ol-end-pill { height: 76px; padding: 0 42px; border-radius: 38px; background: var(--ol-m-red); color: var(--ol-m-cream); font-family: var(--ol-brand); font-weight: 600; font-size: 30px; display: flex; align-items: center; }
+.ol-end-claims { display: flex; justify-content: center; align-items: center; gap: 22px; font-family: var(--ol-brand); font-size: 27px; color: var(--ol-m-cream-mid); }
+.ol-end-claims i { width: 8px; height: 8px; border-radius: 50%; background: var(--ol-m-red); }
+
+/* Lock-up: OneLaunch's logo and name × Massive's logo */
+.ol-lockup { display: flex; align-items: center; gap: 16px; height: 72px; }
+.ol-ol-logo { width: 68px; height: 68px; flex: none; background: url(assets/onelaunch/onelaunch-logo-round.png) center / contain no-repeat; }
+.ol-cw { font-family: var(--ol-brand); font-weight: 700; font-size: 46px; letter-spacing: -0.02em; color: var(--ol-m-cream); }
+.ol-lx { font-family: var(--ol-brand); font-weight: 300; font-size: 42px; color: var(--ol-m-cream-dim); margin: 0 4px; }
+.ol-mv { display: block; width: 228px; height: 62px; background: url(assets/brand/massive-logo-negative.svg) 0 0 / 228px 62px no-repeat; }
+
+/* ── The laptop and camera (js/camera.js) ── */
+.cam-stage { position: absolute; inset: 0; overflow: hidden; perspective: 2400px; perspective-origin: 960px 540px;
+  background: radial-gradient(ellipse 70% 60% at 50% 42%, #15151c 0%, #07070a 62%, #000 100%); }
+.cam-world { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-style: preserve-3d; transform-origin: 0 0; }
+.cam-lid { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-style: preserve-3d; transform-origin: 960px 1144px; }
+.cam-bezel { position: absolute; left: -64px; top: -64px; width: 2048px; height: 1208px; border-radius: 58px; transform: translateZ(-2px);
+  background: linear-gradient(180deg, #2b2b31 0%, #0d0d10 5%, #060608 100%); box-shadow: inset 0 0 0 3px #45454c, inset 0 0 0 7px #0a0a0b; }
+.cam-bezel::after { content: ""; position: absolute; left: 3px; right: 3px; top: 3px; height: 64px; border-radius: 55px 55px 0 0;
+  background: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,0)); }
+.cam-back { position: absolute; left: -64px; top: -64px; width: 2048px; height: 1208px; border-radius: 58px; transform: translateZ(-12px);
+  background: linear-gradient(160deg, #34353b 0%, #1c1d21 55%, #121215 100%); box-shadow: inset 0 0 0 3px #4a4b52; }
+.cam-dark { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; background: #050507; transform: translateZ(0.5px); }
+.cam-glare { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; pointer-events: none; transform: translateZ(1px);
+  background: linear-gradient(118deg, rgba(255,255,255,.07) 0%, rgba(255,255,255,0) 38%); }
+.cam-base { position: absolute; left: -110px; top: 1144px; width: 2140px; height: 1420px; border-radius: 0 0 70px 70px;
+  transform-origin: 50% 0; transform: rotateX(90deg); background: linear-gradient(180deg, #1c1c21 0%, #141418 45%, #0b0b0d 100%);
+  box-shadow: inset 0 0 0 3px #2e2e34, 0 0 160px rgba(0,0,0,.6); }
+.cam-hinge { position: absolute; left: 260px; right: 260px; top: 0; height: 40px; border-radius: 0 0 14px 14px; background: linear-gradient(180deg, #050506, #111114); }
+.cam-keys { position: absolute; left: 190px; right: 190px; top: 110px; height: 620px; border-radius: 18px; background-color: #0e0e11;
+  background-image: linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,0) 45%), repeating-linear-gradient(90deg, transparent 0 110px, #08080a 110px 120px), repeating-linear-gradient(0deg, transparent 0 100px, #08080a 100px 110px); }
+.cam-pad { position: absolute; left: 50%; top: 800px; width: 760px; height: 460px; margin-left: -380px; border-radius: 22px;
+  background: #17171b; box-shadow: inset 0 0 0 2px #26262b; }

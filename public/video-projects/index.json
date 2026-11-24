@@ -2306,6 +2306,266 @@
       "gif": null
     },
     {
+      "id": "onelaunch-file-scanning",
+      "title": "Free file scanning in OneLaunch",
+      "group": "massive",
+      "kind": "native",
+      "brand": null,
+      "status": "draft",
+      "source": "OneLaunch × Massive pitch: the OneLaunch screenshots and the File Reputation Scanning consent mockup",
+      "compositionId": "onelaunch-file-scanning",
+      "width": 1920,
+      "height": 1080,
+      "fps": 30,
+      "duration": 42.666667,
+      "path": "/video-projects/onelaunch-file-scanning/index.html",
+      "storyboard": {
+        "globals": {
+          "extra": {
+            "duration": "42.7s",
+            "mode": "collaborative"
+          },
+          "format": "1920x1080",
+          "message": "OneLaunch users turn on free file scanning with Massive's consent, and turn it off with one switch",
+          "arc": "Open OneLaunch → The offer → Massive's consent → Unlocked → Settings → Off → End card",
+          "audience": "the OneLaunch team (OneLaunch × Massive)"
+        },
+        "warnings": [],
+        "frames": [
+          {
+            "index": 1,
+            "title": "Open OneLaunch",
+            "status": "animated",
+            "scene": "A Windows 11 desktop; the cursor clicks OneLaunch in the taskbar and the OneLaunch dock slides down across the top",
+            "voiceover": "A free feature in OneLaunch, that could pay for itself.",
+            "narrative": "An animated screen recording, like the SparkTray guides: the dark Windows 11 bloom, the taskbar with its tray and clock, and subtitles above the taskbar that light up word by word. The OneLaunch dock is the light toolbar from the real screenshots.",
+            "src": "compositions/01-open.html",
+            "start": 0,
+            "duration": 3.53,
+            "poster": 2.24,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 2,
+            "title": "The offer",
+            "status": "animated",
+            "scene": "The Apps Library opens under the dock; a new tile, \"File Reputation Scanning · Free\", and the cursor clicks Get",
+            "voiceover": "In the Apps Library, they find a new feature: File Reputation Scanning. It's free, so they click Get.",
+            "narrative": "Two subtitle pages. The Apps Library is drawn from the real OneLaunch screenshot (News, Dashboard, Maps, Weather…), with one new featured row at the top for File Reputation Scanning.",
+            "src": "compositions/02-offer.html",
+            "start": 3.533333,
+            "duration": 7.27,
+            "poster": 5.76,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 3,
+            "title": "Massive's consent",
+            "status": "animated",
+            "scene": "The OneLaunch Update dialog pops up over the Apps Library with the offer and Massive's consent text; the cursor waits beside it while the consent is read",
+            "voiceover": "Massive's consent pops up first, in plain words: a small amount of the device's free resources and IP address, used to download public web data.",
+            "narrative": "Two subtitle pages. The dialog follows the pitch mockup (the consent text word for word), at a size that reads on video without a camera move (the campaign style never moves the camera). Accept and Decline are the same size; nothing is pre-ticked.",
+            "src": "compositions/03-consent.html",
+            "start": 10.8,
+            "duration": 10.63,
+            "poster": 9.35,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 4,
+            "title": "Unlocked",
+            "status": "animated",
+            "scene": "The cursor clicks Accept; the dialog closes, a toast says \"File Reputation Scanning is on\", and the tile turns to On with a shield in the dock",
+            "voiceover": "They click Accept. Scanning turns on, and a notification confirms it.",
+            "narrative": "The click lands on \"Accept\" in the narration. The toast slides in at the bottom right, just above the taskbar, where Windows puts it; the subtitles stay centred and may pass over it.",
+            "src": "compositions/04-unlocked.html",
+            "start": 21.433333,
+            "duration": 5.67,
+            "poster": 3.34,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 5,
+            "title": "Settings",
+            "status": "animated",
+            "scene": "The cursor opens the dock's ⋮ menu and picks Settings; OneLaunch Settings opens on General",
+            "voiceover": "Changing their mind is one switch, in OneLaunch Settings.",
+            "narrative": "Settings is drawn from the real screenshot (General, Browsing, Dock, Notifications, Startup & Wake), with one new page in the list: \"File Scanning\".",
+            "src": "compositions/05-settings.html",
+            "start": 27.1,
+            "duration": 4.2,
+            "poster": 4.1,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 6,
+            "title": "Off",
+            "status": "animated",
+            "scene": "The cursor opens \"File Scanning\" and flips File Reputation Scanning off; the shield leaves the dock and a toast confirms it, bottom right",
+            "voiceover": "Turn it off, and Massive stops. The free scanning goes with it.",
+            "narrative": "The off switch is the point of the scene: one click, and both Massive and the feature it pays for are gone.",
+            "src": "compositions/06-off.html",
+            "start": 31.3,
+            "duration": 4.47,
+            "poster": 2.83,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 7,
+            "title": "End card",
+            "status": "animated",
+            "scene": "The OneLaunch window with scanning on, beside \"Free file scanning in OneLaunch\", the OneLaunch × Massive lock-up and three claims",
+            "voiceover": "One prompt, one click, and an off switch. Let's ship it.",
+            "narrative": "Laid out like the campaign end cards (app shot left, headline, lock-up and pill right, claims strip below), in Massive's colours. It holds still about 2.5 s after the last word: the last frame is the poster.",
+            "src": "compositions/07-end.html",
+            "start": 35.766667,
+            "duration": 6.9,
+            "poster": 6.8,
+            "transitionIn": "cut"
+          }
+        ]
+      },
+      "script": "# SCRIPT — onelaunch-file-scanning\n\n**Voice:** Mark (ElevenLabs, v3p1kjzUvro6S76qmYmH, eleven_v3)\n**Voice settings:** stability 0.55 · similarity 0.75 · style 0 · seed 20260806\n**Voice direction:** Calm, plain and unhurried, one continuous take. Someone narrating a screen recording for a product team, not an ad. The consent lines are the slowest: every word clear.\n\nDraft: subtitles only, not recorded yet. One line = one subtitle page (two lines on screen at most). Times are estimates from\n`node timing.build.mjs` (the campaign's syllable weighting); after `npm run video:voice onelaunch-file-scanning`, run it again and\nthe subtitles, the clicks and the scene cuts all move to the real take.\n\n---\n\n## Line 1 — Open OneLaunch (Frame 1)\n\n**Delivery:** Calm, curious, a small lift on \"pay for itself\".\n\n    A free feature in OneLaunch, that could pay for itself.\n\n## Line 2 — The Apps Library (Frame 2)\n\n**Delivery:** Plain.\n\n    In the Apps Library, they find a new feature: File Reputation Scanning.\n\n## Line 3 — Get (Frame 2)\n\n**Delivery:** A small lift on \"free\".\n\n    It's free, so they click Get.\n\n## Line 4 — Consent pops up (Frame 3)\n\n**Delivery:** Slower.\n\n    Massive's consent pops up first, in plain words:\n\n## Line 5 — What Massive uses (Frame 3)\n\n**Delivery:** Slow, every word clear.\n\n    a small amount of the device's free resources and IP address, used to download public web data.\n\n## Line 6 — Accept (Frame 4)\n\n**Delivery:** Level.\n\n    They click Accept. Scanning turns on, and a notification confirms it.\n\n## Line 7 — Settings (Frame 5)\n\n**Delivery:** Level.\n\n    Changing their mind is one switch, in OneLaunch Settings.\n\n## Line 8 — Off (Frame 6)\n\n**Delivery:** Level, unhurried.\n\n    Turn it off, and Massive stops. The free scanning goes with it.\n\n## Line 9 — End card (Frame 7)\n\n**Delivery:** Warm, settled.\n\n    One prompt, one click, and an off switch. Let's ship it.\n",
+      "media": [
+        "assets/music/calm-lo-fi.mp3",
+        "assets/voice/take-2c886060.mp3"
+      ],
+      "output": "mp4",
+      "series": null,
+      "alt": null,
+      "gif": null
+    },
+    {
+      "id": "onelaunch-file-scanning-3d",
+      "title": "Free file scanning in OneLaunch (3D camera)",
+      "group": "massive",
+      "kind": "native",
+      "brand": null,
+      "status": "draft",
+      "source": "OneLaunch × Massive pitch: the OneLaunch screenshots and the File Reputation Scanning consent mockup; a copy of onelaunch-file-scanning with a 3D laptop and camera moves, after the OneLaunch homepage tour",
+      "compositionId": "onelaunch-file-scanning-3d",
+      "width": 1920,
+      "height": 1080,
+      "fps": 30,
+      "duration": 42.666667,
+      "path": "/video-projects/onelaunch-file-scanning-3d/index.html",
+      "storyboard": {
+        "globals": {
+          "extra": {
+            "duration": "42.7s",
+            "mode": "collaborative"
+          },
+          "format": "1920x1080",
+          "message": "OneLaunch users turn on free file scanning with Massive's consent, and turn it off with one switch",
+          "arc": "Open OneLaunch → The offer → Massive's consent → Unlocked → Settings → Off → End card",
+          "audience": "the OneLaunch team (OneLaunch × Massive)"
+        },
+        "warnings": [],
+        "frames": [
+          {
+            "index": 1,
+            "title": "Open OneLaunch",
+            "status": "animated",
+            "scene": "A Windows 11 desktop; the cursor clicks OneLaunch in the taskbar and the OneLaunch dock slides down across the top",
+            "voiceover": "A free feature in OneLaunch, that could pay for itself.",
+            "narrative": "An animated screen recording, like the SparkTray guides: the dark Windows 11 bloom, the taskbar with its tray and clock, and subtitles above the taskbar that light up word by word. The OneLaunch dock is the light toolbar from the real screenshots.",
+            "src": "compositions/01-open.html",
+            "start": 0,
+            "duration": 3.53,
+            "poster": 2.24,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 2,
+            "title": "The offer",
+            "status": "animated",
+            "scene": "The Apps Library opens under the dock; a new tile, \"File Reputation Scanning · Free\", and the cursor clicks Get",
+            "voiceover": "In the Apps Library, they find a new feature: File Reputation Scanning. It's free, so they click Get.",
+            "narrative": "Two subtitle pages. The Apps Library is drawn from the real OneLaunch screenshot (News, Dashboard, Maps, Weather…), with one new featured row at the top for File Reputation Scanning.",
+            "src": "compositions/02-offer.html",
+            "start": 3.533333,
+            "duration": 7.27,
+            "poster": 5.76,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 3,
+            "title": "Massive's consent",
+            "status": "animated",
+            "scene": "The OneLaunch Update dialog pops up over the Apps Library with the offer and Massive's consent text; the cursor waits beside it while the consent is read",
+            "voiceover": "Massive's consent pops up first, in plain words: a small amount of the device's free resources and IP address, used to download public web data.",
+            "narrative": "Two subtitle pages. The dialog follows the pitch mockup (the consent text word for word), at a size that reads on video without a camera move (the campaign style never moves the camera). Accept and Decline are the same size; nothing is pre-ticked.",
+            "src": "compositions/03-consent.html",
+            "start": 10.8,
+            "duration": 10.63,
+            "poster": 9.35,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 4,
+            "title": "Unlocked",
+            "status": "animated",
+            "scene": "The cursor clicks Accept; the dialog closes, a toast says \"File Reputation Scanning is on\", and the tile turns to On with a shield in the dock",
+            "voiceover": "They click Accept. Scanning turns on, and a notification confirms it.",
+            "narrative": "The click lands on \"Accept\" in the narration. The toast slides in at the bottom right, just above the taskbar, where Windows puts it; the subtitles stay centred and may pass over it.",
+            "src": "compositions/04-unlocked.html",
+            "start": 21.433333,
+            "duration": 5.67,
+            "poster": 3.34,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 5,
+            "title": "Settings",
+            "status": "animated",
+            "scene": "The cursor opens the dock's ⋮ menu and picks Settings; OneLaunch Settings opens on General",
+            "voiceover": "Changing their mind is one switch, in OneLaunch Settings.",
+            "narrative": "Settings is drawn from the real screenshot (General, Browsing, Dock, Notifications, Startup & Wake), with one new page in the list: \"File Scanning\".",
+            "src": "compositions/05-settings.html",
+            "start": 27.1,
+            "duration": 4.2,
+            "poster": 4.1,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 6,
+            "title": "Off",
+            "status": "animated",
+            "scene": "The cursor opens \"File Scanning\" and flips File Reputation Scanning off; the shield leaves the dock and a toast confirms it, bottom right",
+            "voiceover": "Turn it off, and Massive stops. The free scanning goes with it.",
+            "narrative": "The off switch is the point of the scene: one click, and both Massive and the feature it pays for are gone.",
+            "src": "compositions/06-off.html",
+            "start": 31.3,
+            "duration": 4.47,
+            "poster": 2.83,
+            "transitionIn": "cut"
+          },
+          {
+            "index": 7,
+            "title": "End card",
+            "status": "animated",
+            "scene": "The OneLaunch window with scanning on, beside \"Free file scanning in OneLaunch\", the OneLaunch × Massive lock-up and three claims",
+            "voiceover": "One prompt, one click, and an off switch. Let's ship it.",
+            "narrative": "Laid out like the campaign end cards (app shot left, headline, lock-up and pill right, claims strip below), in Massive's colours. It holds still about 2.5 s after the last word: the last frame is the poster.",
+            "src": "compositions/07-end.html",
+            "start": 35.766667,
+            "duration": 6.9,
+            "poster": 6.8,
+            "transitionIn": "cut"
+          }
+        ]
+      },
+      "script": "# SCRIPT — onelaunch-file-scanning-3d\n\n**Voice:** Mark (ElevenLabs, v3p1kjzUvro6S76qmYmH, eleven_v3)\n**Voice settings:** stability 0.55 · similarity 0.75 · style 0 · seed 20260806\n**Voice direction:** Calm, plain and unhurried, one continuous take. Someone narrating a screen recording for a product team, not an ad. The consent lines are the slowest: every word clear.\n\nDraft: subtitles only, not recorded yet. One line = one subtitle page (two lines on screen at most). Times are estimates from\n`node timing.build.mjs` (the campaign's syllable weighting); after `npm run video:voice onelaunch-file-scanning-3d`, run it again and\nthe subtitles, the clicks and the scene cuts all move to the real take.\n\n---\n\n## Line 1 — Open OneLaunch (Frame 1)\n\n**Delivery:** Calm, curious, a small lift on \"pay for itself\".\n\n    A free feature in OneLaunch, that could pay for itself.\n\n## Line 2 — The Apps Library (Frame 2)\n\n**Delivery:** Plain.\n\n    In the Apps Library, they find a new feature: File Reputation Scanning.\n\n## Line 3 — Get (Frame 2)\n\n**Delivery:** A small lift on \"free\".\n\n    It's free, so they click Get.\n\n## Line 4 — Consent pops up (Frame 3)\n\n**Delivery:** Slower.\n\n    Massive's consent pops up first, in plain words:\n\n## Line 5 — What Massive uses (Frame 3)\n\n**Delivery:** Slow, every word clear.\n\n    a small amount of the device's free resources and IP address, used to download public web data.\n\n## Line 6 — Accept (Frame 4)\n\n**Delivery:** Level.\n\n    They click Accept. Scanning turns on, and a notification confirms it.\n\n## Line 7 — Settings (Frame 5)\n\n**Delivery:** Level.\n\n    Changing their mind is one switch, in OneLaunch Settings.\n\n## Line 8 — Off (Frame 6)\n\n**Delivery:** Level, unhurried.\n\n    Turn it off, and Massive stops. The free scanning goes with it.\n\n## Line 9 — End card (Frame 7)\n\n**Delivery:** Warm, settled.\n\n    One prompt, one click, and an off switch. Let's ship it.\n",
+      "media": [
+        "assets/music/calm-lo-fi.mp3",
+        "assets/voice/take-2c886060.mp3"
+      ],
+      "output": "mp4",
+      "series": null,
+      "alt": null,
+      "gif": null
+    },
+    {
       "id": "sparktray-can-chatgpt-transcribe-audio",
       "title": "Can ChatGPT transcribe audio?",
       "group": "templates",

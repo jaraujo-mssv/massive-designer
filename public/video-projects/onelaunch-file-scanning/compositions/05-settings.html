@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+        }
+      </style>
+      <!-- Frame 5, Settings: the dock menu on "Changing", Settings on "Settings" -->
+      <div id="root" data-composition-id="s5-settings" data-width="1920" data-height="1080" data-duration="4.2">
+        <div class="pc-desktop" data-pinned></div>
+      </div>
+      <script>
+        // The desktop and OneLaunch at this scene's slice of the one continuous recording (js/onelaunch-story.js).
+        OneLaunchStory.scene("s5-settings");
+      </script>
+    </template>
+  </body>
+</html>

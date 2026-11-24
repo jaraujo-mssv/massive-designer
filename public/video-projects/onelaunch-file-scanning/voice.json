@@ -1,0 +1,577 @@
+{
+  "file": "assets/voice/take-2c886060.mp3",
+  "seconds": 40.16,
+  "voiceId": "v3p1kjzUvro6S76qmYmH",
+  "voiceName": "Mark - Solid, Clear and Dependable",
+  "modelId": "eleven_v3",
+  "stability": 0.55,
+  "similarityBoost": 0.75,
+  "style": 0,
+  "speed": 1,
+  "outputFormat": "mp3_44100_192",
+  "seed": 20260806,
+  "requestId": "Dd9ZhxBRQsniusy6yKGj",
+  "lines": [
+    {
+      "n": 1,
+      "heading": "Line 1 — Open OneLaunch (Frame 1)",
+      "from": 0,
+      "to": 3.52,
+      "text": "A free feature in OneLaunch, that could pay for itself.",
+      "words": [
+        {
+          "text": "A",
+          "start": 0,
+          "end": 0.16
+        },
+        {
+          "text": "free",
+          "start": 0.192,
+          "end": 0.32
+        },
+        {
+          "text": "feature",
+          "start": 0.37,
+          "end": 0.72
+        },
+        {
+          "text": "in",
+          "start": 0.773,
+          "end": 0.88
+        },
+        {
+          "text": "OneLaunch,",
+          "start": 0.94,
+          "end": 1.6
+        },
+        {
+          "text": "that",
+          "start": 1.648,
+          "end": 1.84
+        },
+        {
+          "text": "could",
+          "start": 1.88,
+          "end": 2.08
+        },
+        {
+          "text": "pay",
+          "start": 2.1,
+          "end": 2.16
+        },
+        {
+          "text": "for",
+          "start": 2.22,
+          "end": 2.4
+        },
+        {
+          "text": "itself.",
+          "start": 2.48,
+          "end": 3.28
+        }
+      ]
+    },
+    {
+      "n": 2,
+      "heading": "Line 2 — The Apps Library (Frame 2)",
+      "from": 3.52,
+      "to": 8.36,
+      "text": "In the Apps Library, they find a new feature: File Reputation Scanning.",
+      "words": [
+        {
+          "text": "In",
+          "start": 0.24,
+          "end": 0.56
+        },
+        {
+          "text": "the",
+          "start": 0.58,
+          "end": 0.64
+        },
+        {
+          "text": "Apps",
+          "start": 0.704,
+          "end": 0.96
+        },
+        {
+          "text": "Library,",
+          "start": 1.01,
+          "end": 1.44
+        },
+        {
+          "text": "they",
+          "start": 1.472,
+          "end": 1.6
+        },
+        {
+          "text": "find",
+          "start": 1.648,
+          "end": 1.84
+        },
+        {
+          "text": "a",
+          "start": 1.88,
+          "end": 1.92
+        },
+        {
+          "text": "new",
+          "start": 1.96,
+          "end": 2.08
+        },
+        {
+          "text": "feature:",
+          "start": 2.14,
+          "end": 2.96
+        },
+        {
+          "text": "File",
+          "start": 3.024,
+          "end": 3.28
+        },
+        {
+          "text": "Reputation",
+          "start": 3.353,
+          "end": 4.08
+        },
+        {
+          "text": "Scanning.",
+          "start": 4.133,
+          "end": 4.64
+        }
+      ]
+    },
+    {
+      "n": 3,
+      "heading": "Line 3 — Get (Frame 2)",
+      "from": 8.36,
+      "to": 10.8,
+      "text": "It's free, so they click Get.",
+      "words": [
+        {
+          "text": "It's",
+          "start": 0.2,
+          "end": 0.44
+        },
+        {
+          "text": "free,",
+          "start": 0.504,
+          "end": 0.92
+        },
+        {
+          "text": "so",
+          "start": 0.973,
+          "end": 1.08
+        },
+        {
+          "text": "they",
+          "start": 1.112,
+          "end": 1.24
+        },
+        {
+          "text": "click",
+          "start": 1.293,
+          "end": 1.56
+        },
+        {
+          "text": "Get.",
+          "start": 1.68,
+          "end": 2.12
+        }
+      ]
+    },
+    {
+      "n": 4,
+      "heading": "Line 4 — Consent pops up (Frame 3)",
+      "from": 10.8,
+      "to": 14.78,
+      "text": "Massive's consent pops up first, in plain words:",
+      "words": [
+        {
+          "text": "Massive's",
+          "start": 0.32,
+          "end": 0.96
+        },
+        {
+          "text": "consent",
+          "start": 1.03,
+          "end": 1.52
+        },
+        {
+          "text": "pops",
+          "start": 1.6,
+          "end": 1.92
+        },
+        {
+          "text": "up",
+          "start": 1.973,
+          "end": 2.08
+        },
+        {
+          "text": "first,",
+          "start": 2.173,
+          "end": 2.8
+        },
+        {
+          "text": "in",
+          "start": 2.853,
+          "end": 2.96
+        },
+        {
+          "text": "plain",
+          "start": 3.013,
+          "end": 3.28
+        },
+        {
+          "text": "words:",
+          "start": 3.347,
+          "end": 3.76
+        }
+      ]
+    },
+    {
+      "n": 5,
+      "heading": "Line 5 — What Massive uses (Frame 3)",
+      "from": 14.78,
+      "to": 21.44,
+      "text": "a small amount of the device's free resources and IP address, used to download public web data.",
+      "words": [
+        {
+          "text": "a",
+          "start": 0.22,
+          "end": 0.34
+        },
+        {
+          "text": "small",
+          "start": 0.407,
+          "end": 0.74
+        },
+        {
+          "text": "amount",
+          "start": 0.774,
+          "end": 0.98
+        },
+        {
+          "text": "of",
+          "start": 1.033,
+          "end": 1.14
+        },
+        {
+          "text": "the",
+          "start": 1.16,
+          "end": 1.22
+        },
+        {
+          "text": "device's",
+          "start": 1.277,
+          "end": 1.86
+        },
+        {
+          "text": "free",
+          "start": 1.892,
+          "end": 2.02
+        },
+        {
+          "text": "resources",
+          "start": 2.1,
+          "end": 2.82
+        },
+        {
+          "text": "and",
+          "start": 2.88,
+          "end": 3.06
+        },
+        {
+          "text": "IP",
+          "start": 3.193,
+          "end": 3.46
+        },
+        {
+          "text": "address,",
+          "start": 3.52,
+          "end": 4.42
+        },
+        {
+          "text": "used",
+          "start": 4.484,
+          "end": 4.74
+        },
+        {
+          "text": "to",
+          "start": 4.767,
+          "end": 4.82
+        },
+        {
+          "text": "download",
+          "start": 4.873,
+          "end": 5.3
+        },
+        {
+          "text": "public",
+          "start": 5.369,
+          "end": 5.78
+        },
+        {
+          "text": "web",
+          "start": 5.84,
+          "end": 6.02
+        },
+        {
+          "text": "data.",
+          "start": 6.084,
+          "end": 6.42
+        }
+      ]
+    },
+    {
+      "n": 6,
+      "heading": "Line 6 — Accept (Frame 4)",
+      "from": 21.44,
+      "to": 27.102,
+      "text": "They click Accept. Scanning turns on, and a notification confirms it.",
+      "words": [
+        {
+          "text": "They",
+          "start": 0.24,
+          "end": 0.56
+        },
+        {
+          "text": "click",
+          "start": 0.613,
+          "end": 0.88
+        },
+        {
+          "text": "Accept.",
+          "start": 0.971,
+          "end": 2.04
+        },
+        {
+          "text": "Scanning",
+          "start": 2.213,
+          "end": 2.88
+        },
+        {
+          "text": "turns",
+          "start": 2.933,
+          "end": 3.2
+        },
+        {
+          "text": "on,",
+          "start": 3.307,
+          "end": 3.68
+        },
+        {
+          "text": "and",
+          "start": 3.72,
+          "end": 3.84
+        },
+        {
+          "text": "a",
+          "start": 3.88,
+          "end": 3.92
+        },
+        {
+          "text": "notification",
+          "start": 3.982,
+          "end": 4.72
+        },
+        {
+          "text": "confirms",
+          "start": 4.782,
+          "end": 5.28
+        },
+        {
+          "text": "it.",
+          "start": 5.36,
+          "end": 5.6
+        }
+      ]
+    },
+    {
+      "n": 7,
+      "heading": "Line 7 — Settings (Frame 5)",
+      "from": 27.102,
+      "to": 31.312,
+      "text": "Changing their mind is one switch, in OneLaunch Settings.",
+      "words": [
+        {
+          "text": "Changing",
+          "start": 0.062,
+          "end": 1.058
+        },
+        {
+          "text": "their",
+          "start": 1.085,
+          "end": 1.218
+        },
+        {
+          "text": "mind",
+          "start": 1.298,
+          "end": 1.618
+        },
+        {
+          "text": "is",
+          "start": 1.671,
+          "end": 1.778
+        },
+        {
+          "text": "one",
+          "start": 1.858,
+          "end": 2.098
+        },
+        {
+          "text": "switch,",
+          "start": 2.167,
+          "end": 2.738
+        },
+        {
+          "text": "in",
+          "start": 2.791,
+          "end": 2.898
+        },
+        {
+          "text": "OneLaunch",
+          "start": 2.958,
+          "end": 3.458
+        },
+        {
+          "text": "Settings.",
+          "start": 3.511,
+          "end": 4.018
+        }
+      ]
+    },
+    {
+      "n": 8,
+      "heading": "Line 8 — Off (Frame 6)",
+      "from": 31.312,
+      "to": 35.77,
+      "text": "Turn it off, and Massive stops. The free scanning goes with it.",
+      "words": [
+        {
+          "text": "Turn",
+          "start": 0.192,
+          "end": 0.448
+        },
+        {
+          "text": "it",
+          "start": 0.475,
+          "end": 0.528
+        },
+        {
+          "text": "off,",
+          "start": 0.608,
+          "end": 0.928
+        },
+        {
+          "text": "and",
+          "start": 0.968,
+          "end": 1.088
+        },
+        {
+          "text": "Massive",
+          "start": 1.148,
+          "end": 1.568
+        },
+        {
+          "text": "stops.",
+          "start": 1.661,
+          "end": 2.288
+        },
+        {
+          "text": "The",
+          "start": 2.408,
+          "end": 2.768
+        },
+        {
+          "text": "free",
+          "start": 2.816,
+          "end": 3.008
+        },
+        {
+          "text": "scanning",
+          "start": 3.052,
+          "end": 3.408
+        },
+        {
+          "text": "goes",
+          "start": 3.472,
+          "end": 3.728
+        },
+        {
+          "text": "with",
+          "start": 3.776,
+          "end": 3.968
+        },
+        {
+          "text": "it.",
+          "start": 4.021,
+          "end": 4.208
+        }
+      ]
+    },
+    {
+      "n": 9,
+      "heading": "Line 9 — End card (Frame 7)",
+      "from": 35.77,
+      "to": 40.16,
+      "text": "One prompt, one click, and an off switch. Let's ship it.",
+      "words": [
+        {
+          "text": "One",
+          "start": 0.25,
+          "end": 0.55
+        },
+        {
+          "text": "prompt,",
+          "start": 0.607,
+          "end": 1.19
+        },
+        {
+          "text": "one",
+          "start": 1.25,
+          "end": 1.43
+        },
+        {
+          "text": "click,",
+          "start": 1.497,
+          "end": 2.03
+        },
+        {
+          "text": "and",
+          "start": 2.08,
+          "end": 2.23
+        },
+        {
+          "text": "an",
+          "start": 2.283,
+          "end": 2.39
+        },
+        {
+          "text": "off",
+          "start": 2.45,
+          "end": 2.63
+        },
+        {
+          "text": "switch.",
+          "start": 2.687,
+          "end": 3.19
+        },
+        {
+          "text": "Let's",
+          "start": 3.33,
+          "end": 3.83
+        },
+        {
+          "text": "ship",
+          "start": 3.878,
+          "end": 4.07
+        },
+        {
+          "text": "it.",
+          "start": 4.123,
+          "end": 4.39
+        }
+      ]
+    }
+  ]
+}

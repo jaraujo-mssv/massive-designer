@@ -86,6 +86,41 @@ function videoVariantsPlugin() {
 }
 
 /**
+ * Rendered videos for the Video tab's download button (dev server only: renders stay in the gitignored output/).
+ *   HEAD /api/video/render/<name>.mp4             → 200 with Content-Length when output/video/<name>.mp4 exists, else 404
+ *   GET  /api/video/render/<name>.mp4?download=1  → the file, as an attachment
+ */
+function videoRendersPlugin() {
+  const rendersDir = path.resolve(__dirname, 'output/video');
+  const handler: Connect.NextHandleFunction = (req, res, next) => {
+    const url = new URL(req.url ?? '/', 'http://localhost');
+    const match = /^\/api\/video\/render\/([a-z0-9][a-z0-9-]*)\.mp4$/i.exec(url.pathname);
+    if (!match) return next();
+    const file = path.join(rendersDir, `${match[1]}.mp4`);
+    const stat = fs.existsSync(file) ? fs.statSync(file) : null;
+    if (!stat?.isFile()) {
+      res.statusCode = 404;
+      res.end('Not rendered yet');
+      return;
+    }
+    res.setHeader('Content-Type', 'video/mp4');
+    res.setHeader('Content-Length', String(stat.size));
+    res.setHeader('Last-Modified', stat.mtime.toUTCString());
+    res.setHeader('Cache-Control', 'no-store');
+    if (url.searchParams.has('download')) res.setHeader('Content-Disposition', `attachment; filename="${match[1]}.mp4"`);
+    if (req.method === 'HEAD') {
+      res.end();
+      return;
+    }
+    fs.createReadStream(file).pipe(res);
+  };
+  return {
+    name: 'video-renders',
+    configureServer(server: ViteDevServer) { server.middlewares.use(handler); },
+  };
+}
+
+/**
  * Write-back for the Content tab (dev server only, so the deployed site stays read-only).
  * Both edit a markdown file under content/ in place; Vite then hot-reloads the tab from it.
  *   POST /api/content/checklist { path, line, source, checked } → ticks or unticks one `- [ ]` line
@@ -279,7 +314,7 @@ function imageProxyPlugin() {
 }
 
 export default defineConfig({
-  plugins: [react(), tailwindcss(), imageProxyPlugin(), renderApiPlugin(), videoVariantsPlugin(), contentWritePlugin(), localOnlyPublicDirs()],
+  plugins: [react(), tailwindcss(), imageProxyPlugin(), renderApiPlugin(), videoVariantsPlugin(), videoRendersPlugin(), contentWritePlugin(), localOnlyPublicDirs()],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

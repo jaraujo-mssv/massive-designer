@@ -4,6 +4,7 @@ import { FilmStrip } from "@phosphor-icons/react";
 import { Toaster } from "sonner";
 import { SidebarLayout } from "@/shared/components/SidebarLayout";
 import { useIsMobile } from "@/shared/components/ui/use-mobile";
+import { DownloadRender } from "./components/DownloadRender";
 import { GifPane } from "./components/GifPane";
 import { Library } from "./components/Library";
 import { PreviewPane } from "./components/PreviewPane";
@@ -116,6 +117,7 @@ export default function App() {
                 <>
                   {!isGif && viewSwitch}
                   <RenderCommand id={project.id} variant={variant} gif={isGif} />
+                  {!isGif && <DownloadRender name={variant ? variant.renderName : project.id} />}
                 </>
               )}
             </div>

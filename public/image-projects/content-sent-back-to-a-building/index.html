@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1080" />
+    <title>Sent back to a building</title>
+    <link rel="stylesheet" href="../_brand/massive.css" />
+    <style>
+      /* A single-panel cartoon with its caption under it, as a New Yorker cartoon is set: the drawing across the full
+         width and the line centred below in Caslon italic. The ground is the drawing's own paper (#f7f3ea), so the two
+         read as one page. Caslon by request: Libre Caslon Text (SIL Open Font License, assets/OFL.txt), loaded from
+         assets/ so both exports have it. */
+      @font-face {
+        font-family: "Libre Caslon Text";
+        src: url("assets/LibreCaslonText-Italic.ttf") format("truetype");
+        font-weight: 400 700;
+        font-style: italic;
+      }
+      #canvas {
+        width: 1080px;
+        height: 1080px;
+        background: #f7f3ea;
+        color: var(--m-ink);
+      }
+      .stack {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        padding-bottom: 16px;
+      }
+      .cartoon {
+        display: block;
+        width: 100%;
+        max-height: 730px;
+        object-fit: contain;
+      }
+      .caption {
+        width: 960px;
+        max-height: 176px;
+        font-family: "Libre Caslon Text", Georgia, serif;
+        font-style: italic;
+        font-weight: 400;
+        font-size: 44px;
+        line-height: 1.32;
+        text-align: center;
+        text-wrap: balance;
+        white-space: pre-line;
+      }
+      .logo {
+        position: absolute;
+        right: 64px;
+        bottom: 48px;
+        height: 26px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas">
+      <div class="stack">
+        <img class="cartoon" src="assets/cartoon.jpg" alt="" data-field-src="photo" />
+        <div class="caption" data-field="caption">“It took 40 years to make computers smarter and mobile, now every bit of information gets sent back to a building.”</div>
+      </div>
+      <img class="logo" src="../_brand/logo-massive-positive.svg" alt="Massive" data-field-show="logo" />
+    </div>
+    <script>
+      // A long caption steps down until it fits its box (three lines at full size).
+      window.onFields = () => {
+        const el = document.querySelector(".caption");
+        for (let size = 44; size >= 28; size -= 2) {
+          el.style.fontSize = `${size}px`;
+          if (el.scrollHeight <= el.clientHeight + 1) break;
+        }
+      };
+    </script>
+    <script src="../_lib/image-kit.js"></script>
+  </body>
+</html>

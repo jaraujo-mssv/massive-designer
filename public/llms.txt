@@ -465,6 +465,7 @@ Finished designs, which can also be re-rendered with changes. Each link lists th
 - LeadDev 2026: engineering leadership (`content-leaddev-stats`, 1080×1350): https://massive-designer.up.railway.app/api/images?id=content-leaddev-stats
 - One repo that connects to all my other repos (`content-hub-repo`, 1080×1080): https://massive-designer.up.railway.app/api/images?id=content-hub-repo
 - Pull requests merged per week (`code-reviews-prs-merged-square`, 1080×1080): https://massive-designer.up.railway.app/api/images?id=code-reviews-prs-merged-square
+- Sent back to a building (`content-sent-back-to-a-building`, 1080×1080): https://massive-designer.up.railway.app/api/images?id=content-sent-back-to-a-building
 - Smartphones and decision thoughtfulness (`content-smartphone-thoughtfulness`, 1440×1080): https://massive-designer.up.railway.app/api/images?id=content-smartphone-thoughtfulness
 - Status update: lock screen (`content-status-update-lockscreen`, 1080×1080): https://massive-designer.up.railway.app/api/images?id=content-status-update-lockscreen
 - Status update: lock screen (AI) (`content-status-update-lockscreen-ai`, 1080×1080): https://massive-designer.up.railway.app/api/images?id=content-status-update-lockscreen-ai

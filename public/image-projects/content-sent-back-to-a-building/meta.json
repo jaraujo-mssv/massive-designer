@@ -1,0 +1,45 @@
+{
+  "id": "content-sent-back-to-a-building",
+  "title": "Sent back to a building",
+  "description": "A New Yorker-style single-panel cartoon: a kid playing on a TV with an Amazon Fire Stick, whose thought bubble is a data center, and under it in Caslon italic: “It took 40 years to make computers smarter and mobile, now every bit of information gets sent back to a building.” The ground is the drawing's own paper. No logo by default.",
+  "group": "massive",
+  "category": "content",
+  "template": null,
+  "series": null,
+  "status": "draft",
+  "tags": [
+    "content",
+    "editorial",
+    "cartoon",
+    "illustration",
+    "humour",
+    "data-centers",
+    "cloud"
+  ],
+  "source": "The brief (Nov 2026): the cartoon is a Gemini image (assets/cartoon.jpg, 2160 px wide from the 2400×1792 original), the caption is the brief's. Caption type: Libre Caslon Text Italic (SIL Open Font License, assets/OFL.txt), by request (New Yorker caption style); the brand's Outfit isn't used here.",
+  "width": 1080,
+  "height": 1080,
+  "fields": [
+    {
+      "id": "photo",
+      "label": "Cartoon",
+      "type": "image",
+      "default": "assets/cartoon.jpg",
+      "hint": "The drawing, across the full width. One on off-white paper (#f7f3ea) blends into the ground."
+    },
+    {
+      "id": "caption",
+      "label": "Caption",
+      "type": "text",
+      "default": "“It took 40 years to make computers smarter and mobile, now every bit of information gets sent back to a building.”",
+      "hint": "Under the cartoon in Caslon italic, quotes included. Three lines; about 115 characters. A longer one steps down to fit."
+    },
+    {
+      "id": "logo",
+      "label": "Logo",
+      "type": "toggle",
+      "default": false,
+      "hint": "The Massive wordmark, small, bottom right."
+    }
+  ]
+}
